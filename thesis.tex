@@ -1,4 +1,4 @@
-\documentclass{tufte-book}
+\documentclass[a4paper,justified,symmetric,nobib]{tufte-book}
 
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
@@ -17,10 +17,16 @@
 \setlength{\parskip}{0.5\baselineskip}%
 \setlength{\parindent}{0pt}%
 
+\def\thetitle{Modelado de comportamiento de conductores con técnicas de IA}
+\def\theauthor{Alberto Díaz Álvarez}
+\def\thedate{\today}
+
 \hypersetup{colorlinks}
-\title{Modelado de comportamiento de conductores con técnicas de IA}
-\author[Alberto Díaz Álvarez]{Alberto Díaz Álvarez}
+\title{\thetitle}
+\author[\theauthor]{\theauthor}
 \publisher{Universidad Politécnica de Madrid}
+
+
 
 \IfFileExists{bergamo.sty}{\usepackage[osf]{bergamo}}{} % Bembo
 \IfFileExists{chantill.sty}{\usepackage{chantill}}{} % Gill Sans
@@ -45,19 +51,6 @@
   \ifcase\month\or January\or February\or March\or April\or May\or June\or
   July\or August\or September\or October\or November\or
   December\fi\space\number\year
-}
-
-
-% Prints an epigraph and speaker in sans serif, all-caps type.
-\newcommand{\openepigraph}[2]{%
-  %\sffamily\fontsize{14}{16}\selectfont
-  \begin{fullwidth}
-  \sffamily\large
-  \begin{doublespace}
-  \noindent\allcaps{#1}\\% epigraph
-  \noindent\allcaps{#2}% author
-  \end{doublespace}
-  \end{fullwidth}
 }
 
 % Inserts a blank page
@@ -122,9 +115,6 @@
 \begin{document}
 
 \frontmatter
-
-\blankpage
-\input{front/epigraphs}
 \maketitle
 \input{front/copyright}
 
@@ -135,19 +125,16 @@
 \input{front/dedication}
 \cleardoublepage
 
-% r.9 introduction
 \mainmatter
 \input{chapters/introduction}
 \input{chapters/state-of-the-art}
-
+\input{chapters/conclusions}
 \backmatter
 
 \bibliography{thesis}
-\bibliographystyle{plainnat}
+\bibliographystyle{apalike}
 \input{chapters/colophon}
-
 
 \printindex
 
 \end{document}
-
