@@ -132,5 +132,4 @@ sympy-plots-for-*.tex/
 Session.vim
 .netrwhist
 *~
-
-
+*.glsdefs

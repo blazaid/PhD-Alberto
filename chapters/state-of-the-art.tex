@@ -48,7 +48,7 @@ Si hablamos de espacio, nos interesan más los simuladores continuos, ya que los
 
 En este apartado se facilita la comparativa realizada para la elección de simulador sobre el que basar los escenarios a plantear en las simulaciones de los modelos de conductor.
 
-Quizá se pudea hablar del "SMARTEST" project: \url{http://www.its.leeds.ac.uk/projects/smartest/}
+Quizá se pudea hablar del \enquote{SMARTEST} project: \url{http://www.its.leeds.ac.uk/projects/smartest/}
 
 Simuladores de pago:
 
@@ -72,9 +72,31 @@ SATURN
 PARAMICS
 TRANSIMS
 
-En definitiva, el simulador que más se adapta a nuestras necesidades y el que se usará como simulador base en el desarrollo de esta tesis será SUMO\cite{krajzewicz2002sumo}\cite{behrisch2011sumo}\cite{krajzewicz2012recent} (\textit{\textbf{S}imulation of \textbf{U}rban \textbf{MO}bility}). Funciona como simulación de tiempo discreto variable (siendo el mínimo 1ms.) en un escenario espacial continuo.
+En definitiva, el simulador que más se adapta a nuestras necesidades y el que se usará como simulador base en el desarrollo de esta tesis será SUMO\footnote{Para más información acerca de su funcionamiento, los artículos \cite{krajzewicz2002sumo}, \cite{behrisch2011sumo} y \cite{krajzewicz2012recent} ofrecen suficiente información sobre su arquitectura, su funcionamiento y sus últimas actualizaciones, aunque el proyecto ha evolucionado bastante desde la última publicación.} (\textit{\textbf{S}imulation of \textbf{U}rban \textbf{MO}bility}). Funciona como simulación de tiempo discreto variable (siendo el mínimo 1ms.) en un escenario espacial continuo.
 
-\section{Modelos de conductor}
+
+\section{Sistemas multiagente}
+
+
+\section{Inteligencia computacional}
+
+Qué es la inteligencia artificial.
+Diferencias entre inteligencia artificial clásica e inteligencia computacional. Diferentes puntos de vista (soft computing, machine learning, ...)
+Técnicas de entrenamiento de modelos: supervisado, no supervisado, semisupervisado, refuerzo, ...
+Técnias de funcionamiendo: online y offline
+Técnicas de la inteligencia computacional usadas en esta tesis (redes neuronales artificiales(perceptrón multicapa, recurrentes y lstm), lógica difusa y computación evolutiva)
+¿Qué técnicas se usan actualmente y sobre qué problemas?
+Detección de patrones de eficiencia y agresividad de subyacen en los comportamientos de éstosç
+Estudio de la efectividad de los sistemas de asistencia para mejorar la eficiencia de conducción
+Estudio de los sistemas de asistencia para analizar el comportamiento del conductor.
+
+\section{Recolección de datos}
+
+
+
+\section{Modelos de comportamiento}
+
+¿Cómo se define el comportamiento de un conductor?
 
 SUMO usa (al menos así lo indican en el paper del 2002) el modelo Gipps\cite{krajzewicz2002sumo}. No sé si ellos han hecho una extensión del modelo o están referenciando la extensión y ellos sólo la implementan. En el paper del 2012 citan que el modelo car-following que usan por defecto es el desarrollado por Stefan Krauß\cite{jin2016evaluation}, debido a su simplicidad y su velocidad de ejecución.
 
@@ -86,15 +108,16 @@ En el paper \cite{al2001framework} describen un framework para la modelización 
 
 En~\cite{tang2014new} los autores proponen un modelo de car following teniendo en cuenta comunicación entre vehículos.
 
-\section{Sistemas multiagente}
+\TODO Hoy he descubierto que hay una cosa que se llama naturalistic traffic study o naturalistic traffic observation que es un estudio naturalístico, es decvir, observar en el mundo real con detalle y extraer datos de ello. A lo mejor hablando así queda como más profesional :D.
 
+En~\cite{sekizawa2007modeling} describen modelos supervisados offline para capturar el comportamiento del conductor basados en auto-regresión a trozos. Más adelante lo extienden en~\cite{terada2010multi}, aunque los datos de entrenamiento son extraídos directamente de simulaciones, no del \enquote{mundo real\textsuperscript{TM}}.
 
-\section{Inteligencia computacional}
+En~\cite{bando2013unsupervised} describen otro modelo no supervisado offline basado en un modelo bayesiano no paramétrico para la clusterización, combinado con un LDA (Latent Dirichlet Allocation, sea lo que sea esto) para la clusterización a más alto nivel. (\TODO ¿este método usa datos reales?)
 
-Qué es la inteligencia artificial.
-Diferencias entre inteligencia artificial clásica e inteligencia computacional. Diferentes puntos de vista (soft computing, machine learning, ...)
-Técnicas de la inteligencia computacional usadas en esta tesis (redes neuronales artificiales(perceptrón multicapa, recurrentes y lstm), lógica difusa y computación evolutiva)
-¿Qué técnicas se usan actualmente y sobre qué problemas?
-Detección de patrones de eficiencia y agresividad de subyacen en los comportamientos de éstosç
-Estudio de la efectividad de los sistemas de asistencia para mejorar la eficiencia de conducción
-Estudio de los sistemas de asistencia para analizar el comportamiento del conductor.
+Estos trabajos (\cite{sekizawa2007modeling}, \cite{terada2010multi} y \cite{bando2013unsupervised}) tienen la desventaja de ser computacionalmente muy costosos y con poca precisión en el caso de variar mucho los escenarios de entrenamiento y de test.
+
+En~\cite{maye2011bayesian} se presenta un modelo online donde se infiere el comportamiento del conductor haciendo uso de una IMU (Intertial Measurement Unit) y una cámara. Primero de la IMU se sacan datos que se separan en fragmentos para luego relacionarlos con las imágenes obtenidas de la cámara. (\TODO ¿Hacia dónde mira la cámara?). Los modelos propuestos en~\cite{johnson2011driving} y~\cite{van2013driver} también se apoyan en el funcionamiento de clasificar las segmentaciones de una IMU, pero con técnicas distintas y sin cámara (\TODO Que digo yo, ¿qué clasifican exactamente? es más, dependiendo de qué clasifican, para qué vale la camarita del~\cite{maye2011bayesian}?). Además hacen uso de señales externas y umbrales de activación para hacer más efectiva la clasificación (\TODO corroborar).
+
+En el artículo~\cite{bender2015unsupervised} se usa también un modelo no supervisado online con una aproximación bayesiana para identificar los puntos de cambio sin depender de parámetros externos (e.g. umbrales o señales). Se basa también en (1) segmentar los datos de conducción y (2) asignar estos datos a clases que se corresponde n con comportamientos de conducción. Tiene la ventaja de ser más eficiente y rubusto que los anteriores.
+
+La idea de estos métodos desde el~\cite{sekizawa2007modeling} hasta el~\cite{bender2015unsupervised} creo que es el de un sistema que traduzca datos en crudo a datos de más alto nivel. Esto es debido a que la cantidad de datos que se pueden generar en un sólo coche (no digamos ya una flota de ellos) es tan grande que para determinados sistemas disponer de información de más alto nivel haría más sencillo su desempeño (por ejemplo, \gls{adas} que funcionasen con datos de \enquote{adelantando} que sus valores de giro, aceleración en una ventana temporal).

@@ -1,4 +1,4 @@
-\documentclass[a4paper,justified,symmetric,nobib]{tufte-book}
+\documentclass[a4paper,justified,symmetric,nobib,makeidx]{tufte-book}
 
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
@@ -108,9 +108,15 @@
 \newcommand{\docfilehook}[2]{\texttt{#1}\index{file hooks!#2}\index{#1@\texttt{#1}}}
 \newcommand{\doccounter}[1]{\texttt{#1}\index{#1 counter@\texttt{#1} counter}}
 
-% Generates the index
-\usepackage{makeidx}
-\makeindex
+
+\usepackage{glossaries}
+\makeglossaries
+
+\usepackage[
+type={CC},
+modifier={by-sa},
+version={3.0},
+]{doclicense}
 
 \begin{document}
 
@@ -119,6 +125,7 @@
 \input{front/copyright}
 
 \tableofcontents
+\input{front/glossary}
 \listoffigures
 \listoftables
 
@@ -133,8 +140,8 @@
 
 \bibliography{thesis}
 \bibliographystyle{apalike}
+
 \input{chapters/colophon}
 
-\printindex
 
 \end{document}
