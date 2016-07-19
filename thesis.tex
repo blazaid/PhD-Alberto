@@ -122,19 +122,27 @@ modifier={by-sa},
 version={3.0},
 ]{doclicense}
 
+\setcounter{secnumdepth}{2}
+\titleformat{\chapter}%
+[display]% shape
+{\relax\ifthenelse{\NOT\boolean{@tufte@symmetric}}{\begin{fullwidth}}{}}% format applied to label+text
+	{\itshape\huge\chaptertitlename~\thechapter}% label
+	{0pt}% horizontal separation between label and title body
+	{\huge\rmfamily\itshape}% before the title body
+	[\ifthenelse{\NOT\boolean{@tufte@symmetric}}{\end{fullwidth}}{}]% after the title body
 \begin{document}
 
 \frontmatter
 \maketitle
 \input{front/copyright}
 
+\input{front/dedication}
+\cleardoublepage
+
 \tableofcontents
 \printglossaries
 \listoffigures
 \listoftables
-
-\input{front/dedication}
-\cleardoublepage
 
 \mainmatter
 \input{chapters/introduction}

@@ -9,7 +9,8 @@ Es un hecho que la \ac{ai} como área de conocimiento ha experimentado un crecie
 	\centering
 	\begin{minipage}[t]{\linewidth}
 		\newcommand\ytl[2]{
-			\parbox[b]{2cm}{\hfill{\color{cyan}\bfseries\sffamily #1}~$\cdots$~} \parbox[c]{2.8cm}{\vspace{7pt}\raggedright\sffamily #2.\\[0pt]}\\[0pt]}
+			\parbox[b]{1cm}{\hfill{\color{cyan}\bfseries\sffamily #1}~$\cdots$~}
+			\parbox[c]{3.8cm}{\vspace{7pt}\raggedright\sffamily #2.\\[0pt]}\\[0pt]}
 		\color{gray}
 
 		\ytl{1956}{Conferencia de Dartmouth. Nace el campo de la \ac{ai}. Se destinan muchos recursos debido al potencial del nuevo campo.}
@@ -30,7 +31,7 @@ Dentro del área de la inteligencia artificial es común diferenciar dos tipos d
 
 \begin{itemize}
 	\item \textbf{\ac{ai} clásica}. Postula que el conocimiento como tal es reducible a un conjunto de símbolos junto con operadores para su manipulación. A este tipo de técnicas y soluciones, que basan su funcionamiento en modelos analíticos, se las denominan también \textit{Hard Computing}, y no suelen tolerar factores como la imprecisión y la incertidumbre (e.g. cálculo simbólico o análisis numérico). Se la suele denominar también \ac{ai} \textit{simbólica}.
-	\item \textbf{\ac{ci}}. En ésta el conocimiento se alcanza por aproximación. Los esfuerzos se centran en la simulación de los elementos de bajo nivel que subyacen a los comportamientos inteligentes (e.g. redes neuronales artificiales) esperando que de éstos surja la solución de forma espontánea. A este tipo de técnicas se las conoce también como \textit{Soft Computing}\footnote{Veremos no obstante en el capítulo~\ref{ch:sota-ic} que no es del todo cierto.}, conjunto de soluciones para trabajar sobre información incompleta, imprecisa o con ruido. Se la conoce también como \ac{ai} \textit{subsimbólica}
+	\item \textbf{\ac{ci}}. En ésta el conocimiento se alcanza por aproximación. Los esfuerzos se centran en la simulación de los elementos de bajo nivel que subyacen a los comportamientos inteligentes (e.g. redes neuronales artificiales) esperando que de éstos surja la solución de forma espontánea. A este tipo de técnicas se las conoce también como \textit{Soft Computing}\footnote{Veremos no obstante en el capítulo~\ref{ch:sota-ci} que no es del todo cierto.}, conjunto de soluciones para trabajar sobre información incompleta, imprecisa o con ruido. Se la conoce también como \ac{ai} \textit{subsimbólica}
 \end{itemize}
 
 El límite entre ambos conjuntos no está perfectamente definido, máxime si tenemos en cuenta las diferentes terminologías existentes, las sinergias entre distintas técnicas dentro del área y los diferentes puntos de vista sobre éstas por parte de los autores. Sin embargo, una de las principales diferencias de ambos paradigmas es el punto de vista a la hora de solucionar problemas. Mientras que en el primer caso es prácticamente impensable una aproximación diferente a la \textit{top-down}\footnote{En una aproximación \textit{top-down} se define el algoritmo que resuleve el problema y se ejecuta para que éste nos lleve a la solución exacta.}, en el segundo los problemas se resuelven utilizando el paradigma contrario, \textit{bottom-up}\footnote{En una aproximación \textit{bottom-up} la solución \enquote{aprende} a resolverse dado el problema, sin necesidad de plantear un algoritmo, llevándonos a soluciones no necesariamente exactas pero sí lo suficientemente buenas para ser aceptadas.}. Revisaremos las diferencias entre conceptos de diferentes autores en el capítulo \ref{ch:sota-ic}
@@ -160,16 +161,13 @@ Por tanto, el objetivo de la tesis es el de simular el comportamiento de conduct
 	\item En el caso de los modelos que hacen uso de redes neuronales artificiales, no se pueden explicar las razones del comportamiento inferido.
 \end{itemize}
 
-\section{Resultados}
-\label{ch:intro:results}
-
 \section{Estructura de la tesis}
 \label{ch:intro:structure}
 
 La tesis está estructurada de la siguiente manera:
 
-En los capítulos \enquote{\ref{ch:sota-traffic-simulators-and-mas}}, \enquote{\ref{ch:sota-ic}} y \enquote{\ref{ch:sota-behavior-models}} se expone la revisión realizada del estado de la cuestión donde se explica en qué punto se encuentra la literatura de los temas en los que se apoya la presente tesis.
+En los capítulos \ref{ch:sota-traffic-simulators-and-mas}, \ref{ch:sota-ci} y \ref{ch:sota-behavior-models} se expone la revisión realizada del estado de la cuestión donde se explica en qué punto se encuentra la literatura de los temas en los que se apoya la presente tesis.
 
 En el capítulo XXX se explica el método seguido para la confirmación de la hipótesis describiendo además las instrumentaciones, los conjuntos de datos obtenidos, las técnicas utilizadas y las aplicaciones desarrolladas.
 
-Por último en el capítulo \enquote{\ref{ch:conclussions}} se expnen los resultados y las conclusiones extraidas de la tesis. Además, tras las conclusiones se indican una serie de posibles líneas futuras de trabajo consideradas interesantes tras la realización de la tesis.
+Por último en el capítulo \ref{ch:conclusions} se expnen los resultados y las conclusiones extraidas de la tesis. Además, tras las conclusiones se indican una serie de posibles líneas futuras de trabajo consideradas interesantes tras la realización de la tesis.
