@@ -1,0 +1,116 @@
+\usepackage[acronym,toc,shortcuts]{glossaries}
+
+\makeglossaries
+
+\glsaddkey
+{longsp}% key
+{}% default value
+{\glsentrylongsp}% new command analogous to \glsentrylong
+{\Glsentrylongsp}% new command analogous to \Glsentrylong
+{\acrlongsp}% new command analogous to \acrlong
+{\Acrlongsp}% new command analogous to \Acrlong
+{\ACRlongsp}% new command analogous to \ACRlong
+
+% Add new key for plural long Spanish form:
+\glsaddkey
+{longplsp}% key
+{}% default value
+{\glsentrylongplsp}% new command analogous to \glsentrylongpl
+{\Glsentrylongplsp}% new command analogous to \Glsentrylongpl
+{\acrlongplsp}% new command analogous to \acrlongpl
+{\Acrlongplsp}% new command analogous to \Acrlongpl
+{\ACRlongplsp}% new command analogous to \ACRlongpl
+
+% Provide conditional to test if longsp/longplsp has been set
+\newcommand*{\glsifhaslongsp}[3]{%
+	\ifcsempty{glo@#1@longsp}{#3}{#2}%
+}
+\newcommand*{\glsifhaslongplsp}[3]{%
+	\ifcsempty{glo@#1@longplsp}{#3}{#2}%
+}
+
+% Define new acronym style:
+
+\newacronymstyle{spanish}
+{% base the display style on 'long-short'
+	\GlsUseAcrEntryDispStyle{long-short}%
+}%
+{% base the definitions on 'long-short'
+	\GlsUseAcrStyleDefs{long-short}%  
+	% Make some custom modifications for the first use display.
+	% Singular, no case change:
+	\renewcommand*{\genacrfullformat}[2]{%
+		\glsifhaslongsp{##1}%
+		{% has Spanish version:
+			\glsentrylongsp{##1}##2\space
+			(\firstacronymfont{\glsentryshort{##1}}, \glsentrylong{##1})%
+		}%
+		{%
+			\glsentrylong{##1}##2\space
+			(\firstacronymfont{\glsentryshort{##1}})%
+		}%
+	}%
+	% Singular, first letter upper case:
+	\renewcommand*{\Genacrfullformat}[2]{%
+		\glsifhaslongsp{##1}%
+		{% has Spanish version:
+			\Glsentrylongsp{##1}##2\space
+			(\firstacronymfont{\glsentryshort{##1}}, \glsentrylong{##1})%
+		}%
+		{%
+			\Glsentrylong{##1}##2\space
+			(\firstacronymfont{\glsentryshort{##1}})%
+		}%
+	}%
+	% Plural, no case change:
+	\renewcommand*{\genplacrfullformat}[2]{%
+		\glsifhaslongplsp{##1}%
+		{% has Spanish version:
+			\glsentrylongplsp{##1}##2\space
+			(\firstacronymfont{\glsentryshortpl{##1}}, \glsentrylongpl{##1})%
+		}%
+		{%
+			\glsentrylongpl{##1}##2\space
+			(\firstacronymfont{\glsentryshortpl{##1}})%
+		}%
+	}%
+	% Plural, first letter upper case:
+	\renewcommand*{\Genplacrfullformat}[2]{%
+		\glsifhaslongplsp{##1}%
+		{% has Spanish version:
+			\Glsentrylongplsp{##1}##2\space
+			(\firstacronymfont{\glsentryshortpl{##1}}, \glsentrylongpl{##1})%
+		}%
+		{%
+			\Glsentrylongpl{##1}##2\space
+			(\firstacronymfont{\glsentryshortpl{##1}})%
+		}%
+	}%
+}
+
+% switch to the new style:
+\setacronymstyle{spanish}
+
+% Define a new glossary style that checks for the existence of
+% the longsp field.
+\newglossarystyle{listsp}{%
+	\setglossarystyle{list}% base style on the list style
+	\renewcommand*{\glossentry}[2]{%
+		\item[\glsentryitem{##1}%
+		\glstarget{##1}{\glossentryname{##1}}]
+		\glossentrydesc{##1}%
+		\glsifhaslongsp{##1}{\space(\glsentrylongsp{##1})}{}%
+		\glspostdescription\space ##2}%
+}
+
+
+% Aquí todas las definiciones y acrónimos
+\newacronym[longsp=Estudio Naturalista de Conducción,longplsp=Estudios Naturalistas de Conducción,longplural=Naturalistic driving studies]{nds}{NDS}{Naturalistic driving study}
+\newacronym[longsp=Reconocimento el Entorno Intravehicular,longplsp=Reconocimientos del Entorno Intravehiculares,longplural=Intra-vehicular Context Awarenesses]{ivca}{IvCA}{Intra-vehicular Context Awareness}
+\newacronym[longsp=Sistema Avanzado de Ayuda a la Conducción,longplsp=Sistemas Avanzados de ayuda a la Conducción,longplural=Advanced Driver Assistance Systems]{adas}{ADAS}{Advanced Driver Assistance System}
+\newacronym{torcs}{TORCS}{The Simulated Car Racing Championship}
+\newacronym[longsp=Procesamiento Complejo de Eventos,longplsp=Procesamientos Complejos de Eventos,longplural=Complex Event Processings]{cep}{CEP}{Complex Event Processing}
+\newacronym[longsp=Inteligencia Artificial,longplsp=Inteligencias Artificiales]{ai}{AI}{Artificial Intelligence}
+\newacronym[longsp=Inteligencia Computacional,longplsp=Inteligencias Computacionales,longplural=Computational Intelligences]{ci}{CI}{Inteligencia Computacional}
+\newacronym[longsp=Sistema Inteligente de Transporte,longplsp=Sistemas Inteligentes de Transporte,longplural=Intelligent Transport Systems]{its}{ITS}{Intelligent Transport System}
+\newacronym[longsp=Sistema Multi-agente,longplsp=Sistemas Multi-agentes,longplural=Multi-agent Systems]{mas}{MAS}{Multi-agent Sysetm}
