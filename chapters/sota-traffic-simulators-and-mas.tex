@@ -72,7 +72,20 @@ SATURN
 PARAMICS
 TRANSIMS
 
-En definitiva, el simulador que más se adapta a nuestras necesidades y el que se usará como simulador base en el desarrollo de esta tesis será SUMO\footnote{Para más información acerca de su funcionamiento, los artículos \cite{krajzewicz2002sumo}, \cite{behrisch2011sumo} y \cite{krajzewicz2012recent} ofrecen suficiente información sobre su arquitectura, su funcionamiento y sus últimas actualizaciones, aunque el proyecto ha evolucionado bastante desde la última publicación.} (\textit{\textbf{S}imulation of \textbf{U}rban \textbf{MO}bility}). Funciona como simulación de tiempo discreto variable (siendo el mínimo 1ms.) en un escenario espacial continuo.
+\section{\glsentrylong{sumo}}
 
+En definitiva, el simulador que más se adapta a nuestras necesidades y el que se usará como simulador base en el desarrollo de esta tesis será \gls{sumo}\sidenote{Sus principales publicaciones son~\cite{krajzewicz2002sumo}, \cite{behrisch2011sumo} y \cite{krajzewicz2012recent}.}. \gls{sumo} es un entorno de microsimulación de código abierto\sidenote{Licenciado bajo la \gls{gpl}, concretamente la versión $3.0$.} que implementa un modelo discreto en el tiempo y continuo en el espacio.
 
-\section{Sistemas multiagente}
+Algunas de las características interesantes que incorpora son las siguientes:
+
+\begin{itemize}
+	\item Multimodalidad permitiendo modelar no sólo tráfico de vehículos sino de peatones, bicicletas, trenes e incluso de barcos.
+	\item Vehículos de diferentes tipologías, Simulación con y sin colisiones de vehículos.
+	\item Diferentes tipos de vehículos y de carreteras, cada una con diferentes carriles y éstas con diferentes subdivisiones de subcarriles (diseño conceptual para permitir las simulaciones )
+\end{itemize}
+
+Al estar licenciado bajo la licencia \gls{gpl}, su distribución implica a su vez la distribución de su código fuente. Esto permite la modeificación de su comportamiento y el desarrollo de nuevos modelos integrados dentro del simulador. Sin embargo nosotros no haremos uso de esta característica, sino que usaremos \gls{sumo} como aplicación servidor y el módulo \gls{traci} como aplicación cliente desde donde gestionar todos los aspectos de cada simulación.
+
+\subsection{La interfaz \glsentrylong{traci}}
+
+\gls{traci}

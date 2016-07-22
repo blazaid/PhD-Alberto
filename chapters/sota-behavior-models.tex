@@ -1,6 +1,10 @@
 \chapter{Modelos de comportamiento}
 \label{ch:sota-behavior-models}
 
+Detección de patrones de eficiencia y agresividad de subyacen en los comportamientos de éstos
+Estudio de la efectividad de los sistemas de asistencia para mejorar la eficiencia de conducción
+Estudio de los sistemas de asistencia para analizar el comportamiento del conductor.
+
 ¿A qué nos referimos cuando hablamos del "comportamiento"? Según el diccionario de la real academia, \enquote{comportamiento} se define como \textit{manera de comportarse}, siendo \enquote{comportar} \textit{actual de una manera determinada}. Sin embargo, no queda claro qué factores constituyen el comportamiento al volante.
 
 Atendiendo a la literatura, \TODO un par de párrafos para hablar de comportamiento
@@ -56,3 +60,7 @@ El artículo~\cite{munoz2010human} es muy interesante ya que para la competició
 Aunque \gls{torcs} es usado como entorno de simulación en diversos concursos e investigaciones, se trata de un juego, y es que los juegos son un sandbox perfecto como entorno de simulación, ya que presentan una abstracción del dominio sobre el que trabajar. Otros trabajos en esta línea (entrenamiento de redes neuronales en este simulador) son los de~\cite{munoz2009controller} y~\cite{van2009robust}, el primero entrenando perceptrones multicapa (\TODO verificar) con un backpropagation haciendo uso de un dataset proporcionado por un bot y otro haciendo uso de un algoritmo evolutivo multiobjetivo para optimizar la red de acuerdo a un conjunto de datos proporcionado por un conductor real. Sin embargo, este tipo de modelos se encuentran más cercanos al nivel de control que al nivel de maniobra descritos en la figura~\ref{fig:three-levels-of-human-driving}.
 
 En~\cite{van2013driver} hacen uso de os sensores de inercia de un coche (a saber qué coche tienen) para construir un perfil de conductor. Concluyen que frenar y girar caracterizan mejor a los conductores frente a acelerar.
+
+\section{lane change y car following}
+
+MOBIL --> http://www.traffic-simulation.de/MOBIL.html, http://www.mtreiber.de/publications/MOBIL\_TRB.pdf y http://link.springer.com/chapter/10.1007\%2F978-3-540-77074-9\_19\#page-1

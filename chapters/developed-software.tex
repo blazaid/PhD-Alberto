@@ -1,0 +1,27 @@
+\chapter{Sistemas desarrollados}
+\label{ch:developed-software}
+
+Este capítulo describe todos los sistemas y el software desarrollados e implementados para realizar la tesis. Éstos son tanto los encargados de la captura de datos de los conductores, los que trabajan directamente con el simulador para integrar los controladores generados y los desarrollos para la generación de Software.
+
+\section{ScanBUS}
+
+ScanBUS es un software para la identificación de paquetes enviados por dispositivos a través del Bus CAN del vehículo.
+
+\section{Sistema para la captura de datos multidispositivo}
+
+Para la obtención de los datos de conducción se ha desarrollado un sistema que permite la conexión a múltiples dispositivos desde diferentes interfaces. Las razones para su desarrollo son las siguientes
+
+\begin{itemize}
+	\item Sincronización automática de datos de dispositivo en intervalos configurables de tiempo. El sistema permite la configuración de la recuencia de captura sincronizando los datos recibidos a esa frecuencia.
+	\item Diseño extensible a otros dispositivos. Es software está diseñado para facilitar en la medida de los posible la introducción de nuevos dispositivos usando, para ello, las interfaces apropiadas.
+	\item Hardware compacto. El sistema está integrado en un ordenador de tipo Raspberry PI, aunque es factible su integración en otros sistemas siempre y cuando funcionen con un sistema GNU/Linux e incluyan el hardware necesario para las capturas.
+\end{itemize}
+
+\section{Biblioteca para la incorporación de modelos de conductor personalizados en SUMO}
+
+Hace uso de \gls{traci}.
+
+\section{Modelos de comportamiento}
+
+\subsection{Entrenamiento de controladores difusos mediante \gls{cev}}
+
