@@ -67,11 +67,24 @@ MOBIL --> http://www.traffic-simulation.de/MOBIL.html, http://www.mtreiber.de/pu
 
 \section{car-following}
 
-En un modelo de tipo car-following los vehículos están representados por una tupla del estilo $(x_n, v_n, a_n, t_n)$ donde $x_n$ es la localización espacial, $v_n$ la velocidad, $a_n$ la aceleración y $t_n$ el momento en el tiempo del vehículo $n$. El modelo es una serie de reglas o ecuaciones que actualizan estos valores a lo largo de $t_n$.
+En un modelo de tipo car-following los vehículos están representados por una tupla del estilo $(x_n, v_n, a_n, t_n)$ donde $x_n$ es la localización espacial, $v_n$ la velocidad, $a_n$ la aceleración y $t_n$ el momento en el tiempo del vehículo $n$. El modelo es una serie de reglas o ecuaciones que actualizan estos valores a lo largo de $t_n$. ()Cambiar la definición a algo que sea más claro o citar esta que sale en (Transport Reviews : A Transnational A State-of-the-Art Review of Car- Following Models with Particular Considerations of Heavy Vehicles).
+
+En (Transport Reviews : A Transnational A State-of-the-Art Review of Car- Following Models with Particular Considerations of Heavy Vehicles) realizan un estado de la cuestión en materia de modelos de tipo car-following. El autor divide en dos categorías los modelos, los clásicos y los basados en inteligencia artificial.
+
+\begin{enumerate}
+	\item \textbf{Clásicos}. Son aquellos modelos donde la acción que realiza el vehículo viene determinada por una o más ecuaciones en función de las acciones que toma el vehículo delantero. Se pueden considerar limitados porque se centran en los resultados del comportamiento y no en el comportamiento en sí. Además se basan en que determinadas variables (e.g. tiempo de reacción) son las mismas para cada conductor.
+	\begin{enumerate}
+		\item \textbf{De estímulo-respuesta}. La respuesta está directamente relacionada con el estímulo creado por el comportamiento del coche de delante, generalmente una respuesta de tipo aceleración o deceleración aplicada con un pequeño retardo $t$. Los métodos de esta clase de modelo ssuelen ser sencillos, pero tiene dos problemas principales, (i) que los modelos no capturan los comportamintos de diferentes tipos de conductores o vehículos y (ii) supone que el conductor es capaz de observar los más mínimos cambios en el coche delantero cuando esto en realidad no es así (4-7).
+		\item \textbf{De distancia segura}. También denominados de prevención de colisión, basan su funcionamiento en dejar una distancia segura entre el coche delantero y el actual. El principal problema de estos modelos es que no se corresponden con la realidad, ya que un conductor obtiene información de muchas más fuentes y reaccionan en consecuencia y por tanto el comportamiento exhibido en estas simulaciones no se corresponde con el comportamiento real (An Operational Analysis of Traffic Dynamics, Development and Testing of INTRAS, a Microscopic Freeway Simulation Model, Vol. 1: Program Design, Parameter Calibration and Freeway Dynamics Component Development).
+		\item \textbf{De avance deseado}. Similares al anterior, estos modelos basan su funcionamiento en tratar de mantener una distancia entre el parachoces trasero del coche frontal y el coche actual. Como en el caso anterior, este modelo no modela corectamente el comportamiento de un conductor debido a que hay muchos parámnetros que no se miden para determinar la distancia a mantener en cada momento.
+		\item \textbf{Psicofísicos}. En este modelo, la suposición es que un conductor es capaz de detectar los cambios de velocidad en el vehículo frontal a partir del cambio en el ángulo visual con éste (8-10).
+	\end{enumerate}
+	\item \textbf{Basados en \acrlongsp{ai}}. Son todos aquellos modelos que están basados en técnicas del campo de la \acrshort{ai}.
+\end{enumerate}
+
+Según (Transport Reviews : A Transnational A State-of-the-Art Review of Car- Following Models with Particular Considerations of Heavy Vehicles), los modelos basados en \acrlongsp{ai} funcionan en base a dos técnicas principalmente, las \acrlongplsp{ann} y la \acrlongsp{fl}.
 
 \section{lane-changing}
-
-Prestar atención al "merging", un caso especial del lane-changing.
 
 (Gipps, 1986, A Model for the Structure of Lane-Changing Decisions) propone un framework para el problema de cambio de carril que incluye numerosos factores, entre ellos señales de tráfico, tipos de vehículo (e.g. camiones) o \enquote{urgencia} en el camio de carril (e.g. proximidad a una salida o giro). El pricipal problema de las reglas de este modelo es que asumen que el cambio de carril ocurre sin forzar a los vehículos del carril de destino a modificar su comportamiento como disminuir la velocidad o parar.
 
@@ -96,3 +109,5 @@ En (Chaib-draa and Levesque, 1996, ) proponen un framework para trabajar con tre
 ¿Qué coño es esto?
 
 \section{merging}
+
+Prestar atención al "merging", un caso especial del lane-changing.
