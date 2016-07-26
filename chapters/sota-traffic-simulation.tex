@@ -3,11 +3,17 @@
 
 El tráfico es un sistema caótico que depende de un número muy elevado de factores y variables diferentes, muchos de ellos relacionados entre si. Debido a esto, obtener modelos exactos es una tarea prácticamente imposible y es por ello que la mayoría del trabajo cuyo objetivo es la predicción se realice en base a simuladores.
 
+Los simuladores de tráfico permiten la implementación de técnicas en el tráfico sin necesidad de interrumpirlo en una red real de carreteras, contando con la ventaja de que es posible partir de exactamente el mismo estado inicial y evaluar la evolución en el tiempo del sistema con dichas nuevas técnicas.
+
 En este capítulo vamos a ver cuál es la realidad actual en materia de simuladores de tráfico. Veremos sus diferentes tipologías y maneras de modelar los diferentes aspectos del tráfico para pasar a realizar una evaluación de qué simuladores de tráfico son los idóneos en nuestro trabajo. Sin embargo, limitaremos el estudio a los simuladores de vehículos, obviando otros tipos de simulación de tráfico que no tienen que ver con esta temática, como por ejemplo los sistemas para la evaluación de sistemas de señalización inteligentes (e.g.~\cite{jin2016evaluation}) o los sistemas para la estimación de emisiones (e.g.~\cite{quaassdorff2016microscale}).
 
 \section{Tipos de simuladores de tráfico}
 
-Los aspectos simulables y medibles del problema tráfico son muy diversos. Además cubren un amplio intervalo de granularidades, desde por ejemplo el flujo de entrada en una autovía hasta el consumo de carburante de un vehículo en ciudad. Este grado de granularidad lleva a una clasificación del software de simulación en función del grado de abstracción del tráfico, la cual se ilustra en la figura XX:
+Los aspectos simulables y medibles del problema tráfico son muy diversos.
+
+\subsection{Clasificación en función de la granularidad}
+
+Además cubren un amplio intervalo de granularidades, desde por ejemplo el flujo de entrada en una autovía hasta el consumo de carburante de un vehículo en ciudad. Este grado de granularidad lleva a una clasificación del software de simulación en función del grado de abstracción del tráfico, la cual se ilustra en la figura XX:
 
 \begin{itemize}
 	\item \textbf{Microsimulación} o simulación de tipo \textbf{micro}. Su objetivo es estudiar desde un punto de vista de granularidad fina (e.g. vehículos o peatones) las micropropiedades del flujo de tráfico (e.g. cambio de carril, aproximaciones a vehículos delanteros o adelantamientos) para evaluar su comportamiento. Tiene dos principales ventajas, la posibilidad de estudiar el tráfico como un todo a partir de sus elementos más simlpes (ofreciendo una representacińo más fiel de este) y la posibilidad de estudiar cada elemento por separado. Sin embargo, la principal desventaja de este tipo de modelos es que cada elemento de la simulación requiere de cómputo y por tanto simulaciones con alto contenido de elementos pueden llegar a ser inviables.
@@ -21,6 +27,8 @@ Aunque esta es la categorización típica de modelos, en la literatura aparecen 
 En nuestro discurso son de particular interés los microsimuladores. Dado que vamos a trabajar sobre la evaluación de modelos de comportamiento de conductores, parece lógico que tengamos que hacer uso de simuladores que modelen hasta ese nivel de granularidad. Dentro de los microsimuladores, dependiendo de 
 
 Dentro de la simulación, he visto que hay diferentes aproximaciones. Autómatas celulares, sistemas de partículas, sistemas multiagentes. Buscarmás y describir aquí. El caso es que por lo que veo, de esostres sólo nos interesan los mas. Explicarlos aquí.
+
+\subsection{Clasificación en función del tiempo y del espacio}
 
 La granularidad no es la única forma de clasificar a los simuladores, ya que éstos trabajan sobre la evolución del tráfico en un espacio a lo largo del tiempo. Dependiendo de qué forma evolucionan estos dos factores (espacio y tiempo), existen otras dos clasificaciones.
 
@@ -88,9 +96,15 @@ Los criterios se muestran ordenados alfabéticamente:
 	particle system simulation).
 \end{enumerate}
 
-Facilidad de integrar con código nuestro --> Ya sea en modo API o en modo inclusión de código
-
 \subsection{Comparativa}
+
+Al haber tal cantidad de simuladores, la comparativa se ha realizado descartando aquellos simuladores que no cuentan con características necesarias o que son de una tipología no deseada. A continuación se enumera la lista de razones por las que se han descartado simuladores junto con aquellos afectados por la decisión:
+
+\begin{enumerate}
+	\item Debe ser (o al menos soportar) un entorno de microsimulación.
+	\item Debe ofrecer un entorno de simulación de tráfico general, no sólo casos particulares como congestión o colisiones.
+	\item \ldots
+\end{enumerate}
 
 \begin{center}
 	\footnotesize
