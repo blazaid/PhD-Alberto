@@ -67,22 +67,65 @@ MOBIL --> http://www.traffic-simulation.de/MOBIL.html, http://www.mtreiber.de/pu
 
 \section{car-following}
 
-En un modelo de tipo car-following los vehículos están representados por una tupla del estilo $(x_n, v_n, a_n, t_n)$ donde $x_n$ es la localización espacial, $v_n$ la velocidad, $a_n$ la aceleración y $t_n$ el momento en el tiempo del vehículo $n$. El modelo es una serie de reglas o ecuaciones que actualizan estos valores a lo largo de $t_n$. ()Cambiar la definición a algo que sea más claro o citar esta que sale en (Transport Reviews : A Transnational A State-of-the-Art Review of Car- Following Models with Particular Considerations of Heavy Vehicles).
+En un modelo de tipo car-following los vehículos están representados por una tupla del estilo $(x_n, v_n, a_n, t_n)$ donde $x_n$ es la localización espacial, $v_n$ la velocidad, $a_n$ la aceleración y $t_n$ el momento en el tiempo del vehículo $n$. El modelo es una serie de reglas o ecuaciones que actualizan estos valores a lo largo de $t_n$. Cambiar la definición a algo que sea más claro o citar esta que sale en~\cite{Aghabayk2015}.
 
-En (Transport Reviews : A Transnational A State-of-the-Art Review of Car- Following Models with Particular Considerations of Heavy Vehicles) realizan un estado de la cuestión en materia de modelos de tipo car-following. El autor divide en dos categorías los modelos, los clásicos y los basados en inteligencia artificial.
+En~\cite{Aghabayk2015} realizan un estado de la cuestión en materia de modelos de tipo car-following. El autor divide en dos categorías los modelos, los clásicos y los basados en inteligencia artificial.
 
 \begin{enumerate}
 	\item \textbf{Clásicos}. Son aquellos modelos donde la acción que realiza el vehículo viene determinada por una o más ecuaciones en función de las acciones que toma el vehículo delantero. Se pueden considerar limitados porque se centran en los resultados del comportamiento y no en el comportamiento en sí. Además se basan en que determinadas variables (e.g. tiempo de reacción) son las mismas para cada conductor.
 	\begin{enumerate}
 		\item \textbf{De estímulo-respuesta}. La respuesta está directamente relacionada con el estímulo creado por el comportamiento del coche de delante, generalmente una respuesta de tipo aceleración o deceleración aplicada con un pequeño retardo $t$. Los métodos de esta clase de modelo ssuelen ser sencillos, pero tiene dos problemas principales, (i) que los modelos no capturan los comportamintos de diferentes tipos de conductores o vehículos y (ii) supone que el conductor es capaz de observar los más mínimos cambios en el coche delantero cuando esto en realidad no es así (4-7).
-		\item \textbf{De distancia segura}. También denominados de prevención de colisión, basan su funcionamiento en dejar una distancia segura entre el coche delantero y el actual. El principal problema de estos modelos es que no se corresponden con la realidad, ya que un conductor obtiene información de muchas más fuentes y reaccionan en consecuencia y por tanto el comportamiento exhibido en estas simulaciones no se corresponde con el comportamiento real (An Operational Analysis of Traffic Dynamics, Development and Testing of INTRAS, a Microscopic Freeway Simulation Model, Vol. 1: Program Design, Parameter Calibration and Freeway Dynamics Component Development).
+		\item \textbf{De distancia segura}. También denominados de prevención de colisión, basan su funcionamiento en dejar una distancia segura entre el coche delantero y el actual. El principal problema de estos modelos es que no se corresponden con la realidad, ya que un conductor obtiene información de muchas más fuentes y reaccionan en consecuencia y por tanto el comportamiento exhibido en estas simulaciones no se corresponde con el comportamiento real~\cite{Pipes1953}.
 		\item \textbf{De avance deseado}. Similares al anterior, estos modelos basan su funcionamiento en tratar de mantener una distancia entre el parachoces trasero del coche frontal y el coche actual. Como en el caso anterior, este modelo no modela corectamente el comportamiento de un conductor debido a que hay muchos parámnetros que no se miden para determinar la distancia a mantener en cada momento.
 		\item \textbf{Psicofísicos}. En este modelo, la suposición es que un conductor es capaz de detectar los cambios de velocidad en el vehículo frontal a partir del cambio en el ángulo visual con éste (8-10).
 	\end{enumerate}
 	\item \textbf{Basados en \acrlongsp{ai}}. Son todos aquellos modelos que están basados en técnicas del campo de la \acrshort{ai}.
 \end{enumerate}
 
-Según (Transport Reviews : A Transnational A State-of-the-Art Review of Car- Following Models with Particular Considerations of Heavy Vehicles), los modelos basados en \acrlongsp{ai} funcionan en base a dos técnicas principalmente, las \acrlongplsp{ann} y la \acrlongsp{fl}.
+Nosotros nos centramos en \acrshort{ai}, seguramente haya que recortar un poco lo de arriba para nombrarlo por encima. Quizá apuntando a los distintos tipos y ya. Según~\cite{Aghabayk2015}, los modelos basados en \acrlongsp{ai} funcionan en base a dos técnicas principalmente, las \acrlongplsp{ann} y la \acrlongsp{fl}.
+
+\subsection{Modelos basados en lógica difusa}
+
+Los modelos de car following que se basan en la lógica difusa suelen apoyarse en la convicción de que la información que maneja el conductor a la hora de tomar decisiones proviene de un análisis no demasiado detallado de la situación que le rodea, y que por tanto que su razonamiento parte de conceptos imprecisos y vagos que llevan a una respuesta no demasiado bien definida.
+
+\cite{Kikuchi1992} fueron los primeros en aplicar lógica difusa a modelos de conducción. Usaron el modelo GHR (\cite{Chandler1958}). Las entradas al modelo eran distancia al coche delantero, diferencia de velocidades, aceleración y deceleración del coche delantero. La aceleración y deceleración se toman como entradas diferentes porque postulaban que el comportamiento antes ambos casos era diferente (aunque creo que esto es equivalente a usar particiones no simétricas de la variable lingüística. Como salida, la aceleración/decelearación del coche actual.
+
+Otros trabajos que trabajan con lógica difusa: (Chakroborty y Kikuchi, 1999, 2003; Das, Bowles, Houghland, Hunn y Zhang, 1999; Gao, Hu, y Dong, 2008; Gonzalez-Rojo, Slama, Pereira y Mora-Camino, 2000, 2002; Hatipkarasulu y Wolshon, 2003; McDonald et al., 1997; Rekersbrink, 1995; Won, Lee, Lee, y Kim, 2007; Zheng y McDonald, 2005, Wu, Brackstone y McDonald, 2003). Ninguno de estos estudios considera diferentes tipologías de vehículos para el car following
+
+Problemas:
+
+\begin{enumerate}
+	\item ¿Qué reglas usan los humanos para modelar su comportamiento? Desconocerlas implica modelos no realistas. En (Wu, Brackstone, y McDonald, 2003) intentna suplir este problema con encuestas a conductores.
+	\item Los problemas inherentes de los controladores difusos. ¿Cómo validar las funciones de pertenencia? ¿cómo determinar las reglas difusas?
+\end{enumerate}
+
+\subsection{Modelos basados en redes neuronales artificiales}
+
+Las redes neuronales se han aplicado mucho sobre el campo de las ITS en general, y sobre la conducción autónoma y el análisis del comportamiento de los conductores (Dougherty, 1995).
+
+En (Fix y Armstrong, 1990) implementaron un controlador basado en redes neuronales para al comportamiento del car following en un microsimulador entrenando dicho modelo previamente con datos extraídos de un conductor en dicho simulador.
+
+En (Dougherty, Kirby y Boyle, 1993) usan redes para determinar el nivel de congestión en la vía.
+
+(Hongfei, Zhicai y Anning, 2003) son los primers en usar datos reales de un coche instrumentado usando el método Five-Wheel-System, que está especificado en su paper de aquella manera y que no me entero de nada. A partir de las entradas correspondientes a velocidad relativa, espacio relativo, velocidad y velocidad deseada (para ello, clasifican al conductor de agresivo, normal, conservador) determinan la aceleración/deceleración del vehículo. No lo aplican a ningún simulador, sólo que los valores se ajustan.
+
+(Panwai and Dia, 2007) redes neuronales usando el dataset de (Manstetten, Krautter y Schwab, 1997) desarrollan una red neuronal para mantener la distancia con el siguiente vehículo. Este modelo sí se evaluó en el simulador AIMSUN, y los resultados muestran una buena correspondiencia entre los datos y la realidad. No replica sin embargo el comportamiento de frenar hasta parar o de acelerar desde parado.
+
+Problemas:
+
+\begin{enumerate}
+	\item Es imposible determinar por qué la red funciona como está funcionando.
+	\item Los clásicos de los problemas de redes, el no aprendizaje y la especialización.
+\end{enumerate}
+
+\subsection{Otras técnicas}
+
+\subsection{Aproximaciones híbridas}
+
+(Li, 2003) y (Ma, 2004) usan aproxmiaciones de fuzzy neural networks y neurofuzzy respectivamente. No proveen sin embargo de documentación y no se investiga la aplicación de estos modelos a microsimuladores de tráfico.
+
+(Aghabayk, Forouzideh y Young, 2013) usan el modelo de árboles lineales locales (LOLIMOT, (Nelles, 2001)) que no deja de ser una aproximación neuro-fuzzy del comportamiento. Intenta incorporar imperfecciones perceptuales en un modelo de car following. El modelo está basado usando datasets reales y los resultados indican que se ajusta lo predicho con la realidad, pero no hay pruebas realizadas en microsimuladores.
+
 
 \section{lane-changing}
 
