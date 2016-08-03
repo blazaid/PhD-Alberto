@@ -1,11 +1,13 @@
 \chapter{Modelos de comportamiento}
 \label{ch:sota-behavior-models}
 
-Detección de patrones de eficiencia y agresividad de subyacen en los comportamientos de éstos
-Estudio de la efectividad de los sistemas de asistencia para mejorar la eficiencia de conducción
-Estudio de los sistemas de asistencia para analizar el comportamiento del conductor.
+A lo largo de los años se han estudiado diferentes modelos de comportamiento de conductor. Éstos suelen caer dentro de dos categorías principalmente, el \textbf{car-following} o \textit{seguimiento de vehículos} que se ocupa de determinar el comportamiento de un vehículo en función del comportamiento del inmediatamente siguiente y el \textbf{lane-changing} o \textit{cambio de carril} que estudia la forma en la que un conductor decide realizar un cambio de un carril origen a un carril destino.
 
-¿A qué nos referimos cuando hablamos del "comportamiento"? Según el diccionario de la real academia, \enquote{comportamiento} se define como \textit{manera de comportarse}, siendo \enquote{comportar} \textit{actual de una manera determinada}. Sin embargo, no queda claro qué factores constituyen el comportamiento al volante.
+La mayoría de los modelos basan su funcionamiento en técnicas pertenecientes al \acrlong{hc} o lo que es lo mismo, están basados en fórmulas matemáticas y reglas de la lógica convencional con parámetros que se ajustan a partir de la observación de datos reales. No son los ńuico modelos que existen, ya que en los últimos años ha empezdo a crecer el interés por as técnicas de la \ac{ci} en el campo y por tanto existen ciertos estudios de técnicas más acorde con este punto de vista. En éstas es en las que nos centraremos en este capítulo, el cual desarrollará qué entendemos por comportamiento en conducción y qué modelos de interés dentro de la \ac{ci} se han desarrollado hasta ahora.
+
+\section{Comportamiento en la conducción}
+
+¿A qué nos referimos cuando hablamos del "comportamiento"? Según el diccionario de la real academia, \enquote{comportar} se define como \textit{actuar de una manera determinada}. Sin embargo, no queda claro qué factores constituyen el comportamiento al volante.
 
 Atendiendo a la literatura, \TODO un par de párrafos para hablar de comportamiento
 
@@ -15,11 +17,11 @@ En~\cite{michon1985critical} describen la conducción como una trea separada en 
 \begin{figure}
 	\centering
 \smartdiagram[descriptive diagram]{
-	{Estrategia, {Planificación de la ruta, decisiones generales, \ldots}},
-	{Maniobra, {Control del vehículo, decisiones de cambio de carril, \ldots}},
-	{Control, {Cambio de marcha, presión sobre el acelerador, \ldots}},
+	{$3$, {\textbf{Estrategia} (e.g. planificación de la ruta, \ldots})},
+	{$2$, {\textbf{Maniobra} (e.g. cambio de carril, \ldots})},
+	{$1$, {\textbf{Control} (e.g. cambio de marcha \ldots)}},
 }
-	\caption{Esta es una figura de mierda (porque no se ve lo que se quiere mostrar) pero que me demuestra que con cuatro imágenes me pongo en las 40 páginas sin pestañear. La idea es cambiarla por otra más como la figura 2 de~\cite{michon1985critical}. Con algún que otro color bonico a poder ser.}
+	\caption{Los tres niveles jerárquicos que describen la tarea de conducción según~\cite{michon1985critical}: \textit{estrategia} (i.e. las decisiones generales), la \textit{maniobra} (i.e. decisiones durante la conducción de más corto plazo) y \textit{control} (i.e. comportamientos automáticos). (\TODO{Hacer mejor esta figura})}
 	\label{fig:three-levels-of-human-driving}
 \end{figure}
 
