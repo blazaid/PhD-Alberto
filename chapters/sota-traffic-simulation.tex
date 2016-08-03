@@ -3,13 +3,23 @@
 
 El tráfico es un sistema caótico que depende de un número muy elevado de factores y variables diferentes, muchos de ellos relacionados entre si. Debido a esto, obtener modelos exactos es una tarea prácticamente imposible y es por ello que la mayoría del trabajo cuyo objetivo es la predicción se realice en base a simuladores.
 
-Los simuladores de tráfico permiten la implementación de técnicas en el tráfico sin necesidad de interrumpirlo en una red real de carreteras, contando con la ventaja de que es posible partir de exactamente el mismo estado inicial y evaluar la evolución en el tiempo del sistema con dichas nuevas técnicas.
+Los simuladores de tráfico son herramientas de software que, usando diferentes modelos, describen el tráfico como sistema, permitiendo:
 
-En este capítulo vamos a ver cuál es la realidad actual en materia de simuladores de tráfico. Veremos sus diferentes tipologías y maneras de modelar los diferentes aspectos del tráfico para pasar a realizar una evaluación de qué simuladores de tráfico son los idóneos en nuestro trabajo. Sin embargo, limitaremos el estudio a los simuladores de vehículos, obviando otros tipos de simulación de tráfico que no tienen que ver con esta temática, como por ejemplo los sistemas para la evaluación de sistemas de señalización inteligentes (e.g.~\cite{jin2016evaluation}) o los sistemas para la estimación de emisiones (e.g.~\cite{quaassdorff2016microscale}).
+\begin{enumerate}
+	\item Extraer resultados y conclusiones de escenarios de tráfico determinados.
+	\item Implementar técnicas de tráfico sin necesidad de alterar el tráfico real.
+	\item Reproducir exactamente un escenario.
+	\item Introducir modificaciones en escenarios conocidos para evaluar su evolución.
+\end{enumerate}
+
+Los objetivos en la simulación de tráfico son los de hacer que los modelos se parezcan lo máximo posible a la realidad. En este capítulo vamos a ver cuál es la realidad actual de este tipo de simuladores. Veremos sus diferentes tipologías y maneras de modelar los diferentes aspectos del tráfico para posteriormente realizar una evaluación de cuáles son los idóneos para nuestro trabajo. Sin embargo, limitaremos el estudio a los simuladores de vehículos, obviando otros tipos de simulación de tráfico que no tienen que ver con esta temática, como por ejemplo los sistemas para la evaluación de sistemas de señalización inteligentes (e.g.~\cite{jin2016evaluation}) o los sistemas para la estimación de emisiones (e.g.~\cite{quaassdorff2016microscale}).
 
 \section{Tipos de simuladores de tráfico}
 
-Los aspectos simulables y medibles del problema tráfico son muy diversos.
+Los aspectos simulables y medibles del problema tráfico son muy diversos, dependiendo sobre todo del nivel de complejidad del tráfico\sidenote{Modelar una vía por la que circula un centenar de coches no es lo mismo que modelar una ciudad donde circulan millones.}, de qué queremos medir\sidenote{Por ejemplo, evaluar a un conductor en una situación determinada o evaluar la evolución del flujo de tráficoen un cuello de botella causado por un accidente.} y de cómo lo modelamos\sidenote{Un autómata celular se modela de forma diferente a un modelo lineal de vías o carriles.}.
+
+El resto de la sección ofrece una visión de las diferentes categorías en las que se clasifican los simuladores de tráfico.
+
 
 \subsection{Clasificación en función de la granularidad}
 
