@@ -1,9 +1,14 @@
 \chapter{Modelos de comportamiento}
 \label{ch:sota-behavior-models}
 
-A lo largo de los años se han estudiado diferentes modelos de comportamiento de conductor. Éstos suelen caer dentro de dos categorías principalmente, el \textbf{car-following} o \textit{seguimiento de vehículos} que se ocupa de determinar el comportamiento de un vehículo en función del comportamiento del inmediatamente siguiente y el \textbf{lane-changing} o \textit{cambio de carril} que estudia la forma en la que un conductor decide realizar un cambio de un carril origen a un carril destino.
+En un simulador de tráfico que basa su funcionamiento en un modelo micro de múltiples agentes haciendo las veces de conductores, el comportamiento de éstos es crucial para que éste describa su evolución de nua manera veraz, lo más aproximada a un sistema de tráfico real. Por ello, el conductor ha de ser diseñado teniendo en cuenta que ha de actuar tanto con el vehículo (en mayor o menos detalle) y su entorno (e.g. el resto de conductores, señales de tráfico, siste)
+driver  has  to  be  designed  to  interact  with  other  dr
+ivers,  traffic  signals,  pedestrians  and  ITS 
+systems.
 
-La mayoría de los modelos basan su funcionamiento en técnicas pertenecientes al \acrlong{hc} o lo que es lo mismo, están basados en fórmulas matemáticas y reglas de la lógica convencional con parámetros que se ajustan a partir de la observación de datos reales. No son los ńuico modelos que existen, ya que en los últimos años ha empezdo a crecer el interés por as técnicas de la \ac{ci} en el campo y por tanto existen ciertos estudios de técnicas más acorde con este punto de vista. En éstas es en las que nos centraremos en este capítulo, el cual desarrollará qué entendemos por comportamiento en conducción y qué modelos de interés dentro de la \ac{ci} se han desarrollado hasta ahora.
+A lo largo de los años se han estudiado diferentes modelos de comportamiento de conductor. Éstos suelen caer dentro de dos categorías principalmente, el \textbf{car-following} o \textit{seguimiento de vehículos} que se ocupa de determinar el comportamiento de un vehículo en función del comportamiento del inmediatamente siguiente y el \textbf{lane-changing} o \textit{cambio de carril} que estudia la forma en la que un conductor decide realizar un cambio de un carril origen a un carril destino. Y aunque tradicionalmente se han tratado como dos modelos independientes y ha sido estudiado más el primero que el segundo desde los años 1950, en los últimos 20 años se ha tendido a modelar ambos problemas como un único mecanismo~\cite{Ma}.
+
+La mayoría de los modelos basan su funcionamiento en técnicas pertenecientes al \acrlong{hc} o lo que es lo mismo, están basados en fórmulas matemáticas y reglas de la lógica convencional con parámetros que se ajustan a partir de la observación de datos reales. No son los único modelos que existen, ya que en los últimos años ha empezado a crecer el interés por las técnicas de la \ac{ci} en el campo y por tanto existen ciertos estudios de técnicas más acorde con este punto de vista. En éstas es en las que nos centraremos en este capítulo, el cual desarrollará qué entendemos por comportamiento en conducción y qué modelos de interés dentro de la \ac{ci} se han desarrollado hasta ahora.
 
 \section{Comportamiento en la conducción}
 
@@ -90,7 +95,7 @@ Nosotros nos centramos en \acrshort{ai}, seguramente haya que recortar un poco l
 
 Los modelos de car following que se basan en la lógica difusa suelen apoyarse en la convicción de que la información que maneja el conductor a la hora de tomar decisiones proviene de un análisis no demasiado detallado de la situación que le rodea, y que por tanto que su razonamiento parte de conceptos imprecisos y vagos que llevan a una respuesta no demasiado bien definida.
 
-\cite{Kikuchi1992} fueron los primeros en aplicar lógica difusa a modelos de conducción. Usaron el modelo GHR (\cite{Chandler1958}). Las entradas al modelo eran distancia al coche delantero, diferencia de velocidades, aceleración y deceleración del coche delantero. La aceleración y deceleración se toman como entradas diferentes porque postulaban que el comportamiento antes ambos casos era diferente (aunque creo que esto es equivalente a usar particiones no simétricas de la variable lingüística. Como salida, la aceleración/decelearación del coche actual.
+\cite{Kikuchi1992} fueron los primeros en aplicar lógica difusa a modelos de conducción. Usaron el modelo GHR (\cite{Chandler1958}). Las entradas al modelo eran distancia al coche delantero, diferencia de velocidades, aceleración y deceleración del coche delantero. La aceleración y deceleración se toman como entradas diferentes porque postulaban que el comportamiento antes ambos casos era diferente (aunque creo que esto es equivalente a usar particiones no simétricas de la variable lingüística. Como salida, la aceleración/decelearación del coche actua
 
 Otros trabajos que trabajan con lógica difusa: (Chakroborty y Kikuchi, 1999, 2003; Das, Bowles, Houghland, Hunn y Zhang, 1999; Gao, Hu, y Dong, 2008; Gonzalez-Rojo, Slama, Pereira y Mora-Camino, 2000, 2002; Hatipkarasulu y Wolshon, 2003; McDonald et al., 1997; Rekersbrink, 1995; Won, Lee, Lee, y Kim, 2007; Zheng y McDonald, 2005, Wu, Brackstone y McDonald, 2003). Ninguno de estos estudios considera diferentes tipologías de vehículos para el car following
 
@@ -127,6 +132,9 @@ Problemas:
 (Li, 2003) y (Ma, 2004) usan aproximaciones de fuzzy neural networks y neurofuzzy respectivamente. No proveen sin embargo de documentación y no se investiga la aplicación de estos modelos a microsimuladores de tráfico.
 
 (Aghabayk, Forouzideh y Young, 2013) usan el modelo de árboles lineales locales (LOLIMOT, (Nelles, 2001)) que no deja de ser una aproximación neuro-fuzzy del comportamiento. Intenta incorporar imperfecciones perceptuales en un modelo de car following. El modelo está basado usando datasets reales y los resultados indican que se ajusta lo predicho con la realidad, pero no hay pruebas realizadas en microsimuladores.
+
+En~\cite{Ma}, bajo la suposición de que el ser humano toma múltiples decisiones relacionadas basándose en su percepción (imprecisa) del entorno propone un método masado en un sistema de inferencia difusa para tomar decisiones tanto para el problema del \textit{car following} como para el del \textit{lan changing}, calibrando y ajustando dicho controlador mediante el uso de redes neuronales (aproximación Neuro-Fuzzy).
+
 
 
 \section{lane-changing}
