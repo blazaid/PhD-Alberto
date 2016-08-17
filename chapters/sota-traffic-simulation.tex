@@ -1,7 +1,7 @@
 \chapter{Simulación de tráfico}
 \label{ch:sota-traffic-simulation}
 
-El tráfico es un sistema caótico que depende de un número muy elevado de factores y variables diferentes, muchos de ellos relacionados entre si. Debido a esto, obtener modelos exactos es una tarea prácticamente imposible y es por ello que la mayoría del trabajo cuyo objetivo es la predicción se realice en base a simuladores.
+El tráfico es un sistema caótico en el que intervienen un número muy elevado de diferentes variables, muchas de las cuales relacionadas entre si. Debido a esto, obtener modelos exactos de tráfico es una tarea prácticamente imposible y es por ello que la mayoría del trabajo cuyo objetivo es la predicción se realice en base a simuladores.
 
 Los simuladores de tráfico son herramientas de software que, usando diferentes modelos, describen el tráfico como sistema, permitiendo:
 
@@ -9,36 +9,38 @@ Los simuladores de tráfico son herramientas de software que, usando diferentes 
 	\item Extraer resultados y conclusiones de escenarios de tráfico determinados.
 	\item Implementar técnicas de tráfico sin necesidad de alterar el tráfico real.
 	\item Reproducir exactamente un escenario.
-	\item Introducir modificaciones en escenarios conocidos para evaluar su evolución.
+	\item Introducir modificaciones en puntos determinados (e.g. espaciales o temoprales) de un escenario conocido para evaluar la divergencia en su evolución.
 \end{itemize}
 
-Los objetivos en la simulación de tráfico son los de hacer que los modelos se parezcan lo máximo posible a la realidad. En este capítulo vamos a ver cuál es la realidad actual de este tipo de simuladores. Veremos sus diferentes tipologías y maneras de modelar los diferentes aspectos del tráfico para posteriormente realizar una evaluación de cuáles son los idóneos para nuestro trabajo. Sin embargo, limitaremos el estudio a los simuladores de vehículos, obviando otros tipos de simulación de tráfico que no tienen que ver con esta temática, como por ejemplo los sistemas para la evaluación de sistemas de señalización inteligentes (e.g.~\cite{jin2016evaluation}) o los sistemas para la estimación de emisiones (e.g.~\cite{quaassdorff2016microscale}).
+Los objetivos en la simulación de tráfico son los de hacer que los modelos se parezcan lo máximo posible a la realidad. En este capítulo vamos a ver cuál es la realidad actual de este tipo de simuladores, cuáles son sus diferentes tipologías y maneras de modelar los diferentes aspectos del tráfico y, posteriormente, realizaremos una evaluación de cuáles son los idóneos para nuestro trabajo.
 
-\section{Tipos de simuladores de tráfico}
+Limitaremos el estudio no obstante a los simuladores de vehículos, obviando otros tipos de simulación de tráfico que no tienen que ver con esta temática, como por ejemplo los orientados a la evaluación de sistemas de señalización inteligentes (e.g.~\cite{jin2016evaluation}) o a la estimación de emisiones (e.g.~\cite{quaassdorff2016microscale}).
 
-Los aspectos simulables y medibles del problema tráfico son muy diversos, dependiendo sobre todo del nivel de complejidad del tráfico\sidenote{Modelar una vía por la que circula un centenar de coches no es lo mismo que modelar una ciudad donde circulan millones.}, de qué queremos medir\sidenote{Por ejemplo, evaluar a un conductor en una situación determinada o evaluar la evolución del flujo de tráficoen un cuello de botella causado por un accidente.} y de cómo lo modelamos\sidenote{Un autómata celular se modela de forma diferente a un modelo lineal de vías o carriles.}.
+\section{Clasificación de simuladores de tráfico}
+
+Los aspectos simulables y medibles del problema tráfico son muy diversos, dependiendo sobre todo del nivel de complejidad del tráfico\sidenote{Modelar una vía por la que circula un centenar de coches no es lo mismo que modelar una ciudad donde circulan millones.}, de qué queremos medir\sidenote{Evaluar a un conductor en una situación determinada o evaluar la evolución del flujo de tráfico en un cuello de botella causado por un accidente.} y de cómo lo modelamos\sidenote{Un autómata celular se modela de forma diferente a un modelo lineal de vías o carriles.}.
 
 El resto de la sección ofrece una visión de las diferentes categorías en las que se clasifican los simuladores de tráfico.
 
-\subsection{Clasificación en función de la complejidad}
+\subsection{Tipos de simulador en función de la complejidad}
 
-La complejidad en una simulación se refiere al nivel de detalle que queremos llegar a la hora de modelar nuestra solución. Es evidente que según aumentamos el detalle en la simulación aumenta la cantidad de cálculo. Por ejemplo, si queremos modelar el comportamiento de $10$ billones de canicas cayendo por un tubo es considerablemente más eficiente modelarlas como un fluido con una serie de propiedades características que como un conjunto de elementos individuales, cada uno con sus propiedades (e.g. masa, aceleración, ...) e interaccionando entre sí.
+La complejidad en una simulación se refiere al nivel de detalle al que queremos llegar a la hora de modelar nuestra solución. Es evidente que según aumentamos el detalle en la simulación aumenta la cantidad de cálculo. Por ejemplo, si queremos modelar el comportamiento de $10$ billones de canicas cayendo por un tubo es considerablemente más eficiente modelarlas como un fluido con una serie de propiedades características que como una colección de elementos individuales, cada uno con sus propiedades (e.g. masa, aceleración, ...) e interaccionando entre sí.
 
 \begin{figure}
 	\centering
 	\includegraphics{images/granularities-in-traffic-simulation}
-	\caption{Clasificación típica de los simuladores en función de la granularidad (complejidad) de la simulación.}
+	\caption{Taxonomía clásica de los simuladores en función de la granularidad (complejidad) de la simulación.}
 	\label{fig:granularities-in-traffic-simulation}
 \end{figure}
 
-El caso de los simuladores de tráfico es el mismo\sidenote{No entraremos a hablar sobre las técnicas de computación distribuida y de cómo éstas superan los límites impuestos por la computación en un único nodo, pero merece la pena mencionar que existen también avances en este campo, como por ejemplo el simulador de IBM \textit{Megaffic}, donde se implementa un modelo de granularidad micro de tipo sistema multiagente, haciendo uso de computación paralela y distribuida, usando para ello entornos con cientos de núcleos, dando la capacidad para simular ciudades enteras como Tokio (ver~\cite{Osogami2012} y~\cite{Suzumura2012}).}. En éstos existe un amplio intervalo de granularidades, desde por ejemplo el flujo de entrada en una autovía hasta el consumo de carburante de un vehículo en ciudad. Lo más común es clasificar los simuladores dentro de dos grandes grupos, los cualesse ilustran en la Figura~\ref{fig:granularities-in-traffic-simulation}.
+En el caso de los simuladores de tráfico es lo mismo. En éstos existe un amplio intervalo de granularidades, desde por ejemplo el flujo de entrada en una autovía hasta el consumo de carburante de un vehículo en ciudad. Lo más común es clasificar los simuladores dentro de dos grandes grupos, los cuales se ilustran en la Figura~\ref{fig:granularities-in-traffic-simulation}:
 
 \begin{itemize}
-	\item \textbf{Microsimulación} o simulación de tipo \textbf{micro}. Su objetivo es estudiar desde un punto de vista de granularidad fina (e.g. vehículos o peatones) las micropropiedades del flujo de tráfico (e.g. cambio de carril, aproximaciones a vehículos delanteros o adelantamientos) para evaluar su comportamiento. Tiene dos principales ventajas, la posibilidad de estudiar el tráfico como un todo a partir de sus elementos más simlpes (ofreciendo una representacińo más fiel de este) y la posibilidad de estudiar cada elemento por separado. Sin embargo, la principal desventaja de este tipo de modelos es que cada elemento de la simulación requiere de cómputo y por tanto simulaciones con alto contenido de elementos pueden llegar a ser inviables.
-	\item \textbf{Macrosimulación} o simulación de tipo \textbf{macro}. Este tipo de modelos centran su esfuerzo en estudiar el flujo de tráfico como un todo, explorando sus macropropiedades (e.g. evolución del tráfico, efectos onda, velocidad media o flujo en vías). Su ventaja principal es que a nivel macroscópico permiten estudiar propiedades que a nivel microscópico requeriría una cantidad ingente de recursos. Sin embargo, es imposible obtener información precisa de un elemento en particular del tráfico.
+	\item \textbf{Microsimulación} o simulación de tipo \textbf{micro}. Su objetivo es estudiar, desde un punto de vista de granularidad fina como puede ser vehículos o peatones, las micropropiedades del flujo de tráfico como, por ejemplo, los cambios de carril, las aproximaciones a vehículos delanteros o los adelantamientos, para evaluar su comportamiento. Tiene dos principales ventajas, la posibilidad de estudiar el tráfico como un todo a partir de sus elementos más simples (ofreciendo una representación más fiel de éste) y la posibilidad de estudiar cada elemento por separado. Sin embargo, la principal desventaja de este tipo de modelos es que cada elemento de la simulación requiere de cómputo independiente y por tanto simulaciones con alto contenido de elementos pueden llegar a ser inviables\sidenote{Existen técnicas de computación distribuida que superan ampliamente los límites impuestos por la computación en un único nodo, por ejemplo, el simulador de IBM \textit{Megaffic}. Éste implementa un modelo de granularidad micro donde cada elemento es un agente independiente (i.e. sistema multiagente) usando para ello entornos con cientos de núcleos de proceso que proveen de capacidad suficiente para modelar ciudades enteras como Tokio (ver~\cite{Osogami2012} y~\cite{Suzumura2012}).}.
+	\item \textbf{Macrosimulación} o simulación de tipo \textbf{macro}. Este tipo de modelos centran su esfuerzo en estudiar el flujo de tráfico como un todo, explorando sus macropropiedades (e.g. evolución del tráfico, efectos onda, velocidad media o flujo en vías). Su ventaja principal es que a nivel macroscópico permiten estudiar propiedades que a nivel microscópico requeriría una cantidad ingente de recursos. Sin embargo, con este modelo es imposible obtener información precisa de un elemento en particular del tráfico.
 \end{itemize}
 
-Aunque esta es la categorización típica de modelos, en la literatura aparecen otros tipos de modelo con granularidades que pueden considerarse no pertenecientes a ninguno de estos dos conjuntos. Este es el caso de los simuladores \textbf{sub-micro} y los \textbf{mesosimuladores}. Los \textbf{sub-micromodelos} (\TODO buscar referencia) especifican granularidades por debajo del nivel de \enquote{vehículo} o \enquote{peatón}, como por ejemplo \enquote{conductor} o \enquote{pieza de vehículo}. Por otro lado los \textbf{mesosimuladores} (e.g.~\cite{munoz2001integrated} o~\cite{casas2011need}) nacen para amortiguar los problemas inherentes a la complejidad en los micromodelos y a la falta de resolución en los macromodelos. Se ilustran dos ejemplos en la Figura \ref{fig:mesoscopic-and-submicroscopic-simulation}.
+Aunque esta es la categorización típica de modelos, en la literatura aparecen otros tipos de modelo con granularidades que pueden considerarse no pertenecientes a ninguno de estos dos conjuntos. Este es el caso de los simuladores de tipos \textbf{sub-micro} y los \textbf{meso} (ver figura~\ref{fig:mesoscopic-and-submicroscopic-simulation}). 
 
 \begin{figure}
 	\centering
@@ -47,9 +49,13 @@ Aunque esta es la categorización típica de modelos, en la literatura aparecen 
 	\label{fig:mesoscopic-and-submicroscopic-simulation}
 \end{figure}
 
-Dado que en nuestro discurso vamos a trabajar sobre la evaluación de modelos de comportamiento de conductores, parece lógico que tengamos que hacer uso de simuladores que modelen un nivel de granularidad \textbf{micro}.
+Los \textbf{sub-micromodelos} especifican granularidades por debajo del nivel de \enquote{vehículo} o \enquote{peatón}. Por ejemplo, en (\cite{Minderhoud1999}) trabaja a nivel de funcionamiento del control de crucero inteligente de un vehículo en función del entorno del vehículo.
 
-\subsection{Clasificación en función del espacio y el tiempo}
+Por otro lado los \textbf{mesosimuladores} (e.g.~\cite{munoz2001integrated} o~\cite{casas2011need}) nacen para amortiguar los problemas inherentes a la complejidad en los micromodelos y a la falta de resolución en los macromodelos.
+
+Dado que en nuestro discurso trabajaremos en la evaluación de modelos de comportamiento de conductores, nos ceñiremos al uso de simuladores que modelen un nivel de granularidad \textbf{micro}.
+
+\subsection{Tipos de simulador en función del espacio y el tiempo}
 
 Existen otras dos dimensiones que generan dos agrupaciones cada una dependiendo de cómo evolucionan los factores espacio y tiempo a lo largo de la simulación. Sin embargo, el tiop de simulador en funcińo de la complejidad (i.e. \textit{micro} vs. \textit{macro}) determina en gran medida la evolución de estos factores.
 
