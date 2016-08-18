@@ -76,7 +76,7 @@ En el caso del espacio, la clasificación diferencia las simulaciones que se mue
 En el caso del tiempo, la división se realiza en los mismos términos que en los del espacio:
 
 \begin{itemize}
-	\item De tiempo \textbf{discreto}. También denominada de \textit{simulación de eventos discretos}, divide el tiempo en intervalos discretos, generalmente (aunque existen excepciones) de longitud fija duranet toda la simulación. Los simuladores basados en autómatas celulares son también simuladores típicos discretos, ya que cada posición en el espacio se va calculando para cada intervalo discreto de tiempo (ver figura~\ref{fig:cellular-automata-based-sim}).
+	\item De tiempo \textbf{discreto}. También denominada de \textit{simulación de eventos discretos}, divide el tiempo en intervalos discretos, generalmente (aunque existen excepciones) de longitud fija duranet toda la simulación. Los simuladores basados en autómatas celulares son también simuladores típicos discretos, ya que cada posición en el espacio se va calculando para cada intervalo discreto de tiempo (ver figuras~\ref{fig:cellular-automata-based-sim} y~\ref{fig:nagel-schreck}).
 	\item De tiempo \textbf{continuo}. En estos simuladores el tiempo es un factor más para un modelo de ecuaciones diferenciales. La figura~\ref{fig:car-following-based-sim} ilustra un modelo de \textit{car-following} que puede implementarse en una smiulación de tiempo continuo si la aceleración viene determinada por un modelo que entre otros factores incluye el tiempo.
 \end{itemize}
 
@@ -89,7 +89,40 @@ En el caso del tiempo, la división se realiza en los mismos términos que en lo
 
 En nuestro caso, queremos conocer la situación exacta del vehículo y no una situación aproximada en una separación discreta del espacio. Esto nos dirige hacia simuladores de espacio continuo. Por otro lado, nosotros realizamos la recolección de datos en intervalos cuantificables de tiempo, los cuales serán usados para modelar los comportamientos de los conductores y para contrastar los resultados; por tanto, la elección está sesgada hacia simulación de tiempo discreto.
 
-\subsection{Modelos en microsimulación}
+\section{Modelos de microsimulación}
+
+En el caso concreto de la microsimulación, la literatura distingue entre tres diferentes aproximaciones a la hora de representar el tráfico. Éstas son la de autómatas celulares, al de sistemas de partículas y la de sistemas multiagentes.
+
+\subsection{Microsimulación basada en autómatas celulares}
+
+Un autómata celular es una colección ordenada de celdas o \textit{células} $n$-dimensionales que parcelan el universo en estudio. Cada una de dichas celdas se encuentra en un estado (e.g. contiene un valor numérico), y el estado de todas ellas se actualiza síncronamente (esto es, todas a la vez) en intervalos regulares de tiempo denominados \textit{ciclos}. El camio de estado de cada célula depende de los valores de las células vecinas y del algoritmo de modificación al que responden todas y cada una de las células.\sidenote{Hay realmente máquinas capaces de operar de esta manera, es decir, arquitecturas basadas en autómatas celulares. En ellas, cada ciclo de reloj actualiza todas las celdas de memoria del autómata. Éstas arquitecturas se suelen usar para la implementación de modelos físicos \TODO{buscar referencias}, superando en varios órdenes de magnitud la capacidad computacional de las arquitecturas tradicionales.}.
+
+Estos modelos de microsimulación, debido a la propia naturaleza de los autómatas celulares, se encuentran clasificados como simuladores de tiempo y espacio discretos, y se usa debido a su facilidad de implementación y su eficiencia, ya que es fácilmente paralelizable.
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.75\linewidth]{images/nagel-schreck}
+	\caption{Representación de la evolución de un atasco en una autopista  de $100$ celdas de longitud usando el modelo Nagel-Scherckenberg. Con una densidad de ocupación $\rho = 0.35$ y una probabilidad de frenada de $p = 0.35$ se puede observar en la figura cómo se desplazan las olas del atasco a lo largo de los $100$ ciclos de la simulación. Feunte: Wikimedia}
+	\label{fig:nagel-schreck}
+\end{figure}
+
+El modelo clásico de esta aproximación es el de Nagel-Scherckenberg (\cite{Nagel1992}), un modelo teórico creado para la simulación de tráfico en autopistas. La figura~\ref{fig:nagel-schreck} muestra la evolución del tráfico en una autopista a lo largo del tiempo de un autómata de este tipo. El resúmen de su funcionamiento es el siguiente:
+
+\begin{itemize}
+	\item La vía está divida en celdas de longitud $7,5m$ debido a que esta distancia es la media entre los parachoques traseros de dos coches consecutivos en un atasco.
+	\item La celda puede tener dos estados, vacía o con un coche a una velocidad $v = \{0, \ldots, v_{max}\} \in \mathbb{N}$, esto es, discreta. La unidad de medida es $c/\Delta t$ siendo $c$ un número de celdas.
+	\item $\Delta t$ queda establecido en $1s$, considerado el tiempo medio de reacción de un conductor ante una eventualidad. Esto hace, por ejemplo, que una velocidad de $6 c/\Delta t$ sea $45 m/s$ ($162 km/h$).
+	\item En cada ciclo, se realizan cuatro acciones de manera simultánea: acelerar (nua unidad si no están a la máxmia velocidad), frenar (si se ven obligados en función de la velocidad y la distancia del siguiente vehículo), freno aleatorio (con una probabilidad de $p = 0.5$ la velocidad se reduce en una unidad hasta un mínimo de $v = 1 c/\Delta t$) y reposicionamiento (se avanzan tantas celdas como indica la velocidad.)
+\end{itemize}
+
+En general los modelos de la literatura suelen ser una variación de éste con ligeras modificaciones para estudiar aspectos concretos de modelos de tráfico, como la modificación del paso de \textit{aleatorización} (e.g. \cite{Barlovic1998}) o celdas más pequeñas (e.g. \cite{Krauss1997}) para comprobar la metaestabilidad del flujo de tráfico, o modelos y reglas para vías de dos carriles (e.g. \cite{Brilon1999} en la figura~\ref{fig:cellular-automata-based-sim} y~\cite{Nagel1998}).  se basan en éste lo amplían para superar algunas de sus limitaciones.
+
+\subsection{Microsimulación basada en sistemas de partículas}
+
+Dentro de la microsimulación, he visto que hay diferentes aproximaciones. Autómatas celulares, sistemas de partículas, sistemas multiagentes. Buscarmás y describir aquí. El caso es que por lo que veo, de esostres sólo nos interesan los mas. Explicarlos aquí.
+
+\subsection{Microsimulación basada en sistemas multiagentes}
 
 Dentro de la microsimulación, he visto que hay diferentes aproximaciones. Autómatas celulares, sistemas de partículas, sistemas multiagentes. Buscarmás y describir aquí. El caso es que por lo que veo, de esostres sólo nos interesan los mas. Explicarlos aquí.
 
