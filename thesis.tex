@@ -1,4 +1,4 @@
-\documentclass[a4paper,nobib,makeidx]{tufte-book}
+\documentclass[a4paper,nobib,makeidx,justified,twoside,symmetric]{tufte-book}
 
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
@@ -111,6 +111,7 @@
 \newcommand{\doccounter}[1]{\texttt{#1}\index{#1 counter@\texttt{#1} counter}}
 
 \usepackage{marginfix}
+\usepackage{mparhack}
 
 \input{config/glossary}
 \makeglossaries
@@ -161,10 +162,9 @@ version={3.0},
 \backmatter
 
 
-\begin{fullwidth}
+
 \bibliography{thesis}
 \bibliographystyle{apalike}
-\end{fullwidth}
 
 \input{chapters/colophon}
 
