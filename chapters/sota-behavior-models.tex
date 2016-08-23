@@ -10,6 +10,10 @@ A lo largo de los años se han estudiado diferentes modelos de comportamiento de
 
 La mayoría de los modelos basan su funcionamiento en técnicas pertenecientes al \acrlong{hc} o lo que es lo mismo, están basados en fórmulas matemáticas y reglas de la lógica convencional con parámetros que se ajustan a partir de la observación de datos reales. No son los único modelos que existen, ya que en los últimos años ha empezado a crecer el interés por las técnicas de la \ac{ci} en el campo y por tanto existen ciertos estudios de técnicas más acorde con este punto de vista. En éstas es en las que nos centraremos en este capítulo, el cual desarrollará qué entendemos por comportamiento en conducción y qué modelos de interés dentro de la \ac{ci} se han desarrollado hasta ahora.
 
+\TODO{Creo que en lugar de separar en lane-changing, car follownig y sucesivos, habría que explicarlos y luego en un apartado más adelante revisar el estado del arte en comportamientos.}
+
+\TODO{Quizá tiene sentido especificar aquí que va a ser como DVU, es decir, 1 vehículo=1 conductor=1 agente.}
+
 \section{Comportamiento en la conducción}
 
 ¿A qué nos referimos cuando hablamos del "comportamiento"? Según el diccionario de la real academia, \enquote{comportar} se define como \textit{actuar de una manera determinada}. Sin embargo, no queda claro qué factores constituyen el comportamiento al volante.
@@ -164,3 +168,13 @@ En (Chaib-draa and Levesque, 1996, ) proponen un framework para trabajar con tre
 \section{merging}
 
 Prestar atención al "merging", un caso especial del lane-changing.
+
+\section{Por desarrollar}
+
+En \cite{Das} se realiza una simulación de comportamiento de vehículos en autopista. Los agentes basan su comoprtamiento en un sistema difuso donde las reglas definen la cnclusión en autopista (i.e. car-following y lane-changing). Llaman a este simulador AASIM (Autonomous Agent Simulator).,
+
+En \cite{Dia2002} Los parámetros relativos al comportamiento, es decir, los que definen características, forma de razonar, etcétera son extraídos deencustas a conductores reales. De acuerdo a los autores, cada conductor cno sus propias características su forma de razonar sus perceciones y sus objetivos se puede modelar como un agente.
+
+En \cite{Ehlert2001} (ver si este otro paper del autor cuenta lo mismo y me quito de una de las dos referencias: \cite{Ehlert2001-2}), simulación donde los agentes son de tipo reactivo. Además, poseen diferentes estuilos de conduccińo. El agente cntinuamente va realizando decisiones de control para mantenerse en la via y llegar a su destino.
+
+En \cite{} definen dos capas, \enquote{física} y \enquote{mental}. La física es aquella donde los agentes se mueven de acuerdo a sus magnitudes físicas, evitando accidentes y, en resumen, comportándose al volante. La mental es la que se encarga de las estrategias a más alto nivel, como por ejemplo la actividad planeada o la ruta escogida. Los parámetros de los agentes y de la simulación son extraídos de censos y encuestas.

@@ -120,17 +120,22 @@ En general los modelos de la literatura suelen ser una variación de éste con l
 
 \subsection{Microsimulación basada en sistemas multiagentes}
 
-Los modelos basados en autómatas celulares, aunque interesantes, no son suficientemente realistas desde un punto de vista microscópico. Unos ejemplos: en una situación típica de un modelo Nagel-Scherckenberg, las posiciones de los vehículos se dan en últiplos de $7,5$ metros. Además, un vehículo realiza aleatoriamente aceleraciones y deceleraciones de $27 km/h$. Incluso en una situación favorable, cualquier vehículo puede realizar una aceleración de $0$ a $162km/h$ en sólo $6$ segundos. Por tanto, no ofrecen una visión fiable en caso de querer realizar estudios muy detallados del tráfico a nivel micro.
+Los modelos basados en autómatas celulares, aunque interesantes, no son suficientemente realistas desde un punto de vista microscópico. Por poner un ejemplo, en una situación típica de un modelo Nagel-Scherckenberg, las posiciones de los vehículos se dan en últiplos de $7,5$ metros. Además, un vehículo realiza aleatoriamente aceleraciones y deceleraciones de $27 km/h$. Incluso en una situación favorable, cualquier vehículo puede realizar una aceleración de $0$ a $162km/h$ en sólo $6$ segundos. Por tanto, no ofrecen una visión fiable en caso de querer realizar estudios muy detallados del tráfico a nivel micro.
 
-Los sistemas multiagentes ofrecen otro punto de vista a la simulación de tráfico dado que cada vehículo es modelado como un agente independiente. Este paradigma se ha desarrollado en detalle en la sección \ref{ch:sota-agents-and-mas:s:mas} del capítulo \ref{ch:sota-agents-and-mas}. Por ello en este apartado se explicará únicamente el por qué de la elección de este modelo describiendo sus ventajas frente a los sistemas basados en autómatas celulares.
+Una de las principales razones por las que usar un sistema multiagente como modelo en simulación es que cada uno de los individuos o "agentes" tienen su propia entidad dentro del sistema. Esto es, perciben tanto el entorno como el resto de agentes y actúan de acuerdo a lo percibido y a su comportamiento preestablecido. Basarse no sólo en las magnitudes físicas del resto de vehículos (e.g. distancia, aceleración, \ldots) sino también en un comportamiento de conducción ofrece un interesante campo de estudio a nivel cognitivo. El paradigma de los sistemas multiagentes se desarrolla en detalle en el capítulo \ref{ch:sota-agents-and-mas} y los comportamientos concretos de los agentes de interés para esta tesis en el capítulo~\ref{ch:sota-behavior-models}. Por tanto, este apartado únicamente hará una pequeña introducción a estudios existentes y aplicaciones de simuladores basados en este modelo.
 
-Una de las principales razones por las que usar un sistema multiagente es que cada uno de los individuos o "agentes" tienen su propia entidad dentro del sistema. Esto es, perciben tanto el entorno como el resto de agentes y actúan de acuerdo a lo percibido y a su comportamiento preestablecido. Basarse no sólo en las magnitudes físicas del resto de vehículos (e.g. distancia, aceleración, \ldots) sino también en un comportamiento de conducción ofrece un interesante campo de estudio a nivel cognitivo.
+\begin{figure}
+	\centering
+	\includegraphics{images/autonomous-vehicles-at-intersections}
+	\caption{Simulación de comportamiento en intersección basada en un modelo ultiagentes. Cada vehículo es un agente que representa, en este caso, el comportamiento de un coche autónomo. Fuente: Proyecto AIM (\url{http://www.cs.utexas.edu/~aim/}).}
+	\label{fig:autonomous-vehicles-at-intersections}
+\end{figure}
 
-Además, y a diferencia de los autómatas celulares, los sistemas multiagentes pueden emplazarse en un entorno virtual que represente un espacio continuo y no discreto. Esto permite modelar con mayor fidelidad magnitudes físicas asociadas a cada agente (e.g. posición y velocidades actuales, dimensiones del vehículo, masa, velocidad máxima permitida, \ldots).
+A diferencia de los autómatas celulares, los sistemas multiagentes pueden emplazarse en un entorno virtual que represente un espacio continuo y no discreto. Esto permite modelar con mayor fidelidad magnitudes físicas asociadas a cada agente (e.g. posición y velocidades actuales, dimensiones del vehículo, masa, velocidad máxima permitida, \ldots). Sin embargo, aun así no es una propiedad inherente de éstos. No existe ninguna limitación en cuanto a la representación del espacio y es perfectamente posible representar un modelo basado en autómatas celulares usando para ello un sistema multiagente.
 
-Cada uno de los agentes es independiente del resto. Esta independencia da la posibilidad de tener todos los agentes diferentes entre sí. Aunque esto de por sí no tiene por qué tener demasiada utilidad, sí que lo tiene poder experimentar con diferentes perfiles de conducción (e.g. un perfil agresivo en un flujo de tráfico dominado por conductores tranquilos). Esto es debido a que en un sistema multiagente cada agente es una parte del sistema y las decisiones de cómo se ha de comportar un agente se toman desde el propio agente. Desde el punto de vista de un autómata celular, el comportamiento existe en cada celda, dando control parcial o nada de control al estado de cada celda.
+Cada uno de los agentes es independiente del resto (y una consecuencia directa es que el comportamiento de acda individuo permite evaluar el comportamientos grupales complejos, como el que se describe en la figura~\ref{fig:autonomous-vehicles-at-intersections}). Esta independencia da la posibilidad de tener todos los agentes diferentes entre sí. Aunque de por sí la utilidad de este hecho no tiene por qué ser una ventaja, sí que lo es el poder experimentar con diferentes perfiles de conducción (e.g. un perfil agresivo en un flujo de tráfico dominado por conductores tranquilos). Esto es debido a que en un sistema multiagente cada agente es una parte del sistema y las decisiones de cómo se ha de comportar un agente se toman desde el propio agente. Desde el punto de vista de un autómata celular, el comportamiento existe en cada celda, dando control parcial o diretamente no dando control al estado de cada celda.
 
-Los estudios en materia de simuladores de tráfico con sistemas multiagente no se limitan a vehículos, sino que se usan también en áreas como el control de luces de tráfico o agentes para peatones entre otros. Un ejemplo es el estudio presentado en~\cite{Clymer2002} donde los agentes del sistema son las señales de tráfico luminosas y no los vehículos, y donde el objetivo es adaptar la señalización en una red de carreteras para minimizar al máximo el tiempo de espera por parte de los vehículos en las intersecciones gestionadas por las señales.
+En general los estudios basados en este modelo suelen seguir el patrón $1$ DVU, $1$ agente\sidenote{Existe también una aproximación de modelar agentes como zonas de la vía y donde los vehículos, aunque poseen comportamiento, lo poseen gracias al agente que les guía de acuerdo a la zona en la que se encuentran. Esto tiene la ventaja de que el paso de información a vehículos dentro de la misma zona se realiza mucho más rápido en un entorno distribuido. Para más información, en \cite{Galis2000} se implementa un simulador siguiendo este concepto.}, dando así una enorme cantidad de posibilidades a experimentar. Por ejemplo en \cite{Das} se hace uso de sistemas difusos para decidir cómo comoprtarse en la vía mientras que en \cite{Ehlert2001} (\TODO{lo mismo cuentan los mismo que aquí: \cite{Ehlert2001-2}. Si es así, me tengo que zumbar uno de los dos) se hace uso de un patrón reactivo. Otros, como \cite{Dia2002} o \cite{Balmer} hacen uso de encuestas o censos para establecer las propiedades y calibrar los parámetros de diferentes tipos de agentes.
 
 \begin{figure}
 	\centering
@@ -139,11 +144,13 @@ Los estudios en materia de simuladores de tráfico con sistemas multiagente no s
 	\label{fig:cooperative-traffic-movsim}
 \end{figure}
 
-Otra ventaja de este modelo es en el área de las comunicaciones extravehiculares (V2I) e intervehiculares (V2V). Es relativamente rápida la implementación de diferentes políticas y protocolos de comunicación via sensores y actuadores para estudiar estos tipos de redes de comunicación (ver figura~\ref{fig:cooperative-traffic-movsim}). En~\cite{Shiose2001}, por ejemplo, se hace uso de un sistema multiagente para implementar diferentes formas de comunicación intervehicular con el objetivo de aliviar congestinoe de tráfico. En el caso de redes extravehiculares, un buen ejemplo es~\cite{Dresner2004}, donde se representan como agentes tanto los vehículos como las intersecciones de la vía. Éstas gestionan un sistema de reservas que los vehículos que van a entrar en la intersección solicitan, gestionando  comunicando en todo momento mediante eventos los cambios en dicho sistema. El estudio concluye que una comunicación de este tiop es más eficiente que una intersección clásica basada en señales de tráfico luminosas.
+Los estudios en materia de simuladores de tráfico con sistemas multiagente no se limitan a vehículos, sino que se usan también en áreas como el control de luces de tráfico o agentes para peatones entre otros. Un ejemplo es el estudio presentado en~\cite{Clymer2002} donde los agentes del sistema son las señales de tráfico luminosas y no los vehículos, y donde el objetivo es adaptar la señalización en una red de carreteras para minimizar al máximo el tiempo de espera por parte de los vehículos en las intersecciones gestionadas por las señales.
+
+En los últimos años, otro concepto que está en auge es el de las comunicaciones extravehiculares (V2I) e intervehiculares (V2V). El modelo de sistemas multiagente permite la implementación rápida de diferentes políticas y protocolos de comunicación via sensores y actuadores para estudiar estos tipos de redes de comunicación (ver figura~\ref{fig:cooperative-traffic-movsim}). En~\cite{Shiose2001}\cite{Galis2000}, por ejemplo, se hace uso de un sistema multiagente para implementar diferentes formas de comunicación intervehicular con el objetivo de aliviar congestiones de tráfico (en el primer caso) y por el propio estudio de las comunicaciones en si (en el segundo caso). En el caso de redes extravehiculares, un buen ejemplo es~\cite{Dresner2004}, donde se representan como agentes tanto los vehículos como las intersecciones de la vía. Éstas gestionan un sistema de reservas que los vehículos que van a entrar en la intersección solicitan, gestionando  comunicando en todo momento mediante eventos los cambios en dicho sistema. El estudio concluye que una comunicación de este tipo es más eficiente que una intersección clásica basada en señales de tráfico luminosas.
 
 \section{El vehículo como agente inteligente}
 
-En nuestra tesis el trabajo se basa en la representación del comportamiento de un conductor. Para simplificar el problema asumiremos que los términos \enquote{conductor} y \enquote{vehículo} son equivalentes y que se refieren a la tupla \enquote{(vehículo, conductor)}.
+En nuestra tesis el trabajo se basa en la representación del comportamiento de un conductor. Para simplificar el problema asumiremos que los términos \enquote{conductor} y \enquote{vehículo} son equivalentes y que se refieren a la tupla \enquote{(vehículo, conductor)} (Hay un paper que lo denomina DVU como driver-vehicle-unit \cite{Dia2002})
 
 No sé cómo ponerlo, pero esta información puede ser útil aquí. A lo mejor hay que separarlo, no sé. Yo lo pongo aquí porque me ha venido ahora.
 
@@ -153,107 +160,73 @@ No sé cómo ponerlo, pero esta información puede ser útil aquí. A lo mejor h
 	\item \textbf{Actuación}. La actuación es la consecuencia natural de las anteriores características. Dado un estado del mundo y un proceso cognitivo surgen acciones a realizar, tras las cuales se llega a un nuevo estado del entorno que provee de información actualizada para seguir actuando.
 \end{itemize}
 
-\section{Elección de software para las simulaciones}
+\section{Software de simulación}
 
-En este apartado se facilita la comparativa realizada para la elección de simulador sobre el que basar los escenarios a plantear en las simulaciones de los modelos de conductor.
+Para la realización de al tesis es encesario contar con un paquete de simulación que permita modelar un sistema multiagente en el que poder ejecutar los modelos de comportamiento desarrollados.
 
-Hoy en día existe una oferta muy amplia de simuladores en el mercado, cada uno implementando uno o varios modelos diferentes y bajo diferentes licencias.
+Aunque en un principio se ha valorado el desarrollo de una solución propia, la oferta de simuladores en el mercado es muy amlpia, cada uno de ellos implementando nuo o varios modelos diferentes y bajo muy distintas licencias. Por ello se ha optado por la elección de un simulador ya existente.
 
-Cada simulador tiene sus ventajas e inconvenientes, y es por ello importante realizar un estudio previo para conocerlos y no llevarse sorpresas una vez se llega a estadios más avanzados del estudio. No se trata de realizar una comparativa en busca del mejor simlador de tráfico del mercado, sino en encontrar el simulador que más se adecúa a los criterios concretos para los propósitos de esta tesis.
+Para elegir el mejor simulador que se adapte a nuestras necesidades se ha realizado un listado de características obligatorias para realizar una primera criba eliminando simuladores no aptos:
+
+\begin{enumerate}
+	\item \textbf{Tipo de simulador}. Al menos debe ofrecer un entorno de \textbf{microsimulación} de \textbf{espacio continuo} y \textbf{tiempo discreto}. Para nuestras necesidades es necesario un simulador que implemente microsimulación, ya que es el único tipo de granularidad que permite evaluar el comportamiento de un conductor independientemente del resto de la simulación. Además, debido a la forma en la que se recolectan los datos, es necesario que represente un espacio continuo y una dimensión de tiempo discreto con una resolucińo de al menos $1$ segundo.
+	\item \textbf{Modelo de simulación}. Debe ofrecer un entorno basado en un \textbf{sistemas multiagente} donde cada vehículo se comporte como un agente individual.
+	\item \textbf{Entorno de simulación}. Debe ofrecer un entorno de simulación de tráfico general, permitiendo la creación de escenarios. Quedan excluídos los simuladores de propósito específico o de casos particulares como simuladores de autopistas, congestiones o colisiones.
+	\item \textbf{Extensibilidad}. El simulador debe permitir extender de alguna la ejecución de los modelos desarrollados en los agentes (DVUs). Aunque se puede considerar que si es simulador Open Software, es posible modificar su comportamiento para adcuarlo a los modelos desarrollados, es mejor que el propio software ofrezca los mecanismos necesarios para la integración sin necesidad de tocar los fuentes del sistema.
+	\item \textbf{Sistema operativo}. Es imprescindible que el software se ejecute sobre sistemas operativos GNU/Linux por la configuración de los sistemas sobre los que se trabaja.
+\end{enumerate}
+
+Posteriormente se ha desarrollado un listado de características deseables. No son determinantes para descartar simuladores pero sí favorecen la elección de unos sobre otros.
+
+\begin{enumerate}
+	\item \textbf{Activo}. Es preferible que el sistema esté activamente desarrollado porque eso favorece la aparición de parches y mejoras sobre el software. En caso contrario, se trata de un proyecto con poca actividad por parte de sus autores.
+	\item \textbf{Lenguaje de programación}. Es favorable la implementación de los modelos en código Python.
+	\item \textbf{Licencia}.Es preferible una licencia de tipo Open Software (\TODO hay que ver si esto está bien dicho o no) ya que, en caso de error o falta de funcionalidad, es posible acceder a los fuentes para modificarlos.
+	\item \textbf{Sistema operativo}. Es favorable que el sistema se ejecute en entornos tipo OS-X.
+\end{enumerate}
 
 \subsection{Entornos de simulación a estudiar}
 
+El primer listado de características deja atrás la mayoría de simuladores (una gran cantidad de ellos son o bien de propósito específico, están desarrollados para sistemas operativos Windows o no permiten extender su modelo). Tras la selección, nos quedamos con dos simuladores:
 
-
-El siguiente listado muestra la lista de simuladores de tráfico sobre los que se realizarán las comparativas. Por motivos de espacio no se han incluido todos los simuladores encontrados en la listeratura, sino que se han seleccionado únicamente aquellos que (i) aun existen y se pueden adquirir, y (ii) son entornos de microsimulación.
-
-\begin{enumerate}
-	\item \textbf{AIMSUN}. Entorno de simulación de granularidad micro, meso y macro desarrollado por la empresa \textit{Transport Simulation Systems}. Url: \url{http://www.aimsun.com/}.
-	\item \textbf{TSIS-CORSIM}. Entorno de microsimulación compuesto de dos simuladores para distintos modos de tráfico (NETSIM para entornos urbanos y FRESIM para entornos interurbanos) desarrollado dentro de la Universidad de Florida por el centro \textit{McTrans}. Url: \url{http://mctrans.ce.ufl.edu/featured/tsis/}.
-\end{enumerate}
-
-Simuladores de pago:
-
-Quadstone paramics (microscopic)
-VISSUM (macroscopic)
-VISSIM (microscopic)
-ARCHISIM
-
-Simuladores gratuitos:
-
-Matsim
-SUMO (microscopic)
-Repast
-MAINSIM
-Synchro
-
-Ni puta idea:
-
-CUBE
-SATURN
-PARAMICS
-TRANSIMS
-
-
-\subsection{Criterios de selección}
-
-Los criterios se muestran ordenados alfabéticamente:
-
-\begin{enumerate}
-	\item \textbf{Activo}. Si el simulador está activaemnte desarrollado o si por el contrario se trata de un proyecto con poca actividad por parte de sus autores. Es interesante hacer uso de un simulador que esté siendo activamente desarrollado porque eso favorece la aparición de parches y mejoras sobre el software.
-	\item \textbf{Extensibilidad}. Si el simulador permite extender sus funcionalidades de alguna manera. Aunque se puede considerar que si es Open Software, es posible modificar su comportamiento para adcuarlo a los modelos desarrollados, es mejor que el propio software ofrezca los mecanismos necesarios para la integración sin necesidad de tocar el núcleo.
-	\item \textbf{Granularidad}. Si el simulador es de tipo micro, meso o macro. Para nuestras necesidades es necesario un simulador que implemente microsimulación, ya que es el único tipo de granularidad que permite evaluar el comportamiento de un conductor independientemente del resto de la simulación.
-	\item \textbf{Licencia}. Especifica con qué tipo de licencia se distribuye el software. Es preferible una licencia de tipo Open Software (\TODO hay que ver si esto está bien dicho o no) ya que de esta manera es posible modificar el software en caso de encontrar algún error o falta de funcionalidad que el fabricante no tenga pensado codificar.
-	\item \textbf{Sistema operativo}. Sobre qué sistemas operativos está soportado el entorno de simulación. Es imprescindible que el software se ejecute sobre sistemas operativos GNU/Linux por la configuración de los sistemas sobre los que se trabaja, aunque es interesante también su funcionamiento en entornos tipo OS-X.
-	\item \textbf{Tipo de simulación}. Qué modelo interno usa el motor para la simulación (e.g. automatas celurares, sistemas multiagentes, ...).
-	particle system simulation).
-\end{enumerate}
-
-\subsection{Comparativa}
-
-Al haber tal cantidad de simuladores, la comparativa se ha realizado descartando aquellos simuladores que no cuentan con características necesarias o que son de una tipología no deseada. A continuación se enumera la lista de razones por las que se han descartado simuladores junto con aquellos afectados por la decisión:
-
-\begin{enumerate}
-	\item Debe ser (o al menos soportar) un entorno de microsimulación.
-	\item Debe ofrecer un entorno de simulación de tráfico general, no sólo casos particulares como congestión o colisiones.
-	\item \ldots
-\end{enumerate}
-
-\begin{center}
-	\footnotesize
+\begin{table}
+	\caption{Tabla comparativa cmoparando las característiacs deseables en los dos simuladores escogidos.}
+	\label{tbl:simulators-comparison}
 	\begin{tabular}{lllll}
 		\toprule
-		& Aimsun & \acrshort{sumo} & TSIS-CORSIM & \\
+		& Matsim & \acrshort{sumo} & \\
 		\midrule
-		Activo & sí & sí & sí & \na \\
+		Activo & \yep & \yep & \\
 		\addlinespace
-		Extensibilidad & \na & sí & no & \na \\
-		\addlinespace
-		Granularidad & & & & \\
-		\quad Micro          & sí     & sí             & \na  & \na \\
-		\quad Meso           & sí     & no             & \na  & \na \\
-		\quad Macro          & sí     & no             & \na  & \na \\
+		Lenguaje de programación & Java & C/C++/Python & \\
 		\addlinespace
 		Licencia & & & & \\
-		\quad Propietaria    & sí     & sí             & \na  & \na \\
-		\quad Open Software  & no     & no             & \na  & \na \\
-		\quad Compatible GPL & no     & no             & \na  & \na \\
+		\quad Propietaria    & \yep & \yep \\
+		\quad Open Software  & \yep & \yep \\
+		\quad Compatible GPL & \yep & \yep \\
 		\addlinespace
-		Sistema operativo & & & & \\
-		\quad GNU/Linux      & sí     & no             & \na  & \na \\
-		\quad OS X           & sí     & no             & \na  & \na \\
-		\quad Windows        & sí     & sí             & \na  & \na \\
-		\addlinespace
-		Tipo de simulación   & \na    & \acrshort{mas} & italics & upright, caps \\
+		Sistema operativo & & \\
+		\quad GNU/Linux & \yep & \yep \\
+		\quad OS X & \yep & \yep & \\
+		\quad Windows & \yep & \yep \\
 		\bottomrule
 	\end{tabular}
-\end{center}
+\end{table}
+
+\begin{enumerate}
+	\item \textbf{MatSIM} (Multi-Agent Transport Simulation). Software de simulación multiagente desarrollado en la ETH Zürich. Url: \url{http://matsim.org}.
+	\item \textbf{\ac{sumo}}. Entorno de simulación de granularidad micro y meso desarrollado por el instituto de sustemas de transoprte del DLR (Centro Aeroespacial Alemán). Url: \url{http://www.dlr.de}.
+\end{enumerate}
+
+Ambos entornos están igualados en las características presentadas, tal y como se puede observar en el cuadro~\ref{tbl:simulators-comparison}. Tras haber probado ambos simuladores hemos llegado a la conclusión de que \ac{sumo} y no matsim es el simulador que se usará en las simulaciones.
+
+La razón es la facilidad con la que implementar los agentes. Mientras que MatSIM ofrece un API para desarrollar nuevas funcionalidades, no se ha encontrado forma para hacer lo mismo con los comportamientos de los vehículos. Por tanto sería necesario modificar los fuentes del simulador. SUMO por otro lado permite la programación de los agentes a través la librería externa TraCI en Python.
 
 \subsection{Entorno seleccionado: \acrshort{sumo}}
 
 En definitiva, el simulador que más se adapta a nuestras necesidades y el que se usará como simulador base en el desarrollo de esta tesis será \gls{sumo}\sidenote{Sus principales publicaciones son~\cite{krajzewicz2002sumo}, \cite{behrisch2011sumo} y \cite{krajzewicz2012recent}.}. \gls{sumo} es un entorno de microsimulación de código abierto\sidenote{Licenciado bajo la \gls{gpl}, concretamente la versión $3.0$.} que implementa un modelo discreto en el tiempo y continuo en el espacio.
 
-Además de simulación clásica, \gls{sumo} provee de una interfaz gráfica (se puede ver un pantallazo en la figura~\ref{fig:sumo-simulator}) donde se puede ver el comportamiento de cada vehículo durante la simulación. Es interesante para obtener de un vistazo información acerca del funcionamiento del modelo en concreto a controlar. Otras de las características que el simulador ofrece son las siguientes:
+Además de simulación clásica, \gls{sumo} provee de una interfaz gráfica (se puede ver una captura de la vista gráfica en la figura~\ref{fig:sumo-simulator}) donde se puede ver el comportamiento de cada vehículo durante la simulación. Es interesante para obtener de un vistazo información acerca del funcionamiento del modelo en concreto a controlar. Otras de las características que el simulador ofrece son las siguientes:
 
 \begin{figure}
 	\includegraphics{sumo-simulator}
@@ -267,6 +240,33 @@ Además de simulación clásica, \gls{sumo} provee de una interfaz gráfica (se 
 	\item Diferentes tipos de vehículos y de carreteras, cada una con diferentes carriles y éstas con diferentes subdivisiones de subcarriles (diseño conceptual para permitir las simulaciones )
 \end{itemize}
 
-Al estar licenciado bajo la licencia \gls{gpl}, su distribución implica a su vez la distribución de su código fuente. Esto permite la modeificación de su comportamiento y el desarrollo de nuevos modelos integrados dentro del simulador. Sin embargo nosotros no haremos uso de esta característica, sino que usaremos \gls{sumo} como aplicación servidor y el módulo \gls{traci} como aplicación cliente desde donde gestionar todos los aspectos de cada simulación.
+Al estar licenciado bajo la licencia \gls{gpl}, su distribución implica a su vez la distribución de su código fuente. Esto permite la modificación de su comportamiento y el desarrollo de nuevos modelos integrados dentro del simulador. Sin embargo nosotros no haremos uso de esta característica, sino que usaremos \gls{sumo} como aplicación servidor y el módulo \gls{traci} como aplicación cliente desde donde gestionar todos los aspectos de cada simulación.
 
 \subsection{La interfaz \glsentrylong{traci}}
+
+\gls{traci} (\cite{Wegener2008}) es tanto el nombre del protocolo de comunicación expuesto por \gls{sumo} en su versión servidor como el nombre de la librería escrita en Python para interactuar con el mismo.
+
+Como protocolo, la interacción a través de cliente/servidor comienza especificando a \gls{sumo} que se desea trabajar de este modo. En ese momento, \gls{sumo} se inicializa en modo servidor dejando abierto un puerto TCP para la conexión del cliente.
+
+Una vez el servidor se encuentra en ese estado, el cliente se conecta enviando una señal de conexión indicando que él se encargará de controlar la simulación. Desde ese momento y hasta que el cliente no envíe una señal de desconexión, el cliente podrá enviar y recibir todos los mensajes que desee para capturar información y modificar los detalles de la simulación, incluido el mensaje \textit{step}, que es el encargado de avanzar un paso en la simulación. . Podemos ver un ejemplo en la figura~\ref{fig:traci-messages} dnode se dan tres ejemplos de mensajes enviados a \gls{sumo} a través de \gls{traci}.
+
+\begin{figure}
+	\centering
+	\includegraphics{images/traci-messages}
+	\caption{\gls{sumo} ofrece la posibilidad de interactuar con la simulación desde cualquier aplicación a través del uso del protocolo \gls{traci}. En la figura podemos ejemplos de comunicación como (a) la incialización, (b) una petición de información acompañada de una modificación de comportamientoseguida de una solicitud de avanzar la simulación un paso o (c) una finalización de simulación.}
+	\label{fig:traci-messages}
+\end{figure}
+
+Como implementación, \gls{traci} es una librería desarrollada en Python XX, aunque no es la única. Si bien es cierto que es posible trabajar directamente con el protocolo de comunicación a través de sockets, una librería abstrae todos los detalles dando una interfaz de trabajo más clara y sencilla. Por ello, aunque no se usarán en la tesis, existen otras dos implementaciones que merece la pena mencionar:
+
+\begin{itemize}
+	\item \textbf{TraCI4J}. El homólogo de la librería de abstracción de Python pero para el lenguaje Java. Está desarrollada por un tercero. Url: \url{https://github.com/egueli/TraCI4J}.
+	\item \textbf{TrasS}. Una plataforma ofrecida como SaaS que proporciona una interfaz de servicios web bajo protocolo SOAP para abstraer el protocolo en mensajes HTTP (figura~\ref{fig:traas}). Url: \url{http://traas.sourceforge.net/cms/}.
+\end{itemize}
+
+\begin{figure}
+	\centering
+	\includegraphics{images/traas}
+	\caption{Concepto arquitectural de la plataforma TraaS. La plataforma se conecta como cliente a \gls{sumo} y ofrece un API basado en SOAP de mensajes que traduce en mensajes del protocolo \gls{traci}, lo que independiza completamente la elección de lenguaje de programación a la vez que abstrae los detalles del protocolo de comunicación.}
+	\label{fig:traas}
+\end{figure}
