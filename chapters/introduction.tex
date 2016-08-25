@@ -39,7 +39,7 @@ Los simuladores de tráfico son una solución para muchas de estas limitaciones,
 
 Esta tesis pretende explorar el tema de la generación de modelos de conductor para simuladores que respondan al comportamiento de conductores reales usando, para ello, técnicas pertenecientes al campo de la \ac{ci}.
 
-Concretamente pretende desarrollar un método para el análisis de la eficiencia de los conductores realizando, para ello, un modelo del perfil de conducción a partir de técnicas de la \ac{ci} y aplicándolo a un entorno multiagente de simulación. Así, una vez configurado el entorno multiagente, se podrán estudiar aspectos generales como la evolución del tráfico con determinados perfiles o particulares como el estilo de conducción o el impacto de los sistemas de asistencia.
+Concretamente pretende desarrollar un método para el análisis de la eficiencia de los conductores realizando, para ello, un modelo del perfil de conducción a partir de técnicas de la \ac{ci} y aplicándolo a un entorno de simulación basado en \Acp{mas}. Así, una vez configurado el entorno, se podrán estudiar aspectos generales como la evolución del tráfico con determinados perfiles o particulares como el estilo de conducción o el impacto de los sistemas de asistencia.
 
 
 \section{Motivación}
@@ -81,7 +81,7 @@ Demostrar que la evaluación de un modelo del conductor en entornos simulados es
 El objetivo de esta tesis doctoral es la de demostrar la hipótesis~\ref{hyp:hypothesis-1}, quedando dicha demostración dentro de los límites impuestos por los supuestos y restricciones indicados más adelante.
 
 \begin{hyp}[H\ref{hyp:hypothesis-1}] \label{hyp:hypothesis-1}
-	La aplicación de técnicas pertenecientes al campo de la \ac{ci} con datos extraídos de un entorno de micro-simulación permitirá modelar, de manera fiel a la realidad, el comportamiento de conductores reales.
+	La aplicación de técnicas pertenecientes al campo de la \ac{ci} con datos extraídos de un entorno de microsimulación de espacio continuo y tiempo discreto basado en sistemas multiagentes permitirá modelar, de manera fiel a la realidad, el comportamiento de conductores reales.
 \end{hyp}
 
 Por tanto, el objetivo de la tesis es el de simular el comportamiento de conductores en entornos de micro-simulación a partir de su comportamiento en entornos reales usando técnicas de \ac{ci}. Para ello se consideran los siguientes objetivos específicos:
@@ -154,6 +154,7 @@ Por tanto, el objetivo de la tesis es el de simular el comportamiento de conduct
 \subsection{Restricciones}
 
 \begin{itemize}
+	\item El sistema multiagente hará uso de \Acp{dvu} como agentes, es decir, usando la tupla (conductor, vehículo) como un todo.
 	\item La resolución máxima del modelo creado es de 1Hz.
 	\item En el caso de los modelos que hacen uso de redes neuronales artificiales, no se pueden explicar las razones del comportamiento inferido.
 \end{itemize}

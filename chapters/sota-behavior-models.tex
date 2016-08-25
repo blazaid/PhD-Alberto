@@ -78,6 +78,8 @@ MOBIL --> http://www.traffic-simulation.de/MOBIL.html, http://www.mtreiber.de/pu
 
 \section{car-following}
 
+Un modelo de \gls{car-following} controla el comportamiento del vehículo respecto al vehículo que le precede en el mismo carril. Se dice que el vehículo está siguiendo (\textit{following}) a otro vehículo si se ve limitado por éste, o dichode otro modo, si en el caso de ir a la velocidad deseada, el vehículo acabase colisionando con el vehículo seguido.
+
 En un modelo de tipo car-following los vehículos están representados por una tupla del estilo $(x_n, v_n, a_n, t_n)$ donde $x_n$ es la localización espacial, $v_n$ la velocidad, $a_n$ la aceleración y $t_n$ el momento en el tiempo del vehículo $n$. El modelo es una serie de reglas o ecuaciones que actualizan estos valores a lo largo de $t_n$. Cambiar la definición a algo que sea más claro o citar esta que sale en~\cite{Aghabayk2015}.
 
 En~\cite{Aghabayk2015} realizan un estado de la cuestión en materia de modelos de tipo car-following. El autor divide en dos categorías los modelos, los clásicos y los basados en inteligencia artificial.
