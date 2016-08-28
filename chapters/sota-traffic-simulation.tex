@@ -17,10 +17,10 @@ Limitaremos el estudio no obstante a los simuladores de \acp{dvu}\sidenote{A lo 
 
 \section{Clasificación de simuladores de tráfico}
 
-Los aspectos simulables y medibles del problema tráfico son muy diversos, dependiendo sobre todo:
+Los aspectos simulables y medibles del problema del tráfico son muy diversos, dependiendo sobre todo:
 
 \begin{itemize}
-	\item Del nivel de \textbf{complejidad} del tráfico (e.g. modelar una vía por la que circula un centenar de coches no es lo mismo que modelar una ciudad donde circulan millones).
+	\item Del nivel de \textbf{complejidad} del tráfico (e.g. modelar una vía por la que circula un centenar de coches no es lo mismo que modelar una ciudad por la que circulan millones).
 	\item De \textbf{qué} queremos medir (e.g. evaluar a un conductor en una situación determinada o evaluar la evolución del flujo de tráfico en un cuello de botella causado por un accidente).
 	\item De \textbf{cómo} (e.g. un \ac{ca} se modela de forma diferente a un modelo lineal de vías o carriles).
 \end{itemize}
@@ -29,13 +29,13 @@ El resto de la sección ofrece una visión de las principales categorías existe
 
 \subsection{Tipos de simulador en función de la complejidad}
 
-La complejidad en una simulación se refiere al nivel de detalle al que queremos durante la ejecución de la misma. Es evidente que según aumentamos el detalle en la simulación aumenta la cantidad de cálculo. Por ejemplo, si queremos modelar el comportamiento de $10$ billones de canicas cayendo por un tubo es considerablemente más eficiente modelarlas como un fluido con una serie de parámetros que como una colección de elementos individuales, cada uno con sus propiedades (e.g. masa, aceleración, \ldots) e interaccionando entre sí.
+La complejidad en una simulación se refiere al nivel de detalle que queremos alcanzar durante la ejecución de la misma y/o en sus resultados. Es evidente que según aumentamos el detalle en la simulación aumenta la cantidad de cálculo. Por ejemplo, si queremos modelar el comportamiento de $10$ billones de canicas cayendo por un tubo es considerablemente más eficiente modelarlas como un fluido con una serie de parámetros que como una colección de elementos individuales, cada uno con sus propiedades (e.g. masa, aceleración, \ldots) e interaccionando entre sí.
 
 El caso de los simuladores de tráfico es similar. En éstos existe un amplio intervalo de granularidades, desde por ejemplo el flujo de entrada en una autovía hasta el consumo de carburante de un vehículo en ciudad. Lo más común es clasificar los simuladores dentro de dos grandes grupos, los cuales se ilustran en la figura~\ref{fig:granularities-in-traffic-simulation}:
 
 \begin{itemize}
 	\item \textbf{Microsimulación} o simulación de tipo \textbf{micro}. Su objetivo es estudiar, desde un punto de vista de granularidad fina (e.g. vehículos o peatones), las micropropiedades del flujo de tráfico como, por ejemplo, los cambios de carril, las aproximaciones a vehículos delanteros o los adelantamientos, para evaluar su comportamiento. Tiene dos principales ventajas, la posibilidad de estudiar el tráfico como un todo a partir de sus elementos más simples (ofreciendo una representación más fiel de éste) y la posibilidad de estudiar cada elemento por separado. Sin embargo, la principal desventaja de este tipo de modelos es que cada elemento de la simulación requiere de cómputo independiente y por tanto simulaciones con alto contenido de elementos pueden llegar a ser inviables\sidenote{Existen técnicas de computación distribuida que superan ampliamente los límites impuestos por la computación en un único nodo. Un ejemplo relativamente reciente es el simulador de IBM \textit{Megaffic}. Éste implementa un modelo de granularidad micro donde cada elemento es un agente independiente (i.e. sistema multiagente) usando para ello entornos con cientos de núcleos de proceso que proveen de capacidad suficiente para modelar ciudades enteras como Tokio (ver~\cite{Osogami2012} y~\cite{Suzumura2012}).}.
-	\item \textbf{Macrosimulación} o simulación de tipo \textbf{macro}. Este tipo de modelos centran su esfuerzo en estudiar el flujo de tráfico como un todo (generalmente cmoo fluido), explorando sus macropropiedades (e.g. evolución del tráfico, efectos onda, velocidad media o flujo en vías). Su ventaja principal es que a nivel macroscópico permiten estudiar propiedades que a nivel microscópico requeriría una cantidad ingente de recursos. Sin embargo, con este modelo es imposible obtener información precisa de un elemento en particular del tráfico.
+	\item \textbf{Macrosimulación} o simulación de tipo \textbf{macro}. Este tipo de modelos centran su esfuerzo en estudiar el flujo de tráfico como un todo (generalmente como fluido), explorando sus macropropiedades (e.g. evolución del tráfico, efectos onda, velocidad media o flujo en vías). Su ventaja principal es que a nivel macroscópico permiten estudiar propiedades que a nivel microscópico requeriría una cantidad ingente de recursos. Sin embargo, con este modelo es imposible obtener información precisa de un elemento en particular del tráfico.
 \end{itemize}
 
 \begin{figure}
@@ -45,7 +45,7 @@ El caso de los simuladores de tráfico es similar. En éstos existe un amplio in
 	\label{fig:granularities-in-traffic-simulation}
 \end{figure}
 
-Aunque ésta es la categorización típica de modelos, en la literatura aparecen otros tipos de modelo con granularidades que pueden considerarse no pertenecientes a ninguno de estos dos conjuntos. Este es el caso de los simuladores de tipo \textbf{sub-micro} y de tipo \textbf{meso}, de los cuales se muestra un ejemplo en la figura~\ref{fig:mesoscopic-and-submicroscopic-simulation}.
+Aunque ésta es la categorización típica de modelos, en la literatura aparecen otros tipos de modelo con granularidades que pueden considerarse no pertenecientes a ninguno de estos dos conjuntos. Éste es el caso de los simuladores de tipo \textbf{sub-micro} y de tipo \textbf{meso}, de los cuales se muestra un ejemplo en la figura~\ref{fig:mesoscopic-and-submicroscopic-simulation}.
 
 Los \textbf{sub-micromodelos} especifican granularidades por debajo del nivel de \enquote{vehículo} o \enquote{peatón}. Por ejemplo, en (\cite{Minderhoud1999}) trabaja a nivel de funcionamiento del control de crucero inteligente de un vehículo en función del entorno del vehículo.
 
@@ -181,35 +181,38 @@ Posteriormente se ha desarrollado un listado de características deseables. No s
 
 \subsection{Entornos de simulación a estudiar}
 
-El primer listado de características deja atrás la mayoría de simuladores (una gran cantidad de ellos son o bien de propósito específico, están desarrollados para sistemas operativos Windows o no permiten extender su modelo). Tras la selección, nos quedamos con dos simuladores, \ac{sumo} y \ac{matsim}.
+El primer listado de características deja atrás la mayoría de simuladores (una gran cantidad de ellos son o bien de propósito específico, están desarrollados para sistemas operativos Windows o no permiten extender su modelo). Tras la selección, nos quedamos con tres simuladores: \ac{aorta}, \ac{matsim} y \ac{sumo}.
 
 \begin{table}
 	\caption{Tabla comparativa cmoparando las característiacs deseables en los dos simuladores escogidos.}
 	\label{tbl:simulators-comparison}
 	\begin{tabular}{lllll}
 		\toprule
-		& \gls{matsim} & \gls{sumo} & \\
+		& \gls{aorta} & \gls{matsim} & \gls{sumo} \\
 		\midrule
-		Activo & \yep & \yep & \\
+		Activo & \nop & \yep & \yep \\
 		\addlinespace
-		Lenguaje de programación & Java & C/C++/Python & \\
+		Lenguaje de programación & Scala & Java & C++/Python \\
 		\addlinespace
 		Licencia & & & & \\
-		\quad Propietaria    & \yep & \yep \\
-		\quad Open Software  & \yep & \yep \\
-		\quad Compatible GPL & \yep & \yep \\
+		\quad Propietaria & \nop & \nop & \nop \\
+		\quad Open Software & \yep & \yep & \yep \\
+		\quad Compatible GPL & \yep & \yep & \yep \\
 		\addlinespace
-		Sistema operativo & & \\
-		\quad GNU/Linux & \yep & \yep \\
-		\quad OS X & \yep & \yep & \\
-		\quad Windows & \yep & \yep \\
+		Extensibilidad \acp{dvu} & & & & \\
+		\quad Código fuente & \yep & \yep & \yep \\
+		\quad API & \nop & \nop & \yep \\
+		Sistema operativo & & & & \\
+		\quad GNU/Linux & \yep & \yep & \yep \\
+		\quad OS X & \yep & \yep & \yep & \\
+		\quad Windows & \yep & \yep & \yep \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-Ambos entornos están igualados en las características presentadas, tal y como se puede observar en el cuadro~\ref{tbl:simulators-comparison}. Tras haber probado ambos simuladores hemos llegado a la conclusión de que \ac{sumo} y no \ac{matsim} es el simulador que se usará en las simulaciones.
+Dichos entornos están prácticamente igualados en las características presentadas, tal y como se puede observar en el cuadro~\ref{tbl:simulators-comparison}. in embargo, en matería de extensibilidad, \ac{sumo} es el único que permite el desarrollo de \acp{dvu} de manera externa. Tanto \ac{aorta} como \ac{matsim} requieren la modificación del código fuente del simulador para varias los comportamientos de los conductores. \ac{aorta} además no es un proyecto que se mantenga activo en la actualidad (las últimas modificaciones del repositorio datan de principios del año $2014$).
 
-La razón es la facilidad con la que implementar los agentes. \ac{matsim} ofrece un API para desarrollar nuevas funcionalidades, no se ha encontrado forma para hacer lo mismo con los comportamientos de los vehículos. Por tanto sería necesario modificar los fuentes del simulador. \ac{sumo} por otro lado permite la programación de los agentes a través la librería externa \ac{traci} en Python.
+No obstante se ha tratado de modificar los comportamientos de los conductores en los tres simuladores para validar este hecho y ha quedado patente qeu para nuestro cometido es mucho más eficaz usar \ac{sumo} como simulador para nuestro estudio.
 
 \section{Entorno seleccionado: \gls{sumo}}
 
