@@ -156,9 +156,11 @@ Definiciones de agente:
 	\item Es una función $a: S \rightarrow A$ siendo $S = {s_1, s_2, \ldots, s_n}$ el conjunto de estados que caracteriza al entorno y $A = {a_1, a_2, \ldots, a_n}$ el conjunto de acciones que el agente pudee realizar.
 	\item Un agente es un sistema inmerso en un entorno capaz de percibirlo y de actuar sobre él, siguiendo una agenda propia con el fni de modificarlo.
 	\item Un agente opera en un entorno. Percibe éste y de acuerdo a su implementación, actúa sobre él.
+	\item Proceso autónomo con un comportamiento reactivo, proactivo e inteligente.
+	\item Un agente inteligente es un sistema computacional capaz de realizar acciones flexibles y autónomas en algún medio ambiente.
 \end{itemize}
 
-¿A qué se refieren con autonomía? A que pueden actuar sin intervención humana o de otros sisetmas, es decir, tienen control sobre su estado interno y su comportamiento.
+¿A qué se refieren con autonomía? A que pueden actuar sin intervención humana o de otros sisetmas, es decir, tienen control sobre su estado interno y su comportamiento. Otra forma: los agentes son capaces de actuar de manera independiente teniendo control de su propio estado interno. Por tanto un agente es un sistema computacional de acción atónoma en algún medio ambiente que busca satisfacer los objetivos con los que fue diseñado.
 
 Definiciones de agente inteligente:
 
@@ -166,13 +168,31 @@ Definiciones de agente inteligente:
 	\item Un agente inteligente percibe su entorno por medio de sensores y actua racionalmente sobre este entorno por medio de actuadores.
 	\item Es un sistema capaz de realizar acciones autónomas de manera flexible en dominios 	dinámicos e impredecibles.
 	\item Es un proceso computacional autónomo, con iniciativa y capacidad para modificar su entorno y con posibilidad de comunicarse con otros agentes.
+	\item Autonomía + movilidad + iniciativa + adaptabilidad son los atributos que hacen inteligente a un agente.
+	\item Construimos agentes inteligentes cuando:
+	\begin{itemize}
+		\item Describimos su comportamiento y el ambiente mediante conocimiento.
+		\item Dispone de iniciativa para explorar el ambiente.
+		\item Incrementa su conocimiento basándose en la experiencia.
+		\item Evalúa la consecución de las metas que se le plantean.
+	\end{itemize}
 \end{itemize}
 
 Diferencia entre agente y agente inteligente. Responder a ésto es similar a buscar una respuesta a qué es la inteligencia. Según [71] la respuesta es "cuando su autonomía es flexible, esto es, es reactivo (reacciona ante el entorno que percibe), es proactivo (es capaz de complir sus objetivos) y es social (es capaz de interactuar con otros agentes para llevar a cabo sus objetivos). En Wooldridge and Jennins, 1995 dicen práctuicamente lo mismo (creo que es anterior de hecho) y dicen que un agente es un sistema autónomo \textbf{y} flexible, indicando que duicha flexibilidad implca reactivo, proactivo y social
 
 No hay consenso en lo que es o deja de ser un agente, cuanto menos un agente inteligente (o agente autónomo) salvo autonomía. Al menos eso sí está claro, que es autónomo.
 
-Las propiedades que opsee un agente (según nosedónde):
+Definiciones de agentes racionales
+
+\begin{itemize}
+	\item Un agente racional hace en cada momento \textbf{lo correcto}, esto es, las acciones que conducen al mejor desempeño de su misión en términos de \textbf{meta} y \textbf{utilidad}.
+\end{itemize}
+
+Para ser racional necesita \textbf{medir} el desempeño de su misión, tener algún \textbf{criterio} de medida e incorporar los resultados como \textbf{conocimiento nuevo}.
+
+Racionalidad != Omnisciencia
+
+Las propiedades que posee un agente (según nosedónde):
 
 \begin{itemize}
 	\item \textbf{Localizado}. Inmerso en un entorno en el que puede sentir y actuar.
@@ -193,11 +213,11 @@ Las propiedades posibles de un agente son:
 Esto de aquí sacado del russel-norvig.
 
 \begin{itemize}
-	\item Accesible vs. inaccesible.
-	\item Determinista vs. no determinista.
-	\item Episódico vs. no episódico.
-	\item Estático vs. dinámico.
-	\item Discreto vs. continuo.
+	\item Accesible vs. inaccesible. ¿Es posible explorar toda la información necesaria?
+	\item Determinista vs. no determinista. ¿Evoluciona el entorno de acuerdo a unas reglas o hay elementos que se comportan de manera no previsible?
+	\item Episódico vs. no episódico. ¿La acción del agente se produce bajo demanda o ha de ser proactivo?
+	\item Estático vs. dinámico. ¿Varía el entorno aunque el agente no actúe sobre él?
+	\item Discreto vs. continuo. ¿El entorno es discreto o continuo?
 \end{itemize}
 
 Los problemas más difíciles de acometer son aquellos inaccesibles, no deterministas, no episódicos, dinámicos y continuos. Aún así, si es entorno es suficientemente complejo lo mismo da que sea determinista, se puede suponerno determinista.
@@ -209,6 +229,31 @@ Los problemas más difíciles de acometer son aquellos inaccesibles, no determin
 Arquitecturas o tipos de agente --> Son sistemas de toma de decisiones dentro de un entorno.
 
 Diferenciación abstracta:
+
+\begin{itemize}
+	\item \textbf{Agentes reactivos}. Basan sus decisiones en el momento actual sin tener en cuenta ninguna situación ni reacción pasada.
+	\item \textbf{Agentes con estado}. Además de en el momento actual, basan sus decisiones también en su estado interno, el cual se va actualizando a lo largo del tiempo en base a su funcionamiento en momentos pasados.
+\end{itemize}
+
+Otra diferenciación a alto nivel:
+
+
+\begin{figure}
+	\includegraphics{agent-types}
+	\caption{Distintas arquitecturas de agentes. \TODO{Lo tengo así porque (a) soy un artista incomprendido y (b) no quiero perderlos.}}
+	\label{fig:agent-types}
+\end{figure}
+
+
+\begin{itemize}
+	\item \textbf{Reactiva}. Arquitectura para agentes donde un razonamiento explícito es demasiado costoso para producir una conducta en tiempo real. El funcionamiento de estos agentes se basa en reaccionar a los eventos sin invertir cómputo en razonamiento. El comportamiento inteligente en realidad no lo posee un agente en particular, sino que emerge en sistemas complejor formados por varios de estos agentes.
+	\item \textbf{Deliberativa}. Expresa el conocimiento en símbolos (e.g. lógica proposicional). Las decisiones se toman empleando mecanismos deductivos (e.g. inferencia lógica). Los componentes del agente se deben representar en términos lógicos (e.g. BDI).
+	\item \textbf{Híbridas}. Arquitecturas resutado de la composición de arquitecturas de otros tipos. Se suelen organizar generalmente de dos formas:
+	\begin{itemize}
+		\item Horizontalmente. Todas las capas tienen acceso a sensores y actuadores.
+		\item Verticalmente. Sólo una de las capas actúa de interfaz con sensores y actuadores. Dos tipos, un camino y dos caminos (ida y vuelta).
+	\end{itemize}
+\end{itemize}
 
 \begin{itemize}
 	\item \textbf{Agentes reactivos}. Basan sus decisiones en el momento actual sin tener en cuenta ninguna situación ni reacción pasada.
@@ -227,10 +272,6 @@ Arquitecturas más concretas
 	\item \textbf{Utility based agents}.
 	\item \textbf{Learning agents}.
 	\item \textbf{Table driven agent}. Mantiene una estructura con todas las posibles acciones a realizar dadas unas percepciones. Tiene el problema de la complejidad (en el momento qeu hay muchas percepciones diferentes se dispara el tamaño de la tabla).
-	\item \textbf{Simple reflex agents}.
-	\item \textbf{Simple reflex agents}.
-	\item \textbf{Simple reflex agents}.
-	\item \textbf{Simple reflex agents}.
 \end{itemize}
 
 \subsection{Comunicación entre agentes}
@@ -249,13 +290,43 @@ No sé cómo ponerlo, pero esta información puede ser útil aquí. A lo mejor h
 	\item \textbf{Actuación}. La actuación es la consecuencia natural de las anteriores características. Dado un estado del mundo y un proceso cognitivo surgen acciones a realizar, tras las cuales se llega a un nuevo estado del entorno que provee de información actualizada para seguir actuando.
 \end{itemize}
 
+\subsection{Descentralización de agentes}
+
+Una de las características de los agentes es que pueden comunicarse con otros agentes. Descentralizar agentes es muy útil en sistemas donde aparecen procesos autónomos. Los sistemas descentralizados permiten mayores tasas de fiabilidad y robustez que los sistemas centralizados.
+
+Los sistemas basados en agentes animan a la reutilización:
+
+\begin{itemize}
+	\item Es posible modificar sistemas basados en agentes sobre la marcha, pieza a pieza.
+	\item Ciertos tipos de descentralización desacoplan las dependencias de los agentes.
+\end{itemize}
+
 \section{Sistemas multiagente}
+
+El estudio de los sistemas multiagente se encuadra dentro de la DAI, la rama de la IA que estudia la solución de problemas mediante procesamiento descentralizado.
+
+Definiciones
+
+\begin{itemize}
+	\item Conjunto de agentes inteligentes. Interacción, colaboración, comunicación, coordinación, competencia, negociación, inteligencia.
+	\item Conjunto de agentes autónomos, generalmente heterogéneos y potencialmente independientes, que trabajan en común para resolver un problema. Las características de estos agentes son:
+	\begin{itemize}
+		\item Ser capaces de tomar la iniciativa.
+		\item Ser capaces de compartir el conocimiento.
+		\item Ser capaces de cooperar y negociar.
+		\item Ser capaces de comprometerse con metas comunes.
+	\end{itemize}
+	\item Un sistema multiagente es un sistema que consiste en un número de agentes donde interactuan unos con otros. En el caso más general estarán actuando para sus usuarios con objetivos y motivaciones diferentes. Para ello requieren la habilidad de cooperar, coordinarse y negociar unos con otros.
+\end{itemize}
 
 Dos razones principales en el crecimiento del campo de los sistemas multiagente:
 
 \begin{itemize}
+	\item Los problemas del mundo real son muy grandes para un simple agente (los agentes individuales tienen limitaciones, como en conocimiento, en recursos o en perspectiva).
 	\item En la actualidad y, presumiblemente en el futuro, la computación se distribuye a través de múltiples sistemas heterogéneos debido, principalmente, a la complejidad de los sistemas existentes.
 	\item Permiten el análisis de conductas complejas desde sus elementos básicos, facilitando el estudio de modelos y teorías sobre éstos.
+	\item Los sistemas multiagente son modulares, y por tanto soportan las nociones de la Ingeniería del Software moderna y permite la integración de sistemas legados.
+	\item Mejoran el rendimiento, ya que son inherentemente concurrentes.
 \end{itemize}
 
 Características principales de los sistemas multiagente (sacado de \enquote{A roadmap of research and development}):
@@ -267,25 +338,13 @@ Características principales de los sistemas multiagente (sacado de \enquote{A r
 	\item La computación es asíncrona.
 \end{itemize}
 
+Un sistema multiagente está compuesto de los siguientes elementos (Ferber):
 
-
-
-
-
-
-
-\section{Concepto de agente, agente inteligente y agente racional}
-
-Agente inteligente --> proceso autónomo con un comportamiento reactivo, proactivo e inteligente.
-
-Autonomía en los agentes: los agentes son capaces de actuar de manera independiente teniendo control de su propio estado interno. Por tanto un agente es un sistema computacional de acción atónoma en algún medio ambiente que busca satisfacer los objetivos con los que fue diseñado.
-
-Un agente inteligente es un sistema computacional capaz de realizar acciones flexibles y autónomas en algún medio ambiente.
-
-\section{Sistemas multiagente}
-\label{ch:sota-agents-and-mas:s:mas}
-
-Conjunto de agentes inteligentes. Interacción, colaboración, comunicación, coordinación, competencia, negociación, inteligencia.
-
-Un sistema multiagente es un sistema que consiste en un número de agentes donde interactuan unos con otros. En el caso más general estarán actuando para sus usuarios con objetivos y motivaciones diferentes. Para ello requieren la habilidad de cooperar, coordinarse y negociar unos con otros.
-
+\begin{itemize}
+	\item Un entorno $E$.
+	\item Un conjunto de objetos $O$ situados en $E$.
+	\item Un conjunto de agentes $A \in O$.
+	\item Un conjunto $R$ de relaciones entre objetos.
+	\item Un conjunto $Op$ de operaciones que permiten al agente percibir y actuar sobre objetos de $E$.
+	\item Un conjunto $L$ de leyes que describen cómo evoluciona el mundo.
+\end{itemize}
