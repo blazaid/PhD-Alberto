@@ -144,71 +144,28 @@ Explicar qué es la cev, la evolución de conceptos distintos a distintas escuel
 \section{Agentes inteligentes}
 \label{ch:ci:s:agent-concept}
 
-Un agente es una entidad física (e.g. robot) o virtual (e.g. hormiga en un simulador) que realiza una acción\sidenote{En \cite{russell2003artificial} se define como \textit{\enquote{\ldots just something that acts}} alegando que la palabra \textit{agent} proviene del Latín \textit{agere}. Para clarificar esto, \textit{agere} es la forma verbal para \textit{hacer}, pero imprime un significado de movimiento/actividad diferente que no tiene mucho que ver con \textit{hacer} como forma verbal para \textit{crear} o \textit{dar forma} (de lo que se ocupa el verbo \textit{facere}). Por ello, el verbo \textit{actuar} es un verbo que se relaciona con \textit{agere} y de ahí la definición.} de manera total o parcialmente autónoma dada una secuencia de percepciones del entorno en el que se ubica. Cuando la acción que el agente realiza es la mejor posible, teniendo en cuenta sus objetivos y su comprensión del entorno, se dice que se trata de un \textbf{agente inteligente} o \textbf{agente racional}.
+Si echamos un poco la vista atrás, en la figura~\ref{fig:different-povs-ai} se ilustraban los cuatro puntos de vistas existentes a la hora de entener la \ac{ai}. Una de ellas la comprende como el estudio del cómo hacer que entidades actúen de la manera más inteligente posible. A dichas entidades se las conoce como \textit{agentes}, concretamente en este contexto como \textit{agentes inteligentes} o \textit{agentes racionales}. Sin embargo, si es ya difícil encontrar una consenso en la definición de agente, es mucho más difícil definir \textit{agente inteligente}.
 
-Si echamos un poco la vista atrás, en las cuatro categorías en las que se encuadraba la \ac{ai} que se ilustraba en la figura~\ref{fig:different-povs-ai}, los agentes inteligentes son prácticamente la definición de una de las categorías. Esto es debido a que su definición funciona a la perfección para las técnicas de la \ac{ci}, esto es, agentes autónomos que perciben el entorno (problema) y actuan de la mejor manera posible (resuelven) de acuerdo a su conocimento del medio y su estado interno (en base a algoritmos como \ac{ann}, \ac{fl}, \ldots). Por ello desde mediados de los años 1990 el concepto de agente inteligente ha ganado tanta popularidad\sidenote{Tanto es así que en algunos trabajos se define el objetivo de la \ac{ai} como la implementación de la función agente, esto es, la función que realiza la correspondiencia de una percepción a una acción, para un problema dado.}.
-
-Definiciones de agente:
+Sin embargo sí que existen una serie de conceptos que se repiten a lo largo de la literatura a la hora de hablar de agentes:
 
 \begin{itemize}
-	\item Es una entidad (e.g. sistema) que decide por si mismo qué debe hacer para satisfacer sus objetivos de diseño.
-	\item [71] Un agente es un sistema situado en un entorno capaz de realizar acciones de manera autónoma para cumplir con sus objetivos.
-	\item Es una función $a: S \rightarrow A$ siendo $S = {s_1, s_2, \ldots, s_n}$ el conjunto de estados que caracteriza al entorno y $A = {a_1, a_2, \ldots, a_n}$ el conjunto de acciones que el agente pudee realizar.
-	\item Un agente es un sistema inmerso en un entorno capaz de percibirlo y de actuar sobre él, siguiendo una agenda propia con el fni de modificarlo.
-	\item Un agente opera en un entorno. Percibe éste y de acuerdo a su implementación, actúa sobre él.
-	\item Proceso autónomo con un comportamiento reactivo, proactivo e inteligente.
-	\item Un agente inteligente es un sistema computacional capaz de realizar acciones flexibles y autónomas en algún medio ambiente.
+	\item Operan siempre en un \textbf{entorno}, ya sea éste físico (e.g. la red de carreteras para un vehículo autónomo) o virtual (e.g. un cliente de correo electrónico para un clasificador de spam).
+	\item Tienen la capacidad de \textbf{percibir} el entorno por medio de sensores y de \textbf{actuar} sobre él por medio de actuadores.
+	\item Son \textbf{autónomos} en el sentido de que pueden actuar sin intervención externa (e.g. humana u otros agentes) teniendo control sobre su estado interno y su comportamiento. Algunos autores les presuponen una autonomía absoluta mientras que otros hablan de que sólo es necesaria cierta autonomía parcial.
+	\item Posee unos \textbf{objetivos} que, haciendo uso de sus acciones, intentará cumplir.
+	\item Puede ser \textbf{social}, es decir, puede comunicarse con otras entidades (e.g. agentes) para llevar a cabo sus objetivos.
 \end{itemize}
 
-¿A qué se refieren con autonomía? A que pueden actuar sin intervención humana o de otros sisetmas, es decir, tienen control sobre su estado interno y su comportamiento. Otra forma: los agentes son capaces de actuar de manera independiente teniendo control de su propio estado interno. Por tanto un agente es un sistema computacional de acción atónoma en algún medio ambiente que busca satisfacer los objetivos con los que fue diseñado.
+Por tanto nosotros usaremos la siguiente definición: Un agente es una entidad física o virtual que realiza una acción\sidenote{En \cite{russell2003artificial} se define como \textit{\enquote{\ldots just something that acts}} alegando que la palabra \textit{agent} proviene del Latín \textit{agere}. Para clarificar esto, \textit{agere} es la forma verbal para \textit{hacer}, pero imprime un significado de movimiento/actividad diferente que no tiene mucho que ver con \textit{hacer} como forma verbal para \textit{crear} o \textit{dar forma} (de lo que se ocupa el verbo \textit{facere}). Por ello, el verbo \textit{actuar} es un verbo que se relaciona con \textit{agere} y de ahí la definición.} de manera total o parcialmente autónoma dada una secuencia de percepciones del entorno en el que se ubica.
 
-Definiciones de agente inteligente:
+Pero, ¿qué hace a un agente inteligente? Según algunos autores, el hecho de que posean unos objetivos y autonomía suficiente para cumplirlos ya denota inteligencia (\TODO{una o dos citas}). Según otros, es necesario que el comportamiento sea flexible, esto es, sea reactivo (reacciona ante el entorno que percibe), proactivo (iniciativa ara tratar de cumplir sus objetivos) y social (capaz de interactuar con otros agentes para cumplir sus objetivos) \TODO{Wooldridge and Jennins, 1995}. Y otros directamente exigen además un comportamiento racional a la hora de cumplir los objetivos para calificarlo de inteligente (\TODO{cita}).
 
-\begin{itemize}
-	\item Un agente inteligente percibe su entorno por medio de sensores y actua racionalmente sobre este entorno por medio de actuadores.
-	\item Es un sistema capaz de realizar acciones autónomas de manera flexible en dominios 	dinámicos e impredecibles.
-	\item Es un proceso computacional autónomo, con iniciativa y capacidad para modificar su entorno y con posibilidad de comunicarse con otros agentes.
-	\item Autonomía + movilidad + iniciativa + adaptabilidad son los atributos que hacen inteligente a un agente.
-	\item Construimos agentes inteligentes cuando:
-	\begin{itemize}
-		\item Describimos su comportamiento y el ambiente mediante conocimiento.
-		\item Dispone de iniciativa para explorar el ambiente.
-		\item Incrementa su conocimiento basándose en la experiencia.
-		\item Evalúa la consecución de las metas que se le plantean.
-	\end{itemize}
-\end{itemize}
+Por tanto, asumiremos que cuando el agente realiza la mejor acción posible (según un criterio de medida) se entenderá que se trata de un \textit{agente inteligente} o, más correctamente, \textit{agente racional}. En este contexto, \enquote{la mejor acción posible} se refiere en términos de objetivos y comprensión del entorno, que puede ser o no correcta\sidenote{Éste es el factor clave que diferencia la racionalidad de la omnisciencia. La omnisciencia implica el conocimiento absoluto de todo el entorno. La racionalidad puede existir dentro de un contexto de conocimiento limitado \TODO{ver si lo puedo describir o explicar un poco mejor}.}.
 
-Diferencia entre agente y agente inteligente. Responder a ésto es similar a buscar una respuesta a qué es la inteligencia. Según [71] la respuesta es "cuando su autonomía es flexible, esto es, es reactivo (reacciona ante el entorno que percibe), es proactivo (es capaz de complir sus objetivos) y es social (es capaz de interactuar con otros agentes para llevar a cabo sus objetivos). En Wooldridge and Jennins, 1995 dicen práctuicamente lo mismo (creo que es anterior de hecho) y dicen que un agente es un sistema autónomo \textbf{y} flexible, indicando que duicha flexibilidad implca reactivo, proactivo y social
-
-No hay consenso en lo que es o deja de ser un agente, cuanto menos un agente inteligente (o agente autónomo) salvo autonomía. Al menos eso sí está claro, que es autónomo.
-
-Definiciones de agentes racionales
-
-\begin{itemize}
-	\item Un agente racional hace en cada momento \textbf{lo correcto}, esto es, las acciones que conducen al mejor desempeño de su misión en términos de \textbf{meta} y \textbf{utilidad}.
-\end{itemize}
-
-Para ser racional necesita \textbf{medir} el desempeño de su misión, tener algún \textbf{criterio} de medida e incorporar los resultados como \textbf{conocimiento nuevo}.
-
-Racionalidad != Omnisciencia
-
-Las propiedades que posee un agente (según nosedónde):
-
-\begin{itemize}
-	\item \textbf{Localizado}. Inmerso en un entorno en el que puede sentir y actuar.
-	\item \textbf{Reactivo}. Responde a mensajes y eventos recibidos por medio de sensores monitorizando activamente el estado de su entorno.
-	\item \textbf{Autónomo}. Opera sni necesidad de intervención humana o de otros agentes, con control independiente de sus acciones y de su estado interno.
-\end{itemize}
-
-Las propiedades posibles de un agente son:
-
-\begin{itemize}
-	\item \textbf{Social}. Puede actuar con otros agentes y humanos por medio de mensajes o acciones.
-	\item \textbf{Proactivo}. Tienen objetivos que nitentan alcanzar mediante comunicación con agentes o actuando sobre el entorno.
-	\item \textbf{Modelo mental}. Tienen una arquitectura interna que se puede entender como creencias, deseos, intenciones y obligaciones.
-\end{itemize}
+Las nociones de agentes inteligentes y la de \ac{ci} van de la mano. Esto es debido a que su definición funciona a la perfección para las técnicas de la \ac{ci}, esto es, agentes autónomos que perciben el entorno (problema) y actuan de la mejor manera posible sobre él (resuelven) de acuerdo a su conocimento del medio y su estado interno (en base a algoritmos como \ac{ann}, \ac{fl}, \ldots). Por ello desde mediados de los años 1990 el concepto de agente inteligente ha ganado tanta popularidad\sidenote{Tanto es así que en algunos trabajos se define el objetivo de la \ac{ai} como la implementación de la función agente, esto es, la función que realiza la correspondiencia de una percepción a una acción, para un problema dado.}.
 
 \subsection{Tipos de entorno}
+
 
 Esto de aquí sacado del russel-norvig.
 
