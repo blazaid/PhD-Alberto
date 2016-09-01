@@ -37,13 +37,13 @@ Lo verdaderamente interesante es ver la evolución de la literatura, y por tanto
 
 \begin{figure}
 	\includegraphics{different-povs-ai}
-	\caption{Objetivos que persigue la~\glsentrylongsp{ai}. Las filas diferencian entre pensamiento o comportamiento mientras que las columnas separan entre inteligencia humana o inteligencia racional. Fuente: \textit{Artificial Intelligence: A Modern Approach ($3^{rd}$ Ed.)},~\cite{russell2003artificial}.}
+	\caption{Objetivos que persigue la~\glsentrylongsp{ai}. Las filas diferencian entre pensamiento o comportamiento mientras que las columnas separan entre inteligencia humana o el ideal de la inteligencia (racionalidad). Fuente: \textit{Artificial Intelligence: A Modern Approach ($3^{rd}$ Ed.)},~\cite{russell2003artificial}.}
 	\label{fig:different-povs-ai}
 \end{figure}
 
 Volviendo al tema de la terminología, muchas de las diferentes técnicas se fueron agrupando dentro de diferentes áreas. Una de ellas es la conocida como \glsentrylong{ci}. Dado que persigue el mismo objetivo a largo plazo y que surje de la propia \ac{ai} parece lógico mantenerla como un subconjunto y no como un nuevo campo del conocimiento humano. Sin embargo, algunos autores abogan por que la \ac{ci} es un campo diferenciado de la \ac{ai}.
 
-Podemos definir la \ac{ci} como la \enquote{\textit{rama de la \ac{ai} que aporta soluciones a \textbf{tareas específicas} de forma \textbf{inteligente} a partir del aprendizaje mediante el uso de \textbf{datos experimentales}}}. A diferencia de la aproximación clásica de la \ac{ai}, se buscan aproximaciones a las soluciones y no las soluciones exactas. Esto es debido a que muchos problemas son de naturaleza comlpeja, ya sea por la erlación entre sus multiplas variables, a la falta de información o a la imposibilidad de traducirlos a lenguaje binario.
+Podemos definir la \ac{ci} como la \enquote{\textit{rama de la \ac{ai} que aporta soluciones a \textbf{tareas específicas} de forma \textbf{inteligente} a partir del aprendizaje mediante el uso de \textbf{datos experimentales}}}. A diferencia de la aproximación clásica de la \ac{ai}, se buscan aproximaciones a las soluciones y no las soluciones exactas. Esto es debido a que muchos problemas son de naturaleza compleja, ya sea por la erlación entre sus multiplas variables, a la falta de información o a la imposibilidad de traducirlos a lenguaje binario.
 
 Se puede fijar el año $1994$ como el que el término \ac{ci} nace como área, coincidiendo con el cambio de nombre del \textit{IEEE Neural Networks Council} a \textit{IEEE Computational Intelligence Society} (\url{http://cis.ieee.org/}). Poco antes, en $1993$, Bob Marks en su trabajo~\cite{bezdek1993intelligence} presentó las que él consideraba diferencias fundamentales entre la \ac{ai} y la \ac{ci} resumiéndolas en la siguiente frase.
 
@@ -51,7 +51,6 @@ Se puede fijar el año $1994$ como el que el término \ac{ci} nace como área, c
 
 Durante estos años ganaba popularidad también el concepto del \ac{sc}. Éste engloba las técnicas que buscan resolver problemas con información incompleta o con ruido. Debido a que el conjunto de técnicas definidas como consituyentes del \ac{sc} son las mismas que las de la \ac{ci} algunos autores consideran ambos términos equivalentes. Nosotros consideramos que el \ac{sc} es un punto de vista de la computación más que de la \ac{ai} en contraposición con el \ac{hc}, y que la \ac{ci} hace uso de métodos del \ac{sc}\sidenote{El \ac{hc} es como se define la computación convencional frente al \ac{sc}. El \ac{hc} basa sus técnicas en aquellas basadas en modelos analíticos definidos de forma precisa y que en ocasiones requieren mucho tiempo de cómputo. Están basados en lógica binaria, análisis numérico, algoritmos y respuestas exactas. El \ac{sc} por otro lado es tolerante a la imprecisión y al ruido y tiende a llegar a soluciones aproximadas de manera más rápida. Se basa en modelos aproximados, emergencia de algoritmos y modelos estocásticos.}.
 
-\section{Concepto de agente}
 
 \section{Aprendizaje}
 
@@ -140,4 +139,153 @@ El consecuente de un \ac{fis} de tipo Mandamni siempre es un conjunto difuso. Po
 
 \section{\Glsentrylongsp{cev}}
 
-Explicar qué es la cev, la evolución de conceptos distintos a distintas escuelas de pensamiento del mismo concepto. 
+Explicar qué es la cev, la evolución de conceptos distintos a distintas escuelas de pensamiento del mismo concepto.
+
+\section{Agentes inteligentes}
+\label{ch:ci:s:agent-concept}
+
+Un agente es una entidad física (e.g. robot) o virtual (e.g. hormiga en un simulador) que realiza una acción\sidenote{En \cite{russell2003artificial} se define como \textit{\enquote{\ldots just something that acts}} alegando que la palabra \textit{agent} proviene del Latín \textit{agere}. Para clarificar esto, \textit{agere} es la forma verbal para \textit{hacer}, pero imprime un significado de movimiento/actividad diferente que no tiene mucho que ver con \textit{hacer} como forma verbal para \textit{crear} o \textit{dar forma} (de lo que se ocupa el verbo \textit{facere}). Por ello, el verbo \textit{actuar} es un verbo que se relaciona con \textit{agere} y de ahí la definición.} de manera total o parcialmente autónoma dada una secuencia de percepciones del entorno en el que se ubica. Cuando la acción que el agente realiza es la mejor posible, teniendo en cuenta sus objetivos y su comprensión del entorno, se dice que se trata de un \textbf{agente inteligente} o \textbf{agente racional}.
+
+Si echamos un poco la vista atrás, en las cuatro categorías en las que se encuadraba la \ac{ai} que se ilustraba en la figura~\ref{fig:different-povs-ai}, los agentes inteligentes son prácticamente la definición de una de las categorías. Esto es debido a que su definición funciona a la perfección para las técnicas de la \ac{ci}, esto es, agentes autónomos que perciben el entorno (problema) y actuan de la mejor manera posible (resuelven) de acuerdo a su conocimento del medio y su estado interno (en base a algoritmos como \ac{ann}, \ac{fl}, \ldots). Por ello desde mediados de los años 1990 el concepto de agente inteligente ha ganado tanta popularidad\sidenote{Tanto es así que en algunos trabajos se define el objetivo de la \ac{ai} como la implementación de la función agente, esto es, la función que realiza la correspondiencia de una percepción a una acción, para un problema dado.}.
+
+Definiciones de agente:
+
+\begin{itemize}
+	\item Es una entidad (e.g. sistema) que decide por si mismo qué debe hacer para satisfacer sus objetivos de diseño.
+	\item [71] Un agente es un sistema situado en un entorno capaz de realizar acciones de manera autónoma para cumplir con sus objetivos.
+	\item Es una función $a: S \rightarrow A$ siendo $S = {s_1, s_2, \ldots, s_n}$ el conjunto de estados que caracteriza al entorno y $A = {a_1, a_2, \ldots, a_n}$ el conjunto de acciones que el agente pudee realizar.
+	\item Un agente es un sistema inmerso en un entorno capaz de percibirlo y de actuar sobre él, siguiendo una agenda propia con el fni de modificarlo.
+	\item Un agente opera en un entorno. Percibe éste y de acuerdo a su implementación, actúa sobre él.
+\end{itemize}
+
+¿A qué se refieren con autonomía? A que pueden actuar sin intervención humana o de otros sisetmas, es decir, tienen control sobre su estado interno y su comportamiento.
+
+Definiciones de agente inteligente:
+
+\begin{itemize}
+	\item Un agente inteligente percibe su entorno por medio de sensores y actua racionalmente sobre este entorno por medio de actuadores.
+	\item Es un sistema capaz de realizar acciones autónomas de manera flexible en dominios 	dinámicos e impredecibles.
+	\item Es un proceso computacional autónomo, con iniciativa y capacidad para modificar su entorno y con posibilidad de comunicarse con otros agentes.
+\end{itemize}
+
+Diferencia entre agente y agente inteligente. Responder a ésto es similar a buscar una respuesta a qué es la inteligencia. Según [71] la respuesta es "cuando su autonomía es flexible, esto es, es reactivo (reacciona ante el entorno que percibe), es proactivo (es capaz de complir sus objetivos) y es social (es capaz de interactuar con otros agentes para llevar a cabo sus objetivos). En Wooldridge and Jennins, 1995 dicen práctuicamente lo mismo (creo que es anterior de hecho) y dicen que un agente es un sistema autónomo \textbf{y} flexible, indicando que duicha flexibilidad implca reactivo, proactivo y social
+
+No hay consenso en lo que es o deja de ser un agente, cuanto menos un agente inteligente (o agente autónomo) salvo autonomía. Al menos eso sí está claro, que es autónomo.
+
+Las propiedades que opsee un agente (según nosedónde):
+
+\begin{itemize}
+	\item \textbf{Localizado}. Inmerso en un entorno en el que puede sentir y actuar.
+	\item \textbf{Reactivo}. Responde a mensajes y eventos recibidos por medio de sensores monitorizando activamente el estado de su entorno.
+	\item \textbf{Autónomo}. Opera sni necesidad de intervención humana o de otros agentes, con control independiente de sus acciones y de su estado interno.
+\end{itemize}
+
+Las propiedades posibles de un agente son:
+
+\begin{itemize}
+	\item \textbf{Social}. Puede actuar con otros agentes y humanos por medio de mensajes o acciones.
+	\item \textbf{Proactivo}. Tienen objetivos que nitentan alcanzar mediante comunicación con agentes o actuando sobre el entorno.
+	\item \textbf{Modelo mental}. Tienen una arquitectura interna que se puede entender como creencias, deseos, intenciones y obligaciones.
+\end{itemize}
+
+\subsection{Tipos de entorno}
+
+Esto de aquí sacado del russel-norvig.
+
+\begin{itemize}
+	\item Accesible vs. inaccesible.
+	\item Determinista vs. no determinista.
+	\item Episódico vs. no episódico.
+	\item Estático vs. dinámico.
+	\item Discreto vs. continuo.
+\end{itemize}
+
+Los problemas más difíciles de acometer son aquellos inaccesibles, no deterministas, no episódicos, dinámicos y continuos. Aún así, si es entorno es suficientemente complejo lo mismo da que sea determinista, se puede suponerno determinista.
+
+\subsection{Arquitecturas de agente}
+
+\TODO{Quizá en lugar de enumerar todas las arquitecturas, habría que indicar que cada uno de lso autores enumera una serie de arquitecturas o que todas se basan en el mismo patrón y definirlo}.
+
+Arquitecturas o tipos de agente --> Son sistemas de toma de decisiones dentro de un entorno.
+
+Diferenciación abstracta:
+
+\begin{itemize}
+	\item \textbf{Agentes reactivos}. Basan sus decisiones en el momento actual sin tener en cuenta ninguna situación ni reacción pasada.
+	\item \textbf{Agentes con estado}. Además de en el momento actual, basan sus decisiones también en su estado interno, el cual se va actualizando a lo largo del tiempo en base a su funcionamiento en momentos pasados.
+\end{itemize}
+
+Arquitecturas más concretas
+
+\begin{itemize}
+	\item \textbf{Logic based}. Directamente relacionado con la IA clásica. La idea: dar al sistema una representación simbólica del entorno y de su comportamiento (mediante fórmulas lógicas) y deducir acciones en función de entradas y de dicha representación (mediante reglas de deducción lógica o mediante pruebade teoremas, por ejemplo).
+	\item \textbf{Belief-desire-intention}. Mirar [6] y buscar un poco más. [7] también parace guay.
+	\item \textbf{Layered}. Creo que el de MAS: a modren approach lo pone como una arquitectura más mientras que otro lo indica como arquitectura para colocar agentes híbridos. En mas a modern ... indica dos ejemplos, las touringmachines como ejempl de horizontal y Interrap como ejemplo de vertical.
+	\item \textbf{Simple reflex agents}. Realiza una acción dada una percepción, independientemente del histórico de percepciones y acciones que haya tenido previamente.
+	\item \textbf{Model-based reflex agents}. Mantiene un estado del entorno basado en las percepciones anteriores y hace uso de él en la toma de decisiones.
+	\item \textbf{Goal based agents}. Mantienen un estado del entorno y de sus objetivos.
+	\item \textbf{Utility based agents}.
+	\item \textbf{Learning agents}.
+	\item \textbf{Table driven agent}. Mantiene una estructura con todas las posibles acciones a realizar dadas unas percepciones. Tiene el problema de la complejidad (en el momento qeu hay muchas percepciones diferentes se dispara el tamaño de la tabla).
+	\item \textbf{Simple reflex agents}.
+	\item \textbf{Simple reflex agents}.
+	\item \textbf{Simple reflex agents}.
+	\item \textbf{Simple reflex agents}.
+\end{itemize}
+
+\subsection{Comunicación entre agentes}
+
+\subsection{Metodologías}
+
+\subsection{El vehículo como agente inteligente}
+
+En nuestra tesis el trabajo se basa en la representación del comportamiento de un conductor. Para simplificar el problema asumiremos que los términos \enquote{conductor} y \enquote{vehículo} son equivalentes y que se refieren a la tupla \enquote{(vehículo, conductor)} (Hay un paper que lo denomina DVU como driver-vehicle-unit \cite{Dia2002})
+
+No sé cómo ponerlo, pero esta información puede ser útil aquí. A lo mejor hay que separarlo, no sé. Yo lo pongo aquí porque me ha venido ahora.
+
+\begin{itemize}
+	\item \textbf{Percepción}. Característica intrínseca a todo ser vivo para la obtención de información del entorno. Pues para los agentes inteligentes, lo mismo. Puede ser en forma de sensores (e.g. sensor de velocidad, acelerómetro, sensor de distancia, lidar, cámaras, termómetros, gps, \ldots), conocimiento (e.g. controlador difuso, sistema experto, red neuronal, es decir, información procesada que ad valor añadido), datos GIS, comunicación con otros vehículos (e.g. V2V, V2E, \ldots). Un simulador nos ofrece estos sensores casi gratis, pero nuestro problema es que para la generación de modelos necesitamos previamente haber capturado información con dichos sensores y en físico ya es otra cosa.
+	\item \textbf{Toma de decisiones}. Un agente racional en un sistema multiagente ha de ser capaz de razonar acerca del mundo, de su propio estado y del estado del resto de agentes.
+	\item \textbf{Actuación}. La actuación es la consecuencia natural de las anteriores características. Dado un estado del mundo y un proceso cognitivo surgen acciones a realizar, tras las cuales se llega a un nuevo estado del entorno que provee de información actualizada para seguir actuando.
+\end{itemize}
+
+\section{Sistemas multiagente}
+
+Dos razones principales en el crecimiento del campo de los sistemas multiagente:
+
+\begin{itemize}
+	\item En la actualidad y, presumiblemente en el futuro, la computación se distribuye a través de múltiples sistemas heterogéneos debido, principalmente, a la complejidad de los sistemas existentes.
+	\item Permiten el análisis de conductas complejas desde sus elementos básicos, facilitando el estudio de modelos y teorías sobre éstos.
+\end{itemize}
+
+Características principales de los sistemas multiagente (sacado de \enquote{A roadmap of research and development}):
+
+\begin{itemize}
+	\item Dentro del sistema, cada agente tiene información parcial y capacidades reducidas.
+	\item El control del sistema está distribuido entre los agentes.
+	\item Los datos están descentralizados.
+	\item La computación es asíncrona.
+\end{itemize}
+
+
+
+
+
+
+
+
+\section{Concepto de agente, agente inteligente y agente racional}
+
+Agente inteligente --> proceso autónomo con un comportamiento reactivo, proactivo e inteligente.
+
+Autonomía en los agentes: los agentes son capaces de actuar de manera independiente teniendo control de su propio estado interno. Por tanto un agente es un sistema computacional de acción atónoma en algún medio ambiente que busca satisfacer los objetivos con los que fue diseñado.
+
+Un agente inteligente es un sistema computacional capaz de realizar acciones flexibles y autónomas en algún medio ambiente.
+
+\section{Sistemas multiagente}
+\label{ch:sota-agents-and-mas:s:mas}
+
+Conjunto de agentes inteligentes. Interacción, colaboración, comunicación, coordinación, competencia, negociación, inteligencia.
+
+Un sistema multiagente es un sistema que consiste en un número de agentes donde interactuan unos con otros. En el caso más general estarán actuando para sus usuarios con objetivos y motivaciones diferentes. Para ello requieren la habilidad de cooperar, coordinarse y negociar unos con otros.
+
