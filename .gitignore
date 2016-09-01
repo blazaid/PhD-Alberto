@@ -24,6 +24,9 @@
 *.brf
 *.run.xml
 
+## Watermark
+*.xwm
+
 ## Build tool auxiliary files:
 *.fdb_latexmk
 *.synctex
