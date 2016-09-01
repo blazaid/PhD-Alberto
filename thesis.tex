@@ -27,8 +27,6 @@
 \author[\theauthor]{\theauthor}
 \publisher{Universidad Politécnica de Madrid}
 
-
-
 \IfFileExists{bergamo.sty}{\usepackage[osf]{bergamo}}{} % Bembo
 \IfFileExists{chantill.sty}{\usepackage{chantill}}{} % Gill Sans
 
@@ -127,6 +125,9 @@
 \newcommand{\nop}{\textcolor{Red}{\ding{55}}}
 \newcommand{\na}{\textcolor{Dandelion}{--}}
 
+% Watermark. Comentar esto cuando esté en la versión final.
+\usepackage[printwatermark]{xwatermark}
+\newwatermark[allpages,color=blue!20,angle=45,scale=6,xpos=-20,ypos=0]{DRAFT}
 
 \usepackage[
 type={CC},
