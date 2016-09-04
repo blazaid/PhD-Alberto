@@ -127,7 +127,7 @@
 
 % Watermark. Comentar esto cuando esté en la versión final.
 \usepackage[printwatermark]{xwatermark}
-\newwatermark[allpages,color=blue!20,angle=45,scale=6,xpos=-20,ypos=0]{DRAFT}
+\newwatermark[allpages,color=black!10,angle=45,scale=6,xpos=-20,ypos=0]{DRAFT}
 
 \usepackage[
 type={CC},
@@ -158,12 +158,16 @@ version={3.0},
 \listoftables
 
 \mainmatter
+\part{Introducción}
 \input{chapters/introduction}
+\part{Estado de la cuestión}
 \input{chapters/sota-ic}
 \input{chapters/sota-traffic-simulation}
 \input{chapters/sota-behavior-models}
+\part{Desarrollo de la tesis}
 \input{chapters/developed-software}
 \input{chapters/behavior-model-study}
+\part{Conclusiones}
 \input{chapters/conclusions}
 \backmatter
 

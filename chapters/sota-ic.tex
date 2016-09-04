@@ -166,18 +166,19 @@ Las nociones de agentes inteligentes y la de \ac{ci} van de la mano. Esto es deb
 
 \subsection{Tipos de entorno}
 
+La tupla \textit{(entorno, agente)} es esencialmente una metáfora para referirse a la tupla \textit{(problema-solución)}, y al igual que un problema determina en su práctica totalidad cómo es su solución, el entorno determina tanto la estructura como su funcionamiento.
 
-Esto de aquí sacado del russel-norvig.
+Según~\cite{russell2003artificial}, os entornos se carcacterizan de acuerdo a un conjunto de dimensiones. Este conjunto es usado en la mayoría de textos relacionados con teoría de agentes inteligentes para determinar los tipos de entorno, y son las siguientes (\TODO{Describirlos mejor o con otras palabras o al menos que quede más claro y penasr ejemplos para cada uno de ellos}):
 
 \begin{itemize}
-	\item Accesible vs. inaccesible. ¿Es posible explorar toda la información necesaria?
-	\item Determinista vs. no determinista. ¿Evoluciona el entorno de acuerdo a unas reglas o hay elementos que se comportan de manera no previsible?
-	\item Episódico vs. no episódico. ¿La acción del agente se produce bajo demanda o ha de ser proactivo?
-	\item Estático vs. dinámico. ¿Varía el entorno aunque el agente no actúe sobre él?
-	\item Discreto vs. continuo. ¿El entorno es discreto o continuo?
+	\item \textbf{Total vs. parcial observable vs. no observable}. Un entorno es \textbf{totalmente observable} cuando el agente es capaz de captar toda la información relevante para la toma de una decisión y no necesita mantener ningún modelo interno del entorno, \textbf{parcialmente observable} cuando la información obtenida es incompleta o tiene ruido y \textbf{no observable} cuando el gente no posee sensores.
+	\item \textbf{Multiagente vs. monoagente}. Un entorno es \textbf{multiagente} cuando requiere de múltiples agentes interactuando para llegar a una solución mientras que es \textbf{monoagente} cuando sólo requiere de uno para ello.
+	\item \textbf{Determinista vs. no determinista}. Si el estado del entorno actual depende totalmente del estado anterior, se dice que el entorno es \textbf{determinista}. Si no es así, se considera \textbf{no determinista} o \textbf{estocástico}\sidenote{En general, los entornos del mundo real tienden a ser tan complejos que es imposible para un agente abarcar todos los aspectos medibles de éste y por lo tanto se consideran estocásticos aunque su naturaleza se pueda considerar determinística.}.
+	\item \textbf{Episódico vs. secuencial}. Un entorno en el que las acciones se dividen atómicamente donde cada una de ellas conlleva un ciclo de (percepción, decisión, acción) y sin relación una con otra se denomina episódico. Si en lugar de ello la acción del agente puede afectar a las decisiones futuras se dice que el entorno es \textbf{no episódico} o \textbf{secuencial}.
+	\item \textbf{Estático vs. dinámico}. Si durante la toma de decisioń en entorno no cambia, se dice que el entorno es \textbf{estático}. En caso contrario, se dice que es \textbf{dinámico}.
+	\item \textbf{Discreto vs. continuo}. Esta dimensión en realidad se divide en cuatro, estado del entorno, tiempo en el entorno, percepciones y acciones. La dimensión es \textbf{discreta} cuando ésta se divide en una partición discretizada, y \textbf{continua} cuando no. Por ejemplo, en el Juego de la Vida de Conway, si se modela en un sistema multiagente, tanto el estado (i.e. tablero) como el tiempo (i.e. turnos) como las percepciones y acciones están discretizadas. Sin embargo, en un entorno de conducción automática se puede determinar que las cuatro dimensiones son continuas.
+	\item \textbf{Conocido vs. desconocido}. Un entorno es \textbf{conocido} cuando es posible determinar cuál va a ser el resultado de una acción. Si por el contrario no es posible, entonces se dice que es \textbf{desconocido}.
 \end{itemize}
-
-Los problemas más difíciles de acometer son aquellos inaccesibles, no deterministas, no episódicos, dinámicos y continuos. Aún así, si es entorno es suficientemente complejo lo mismo da que sea determinista, se puede suponerno determinista.
 
 \subsection{Arquitecturas de agente}
 
