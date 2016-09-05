@@ -51,7 +51,6 @@ Se puede fijar el año $1994$ como el que el término \ac{ci} nace como área, c
 
 Durante estos años ganaba popularidad también el concepto del \ac{sc}. Éste engloba las técnicas que buscan resolver problemas con información incompleta o con ruido. Debido a que el conjunto de técnicas definidas como consituyentes del \ac{sc} son las mismas que las de la \ac{ci} algunos autores consideran ambos términos equivalentes. Nosotros consideramos que el \ac{sc} es un punto de vista de la computación más que de la \ac{ai} en contraposición con el \ac{hc}, y que la \ac{ci} hace uso de métodos del \ac{sc}\sidenote{El \ac{hc} es como se define la computación convencional frente al \ac{sc}. El \ac{hc} basa sus técnicas en aquellas basadas en modelos analíticos definidos de forma precisa y que en ocasiones requieren mucho tiempo de cómputo. Están basados en lógica binaria, análisis numérico, algoritmos y respuestas exactas. El \ac{sc} por otro lado es tolerante a la imprecisión y al ruido y tiende a llegar a soluciones aproximadas de manera más rápida. Se basa en modelos aproximados, emergencia de algoritmos y modelos estocásticos.}.
 
-
 \section{Aprendizaje}
 
 La resolución clásica a un problema suele ser la aplicación de una secuencia de instrucciones basadas en un conjunto de símbolos (e.g. una función escrita en el lenguaje de programación C). Esta forma de solucionar un problema no \textit{aprende} a solucionarlo. Se puede interpretar como que la solución está grabada en su memoria.
@@ -63,15 +62,15 @@ En la aproximación de la \ac{ci}, existen modelos y existen técnicas para hace
 	\item \textbf{No supervisado}. Al modelo se le ofrece un conjunto de la forma $D = {I_i | \forall i \in \mathbb{N}}$, donde cada $I_i$ es una entrada al problema, pero del que no conocemos la salida. Los algoritmos dentro de esta categoría harán uso de estos datos para ir reajustando el modelo tratando de encontrar las estructuras ocultas entre dichos datos (e.g. patrones, correlaciones o clases). Es un paradigma de entrenamiento íntimamente relacionado con problemas de \textit{clasificación}.
 \end{itemize}
 
-Algunos autores hacen uso de técnicas pertenecientes a ambos paradigmas en forma de aproximación híbrida (\TODO buscar referencias) para \TODO{ver qué coño buscan con este tipo de aproximaciones. Creo que los auto-encoders en deep learning serían un buen ejemplo}.
+Algunos autores hacen uso de técnicas pertenecientes a ambos paradigmas en forma de aproximación híbrida para suplir deficiencias u optimizar/acelerar el aprendizaje. Un claro ejemplo lo podemos ver en \cite{Hinton2006}, donde los autores hacen uso de \textit{autoencoders} como técnica no supervisada para la inicialización de los pesos de una red neuronal y posteriormente realizan un entrenamiento supervisado para la optimización es éstos.
 
-Otros, añaden un paradigma más a estos dos existentes, el denominado aprendizaje \textbf{por refuerzo}. Sin embargo, nosotros preferimos considerarlo como un tiop de aprendizaje supervisado, ya que la única característica que lo diferencia es que es un tipo de aprendizaje que se usa en entornos de aprendizaje \textit{on line} ajustando el modelo en función de los estímulos percibidos del entorno por sus acciones sobre el mismo, y no en un entorno aislado previo de entrenamiento (\textit{off line}), como la práctica totalidad de técnicas supervisadas y no supervisadas.
+Otros, añaden un paradigma más a estos dos existentes, el denominado aprendizaje \textbf{por refuerzo}. Sin embargo, nosotros preferimos considerarlo como un tipo de aprendizaje supervisado, ya que la única característica que lo diferencia es que es un tipo de aprendizaje que se usa en entornos de aprendizaje \textit{on line} ajustando el modelo en función de los estímulos percibidos del entorno por sus acciones sobre el mismo, y no en un entorno aislado previo de entrenamiento (\textit{off line}), como la práctica totalidad de técnicas supervisadas y no supervisadas.
 
-\section{Ténicas en la \Glsentrylongsp{ci}}
+\section{Técnicas en la \Glsentrylongsp{ci}}
 
-¿Qué técnicas se usan actualmente y sobre qué problemas?
+Bajo el paraguas de la \ac{ci} se incluyen muchas técnicas diferentes, entre las cuales están las usadas en esta tesis. El resto de la sección describe el funcionamiento de cada una de estas técnicas.
 
-\section{\Glsentrylongplsp{ann}}
+\subsection{\Glsentrylongplsp{ann}}
 
 Una \acrlongsp{ann} puede considerarse como una herramienta que trata de replicar las funciones cerebrales de un ser vivo de una manera muy fundamental (esto es, desde sus componentes más básicos, las neuronas) basándose para ello en estudios de neurobiología y de ciencia cognitiva moderna del cerebro humano\sidenote{Aún apoyándose en la topología y funcionamiento del cerebro humano para realizar el símil, lo cierto es que dichos modelos distan aún de considerarse \textit{cerebros artificiales}. La red neuronal más compleja hasta la fecha es la propuesta en~\cite{TraskANDREWTRASK}, con alrededor de $160.000$ parámetros a ser ajustados (podemos abstraernos y pensar en ellos como conexiones entre neuronas). Como dato anecdótico, se estima que sólo en el neocórtex (ver figura~\ref{fig:neocortex}) del ser humano existen alrededor de $20.000$ millones de neuronas, cada una de las cuales conectada a entre $100$ y $100.000$ neuronas vecinas (\cite{Pakkenberg1997}). Esto supone entre $2 \cdot 10^{12}$ y $2 \cdot 10^{15}$ conexiones. Tecnológicamente hablando, la sensación esque estamos aún a años luz de aproximarnos siquiera a la complejiadd de un cerebro humano.}.
 
@@ -81,13 +80,31 @@ Una \acrlongsp{ann} puede considerarse como una herramienta que trata de replica
 	\label{fig:neocortex}
 \end{figure}
 
-Se puede establecer el trabajo \enquote{A logical calculus of the ideas immanent in nervous activity} (\cite{McCulloch1943}) como el primero en esta disciplina y, aunque existen muchas y muy diferentes tipologías y formas de operar con redes, la conceptualización de su funcionamiento es la misma: unidades (i.e. neuronas) interconectados mediante enlaces por los que fluye la información de manera unidireccional, donde algunas de dichas unidades sirven de entrada al sistema (i.e. entradas o sensores), otras sirven de salida del sistema (i.e. salidas y actuadores) y otras como elementos internos (i.e. ocultas), y donde las conexiones se ajustan mediante un proceso denominado \textit{entrenamiento}.
-
 Una \ac{ann} es independiente del modelo del problema a solucionar. Se la puede considerar como una caja negra que aprende las relaciones que subyacen en los datos del problema para abstraer el modelo a partir de éstas. Estas características de aprendizaje y abstracción son los factores determinantes por los que son usadas en prácticamente todas las áreas de la ciencia y de la ingeniería (\cite{Du2006}).
 
-\subsection{Neurona artificial}
+\newthought{El modelo de neurona artificial} de McCulloch-Pitts introducido en el trabajo \enquote{A logical calculus of the ideas immanent in nervous activity} (\cite{McCulloch1943}, ilustración en la figura~\ref{fig:mccullocs-pitts-neuron-model}) es el considerado primer trabajo en la disciplina de las \acp{ann}, y aunque existen muchas y muy diferentes tipologías y formas de operar con redes, todas funcionan de la misma manera: unidades (i.e. neuronas) interconectados mediante enlaces por los que fluye la información de manera unidireccional, donde algunas de dichas unidades sirven de entrada al sistema (i.e. entradas o sensores), otras sirven de salida del sistema (i.e. salidas y actuadores) y otras como elementos internos (i.e. ocultas), y donde las conexiones se ajustan mediante un proceso denominado \textit{entrenamiento}.
 
-\subsection{Caracterízación y topologías}
+\begin{figure}
+	\missingfigure[figheight=4cm]{Figura del modelo artificial de McCullocs-Pitts}
+	\caption{Variación de la representación del modelo de neurona artificial propuesto por McCullocs y Pitts. En éste, cada una de las entradas $x_i$ es incrementadas o inhibidas en función de su peso asociado $w_i$. Posteriormente se aplica una función denominada \enquote{de activación} a la suma de todos los valores. La variación incluye la entrada $x_0$ como bias de la neurona para la variación dinámica del umbral de cativación de la neurona.}
+	\label{fig:mccullocs-pitts-neuron-model}
+\end{figure}
+
+Este primer modelo de neurona proponía una función escalón para determinar si la neurona se activaba o no (analogía al funcoinamiento de la neurona artificial). Posteriormente aparecieron nuevos modelos de neuronas diferentes funciones de activación. De éstas, las más comunes son las de tipo sigmoide\sidenote{
+	Concretamente la función logística de pendiente $1$ definida como:
+	\begin{equation}
+		\frac{1}{1 + e^{-x}}
+	\end{equation}
+}.
+
+\todo{Parrafito sobre la limitación de la neurona singular para dar hilo a las topologías}
+
+\newthought{Existen diferentes topologías de redes neuronales} o arquitecturas dependiendo de qué forma toma el grafo que modela las neuronas y sus conexiones. En este caso, las redes neuronales pueden ser de dos tipos:
+
+\begin{itemize}
+	\item \textbf{Feed-Forward}. Sus grafos no contienen ninguń ciclo (figura XXX). Es la topología más usada en aplicaciones prácticas debido a su sencillez y su efectividad. En ellas el flujo de información sigue un camino desde las entradas hasta las salidas, sin ninguna retroalimentación. No es requisito que las neuronas se agrupen en capas, aunque suele ser la estructura común. A las redes de más de dos capas ocultas (i.e. las capas que se encuentran entre la capa de neuronas de entrada y la capa de neuronas de salida) se las denomina \enquote{profundas} o \textit{deep}. Algunos tipos pertenecientes a esta categoría pueden ser el Perceptrón [Rosemblat, 1957], el Perceptrón multicapa [Rumelhart et al., 1986], el algoritmo LVQ y su sucesor los Mapas Auto-Organizados [Kohonen, 1998].
+	\item \textbf{Recurrentes}. Sus grafos contienen uno o más ciclos, de tal manera que el flujo de información de salida de una neurona puede llegar a afectar a su propio estado. Estas topologías representan de una forma más fiel las bases biológicas de las \ac{ann}, pero son más complejas a la hora de operar y entrenar. Algunos casos particulares de este tipo de arquitectura son las Redes de Hopfield [Hopfield, 1982] o las memorias LSTM (del inglés Long-Short Term Memory) [Hochreiter \& Schmidhuber, 1997].
+\end{itemize}
 
 \subsection{Aprendizaje en \glsentrylongplsp{ann}}
 
@@ -158,9 +175,9 @@ Sin embargo sí que existen una serie de conceptos que se repiten a lo largo de 
 
 Por tanto nosotros usaremos la siguiente definición: Un agente es una entidad física o virtual que realiza una acción\sidenote{En \cite{russell2003artificial} se define como \textit{\enquote{\ldots just something that acts}} alegando que la palabra \textit{agent} proviene del Latín \textit{agere}. Para clarificar esto, \textit{agere} es la forma verbal para \textit{hacer}, pero imprime un significado de movimiento/actividad diferente que no tiene mucho que ver con \textit{hacer} como forma verbal para \textit{crear} o \textit{dar forma} (de lo que se ocupa el verbo \textit{facere}). Por ello, el verbo \textit{actuar} es un verbo que se relaciona con \textit{agere} y de ahí la definición.} de manera total o parcialmente autónoma dada una secuencia de percepciones del entorno en el que se ubica.
 
-Pero, ¿qué hace a un agente inteligente? Según algunos autores, el hecho de que posean unos objetivos y autonomía suficiente para cumplirlos ya denota inteligencia (\TODO{una o dos citas}). Según otros, es necesario que el comportamiento sea flexible, esto es, sea reactivo (reacciona ante el entorno que percibe), proactivo (iniciativa ara tratar de cumplir sus objetivos) y social (capaz de interactuar con otros agentes para cumplir sus objetivos) \TODO{Wooldridge and Jennins, 1995}. Y otros directamente exigen además un comportamiento racional a la hora de cumplir los objetivos para calificarlo de inteligente (\TODO{cita}).
+Pero, ¿qué hace a un agente inteligente? Según algunos autores, el hecho de que posean unos objetivos y autonomía suficiente para cumplirlos ya denota inteligencia (\TODO{una o dos citas}). Según otros, es necesario que el comportamiento sea flexible, esto es, sea reactivo (reacciona ante el entorno que percibe), proactivo (iniciativa ara tratar de cumplir sus objetivos) y social (capaz de interactuar con otros agentes para cumplir sus objetivos) \cite{Wooldridge1995}. Y otros directamente exigen además un comportamiento racional a la hora de cumplir los objetivos para calificarlo de inteligente (\TODO{cita}).
 
-Por tanto, asumiremos que cuando el agente realiza la mejor acción posible (según un criterio de medida) se entenderá que se trata de un \textit{agente inteligente} o, más correctamente, \textit{agente racional}. En este contexto, \enquote{la mejor acción posible} se refiere en términos de objetivos y comprensión del entorno, que puede ser o no correcta\sidenote{Éste es el factor clave que diferencia la racionalidad de la omnisciencia. La omnisciencia implica el conocimiento absoluto de todo el entorno. La racionalidad puede existir dentro de un contexto de conocimiento limitado \TODO{ver si lo puedo describir o explicar un poco mejor}.}.
+Por tanto, asumiremos la definición ofrecida por \cite{russell2003artificial} donde, se indica que un agente es considerado \textbf{agente inteligente} cuando éste realiza la mejor acción posible (según un criterio de medida). \sidenote{En realidad los autores prefieren denominarlo \textit{agente racional}, dado que captura la esencia de lo que es un comportamiento inteligente. Sin embargo, según esta definición, hasta un elemento tan rudimentario como un termostato puede ser considerado como elemento inteligente, ya que realiza siempre la mejor acción para cumplir sus objetivos, por simples que puedan parecer. Dónde está el límite entre qué es y que no es un agente inteligente cae dentro de los dominios de la filosofía.}. En este contexto, \enquote{la mejor acción posible} se refiere en términos de objetivos y comprensión del entorno, que puede ser o no correcta\sidenote{Éste es el factor clave que diferencia la racionalidad de la omnisciencia. La omnisciencia implica el conocimiento absoluto de todo el entorno. La racionalidad puede existir dentro de un contexto de conocimiento limitado \TODO{ver si lo puedo describir o explicar un poco mejor}.}.
 
 Las nociones de agentes inteligentes y la de \ac{ci} van de la mano. Esto es debido a que su definición funciona a la perfección para las técnicas de la \ac{ci}, esto es, agentes autónomos que perciben el entorno (problema) y actuan de la mejor manera posible sobre él (resuelven) de acuerdo a su conocimento del medio y su estado interno (en base a algoritmos como \ac{ann}, \ac{fl}, \ldots). Por ello desde mediados de los años 1990 el concepto de agente inteligente ha ganado tanta popularidad\sidenote{Tanto es así que en algunos trabajos se define el objetivo de la \ac{ai} como la implementación de la función agente, esto es, la función que realiza la correspondiencia de una percepción a una acción, para un problema dado.}.
 
@@ -180,21 +197,27 @@ Según~\cite{russell2003artificial}, os entornos se carcacterizan de acuerdo a u
 	\item \textbf{Conocido vs. desconocido}. Un entorno es \textbf{conocido} cuando es posible determinar cuál va a ser el resultado de una acción. Si por el contrario no es posible, entonces se dice que es \textbf{desconocido}.
 \end{itemize}
 
-\subsection{Arquitecturas de agente}
+\subsection{Arquitecturas}
 
-\TODO{Quizá en lugar de enumerar todas las arquitecturas, habría que indicar que cada uno de lso autores enumera una serie de arquitecturas o que todas se basan en el mismo patrón y definirlo}.
+Como hemos visto, los distintos tipos de problema dan forma al agente que implementará la solución de éstos. No obstante existen una serie de arquitecturas básicas en las que se basan las implementaciones de los agentes.
 
-Arquitecturas o tipos de agente --> Son sistemas de toma de decisiones dentro de un entorno.
+Sin embargo, dependiendo del autor, las nomenclaturas, tipologías y esquemas pueden variar, por lo que hemos decidido ofrecer una abstracción donde poner de manifiesto las partes comunes y no comunes entre arquitecturas.
 
-Diferenciación abstracta:
+La figura XXX muestra el esquema genreal de las partes principales de un agente. En general, todo agente inteligente sigue el mismo patrón. Los pasos que sigue un agente durante su funcionamiento son los siguientes:
+
+\begin{enumerate}
+	\item El agente, a través de sus \textbf{sensores}, percibe el entorno en el que éste se mueve.
+	\item De acuerdo a cómo recordamos el entorno (llamémoslo \textbf{modelo del entorno}), el agente genera una \textbf{interpretación del entorno} tal y como supone el agente que es. Es decir, percibe el entorno y, de acuerdo a sus sensaciones, lo entiende de una determinada forma.
+	\item Esta interpretación del entorno es ofrecida a un proceso de \textbf{inferencia} el cual, en función la implementación de sus objetivos, generará una serie de acciones a realizar sobre el entorno.
+	\item Estas acciones serán ejecutadas sobre el entorno a través de una serie de \textbf{actuadores}, provocando probablemente una modificación en éste que será percibida de nuevo en momentos sucesivos.
+\end{enumerate}
+
+La primera diferencia clave surge en la manera que se ofrece al bloque de inferencia la interpretación del entorno y genera la primera clasificación (figura YYY):
 
 \begin{itemize}
-	\item \textbf{Agentes reactivos}. Basan sus decisiones en el momento actual sin tener en cuenta ninguna situación ni reacción pasada.
-	\item \textbf{Agentes con estado}. Además de en el momento actual, basan sus decisiones también en su estado interno, el cual se va actualizando a lo largo del tiempo en base a su funcionamiento en momentos pasados.
+	\item \textbf{Sin modelo de entorno}. Si el agente ofrece su interpretación del entorno directamente, sin hacer uso de información histórica sobre el entorno que se ha movido. Otras formas de denominar a estos agentes es como \textit{agentes reactivos} o \textit{simple-reflex agents} (\cite{russell2003artificial}). Sin embargo, los términos \textit{reactivo} o \textit{reflex} para algunos autores se refieren a la forma de inducción de acciones a partir de percepciones, y por ello preferimos la denominación \textit{sin modelo de entorno}.
+	\item \textbf{Con modelo de entorno}. El agente genera su interpretación más detallada del entorno a partir de las percepciones que llegan desde los sensores y de el histórico del entorno que mantiene. Otras formas de llamarlo es \textit{agentes con estado} o \textit{Model-based}, pero lo hemos denominado de esta manera para diferenciar que el modelo que se mantiene en este punto pertenece únicamente al entorno.
 \end{itemize}
-
-Otra diferenciación a alto nivel:
-
 
 \begin{figure}
 	\includegraphics{agent-types}
@@ -202,107 +225,39 @@ Otra diferenciación a alto nivel:
 	\label{fig:agent-types}
 \end{figure}
 
+Una ver realizada esta diferenciación, la siguiente gran diferenciación viene en el momento de decidir de qué forma se deduce el conjunto de acciones a ser aplicadas por parte de los sensores. En este sentido podemos identificar tres tipos distintos de agentes (figura\ref{fig:agent-types}):
 
 \begin{itemize}
-	\item \textbf{Reactiva}. Arquitectura para agentes donde un razonamiento explícito es demasiado costoso para producir una conducta en tiempo real. El funcionamiento de estos agentes se basa en reaccionar a los eventos sin invertir cómputo en razonamiento. El comportamiento inteligente en realidad no lo posee un agente en particular, sino que emerge en sistemas complejor formados por varios de estos agentes.
-	\item \textbf{Deliberativa}. Expresa el conocimiento en símbolos (e.g. lógica proposicional). Las decisiones se toman empleando mecanismos deductivos (e.g. inferencia lógica). Los componentes del agente se deben representar en términos lógicos (e.g. BDI).
-	\item \textbf{Híbridas}. Arquitecturas resutado de la composición de arquitecturas de otros tipos. Se suelen organizar generalmente de dos formas:
-	\begin{itemize}
-		\item Horizontalmente. Todas las capas tienen acceso a sensores y actuadores.
-		\item Verticalmente. Sólo una de las capas actúa de interfaz con sensores y actuadores. Dos tipos, un camino y dos caminos (ida y vuelta).
-	\end{itemize}
+	\item \textbf{Reactivos}. Son aquellos donde el uso de un proceso de razonamiento explícito es demasiado costoso para producir una conducta en un tiempo aceptable. Se suelen implementar como tablas de correspondencias de tipo percepción $\rightarrow$ acción, sin ningún tipo adicional de razonamiento.
+	\item \textbf{Basados en objetivos}. Este tipo de agentes plantea una deducción de forma que determina cuál sería el estado del entorno tres aplicar varias o todas las acciones que puede realizar. En base a los resultados, selecciona la acción que se corresponde con sus propios objetivos.
+	\item \textbf{Basados en utilidad}. Éstos plantean una deducción similar a los basados en objetivos con la diferencia de que, mientras los primeros sólo diferencian entre entorno objetivo o no objetivo, éstos asignan un valor (i.e. \textit{utilidad}) a cada uno de los escenarios de entorno posibles para seleccionar el mejor (e.g. el que mayor utilidad tiene).
 \end{itemize}
 
-\begin{itemize}
-	\item \textbf{Agentes reactivos}. Basan sus decisiones en el momento actual sin tener en cuenta ninguna situación ni reacción pasada.
-	\item \textbf{Agentes con estado}. Además de en el momento actual, basan sus decisiones también en su estado interno, el cual se va actualizando a lo largo del tiempo en base a su funcionamiento en momentos pasados.
-\end{itemize}
-
-Arquitecturas más concretas
-
-\begin{itemize}
-	\item \textbf{Logic based}. Directamente relacionado con la IA clásica. La idea: dar al sistema una representación simbólica del entorno y de su comportamiento (mediante fórmulas lógicas) y deducir acciones en función de entradas y de dicha representación (mediante reglas de deducción lógica o mediante pruebade teoremas, por ejemplo).
-	\item \textbf{Belief-desire-intention}. Mirar [6] y buscar un poco más. [7] también parace guay.
-	\item \textbf{Layered}. Creo que el de MAS: a modren approach lo pone como una arquitectura más mientras que otro lo indica como arquitectura para colocar agentes híbridos. En mas a modern ... indica dos ejemplos, las touringmachines como ejempl de horizontal y Interrap como ejemplo de vertical.
-	\item \textbf{Simple reflex agents}. Realiza una acción dada una percepción, independientemente del histórico de percepciones y acciones que haya tenido previamente.
-	\item \textbf{Model-based reflex agents}. Mantiene un estado del entorno basado en las percepciones anteriores y hace uso de él en la toma de decisiones.
-	\item \textbf{Goal based agents}. Mantienen un estado del entorno y de sus objetivos.
-	\item \textbf{Utility based agents}.
-	\item \textbf{Learning agents}.
-	\item \textbf{Table driven agent}. Mantiene una estructura con todas las posibles acciones a realizar dadas unas percepciones. Tiene el problema de la complejidad (en el momento qeu hay muchas percepciones diferentes se dispara el tamaño de la tabla).
-\end{itemize}
-
-\subsection{Comunicación entre agentes}
-
-\subsection{Metodologías}
-
-\subsection{El vehículo como agente inteligente}
-
-En nuestra tesis el trabajo se basa en la representación del comportamiento de un conductor. Para simplificar el problema asumiremos que los términos \enquote{conductor} y \enquote{vehículo} son equivalentes y que se refieren a la tupla \enquote{(vehículo, conductor)} (Hay un paper que lo denomina DVU como driver-vehicle-unit \cite{Dia2002})
-
-No sé cómo ponerlo, pero esta información puede ser útil aquí. A lo mejor hay que separarlo, no sé. Yo lo pongo aquí porque me ha venido ahora.
-
-\begin{itemize}
-	\item \textbf{Percepción}. Característica intrínseca a todo ser vivo para la obtención de información del entorno. Pues para los agentes inteligentes, lo mismo. Puede ser en forma de sensores (e.g. sensor de velocidad, acelerómetro, sensor de distancia, lidar, cámaras, termómetros, gps, \ldots), conocimiento (e.g. controlador difuso, sistema experto, red neuronal, es decir, información procesada que ad valor añadido), datos GIS, comunicación con otros vehículos (e.g. V2V, V2E, \ldots). Un simulador nos ofrece estos sensores casi gratis, pero nuestro problema es que para la generación de modelos necesitamos previamente haber capturado información con dichos sensores y en físico ya es otra cosa.
-	\item \textbf{Toma de decisiones}. Un agente racional en un sistema multiagente ha de ser capaz de razonar acerca del mundo, de su propio estado y del estado del resto de agentes.
-	\item \textbf{Actuación}. La actuación es la consecuencia natural de las anteriores características. Dado un estado del mundo y un proceso cognitivo surgen acciones a realizar, tras las cuales se llega a un nuevo estado del entorno que provee de información actualizada para seguir actuando.
-\end{itemize}
-
-\subsection{Descentralización de agentes}
-
-Una de las características de los agentes es que pueden comunicarse con otros agentes. Descentralizar agentes es muy útil en sistemas donde aparecen procesos autónomos. Los sistemas descentralizados permiten mayores tasas de fiabilidad y robustez que los sistemas centralizados.
-
-Los sistemas basados en agentes animan a la reutilización:
-
-\begin{itemize}
-	\item Es posible modificar sistemas basados en agentes sobre la marcha, pieza a pieza.
-	\item Ciertos tipos de descentralización desacoplan las dependencias de los agentes.
-\end{itemize}
+Existen muchos más tipos de agente, como por ejemplo los agentes BDI (Believe-Desire-Intention) o los agentes lógicos (i.e. el entorno se representa con reglas lógicas y se infiere mediante métodos como por ejemplo deducción lógica o prueba de teoremas). Sin embargo, éstos pueden definirse en los términos aquí expuestos (figura~\ref{fig:ZZZ}). 
 
 \section{Sistemas multiagente}
 
-El estudio de los sistemas multiagente se encuadra dentro de la DAI, la rama de la IA que estudia la solución de problemas mediante procesamiento descentralizado.
+Cuando un sistema se compone de dos o más agentes que interactúan para llegar a una solución se dice que se trata de un sistema multiagente. Cuando se trata de agentes inteligentes, el estudio de este tipo de sistema se encuadra dentro de la DAI, la rama de la \ac{ai} que estudia la solución de problemas mediante procesamiento descentralizado.
 
-Definiciones
-
-\begin{itemize}
-	\item Conjunto de agentes inteligentes. Interacción, colaboración, comunicación, coordinación, competencia, negociación, inteligencia.
-	\item Conjunto de agentes autónomos, generalmente heterogéneos y potencialmente independientes, que trabajan en común para resolver un problema. Las características de estos agentes son:
-	\begin{itemize}
-		\item Ser capaces de tomar la iniciativa.
-		\item Ser capaces de compartir el conocimiento.
-		\item Ser capaces de cooperar y negociar.
-		\item Ser capaces de comprometerse con metas comunes.
-	\end{itemize}
-	\item Un sistema multiagente es un sistema que consiste en un número de agentes donde interactuan unos con otros. En el caso más general estarán actuando para sus usuarios con objetivos y motivaciones diferentes. Para ello requieren la habilidad de cooperar, coordinarse y negociar unos con otros.
-\end{itemize}
-
-Dos razones principales en el crecimiento del campo de los sistemas multiagente:
+Desde el punto de vista de la Ingeniería de Sistemas, y a pesar del aumento de complejidad, los \ac{mas}, al ser sistemas inherentemente descentralizados, ofrecen múltiples ventajas frente a los sistemas centralizados tradicionales:
 
 \begin{itemize}
-	\item Los problemas del mundo real son muy grandes para un simple agente (los agentes individuales tienen limitaciones, como en conocimiento, en recursos o en perspectiva).
-	\item En la actualidad y, presumiblemente en el futuro, la computación se distribuye a través de múltiples sistemas heterogéneos debido, principalmente, a la complejidad de los sistemas existentes.
-	\item Permiten el análisis de conductas complejas desde sus elementos básicos, facilitando el estudio de modelos y teorías sobre éstos.
-	\item Los sistemas multiagente son modulares, y por tanto soportan las nociones de la Ingeniería del Software moderna y permite la integración de sistemas legados.
-	\item Mejoran el rendimiento, ya que son inherentemente concurrentes.
+	\item Los sistemas son más robustos y fiables frente a fallos, ya que los agentes son autónomos e independientes del resto.
+	\item La modificación del sistema se puede realizar sobre la marcha, agente a agente sin necesidad de parar el sistema al completo.
+	\item Su diseño fuerza a desacoplar las dependencias entre agentes.
+	\item Son inherentemente paralelizables y por tanto pueden llegar a ser más eficientes que sus homólogos centralizados. Este punto es quizá el más controvertido, ya que esta ganancia en eficiencia se puede perder rápidamente en función de la cantidad de comunicación existente entre agentes.
+	\item Debido al nivel de complejidad alcanzado en los sistemas existentes en la actualidad, la computación se distribuye a través de múltiples sistemas, normalmente heterogéneos. La tendencia además es a la alza. La definición de los \ac{mas} hace natural su implementación en este tipo de arquitecturas.
 \end{itemize}
 
-Características principales de los sistemas multiagente (sacado de \enquote{A roadmap of research and development}):
+Desde el punto de vista de la \ac{ai} a estas ventajas podemos añadir que este tipo de sistemas permite el estudio de conductas complejas de poblaciones a partir del comportamiento de sus elementos básicos, facilitando el estudio de modelos y de teorías sobre éstos. Aprovecharemos esta propiedad para el desarrollo de esta tesis.
+
+\subsection{Comunicación entre agentes}
+
+Una de las características de los agentes es que pueden interactuar entre sí para cumplir sus objetivos. Esta interacción puede implementarse de muchas y muy diversas maneras\sidenote{Las formas clásicas de comunicación son el de paso de mensajes, los sistemas de pizarra y la estigmergia. Para los dos primeros existen dos propuestas para estándar de lenguaje de comunicación, \Ac{kqml} (\cite{Finin1994}) y \Ac{acl} (\cite{Poslad2007}). La tercera forma de comunicación suele ser muy dependiente del problema y no se apoya en lenguajes estándares. Se trata de una forma de comunicación basada en la modificación del entorno, como la efectuada por las hormigas en la búsqueda de alimento, donde éstas dejan rastros de feromonas modificando el entorno para modificar el comportamiento del resto de la colonia.} tomando, generalmente, la misma forma:
 
 \begin{itemize}
-	\item Dentro del sistema, cada agente tiene información parcial y capacidades reducidas.
-	\item El control del sistema está distribuido entre los agentes.
-	\item Los datos están descentralizados.
-	\item La computación es asíncrona.
+	\item \textbf{Cooperación}. Los agentes intercambian información para encontrar una solución.
+	\item \textbf{Competición}. Los agentes compiten dentro de un entorno, generalmente mediante la adquisición de recursos limitados. Un ejemplo de este tipo de sistemas multiagente puede ser aquellos sistemas de vida artificial.
 \end{itemize}
 
-Un sistema multiagente está compuesto de los siguientes elementos (Ferber):
-
-\begin{itemize}
-	\item Un entorno $E$.
-	\item Un conjunto de objetos $O$ situados en $E$.
-	\item Un conjunto de agentes $A \in O$.
-	\item Un conjunto $R$ de relaciones entre objetos.
-	\item Un conjunto $Op$ de operaciones que permiten al agente percibir y actuar sobre objetos de $E$.
-	\item Un conjunto $L$ de leyes que describen cómo evoluciona el mundo.
-\end{itemize}
+\TODO{Aquí una figura de un entorno de vida artificial y un entorno multiagente donde cooperen}
