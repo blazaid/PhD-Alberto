@@ -111,45 +111,69 @@
 }
 \newglossaryentry{sumo}{
 	name=SUMO,
-	description={Simulation of Urban MObility. Entorno de micro y mesosimulación multiagente desarrollado por el instituto de sistemas de transporte del DLR (Centro Aeroespacial Alemán). Url: \url{http://www.dlr.de}.}
+	description={(\textit{Simulation of Urban MObility}). Entorno de micro y mesosimulaón multiagente desarrollado por el instituto de sistemas de transporte del DLR (Centro Aeroespacial Alemán). Url: \url{http://www.dlr.de}.}
 }
 \newglossaryentry{matsim}{
 	name=MatSIM,
-	description={Multi-Agent Transport Simulation. Software de microsimulación multiagente desarrollado en la ETH Zürich. Url: \url{http://matsim.org}.}
+	description={(\textit{Multi-Agent Transport Simulation}). Software de microsimulación multiagente desarrollado en la ETH Zürich. Url: \url{http://matsim.org}.}
+}
+\newglossaryentry{movsim}{
+	name=MovSim,
+	description={(\textit{Multi-model Open-source Vehicular-traffic Simulator}). Software de microsimulación que implementa tanto modelo multiagente y como modelo basado en \glsentryshortpl{ca}. Url: \url{http://www.movsim.org/}.}
 }
 \newglossaryentry{aorta}{
 	name=AORTA,
-	description={Approximately Orchestrated Routing and Transportation Analyzer. Entorno de microsimulación multiagente de tráfico desarrollado en el departamento de Ciencias de la Computación de la Universidad de Austin (Texas). Url: \url{http://www.aorta-traffic.org/}.}
+	description={(\textit{Approximately Orchestrated Routing and Transportation Analyzer}). Entorno de microsimulación multiagente de tráfico desarrollado en el departamento de Ciencias de la Computación de la Universidad de Austin (Texas). Url: \url{http://www.aorta-traffic.org/}.}
+}
+\newglossaryentry{gpl}{
+	name=GPL,
+	description={(\textit{General Public License}). Licencia de software que garantiza las libertades del software. Asegura que cualquier versión, extensión o software derivado de éste permanecerá siendo software libre. Su última versión es la 3.0. Url: \url{https://www.gnu.org/licenses/gpl-3.0.html}.}
+}
+\newglossaryentry{traci}{
+	name=TraCI,
+	description={(\textit{Traffic Control Interface}). Término que sirve tanto para denominar al protocolo de comunicación ofrecido por \gls{sumo} en modo servidor para la interacción remota con la simulación como para denominar a la librería desarrollada para abstraer dicho protocolo cuando se trabaja desde \gls{python}. Url: \url{http://www.sumo.dlr.de/wiki/TraCI}.}
+}
+\newglossaryentry{traas}{
+	name=TraaS,
+	description={(\textit{TraCI as a Service}). \glsentryshortpl{api} basado en \glsentryshortpl{soap} para interactuar con el simulador \gls{sumo} cuando está funcionando en modo servidor. Url: \url{http://traas.sourceforge.net/cms/}.}
+}
+\newglossaryentry{torcs}{
+	name=TORCS,
+	description={(\textit{The Open Racing Car Simulator}). Software de simulación creado en un principio como videojuego de carreras y que ha evolucionado hacia plataforma de simulación de técnicas de \glsentrylongsp{ai} aplicadas a la conducción. Url: \url{http://torcs.sourceforge.net/}.}
+}
+\newglossaryentry{python}{
+	name=Python,
+	description={Lenguaje de programación \glsentryshort{oss}. Url: \url{https://www.python.org/}.}
 }
 
 % Acrónimos
-\newacronym[longsp=Estudio Naturalista de Conducción,longplsp=Estudios Naturalistas de Conducción,longplural=Naturalistic driving studies]{nds}{NDS}{Naturalistic driving study}
-\newacronym[longsp=Reconocimento el Entorno Intravehicular,longplsp=Reconocimientos del Entorno Intravehiculares,longplural=Intra-vehicular Context Awarenesses]{ivca}{IvCA}{Intra-vehicular Context Awareness}
-\newacronym[longsp=Sistema Avanzado de Ayuda a la Conducción,longplsp=Sistemas Avanzados de ayuda a la Conducción,longplural=Advanced Driver Assistance Systems]{adas}{ADAS}{Advanced Driver Assistance System}
-\newacronym{torcs}{TORCS}{The Simulated Car Racing Championship}
-\newacronym[longsp=Procesamiento Complejo de Eventos,longplsp=Procesamientos Complejos de Eventos,longplural=Complex Event Processings]{cep}{CEP}{Complex Event Processing}
-\newacronym[longsp=inteligencia artificial,longplsp=inteligencias artificiales]{ai}{AI}{artificial intelligence}
-\newacronym[longsp=inteligencia computacional,longplsp=inteligencias computacionales,longplural=computational intelligences]{ci}{CI}{computational intelligence}
-\newacronym[longsp=sistema inteligente de transporte,longplsp=sistemas inteligentes de transporte,longplural=intelligent transport systems]{its}{ITS}{intelligent transport system}
-
-\newacronym[longsp=red neuronal artificial,longplsp=redes neuronales artificiales,longplural=artificial neural networks]{ann}{ANN}{artificial neural network}
-\newacronym[longsp=lógica difusa]{fl}{FL}{fuzzy logic}
-\newacronym[longsp=computación evolutiva]{cev}{EC}{evolutionary computation}
-\newacronym{sc}{SC}{soft computing}
-\newacronym{hc}{HC}{hard computing}
-\newacronym{traci}{TraCI}{Traffic Control Interface}
-\newacronym{gpl}{GPL}{general public license}
-\newacronym[longsp=aprendizaje automático]{ml}{ML}{machine learning}
-\newacronym[longsp=algoritmo genético,longplsp=algoritmos genéticos,longplural=genetic algorithms]{ga}{GA}{genetic algorithm}
-\newacronym[longsp=sistema de recomendación,longplsp=sistemas de recomendación,longplural=recommender systems]{rs}{RS}{recommender system}
-\newacronym[longsp=procesamiento de lenguaje natural]{nlp}{NLP}{natural language processing}
-\newacronym[longsp=sistema de inferencia difusa,longplsp=sistemas de inferencia difusa, longplural=fuzzy inference systems]{fis}{FIS}{fuzzy inference system}
-\newacronym[longsp=sistema de control difuso difusa,longplsp=sistemas de control difuso, longplural=fuzzy control systems]{fcs}{FCS}{fuzzy control system}
-\newacronym{dvu}{DVU}{driver-vehicle unit}
-\newacronym[longsp=sistema multiagente,longplsp=sistemas multiagente, longplural=multi-agent systems]{mas}{MAS}{multi-agent system}
-\newacronym[longsp=autómata celular,longplsp=autómatas celulares, longplural=cellular automata]{ca}{CA}{cellular automaton}
-\newacronym{v2v}{V2V}{vehicle to vehicle}
-\newacronym{v2i}{V2I}{vehicle to infraestructure}
-\newacronym[longsp=software abierto]{oss}{OSS}{open source software}
+\newacronym{v2v}{V2V}{Vehicle-to-Vehicle}
+\newacronym{api}{API}{Applcation Programming Interface}
+\newacronym{v2i}{V2I}{Vehicle-to-Infraestructure}
+\newacronym{dvu}{DVU}{Driver-Vehicle Unit}
 \newacronym{acl}{ACL}{Agent Communications Language}
 \newacronym{kqml}{KQML}{Knowledge Query and Manipulation Language}
+\newacronym{sc}{SC}{Soft Computing}
+\newacronym{soap}{SOAP}{Simple Object Access Protocol}
+\newacronym{hc}{HC}{Hard Computing}
+% Acrónimos con traducción
+\newacronym[longsp=Estudio Naturalista de Conducción,longplsp=Estudios Naturalistas de Conducción,longplural=Naturalistic Driving Studies]{nds}{NDS}{Naturalistic Driving Study}
+\newacronym[longsp=Reconocimento del Entorno Intravehicular,longplsp=Reconocimientos del Entorno Intravehiculares,longplural=Intra-vehicular Context Awarenesses]{ivca}{IvCA}{Intra-vehicular Context Awareness}
+\newacronym[longsp=Sistema Avanzado de Ayuda a la Conducción,longplsp=Sistemas Avanzados de ayuda a la Conducción,longplural=Advanced Driver Assistance Systems]{adas}{ADAS}{Advanced Driver Assistance System}
+\newacronym[longsp=Procesamiento Complejo de Eventos,longplsp=Procesamientos Complejos de Eventos,longplural=Complex Event Processings]{cep}{CEP}{Complex Event Processing}
+\newacronym[longsp=Inteligencia Artificial,longplsp=Inteligencias Artificiales]{ai}{AI}{Artificial Intelligence}
+\newacronym[longsp=Inteligencia Computacional,longplsp=Inteligencias Computacionales,longplural=Computational Intelligences]{ci}{CI}{Computational Intelligence}
+\newacronym[longsp=Sistema Inteligente de Transporte,longplsp=Sistemas Inteligentes de Transporte,longplural=Intelligent Transport Systems]{its}{ITS}{Intelligent Transport System}
+\newacronym[longsp=Red Neuronal Artificial,longplsp=Redes Neuronales Artificiales,longplural=Artificial Neural Networks]{ann}{ANN}{Artificial Neural Network}
+\newacronym[longsp=Logica Difusa]{fl}{FL}{Fuzzy Logic}
+\newacronym[longsp=Computación Evolutiva]{cev}{EC}{Evolutionary Computation}
+\newacronym[longsp=Aprendizaje Automático]{ml}{ML}{Machine Learning}
+\newacronym[longsp=Algoritmo Genético,longplsp=Algoritmos Genéticos,longplural=Genetic Algorithms]{ga}{GA}{Genetic Algorithm}
+\newacronym[longsp=Sistema de Recomendación,longplsp=Sistemas de Recomendación,longplural=Recommender Systems]{rs}{RS}{Recommender System}
+\newacronym[longsp=Procesamiento de Lenguaje Natural]{nlp}{NLP}{Natural Language Processing}
+\newacronym[longsp=Sistema de Inferencia Difusa,longplsp=Sistemas de Inferencia Difusa, longplural=Fuzzy Inference systems]{fis}{FIS}{Fuzzy Inference System}
+\newacronym[longsp=Sistema de Control Difuso difusa, longplsp=Sistemas de Control Difuso, longplural=Fuzzy Control systems]{fcs}{FCS}{Fuzzy Control System}
+\newacronym[longsp=Sistema Multiagente,longplsp=Sistemas Multiagente, longplural=Multi-Agent Systems]{mas}{MAS}{Multi-Agent System}
+\newacronym[longsp=Autómata Celular, longplsp=Autómatas Celulares, longplural=Cellular Automata]{ca}{CA}{Cellular Automaton}
+\newacronym[longsp=Software Abierto]{oss}{OSS}{Open Source Software}
+\newacronym[longsp=Inteligencia Artificial Distribuida]{dai}{DAI}{Distributed Artificial Intelligence}

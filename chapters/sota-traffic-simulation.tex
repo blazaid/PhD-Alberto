@@ -40,8 +40,8 @@ El caso de los simuladores de tráfico es similar. En éstos existe un amplio in
 
 \begin{figure}
 	\centering
-	\includegraphics[width=10cm]{images/granularities-in-traffic-simulation}
-	\caption{Taxonomía clásica de los simuladores en función de la granularidad (complejidad) de la simulación. En la imagen de la izquierda se muestra un ejemplo clásico de macrosimulador donde el tráfico se modela como un flujo a través de las vías. En la de la derecha, se ilustra un modelo clásico de microsimulación donde cada elemento (en este caso vehículos) circula por un carril de la vía.}
+	\includegraphics[width=10cm, height=4cm]{images/granularities-in-traffic-simulation}
+	\caption{Taxonomía clásica de simuladores en función de la granularidad (complejidad) de la simulación. En la imagen de la izquierda se muestra un ejemplo clásico de macrosimulador donde el tráfico se modela como un flujo a través de las vías. En la de la derecha, se ilustra un modelo clásico de microsimulación donde cada elemento (en este caso vehículos) circula por un carril de la vía.}
 	\label{fig:granularities-in-traffic-simulation}
 \end{figure}
 
@@ -51,8 +51,8 @@ Los \textbf{sub-micromodelos} especifican granularidades por debajo del nivel de
 
 \begin{figure}
 	\centering
-	\includegraphics{images/mesoscopic-and-submicroscopic-simulation}
-	\caption{Aproximaciones alternativas de modelos en función de la complejidad. Ejemplo de mesosimulación como ventana de microsimulación dentro de un flujo en un macrosimulador (e.g. \cite{munoz2001integrated}) y ejemplo de submicrosimulación donde se modelan componentes internos del vehículo.}
+	\includegraphics[width=10cm, height=3.4cm]{images/mesoscopic-and-submicroscopic-simulation}
+	\caption{Otras aproximaciones alternativas de modelos en función de la complejidad. Ejemplo de mesosimulación como ventana de microsimulación dentro de un flujo de tráfico en un macrosimulador (e.g. \cite{munoz2001integrated}) y ejemplo de submicrosimulación donde se modelan componentes internos de un vehículo.}
 	\label{fig:mesoscopic-and-submicroscopic-simulation}
 \end{figure}
 
@@ -67,7 +67,7 @@ Existen otras dos formas de clasificar los simuladores en función de cómo evol
 \begin{figure}
 	\centering
 	\includegraphics[width=10cm]{images/cellular-automata-based-sim}
-	\caption{Simulador de tráfico basado en \acp{ca}. En éste, el espacio se divide en celdas que pueden, o bien estar vacías, o bien ocupadas por un vehículo a una velocidad (más oscuro implica más lento). Concretamente muestra la evolución a lo largo del tiempo del movimiento de un modelo de \textit{car-following} de $5$ vehículos donde en eje $x$ representa la posición en la vía y el eje $y$ el momento temporal (iteración) de la vía. Ilustración generada con el simulador \texttt{nagel-scherckenberg-demo} desarrollado para esta tesis.}
+	\caption{Simulador de tráfico basado en \glsentryshortpl{ca}. En éste, el espacio se divide en celdas que pueden, o bien estar vacías, o bien ocupadas por un vehículo a una velocidad (más oscuro implica más lento). Concretamente muestra la evolución a lo largo del tiempo del movimiento de un modelo de \gls{car-following} de $5$ vehículos donde en eje $x$ representa la posición en la vía y el eje $y$ el momento temporal (iteración) de la vía. Ilustración generada con el simulador \texttt{nagel-scherckenberg-demo} desarrollado en esta tesis.}
 	\label{fig:cellular-automata-based-sim}
 \end{figure}
 
@@ -90,7 +90,7 @@ Dado que en nuestro caso queremos conocer la situación exacta del vehículo y n
 \begin{figure}
 	\centering
 	\includegraphics{images/car-following-based-sim}
-	\caption{Ejemplo de un modelo lineal en un espacio continuo. La posición del vehículo es un valor $x \in \mathbb{R}$. Este ejemplo representa un modelo de \gls{car-following} donde el comportamiento de la aceleración del vehículo es determinado por la distancia al coche siguiente. Fuente:~\cite{Tordeux2011}.}
+	\caption{Ejemplo de un modelo lineal en un espacio continuo. La posición del vehículo es un valor $x \in \mathbb{R}$. Este ejemplo muestra un modelo de \gls{car-following} donde el comportamiento de la aceleración del vehículo es determinado por la distancia al coche siguiente. \TODO{Si hago yo la ilustración, me quito de esta cita y de este dibujo tan feo.} Fuente:~\cite{Tordeux2011}.}
 	\label{fig:car-following-based-sim}
 \end{figure}
 
@@ -132,8 +132,8 @@ Por otro lado, en un \ac{mas} cada uno de los individuos o \enquote{agentes} tie
 
 \begin{figure}
 	\centering
-	\includegraphics{images/autonomous-vehicles-at-intersections}
-	\caption{Simulación de comportamiento en intersección basada en un \ac{mas}. Cada vehículo es un agente que representa, en este caso, el comportamiento de un coche autónomo. Fuente: Proyecto AIM (\url{http://www.cs.utexas.edu/~aim/}).}
+	\includegraphics[width=10cm, height=4.9cm]{images/autonomous-vehicles-at-intersections}
+	\caption{Simulación de comportamiento en intersección basada en un \glsentryshort{mas}. En ésta, cada uno de los vehículos representa a un vehículo real que posee un controlador para hacerlo autónomo. Modelar este caso de estudio con una arquitectura basada en \glsentryshortpl{mas} permite centrarse en el diseño del agente en concreto (i.e. el controlador de conducción del vehículo) y estudiar el comportamiento emergente surgido de la interacción de todos los agentes. Fuente: Proyecto AIM (\url{http://www.cs.utexas.edu/~aim/}).}
 	\label{fig:autonomous-vehicles-at-intersections}
 \end{figure}
 
@@ -146,7 +146,7 @@ En general los estudios basados en este modelo suelen seguir el patrón $1$ \ac{
 \begin{figure}
 	\centering
 	\includegraphics{images/cooperative-traffic-movsim}
-	\caption{Captura de pantalla del simulador MovSim. Este simulador implementa un modelo multiagente donde los vehículos incorporan sistemas de comunicación vehicular. El estudio se centra en el uso de la comunicación entre vehículos para el acoplamiento dinámico de vehículos en sus respectivos carriles. Fuente: \cite{Gu2015}.}
+	\caption{Captura de pantalla del simulador \gls{movsim}. Este simulador implementa un modelo multiagente donde los vehículos incorporan sistemas de comunicación vehicular. El estudio se centra en el uso de la comunicación entre vehículos para el acoplamiento dinámico de vehículos en sus respectivos carriles. Fuente: \cite{Gu2015}.}
 	\label{fig:cooperative-traffic-movsim}
 \end{figure}
 
@@ -184,7 +184,7 @@ Posteriormente se ha desarrollado un listado de características deseables. No s
 El primer listado de características deja atrás la mayoría de simuladores (una gran cantidad de ellos son o bien de propósito específico, están desarrollados para sistemas operativos Windows o no permiten extender su modelo). Tras la selección, nos quedamos con tres simuladores: \ac{aorta}, \ac{matsim} y \ac{sumo}.
 
 \begin{table}
-	\caption{Tabla comparativa cmoparando las característiacs deseables en los dos simuladores escogidos.}
+	\caption{Tabla comparativa donde se contrastan las caracterísitcas de los simuladores seleccionados. El simulador \gls{sumo} es el que más características cumple de las originalmente planteadas.}
 	\label{tbl:simulators-comparison}
 	\begin{tabular}{lllll}
 		\toprule
@@ -220,7 +220,7 @@ En definitiva, el simulador que más se adapta a nuestras necesidades y el que s
 
 \begin{figure}
 	\includegraphics{sumo-simulator}
-	\caption{Ejemplo de pantalla del simulador \gls{sumo}. Además de entorno de simulación propiamente dicho, \gls{sumo} provee de una interfaz gráfica que permite una visualización general, de zonas y de elementos en concreto a la vez que permite la variación de configuración de la simulación durante el desarrollo de la misma.\TODO{Meter una imagen de nuestras simulaciones cuando estén, a poder ser sin color. Hacer el alto más pequeño}}
+	\caption{Captura de pantalla del simulador \gls{sumo}. Además de software de simulación propiamente dicho, \gls{sumo} provee de una interfaz gráfica que permite una visualización general, de zonas y de elementos en concreto a la vez que permite la variación de configuración de la simulación durante el desarrollo de la misma.\TODO{Meter una imagen de nuestras simulaciones cuando estén, a poder ser sin color. Hacer el alto más pequeño}}
 	\label{fig:sumo-simulator}
 \end{figure}
 
@@ -261,7 +261,7 @@ Como protocolo, la interacción a través de cliente/servidor comienza especific
 \begin{figure}
 	\centering
 	\includegraphics{images/traas}
-	\caption{Concepto arquitectural de la plataforma TraaS. La plataforma se conecta como cliente a \gls{sumo} y ofrece un API basado en SOAP de mensajes que traduce en mensajes del protocolo \gls{traci}, lo que independiza completamente la elección de lenguaje de programación a la vez que abstrae los detalles del protocolo de comunicación.}
+	\caption{Concepto arquitectural de la plataforma \gls{traas}. La plataforma se conecta como cliente a \gls{sumo} y ofrece un \glsentryshort{api} basado en \glsentryshort{soap} de mensajes que traduce en mensajes del protocolo \gls{traci}, lo que independiza completamente la elección de lenguaje de programación a la vez que abstrae los detalles del protocolo de comunicación.}
 	\label{fig:traas}
 \end{figure}
 
