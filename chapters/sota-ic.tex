@@ -155,15 +155,15 @@ El consecuente de un \ac{fis} de tipo Mandamni siempre es un conjunto difuso. Po
 
 \section{\Glsentrylongsp{cev}}
 
-La \gls{cev} es un área de la \gls{ci} que trabaja sobre algoritmos iterativos inspirados\sidenote{Destacar que los algoritmos están \textit{inspirados} y no \textit{basados en}. Los algoritmos no son réplicas con pequeñas modificaciones, sino que toman forma a partir de ideas que surgen de observar los comportamientos existentes.} en la síntesis evolutiva moderna o \textit{neodarwinismo}\sidenote{\TODO{Explicar diferencia entre darwinismo y neodarwinismo}.}.
+Otra de las técnicas inspiradas\sidenote{Destacar que los algoritmos están \textit{inspirados} y no \textit{basados en}. Los algoritmos no son réplicas con pequeñas modificaciones, sino que toman forma a partir de ideas que surgen de observar los comportamientos existentes.\TODO{Ojo que en redes neuronales también hablo de \enquote{inspirados}. A lo mejor tengo que hacer esta aclaración antes y quitarla de aquí.}} en principios biológicos es la de la \gls{cev}. Esta área de la \gls{ci} trabaja sobre algoritmos iterativos inspirados en la síntesis evolutiva moderna o \textit{neodarwinismo}\sidenote{\TODO{Explicar diferencia entre darwinismo y neodarwinismo}.}.
 
-Existe un conjunto de algoritmos denominados \gls{si} que no son más que algoritmos iterativos inspirados en cómo se comportan sistemas colectivos donde el conocimiento emerge de la interacción de individuos, ya se trate de sistemas naturales como por ejemplo el de las bandadas de murciélagos (\cite{Yang2010}) o de sistemas artificiales como sistemas de partículas abstractas (\cite{Artyukhin2014}). Algunos autores consideran este conjunto de algoritmos como pertenecientes al subcampo de la \gls{cev}, pero nosotros consideramos a la \gls{si} como un subcampo independiente dado que el adjetivo \textit{evolutivo} no es característico de este tipo de algoritmos\sidenote{El punto de vista de los autores que lo incluyen es que la evolución no sólo ha sido la razón de la adaptación de los individuos, sino que también es la causante de comportamientos inteligentes grupales. Y, aunque es una apreciación cierta, el adjetivo \textit{evolutivo} se refiere a cómo trabajan los algoritmos, no a lo que ha propiciado la evolución en la naturaleza.}.
+Existe un conjunto de algoritmos denominados \gls{si} que también son algoritmos iterativos estocásticos inspirados en cómo se comportan sistemas colectivos donde el conocimiento emerge de la interacción de individuos, ya se trate de sistemas naturales como por ejemplo el de las bandadas de murciélagos (\cite{Yang2010}) o de sistemas artificiales como sistemas de partículas abstractas (\cite{Artyukhin2014}). Algunos autores consideran este conjunto de algoritmos como pertenecientes al subcampo de la \gls{cev}, pero nosotros consideramos a la \gls{si} como un subcampo independiente dado que el adjetivo \textit{evolutivo} no es característico de este tipo de algoritmos\sidenote{El punto de vista de los autores que lo incluyen es que la evolución no sólo ha sido la razón de la adaptación de los individuos, sino que también es la causante de comportamientos inteligentes grupales. Y, aunque es una apreciación cierta, el adjetivo \textit{evolutivo} se refiere a cómo trabajan los algoritmos, no a lo que ha propiciado la evolución en la naturaleza.}.
 
 \subsection{\glsentrylongplsp{ga} y sus variantes}
 
 Desde nuestro punto de vista, podemos decir que la \gls{cev} es el área que trabaja con \gls{ga} y, aunque la afirmación puede resultar reduccionista, veremos como no es tal.
 
-Un \gls{ga} es un algoritmo iterativo donde se aplica una serie de pasos inspirados en el funcionamiento de los mecanismos de la evolución y la genética a una población de individuos donde cada uno simboliza una solución a nuestro problema. Éstos fueron introducidos por John Henry Holland en su libro \textit{\enquote{Adaptation in Natural and Artificial Systems}} (\cite{Holland1975}) y constituyen una familia de algoritmos de optimización muy potentes y versátiles.
+Un \gls{ga} es un algoritmo iterativo estocástico donde se aplica una serie de pasos inspirados en el funcionamiento de los mecanismos de la evolución y la genética a una población de individuos donde cada uno simboliza una solución a nuestro problema. Éstos fueron introducidos por John Henry Holland en su libro \textit{\enquote{Adaptation in Natural and Artificial Systems}} (\cite{Holland1975} \TODO{a mí me suena que fueron introducidos a principio de los años 60, y he encontrado autores que dicen eso, pero no encuentro ninguna referencia anterior a ésta de 1975}) y constituyen una familia de soluciones con mucho éxito en problemas de aprendizaje, búsqueda y optimización.
 
 \begin{figure}
 	\missingfigure[figheight=3.5cm]{Esquema general de funcionamiento de un algoritmo genético}
@@ -174,21 +174,53 @@ Un \gls{ga} es un algoritmo iterativo donde se aplica una serie de pasos inspira
 La figura~\ref{fig:genetic-algorithm-schema} muestra un esquema genérico del funcionamiento de un algoritmo genético. Los principales pasos dentro del algoritmos son los siguientes:
 
 \begin{itemize}
-	\item \textbf{Inicialización}. \TODO{Describir}.
-	\item \textbf{Selección}. \TODO{Describir}.
-	\item \textbf{Recombinación}. También llamado cruce. \TODO{Describir}.
-	\item \textbf{Mutación}. \TODO{Describir}.
-	\item \textbf{Reemplazo}. \TODO{Describir}.
+	\item \textbf{Inicialización}. El algoritmo crea una \textit{población} de individuos donde cada uno representa una posible aproximación a la solución del problema a resolver.
+	\item \textbf{Selección}. Al igual que en la naturaleza, donde el individuo más apto tiene la mayor probabilidad de sobrevivir y tener descendencia con sus características diferenciadoras, en un \gls{ga} el individuo más apto (que represente una solucion más cercana a la buscada) es el que más probabilidades tiene de ser seleccionado para transmitir sus características a las sucesivas poblaciones.
+	\item \textbf{Recombinación}. Tras seleccionar a uno o más individuos, existe una probabilidad (generalmente alta) de que éstos generen uno o más individuos con una composición genética resultado de la combinación de éstos. El algoritmo general habla de selección de $2$ individuos y del operador \enquote{cruce}, pero es posible generalizarlo para que el cruce vaya de $1$ individuo (i.e. no hay cruce, es traspaso de una versión de los genes) a $n$ (i.e. todos los individuos tienen probabilidad de transmitir su genotipo, ya sea directamente o aplicando una función a combinaciones de éstos). La recombinación consigue que la composición genética de los individuos (que probablemente sea buena porque han sido seleccionados frente al resto de individuos) se perpetúe en sucesivas poblaciones.
+	\item \textbf{Mutación}. Una vez generada una descendencia en la recombinación (o no, pueden ser los individuos originales), los individuos tiene cierta probabilidad (por lo general baja) de que su genotipo sea modificado aleatoriamente. Esto puede hacer del individuo resultante una mala solución, pero también puede hacer que la solución sea nueva o si no, al menos ofrecer más variedad genética a la población.
+	\item \textbf{Reemplazo}. Tras uno o más pasos de selección, recombinación y mutación, los nuevos individuos generados reemplazarán a individuos de la población inicial. En general la población en un \gls{ga} contiene el mismo número de individuos según pasan las generaciones, pero no es un requisito fundamental.
 \end{itemize}
 
-Sin embargo, dentro de la \gls{cev} siguen existiendo familias de algoritmos consideradas, en un principio, diferentes. Para ver las diferencias, empezaremos describiéndo qué es un \gls{ga}
+Sin embargo, dentro de la \gls{cev} siguen existiendo familias de algoritmos consideradas, en un principio, diferentes:
 
 \begin{itemize}
 	\item \textbf{\glspl{es}}. Esta familia de algoritmos nacen casi a la par con los \gls{ga} por parte de Ingo Rechenberg (\cite{Rechenberg1973}). Se caracterizan principalmente por ser algoritmos iterativos inspirados en la evolución pero que basan su funcionamiento en los pasos de selección y mutación y donde el reemplazo es total. Es evidente que se pueden considerar como una especialización de algoritmo genético donde la recombinación y el reemplazo parcial pasan a un segundo plano.
-	\item \textbf{\gls{gp}} 
+	\item \textbf{\gls{gp}}. Es en realidad una aplicación de \gls{ga} a la generación de programas. Sus comienzos se pueden trazar hasta Koza13, quien representa los genotipos de los individuos como árboles sintácticos en lugar de cadenas de símbolos (la representación de un genotipo clásico). Aunque algunos autores lo consideran una familia de algoritmos independientes, en realidad son algoritmos genéticos con diferente representación de individuos y, por tanto, diferentes operadores de recombinación y de mutación.
 \end{itemize}
 
-Sin embargo, siguen existiendo familias de algoritmos cvonsideradas en un principio diferentes.es. Por un lado tenemos las \glspl{es} 
+\subsection{El balance entre biodiversidad y presión selectiva}
+
+Aquí hablamos un poquito de qué es la biodiversidad, qué es la presión selectiva y por qué es importante mantener ambos.
+
+Alguna gráfica molona con algún ejemplo que haga con pynetics y reafirmar de cómo funciona este balance.
+
+Luego, hablar sobre el fitness como medida de calidad de una solución. Hablar de representación de cuanto más alto mejor, cuanto más bajo mejor y representación de 0 a 1 en función del error. Se puede a lo mejor hablar también de lo que he visto hoy de SVM de gaussian kernel para calcular el error.
+
+\subsection{Representación de individuos}
+
+Hablar de la relación entre espacio de individuos, espacio de soluciones y su puta madre.
+
+Hablar de representación de lista de símbolos finitos, de símbolos infinitos, representación en árbol y en árbol generado a partir de árbol gramatical.
+
+\subsection{Manipulación de individuos: recombinación y mutación}
+
+Recombinaciones clásicas para los individuos de antes. Matizar que la recombinación puede depender mucho del problema.
+
+Recombinaciones con árboles y sus problemas principales.
+
+\subsection{Reemplazo de individuos}
+
+Tasa generacional, diferencia entre generacional vs. steady-state y variación de elitismo es en realidad una tasa generacional donde deja un individuo.
+
+Algoritmos de reemplazo clásicos.
+
+\subsection{Variaciones y operadores adicionales}
+
+Hablar de los catastróficos y los que me falten. Hay que encontrar más, porque me parece ridículo un apartado para sólo uno.
+
+\subsection{\glsentrylongpl{ga} distribuidos}
+
+\subsection{Optimización de \glsentrylongpl{fis} mediante \glsentrylongpl{ga}}
 
 \section{Agentes inteligentes}
 \label{ch:ci:s:agent-concept}
