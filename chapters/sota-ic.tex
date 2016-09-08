@@ -155,7 +155,40 @@ El consecuente de un \ac{fis} de tipo Mandamni siempre es un conjunto difuso. Po
 
 \section{\Glsentrylongsp{cev}}
 
-Explicar qué es la cev, la evolución de conceptos distintos a distintas escuelas de pensamiento del mismo concepto.
+La \gls{cev} es un área de la \gls{ci} que trabaja sobre algoritmos iterativos inspirados\sidenote{Destacar que los algoritmos están \textit{inspirados} y no \textit{basados en}. Los algoritmos no son réplicas con pequeñas modificaciones, sino que toman forma a partir de ideas que surgen de observar los comportamientos existentes.} en la síntesis evolutiva moderna o \textit{neodarwinismo}\sidenote{\TODO{Explicar diferencia entre darwinismo y neodarwinismo}.}.
+
+Existe un conjunto de algoritmos denominados \gls{si} que no son más que algoritmos iterativos inspirados en cómo se comportan sistemas colectivos donde el conocimiento emerge de la interacción de individuos, ya se trate de sistemas naturales como por ejemplo el de las bandadas de murciélagos (\cite{Yang2010}) o de sistemas artificiales como sistemas de partículas abstractas (\cite{Artyukhin2014}). Algunos autores consideran este conjunto de algoritmos como pertenecientes al subcampo de la \gls{cev}, pero nosotros consideramos a la \gls{si} como un subcampo independiente dado que el adjetivo \textit{evolutivo} no es característico de este tipo de algoritmos\sidenote{El punto de vista de los autores que lo incluyen es que la evolución no sólo ha sido la razón de la adaptación de los individuos, sino que también es la causante de comportamientos inteligentes grupales. Y, aunque es una apreciación cierta, el adjetivo \textit{evolutivo} se refiere a cómo trabajan los algoritmos, no a lo que ha propiciado la evolución en la naturaleza.}.
+
+\subsection{\glsentrylongplsp{ga} y sus variantes}
+
+Desde nuestro punto de vista, podemos decir que la \gls{cev} es el área que trabaja con \gls{ga} y, aunque la afirmación puede resultar reduccionista, veremos como no es tal.
+
+Un \gls{ga} es un algoritmo iterativo donde se aplica una serie de pasos inspirados en el funcionamiento de los mecanismos de la evolución y la genética a una población de individuos donde cada uno simboliza una solución a nuestro problema. Éstos fueron introducidos por John Henry Holland en su libro \textit{\enquote{Adaptation in Natural and Artificial Systems}} (\cite{Holland1975}) y constituyen una familia de algoritmos de optimización muy potentes y versátiles.
+
+\begin{figure}
+	\missingfigure[figheight=3.5cm]{Esquema general de funcionamiento de un algoritmo genético}
+	\caption{Esquema general del funcionamiento de un \glsentrylong{ga}. Se parte de una población de individuos y en iteraciones de selección-recombinación-mutación-reemplazo se va mejorando la población hasta llegar a una solución que, si bien no tiene por qué ser necesariamente la mejor, es lo suficientemente buena como para ser válida.}
+	\label{fig:genetic-algorithm-schema}
+\end{figure}
+
+La figura~\ref{fig:genetic-algorithm-schema} muestra un esquema genérico del funcionamiento de un algoritmo genético. Los principales pasos dentro del algoritmos son los siguientes:
+
+\begin{itemize}
+	\item \textbf{Inicialización}. \TODO{Describir}.
+	\item \textbf{Selección}. \TODO{Describir}.
+	\item \textbf{Recombinación}. También llamado cruce. \TODO{Describir}.
+	\item \textbf{Mutación}. \TODO{Describir}.
+	\item \textbf{Reemplazo}. \TODO{Describir}.
+\end{itemize}
+
+Sin embargo, dentro de la \gls{cev} siguen existiendo familias de algoritmos consideradas, en un principio, diferentes. Para ver las diferencias, empezaremos describiéndo qué es un \gls{ga}
+
+\begin{itemize}
+	\item \textbf{\glspl{es}}. Esta familia de algoritmos nacen casi a la par con los \gls{ga} por parte de Ingo Rechenberg (\cite{Rechenberg1973}). Se caracterizan principalmente por ser algoritmos iterativos inspirados en la evolución pero que basan su funcionamiento en los pasos de selección y mutación y donde el reemplazo es total. Es evidente que se pueden considerar como una especialización de algoritmo genético donde la recombinación y el reemplazo parcial pasan a un segundo plano.
+	\item \textbf{\gls{gp}} 
+\end{itemize}
+
+Sin embargo, siguen existiendo familias de algoritmos cvonsideradas en un principio diferentes.es. Por un lado tenemos las \glspl{es} 
 
 \section{Agentes inteligentes}
 \label{ch:ci:s:agent-concept}
@@ -186,7 +219,9 @@ Por tanto, asumiremos la definición ofrecida por \cite{russell2003artificial} d
 
 Las nociones de agentes inteligentes y la de \ac{ci} van de la mano. Esto es debido a que su definición funciona a la perfección para las técnicas de la \ac{ci}, esto es, agentes autónomos que perciben el entorno (problema) y actuan de la mejor manera posible sobre él (resuelven) de acuerdo a su conocimento del medio y su estado interno (en base a algoritmos como \ac{ann}, \ac{fl}, \ldots). Por ello desde mediados de los años 1990 el concepto de agente inteligente ha ganado tanta popularidad\sidenote{Tanto es así que en algunos trabajos se define el objetivo de la \ac{ai} como la implementación de la función agente, esto es, la función que realiza la correspondiencia de una percepción a una acción, para un problema dado.}.
 
-\newthought{Los tipos de entorno} por los que se desenvuelve un agente son muy numerosos. Después de todo, la tupla \textit{(entorno, agente)} es esencialmente una metáfora para referirse a la tupla \textit{(problema, solución)} por lo que existen casi tantos entornos diferentes como problemas.
+\subsection{Tipos de entorno}
+
+La tupla \textit{(entorno, agente)} es esencialmente una metáfora para referirse a la tupla \textit{(problema, solución)} por lo que existen casi tantos entornos diferentes como problemas.
 
 Afortunadamente es posible caracterizar los entornos de acuerdo a un conjunto de propiedades o dimensiones. Este conjunto es usado por la totalidad de la literatura a la hora de caracterizar entornos:
 
@@ -200,7 +235,9 @@ Afortunadamente es posible caracterizar los entornos de acuerdo a un conjunto de
 	\item \textbf{Conocido o. desconocido}. Un entorno es \textbf{conocido} cuando es posible determinar cuál va a ser el resultado de una acción. Si por el contrario no es posible, entonces se dice que es \textbf{desconocido}.
 \end{itemize}
 
-\newthought{Existe una serie de arquitecturas básicas de agentes} que dependen principalmente de perciben el entorno y de qué forma se comportan aunque, dependiendo de los autores, las nomenclaturas, tipologías y esquemas pueden variar. Por ello, hemos decidido ofrecer una abstracción donde poner de manifiesto las partes comunes y no comunes entre arquitecturas.
+\section{Arquitecturas}
+
+Existe una serie de arquitecturas básicas o tipos de agentes que dependen principalmente de cómo perciben el entorno y de qué forma se comportan aunque, dependiendo de los autores, las nomenclaturas, tipologías y esquemas pueden variar. Por ello, hemos decidido ofrecer una abstracción donde poner de manifiesto las partes comunes y no comunes entre arquitecturas.
 
 \begin{figure}
 	\missingfigure[figheight=3.5cm]{Arquitectura básica de un agente}
@@ -246,7 +283,9 @@ La siguiente clasificación viene motivada por la forma de deducir el conjunto d
 
 En la literatura se describen muchos tipos de agente, como por ejemplo los agentes BDI (Believe-Desire-Intention) o los agentes lógicos (i.e. el entorno se representa con reglas lógicas y se infiere mediante métodos como por ejemplo deducción lógica o prueba de teoremas). Sin embargo, éstos pueden definirse en los términos aquí expuestos (figuras~\ref{fig:agent-basic-architecture}, \ref{fig:memory-vs-amnesia-in-agents} y \ref{fig:agent-types}). 
 
-\newthought{Cuando un sistema se compone de dos o más agentes se le denomina \gls{mas}}. Los requisitos para dichos agentes es que interactúen de alguna manera para llegar a una solución.
+\subsection{\Glsentrylongsp{mas}}
+
+Son aquellos sistemas compuestos de dos o más agentes que interactúan de alguna manera para llegar a una solución.
 
 Cuando los agentes son inteligentes y el problema cae dentro del dominio de la \gls{ai}, el ámbito de estudio es el de la \gls{dai}, la rama dedicada a la resolución de problemas mediante procesamiento descentralizado.
 
@@ -262,7 +301,7 @@ Desde el punto de vista de la ingeniería de sistemas, y a pesar del aumento de 
 	
 Desde el punto de vista de la \gls{ai} podemos añadirles la ventaja de que permiten el estudio de conductas complejas de poblaciones a partir del comportamiento de sus elementos básicos, facilitando el estudio de modelosy de teorías sobre éstos.
 
-\newthought{La comunicación entre agentes}, es el último tema a tratar en este apartado dedicado a los agentes. Se trata de una característica clave en un \gls{mas}. Esta interacción puede implementarse de diversas maneras\sidenote{Las formas clásicas de comunicación son el de paso de mensajes, los sistemas de pizarra y la estigmergia. Para los dos primeros existen dos propuestas para estándar de lenguaje de comunicación, \Ac{kqml} (\cite{Finin1994}) y \Ac{acl} (\cite{Poslad2007}). La tercera forma de comunicación suele ser muy dependiente del problema y no se apoya en lenguajes estándares. Se trata de una forma de comunicación basada en la modificación del entorno, como la efectuada por las hormigas en la búsqueda de alimento, donde éstas dejan rastros de feromonas modificando el entorno para modificar el comportamiento del resto de la colonia.} y siempre toman una o las dos formas siguientes (figura~\ref{fig:communication-between-agents-in-mass}):
+\newthought{La comunicación entre agentes}, se trata de una característica clave en un \gls{mas}, ya que para denominarse de esta manera dos o más agentes deben interactuar (i.e. comunicarse) entre si. Esta interacción puede implementarse de diversas maneras\sidenote{Las formas clásicas de comunicación son el de paso de mensajes, los sistemas de pizarra y la estigmergia. Para los dos primeros existen dos propuestas para estándar de lenguaje de comunicación, \Ac{kqml} (\cite{Finin1994}) y \Ac{acl} (\cite{Poslad2007}). La tercera forma de comunicación suele ser muy dependiente del problema y no se apoya en lenguajes estándares. Se trata de una forma de comunicación basada en la modificación del entorno, como la efectuada por las hormigas en la búsqueda de alimento, donde éstas dejan rastros de feromonas modificando el entorno para modificar el comportamiento del resto de la colonia.} y siempre toman una o las dos formas siguientes (figura~\ref{fig:communication-between-agents-in-mass}):
 
 \begin{itemize}
 	\item \textbf{Cooperación}. Los agentes intercambian información entre sí para llegar a una solución. Esta solución puede ser fragmentada (i.e. cada agente posee parte de la solución y se comunican para ir avanzando de forma común hacia la solución global) o poseerla uno o varios agentes que hacen uso de más agentes para ir avanzando la solución.
