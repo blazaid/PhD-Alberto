@@ -1,19 +1,19 @@
 \chapter{Simulación de tráfico}
 \label{ch:sota-traffic-simulation}
 
-El tráfico es un sistema caótico en el que interviene un número elevado de diferentes variables, muchas de ellas relacionadas entre si. Esto provoca que obtener modelos exactos de tráfico sea una tarea prácticamente imposible, teniendo que recurrir a simulaciones del mundo real para la mayoría de trabajos cuyo objetivo es la predicción.
+En un sistema de comportamiento tan caótico como lo es el del tráfico, obtener modelos de su funcionamiento es una tarea prácticamente imposible. Por un lado, el numero de variables existentes es innumerable y en muchos casos con relaciones no detectables a primera vista. Por otro, es un sistema que funciona en el mundo real, es decir, donde las mediciones en muchos caso afectan a los resultados y donde muchas mediciones no se pueden realizar, ya sea por regulaciones vigentes o por imposibilidad física.
 
 Los simuladores de tráfico son herramientas de software que, usando diferentes modelos para representar sus componentes, describen el tráfico como sistema, permitiendo, entre otros:
 
 \begin{itemize}
-	\item La extracción de resultados y conclusiones en escenarios de tráfico determinados.
-	\item La implementación de técnicas determinadas en tráfico simulado para su evaluación sin necesidad de alterar el tráfico real.
-	\item La introducción de modificaciones en puntos determinados (e.g. espaciales o temporales) de un escenario conocido para estudiar la divergencia en su evolución.
+	\item Extracción de resultados y conclusiones en escenarios de tráfico determinados.
+	\item Implementación de técnicas determinadas en tráfico simulado para su evaluación sin necesidad de alterar el tráfico real.
+	\item Introducción de modificaciones en puntos determinados (e.g. espaciales o temporales) de un escenario conocido para estudiar la divergencia enla evolución del tráfico.
 \end{itemize}
 
-Los objetivos en la simulación de tráfico son los de hacer que los modelos se parezcan lo máximo posible a la realidad. En este capítulo vamos a ver cuál es la realidad actual de este tipo de simuladores, cuáles son sus diferentes tipologías y formas de modelar los diferentes aspectos del tráfico y, posteriormente, qué simulador de los existentes en el mercado es el idóneo para nuestro trabajo.
+El objetivo principal de un simulador de tráfico es el de hacer que sus modelos se parezcan lo máximo posible a la realidad. En este capítulo vamos a ver cuál es la realidad actual de este tipo de simuladores, cuáles son sus diferentes tipologías y formas de modelar los diferentes aspectos del tráfico y, posteriormente, qué simulador de los disponibles en el mercado es el idóneo para nuestro trabajo.
 
-Limitaremos el estudio no obstante a los simuladores de \acp{dvu}\sidenote{A lo largo del capítulo, se usaran indistintamente los términos \ac{dvu}, conductor y vehículo para referirse al mismo concepto. En caso de no ser así, se indicará de manera explícita.}, obviando otros tipos de simulación de tráfico que no tienen que ver con esta temática, como por ejemplo los orientados a la evaluación de sistemas de señalización inteligentes (e.g.~\cite{jin2016evaluation}) o a la estimación de emisiones (e.g.~\cite{quaassdorff2016microscale}).
+Limitaremos nuestro estudio a los simuladores de \glspl{dvu}\sidenote{A lo largo del capítulo, se usaran indistintamente los términos \gls{dvu}, conductor y vehículo para referirse al mismo concepto. En caso de no ser así, se indicará de manera explícita.}, obviando otros tipos de simulación de tráfico que nada tienen que ver con esta temática, como por ejemplo los orientados a la evaluación de sistemas de señalización inteligentes (e.g.~\cite{jin2016evaluation}) o a la estimación de emisiones (e.g.~\cite{quaassdorff2016microscale}).
 
 \section{Clasificación de simuladores de tráfico}
 
