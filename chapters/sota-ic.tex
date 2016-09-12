@@ -186,20 +186,49 @@ Sin embargo, dentro de la \gls{cev} siguen existiendo familias de algoritmos con
 
 \begin{itemize}
 	\item \textbf{\glspl{es}}. Esta familia de algoritmos nacen casi a la par con los \gls{ga} por parte de Ingo Rechenberg (\cite{Rechenberg1973}). Se caracterizan principalmente por ser algoritmos iterativos inspirados en la evolución pero que basan su funcionamiento en los pasos de selección y mutación y donde el reemplazo es total. Es evidente que se pueden considerar como una especialización de algoritmo genético donde la recombinación y el reemplazo parcial pasan a un segundo plano.
-	\item \textbf{\gls{gp}}. Es en realidad una aplicación de \gls{ga} a la generación de programas. Sus comienzos se pueden trazar hasta Koza13, quien representa los genotipos de los individuos como árboles sintácticos en lugar de cadenas de símbolos (la representación de un genotipo clásico). Aunque algunos autores lo consideran una familia de algoritmos independientes, en realidad son algoritmos genéticos con diferente representación de individuos y, por tanto, diferentes operadores de recombinación y de mutación.
+	\item \textbf{\gls{gp}}. Sus comienzos se pueden trazar hasta Koza 13, dnode el autro hace usio de algoritmos genético para la generación de programas. La idea de esta aproximación es la de representar los genotipos de los individuos no como cadenas de símbolos (la representación clásica de genotipos) sino como árboles sintácticos. Aunque algunos autores los ven como una familia diferente a la de los \gls{ga}, no son más que el mismo algoritmo pero con una representación del genotipo del individuo diferente. Esta representación tiene conlleva una serie de modificaciones a los algoritmos de recombinación y mutación, así como una serie de desventajas inherentes a su representación.
 \end{itemize}
 
 \subsection{El balance entre biodiversidad y presión selectiva}
 
-El buen funcionamiento de un \gls{ga} depende del equilibrio de dos conceptos inversamente relacionados: la biodiversidad y la presión selectiva.
+Las características de todo individuo vienen determinadas por su genotipo. Éste contiene conjuntos de uno o más genes que se manifiestan en el fenotipo como rasgos característicos del individuo. Algunos rasgos son más favorables que otros\sidenote{Lo bueno o malo que es un rasgo depende directamente del entorno. \TODO{Meter aquí la historia de las mariposas y el humo cuando la revolución industrial}} y hacen que el individuo tenga más probabilidad de sobrevivir y, por tanto, de recmobniarse y transmitir sus genes.
 
-\newthought{La biodiversidad} se refiere a la riqueza genética que existe entre los individuos de nuestra población. Los individuos mejor adaptados poseen rasgos característicos resultado de combinaciones de uno o más genes en sus genotipos\sidenote{}.Cuando la variedad genética de una población de individuos es baja, la tendencia es que los individuos resultantes de la recombinación tiendan a perpetuar esos pocos rasgos característicos y por tanto se depende de las mutaciones para la aparición de ragos genéticos únicos que mejoren las soluciones. Aumentando la diversidad genética se favorece la aparición de nuevos 
-Aquí hablamos un poquito de qué es la biodiversidad, qué es la presión selectiva y por qué es importante mantener ambos.
+\newthought{La biodiversidad} se refiere a la riqueza genética que existe entre los individuos de la población. Si la biodiversidad es alta, tenemos más posibilidades de combinaciones de genes. Visto de otro modo, cuando tenemos más variedad de genes en la población, la cantidad de posibles soluciones a explorar es mayor.
 
-\newthought{La presión selectiva}, por otro lado
-Alguna gráfica molona con algún ejemplo que haga con pynetics y reafirmar de cómo funciona este balance.
+\begin{figure}
+	\missingfigure[figheight=4cm]{Tres gráficas donde se ve el efecto de una biodiversidad muy alta, de una biodiversidad normal y de una biodiversidad muy baja.}
+	\caption{No sé cómo explicarlo. uando esté más despierto mejor.}
+	\label{fig:different-levels-of-biodiversity}
+\end{figure}
 
-Luego, hablar sobre el fitness como medida de calidad de una solución. Hablar de representación de cuanto más alto mejor, cuanto más bajo mejor y representación de 0 a 1 en función del error. Se puede a lo mejor hablar también de lo que he visto hoy de SVM de gaussian kernel para calcular el error.
+Mantener una biodiversidad justa en un \gls{ga} es esencial. Cuando la variedad genética es demasiado baja, los individuos tienden a ser muy parecidos y se hace imposible que aparezcan rasgos genéticos nuevos\sidenote{En realidad sí es posible, con la mutación, pero generalmente es un operador que entra en juego con probabilidad muy baja y por tanto no se puede depender únicamente en él para mantener la biodiversidad.}, haciendo que el algoritmo se estanque. Por otro lado, cuando la variedad genética es muy alta quiere decir que hay muchos individuos todos con características muy distintas. Esto provoca tal cantidad de posibles variaciones que el algoritmo acaba avanzando muy lentamente hacia la solución. Una ilustración de este concepto se puede ver en la figura~\ref{fig:different-levels-of-biodiversity}.
+
+\newthought{La presión selectiva} es el mecanismo por el cual se favorece o pensaliza la biodiversidad. Cuando es fácil sobrevivir en un entorno, todas las variaciones de una especie son capaces de recombinarse, tener descendencia y seguir perpetuando rasgos característicos. Cuando es difícil, sólo los más aptos son los que sobreviven y por lo tanto los que se reproducen.
+
+En un \gls{ga}, la biodiversidad está inversamente relacionada con la presión selectiva. Cuando ésta es muy alta, la biodiversidad disminuye mientras que cuando es muy baja la aumenta. Es importante mantener una presión selectiva en nuestro algoritmo lo suficientemente alta como para que avance rápidamente hacia una solución aceptable pero sin que se estanque en una solución de poca calidad por la falta de diversidad.
+
+\subsection{Aptitud y selección de individuos}
+
+Cuando hablamos del individuo \enquote{más apto}, nos referimos a la mejor solución encontrada hasta el momento. Para ello, la manera de decidir cuándo una solución es mejor que otra es la aptitud o \textit{fitness} de una solución.
+
+\newthought{El fitness} de una solución es una función que nos da una idea de la calidad de ésta como número real\sidenote{En realidad, para la mayoría de los algoritmos de los diferentes pasos de un \gls{ga} basta con que la función de fitness defina una función de orden entre soluciones (de la forma \enquote{la solución $S_1$ es mejor que la soución $S_2$}). Sin embargo, asociar un valor real a cada una de las soluciones nos da esta relación de orden además de otras ventajas, como por ejemplo un valor del que podemos observar la evolución a lo largo de los pasos y otros algoritmos como la selección proporcional al fitness.} en su entorno.
+
+El rango del fitness depende de la representación de las soluciones y del problema en sí. Una forma muy útil que mantiene la relación de orden y permite su fácil representación gráfica es la mostrada en la ecuación~\ref{eq:fitness-as-error-inverse} (ver figura~\ref{fig:fitness-via-error}). No obstante esta representación es válida únicamente cuando es posible conocer el error de una determinada solución. Otros casos requeriran de funciones alternativas de fitness.
+
+\begin{equation}
+	\frac{1}{1 - error}
+	\label{eq:fitness-as-error-inverse}
+\end{equation}
+
+\begin{figure}
+	\missingfigure[figheight=4cm]{Dos gráficas, una donde se ve la evolución del error y otra donde se ve al evolución de su fitness.}
+	\caption{Representación del fitness como función inversamente proporcional al error de una solución. Esta forma mantiene el fitness siempre en el intervalo $(0, 1]$. Cuanto menor es el error, esto es, cuanto más tiende a $0$, más se acerca el finess a $1$.}
+	\label{fig:fitness-via-error}
+\end{figure}
+
+\TODO{No sé si se podría hablar del gaussian kernel aquí cmoo medida del error. De hecho no sé si se usa en algún lado, pero yo creo que sería válido y que da representaciones más fieles en una gráfica.}
+
+Aquí hablar de los métodos de selección más comunes. Decir que en general dependen únicamente del fitness de una solución y no de la representación del individuo.
 
 \subsection{Representación de individuos}
 
