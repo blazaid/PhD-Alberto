@@ -142,6 +142,10 @@ version={3.0},
 	{0pt}% horizontal separation between label and title body
 	{\huge\rmfamily\itshape}% before the title body
 	[\ifthenelse{\NOT\boolean{@tufte@symmetric}}{\end{fullwidth}}{}]% after the title body
+
+\usepackage{makeidx}
+\makeindex
+
 \begin{document}
 
 \frontmatter
@@ -170,10 +174,12 @@ version={3.0},
 \input{chapters/conclusions}
 \backmatter
 
-\makeatletter\@twosidefalse\@mparsswitchfalse\makeatother
+\makeatletter\@twosidefalse\@mparswitchfalse\makeatother
+\begin{fullwidth}
 \bibliography{thesis}
 \bibliographystyle{apalike}
-
+\printindex
+\end{fullwidth}
 \input{chapters/colophon}
 
 

@@ -156,15 +156,31 @@ El consecuente de un \ac{fis} de tipo Mandamni siempre es un conjunto difuso. Po
 
 \section{\Glsentrylongsp{cev}}
 
-Otra de las técnicas inspiradas\sidenote{Destacar que los algoritmos están \textit{inspirados} y no \textit{basados en}. Los algoritmos no son réplicas con pequeñas modificaciones, sino que toman forma a partir de ideas que surgen de observar los comportamientos existentes.\TODO{Ojo que en redes neuronales también hablo de \enquote{inspirados}. A lo mejor tengo que hacer esta aclaración antes y quitarla de aquí.}} en principios biológicos es la de la \gls{cev}. Esta área de la \gls{ci} trabaja sobre algoritmos iterativos inspirados en la síntesis evolutiva moderna o \textit{neodarwinismo}\sidenote{\TODO{Explicar diferencia entre darwinismo y neodarwinismo}.}.
+Otra de las técnicas inspiradas en principios biológicos es la de la \gls{cev}. Esta área de la \gls{ci} trabaja sobre algoritmos iterativos inspirados en la \index{síntesis evolutiva moderna} o \index{\textit{neodarwinismo}}.
 
 Existe un conjunto de algoritmos denominados \gls{si} que también son algoritmos iterativos estocásticos inspirados en cómo se comportan sistemas colectivos donde el conocimiento emerge de la interacción de individuos, ya se trate de sistemas naturales como por ejemplo el de las bandadas de murciélagos (\cite{Yang2010}) o de sistemas artificiales como sistemas de partículas abstractas (\cite{Artyukhin2014}). Algunos autores consideran este conjunto de algoritmos como pertenecientes al subcampo de la \gls{cev}, pero nosotros consideramos a la \gls{si} como un subcampo independiente dado que el adjetivo \textit{evolutivo} no es característico de este tipo de algoritmos\sidenote{El punto de vista de los autores que lo incluyen es que la evolución no sólo ha sido la razón de la adaptación de los individuos, sino que también es la causante de comportamientos inteligentes grupales. Y, aunque es una apreciación cierta, el adjetivo \textit{evolutivo} se refiere a cómo trabajan los algoritmos, no a lo que ha propiciado la evolución en la naturaleza.}.
 
-\subsection{\glsentrylongplsp{ga} y sus variantes}
+\subsection{\glsentrylongplsp{ga}: bases y funcionamiento}
 
-Desde nuestro punto de vista, podemos decir que la \gls{cev} es el área que trabaja con \gls{ga} y, aunque la afirmación puede resultar reduccionista, veremos como no es tal.
+Un \gls{ga} es un algoritmo iterativo estocástico donde se aplica una serie de pasos inspirados en la \index{síntesis evolutiva moderna} para la resolución de un problema. Éstos fueron introducidos por John Henry Holland en su libro \textit{\enquote{Adaptation in Natural and Artificial Systems}} (\cite{Holland1975} \TODO{a mí me suena que fueron introducidos a principio de los años 60, y he encontrado autores que dicen eso, pero no encuentro ninguna referencia anterior a ésta de 1975}) y constituyen una familia de soluciones con mucho éxito en problemas de aprendizaje, búsqueda y optimización. Desde nuestro punto de vista, podemos decir que la \gls{cev} es el área que trabaja con \gls{ga}\sidenote{
+	Dentro de la \gls{cev} existen familias de algoritmos consideradas por muchos autores como entidades diferentes a los \glspl{ga}:
+	
+	\begin{itemize}
+		\item \textbf{\glspl{es}}. Surgen casi a la par con los \gls{ga} por parte de Ingo Rechenberg (\cite{Rechenberg1973}). Se caracterizan principalmente por ser algoritmos iterativos inspirados en la evolución pero que basan su funcionamiento en los pasos de selección y mutación y donde el reemplazo es total.
+		\item \textbf{\gls{gp}}. Sus comienzos se pueden trazar hasta Koza 13, dnode el autro hace usio de algoritmos genético para la generación de programas. La idea de esta aproximación es la de representar los genotipos de los individuos no como cadenas de símbolos (la representación clásica de genotipos) sino como árboles sintácticos.
+	\end{itemize}
+	
+	Quizá en el momento de su nacimiento pudieran estar más diferenciadas, pero en la actualidad se puede pensar en ellas como diferentes especializaciones de un \gls{ga} genérico. En el caso de las \glspl{es}, es evidente que se pueden considerar como una especialización de algoritmo genético donde la recombinación y el reemplazo parcial pasan a un segundo plano, y en el caso de la \gls{gp}, son un \gls{ga} una estructura de datos diferentes para el genotipo (la cual conlleva una serie de modificaciones a los algoritmos de recombinación y mutación, así como una serie de desventajas inherentes a su representación).
+}.
 
-Un \gls{ga} es un algoritmo iterativo estocástico donde se aplica una serie de pasos inspirados en el funcionamiento de los mecanismos de la evolución y la genética a una población de individuos donde cada uno simboliza una solución a nuestro problema. Éstos fueron introducidos por John Henry Holland en su libro \textit{\enquote{Adaptation in Natural and Artificial Systems}} (\cite{Holland1975} \TODO{a mí me suena que fueron introducidos a principio de los años 60, y he encontrado autores que dicen eso, pero no encuentro ninguna referencia anterior a ésta de 1975}) y constituyen una familia de soluciones con mucho éxito en problemas de aprendizaje, búsqueda y optimización.
+La \index{síntesis evolutiva moderna} o \index{neodarwinismo} es una integración de teorías que complementan la teoría de la evolución propuesta por Charles Darwin. En el momento de enunciar la teoría, no se conocía de qué manera los organismos vivos transmitían sus rasgos característicos a su progenie. Las características en las que se inspiran los \glspl{ga} de la síntesis evolutiva moderna incluyen, entre otras:
+
+\begin{itemize}
+	\item El principio de selección natural. Introducido en la teoría de la evolución, el principio de selección natural indica que las características de un individuo en un entorno son las que facilitan (o dificultan) sus posibilidades de reproducción, y por tanto de posibilidad de transmisión de dichas características.
+	\item La teoría genética, por Gregor Mendel. Concretamente los conceptos de gen (unidad de información genética que tiene posición y valor dentro de un genotipo), alelo (variación de valor de un gen que da lugar a variaciones en el individuo, como por ejemplo color de ojos), genotipo (conjunto de genes que caracterizan a un individuo de una especie), fenotipo (las características físicas del individuo, determinadas por el genotipo y el entorno) y la herencia genética.
+	\item La mutación como fuente de variación dentro de una población.
+	\item El principio de diversidad alélica de la genética de poblaciones.
+\end{itemize}
 
 \begin{figure}
 	\missingfigure[figheight=3.5cm]{Esquema general de funcionamiento de un algoritmo genético}
@@ -172,7 +188,7 @@ Un \gls{ga} es un algoritmo iterativo estocástico donde se aplica una serie de 
 	\label{fig:genetic-algorithm-schema}
 \end{figure}
 
-La figura~\ref{fig:genetic-algorithm-schema} muestra un esquema genérico del funcionamiento de un algoritmo genético. Los principales pasos dentro del algoritmos son los siguientes:
+Basándose en estos conceptos, la estructura de un \gls{ga} se asemeja al proceso de evolución de poblaciones finitas de individuos. Un ejemplo de esta estructura lo podemos ver en la figura~\ref{fig:genetic-algorithm-schema} Los principales pasos dentro del algoritmo son los siguientes:
 
 \begin{itemize}
 	\item \textbf{Inicialización}. El algoritmo crea una \textit{población} de individuos donde cada uno representa una posible aproximación a la solución del problema a resolver.
@@ -182,26 +198,19 @@ La figura~\ref{fig:genetic-algorithm-schema} muestra un esquema genérico del fu
 	\item \textbf{Reemplazo}. Tras uno o más pasos de selección, recombinación y mutación, los nuevos individuos generados reemplazarán a individuos de la población inicial. En general la población en un \gls{ga} contiene el mismo número de individuos según pasan las generaciones, pero no es un requisito fundamental.
 \end{itemize}
 
-Sin embargo, dentro de la \gls{cev} siguen existiendo familias de algoritmos consideradas, en un principio, diferentes:
-
-\begin{itemize}
-	\item \textbf{\glspl{es}}. Esta familia de algoritmos nacen casi a la par con los \gls{ga} por parte de Ingo Rechenberg (\cite{Rechenberg1973}). Se caracterizan principalmente por ser algoritmos iterativos inspirados en la evolución pero que basan su funcionamiento en los pasos de selección y mutación y donde el reemplazo es total. Es evidente que se pueden considerar como una especialización de algoritmo genético donde la recombinación y el reemplazo parcial pasan a un segundo plano.
-	\item \textbf{\gls{gp}}. Sus comienzos se pueden trazar hasta Koza 13, dnode el autro hace usio de algoritmos genético para la generación de programas. La idea de esta aproximación es la de representar los genotipos de los individuos no como cadenas de símbolos (la representación clásica de genotipos) sino como árboles sintácticos. Aunque algunos autores los ven como una familia diferente a la de los \gls{ga}, no son más que el mismo algoritmo pero con una representación del genotipo del individuo diferente. Esta representación tiene conlleva una serie de modificaciones a los algoritmos de recombinación y mutación, así como una serie de desventajas inherentes a su representación.
-\end{itemize}
-
 \subsection{El balance entre biodiversidad y presión selectiva}
 
-Las características de todo individuo vienen determinadas por su genotipo. Éste contiene conjuntos de uno o más genes que se manifiestan en el fenotipo como rasgos característicos del individuo. Algunos rasgos son más favorables que otros\sidenote{Lo bueno o malo que es un rasgo depende directamente del entorno. \TODO{Meter aquí la historia de las mariposas y el humo cuando la revolución industrial}} y hacen que el individuo tenga más probabilidad de sobrevivir y, por tanto, de recmobniarse y transmitir sus genes.
+Las características de todo individuo vienen determinadas por su genotipo. Éste contiene conjuntos de uno o más genes que se manifiestan en el fenotipo como rasgos característicos del individuo. Algunos rasgos son más favorables que otros\sidenote{Lo bueno o malo que es un individuo viene determinado también por el entorno y no sólo por el individuo. Un ejemplo claro es el de la mariposa del abedul. A principios del siglo XIX, en Inglaterra, la mariposa se confundía con los líquenes de la corteza del abedul debido a que tenían colores y patrones similares (ambas eran blancas). Sin embargo, un cambio en un único gen las convertía en negras, y por tanto muy apetecibles para los depredadores, por lo que se puede concluir que las mejores eran las de color blanco. Sin embargo, para mediados de siglo, el hollín del humo del carbón de las fábricas había teñido de negro la práctica totalidad de los líquenes convirtiendo la ventaja de la mariposa blanca en una total desventaja. Por tanto, los rasgos son favorables dependiendo del entorno.} y hacen que el individuo tenga más probabilidad de sobrevivir y, por tanto, de recombinarse y transmitir sus genes.
 
 \newthought{La biodiversidad} se refiere a la riqueza genética que existe entre los individuos de la población. Si la biodiversidad es alta, tenemos más posibilidades de combinaciones de genes. Visto de otro modo, cuando tenemos más variedad de genes en la población, la cantidad de posibles soluciones a explorar es mayor.
+
+Mantener una biodiversidad justa en un \gls{ga} es esencial. Cuando la variedad genética es demasiado baja, los individuos tienden a ser muy parecidos y se hace imposible que aparezcan rasgos genéticos nuevos\sidenote{En realidad sí es posible, con la mutación, pero generalmente es un operador que entra en juego con probabilidad muy baja y por tanto no se puede depender únicamente en él para mantener la biodiversidad.}, haciendo que el algoritmo se estanque. Por otro lado, cuando la variedad genética es muy alta quiere decir que hay muchos individuos todos con características muy distintas. Esto provoca tal cantidad de posibles variaciones que el algoritmo acaba avanzando muy lentamente hacia la solución. Una ilustración de este concepto se puede ver en la figura~\ref{fig:different-levels-of-biodiversity}.
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Tres gráficas donde se ve el efecto de una biodiversidad muy alta, de una biodiversidad normal y de una biodiversidad muy baja.}
 	\caption{No sé cómo explicarlo. uando esté más despierto mejor.}
 	\label{fig:different-levels-of-biodiversity}
 \end{figure}
-
-Mantener una biodiversidad justa en un \gls{ga} es esencial. Cuando la variedad genética es demasiado baja, los individuos tienden a ser muy parecidos y se hace imposible que aparezcan rasgos genéticos nuevos\sidenote{En realidad sí es posible, con la mutación, pero generalmente es un operador que entra en juego con probabilidad muy baja y por tanto no se puede depender únicamente en él para mantener la biodiversidad.}, haciendo que el algoritmo se estanque. Por otro lado, cuando la variedad genética es muy alta quiere decir que hay muchos individuos todos con características muy distintas. Esto provoca tal cantidad de posibles variaciones que el algoritmo acaba avanzando muy lentamente hacia la solución. Una ilustración de este concepto se puede ver en la figura~\ref{fig:different-levels-of-biodiversity}.
 
 \newthought{La presión selectiva} es el mecanismo por el cual se favorece o pensaliza la biodiversidad. Cuando es fácil sobrevivir en un entorno, todas las variaciones de una especie son capaces de recombinarse, tener descendencia y seguir perpetuando rasgos característicos. Cuando es difícil, sólo los más aptos son los que sobreviven y por lo tanto los que se reproducen.
 
@@ -213,7 +222,7 @@ Cuando hablamos del individuo \enquote{más apto}, nos referimos a la mejor solu
 
 \newthought{El fitness} de una solución es una función que nos da una idea de la calidad de ésta como número real\sidenote{En realidad, para la mayoría de los algoritmos de los diferentes pasos de un \gls{ga} basta con que la función de fitness defina una función de orden entre soluciones (de la forma \enquote{la solución $S_1$ es mejor que la soución $S_2$}). Sin embargo, asociar un valor real a cada una de las soluciones nos da esta relación de orden además de otras ventajas, como por ejemplo un valor del que podemos observar la evolución a lo largo de los pasos y otros algoritmos como la selección proporcional al fitness.} en su entorno.
 
-El rango del fitness depende de la representación de las soluciones y del problema en sí. Una forma muy útil que mantiene la relación de orden y permite su fácil representación gráfica es la mostrada en la ecuación~\ref{eq:fitness-as-error-inverse} (ver figura~\ref{fig:fitness-via-error}). No obstante esta representación es válida únicamente cuando es posible conocer el error de una determinada solución. Otros casos requeriran de funciones alternativas de fitness.
+El rango del \index{fitness} depende de la representación de las soluciones y del problema en sí. Una forma muy útil que mantiene la relación de orden y permite su fácil representación gráfica es la mostrada en la ecuación~\ref{eq:fitness-as-error-inverse} (ver figura~\ref{fig:fitness-via-error}). No obstante esta representación es válida únicamente cuando es posible conocer el error de una determinada solución. Otros casos requeriran de funciones alternativas de fitness.
 
 \begin{equation}
 	\frac{1}{1 - error}
@@ -228,11 +237,45 @@ El rango del fitness depende de la representación de las soluciones y del probl
 
 \TODO{No sé si se podría hablar del gaussian kernel aquí cmoo medida del error. De hecho no sé si se usa en algún lado, pero yo creo que sería válido y que da representaciones más fieles en una gráfica.}
 
-Aquí hablar de los métodos de selección más comunes. Decir que en general dependen únicamente del fitness de una solución y no de la representación del individuo.
+\newthought{La selección} se apoya en el fitness para aumentar o disminuir la probabilidad de un individuo para ser seleccionado. Este operador es uno de los más influyentes en un \gls{ga} para mantener el nivel de presión selectiva.
+
+\begin{figure}
+	\missingfigure[figheight=4cm]{Tres ilustraciones de cada una de las operaciones de selección bonicas del to.}
+	\caption{Tres ilustraciones de las técnicas de selección más comunes en \glsentrylong{ga}. De izquierda a derecha (a) selección proporcional al fitness, (b) selección proporcional a la posición y (c) selección por torneo.}
+	\label{fig:selection-techniques}
+\end{figure}
+
+El operador de selección se ejecuta cada vez que se quiere seleccionar un individuo para la recombinación por lo que, si la recombinación requiere de dos individuos, el operador de selección será llamado dos veces. Las técnicas más comunes, ilustradas en la figura~\ref{fig:selection-techniques} son las siguientes:
+
+\begin{itemize}
+	\item \textbf{Selección proporcional} al fitness (también conocido como \textbf{\index{selección por torneo}}.). En esta selección a los los individuos se ordenan por fitness y se les asigna una probabilidad proporcional a su fitness. Una vez hecho esto, se genera un valor aleatorio y se comprueba qué individuo ha sido selecciónado. Este operador tiene la desventaja de que, si en un momento unos pocos individuos consiguen un fitness muy alto respecto al resto, acapararán la práctica totalidad del rango de probabilidades, haciendo que disminuya drásticamente la variedad genética.
+	\item \textbf{Selección proporcional a la posición}. Varía con el anterior en que la probabilidad asociada a cada individuo es proporcional a la posición y no al fitness. Aunque supone una ventaja respecto al anterior en materia de mantener la biodiversidad, si el tamaño de la población es medio o grande, la probabilidad queda muy repartida, eliminando casi por completo la presión selectiva sobre la población.
+	\item \textbf{Selección por torneo}. Esta selección se apoya en dos pasos. En el primero, se extraen aleatoriamente un número $n$ de individuos, independientemente de su \textit{\index{fitness}}. Una vez extraídos, se seleccionará aquel que tenga el \textit{\index{fitness}} mayor. Este operador es rápido, dado que no es necesario calcular el fitness de todos los individuos, sino de sólo los seleccionados y, con el parámetro $n$ correctamente seleccionado, mantiene la presión selectiva.
+\end{itemize}
 
 \subsection{Representación de individuos}
 
-Hablar de la relación entre espacio de individuos, espacio de soluciones y su puta madre.
+Un individuo es una solución a nuestro problema. Sin embargo, no existe una única representación para un problema y elegir la mejor representación posible es crucial para un buen desempeño del algoritmo. Para comprender la importancia de una correcta codificación, vamos a formalizar un poco el concepto del problema.
+
+\begin{figure}
+	\missingfigure[figheight=4cm]{Lo que pasa cuando las codificaciones van al conjunto de soluciones, fuera del conjunto de soluciones o no exploran todas las soluciones.}
+	\caption{Situaciones posibles cuando la cardinalidad del conjunto de las codificaciones de nuestro problema es (a) mayor, (b) menor o (c) igual que la cardinalidad del conjunto del espacio de soluciones posibles.}
+	\label{fig:why-we-need-a-correct-codification}
+\end{figure}
+
+Supongamos que tenemos $P = {p_1, \ldots, p_n}$ el dominio del problema (determinado por la codificación del problema, es decir, todos los posibles genotipos), $I = {i_1, \ldots, i_m}$ con $m > n$ el dominio de los posibles individuos, $I_v = {i_1, \ldots, i_j} \subset I$ con $m > j$ el subconjunto de $I$ con todos los individuos que son solución y $f:P \rightarrow I$ una aplicación inyectiva (para simplificar nuestra formalización). Dependiendo de la cardinalidad de los conjuntos se nos pueden dar tres casos (figura~\ref{fig:why-we-need-a-correct-codification}):
+
+\begin{enumerate}
+	\item $n > j$. Cuando la codificación de nuestro problema genera individuos fuerqa del conjunto de soluciones, quiere decir que habrá codificaciones que nos generen individuos no válidos. Nuestro algoritmo tendrá que tener mecanismos para que estos individuos no sean seleccionados (e.g. asignando un \textit{\index{fitness}}) de $0$) con la consiguiente penalización en tiempo.
+	\item $n < j$. En este caso, todas las codificaciones de nuestras soluciones tendrán una correspondiencia con un individuo válido. Sin embargo, existirán individuos válidos que no serán alcanzados nunca por nuestras codificaciones, y por tanto habrá soluciones no exploradas.
+	\item $n = j$. Este caso es el óptimo. Al aplicar $f$ a cualquier codificación de solución para nuestro problema, alcanzaremos un individuo válido. Por tanto no tendremos ningún problema de individuos inválidos ni de soluciones fuera de nuestro alcance.
+\end{enumerate}
+
+Por ello es importante dedicar especial atención a la codificación de los genotipos de nuestro individuo. Y aunque la codificación es dependiente del problema, existen codificaciones estándar que se usan en la mayoría de los problemas.
+
+\newthought{La codificación en lista} es quizá la más usada en algoritmos genéticos. En esta el genotipo de un individuo se representa como una lista de posibles valores, todos ellos pertenecientes al mismo alfabeto. Existen dos representantes típicas de esta codificación, dependiendo de si el alfabeto es finito o infinito: La representación binaria y la representación real\sidenote{Esto no quiere decir que sean las únicas, sino que son equivalentes. Si nuestro problema necesita una codificación donde el alfabeto necesita 16 caracteres, es más eficiente trabajar con un alfabeto hexadecimal. Cada problema dicta sus necesidades.}.
+
+\newthought{La codificación en árbol}
 
 Hablar de representación de lista de símbolos finitos, de símbolos infinitos, representación en árbol y en árbol generado a partir de árbol gramatical.
 
