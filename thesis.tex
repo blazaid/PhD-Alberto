@@ -146,6 +146,8 @@ version={3.0},
 \usepackage{makeidx}
 \makeindex
 
+\usepackage{morefloats}
+
 \begin{document}
 
 \frontmatter
@@ -174,12 +176,10 @@ version={3.0},
 \input{chapters/conclusions}
 \backmatter
 
-\makeatletter\@twosidefalse\@mparswitchfalse\makeatother
-\begin{fullwidth}
 \bibliography{thesis}
 \bibliographystyle{apalike}
 \printindex
-\end{fullwidth}
+
 \input{chapters/colophon}
 
 

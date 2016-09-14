@@ -1,52 +1,39 @@
 \chapter{Modelos de comportamiento}
 \label{ch:sota-behavior-models}
 
-En un simulador de tráfico que basa su funcionamiento en un modelo micro de múltiples agentes haciendo las veces de conductores, el comportamiento de éstos es crucial para que éste describa su evolución de nua manera veraz, lo más aproximada a un sistema de tráfico real. Por ello, el conductor ha de ser diseñado teniendo en cuenta que ha de actuar tanto con el vehículo (en mayor o menos detalle) y su entorno (e.g. el resto de conductores, señales de tráfico, siste)
-driver  has  to  be  designed  to  interact  with  other  dr
-ivers,  traffic  signals,  pedestrians  and  ITS 
-systems.
+En un microsimulador de tráfico basado en \gls{mas}, cada uno de los agentes trabaja de manera independiente sobre el mismo problema (el tráfico). El comportamiento de éstos no está limitado a interactuar con el vehículo, sino que ha de tener en cuenta otros factores como la situación de tráfico en la que se encuentra inmerso, las señales, los peatones, los dispositivos \gls{its}, etcétera.
 
-A lo largo de los años se han estudiado diferentes modelos de comportamiento de conductor. Éstos suelen caer dentro de dos categorías principalmente, el \textbf{car-following} o \textit{seguimiento de vehículos} que se ocupa de determinar el comportamiento de un vehículo en función del comportamiento del inmediatamente siguiente y el \textbf{lane-changing} o \textit{cambio de carril} que estudia la forma en la que un conductor decide realizar un cambio de un carril origen a un carril destino. Y aunque tradicionalmente se han tratado como dos modelos independientes y ha sido estudiado más el primero que el segundo desde los años 1950, en los últimos 20 años se ha tendido a modelar ambos problemas como un único mecanismo~\cite{Ma}.
+La mayoría de los modelos de comportamiento existentes (\TODO{Me parece que a partir del 200 o así ha habido un despunte. Comprobar}) basan su funcionamiento en técnicas pertenecientes al \gls{hc} o lo que es lo mismo, están basados en fórmulas matemáticas y reglas de la lógica convencional con parámetros que se ajustan a partir de la observación de datos reales. Sin embargo, en los últimos años ha empezado a crecer el interés por las técnicas de la \gls{ci} en el campo y por tanto existen ciertos estudios de técnicas más acorde con este punto de vista.
 
-La mayoría de los modelos basan su funcionamiento en técnicas pertenecientes al \acrlong{hc} o lo que es lo mismo, están basados en fórmulas matemáticas y reglas de la lógica convencional con parámetros que se ajustan a partir de la observación de datos reales. No son los único modelos que existen, ya que en los últimos años ha empezado a crecer el interés por las técnicas de la \ac{ci} en el campo y por tanto existen ciertos estudios de técnicas más acorde con este punto de vista. En éstas es en las que nos centraremos en este capítulo, el cual desarrollará qué entendemos por comportamiento en conducción y qué modelos de interés dentro de la \ac{ci} se han desarrollado hasta ahora.
-
-\TODO{Creo que en lugar de separar en lane-changing, car follownig y sucesivos, habría que explicarlos y luego en un apartado más adelante revisar el estado del arte en comportamientos.}
-
-\TODO{Quizá tiene sentido especificar aquí que va a ser como DVU, es decir, 1 vehículo=1 conductor=1 agente.}
+En este capítulo se explorará qué se entiende como comportamiento de conductor y qué modelos de interés dentro de la \ac{ci} se han desarrollado hasta ahora.
 
 \section{Comportamiento en la conducción}
 
-¿A qué nos referimos cuando hablamos del "comportamiento"? Según el diccionario de la real academia, \enquote{comportar} se define como \textit{actuar de una manera determinada}. Sin embargo, no queda claro qué factores constituyen el comportamiento al volante.
+¿A qué nos referimos cuando hablamos del "comportamiento"? Según el diccionario de la real academia, \enquote{comportar} se define como \textit{actuar de una manera determinada}. Sin embargo, no queda claro qué factores constituyen el comportamiento al volante, es decir.
 
-Atendiendo a la literatura, \TODO un par de párrafos para hablar de comportamiento
-
-¿Cómo se define el comportamiento de un conductor?
-
-En~\cite{michon1985critical} describen la conducción como una trea separada en $3$ niveles jerárquicos, el de estrategia, el de maniobra y el de control. En la figura~\ref{fig:three-levels-of-human-driving}. se ve mejor.
 \begin{figure}
 	\centering
-\smartdiagram[descriptive diagram]{
-	{$3$, {\textbf{Estrategia} (e.g. planificación de la ruta, \ldots})},
-	{$2$, {\textbf{Maniobra} (e.g. cambio de carril, \ldots})},
-	{$1$, {\textbf{Control} (e.g. cambio de marcha \ldots)}},
-}
-	\caption{Los tres niveles jerárquicos que describen la tarea de conducción según~\cite{michon1985critical}: \textit{estrategia} (i.e. las decisiones generales), la \textit{maniobra} (i.e. decisiones durante la conducción de más corto plazo) y \textit{control} (i.e. comportamientos automáticos). (\TODO{Hacer mejor esta figura})}
+	\includegraphics{three-levels-of-human-driving}
+	\caption{Los tres niveles jerárquicos que describen la tarea de conducción según~\cite{michon1985critical}: \textit{estrategia} (i.e. las decisiones generales), la \textit{maniobra} (i.e. decisiones durante la conducción de más corto plazo) y \textit{control} (i.e. comportamientos automáticos). (\TODO{Rehacer la figura nosotros, esta no me gusta. Es del \cite{michon1985critical}}).}
 	\label{fig:three-levels-of-human-driving}
 \end{figure}
 
-SUMO usa (al menos así lo indican en el paper del 2002) el modelo Gipps\cite{krajzewicz2002sumo}. No sé si ellos han hecho una extensión del modelo o están referenciando la extensión y ellos sólo la implementan. En el paper del 2012 citan que el modelo car-following que usan por defecto es el desarrollado por Stefan Krauß\cite{jin2016evaluation}, debido a su simplicidad y su velocidad de ejecución.
+Conducir implica la ejecución de múltiples tareas en paralelo, cada una de diferente nivel cognitivo. Michon en \cite{michon1985critical} divide en tres los niveles de abstracción de las tareas: el de \textbf{control}, que se ocupa de las tareas de más bajo nivel como aceleración, freno, cambios de marcha destinadas a mantener la conducción, el de \textbf{maniobra} o táctico, donde sus tareas son las encargadas de mantener la interacción con el entorno como los cambios de carril o el control de las señales y demás estímulos externos, y el \textbf{estratégico}, que engloba las tareas de más alto nivel como el razonamiento y la planificación de rutas (ver figura~\ref{fig:three-levels-of-human-driving}).
 
-El modelo ha probado ser válido, pero tiene algunos defectos, por lo que existe un API para implementar otros modelos. En la actualidad están incluidos en el sistema los modelos IDM\cite{treiber2000congested} (\textit{Intelligent Driver Model}), el modelo de tres fases de Kerner\cite{kerner2008testbed} y el modelo de Wiedemann\cite{wiedemann1974simulation}.
+Según esta jerarquía, el aspecto del comportamiento sobre el que trabajamos en esta tesis es el del nivel de maniobra. Ésta se puede concebir como la encargada de planificar acciones a corto plazo para conseguir objetivos a corto plazo. Planificaciones a más alto nivel como el de la planificación de una ruta o de más bajo nivel como decidir qué presión aplicar en el freno quedan fuera del estudio.
 
-La práctica totalidad de modelos para el comportamiento de conductores en tráfico se basan en una estructura jerárquica de control\cite{michon1985critical}. Por lo que veo este paper es de 1985, así que afirmar eso 30 años después es una barrabasada. Hay que buscar algo más para apoyar eso o para indicarlo como una anécdota.
+\section{Tareas de planificación a corto plazo}
 
-En el paper \cite{al2001framework} describen un framework para la modelización de comportamiento de conductores dentro de simuladores.
+A lo largo de los años se han estudiado diferentes modelos de comportamiento de conductor. Éstos suelen caer dentro de dos categorías principalmente, el \textbf{car-following} o \textit{seguimiento de vehículos} que se ocupa de determinar el comportamiento de un vehículo en función del comportamiento del inmediatamente siguiente y el \textbf{lane-changing} o \textit{cambio de carril} que estudia la forma en la que un conductor decide realizar un cambio de un carril origen a un carril destino. Y aunque tradicionalmente se han tratado como dos modelos independientes y ha sido estudiado más el primero que el segundo desde los años 1950, en los últimos 20 años se ha tendido a modelar ambos problemas como un único mecanismo~\cite{Ma2004}.
+
+\TODO{Creo que en lugar de separar en lane-changing, car follownig y sucesivos, habría que explicarlos y luego en un apartado más adelante revisar el estado del arte en comportamientos.}
+
+
+En \cite{Toledo2007} se introduce un modelo lineal tochísimo y horrible que integra lane-changing y car-following (y gap acceptance) en un único modelo, basábndose en los conceptos de short-term goal y short-term plan. Es decir, los conductores elaboran planes a corto plazo para realizar aacciones a corto plazo.
+
+SUMO usa (al menos así lo indican en el paper del 2002) el modelo Gipps\cite{krajzewicz2002sumo}. No sé si ellos han hecho una extensión del modelo o están referenciando la extensión y ellos sólo la implementan. En el paper del 2012 citan que el modelo car-following que usan por defecto es el desarrollado por Stefan Krauß\cite{jin2016evaluation}, debido a su simplicidad y su velocidad de ejecución. El modelo ha probado ser válido, pero tiene algunos defectos, por lo que existe un API para implementar otros modelos. En la actualidad están incluidos en el sistema los modelos IDM\cite{treiber2000congested} (\textit{Intelligent Driver Model}), el modelo de tres fases de Kerner\cite{kerner2008testbed} y el modelo de Wiedemann\cite{wiedemann1974simulation}.
 
 En~\cite{tang2014new} los autores proponen un modelo de car following teniendo en cuenta comunicación entre vehículos.
-
-\TODO Hoy he descubierto que hay una cosa que se llama naturalistic traffic study o naturalistic traffic observation (\gls{nds}) que es un estudio naturalístico, es decvir, observar en el mundo real con detalle y extraer datos de ello. A lo mejor hablando así queda como más profesional :D.
-
-Los \gls{nds} basan su funcionamiento en la captura masiva de datos de conducción, normalmente involucrando una gran cantidad de sensores, para analizar el comportamiento del conductor, las características del vehículo, la vía, etcétera. La cantidad de sensores y la velocidad de captura hacen que la tarea de analizar y extraer conclusiones  sea una tarea prácticamemte imposible para un humano, por lo que es necesario el uso de técnicas de análisis de datos que suelen recaer en los campos de la estadística y del aprendizaje automático.
 
 En~\cite{sekizawa2007modeling} describen modelos supervisados offline para capturar el comportamiento del conductor basados en auto-regresión a trozos. Más adelante lo extienden en~\cite{terada2010multi}, aunque los datos de entrenamiento son extraídos directamente de simulaciones, no del \enquote{mundo real\textsuperscript{TM}}.
 
@@ -54,7 +41,7 @@ En~\cite{bando2013unsupervised} describen otro modelo no supervisado offline bas
 
 Estos trabajos (\cite{sekizawa2007modeling}, \cite{terada2010multi} y \cite{bando2013unsupervised}) tienen la desventaja de ser computacionalmente muy costosos y con poca precisión en el caso de variar mucho los escenarios de entrenamiento y de test.
 
-En~\cite{maye2011bayesian} se presenta un modelo online donde se infiere el comportamiento del conductor haciendo uso de una IMU (Intertial Measurement Unit) y una cámara. Primero de la IMU se sacan datos que se separan en fragmentos para luego relacionarlos con las imágenes obtenidas de la cámara. (\TODO ¿Hacia dónde mira la cámara?). Los modelos propuestos en~\cite{johnson2011driving} y~\cite{van2013driver} también se apoyan en el funcionamiento de clasificar las segmentaciones de una IMU, pero con técnicas distintas y sin cámara (\TODO Que digo yo, ¿qué clasifican exactamente? es más, dependiendo de qué clasifican, para qué vale la camarita del~\cite{maye2011bayesian}?). Además hacen uso de señales externas y umbrales de activación para hacer más efectiva la clasificación (\TODO corroborar).
+En~\cite{maye2011bayesian} se presenta un modelo online donde se infiere el comportamiento del conductor haciendo uso de una IMU (Intertial Measurement Unit) y una cámara. Primero de la IMU se sacan datos que se separan en fragmentos para luego relacionarlos con las imágenes obtenidas de la cámara. (\TODO ¿Hacia dónde mira la cámara?). Los modelos propuestos en~\cite{johnson2011driving} y~\cite{van2013driver} también se apoyan en el funcionamiento de clasificar las segmentaciones de una IMU, pero con técnicas distintas y sin cámara. Además hacen uso de señales externas y umbrales de activación para hacer más efectiva la clasificación (\TODO corroborar).
 
 En el artículo~\cite{bender2015unsupervised} se usa también un modelo no supervisado online con una aproximación bayesiana para identificar los puntos de cambio sin depender de parámetros externos (e.g. umbrales o señales). Se basa también en (1) segmentar los datos de conducción y (2) asignar estos datos a clases que se corresponde n con comportamientos de conducción. Tiene la ventaja de ser más eficiente y rubusto que los anteriores.
 
@@ -70,7 +57,19 @@ El artículo~\cite{munoz2010human} es muy interesante ya que para la competició
 
 Aunque \gls{torcs} es usado como entorno de simulación en diversos concursos e investigaciones, se trata de un juego, y es que los juegos son un sandbox perfecto como entorno de simulación, ya que presentan una abstracción del dominio sobre el que trabajar. Otros trabajos en esta línea (entrenamiento de redes neuronales en este simulador) son los de~\cite{munoz2009controller} y~\cite{van2009robust}, el primero entrenando perceptrones multicapa (\TODO verificar) con un backpropagation haciendo uso de un dataset proporcionado por un bot y otro haciendo uso de un algoritmo evolutivo multiobjetivo para optimizar la red de acuerdo a un conjunto de datos proporcionado por un conductor real. Sin embargo, este tipo de modelos se encuentran más cercanos al nivel de control que al nivel de maniobra descritos en la figura~\ref{fig:three-levels-of-human-driving}.
 
-En~\cite{van2013driver} hacen uso de os sensores de inercia de un coche (a saber qué coche tienen) para construir un perfil de conductor. Concluyen que frenar y girar caracterizan mejor a los conductores frente a acelerar.
+En~\cite{van2013driver} hacen uso de los sensores de inercia de un coche (a saber qué coche tienen) para construir un perfil de conductor. Concluyen que frenar y girar caracterizan mejor a los conductores frente a acelerar.
+
+\subsection{car-following}
+
+\subsection{lane-changing}
+
+El tráfico real no está compuesto por un sólo carril, sino por varios, donde circulan vehículos de diferentes topologías y donde los adelantamentos de vehículos más rápidos a más lentos son necesarios para evitar congestiones.
+
+Menos investigado que el car-following. En el MOBIL-TRB indican que una de las razones es la falta de datosz, ya que es más difícil determinar los cambios de carril y por tanto existen menos estudios sobre ello. Dicen que hay progresos en video tracking methods y que en el futuro estas colecciones de datos serán más comunes, pero tampoco es que haya encontrado muchas en la literatura...
+
+Se suele apoyar en gap-acceptance models, donde los vehículos calculan si caben o no en un hueco (critical gap) en función de parámetros como, por ejemplo, la velocidad relativa con los vehículos delantero y trasero del carril al que cambiar (Toledo et al., 2003).
+
+El lane-changing pertenece al nivel de abstracción de táctico, aunque el nivel de planificación también afecta en cierta medida, ya que, por ejemplo, la elección de ruta afecta a qué carriles tomar en una planificación de ruta. Por ello, en la literatura se suele dividir la maniobra de cambio de carril en dos tipos: mandatory, que son ejecutados por razones de planificación y discretionary que obedecen a razones tácticas de mejorar la situación actual en el nuevo carrile respecto al actual (\cite{Gipps1986}, \cite{Yang1996}, Ahmed, 1999; Toledo et al., 2003; Halati et al., 1997; Skabardonis, 2002.)
 
 \section{lane change y car following}
 

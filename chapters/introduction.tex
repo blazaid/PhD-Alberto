@@ -41,7 +41,6 @@ Esta tesis pretende explorar el tema de la generación de modelos de conductor p
 
 Concretamente pretende desarrollar un método para el análisis de la eficiencia de los conductores realizando, para ello, un modelo del perfil de conducción a partir de técnicas de la \ac{ci} y aplicándolo a un entorno de simulación basado en \Acp{mas}. Así, una vez configurado el entorno, se podrán estudiar aspectos generales como la evolución del tráfico con determinados perfiles o particulares como el estilo de conducción o el impacto de los sistemas de asistencia.
 
-
 \section{Motivación}
 
 Los conceptos introducidos al comienzo del capítulo obedecen a una \textit{necesidad} (aquí como eufemismo de problema) de la sociedad en la que vivimos, y que afecta tanto a nuestra generación como afectará a las venideras: la eficiencia en la conducción. Dado que es imprescindible saber que existe un problema para arreglarlo, nada mejor que puntualizar algunos hechos de sobra conocidos:
@@ -88,9 +87,12 @@ Por tanto, el objetivo de la tesis es el de simular el comportamiento de conduct
 
 \begin{itemize}
 	\item Estudiar y aplicar técnicas de la \ac{ci} sobre el área de la conducción.
-	\item Implementar métodos de generación de modelos personalizados a partir de datos de conductores.
-	\item Aplicar modelos de conductores a entornos de simulación multiagente.
-	\item Validar los modelos de conductor contra conductores reales.
+	\item Realizar un \gls{nds}\sidenote{Los \gls{nds} basan su funcionamiento en la captura masiva de datos de conducción, normalmente involucrando una gran cantidad de sensores, para analizar el comportamiento del conductor, las características del vehículo, la vía, etcétera. La cantidad de sensores y la velocidad de captura hacen que la tarea de analizar y extraer conclusiones sea una tarea prácticamemte imposible para un humano, por lo que es necesario el uso de técnicas de análisis de datos que suelen recaer en los campos de la estadística y del aprendizaje automático.} sobre conductores reales para:
+	\begin{enumerate}
+		\item Generar modelos personalizados de conductor a partir de los datos de conducción obtenidos.
+		\item Aplicar modelos de conductores a entornos de simulación multiagente.
+		\item Validar los modelos de conductor contra conductores reales.
+	\end{enumerate}
 	\item Estudiar la efectividad de sistemas de asistencia encaminados a mejorar la eficiencia y analizar el comportamiento de conductor.
 \end{itemize}
 
