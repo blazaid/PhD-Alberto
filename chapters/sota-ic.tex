@@ -162,7 +162,7 @@ Existe un conjunto de algoritmos denominados \gls{si} que también son algoritmo
 
 \subsection{\glsentrylongplsp{ga}: bases y funcionamiento}
 
-Un \gls{ga} es un algoritmo iterativo estocástico donde se aplica una serie de pasos inspirados en la \index{síntesis evolutiva moderna} para la resolución de un problema. Éstos fueron introducidos por John Henry Holland en su libro \textit{\enquote{Adaptation in Natural and Artificial Systems}} (\cite{Holland1975} \TODO{a mí me suena que fueron introducidos a principio de los años 60, y he encontrado autores que dicen eso, pero no encuentro ninguna referencia anterior a ésta de 1975}) y constituyen una familia de soluciones con mucho éxito en problemas de aprendizaje, búsqueda y optimización. Desde nuestro punto de vista, podemos decir que la \gls{cev} es el área que trabaja con \gls{ga}\sidenote{
+Un \gls{ga} es un algoritmo iterativo estocástico donde se aplica una serie de pasos inspirados en la \index{síntesis evolutiva moderna} para la resolución de un problema. Éstos fueron introducidos por John Henry Holland en su libro \textit{\enquote{Adaptation in Natural and Artificial Systems}} (\cite{Holland1975}) y constituyen una familia de soluciones con mucho éxito en problemas de aprendizaje, búsqueda y optimización. Desde nuestro punto de vista, podemos decir que la \gls{cev} es el área que trabaja con \gls{ga}\sidenote{
 	Dentro de la \gls{cev} existen familias de algoritmos consideradas por muchos autores como entidades diferentes a los \glspl{ga}:
 	
 	\begin{itemize}
@@ -198,13 +198,13 @@ Basándose en estos conceptos, la estructura de un \gls{ga} se asemeja al proces
 	\item \textbf{Reemplazo}. Tras uno o más pasos de selección, recombinación y mutación, los nuevos individuos generados reemplazarán a individuos de la población inicial. En general la población en un \gls{ga} contiene el mismo número de individuos según pasan las generaciones, pero no es un requisito fundamental.
 \end{itemize}
 
-\subsection{El balance entre biodiversidad y presión selectiva}
+\subsection{El balance de la biodiversidad: presión selectiva y convergencia}
 
 Las características de todo individuo vienen determinadas por su genotipo. Éste contiene conjuntos de uno o más genes que se manifiestan en el fenotipo como rasgos característicos del individuo. Algunos rasgos son más favorables que otros\sidenote{Lo bueno o malo que es un individuo viene determinado también por el entorno y no sólo por el individuo. Un ejemplo claro es el de la mariposa del abedul. A principios del siglo XIX, en Inglaterra, la mariposa se confundía con los líquenes de la corteza del abedul debido a que tenían colores y patrones similares (ambas eran blancas). Sin embargo, un cambio en un único gen las convertía en negras, y por tanto muy apetecibles para los depredadores, por lo que se puede concluir que las mejores eran las de color blanco. Sin embargo, para mediados de siglo, el hollín del humo del carbón de las fábricas había teñido de negro la práctica totalidad de los líquenes convirtiendo la ventaja de la mariposa blanca en una total desventaja. Por tanto, los rasgos son favorables dependiendo del entorno.} y hacen que el individuo tenga más probabilidad de sobrevivir y, por tanto, de recombinarse y transmitir sus genes.
 
-\newthought{La biodiversidad} se refiere a la riqueza genética que existe entre los individuos de la población. Si la biodiversidad es alta, tenemos más posibilidades de combinaciones de genes. Visto de otro modo, cuando tenemos más variedad de genes en la población, la cantidad de posibles soluciones a explorar es mayor.
+\newthought{La presión selectiva} es el mecanismo por el cual se favorece o pensaliza la biodiversidad. Cuando es fácil sobrevivir en un entorno, todas las variaciones de una especie son capaces de recombinarse, tener descendencia y seguir perpetuando rasgos característicos. Cuando es difícil, sólo los más aptos son los que sobreviven y por lo tanto los que se reproducen.
 
-Mantener una biodiversidad justa en un \gls{ga} es esencial. Cuando la variedad genética es demasiado baja, los individuos tienden a ser muy parecidos y se hace imposible que aparezcan rasgos genéticos nuevos\sidenote{En realidad sí es posible, con la mutación, pero generalmente es un operador que entra en juego con probabilidad muy baja y por tanto no se puede depender únicamente en él para mantener la biodiversidad.}, haciendo que el algoritmo se estanque. Por otro lado, cuando la variedad genética es muy alta quiere decir que hay muchos individuos todos con características muy distintas. Esto provoca tal cantidad de posibles variaciones que el algoritmo acaba avanzando muy lentamente hacia la solución. Una ilustración de este concepto se puede ver en la figura~\ref{fig:different-levels-of-biodiversity}.
+\newthought{La biodiversidad} se refiere a la riqueza genética que existe entre los individuos de la población. Si la biodiversidad es alta, tenemos más posibilidades de combinaciones de genes. Visto de otro modo, cuando tenemos más variedad de genes en la población, la cantidad de posibles soluciones a explorar es mayor.
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Tres gráficas donde se ve el efecto de una biodiversidad muy alta, de una biodiversidad normal y de una biodiversidad muy baja.}
@@ -212,9 +212,11 @@ Mantener una biodiversidad justa en un \gls{ga} es esencial. Cuando la variedad 
 	\label{fig:different-levels-of-biodiversity}
 \end{figure}
 
-\newthought{La presión selectiva} es el mecanismo por el cual se favorece o pensaliza la biodiversidad. Cuando es fácil sobrevivir en un entorno, todas las variaciones de una especie son capaces de recombinarse, tener descendencia y seguir perpetuando rasgos característicos. Cuando es difícil, sólo los más aptos son los que sobreviven y por lo tanto los que se reproducen.
+Mantener una biodiversidad justa en un \gls{ga} es esencial. Cuando la variedad genética es demasiado baja, los individuos tienden a ser muy parecidos y se hace imposible que aparezcan rasgos genéticos nuevos\sidenote{En realidad sí es posible, con la mutación, pero generalmente es un operador que entra en juego con probabilidad muy baja y por tanto no se puede depender únicamente en él para mantener la biodiversidad.}, haciendo que el algoritmo se estanque. Por otro lado, cuando la variedad genética es muy alta quiere decir que hay muchos individuos todos con características muy distintas. Esto provoca tal cantidad de posibles variaciones que el algoritmo acaba avanzando muy lentamente hacia la solución. Una ilustración de este concepto se puede ver en la figura~\ref{fig:different-levels-of-biodiversity}.
 
-En un \gls{ga}, la biodiversidad está inversamente relacionada con la presión selectiva. Cuando ésta es muy alta, la biodiversidad disminuye mientras que cuando es muy baja la aumenta. Es importante mantener una presión selectiva en nuestro algoritmo lo suficientemente alta como para que avance rápidamente hacia una solución aceptable pero sin que se estanque en una solución de poca calidad por la falta de diversidad.
+\newthought{Según el algoritmo converge, la biodiversidad disminuye}. Esto es debido a que cuando según vamos acercando nuestra población a una región del espacio, todos los valores que se toman tienden a ser cercanos a esta posición. Esta característica se denomina \textit{explotación}, y es el caso contrario a la \textit{exploración}, es decir, cuando los individuos están distribuidos por todo el espacio de búsqueda buscando posibles soluciones.
+
+Es importante que nuestro algoritmo tienda a explorar en los estacios iniciales de su funcionamiento, y que tienda a explotar cuando se encuentre en momentos cercanos a la localización de una solución. Ésto se puede lograr mediante un buen ajuste de la presión selectiva, aunque el operador de recombinación es el más indicado para gestionar este equilibrio exlporación/explotación.
 
 \subsection{Aptitud y selección de individuos}
 
@@ -273,13 +275,37 @@ Supongamos que tenemos $P = {p_1, \ldots, p_n}$ el dominio del problema (determi
 
 Por ello es importante dedicar especial atención a la codificación de los genotipos de nuestro individuo. Y aunque la codificación es dependiente del problema, existen codificaciones estándar que se usan en la mayoría de los problemas.
 
-\newthought{La codificación en lista} es quizá la más usada en algoritmos genéticos. En esta el genotipo de un individuo se representa como una lista de posibles valores, todos ellos pertenecientes al mismo alfabeto. Existen dos representantes típicas de esta codificación, dependiendo de si el alfabeto es finito o infinito: La representación binaria y la representación real\sidenote{Esto no quiere decir que sean las únicas, sino que son equivalentes. Si nuestro problema necesita una codificación donde el alfabeto necesita 16 caracteres, es más eficiente trabajar con un alfabeto hexadecimal. Cada problema dicta sus necesidades.}.
+\newthought{La codificación \textbf{en lista}} es quizá la más usada en algoritmos genéticos. En ésta, el genotipo de un individuo se representa como una lista de longitud fija de valores, todos ellos pertenecientes al mismo alfabeto.
 
-\newthought{La codificación en árbol}
+Existen dos representantes típicas de esta codificación, dependiendo de si el alfabeto es finito o infinito\sidenote{Esto no quiere decir que sean las únicas, sino que son casi equivalentes. Si, por ejemplo, nuestro problema necesita una codificación donde el alfabeto necesita 16 caracteres, es más eficiente trabajar con un alfabeto hexadecimal. Los alfabetos finitos además tienen una desventaja en función de la cardinalidad del alfabeto: si la cardinalidad es $c$ y la longitud del genotipo es $l$, pueden representar hasta $c^l$ puntos en el espacio por lo que si nuestro problema no requiere de tantos puntos estaremos generando individuos no válidos, con los problemas que ello conlleva (ver~\figurename{fig:why-we-need-a-correct-codification})}: La representación binaria, donde los posibles valores que puede tomar cada gen del genotipo es $0$ o $1$ y la representación real, donde los valores pueden tomar cualquier valor $x \in [0, 1] \subset \mathbb{R}$ (figura~\ref{fig:bin-vs-real-ŕepresentation}).
 
-Hablar de representación de lista de símbolos finitos, de símbolos infinitos, representación en árbol y en árbol generado a partir de árbol gramatical.
+\begin{figure}
+	\missingfigure[figheight=4cm]{Un ejemplo de un problema y una codificacińo de ese problema en binario y en real.}
+	\caption{Diferencias entre una representación binaria y una representación real de un problema.}
+	\label{fig:bin-vs-real-ŕepresentation}
+\end{figure}
+
+No existe una codificación superior a otra, todo depende del problema. El sentido común suele dictar que cuando el dominio del problema es continuo (e.g. aproximación de funciones continuas), se debe usar una codificación infinita mientras que cuando es discreto (e.g. búsqueda de ruta óptima en un grafo), una finita.
+
+\newthought{La codificación en árbol} es otra representación clásica en algoritmos genéticos usada, principalmente, para programación genética. En ella, cada uno de los individuos representa un posible programa. Las ventajas de esta representación son claras: facilidad de definir un problema y longitud variable de genotipos.
+
+Sin embargo, posee dos desventajas principales: la primera es relativa a la operación de recombinación. Debido a que los genes del genotipo son de tipos diferentes (i.e. unos representan a variables, otros representan a constantes, otros a funciones unarias, otros a binarias, ...), es necesario implementar controles para garantizar que un individuo (a) recién creado, (b) resultado de una recombinación o (c) mutado sea válido. La segunda está relacionada con la ventaja de la longitud. Los individuos a lo largo del tiempo en esta representación tienden a crecer (después de todo, el espacio de exploración en un árbol de longitud variable es infinito) por lo que es necsario instalar mecanismos para evitar este comportamiento.
+
+\begin{figure}
+	\missingfigure[figheight=4cm]{Un ejemplo de un árbol de programación genética contra un árbol de programación genética guiada por gramáticas.}
+	\caption{Diferencias entre un árbol que codifica un programa en \glsentryshort{gp} y uno que codifica una palabra de una gramática libre de contexto en \glsentrylong{gggp}.}
+	\label{fig:gp-vs-gggp}
+\end{figure}
+
+Una línea muy prometedora con codificaciones en árbol es la de la \gls{gggp}. En ésta los árboles de los inividuos no representan programas en sí, sino una palabra perteneciente a una gramática libre de contexto (figura~\ref{fig:gp-vs-gggp}). De esta manera, se garantiza que la generación de individuos es válida (se generan a partir de unas reglas de producción) y la recombinación y mutación son más sencillas de implementar.
 
 \subsection{Manipulación de individuos: recombinación y mutación}
+
+La población debe evolucionar para llegar a una solución. El principal paso en la evolución de una población en un \gls{ga} es el de la recombinación, y aunque la mutación nos da probabilidad de saltar a regiones del espacio de búsqueda no exploradas con anterioridad, la recombinación guía todo el proceso de búsqueda hacia la solución.
+
+Ambos operadores dependen más de la representación del problema que del problema en sí. Por ello existen operadores genéricos para codificaciones en lista de alfabeto finito o infinito así como para codificaciones de árboles de programa o gramaticales. Esto no quiere decir que estos operadores no se puedan personalizar, sino que son formas de operar con ventajas y desventajas ya conocidas. Por tanto, si es posible codificar un problema de una forma clásica, no es necesario reimplementar los operadores de recombinación y mutación.
+
+\newthought{La recombinación} es la principal responsable de la búsqueda dirigida en el espacio de estados, es decir, de explorar el espacio y explotar las potenciales soluciones. y esta toma dos formas: exploración y explotación. en el espacio guía al algoritmo hacia mejoers soluci
 
 Recombinaciones clásicas para los individuos de antes. Matizar que la recombinación puede depender mucho del problema.
 
