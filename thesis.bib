@@ -90,13 +90,17 @@
 	publisher={Elsevier}
 }
 
-@inproceedings{al2001framework,
-	title={A framework for modeling human-like driving behaviors for autonomous vehicles in driving simulators},
-	author={Al-Shihabi, Talal and Mourant, Ronald R},
-	booktitle={Proceedings of the fifth international conference on Autonomous agents},
-	pages={286--291},
-	year={2001},
-	organization={ACM}
+@article{al2001framework,
+	abstract = {A framework for modeling driver behavior within driving simulators is described in this paper. This framework serves as a basis for building human-like driving behavior models for autonomous vehicles operating within the virtual environment of a driving simulator. The framework consists of four units, the Perception Unit, the Emotions Unit, the Decision-making Unit (DMU), and the Decision-implementation Unit (DIU). The Perception Unit defines how the model perceives its environment in local and global terms. The Emotions Unit defines how the model responds emotionally to its environment. The DMU investigates the environment for possible actions that might potentially serve the model's emotional demands. And finally the DIU tries to implement these decisions when a traffic condition, perceived as safe enough for such an implementation, emerges. Each of these units has its own set of fuzzy variables and fuzzy ifthen rules. Any driving model, that is based on this framework, should provide membership function parameters for these fuzzy variables in accordance with the category of human driving behavior this model is targeting. Our framework addresses decision making and implementation at the maneuvering and operational levels of the driving task. Decisions at the planning level are addressed through a script-based traffic controller. The present model is limited to simulating human behaviors when driving in a two-lane rural environment.},
+	author = {Al-Shihabi, T and Mourant, R R},
+	doi = {10.1145/375735.376310},
+	file = {:home/blazaid/Downloads/A{\_}framework{\_}for{\_}modeling{\_}human-like{\_}driving{\_}behavi.pdf:pdf},
+	isbn = {158113326X},
+	journal = {The 5th International Conference on Autonomous Agents.},
+	number = {June},
+	pages = {286--291.},
+	title = {{A framework for modeling human-like driving behaviors for autonomous vehicles in driving simulators.}},
+	year = {2001}
 }
 
 @incollection{michon1985critical,
@@ -180,14 +184,15 @@
 }
 
 @article{sekizawa2007modeling,
-	title={Modeling and recognition of driving behavior based on stochastic switched ARX model},
-	author={Sekizawa, Shogo and Inagaki, Shinkichi and Suzuki, Tatsuya and Hayakawa, Soichiro and Tsuchida, Nuio and Tsuda, Taishi and Fujinami, Hiroaki},
-	journal={IEEE Transactions on Intelligent Transportation Systems},
-	volume={8},
-	number={4},
-	pages={593--606},
-	year={2007},
-	publisher={IEEE}
+	abstract = {This paper presents the development of the modeling and recognition of human driving behavior based on a stochastic switched autoregressive exogenous (SS-ARX) model. First, a parameter estimation algorithm for the SS-ARX model with multiple measured input-output sequences is developed based on the expectation-maximization algorithm. This can be achieved by extending the parameter estimation technique for the conventional hidden Markov model. Second, the developed parameter estimation algorithm is applied to driving data with the focus being on driver's collision avoidance behavior. The driving data were collected using a driving simulator based on the cave automatic virtual environment, which is a stereoscopic immersive virtual reality system. Then, the parameter set for each driver is obtained, and certain driving characteristics are identified from the viewpoint of switched control mechanism. Finally, the performance of the SS-ARX model as a behavior recognizer is examined. The results show that the SS-ARX model holds remarkable potential to function as a behavior recognizer.},
+	author = {Sekizawa, Shogo and Inagaki, Shinkichi and Suzuki, Tatsuya and Hayakawa, Soichiro and Tsuchida, Nuio and Tsuda, Taishi and Fujinami, Hiroaki},
+	journal = {IEEE Transactions on Intelligent Transportation Systems},
+	keywords = {Behavior recognition,Driving behavior,Expectation-maximization (EM) algorithm,Hidden Markov model (HMM),Stochastic switched autoregressive exogenous (SS-A},
+	number = {4},
+	pages = {593--606},
+	title = {{Modeling and recognition of driving behavior based on stochastic switched ARX model}},
+	volume = {8},
+	year = {2007}
 }
 
 @inproceedings{terada2010multi,
@@ -411,7 +416,7 @@
 	keywords = {car-following models,driving behaviour,heavy vehicles,heterogeneous traffic,traffic flow modelling},
 	number = {May 2015},
 	pages = {37--41},
-	title = {{Transport Reviews : A Transnational A State-of-the-Art Review of Car- Following Models with Particular Considerations of Heavy Vehicles}},
+	title = {A State-of-the-Art Review of Car- Following Models with Particular Considerations of Heavy Vehicles},
 	url = {http://www.tandfonline.com/loi/ttrv20$\backslash$nhttp://dx.doi.org/10.1080/01441647.2014.997323$\backslash$nhttp://www.tandfonline.com/page/terms-and-conditions},
 	volume = {35},
 	year = {2015}
@@ -466,11 +471,13 @@
 	year = {2012}
 }
 
-@article{Ma,
+@article{Ma2004,
 	abstract = {Objectives In the past decades, car following and lane changing behaviours, the soul of microscopic traffic simulation, have been intensively studied and different forms of models have been proposed and implemented. Most of the models use mathematical formulas and conventional logic rules to represent the driver knowledge and the models are calibrated by measured data on variables predetermined by the expert knowledge. However, human drivers have the characteristics of making decision based on the imprecise perceptions of the surrounding environments and they also behave in an integrated way, which means that they are taking care of lane changing and car following at the same time. In this research, a fuzzy inference system is proposed to represent the human driving knowledge including both car following and lane changing behaviour. Neural network is used to calibrate and tune the structure and parameters of the fuzzy inference system.},
 	author = {Ma, Xiaoliang},
-	file = {:home/blazaid/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Ma - Unknown - Toward An Integrated Car-following and Lane- changing Model by A Neural Fuzzy Approach(2).pdf:pdf},
-	title = {{Toward An Integrated Car-following and Lane- changing Model by A Neural Fuzzy Approach}}
+	file = {:home/blazaid/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Ma - Unknown - Toward An Integrated Car-following and Lane- changing Model by A Neural Fuzzy Approach.pdf:pdf},
+	pages = {1--15},
+	title = {{Toward An Integrated Car-following and Lane- changing Model by A Neural Fuzzy Approach}},
+	year = {2004}
 }
 
 @article{McCulloch1943,
@@ -913,4 +920,52 @@
 	title = {{Evolutionsstrategie Optimierung technischer Systeme nach Prinzipien der biologishen Evolution}},
 	url = {http://www.jstor.org/stable/23679080 http://tocs.ulb.tu-darmstadt.de/18420222.pdf},
 	year = {1973}
+}
+
+@article{Toledo2007,
+	abstract = {This paper develops, implements and tests a framework for driving behavior modeling that integrates the various decisions, such as acceleration, lane changing and gap acceptance. Furthermore, the proposed framework is based on the concepts of short-term goal and short-term plan. Drivers are assumed to conceive and perform short-term plans in order to accomplish short-term goals. This behavioral framework supports a more realistic representation of the driving task, since it captures drivers' planning capabilities and allows decisions to be based on anticipated future conditions. An integrated driving behavior model, which utilizes these concepts, is developed. The model captures both lane changing and acceleration behaviors. The driver's short-term goal is defined by the target lane. Drivers who wish to change lanes but cannot change lanes immediately, select a short-term plan to perform the desired lane change. Short-term plans are defined by the various gaps in traffic in the target lane. Drivers adapt their acceleration behavior to facilitate the lane change using the target gap. Hence, inter-dependencies between lane changing and acceleration behaviors are captured. {\textcopyright} 2007 Elsevier Ltd. All rights reserved.},
+	author = {Toledo, Tomer and Koutsopoulos, Haris N. and Ben-Akiva, Moshe},
+	doi = {10.1016/j.trc.2007.02.002},
+	isbn = {0968090X},
+	issn = {0968090X},
+	journal = {Transportation Research Part C: Emerging Technologies},
+	keywords = {Acceleration,Driving behavior,Lane changing,Traffic simulation},
+	month = {apr},
+	number = {2},
+	pages = {96--112},
+	pmid = {1051786},
+	title = {{Integrated driving behavior modeling}},
+	url = {http://linkinghub.elsevier.com/retrieve/pii/S0968090X07000046},
+	volume = {15},
+	year = {2007}
+}
+
+@article{Gipps1986,
+	abstract = {A structure is proposed to connect the decisions which a driver has to make before changing lanes. The model is intended to cover the urban driving situation, where traffic signals, obstructions and heavy vehicles all exert an influence. The structure is designed to ensure that the vehicles in traffic simulations behave logically when confronted with situations commonly encountered in real traffic. The specific mathematical expression of the questions embedded in the decision process and employed in the present implementation of the model are not critical and can be replaced by alternatives, but the heirarchy of the decisions is crucial. On the basis of experience to date, the lane changing model produces a realistic simulation of driver behaviour and has proved very robust under a wide range of conditions. ?? 1986.},
+	author = {Gipps, P. G.},
+	doi = {10.1016/0191-2615(86)90012-3},
+	isbn = {0191-2615},
+	issn = {01912615},
+	journal = {Transportation Research Part B},
+	month = {oct},
+	number = {5},
+	pages = {403--414},
+	title = {{A model for the structure of lane-changing decisions}},
+	url = {http://linkinghub.elsevier.com/retrieve/pii/0191261586900123},
+	volume = {20},
+	year = {1986}
+}
+
+@article{Yang1996,
+	abstract = {A MIcroscopic Traffic SIMulator (MITSIM) has been developed for modeling traffic networks with advanced traffic control, route guidance and surveillance systems. MITSIM represents networks in detail and simulates individual vehicle movements using car following, lane changing, and traffic signal responding logic. A probabilistic route choice model is used to capture drivers' route choice decisions in the presence of real time traffic information provided by route guidance systems. The simulator is a component of a larger system for evaluating traffic management systems and interacts with a surveillance module that can represent a wide variety of sensors (e.g. loop detectors, area sensors, probe vehicles, etc.) and a traffic management module which sets traffic signals and signs, routing recommendations, etc. MITSIM is coded in C + + using object-oriented design and supports distributed implementation. It includes a graphical user interface for animating vehicle movements in the network and displaying aggregate traffic information such as speed and density. Copyright ?? 1996 Elsevier Science Ltd.},
+	author = {Yang, QI and Koutsopoulos, Haris N.},
+	doi = {10.1016/S0968-090X(96)00006-X},
+	file = {:home/blazaid/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Yang, Koutsopoulos - 1996 - A Microscopic Traffic Simulator for evaluation of dynamic traffic management systems.pdf:pdf},
+	issn = {0968090X},
+	journal = {Transportation Research Part C: Emerging Technologies},
+	number = {3 PART C},
+	pages = {113--129},
+	title = {{A microscopic traffic simulator for evaluation of dynamic traffic management systems}},
+	volume = {4},
+	year = {1996}
 }
