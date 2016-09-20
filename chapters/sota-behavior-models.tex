@@ -1,15 +1,11 @@
 \chapter{Modelos de comportamiento}
 \label{ch:sota-behavior-models}
 
-En un microsimulador de tráfico basado en \gls{mas}, cada uno de los agentes trabaja de manera independiente sobre el mismo problema (el tráfico), y esto nos ofrece un entorno ideal para modelar y estudiar el comportamiento de cada uno de ellos independientemente.
+El objetivo que perigue la simulación de tráfico es hacer cada vez más realistas los modelos generados. Cuando el modelo está basado en \gls{mas}\sidenote{Donde cada uno de los agentes trabaja de manera independiente sobre el mismo problema, esto es, el tráfico.}, el realismo aumenta cuanto más se asemeja el comportamiento de un agente al de un conductor real.
 
-La mayoría de los modelos de comportamiento existentes (\TODO{Me parece que a partir del 2000 o así ha habido un despunte. Comprobar}) basan su funcionamiento en técnicas pertenecientes al \glsentrylong{hc} (recordemos: aquellas basadas en fórmulas matemáticas y reglas de la lógica convencional) con parámetros que se ajustan a partir de la observación de datos reales. Sin embargo, en los últimos años ha empezado a crecer el interés por técnicas de \gls{ci} en el campo y por tanto existen ciertos estudios de técnicas más acorde con este punto de vista.
+¿A qué nos referimos cuando hablamos del "comportamiento"? Según el diccionario de la real academia, \enquote{comportar} se define como \textit{actuar de una manera determinada}. Sin embargo, no queda claro qué factores constituyen el comportamiento al volante, es decir.
 
-En este capítulo se explorará qué modelos de interés se han desarrollado hasta el momento bajo el praaguas de la \gls{ci}.
-
-\section{Comportamiento en la conducción}
-
-El término \textit{comportar} se define como \textit{actuar de una manera determinada}. El comportamiento al volante se refiere a la manera que tiene un conductor de comportarse durante la tarea de la conducción. Por tanto, para determinar el comportamiento durante la conducción de un individuo es necesario identificar qué tareas son clave durante la ejecución de la misma.
+Conducir implica la ejecución de múltiples tareas en paralelo, cada una de diferente nivel cognitivo. Además, las acciones no está limitadas a la interacción con el vehículo; el conductor ha de tener en cuenta otros factores como, por ejemplo, la situación de tráfico en la que se encuentra inmerso, las señales, los peatones o los dispositivos \gls{its}.
 
 \begin{figure}
 	\centering
@@ -18,11 +14,19 @@ El término \textit{comportar} se define como \textit{actuar de una manera deter
 	\label{fig:three-levels-of-human-driving}
 \end{figure}
 
-Éstas tareas no son úncamente aquellas relacionadas con la interacción con el vehículo. Incluyen otras muchas tareas (e.g. identificar la situación en la que se encuentra inmerso, las señales, los peatones, \ldots), cada una de diferente nivel cognitivo.
+Michon en \cite{michon1985critical} divide en tres los niveles de abstracción de las tareas: el de \textbf{control}, que se ocupa de las tareas de más bajo nivel como aceleración, freno, cambios de marcha destinadas a mantener la conducción, el de \textbf{maniobra} o táctico, donde sus tareas son las encargadas de mantener la interacción con el entorno como los cambios de carril o el control de las señales y demás estímulos externos, y el \textbf{estratégico}, que engloba las tareas de más alto nivel como el razonamiento y la planificación de rutas (ver figura~\ref{fig:three-levels-of-human-driving}).
 
-En \cite{michon1985critical} el autor divide en tres los niveles de abstracción de las tareas involucradas durante la conducción: el de \textbf{control}, que se ocupa de las tareas de más bajo nivel como aceleración, freno, cambios de marcha destinadas a mantener la conducción, el de \textbf{maniobra} o táctico, donde sus tareas son las encargadas de mantener la interacción con el entorno como los cambios de carril o el control de las señales y demás estímulos externos, y el \textbf{estratégico}, que engloba las tareas de más alto nivel como el razonamiento y la planificación de rutas (ver figura~\ref{fig:three-levels-of-human-driving}).
+El comportamiento de un conductor al volante tiene una relación directa con el nivel de abstracción de maniobra o táctico. Ésta se puede concebir como la encargada de planificar acciones a corto plazo para conseguir objetivos a corto plazo. Las tareas de control son automáticas, y influyen poco o nada en las tomas de decisión relacionadas con tareas como cuánto acelerar en esta situación y cuándo cambiar de tráfico. Las tareas estratégicas estan a un nivel más alto de abstracción (e.g. la ruta a seguir hasta mi destino) y tampoco afectan demiasiado al comportamiento en situaciones concretas\sidenote{No obstante algunos autores (e.g. \TODO{Observation-based lane-vehicle-asignment hierarchy for microscopic simulation on an urban street network} o \TODO{Modeling integrated lane changing behavior}) han demostrado que en ocasiones, la planificación de la ruta sí afecta a la preferencia de un conductor por un carril determinado.}.
 
-Según esta jerarquía, el aspecto del comportamiento sobre el que trabajamos en esta tesis es el del nivel de \textbf{maniobra}. Ésta se puede concebir como la encargada de planificar acciones a corto plazo para conseguir objetivos a corto plazo. Planificaciones a más alto nivel como el de la planificación de una ruta o de más bajo nivel como decidir qué presión aplicar en el freno quedan fuera del estudio.
+En este capítulo se explorará qué modelos de interés dentro de la \ac{ci} se han desarrollado hasta el momento y cuáles son sus limitaciones.
+
+\section{Tipos de maniobra}
+
+A lo largo de la literatura los modelos de comportamiento se han centrado en dos tipos concretos de situaciones o tareas: las de \textbf{aceleración}, que determinan cuándo el conductor acelera o decelera en un carril y las de \textbf{cambio de carril} o \textit{\index{lane-changing}}, que determinan cuándo el conductor cambia de un carril a otro.
+
+La mayoría de los modelos de comportamiento existentes basan su funcionamiento en técnicas pertenecientes al \glsentrylong{hc} o lo que es lo mismo, están basados en fórmulas matemáticas y reglas de la lógica convencional con parámetros que se ajustan a partir de la observación de datos reales. Sin embargo, desde mediados de los años $90$ empezó a crecer el interés por las técnicas de la \gls{ci}.
+
+En \cite{Toledo2007} se introduce un modelo lineal tochísimo y horrible que integra lane-changing y car-following (y gap acceptance) en un único modelo, basábndose en los conceptos de short-term goal y short-term plan. Es decir, los conductores elaboran planes a corto plazo para realizar aacciones a corto plazo.
 
 \begin{figure}
 	\centering
