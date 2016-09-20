@@ -1,15 +1,15 @@
 \chapter{Modelos de comportamiento}
 \label{ch:sota-behavior-models}
 
-En un microsimulador de tráfico basado en \gls{mas}, cada uno de los agentes trabaja de manera independiente sobre el mismo problema (el tráfico). El comportamiento de éstos no está limitado a interactuar con el vehículo, sino que ha de tener en cuenta otros factores como la situación de tráfico en la que se encuentra inmerso, las señales, los peatones, los dispositivos \gls{its}, etcétera.
+En un microsimulador de tráfico basado en \gls{mas}, cada uno de los agentes trabaja de manera independiente sobre el mismo problema (el tráfico), y esto nos ofrece un entorno ideal para modelar y estudiar el comportamiento de cada uno de ellos independientemente.
 
-La mayoría de los modelos de comportamiento existentes (\TODO{Me parece que a partir del 200 o así ha habido un despunte. Comprobar}) basan su funcionamiento en técnicas pertenecientes al \gls{hc} o lo que es lo mismo, están basados en fórmulas matemáticas y reglas de la lógica convencional con parámetros que se ajustan a partir de la observación de datos reales. Sin embargo, en los últimos años ha empezado a crecer el interés por las técnicas de la \gls{ci} en el campo y por tanto existen ciertos estudios de técnicas más acorde con este punto de vista.
+La mayoría de los modelos de comportamiento existentes (\TODO{Me parece que a partir del 2000 o así ha habido un despunte. Comprobar}) basan su funcionamiento en técnicas pertenecientes al \glsentrylong{hc} (recordemos: aquellas basadas en fórmulas matemáticas y reglas de la lógica convencional) con parámetros que se ajustan a partir de la observación de datos reales. Sin embargo, en los últimos años ha empezado a crecer el interés por técnicas de \gls{ci} en el campo y por tanto existen ciertos estudios de técnicas más acorde con este punto de vista.
 
-En este capítulo se explorará qué se entiende como comportamiento de conductor y qué modelos de interés dentro de la \ac{ci} se han desarrollado hasta ahora.
+En este capítulo se explorará qué modelos de interés se han desarrollado hasta el momento bajo el praaguas de la \gls{ci}.
 
 \section{Comportamiento en la conducción}
 
-¿A qué nos referimos cuando hablamos del "comportamiento"? Según el diccionario de la real academia, \enquote{comportar} se define como \textit{actuar de una manera determinada}. Sin embargo, no queda claro qué factores constituyen el comportamiento al volante, es decir.
+El término \textit{comportar} se define como \textit{actuar de una manera determinada}. El comportamiento al volante se refiere a la manera que tiene un conductor de comportarse durante la tarea de la conducción. Por tanto, para determinar el comportamiento durante la conducción de un individuo es necesario identificar qué tareas son clave durante la ejecución de la misma.
 
 \begin{figure}
 	\centering
@@ -18,18 +18,54 @@ En este capítulo se explorará qué se entiende como comportamiento de conducto
 	\label{fig:three-levels-of-human-driving}
 \end{figure}
 
-Conducir implica la ejecución de múltiples tareas en paralelo, cada una de diferente nivel cognitivo. Michon en \cite{michon1985critical} divide en tres los niveles de abstracción de las tareas: el de \textbf{control}, que se ocupa de las tareas de más bajo nivel como aceleración, freno, cambios de marcha destinadas a mantener la conducción, el de \textbf{maniobra} o táctico, donde sus tareas son las encargadas de mantener la interacción con el entorno como los cambios de carril o el control de las señales y demás estímulos externos, y el \textbf{estratégico}, que engloba las tareas de más alto nivel como el razonamiento y la planificación de rutas (ver figura~\ref{fig:three-levels-of-human-driving}).
+Éstas tareas no son úncamente aquellas relacionadas con la interacción con el vehículo. Incluyen otras muchas tareas (e.g. identificar la situación en la que se encuentra inmerso, las señales, los peatones, \ldots), cada una de diferente nivel cognitivo.
 
-Según esta jerarquía, el aspecto del comportamiento sobre el que trabajamos en esta tesis es el del nivel de maniobra. Ésta se puede concebir como la encargada de planificar acciones a corto plazo para conseguir objetivos a corto plazo. Planificaciones a más alto nivel como el de la planificación de una ruta o de más bajo nivel como decidir qué presión aplicar en el freno quedan fuera del estudio.
+En \cite{michon1985critical} el autor divide en tres los niveles de abstracción de las tareas involucradas durante la conducción: el de \textbf{control}, que se ocupa de las tareas de más bajo nivel como aceleración, freno, cambios de marcha destinadas a mantener la conducción, el de \textbf{maniobra} o táctico, donde sus tareas son las encargadas de mantener la interacción con el entorno como los cambios de carril o el control de las señales y demás estímulos externos, y el \textbf{estratégico}, que engloba las tareas de más alto nivel como el razonamiento y la planificación de rutas (ver figura~\ref{fig:three-levels-of-human-driving}).
 
-\section{Tareas de planificación a corto plazo}
+Según esta jerarquía, el aspecto del comportamiento sobre el que trabajamos en esta tesis es el del nivel de \textbf{maniobra}. Ésta se puede concebir como la encargada de planificar acciones a corto plazo para conseguir objetivos a corto plazo. Planificaciones a más alto nivel como el de la planificación de una ruta o de más bajo nivel como decidir qué presión aplicar en el freno quedan fuera del estudio.
 
-A lo largo de los años se han estudiado diferentes modelos de comportamiento de conductor. Éstos suelen caer dentro de dos categorías principalmente, el \textbf{car-following} o \textit{seguimiento de vehículos} que se ocupa de determinar el comportamiento de un vehículo en función del comportamiento del inmediatamente siguiente y el \textbf{lane-changing} o \textit{cambio de carril} que estudia la forma en la que un conductor decide realizar un cambio de un carril origen a un carril destino. Y aunque tradicionalmente se han tratado como dos modelos independientes y ha sido estudiado más el primero que el segundo desde los años 1950, en los últimos 20 años se ha tendido a modelar ambos problemas como un único mecanismo~\cite{Ma2004}.
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+	\tikzset{every concept/.style={minimum size=2cm, text width=2cm}}
+	\path[mindmap,concept color=MidnightBlue, text=white]
+	node[concept] {modelos} [clockwise from=300]
+	child[level distance=100, concept color=RoyalBlue] {
+		node[concept] {aceleración} [clockwise from=30]
+		child[concept color=Peach] {
+			node[concept] {free-flow}
+		}
+		child[concept color=Peach] {
+			node[concept] {car-following}
+		}
+	}
+	child[level distance=100, concept color=RoyalBlue] {
+		node[concept] {lane-changing} [clockwise from=210]
+		child[concept color=Peach] {
+			node[concept] {lane-selection}
+		}
+		child[concept color=Peach] {
+			node[concept] {gap-acceptance}
+		}
+	};
+	\end{tikzpicture}
+	\caption{Las diferentes tareas para modelar el comportamiento de un conductor al volante. Están clasificadas en dos tipos, de aceleración, encargadas de definir cómo acelera el conductor en casos con y sin vehículo delantero y de lane-changing, encargadas de las tareas relacionadas con el cambio de carril.}
+	\label{fig:behavior-model-classification}
+\end{figure}
 
-\TODO{Creo que en lugar de separar en lane-changing, car follownig y sucesivos, habría que explicarlos y luego en un apartado más adelante revisar el estado del arte en comportamientos.}
+\section{Modelos a reproducir}
 
+En el nivel táctico del comportamiento, las tareas que se realizan durante la conducción son las relacionadas a circular con el vehículo dentro del flujo de tráfico, sin bajar demasiado de detalle. En la literatura, estas tareas se centran en dos clases de tarea diferentes (figura \ref{fig:behavior-model-classification}): la de \textbf{aceleración}, encargadas de modelar el comportamiento de un conductor en el carril en el que se encuentra y las de \textbf{cambio de carril}, encargadas de decidir y ejecutar los cambios de carril.
 
-En \cite{Toledo2007} se introduce un modelo lineal tochísimo y horrible que integra lane-changing y car-following (y gap acceptance) en un único modelo, basábndose en los conceptos de short-term goal y short-term plan. Es decir, los conductores elaboran planes a corto plazo para realizar aacciones a corto plazo.
+Estas dos clases se han tratado tradicionalmente como modelos independientes, siendo los modelos de aceleración mucho más estudiados en la literatura respecto al los de cambio de carril\sidenote{Este hecho es motivado por la dificultad en la captura de datos en el cambio de carril y por tanto en su escasez.}.
+
+Sin embargo, a partir de los años $90$ se ha tendido al desarrollo de modelos de comportamiento que combinan los modelos de aceleración y de cambio de carril (\cite{Ma2004}). Un ejemplo actual de este tipo de modelos es el descrito en \cite{Toledo2007}, el cual se basa en el concepto de \enquote{objetivo a corto plazo} para elaborar un \enquote{plan a corto plazo} apoyándose en un árbol de decisión que determina la accinó a realizar (ver figura~\ref{fig:toledo-2007-behavior-model-tree}).
+
+\begin{figure}
+	\includegraphics{toledo-2007-behavior-model-tree}
+	\caption{Estructura del modelo de comportamiento de los vehículos en \cite{Toledo2007}. El agente comprueba constantemente se desea o no cambiar de carril, y una vez decidido comprueba la viabilidad. En cualquier caso, toda decisión finaliza con la comprobación de la aceleración. Fuente: \cite{Toledo2007}.\TODO{Quizá la imagen es muy grande y quedaría mejor si la hiciésemos más pequeña.}}
+	\label{fig:toledo-2007-behavior-model-tree}
+\end{figure}
 
 SUMO usa (al menos así lo indican en el paper del 2002) el modelo Gipps\cite{krajzewicz2002sumo}. No sé si ellos han hecho una extensión del modelo o están referenciando la extensión y ellos sólo la implementan. En el paper del 2012 citan que el modelo car-following que usan por defecto es el desarrollado por Stefan Krauß\cite{jin2016evaluation}, debido a su simplicidad y su velocidad de ejecución. El modelo ha probado ser válido, pero tiene algunos defectos, por lo que existe un API para implementar otros modelos. En la actualidad están incluidos en el sistema los modelos IDM\cite{treiber2000congested} (\textit{Intelligent Driver Model}), el modelo de tres fases de Kerner\cite{kerner2008testbed} y el modelo de Wiedemann\cite{wiedemann1974simulation}.
 
