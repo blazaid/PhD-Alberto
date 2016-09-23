@@ -49,33 +49,50 @@ En el nivel táctico del comportamiento, las tareas que se realizan durante la c
 		}
 	};
 	\end{tikzpicture}
-	\caption{Las diferentes tareas para modelar el comportamiento de un conductor al volante. Están clasificadas en dos tipos, de aceleración, encargadas de definir cómo acelera el conductor en casos con y sin vehículo delantero y de lane-changing, encargadas de las tareas relacionadas con el cambio de carril.}
+	\caption{Las diferentes tareas para modelar el comportamiento de un conductor al volante. Están clasificadas en dos tipos, de aceleración, encargadas de definir cómo acelera el conductor en casos con y sin vehículo delantero y de lane-changing, encargadas de las tareas relacionadas con el cambio de carril.\TODO{Volver a echar un ojo a modelos de aceleracińo porque lo he cambiado.}}
 	\label{fig:behavior-model-classification}
 \end{figure}
+
+...
+
+Microscopic models include gap-acceptance, speed adaptation, lane changing, ramp merging, overtaking,
+and car-following models (Olstam and Tapani, 2004, Comparison of Car-following Models).
 
 \subsection{Modelos de aceleración}
 
 Se ocupan de gestionar el comportamiento del conductor sobre la aceleración (positiva o negativa) en un entorno lineal como lo es un carril de tráfico.
 
-Se identifican dos comportamientos diferenciados dentro de este: el \textbf{\index{free-flow}} o circulación sin impedimento, donde el comportamiento del conductor viene motivado por la velocidad que quiere alcanzar sin impedimentos (más allá de los impuestos por el tipo y condición de la vía) y el \textbf{\index{car-following}} donde el comportamiento se ve influenciado por el coche delantero en el mismo carril, obligando a disminuir la velocidad deseada en el conductor en cuestión.
+Las primeras menciones sobre modelos de aceleración se atribuyen a Reuschel (1950) y \cite{Pipes1953} por sus trabajos sobre el concepto de \textit{\idx{car-following}}.
 
-\newthought{Los modelos de \index{free-flow}} ...
+\newthought{Un vehículo está en una situación de \idx{car-following}} cuando su velocidad está condicionado por el vehículo que se encuentra frente a él. El primer trabajo concreto es el de \cite{Pipes1953}, en el que el comportamiento responde a tratar de mantener un espacio variable en función de la velocidad\sidenote{En este modelo en concreto, el espacio viene determinado a partir de la ecuación de la velocidad cuando el tiempo no baja de $1,02$ segundos.}. Este modelo se puede considerar de una clase que denominaremos \textit{mantenimiento de medida} dado que su objetivo es manmtener constantemente una distancia segura. Otros trabajos trabajan con el mantenimiento de otras medidas como distancia relativa al parachoque delantero o trasero.
 
-\newthought{Si la velocidad está condicionada} a la de un vehículo delantero hablamos de una situación \textbf{\index{car-following}}. Se dice que el vehículo está siguiendo (\textit{following}) a otro vehículo si, en el caso de ir a la velocidad deseada, éste acabaría colisionando con el vehículo seguido\sidenote{Más formalmente, un modelo de este tipo es una serie de ecuaciones y reglas que actualizan las propiedades de un vehículo $n$ a lo largo del tiempo, siendo éste representado por una tupla de la forma $(x_n, v_n, a_n)$ donde $x_n$ es la localización espacial, $v_n$ la velocidad y $a_n$ la aceleración.}.
+Posteriormente, en $1958$, se presentó el modelo GM\sidenote{Debido a que el desarrollo del modelo se realizó dentro de la \textit{General Motors Corporation}.} (\cite{Chandler1958}), el cual sirvió como base para el desarrollo de numerosos modelos posteriores. Este modelo se caracteriza por el uso del concepto \textit{estímulo $\leftarrow$ respuesta}, donde la acción (respuesta) del vehículo es debida a la activación de un estímulo tras pasar un tiempo de retardo  $\tau$. En el modelo de \cite{Chandler1958} la respuesta es el cambio de tasa de aceleración en función de la variación de la distancia al vehículo delantero. Algunas modificaciones sobre el algoritmo original son, entre otras, la asimetría en la tasa de cambio de aceleración y deceleración o la inclusión de segundos coches delanteros (\cite{Gazis1959}, \cite{Bexelius1968}).
 
-Los diferentes modelos de \index{car-following} existentes basan su funcionamiento en relacionar la velocidad del vehículo con algún factor medible. Se identifican cuatro factores diferentes en los que están basados los modelos de \index{car-following} (\cite{Aghabayk2015} y \cite{Toledo2007-3}:
+\begin{figure}
+	\missingfigure[figheight=4cm]{Una clasificación entre los tres tipos identificados de car-following: mantenimiento de medidas, estímulo-respuesta y psicofísicos}
+	\caption{Los tres tipos generales de modelo de \textit{car-following}: basados en mantenimiento de medidas, basados en estímulo-respuesta y psicofísicos.}
+	\label{fig:car-following-there-different-models}
+\end{figure}
 
-\begin{itemize}
-	\item \textbf{Espacio}. Basan su funcionamiento en mantener una distancia segura con el vehículo delantero, normalmente variable en función de la velocidad (\cite{Pipes1953}, \TODO{Nonlinear effects on the dynamics of car following}). El problema por el que el comportamiento exhibido en estas relaciones no se corresponde con el comportamiento real se atribuye a que un conductor reacciones a muchos más estímulos.
-	\item \textbf{Estímulo-respuesta}. La respuesta está directamente relacionada con el estímulo creado por el comportamiento del coche de delante, generalmente una respuesta de tipo aceleración o deceleración aplicada con un pequeño retardo $\tau$ (\cite{Chandler1958}). Algunas modificaciones sobre el algoritmo original son la asimetría en la tasa de cambio de aceleración y deceleración (\TODO{Car following and steady-state flow}) o la inclusión de segundos coches delanteros (\TODO{Car following theory of steady state traffic flow}, \TODO{An extended model for car following}). Los métodos de esta clase de modelo suelen ser sencillos, pero tiene dos problemas principales, (i) que los modelos no capturan los comportamintos de diferentes tipos de conductores o vehículos y (ii) supone que el conductor es capaz de observar los más mínimos cambios en el coche delantero cuando esto en realidad no es así.
-	\item \textbf{Psicofísicos}. Éstos asumen que los cambios se perciben a partir de un determinado umbral, a diferencia del resto de modelos vistos hasta ahora que varían en función del cambio de otras medidas, independientemente de los mínimas que sean. Introducen el concepto de \textit{umbral perceptual} de una medida como el límite a partir del cual se observa un cambio en dicha medida.
-\end{itemize}
+Los métodos de estas dos clases de modelo suelen ser sencillos de implementar, pero tienen un problema principal: suponen que el conductor es capaz de percibir todo cambio, incluso el más mínimo, en el coche delantero cuando esto en realidad no es así. En $1974$ apareció una nueva clase de modelos de \textit{\idx{car-following}}, denominados posteriormente como \textbf{psicofísicos} (\cite{wiedemann1974simulation} and \cite{Leutzbach1988}) donde se introduce el concepto de \textit{umbral perceptual}\sidenote{El \textit{umbral perceptual} de una medida es el límite a partir del cual se percibe un cambio en dicha medida. Mediante el uso de umbrales perceptuales, se limitan las acciones de los coches a cambios perceptibles en los coches delanteros.} como medida para superar la limitación de los otros dos tipos de modelo.
+
+Sucesivos trabajos sobre el concepto de \textit{umbral perceptual} y los modelos psico-físicos llevaron a conclusión de que el \textit{\idx{car-following}} no era más que una clase más de un conjunto más amplio de modelos de aceleración (ver imagen~\ref{fig:acceleration-model-classes}). En \cite{wiedemann1992microscopic} se proponen hasta cuatro clases diferentes de modelos de aceleración en función de las posiciones y velocidades relativas entre el vehículo sujeto y el siguiente: \textit{free-flow}, donde el vehículo no se ve afectado por el comportamiento del siguiente vehículo y se basa en velocidad que quiere alcanzar sin impedimentos (más allá de los impuestos por el tipo y condición de la vía), \textit{car-following} cuando el comportamiento del vehículo se ve influenciado por el vehículo delantero, obligando a disminuir la velocidad deseada en el conductor en cuestión, \textit{approaching} como situación intermedia entre las dos anteriores y \textit{emergency} cuando la situación es crítica (e.g. colisión inminente). Otros autores posteriormente (e.g. \cite{Toledo2003} o \cite{Liu2013}) diferencian otras situaciones como el \textit{close-following} o \textit{stop-and-go}
+
+\begin{figure}
+	\missingfigure[figheight=4cm]{Diferentes clases de modelos de aceleración}
+	\caption{El modelo \textit{car-following} sólo es uno entre muchas clases de modelos de aceleración.}
+	\label{fig:acceleration-model-classes}
+\end{figure}
+
+\newthought{Agrupar en un mismo modelo} las diferentes clases de modelos de aceleración es un trabajo que se empezó a desarrollar a partir de los años $1990$. Los principales problemas son la complejidad de estos modelos, ya que aumentar las clases implica la generalización de multitud de factores. Algunos trabajos a este respecto son el modelo de Gipps (\cite{Gipps1986}) el cual agrupa las clases \textit{\idx{free-flow}} y \textit{\idx{car-following}} o el modelo Optimal Velocity (\cite{Bando1998}) que agrupa \textit{\idx{free-flow}}, \textit{\idx{car-following}} y \textit{stop-and-go}.
+
+Una característica de todos los modelos hasta el momento es que no capturan los comportamientos de los diferentes tipos de conductor o vehículo. Sin embargo, el comportamiento puede variar en función de los comportamientos de los vehículos que se encuentran en su entorno (\cite{Tordeux2010}). Algunos estudios recientes como los de Simonelli et al. (2009), Colombaroni and Fusco, 2013 o Zheng et al., 2013 se puede decir que incorporan el comportamiento del entorno, pero únicamente porque entrenan redes neuronales con información tanto del coche como del entorno y por tanto éstas pueden haber aprendido detalles de éste. Más adelante se hablará de los modelos basados en técniacs de la glsentrylong{ci}.
 
 \subsection{Modelos de cambio de carril}
 
 El tráfico real no está compuesto por un sólo carril, sino por varios, donde los adelantamentos son necesarios para evitar congestiones y donde se necesitan cambios de carril para acceder a posiciones más ventajosas para llegar a un destino concreto.
 
-Los modelos de cambio de carril o \textit{\index{lane-change}} se ocupan de determinar cuándo un vehículo quiere desplazarse de un carril a otro (denominado \textbf{lane-selection}) y de la ejecución del mismo (denominado \textbf{merging}). Además, en la literatura, se identifican dos tipos diferentes de cambios de carril (\cite{Gipps1986}, \cite{Yang1996}, \cite{Toledo2003}):
+Los modelos de cambio de carril o \textit{\idx{lane-change}} se ocupan de determinar cuándo un vehículo quiere desplazarse de un carril a otro (denominado \textbf{lane-selection}) y de la ejecución del mismo (denominado \textbf{merging}). Además, en la literatura, se identifican dos tipos diferentes de cambios de carril (\cite{Gipps1986}, \cite{Yang1996}, \cite{Toledo2003}):
 
 \begin{itemize}
 	\item \textbf{Mandatory}. Ejecutados cuando es obligatorio abandonar el carril actual o acceder al carril objetivo.
@@ -88,12 +105,13 @@ Los modelos de cambio de carril o \textit{\index{lane-change}} se ocupan de dete
 
 Tiene pinta de que estos, por separado, complicado. Seguramente se queden en \enquote{lane-change}. El lane-execution lo he encontrado por ahí como \enquote{merging}, y parece que lo mismo hay cosa para hablar por ahí.
 
-\newthought{Los modelos de \index{gap-acceptance}} ...
+\newthought{Los modelos de \idx{gap-acceptance}} ...
 
-\newthought{Los modelos de \index{lane-selection}} ...
+\newthought{Los modelos de \idx{lane-selection}} ...
 
 
 
+https://www.researchgate.net/profile/Sara\_Moridpour/publication/247899208\_Lane\_changing\_models\_A\_critical\_review/links/546d36020cf2193b94c58035.pdf
 
 
 Se suele apoyar en gap-acceptance models, donde los vehículos calculan si caben o no en un hueco (critical gap) en función de parámetros como, por ejemplo, la velocidad relativa con los vehículos delantero y trasero del carril al que cambiar (Modeling Integrated Lane-Changing Behavior, Toledo et al., 2003).
@@ -142,7 +160,16 @@ La mayoría de los modelos de comportamiento existentes basan su funcionamiento 
 
 ...
 
+
+
 Según~\cite{Aghabayk2015}, los modelos basados en \acrlongsp{ai} funcionan en base a dos técnicas principalmente, las \acrlongplsp{ann} y la \acrlongsp{fl}.
+
+Nowadays, the rapid development of technology has contributed to the availability of high-quality traffic data, leading the way for the development of more advanced car following models. Methods such as differential GPS and real time kinematic allow the collection of high fidelity traffic data (Ranjitkar et al., 2005) and consequently may improve the accuracy of traffic simulation models. On the other hand, ubiquitous sensors (e.g. accelerometers and gyroscopes) from regular smartphones could provide a much richer sample of heterogeneous data, which could allow much richer calibration, e.g. utilizing distributions rather than point values (Antoniou et al., 2014). For a review of novel data collection techniques and their applications to traffic management applications see Antoniou et al. (2011).
+
+Zhang et al. (2011) have suggested and implemented the use of machine learning approaches to support a shift from conventional technology-driven systems into data-driven intelligent transportation system. Data-driven approaches have already been used in developing a fully adaptive cruise control system (Simonelli et al., 2009; Bifulco et al., 2013) and in modeling car-following behavior via artificial neural networks (Colombaroni and Fusco, 2013; Chong et al., 2013; Zheng et al., 2013).
+
+Innovative ways for modeling car-following behavior are based on data-driven methods. Simonelli et al. (2009) have applied neural networks to develop a real-time learning mode for capturing car-following behavior taking into consideration individual drivers’ characteristics. Bifulco et al. (2013) extended the work of Simonelli et al. (2009) into a framework for reproducing spacing in adaptive cruise control applications. While in this research we have used data derived from the same experiment as Simonelli et al. (2009), the scope and level of complexity of the studies is very different. While all studies adopt a data-driven approach, in this paper the objective is to create a simple and practical methodology for speed estimation using car-following models for use in a microscopic traffic simulator.
+
 
 \subsection{Modelos basados en lógica difusa}
 
@@ -181,6 +208,9 @@ predict traffic congestion) usan redes para determinar el nivel de congestión e
 system’) son los primers en usar datos reales de un coche instrumentado usando el método Five-Wheel-System, que está especificado en su paper de aquella manera y que no me entero de nada. A partir de las entradas correspondientes a velocidad relativa, espacio relativo, velocidad y velocidad deseada (para ello, clasifican al conductor de agresivo, normal, conservador) determinan la aceleración/deceleración del vehículo. No lo aplican a ningún simulador, sólo que los valores se ajustan.
 
 (Neural agent car-following models) redes neuronales usando el dataset de (Traffic simulation supporting urban control system development) desarrollan una red neuronal para mantener la distancia con el siguiente vehículo. Este modelo sí se evaluó en el simulador AIMSUN, y los resultados muestran una buena correspondiencia entre los datos y la realidad. No replica sin embargo el comportamiento de frenar hasta parar o de acelerar desde parado.
+
+A Modified Car-Following Model Based on a Neural Network Model of the Human Driver Effects
+
 
 Problemas:
 

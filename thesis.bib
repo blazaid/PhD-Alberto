@@ -132,11 +132,23 @@
 	organization={IEEE}
 }
 
-@article{wiedemann1974simulation,
-	title={Simulation des Strassenverkehrsflusses.},
-	author={Wiedemann, Rainer},
-	year={1974}
+@techreport{wiedemann1974simulation,
+	author = {Wiedemann, R},
+	title = {{Simulation des Stra{\ss}enverkehrsflu{\ss}es}},
+	url = {https://trid.trb.org/view.aspx?id=596235},
+	year = {1974}
 }
+
+
+@article{wiedemann1992microscopic,
+	author = {Wiedemann, Ranier and Reiter, U},
+	journal = {CEC Project ICARUS (V1052), Final Report},
+	publisher = {Appendix A. Brussels, Belgium},
+	title = {{Microscopic traffic simulation: the simulation system MISSION, background and actual state}},
+	volume = {2},
+	year = {1992}
+}
+
 
 @article{casas2011need,
 	title={The need to combine different traffic modelling levels for effectively tackling large-scale projects adding a hybrid meso/micro approach},
@@ -695,6 +707,60 @@
 	year = {2004}
 }
 
+@article{Liu2013,
+	abstract = {This paper presents a numerical stability analysis of a multi-phase car-following model under mild to severe disturbances. The results show that local stability was always conformed. An asymptotically unstable region was found for traffic in congested states. One of the previously calibrated boundary conditions for close-following situations was found to be in conflict with the stable condition required by the car-following model, which had attributed to speed oscillations during transition of the traffic from a non-congested to a congested state. Suggestions were made to the choice of model parameter values to meet the stability conditions and ways to improve the model. ?? 2013 Elsevier B.V. All rights reserved.},
+	author = {Liu, Ronghui and Li, Xiang},
+	doi = {10.1016/j.physa.2013.02.001},
+	isbn = {0378-4371},
+	issn = {03784371},
+	journal = {Physica A: Statistical Mechanics and its Applications},
+	keywords = {Multi-phase car-following theory,Stability analysis,Traffic flow models},
+	number = {11},
+	pages = {2660--2671},
+	title = {{Stability analysis of a multi-phase car-following model}},
+	volume = {392},
+	year = {2013}
+}
+
+@article{Tordeux2010,
+	abstract = {We intend to define a continuous car-following model exclusively based on the time gap. A model of the interaction between a vehicle and its predecessor is produced by adjusting the time gap to a targeted safety time that is a function of speed. The model is defined by a differential system, to which a consistent numerical scheme is associated. The parameters of the model are statistically estimated by maximum likelihood. In order to reproduce a heterogeneous traffic flow, vehicles are differentiated by type, and to recreate asymmetric longitudinal behavior, acceleration phases are distinguished from deceleration phases. Introducing a reaction time, inducing a delay in the perception and processing of information about vehicles in interaction, can alter the stability of the flux through appearance of kinematic waves. By simulation, the types and domains of parameters which are asymptotically unstable are identified. The results reveal that, in the model, the statistically estimated parameters form is strongly factor of instability. ?? 2009 Elsevier Ltd.},
+	author = {Tordeux, Antoine and Lassarre, Sylvain and Roussignol, Michel},
+	doi = {10.1016/j.trb.2009.12.018},
+	isbn = {0191-2615},
+	issn = {01912615},
+	journal = {Transportation Research Part B: Methodological},
+	keywords = {Car-following,Kinematic waves emergence,Maximum likelihood estimation,Simulation,Traffic},
+	number = {8-9},
+	pages = {1115--1131},
+	title = {{An adaptive time gap car-following model}},
+	volume = {44},
+	year = {2010}
+}
+
+@article{Bando1998,
+	abstract = {We analyze Optimal Velocity Model (OVM) with explicit delay. The properties of congestion and the delay time of car motion are investigated by analytical and numerical methods. It is shown that the small explicit delay time has almost no effects. In the case of the large explicit delay time, a new phase of congestion pattern of OVM seems to appear.},
+	archivePrefix = {arXiv},
+	arxivId = {patt-sol/9805002},
+	author = {Bando, Masako and Hasebe, Katsuya and Nakanishi, Ken and Nakayama, Akihiro},
+	doi = {10.1103/PhysRevE.58.5429},
+	eprint = {9805002},
+	file = {:home/blazaid/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Bando et al. - 1998 - Analysis of optimal velocity model with explicit delay.pdf:pdf},
+	issn = {1063-651X},
+	journal = {Physical Review E},
+	keywords = {aichi 470-02,aichi university,japan,katsuya hasebe,lysis of optimal velocity,masako bando,miyoshi,model with explicit delay,physics division},
+	month = {nov},
+	number = {5},
+	pages = {5429--5435},
+	pmid = {12366309},
+	primaryClass = {patt-sol},
+	publisher = {American Physical Society},
+	title = {{Analysis of optimal velocity model with explicit delay}},
+	url = {http://link.aps.org/doi/10.1103/PhysRevE.58.5429 http://arxiv.org/abs/patt-sol/9805002},
+	volume = {58},
+	year = {1998}
+}
+
+
 @inproceedings{Clymer2002,
 	author = {Clymer, J.R.},
 	booktitle = {Proceedings 35th Annual Simulation Symposium. SS 2002},
@@ -894,6 +960,35 @@
 	year = {2014}
 }
 
+@book{Leutzbach1988,
+	address = {Berlin, Heidelberg},
+	author = {Leutzbach, Wilhelm},
+	doi = {10.1007/978-3-642-61353-1},
+	isbn = {0-387-17113-4},
+	pages = {213},
+	publisher = {Springer Berlin Heidelberg},
+	title = {{Introduction to the Theory of Traffic Flow}},
+	url = {http://link.springer.com/10.1007/978-3-642-61353-1},
+	year = {1988}
+}
+
+@article{Gazis1959,
+	abstract = {The steady-state flow is examined for a car-following model in which the acceleration at time t of a car attempting to follow a lead car is proportional to the relative velocity at time t-(delta) and in which the sensitivity (lambda) is no longer taken constant as in previous work but is inversely proportional to the car spacing. The characteristics of the steady-state flow for this model are described and compared with experimental data.},
+	author = {Gazis, Denos C. and Herman, Robert and Potts, Renfrey B.},
+	doi = {10.1287/opre.7.4.499},
+	isbn = {0030-364X},
+	issn = {0030-364X},
+	journal = {Operations Research},
+	month = {aug},
+	number = {4},
+	pages = {499--505},
+	publisher = {INFORMS},
+	title = {{Car-Following Theory of Steady-State Traffic Flow}},
+	url = {http://pubsonline.informs.org/doi/abs/10.1287/opre.7.4.499 http://or.journal.informs.org/cgi/doi/10.1287/opre.7.4.499},
+	volume = {7},
+	year = {1959}
+}
+
 @book{Holland1975,
 	abstract = {Genetic algorithms were developed initially by Holland et al. in the 1960s and 1970s!!! Genetic algorithms are playing an increasingly important role in studies of complex adaptive systems, ranging from adaptive agents in economic theory to the use of machine learning techniques in the design of complex devices such as aircraft turbines and integrated circuits. Adaptation in Natural and Artificial Systems is the book that initiated this field of study, presenting the theoretical foundations and exploring applications. In its most familiar form, adaptation is a biological process, whereby organisms evolve by rearranging genetic material to survive in environments confronting them. In this now classic work, Holland presents a mathematical model that allows for the nonlinearity of such complex interactions. He demonstrates the model's universality by applying it to economics, physiological psychology, game theory, and artificial intelligence and then outlines the way in which this approach modifies the traditional views of mathematical genetics. Initially applying his concepts to simply defined artificial systems with limited numbers of parameters, Holland goes on to explore their use in the study of a wide range of complex, naturally occuring processes, concentrating on systems having multiple factors that interact in nonlinear ways. Along the way he accounts for major effects of coadaptation and coevolution: the emergence of building blocks, or schemata, that are recombined and passed on to succeeding generations to provide, innovations and improvements. John H. Holland is Professor of Psychology and Professor of Electrical Engineering and Computer Science at the University of Michigan. He is also Maxwell Professor at the Santa Fe Institute and is Director of the University of Michigan/Santa Fe Institute Advanced Research Program.},
 	archivePrefix = {arXiv},
@@ -920,6 +1015,19 @@
 	title = {{Evolutionsstrategie Optimierung technischer Systeme nach Prinzipien der biologishen Evolution}},
 	url = {http://www.jstor.org/stable/23679080 http://tocs.ulb.tu-darmstadt.de/18420222.pdf},
 	year = {1973}
+}
+
+@misc{Bexelius1968,
+	author = {Bexelius, Sten},
+	booktitle = {Transportation Research},
+	doi = {10.1016/0041-1647(68)90004-X},
+	issn = {00411647},
+	number = {1},
+	pages = {13--21},
+	publisher = {Pergamon},
+	title = {{An extended model for car-following}},
+	volume = {2},
+	year = {1968}
 }
 
 @article{Toledo2007,
