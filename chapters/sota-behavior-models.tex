@@ -59,7 +59,7 @@ Se ocupan de gestionar el comportamiento del conductor sobre la aceleración (po
 
 Se identifican dos comportamientos diferenciados dentro de este: el \textbf{\index{free-flow}} o circulación sin impedimento, donde el comportamiento del conductor viene motivado por la velocidad que quiere alcanzar sin impedimentos (más allá de los impuestos por el tipo y condición de la vía) y el \textbf{\index{car-following}} donde el comportamiento se ve influenciado por el coche delantero en el mismo carril, obligando a disminuir la velocidad deseada en el conductor en cuestión.
 
-\newthought{Los modelos de \index{free-flow}} ...
+\newthought{Los modelos de \idx{free-flow}} ...
 
 \newthought{Si la velocidad está condicionada} a la de un vehículo delantero hablamos de una situación \textbf{\index{car-following}}. Se dice que el vehículo está siguiendo (\textit{following}) a otro vehículo si, en el caso de ir a la velocidad deseada, éste acabaría colisionando con el vehículo seguido\sidenote{Más formalmente, un modelo de este tipo es una serie de ecuaciones y reglas que actualizan las propiedades de un vehículo $n$ a lo largo del tiempo, siendo éste representado por una tupla de la forma $(x_n, v_n, a_n)$ donde $x_n$ es la localización espacial, $v_n$ la velocidad y $a_n$ la aceleración.}.
 
@@ -146,10 +146,10 @@ Según~\cite{Aghabayk2015}, los modelos basados en \acrlongsp{ai} funcionan en b
 
 \subsection{Modelos basados en lógica difusa}
 
-Los modelos de car following que se basan en la lógica difusa suelen apoyarse en la convicción de que la información que maneja el conductor a la hora de tomar decisiones proviene de un análisis no demasiado detallado de la situación que le rodea y que, por tanto, su razonamiento parte de conceptos imprecisos y vagos que conducen a respuestas no demasiado bien definidas.
+Los modelos de conducción basados en \glsentrylong{fl} parten de la hipótesis de que la información que maneja el conductor a la hora de tomar decisiones proviene de un análisis no demasiado detallado de la situación que le rodea; es decir, la percepción y el comportamiento humanos son estímulos percibidos de manera aproximada. Por tanto, el resultado debe ser fruto de un proceso de razonamiento que tenga en cuenta esa imprecisión en los estímulos.
 
-\cite{Kikuchi1992} fueron los primeros en aplicar lógica difusa a modelos de conducción. Usaron el modelo \gls{ghr}\sidenote{
-	El modelo \gls{ghr} es el modelo más conocido antes de la introducción del modelo de Gipps. Desarrollado a finales de los años $50$, calcula el valor de la aceleración $a$ en un instante $t$ como:
+El primer trabajo documentado en \gls{fl} es \cite{Kikuchi1992}, donde los autores aplicaron la lógica difusa sobre un modelo de aceleración de tipo \textit{\idx{car-following}}. Utilizaron el modelo \gls{ghr}\sidenote{
+	El modelo \gls{ghr} (\cite{Chandler1958}) es el modelo más conocido antes de la introducción del modelo de Gipps. Desarrollado a finales de los años $50$, calcula el valor de la aceleración $a$ en un instante $t$ como:
 	
 	\begin{equation}
 	a(t) = c v^m(t) \frac{\Delta v(t - \tau)}{\Delta x^l(t - \tau)}
@@ -157,7 +157,10 @@ Los modelos de car following que se basan en la lógica difusa suelen apoyarse e
 	\end{equation}
 	
 	Siendo $t$ es el instante actual, $a(t)$ la aceleración del vehículo, $\delta v(t)$ y $\delta x(t)$ son la velocidad y distancia relativas al siguiente coche respectivamente, $v$ la velocidad del vehículo y $c$, $m$, $l$ y $\tau$ constantes, siendo ésta última el tiempo de reacción del conductor.
-} (\cite{Chandler1958}). Las entradas al modelo eran distancia al coche delantero, diferencia de velocidades, aceleración y deceleración del coche delantero. La aceleración y deceleración se toman como entradas diferentes porque postulaban que el comportamiento antes ambos casos era diferente (aunque creo que esto es equivalente a usar particiones no simétricas de la variable lingüística. Como salida, la aceleración/decelearación del coche actua
+} como base y determinaron las entradas al modelo como valores de pertenencia a conjuntos difusos. Las entradas del modelo eran las distancias y velocidades relativas entre el vehículo modelado y el delantero y las variaciones en la aceleración del vehículo delantero, y como salidael cambio en la tasa de aceleración sobre el vehículo modelado.
+
+
+
 
 Otros trabajos que trabajan con lógica difusa: (Evaluation of the General Motors based car-following models and a proposed fuzzy inference model, Calibrating the membership functions of the fuzzy inference system: instantiated by car-following data, A FUZZY LOGIC MODEL OF FREEWAY DRIVER BEHAVIOR, The Modeling and Simulation of the Car-following Behavior Based on Fuzzy Inference, Fuzzy parameters estimation for car-following modelling, A Fuzzy Logic Approach for Car-Following Modelling, Variable response time lag module for car-following models, Development of a fuzzy logic based microscopic motorway simulation model, Establishment of car following theory based on fuzzy-based sensitivity parameters. Advances in multimedia modelling, Application of fuzzy systems in the car-following behaviour analysis, The validation of a microscopic simulation model: A methodological case study). Ninguno de estos estudios considera diferentes tipologías de vehículos para el car following
 
