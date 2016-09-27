@@ -58,6 +58,8 @@ En el nivel táctico del comportamiento, las tareas que se realizan durante la c
 Microscopic models include gap-acceptance, speed adaptation, lane changing, ramp merging, overtaking,
 and car-following models (Olstam and Tapani, 2004, Comparison of Car-following Models).
 
+En~\cite{sekizawa2007modeling} describen modelos supervisados offline para capturar el comportamiento del conductor basados en auto-regresión a trozos. Más adelante lo extienden en~\cite{terada2010multi}, aunque los datos de entrenamiento son extraídos directamente de simulaciones, no del \enquote{mundo real\textsuperscript{TM}}.
+
 \subsection{Modelos de aceleración}
 
 Se ocupan de gestionar el comportamiento del conductor sobre la aceleración (positiva o negativa) en un entorno lineal como lo es un carril de tráfico.
@@ -196,8 +198,7 @@ El primer trabajo documentado en \gls{fl} es \cite{Kikuchi1992}, donde los autor
 	Siendo $t$ es el instante actual, $a(t)$ la aceleración del vehículo, $\delta v(t)$ y $\delta x(t)$ son la velocidad y distancia relativas al siguiente coche respectivamente, $v$ la velocidad del vehículo y $c$, $m$, $l$ y $\tau$ constantes, siendo ésta última el tiempo de reacción del conductor.
 } como base y determinaron las entradas al modelo como valores de pertenencia a conjuntos difusos. Las entradas del modelo eran las distancias y velocidades relativas entre el vehículo modelado y el delantero y las variaciones en la aceleración del vehículo delantero, y como salidael cambio en la tasa de aceleración sobre el vehículo modelado. Más adelante los mismos autores aplicaron el mismo razonamiento sobre el modelo de General Motors (Modelo GMC)~\cite{Chakroborty1999}.
 
-Otros trabajos en la línea de estos dos 
-
+Otros trabajos en la línea de investigación de~\cite{Kikuchi1992} y \cite{Chakroborty1999}
 ...
 
 Otros trabajos que trabajan con lógica difusa: (Calibrating the membership functions of the fuzzy inference system: instantiated by car-following data, A FUZZY LOGIC MODEL OF FREEWAY DRIVER BEHAVIOR, The Modeling and Simulation of the Car-following Behavior Based on Fuzzy Inference, Fuzzy parameters estimation for car-following modelling, A Fuzzy Logic Approach for Car-Following Modelling, Variable response time lag module for car-following models, Development of a fuzzy logic based microscopic motorway simulation model, Establishment of car following theory based on fuzzy-based sensitivity parameters. Advances in multimedia modelling, Application of fuzzy systems in the car-following behaviour analysis, The validation of a microscopic simulation model: A methodological case study). Ninguno de estos estudios considera diferentes tipologías de vehículos para el car following
@@ -247,8 +248,6 @@ En~\cite{Ma2004}, bajo la suposición de que el ser humano toma múltiples decis
 
 
 
-En~\cite{sekizawa2007modeling} describen modelos supervisados offline para capturar el comportamiento del conductor basados en auto-regresión a trozos. Más adelante lo extienden en~\cite{terada2010multi}, aunque los datos de entrenamiento son extraídos directamente de simulaciones, no del \enquote{mundo real\textsuperscript{TM}}.
-
 En~\cite{bando2013unsupervised} describen otro modelo no supervisado offline basado en un modelo bayesiano no paramétrico para la clusterización, combinado con un LDA (Latent Dirichlet Allocation, sea lo que sea esto) para la clusterización a más alto nivel. (\TODO ¿este método usa datos reales?)
 
 Estos trabajos (\cite{sekizawa2007modeling}, \cite{terada2010multi} y \cite{bando2013unsupervised}) tienen la desventaja de ser computacionalmente muy costosos y con poca precisión en el caso de variar mucho los escenarios de entrenamiento y de test.
@@ -276,5 +275,3 @@ En \cite{Das} se realiza una simulación de comportamiento de vehículos en auto
 En \cite{Dia2002} Los parámetros relativos al comportamiento, es decir, los que definen características, forma de razonar, etcétera son extraídos deencustas a conductores reales. De acuerdo a los autores, cada conductor cno sus propias características su forma de razonar sus perceciones y sus objetivos se puede modelar como un agente.
 
 En \cite{Ehlert2001} (ver si este otro paper del autor cuenta lo mismo y me quito de una de las dos referencias: \cite{Ehlert2001-2}), simulación donde los agentes son de tipo reactivo. Además, poseen diferentes estuilos de conduccińo. El agente cntinuamente va realizando decisiones de control para mantenerse en la via y llegar a su destino.
-
-En \cite{} definen dos capas, \enquote{física} y \enquote{mental}. La física es aquella donde los agentes se mueven de acuerdo a sus magnitudes físicas, evitando accidentes y, en resumen, comportándose al volante. La mental es la que se encarga de las estrategias a más alto nivel, como por ejemplo la actividad planeada o la ruta escogida. Los parámetros de los agentes y de la simulación son extraídos de censos y encuestas.
