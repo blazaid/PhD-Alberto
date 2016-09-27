@@ -84,9 +84,13 @@ Sucesivos trabajos sobre el concepto de \textit{umbral perceptual} y los modelos
 	\label{fig:acceleration-model-classes}
 \end{figure}
 
-\newthought{Agrupar en un mismo modelo} las diferentes clases de modelos de aceleración es un trabajo que se empezó a desarrollar a partir de los años $1990$. Los principales problemas son la complejidad de estos modelos, ya que aumentar las clases implica la generalización de multitud de factores. Algunos trabajos a este respecto son el modelo de Gipps (\cite{Gipps1986}) el cual agrupa las clases \textit{\idx{free-flow}} y \textit{\idx{car-following}} o el modelo Optimal Velocity (\cite{Bando1998}) que agrupa \textit{\idx{free-flow}}, \textit{\idx{car-following}} y \textit{stop-and-go}.
+\newthought{Agrupar en un mismo modelo} las diferentes clases de modelos de aceleración es un trabajo que se empezó a desarrollar a partir de los años $1990$. Los principales problemas son la complejidad de estos modelos, ya que aumentar las clases implica la generalización de multitud de factores. Algunos trabajos a este respecto son el modelo de Gipps (\cite{Gipps1981}) el cual agrupa las clases \textit{\idx{free-flow}} y \textit{\idx{car-following}}, el modelo de Yang et. al (\cite{Yang1996}) que agrupa las de \textit{emergency}, \textit{car-following} y \textit{free-flow} o el modelo Optimal Velocity (\cite{Bando1998}) que agrupa las de \textit{\idx{free-flow}}, \textit{\idx{car-following}} y \textit{stop-and-go}.
 
 Una característica de todos los modelos hasta el momento es que no capturan los comportamientos de los diferentes tipos de conductor o vehículo. Sin embargo, el comportamiento puede variar en función de los comportamientos de los vehículos que se encuentran en su entorno (\cite{Tordeux2010}). Algunos estudios recientes como los de Simonelli et al. (2009), Colombaroni and Fusco, 2013 o Zheng et al., 2013 se puede decir que incorporan el comportamiento del entorno, pero únicamente porque entrenan redes neuronales con información tanto del coche como del entorno y por tanto éstas pueden haber aprendido detalles de éste. Más adelante se hablará de los modelos basados en técniacs de la glsentrylong{ci}.
+
+...
+
+SUMO usa (al menos así lo indican en el paper del 2002) el modelo Gipps\cite{krajzewicz2002sumo}. No sé si ellos han hecho una extensión del modelo o están referenciando la extensión y ellos sólo la implementan. En el paper del 2012 citan que el modelo car-following que usan por defecto es el desarrollado por Stefan Krauß\cite{jin2016evaluation}, debido a su simplicidad y su velocidad de ejecución. El modelo ha probado ser válido, pero tiene algunos defectos, por lo que existe un API para implementar otros modelos. En la actualidad están incluidos en el sistema los modelos IDM\cite{treiber2000congested} (\textit{Intelligent Driver Model}), el modelo de tres fases de Kerner\cite{kerner2008testbed} y el modelo de Wiedemann\cite{wiedemann1974simulation}.
 
 \subsection{Modelos de cambio de carril}
 
@@ -99,29 +103,36 @@ Los modelos de cambio de carril o \textit{\idx{lane-change}} se ocupan de determ
 	\item \textbf{Discretional}. cuando el cambio se ve motivado para mejorar la situación actual de conducción 
 \end{itemize}
 
+...
 
+El cambio de carril ocurre cuando un vehículo se mueve del carril que está usando a un carril destino, ya sea porque quiere mejorar su circulación (e.g. quiere realizar un adelantamiento) o porque su ruta lo requiere (e.g. está próxima la rampa de salida que quiere tomar en una autopista). Afectan al tráfico en forma de ondas de choque (\cite{Sasoh2002}, \cite{Jin2006}), incluso más aun que los modelos de \textit{\idx{car-following}} en situaciones con mucho tráfico (\cite{Laval2006}).
 
+Este comportamiento, en condiciones normales de tráfico tiende a interferir en el tráfico, sobre todo en situaciones de alta carga de tráfico o congestión
 
+Sparmann (\cite{Sparmann1978}) es el primero en el que se distingue entre cambio de carril y la ejecución del cambio de carril, además de que distingue entre cambio hacia la izquierda (motivados por obstrucciones como por ejemplo coches lentos) y hacia la derecha (motivados por, por ejemplo, no obstrucciones). La ejecución está determinada por el espacio en el carril objetivo. El modelo propuesto implementa un modelo psico-físico a las velocidades y distancias relativas.
 
-Tiene pinta de que estos, por separado, complicado. Seguramente se queden en \enquote{lane-change}. El lane-execution lo he encontrado por ahí como \enquote{merging}, y parece que lo mismo hay cosa para hablar por ahí.
+En \cite{Gipps1986} se introduce el concepto de cambio de carril \textbf{obligatorio}, ejecutados cuando es obligatorio abandonar el carril actual o acceder al carril objetivo y \textbf{discrecional}. cuando el cambio se ve motivado para mejorar la situación actual de conducción. Este trabajo propone un framework para el problema de cambio de carril al aproximarse a un cambio de dirección. El modelo incluye una jerarquía de factores que determinan el cambio de giro, entre los que se encuentran las señales de tráfico, tipos de vehículo (e.g. camiones) y la proximidad a un giro o \enquote{urgencia}. En el caso de la proximidad de giro, define tres zonas, (i) cercana, donde el conductor selecciona el carril más conveniente si está libre, y (ii) mediana y (iii) lejana, donde la proximidad no tiene efecto en la selección de carril. El modelo tiene los problemas de que los factores son evaluados secuencialmente (por lo que no se evalúan factores más bajos en la jerarquía si no es necsario) y de que supone que el cambio de carril ocurre sin forzar a los vehículos del carril de destino a modificar su comportamiento como disminuir la velocidad o parar.
 
-\newthought{Los modelos de \idx{gap-acceptance}} ...
+En \cite{Hidas2002} se presenta un modelo similar apoyándose también en los dos tipos de cambio de carril, \textbf{obligatorio} y \textbf{discrecional}. Se presentan una serie de factores (también evaluados en secuencia) que provocan situaciones de cambio de carril. Cuando las situaciones son del tipo de mejora de la situación de conducción, se dispara un cambio discrecional, pero cualquier situación que dispara un cambio obligatorio descarta toda decisión de cambio discrecional por considerarse prioritario.
 
-\newthought{Los modelos de \idx{lane-selection}} ...
+Más trabajos en la línea de los anteriores son \cite{Halati1997}, \cite{Yang1996} y \cite{Ahmed1999}, los cuales fijan la separación jerárquica entre cambios obligatorios y cambios discrecionales, o \cite{Toledo2003} y \cite{Wei2000} donde salvan dicha limitación.
 
+\newthought{La viabilidad en un cambio de carril} se determina haciendo uso de modelos denominados \textit{\idx{gap acceptance}}. Estos modelos fueron creados inicialmente para situaciones emplazadas en intersecciones aunque posteriormente se comprobó su utilidad para determinar si es posible o no el cambio a un carril basándose principalmente en el espacio hueco existente en el carril destino.
 
+\begin{equation}
+	f_{g_l}(t) = \twopartf {0} {g_l(t) < g^{crit}_l(t)} {1} {g_l(t) \geq g^{crit}_l(t)}
+	\label{eq:gap-acceptance-model}
+\end{equation}
+
+En la ecuación~\ref{eq:gap-acceptance-model} se describe el modelo típico de un modelo de \idx{gap accceptance}. En un momento $t$, el cambio a un carril $l$ es viable ($f_{g_l}(t) = 1$) o no ($f_{g_l}(t) = 0$) dependiendo de si el espacio en el carril destino $g_l(t)$ es mayor o menor que un \enquote{hueco crítico} (en inglés \idx{critical gap}) $g^{crit}_l(t)$. Diferentes autores determinan el hueco crítico basándose en diferentes parámetros (e.g. \cite{Miller1972} o \cite{Cassidy1995})
+
+En \cite{Gipps1986} y \cite{Ahmed1996} dividen sin embargo el hueco crítico en dos, hasta el vehículo delantero y hasta el vehículo trasero. Ambos deben ser aceptables y en dichos huecos influye además la velocidad relativa respecto a los vehículos delantero y trasero. Otras variaciones a la hora de determinar el hueco crítico incluyen la variación del tamaño en función de si es obligatorio o discrecional (\cite{Toledo2003}), velocidades relativas (\cite{Ahmed1999}) o cooperación entre conductor realizando el cambio y conductores en carril destino (\cite{Ahmed1999}, \cite{Hidas2002}).
 
 https://www.researchgate.net/profile/Sara\_Moridpour/publication/247899208\_Lane\_changing\_models\_A\_critical\_review/links/546d36020cf2193b94c58035.pdf
-
 
 Se suele apoyar en gap-acceptance models, donde los vehículos calculan si caben o no en un hueco (critical gap) en función de parámetros como, por ejemplo, la velocidad relativa con los vehículos delantero y trasero del carril al que cambiar (Modeling Integrated Lane-Changing Behavior, Toledo et al., 2003).
 
 
-
-
-
-
-(Gipps, 1986, A Model for the Structure of Lane-Changing Decisions) propone un framework para el problema de cambio de carril que incluye numerosos factores, entre ellos señales de tráfico, tipos de vehículo (e.g. camiones) o \enquote{urgencia} en el camio de carril (e.g. proximidad a una salida o giro). El pricipal problema de las reglas de este modelo es que asumen que el cambio de carril ocurre sin forzar a los vehículos del carril de destino a modificar su comportamiento como disminuir la velocidad o parar.
 
 En (Fritzsche, 1994, A model for traffic simulation) se describe un modelo de microsimulación para analizar cuellos de botella (e.g. un accidente donde se bloquea uno de los carriles). Es un caso típico donde los vehículos no pueden cambiar de carril sin la participación activa del resto de vehículos (colaboración). El modelo lo describe de una maera muy sucinta y no zonsidera comportamiento colaborativo en el cambio de carril.
 
@@ -234,7 +245,7 @@ En~\cite{Ma2004}, bajo la suposición de que el ser humano toma múltiples decis
 
 \section{Por procesar}
 
-SUMO usa (al menos así lo indican en el paper del 2002) el modelo Gipps\cite{krajzewicz2002sumo}. No sé si ellos han hecho una extensión del modelo o están referenciando la extensión y ellos sólo la implementan. En el paper del 2012 citan que el modelo car-following que usan por defecto es el desarrollado por Stefan Krauß\cite{jin2016evaluation}, debido a su simplicidad y su velocidad de ejecución. El modelo ha probado ser válido, pero tiene algunos defectos, por lo que existe un API para implementar otros modelos. En la actualidad están incluidos en el sistema los modelos IDM\cite{treiber2000congested} (\textit{Intelligent Driver Model}), el modelo de tres fases de Kerner\cite{kerner2008testbed} y el modelo de Wiedemann\cite{wiedemann1974simulation}.
+
 
 En~\cite{sekizawa2007modeling} describen modelos supervisados offline para capturar el comportamiento del conductor basados en auto-regresión a trozos. Más adelante lo extienden en~\cite{terada2010multi}, aunque los datos de entrenamiento son extraídos directamente de simulaciones, no del \enquote{mundo real\textsuperscript{TM}}.
 

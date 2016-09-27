@@ -146,6 +146,17 @@ version={3.0},
 \makeindex
 \newcommand\idx[1]{#1\index{#1}}
 
+% Para definición de ecuaciones por partes (dos partes)
+\newcommand{\twopartf}[4]
+{
+	\left\{
+	\begin{array}{ll}
+		#1 & \mbox{si } #2 \\
+		#3 & \mbox{si } #4
+	\end{array}
+	\right.
+}
+
 \usepackage{morefloats}
 
 \begin{document}
