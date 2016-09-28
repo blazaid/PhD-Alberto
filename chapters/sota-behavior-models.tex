@@ -169,19 +169,33 @@ Sin embargo, a partir de los años $90$ se ha tendido al desarrollo de modelos d
 
 \section{La \glsentrylong{ci} en los modelos de conducción}
 
-La mayoría de los modelos de comportamiento existentes basan su funcionamiento en técnicas pertenecientes al \glsentrylong{hc}; es decir, están basados en fórmulas matemáticas y reglas de la lógica convencional con parámetros que se ajustan a partir de la observación de datos reales. Sin embargo, desde mediados de los años $90$ empezó a crecer el interés por las técnicas de la \gls{ci}.
+Hasta ahora, los modelos que hemos explorado en la descripción de maniobras pertenencen al dominio del  \glsentrylong{hc}, es decir, están basados en fórmulas matemáticas y reglas de la lógica convencional con parámetros que se ajustan a partir de la observación de datos reales.
 
-...
+Sin embargo, desde mediados de los años $90$ empezó a crecer el interés por las técnicas de la \gls{ci} debido, entre otras a las siguientes razones:
+
+\begin{itemize}
+	\item A mediados del interés volvió el interés de la \gls{ai} debido a los éxistos cosechados por las técnicas de la \gls{ci}, y por tanto se comenzaron a usar en todas las áreas, incluída la de las its.
+	\item El rápido desarrollo de la tecnología ha hecho posible la existencia de conjuntos de datos masivos (i.e. mayor capacidad de captura y almacenamiento), con más calidad (e.g. sensores más precisos) y más cantidad de fuentes (e.g. GPS, acelerómetros, giroscopios, \ldots). Esto no sólo permite el ajuste de los modelos existentes o las pequeñas modificaciones, sino que son una fuente de datos muy interesante para técnicas de \glsentrylongsp{ml}, rama que pertenece a la \gls{ci}.
+\end{itemize}
+
+Algunos autores incluso sugieren que el futuro de las \gls{its} pasa por cambiar del paradigma hacia técnicas basadas en \gls{ml}. Es decir, pasar del desarrollo convencional de sistemas al desarrollo con técnicas basadas en procesado y aprendizaje de datos (\cite{Zhang2011}).
+
+Las técnicas de \gls{ci} se usan principalmente para dos áreas: la caracterización y el modelado.
+
+\newthought{La caracterización} de conductores es interesante porque permite identificar perfiles de conducción y clasificar a los conductores de acuerdo a indicadores extraídos de su manera de conducir. Por ejemplo, en \cite{van2013driver} hacen uso de datos extraídos de sensores de inercia para construir un perfil de conductor, concluyendo que frenar y girar son mejores indicadores para la caracterización que la aceleración.
+
+En~\cite{bando2013unsupervised} describen otro modelo no supervisado offline basado en un modelo bayesiano no paramétrico para la clusterización, combinado con un LDA (Latent Dirichlet Allocation, sea lo que sea esto) para la clusterización a más alto nivel. (\TODO ¿este método usa datos reales?)
+
+Estos trabajos (\cite{sekizawa2007modeling}, \cite{terada2010multi} y \cite{bando2013unsupervised}) tienen la desventaja de ser computacionalmente muy costosos y con poca precisión en el caso de variar mucho los escenarios de entrenamiento y de test.
+
+En~\cite{maye2011bayesian} se presenta un modelo online donde se infiere el comportamiento del conductor haciendo uso de una IMU (Intertial Measurement Unit) y una cámara. Primero de la IMU se sacan datos que se separan en fragmentos para luego relacionarlos con las imágenes obtenidas de la cámara. (\TODO ¿Hacia dónde mira la cámara?). Los modelos propuestos en~\cite{johnson2011driving} y~\cite{van2013driver} también se apoyan en el funcionamiento de clasificar las segmentaciones de una IMU, pero con técnicas distintas y sin cámara. Además hacen uso de señales externas y umbrales de activación para hacer más efectiva la clasificación (\TODO corroborar).
 
 
+\newthought{}
 
-Según~\cite{Aghabayk2015}, los modelos basados en \acrlongsp{ai} funcionan en base a dos técnicas principalmente, las \acrlongplsp{ann} y la \acrlongsp{fl}.
+En \cite{Dia2002} Los parámetros relativos al comportamiento, es decir, los que definen características, forma de razonar, etcétera son extraídos de encuestas a conductores reales. De acuerdo a los autores, cada conductor con sus propias características su forma de razonar sus perceciones y sus objetivos se puede modelar como un agente.
 
-Nowadays, the rapid development of technology has contributed to the availability of high-quality traffic data, leading the way for the development of more advanced car following models. Methods such as differential GPS and real time kinematic allow the collection of high fidelity traffic data (Ranjitkar et al., 2005) and consequently may improve the accuracy of traffic simulation models. On the other hand, ubiquitous sensors (e.g. accelerometers and gyroscopes) from regular smartphones could provide a much richer sample of heterogeneous data, which could allow much richer calibration, e.g. utilizing distributions rather than point values (Antoniou et al., 2014). For a review of novel data collection techniques and their applications to traffic management applications see Antoniou et al. (2011).
-
-Zhang et al. (2011) have suggested and implemented the use of machine learning approaches to support a shift from conventional technology-driven systems into data-driven intelligent transportation system. Data-driven approaches have already been used in developing a fully adaptive cruise control system (Simonelli et al., 2009; Bifulco et al., 2013) and in modeling car-following behavior via artificial neural networks (Colombaroni and Fusco, 2013; Chong et al., 2013; Zheng et al., 2013).
-
-Innovative ways for modeling car-following behavior are based on data-driven methods. Simonelli et al. (2009) have applied neural networks to develop a real-time learning mode for capturing car-following behavior taking into consideration individual drivers’ characteristics. Bifulco et al. (2013) extended the work of Simonelli et al. (2009) into a framework for reproducing spacing in adaptive cruise control applications. While in this research we have used data derived from the same experiment as Simonelli et al. (2009), the scope and level of complexity of the studies is very different. While all studies adopt a data-driven approach, in this paper the objective is to create a simple and practical methodology for speed estimation using car-following models for use in a microscopic traffic simulator.
+\newthought{En microsimulación}, las técnicas dominantes de los modelos de conducción son las \glsentrylong{ann} y la \glsentrylong{fl}. Las primeras debido a ser una de las técnicas principales en la rama del \gls{ml}, y la segunda por ser una manera sencilla y cercana a la manera de razonar del ser humano.
 
 \subsection{Modelos basados en lógica difusa}
 
@@ -200,6 +214,8 @@ El primer trabajo documentado en \gls{fl} es \cite{Kikuchi1992}, donde los autor
 
 Otros trabajos en la línea de investigación de~\cite{Kikuchi1992} y \cite{Chakroborty1999}
 ...
+
+Data-driven approaches have already been used in developing a fully adaptive cruise control system (Simonelli et al., 2009; Bifulco et al., 2013)
 
 Otros trabajos que trabajan con lógica difusa: (Calibrating the membership functions of the fuzzy inference system: instantiated by car-following data, A FUZZY LOGIC MODEL OF FREEWAY DRIVER BEHAVIOR, The Modeling and Simulation of the Car-following Behavior Based on Fuzzy Inference, Fuzzy parameters estimation for car-following modelling, A Fuzzy Logic Approach for Car-Following Modelling, Variable response time lag module for car-following models, Development of a fuzzy logic based microscopic motorway simulation model, Establishment of car following theory based on fuzzy-based sensitivity parameters. Advances in multimedia modelling, Application of fuzzy systems in the car-following behaviour analysis, The validation of a microscopic simulation model: A methodological case study). Ninguno de estos estudios considera diferentes tipologías de vehículos para el car following
 
@@ -234,6 +250,8 @@ Problemas:
 	\item Los clásicos de los problemas de redes, el no aprendizaje y la especialización.
 \end{enumerate}
 
+Simonelli et al. (2009) have applied neural networks to develop a real-time learning mode for capturing car-following behavior taking into consideration individual drivers’ characteristics. Bifulco et al. (2013) extended the work of Simonelli et al. (2009) into a framework for reproducing spacing in adaptive cruise control applications. While in this research we have used data derived from the same experiment as Simonelli et al. (2009), the scope and level of complexity of the studies is very different. While all studies adopt a data-driven approach, in this paper the objective is to create a simple and practical methodology for speed estimation using car-following models for use in a microscopic traffic simulator.
+
 \subsection{Otras técnicas}
 
 \subsection{Aproximaciones híbridas}
@@ -244,15 +262,9 @@ Problemas:
 
 En~\cite{Ma2004}, bajo la suposición de que el ser humano toma múltiples decisiones relacionadas basándose en su percepción (imprecisa) del entorno propone un método masado en un sistema de inferencia difusa para tomar decisiones tanto para el problema del \textit{car following} como para el del \textit{lane changing}, calibrando y ajustando dicho controlador mediante el uso de redes neuronales (aproximación Neuro-Fuzzy).
 
+Modeling car-following behavior via artificial neural networks (Colombaroni and Fusco, 2013; Chong et al., 2013; Zheng et al., 2013)
+
 \section{Por procesar}
-
-
-
-En~\cite{bando2013unsupervised} describen otro modelo no supervisado offline basado en un modelo bayesiano no paramétrico para la clusterización, combinado con un LDA (Latent Dirichlet Allocation, sea lo que sea esto) para la clusterización a más alto nivel. (\TODO ¿este método usa datos reales?)
-
-Estos trabajos (\cite{sekizawa2007modeling}, \cite{terada2010multi} y \cite{bando2013unsupervised}) tienen la desventaja de ser computacionalmente muy costosos y con poca precisión en el caso de variar mucho los escenarios de entrenamiento y de test.
-
-En~\cite{maye2011bayesian} se presenta un modelo online donde se infiere el comportamiento del conductor haciendo uso de una IMU (Intertial Measurement Unit) y una cámara. Primero de la IMU se sacan datos que se separan en fragmentos para luego relacionarlos con las imágenes obtenidas de la cámara. (\TODO ¿Hacia dónde mira la cámara?). Los modelos propuestos en~\cite{johnson2011driving} y~\cite{van2013driver} también se apoyan en el funcionamiento de clasificar las segmentaciones de una IMU, pero con técnicas distintas y sin cámara. Además hacen uso de señales externas y umbrales de activación para hacer más efectiva la clasificación (\TODO corroborar).
 
 En el artículo~\cite{bender2015unsupervised} se usa también un modelo no supervisado online con una aproximación bayesiana para identificar los puntos de cambio sin depender de parámetros externos (e.g. umbrales o señales). Se basa también en (1) segmentar los datos de conducción y (2) asignar estos datos a clases que se corresponde n con comportamientos de conducción. Tiene la ventaja de ser más eficiente y rubusto que los anteriores.
 
@@ -268,10 +280,6 @@ El artículo~\cite{munoz2010human} es muy interesante ya que para la competició
 
 Aunque \gls{torcs} es usado como entorno de simulación en diversos concursos e investigaciones, se trata de un juego, y es que los juegos son un sandbox perfecto como entorno de simulación, ya que presentan una abstracción del dominio sobre el que trabajar. Otros trabajos en esta línea (entrenamiento de redes neuronales en este simulador) son los de~\cite{munoz2009controller} y~\cite{van2009robust}, el primero entrenando perceptrones multicapa (\TODO verificar) con un backpropagation haciendo uso de un dataset proporcionado por un bot y otro haciendo uso de un algoritmo evolutivo multiobjetivo para optimizar la red de acuerdo a un conjunto de datos proporcionado por un conductor real. Sin embargo, este tipo de modelos se encuentran más cercanos al nivel de control que al nivel de maniobra descritos en la figura~\ref{fig:three-levels-of-human-driving}.
 
-En~\cite{van2013driver} hacen uso de los sensores de inercia de un coche (a saber qué coche tienen) para construir un perfil de conductor. Concluyen que frenar y girar caracterizan mejor a los conductores frente a acelerar.
-
-En \cite{Das} se realiza una simulación de comportamiento de vehículos en autopista. Los agentes basan su comoprtamiento en un sistema difuso donde las reglas definen la cnclusión en autopista (i.e. car-following y lane-changing). Llaman a este simulador AASIM (Autonomous Agent Simulator).,
-
-En \cite{Dia2002} Los parámetros relativos al comportamiento, es decir, los que definen características, forma de razonar, etcétera son extraídos deencustas a conductores reales. De acuerdo a los autores, cada conductor cno sus propias características su forma de razonar sus perceciones y sus objetivos se puede modelar como un agente.
+En \cite{Das} se realiza una simulación de comportamiento de vehículos en autopista. Los agentes basan su comportamiento en un sistema difuso donde las reglas definen la conclusión en autopista (i.e. car-following y lane-changing). Llaman a este simulador AASIM (Autonomous Agent Simulator).,
 
 En \cite{Ehlert2001} (ver si este otro paper del autor cuenta lo mismo y me quito de una de las dos referencias: \cite{Ehlert2001-2}), simulación donde los agentes son de tipo reactivo. Además, poseen diferentes estuilos de conduccińo. El agente cntinuamente va realizando decisiones de control para mantenerse en la via y llegar a su destino.
