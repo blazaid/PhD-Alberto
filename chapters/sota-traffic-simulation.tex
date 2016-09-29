@@ -1,6 +1,12 @@
 \chapter{Simulación de tráfico}
 \label{ch:sota-traffic-simulation}
 
+\begin{marginfigure}
+	\missingfigure[figheight=4cm]{ok}
+	\caption{A lo largo del capítulo, se utilizarán indistintamente los términos \glsentryshort{dvu}, conductor y vehículo para referirse al mismo concepto. En caso de no ser así, se indicará de manera explícita.}
+	\label{fig:dvu-driver-and-vehicle-are-the-same-concept}
+\end{marginfigure}
+
 En un sistema de comportamiento tan caótico como lo es el del tráfico, obtener modelos de su funcionamiento es una tarea prácticamente imposible. Por un lado, el numero de variables existentes es innumerable y en muchos casos con relaciones no detectables a primera vista. Por otro, es un sistema que funciona en el mundo real, es decir, donde las mediciones en muchos caso afectan a los resultados y donde muchas mediciones no se pueden realizar, ya sea por regulaciones vigentes o por imposibilidad física.
 
 Los simuladores de tráfico son herramientas de software que, usando diferentes modelos para representar sus componentes, describen el tráfico como sistema, permitiendo, entre otros:
@@ -13,7 +19,9 @@ Los simuladores de tráfico son herramientas de software que, usando diferentes 
 
 El objetivo principal de un simulador de tráfico es el de hacer que sus modelos se parezcan lo máximo posible a la realidad. En este capítulo vamos a ver cuál es la realidad actual de este tipo de simuladores, cuáles son sus diferentes tipologías y formas de modelar los diferentes aspectos del tráfico y, posteriormente, qué simulador de los disponibles en el mercado es el idóneo para nuestro trabajo.
 
-Limitaremos nuestro estudio a los simuladores de \glspl{dvu}\sidenote{A lo largo del capítulo, se usaran indistintamente los términos \gls{dvu}, conductor y vehículo para referirse al mismo concepto. En caso de no ser así, se indicará de manera explícita.}, obviando otros tipos de simulación de tráfico que nada tienen que ver con esta temática, como por ejemplo los orientados a la evaluación de sistemas de señalización inteligentes (e.g.~\cite{jin2016evaluation}) o a la estimación de emisiones (e.g.~\cite{quaassdorff2016microscale}).
+Limitaremos nuestro estudio a los simuladores de \glspl{dvu}, obviando otros tipos de simulación de tráfico que nada tienen que ver con esta temática, como por ejemplo los orientados a la evaluación de sistemas de señalización inteligentes (e.g.~\cite{jin2016evaluation}), a la estimación de emisiones (e.g.~\cite{quaassdorff2016microscale}) o los de carreras (e.g. \cite{Wymann2013}\sidenote{
+	Aunque \gls{torcs} es usado como entorno de simulación en diversos concursos e investigaciones, se trata de un juego, y es que los juegos son un sandbox perfecto como entorno de simulación, ya que presentan una abstracción del dominio sobre el que trabajar. Algunos trabajos interesantes que usan como base \gls{torcs} son \cite{munoz2010human} y \cite{van2009robust}, donde en ambos se hace uso de conjuntos de datos de conductores reales (en el simulador) para emular su comportamiento mediante redes neuronales (el primero usando un enfoque clásico de entrenamiento mediante \textit{\idx{back propagation}} y el segundo usando algoritmos genéticos multiobjetivo). Sin embargo, este tipo de modelos se encuentran más cercanos al nivel de control que al nivel de maniobra descritos en la figura~\ref{fig:three-levels-of-human-driving}.
+}).
 
 \section{Clasificación de simuladores de tráfico}
 
@@ -122,7 +130,7 @@ El modelo clásico de esta aproximación es el propuesto por Nagel-Scherckenberg
 	\item En cada ciclo, se realizan cuatro acciones de manera simultánea: acelerar (una unidad si no están a la máxima velocidad), frenar (si se ven obligados en función de la velocidad y la distancia del siguiente vehículo), freno aleatorio (la velocidad se reduce en una unidad hasta un mínimo de $v = 1 c/\Delta t$ con una probabilidad de $p = 0.5$) y reposicionamiento (se avanzan tantas celdas como indica la velocidad.)
 \end{itemize}
 
-En general los modelos de la literatura suelen ser una variación de éste con ligeras modificaciones para estudiar aspectos concretos de modelos de tráfico, como la modificación del paso de \textit{aleatorización} (e.g. \cite{Barlovic1998}) o celdas más pequeñas (e.g. \cite{Krauss1997}) para comprobar la metaestabilidad del flujo de tráfico, o modelos y reglas para vías de dos carriles como modelos para cambio de carril (e.g. \cite{Brilon1999} y~\cite{Nagel1998}).
+En general los modelos de la literatura suelen ser una variación de éste con ligeras modificaciones para estudiar aspectos concretos de modelos de tráfico, como la modificación del paso de \textit{aleatorización} (e.g. \cite{Barlovic1998}) o celdas más pequeñas (e.g. \cite{Krauss1997}) para comprobar la metaestabilidad del flujo de tráfico, o modelos y reglas para vías de dos carriles como modelos para cambio de carril (e.g. \cite{Brilon1999} y \cite{Nagel1998}). Concretamente, en \cite{Wagner1997} los autores centran su esfuerzo en la definición de una jerarquía de muchas reglas individuales (e.g. reglas para describir cuándo cambiar de carril, reglas para determinar los niveles de molestia a los coches del carril destino, etcétera) para dotar de la mayor cantidad de realismo posible al modelo.
 
 \subsection{Microsimulación basada en sistemas multiagentes}
 

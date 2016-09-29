@@ -99,7 +99,8 @@ Por tanto, el objetivo de la tesis es el de simular el comportamiento de conduct
 \subsection{Supuestos}
 
 \begin{itemize}
-	\item Se supone que el comportamiento de un conductor es el comportamiento en línea y el comportamiento de cambio de carril\footnote{Son conocidos en la literatura como \textit{car-following} y \textit{lane-changing} respectivamente. Entraremos en detalle sobre ambos conceptos en el capítulo~\nameref{ch:sota-behavior-models}}.
+	\item Suponemos que el comportamiento de un conductor es el comportamiento en línea y el comportamiento de cambio de carril\footnote{Son conocidos en la literatura como \textit{car-following} y \textit{lane-changing} respectivamente. Entraremos en detalle sobre ambos conceptos en el capítulo~\nameref{ch:sota-behavior-models}}.
+	\item La circulación se realizará por la dereccha.
 	\item Los datos de los que extraer el comportamiento se corresponderán con lecturas realizadas durante el día, con buena visibilidad y sin lluvia.
 	\item El tipo de vehículo sobre el que modelar el comportamiento será el de un utilitario.
 	\item El conductor a modelar pertenecerá al grupo más representativo de conductores. Esto se corresponde con varón de $35$ a $39$ años (ver figura~\ref{fig:drivers-census}).
@@ -156,7 +157,7 @@ Por tanto, el objetivo de la tesis es el de simular el comportamiento de conduct
 \subsection{Restricciones}
 
 \begin{itemize}
-	\item El sistema multiagente hará uso de \Acp{dvu} como agentes, es decir, usando la tupla (conductor, vehículo) como un todo.
+	\item El sistema multiagente hará uso de \gls{dvu} como agentes, es decir, usando la tupla (conductor, vehículo) como un todo.
 	\item La resolución máxima del modelo creado es de 1Hz.
 	\item En el caso de los modelos que hacen uso de redes neuronales artificiales, no se pueden explicar las razones del comportamiento inferido.
 \end{itemize}
