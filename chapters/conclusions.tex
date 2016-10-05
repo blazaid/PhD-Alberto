@@ -18,3 +18,9 @@ Intersection model (lo he visto nombrar por primera vez en http://elib.dlr.de/89
 No sé, pero me parece lógico tratar de realizar una disocuiación entre vehículo y conductor en lugar de contemplar el binomio vehículo/conductor como uno sólo. Es más, creo que resultaría interesante evaluar comportamientos de conductores sobre diferentes tipologías de vehículos. La librería de todas formas debería soportar esta disociación (y se debería indicar).
 
 Hemos dejado fuera comportamientos interesantes de estudiar: cruces, rotondas (Driving behavior at a roundabout: Av hierarchical Bayesian regression analysis), ...
+
+Parece que se presta poca atencińo sobre el tema de vehículos pesados (creo que he encontrado en total un par derefeerncias), y su forma de funcionar es diferente. Puede ser intereasnte de cara a perfeccionar los simuladores con esta tipología de vehículos y de cara a ser de utilidad a empresas de transporte.
+
+Los cambios de carril no son inmediatos, toman en torno a los 3 segundos, y no he vuisto que setenga en cuenta. Todo se centra en la decisión del cambio de carril, pero a la hora de ejecutar van a saco. Quizá habría que prestarle un poco más de atencińo aeste comportamiento.
+
+Para evaluar la efectividad de determinadas técnicas se mira el comoprtamiento en nivel macro tanto del modelo real como del modelo simulado. De hecho es lo que haré en esta tesis. Sin embargo, no parece que sea el modo más correcto de evaluar la precisión de los modelos. Quizá habría que rebuscar más po este lado para ver cómo se comportan en nivel micro modelos reales y modelos simulados.

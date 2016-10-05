@@ -125,7 +125,9 @@ Más trabajos en la línea de los anteriores son \cite{Halati1997, Yang1996, Ahm
 
 \cite{Ahmed1999} propone un modelo probabilístico que divide la secuencia de cambio de carril en tres fases: decisión de camboi, selección de carril y ejecución (i.e. aceptación del hueco y merge). Además, a las clases de cambio de carril \textbf{obligatorio} y \textbf{discrecional} definidas en \cite{Gipps1986} añade una nueva, \textbf{forzado}, definida para situaciones de mucha congestión de tráfico, cuando se abre un hueco suficiente para ejecutar el cambio. Se usa \gls{mitsim} como plataforma en la que realizar los tests del modelo.
 
-En \cite{Toledo2003, Toledo2009} Plantean un modelo en el que, manteniendo la clasificación de los cambios de carril en obligatorio y discrecional. Plantean un modelo
+En \cite{Toledo2003, Toledo2009} Plantean un modelo en el que, manteniendo la clasificación de los cambios de carril en obligatorio y discrecional, separan el adelantamiento en selección de carril y gap-acceptance. El modelo es probabilístico y clasifica las entradas en cuatro grupos de variables: las de vecindad (e.g. huecos y velocidades), las de planificación de ruta (e.g. distancia a la salida objetivo), las relacionadas con la experiencia (e.g. evitar un determinado carril en un determinado tramo) y las de estilo de conducción.
+
+Tanto \cite{Ahmed1999} como \cite{Toledo2003, Toledo2009} prueban sus modelos en \gls{mitsim}
 
 
 \newthought{La viabilidad en un cambio de carril} se determina haciendo uso de modelos denominados \textit{\idx{gap acceptance}}, donde los vehículos calculan si caben o no en un determinado huevo. Estos modelos fueron creados inicialmente para situaciones emplazadas en intersecciones aunque posteriormente se comprobó su utilidad para determinar si es posible o no el cambio a un carril basándose principalmente en el espacio hueco existente en el carril destino.
@@ -205,6 +207,22 @@ En~\cite{satzoda2013towards}, haciendo uso de la información combinada de bus C
 En \cite{Dia2002} Los parámetros relativos al comportamiento, es decir, los que definen características, forma de razonar, etcétera son extraídos de encuestas a conductores reales. De acuerdo a los autores, cada conductor con sus propias características su forma de razonar sus perceciones y sus objetivos se puede modelar como un agente.
 
 \newthought{En microsimulación}, las técnicas dominantes de los modelos de conducción son las \glsentrylong{ann} y la \glsentrylong{fl}. Las primeras debido a ser una de las técnicas principales en la rama del \gls{ml}, y la segunda por ser una manera sencilla y cercana a la manera de razonar del ser humano.
+
+...
+
+Para el cambio de carril
+
+Los modelos estudiados no tienen en cuenta las inconsistencias y la incertidumbre de las percepciones y decisiones de un conductor humano \cite{McDonald1997}. Dichos modelos pertenencen a la clase \glsentrylong{hc}, esto es, valores fijos, ecuaciones y reglas de la lógica convencional para representar el conocimiento, las percepciones y las decisiones de los conductores. La única manera que tienen los autores de añadir incertidumbre en los modelos es mediante la introducción de términos aleatorios.
+
+Sin embargo, los conductores basan sus decisiones en sus percepciones y éstas, aunque imprecisas, no tienen por qué seguir una distribución aleatoria con distribución clásica (e.g. normal). Las técnicas basadas en \gls{ci} palian los inconvenientes típicos de estas técnicas al pertenencer sus técnicas a soluciones de la clase \glsentrylong{sc}.
+
+\cite{Das2009} una nueva metodología para cambio de carril basada en lógica difusa. El simulador se denomina Autonomous Agent SIMulation Package (AASIM). La motivación es que los sistemas difusos son capaces de modelar sistemas no lineales complejos como  reglas de la forma \texttt{if \ldots then \ldots} y que además la lógica difusa es ideal para modelar la incertidumbre del mundo real y por tanto de las percepciones de los conductores. Clasifican los cambios de carril en MLC y DLC. En MLC las reglas tienen en cuenta la distancia al siguiente punto característico (e.g. una salida) (\TODO{a lo mejor en la ilustración del principuio podemos ponerle nombre aesto y asi'erferirnos a ello en el resto del texto}) y el número de cambios de carril necesarios. En DLC deciden si cambiar o no basándose en el nivel de satisfacción del conductor y en el nivel de congestión en los carriles adjacentes.
+
+\cite{McDonald1997, Wu2003} desarrollan otro modelo de simulación denominado Fuzzy LOgic motorWay SIMulation (FLOWSIM) con similares características donde establecen conjuntos difusos para el modelo. Dso categorías de cambio de carril, al lento (principalmente para evitar incordiar a los vehículos que se aproximan por detrás a velocidades superiores, usan dos variables, presión del vehículo trasero y satisfacción en el gap del carril destino) y al rápido (para ganar velocidad, variables: velocidad ganada con el cambio y oportunidad, es decir, seguridad y confort con el cambio).
+
+\TODO{Aquí hay que meter el cuadro ese de las reglas difusas para ejemplo}
+
+\TODO{Echar un vistazo a la tabla resumen}
 
 \subsection{El enfoque de agentes}
 
