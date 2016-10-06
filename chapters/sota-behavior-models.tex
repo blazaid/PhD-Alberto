@@ -1,28 +1,59 @@
 \chapter{Modelos de comportamiento}
 \label{ch:sota-behavior-models}
 
-El objetivo que perigue la simulación de tráfico es hacer cada vez más realistas los modelos generados. En un modelo basado en \gls{mas}\sidenote{Donde cada uno de los agentes trabaja de manera independiente sobre el mismo problema, esto es, el tráfico.}, el realismo aumenta cuanto más se asemeja el comportamiento de un agente al de un conductor real.
+El objetivo que persigue la simulación de tráfico es hacer cada vez más realistas los modelos generados. En un simulador de tipo \glsentrylongsp{mas} donde cada uno de los agentes modela, entre otros, a conductores, el realismo aumenta cuanto más se parecen el comportamiento\sidenote{
+	¿A qué nos referimos cuando hablamos del \textit{comportamiento al volante}? \textit{comportar} (segun la RAE) se define como \textit{actuar de una manera determinada}. Por tanto, comportamiento al volante lo tratamos en este estudio como las acciones o tareas que se ejecutan durante la conducción, es decir, la manera de actuar de un individuo mientras conduce.
+} del agente al del conductor real.
 
-¿A qué nos referimos cuando hablamos del "comportamiento"? Según el diccionario de la real academia, \enquote{comportar} se define como \textit{actuar de una manera determinada}. Sin embargo, no queda claro qué factores constituyen el comportamiento al volante, es decir.
-
-Conducir implica la ejecución de múltiples tareas en paralelo, cada una de diferente nivel cognitivo. Además, las acciones no está limitadas a la interacción con el vehículo; el conductor ha de tener en cuenta otros factores como, por ejemplo, la situación de tráfico en la que se encuentra inmerso, las señales, los peatones o los dispositivos \gls{its}.
+Conducir implica la ejecución de múltiples tareas en paralelo, cada una de ellas pertenecientes a un nivel cognitivo. Además, las acciones no están limitadas a la interacción con el vehículo; el conductor ha de tener en cuenta otros factores como, por ejemplo las señales, los peatones o los \glspl{adas}.
 
 \begin{figure}
 	\centering
-	\includegraphics{three-levels-of-human-driving}
-	\caption{Los tres niveles jerárquicos que describen la tarea de conducción según~\cite{michon1985critical}: \textit{estrategia} (i.e. las decisiones generales), la \textit{maniobra} (i.e. decisiones durante la conducción de más corto plazo) y \textit{control} (i.e. comportamientos automáticos). (\TODO{Rehacer la figura nosotros, esta no me gusta. Es del \cite{michon1985critical}}).}
+	\begin{tikzpicture}
+	\tikzset{
+		centered/.style = { align=center, anchor=center },
+		arrow/.style = { black!20, arrows={-Triangle} },
+		dblarrow/.style = { black!20, arrows={Triangle-Triangle} },
+	}
+	
+	\matrix (m) [
+			matrix of nodes,
+			column sep      = 2em,
+			row sep         = 1em,
+			column 1/.style = { nodes = { font=\sffamily\scriptsize, fill=black!20, centered}},
+			column 2/.style = { nodes = { font=\sffamily, centered, fill=orange!20, text width=3cm }},
+			column 3/.style = { nodes = { font=\sffamily, centered, text width=2.2cm }},
+			column 4/.style = { nodes = { font=\sffamily, centered }},
+		] {
+			& Nivel estratégico & planes generales & $\gg s.$\\
+			Entorno & Nivel táctico  & patrones de acción & $s.$ \\
+			Entorno  & Nivel de control & comportamientos automáticos & $ms.$ \\
+		};
+		\draw[arrow] (m-1-2) -> (m-1-3);
+		\draw[arrow] (m-2-1) -> (m-2-2);
+		\draw[dblarrow] (m-2-2) -> (m-2-3);
+		\draw[arrow] (m-3-1) -> (m-3-2);
+		\draw[dblarrow] (m-3-2) -> (m-3-3);
+		\draw[dblarrow] (m-2-2) -> (m-1-2);
+		\draw[dblarrow] (m-3-2) -> (m-2-2);
+	\end{tikzpicture}
+	\caption{Los tres niveles jerárquicos que describen la tarea de conducción según~\cite{michon1985critical}: \textit{estrategia} (i.e. las decisiones generales), la \textit{maniobra} (i.e. decisiones durante la conducción de más corto plazo) y \textit{control} (i.e. automatismos).}
 	\label{fig:three-levels-of-human-driving}
 \end{figure}
 
-Michon en \cite{michon1985critical} divide en tres los niveles de abstracción de las tareas: el de \textbf{control}, que se ocupa de las tareas de más bajo nivel destinadas éstas a mantener la conducción como son la aceleración o los cambios de marcha, el de \textbf{maniobra} o táctico, donde sus tareas son las encargadas de mantener la interacción con el entorno como los cambios de carril o el control de las señales y demás estímulos externos, y el \textbf{estratégico}, que engloba las tareas de más alto nivel como el razonamiento y la planificación de rutas (ver figura~\ref{fig:three-levels-of-human-driving})\sidenote{Algunos autores (\cite{Alexiadis2004}) se atreven incluso a definir intervalos temporales de tiempo de razonamiento para las tareas de cada nivel: alrededor de $30$ segundos para las tareas del nivel de planificación, de $5$ a $30$ segundos para las tareas de nivel táctico y por debajo de los $5$ segundos para las tareas de control.}.
+\cite{michon1985critical} divide en tres los niveles de abstracción de las tareas: el de \textbf{control}, que se ocupa de las tareas de más bajo nivel destinadas éstas a mantener la conducción como son la aceleración o los cambios de marcha, el de \textbf{maniobra} o táctico, donde sus tareas son las encargadas de mantener la interacción con el entorno como los cambios de carril o el control de las señales y demás estímulos externos, y el \textbf{estratégico}, que engloba las tareas de más alto nivel como el razonamiento y la planificación de rutas (ver figura~\ref{fig:three-levels-of-human-driving})\sidenote{Algunos estudios llegan incluso a definir intervalos temporales de tiempo de razonamiento para las tareas de cada nivel. Por ejemplo, en \cite{Alexiadis2004} se establecen los siguientes tiempos: alrededor de $30$ segundos para las tareas del nivel de planificación, de $5$ a $30$ segundos para las tareas de nivel táctico y por debajo de los $5$ segundos para las tareas de control.}.
 
-El comportamiento de un conductor al volante tiene una relación directa con el nivel de abstracción de maniobra o táctico. Ésta se puede concebir como la encargada de planificar acciones a corto plazo para conseguir objetivos a corto plazo. Las tareas de control son automáticas, y influyen poco o nada en las tomas de decisión relacionadas con tareas como cuánto acelerar en esta situación y cuándo cambiar de tráfico. Las tareas estratégicas estan a un nivel más alto de abstracción (e.g. la ruta a seguir hasta mi destino) y tampoco afectan demiasiado al comportamiento en situaciones concretas\sidenote{No obstante algunos autores (e.g. \TODO{Observation-based lane-vehicle-asignment hierarchy for microscopic simulation on an urban street network} o \cite{Toledo2003}) han demostrado que en ocasiones, la planificación de la ruta sí afecta a la preferencia de un conductor por un carril determinado.}.
+El comportamiento de un conductor al volante tiene una relación directa con el nivel de abstracción de maniobra o táctico. Ésta se puede concebir como la encargada de planificar acciones a corto plazo para conseguir objetivos a corto plazo. Las tareas de control son automáticas e influyen poco o nada en las tomas de decisión relacionadas con tareas del estilo de cuánto acelerar en esta situación o cuándo cambiar de carril. Las tareas estratégicas estan a un nivel más alto de abstracción (e.g. la ruta a seguir hasta mi destino) y tampoco afectan demasiado al comportamiento en situaciones concretas\sidenote{No obstante algunos trabajos han demostrado que en ocasiones la planificación de la ruta sí afecta a decisiones normalmente asociadas el nivel táctico como por ejemplo la preferencia de un conductor por uno u otro carril de la vía \cite{Wei2000, Toledo2003}.}.
 
-En este capítulo se explorará qué modelos de interés dentro de la \gls{ci} se han desarrollado hasta el momento y cuáles son sus limitaciones.
+El resto del capítulo introducirá los modelos de comportamiento más conocidos y hará especial hincapié en el estado más reciente de modelos basados en técnicas de la \glsentrylong{ci}\sidenote{
+	Otros usos de las técnicas de la \gls{ci} como la caracterización de los conductores no serán explorados. Algunos estudios de interés son \cite{sekizawa2007modeling, terada2010multi} donde se hace uso de regresión parcial sobre datos extraídos de simuladores para la caracterización del comportamiento y \cite{DiazAlvarez2014} donde se aplican redes neuronales a datos de conducción reales para la predicción del consumo y la identificación de comportamientos agresivos.
+}.
+
+En~\cite{sekizawa2007modeling} describen modelos supervisados offline para capturar el comportamiento del conductor basados en auto-regresión a trozos. Más adelante lo extienden en~\cite{terada2010multi}, aunque los datos de entrenamiento son extraídos directamente de simulaciones, no del \enquote{mundo real\textsuperscript{TM}}.
 
 \section{Tipos de maniobra}
 
-En el nivel táctico del comportamiento, las tareas que se realizan durante la conducción son las relacionadas a circular con el vehículo dentro del flujo de tráfico, sin bajar demasiado de detalle. En la literatura, estas tareas se centran en dos clases diferentes (figura \ref{fig:behavior-model-classification}): las de \textbf{aceleración}, encargadas de modelar el comportamiento de un conductor en el carril en el que se encuentra y las de \textbf{cambio de carril}, encargadas de decidir y ejecutar los cambios de carril.
+En el nivel táctico del comportamiento, las tareas que se realizan durante la conducción son las relacionadas a circular con el vehículo dentro del flujo de tráfico, sin bajar demasiado de detalle. En la literatura, estas tareas se centran en dos clases generales de problema diferentes (figura \ref{fig:behavior-model-classification}): el de \textbf{aceleración}, que se ocupa de modelar el comportamiento de un conductor en el carril en el que se encuentra y el de \textbf{cambio de carril}, encargado de decidir y ejecutar los cambios de carril.
 
 \begin{figure}
 	\centering
@@ -53,11 +84,7 @@ En el nivel táctico del comportamiento, las tareas que se realizan durante la c
 	\label{fig:behavior-model-classification}
 \end{figure}
 
-...
-
-Microscopic models include gap-acceptance, speed adaptation, lane changing, ramp merging, overtaking, and car-following models (Olstam and Tapani, 2004, Comparison of Car-following Models).
-
-En~\cite{sekizawa2007modeling} describen modelos supervisados offline para capturar el comportamiento del conductor basados en auto-regresión a trozos. Más adelante lo extienden en~\cite{terada2010multi}, aunque los datos de entrenamiento son extraídos directamente de simulaciones, no del \enquote{mundo real\textsuperscript{TM}}.
+Dentro de éstas, los autores en función del alcance y el objetivo del estudio identifican diferentes clases de sub-problemas. Algunos de éstos pueden ser selección decarril, cambio de carril, adelantamiento, adaptación a velocidad de vehículo frontal, etcétera (\cite{Aycin1999}). Mencionaremos estos tipos de problema a lo largo de la sección.
 
 \subsection{Modelos de aceleración}
 
