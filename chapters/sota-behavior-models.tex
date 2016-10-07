@@ -86,11 +86,15 @@ En el nivel táctico del comportamiento, las tareas que se realizan durante la c
 
 Dentro de éstas, los autores en función del alcance y el objetivo del estudio identifican diferentes clases de sub-problemas. Algunos de éstos pueden ser selección decarril, cambio de carril, adelantamiento, adaptación a velocidad de vehículo frontal, etcétera (\cite{Aycin1999}). Mencionaremos estos tipos de problema a lo largo de la sección.
 
+\subsection{Notación y nomenclatura}
+
+Hablar aquí de que los modelos de este nivel hacen uso de una nomenclatura que explicamos aquí. Poner también una ilustración estupendísima indicando qué es qué en cada uno de los vehículos en una vía. No debería ocupar más de 3-4 párrafos y una figura.
+
 \subsection{Modelos de aceleración}
 
 Se ocupan de gestionar el comportamiento del conductor sobre la aceleración (positiva o negativa) en un entorno lineal como lo es un carril de tráfico.
 
-Las primeras menciones sobre modelos de aceleración se atribuyen a Reuschel (1950) y \cite{Pipes1953} por sus trabajos sobre el concepto de \textit{\idx{car-following}}.
+Las primeras menciones sobre modelos de aceleración se atribuyen a \cite{reuschel1950fahrzeugbewegungen} y \cite{Pipes1953} por sus trabajos sobre el concepto de \textit{\idx{car-following}}.
 
 \newthought{Un vehículo está en una situación de \idx{car-following}} cuando su velocidad está condicionado por el vehículo que se encuentra frente a él. El primer trabajo concreto es el de \cite{Pipes1953}, en el que el comportamiento responde a tratar de mantener un espacio variable en función de la velocidad\sidenote{En este modelo en concreto, el espacio viene determinado a partir de la ecuación de la velocidad cuando el tiempo no baja de $1,02$ segundos.}. Este modelo se puede considerar de una clase que denominaremos \textit{mantenimiento de medida} dado que su objetivo es manmtener constantemente una distancia segura. Otros trabajos trabajan con el mantenimiento de otras medidas como distancia relativa al parachoque delantero o trasero.
 
@@ -114,7 +118,7 @@ Sucesivos trabajos sobre el concepto de \textit{umbral perceptual} y los modelos
 
 \newthought{Agrupar en un mismo modelo} las diferentes clases de modelos de aceleración es un trabajo que se empezó a desarrollar a partir de los años $1990$. Los principales problemas son la complejidad de estos modelos, ya que aumentar las clases implica la generalización de multitud de factores. Algunos trabajos a este respecto son el modelo de Gipps (\cite{Gipps1981}) el cual agrupa las clases \textit{\idx{free-flow}} y \textit{\idx{car-following}}, el modelo de Yang et. al (\cite{Yang1996}) que agrupa las de \textit{emergency}, \textit{car-following} y \textit{free-flow} o el modelo Optimal Velocity (\cite{Bando1998}) que agrupa las de \textit{\idx{free-flow}}, \textit{\idx{car-following}} y \textit{stop-and-go}.
 
-Una característica de todos los modelos hasta el momento es que no capturan los comportamientos de los diferentes tipos de conductor o vehículo. Sin embargo, el comportamiento puede variar en función de los comportamientos de los vehículos que se encuentran en su entorno (\cite{Tordeux2010}). Algunos estudios recientes como los de Simonelli et al. (2009), Colombaroni and Fusco, 2013 o Zheng et al., 2013 se puede decir que incorporan el comportamiento del entorno, pero únicamente porque entrenan redes neuronales con información tanto del coche como del entorno y por tanto éstas pueden haber aprendido detalles de éste. Más adelante se hablará de los modelos basados en técniacs de la glsentrylong{ci}.
+Una característica de todos los modelos hasta el momento es que no capturan los comportamientos de los diferentes tipos de conductor o vehículo. Sin embargo, el comportamiento puede variar en función de los comportamientos de los vehículos que se encuentran en su entorno (\cite{Tordeux2010}). Algunos estudios recientes como los de \cite{Simonelli2009}, Colombaroni and Fusco, 2013 o Zheng et al., 2013 se puede decir que incorporan el comportamiento del entorno, pero únicamente porque entrenan redes neuronales con información tanto del coche como del entorno y por tanto éstas pueden haber aprendido detalles de éste. Más adelante se hablará de los modelos basados en técniacs de la glsentrylong{ci}.
 
 ...
 
@@ -285,7 +289,7 @@ El primer trabajo documentado en \gls{fl} es \cite{Kikuchi1992}, donde los autor
 Otros trabajos en la línea de investigación de~\cite{Kikuchi1992} y \cite{Chakroborty1999}
 ...
 
-Data-driven approaches have already been used in developing a fully adaptive cruise control system (Simonelli et al., 2009; Bifulco et al., 2013)
+Data-driven approaches have already been used in developing a fully adaptive cruise control system (\cite{Simonelli2009, Bifulco2014})
 
 Otros trabajos que trabajan con lógica difusa: (Calibrating the membership functions of the fuzzy inference system: instantiated by car-following data, A FUZZY LOGIC MODEL OF FREEWAY DRIVER BEHAVIOR, The Modeling and Simulation of the Car-following Behavior Based on Fuzzy Inference, Fuzzy parameters estimation for car-following modelling, A Fuzzy Logic Approach for Car-Following Modelling, Variable response time lag module for car-following models, Development of a fuzzy logic based microscopic motorway simulation model, Establishment of car following theory based on fuzzy-based sensitivity parameters. Advances in multimedia modelling, Application of fuzzy systems in the car-following behaviour analysis, The validation of a microscopic simulation model: A methodological case study). Ninguno de estos estudios considera diferentes tipologías de vehículos para el car following
 
@@ -324,7 +328,7 @@ Problemas:
 
 En (Hunt and Lyons, 1994, Modelling of dual-carriageway lane-changing using neural networks) desarrollan un modelo de decisión usando redes neuronales. El modelo funciona a partir de presentarle una entrada visual del entorno alrededor del vehículo que quiere cambiar de carril. Sin embargo, no considera la cooperación entre vehículos.
 
-Simonelli et al. (2009) have applied neural networks to develop a real-time learning mode for capturing car-following behavior taking into consideration individual drivers’ characteristics. Bifulco et al. (2013) extended the work of Simonelli et al. (2009) into a framework for reproducing spacing in adaptive cruise control applications. While in this research we have used data derived from the same experiment as Simonelli et al. (2009), the scope and level of complexity of the studies is very different. While all studies adopt a data-driven approach, in this paper the objective is to create a simple and practical methodology for speed estimation using car-following models for use in a microscopic traffic simulator.
+\cite{Simonelli2009} have applied neural networks to develop a real-time learning mode for capturing car-following behavior taking into consideration individual drivers’ characteristics. \cite{Bifulco2014} extended the work of \cite{Simonelli2009} into a framework for reproducing spacing in adaptive cruise control applications. While in this research we have used data derived from the same experiment as \cite{Simonelli2009}, the scope and level of complexity of the studies is very different. While all studies adopt a data-driven approach, in this paper the objective is to create a simple and practical methodology for speed estimation using car-following models for use in a microscopic traffic simulator.
 
 \subsection{Otras técnicas}
 
