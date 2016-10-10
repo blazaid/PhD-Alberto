@@ -88,43 +88,71 @@ Dentro de éstas, los autores en función del alcance y el objetivo del estudio 
 
 \subsection{Notación y nomenclatura}
 
-Hablar aquí de que los modelos de este nivel hacen uso de una nomenclatura que explicamos aquí. Poner también una ilustración estupendísima indicando qué es qué en cada uno de los vehículos en una vía. No debería ocupar más de 3-4 párrafos y una figura.
+\TODO{Hablar aquí de que los modelos de este nivel hacen uso de una nomenclatura que explicamos aquí. Poner también una ilustración estupendísima indicando qué es qué en cada uno de los vehículos en una vía. No debería ocupar más de 3-4 párrafos y la figura guay que identifica todos los elementos (el vehículo, el lead car, el lag car, ...).}
 
 \subsection{Modelos de aceleración}
 
 Se ocupan de gestionar el comportamiento del conductor sobre la aceleración (positiva o negativa) en un entorno lineal como lo es un carril de tráfico.
 
-Las primeras menciones sobre modelos de aceleración se atribuyen a \cite{reuschel1950fahrzeugbewegungen} y \cite{Pipes1953} por sus trabajos sobre el concepto de \textit{\idx{car-following}}.
-
-\newthought{Un vehículo está en una situación de \idx{car-following}} cuando su velocidad está condicionado por el vehículo que se encuentra frente a él. El primer trabajo concreto es el de \cite{Pipes1953}, en el que el comportamiento responde a tratar de mantener un espacio variable en función de la velocidad\sidenote{En este modelo en concreto, el espacio viene determinado a partir de la ecuación de la velocidad cuando el tiempo no baja de $1,02$ segundos.}. Este modelo se puede considerar de una clase que denominaremos \textit{mantenimiento de medida} dado que su objetivo es manmtener constantemente una distancia segura. Otros trabajos trabajan con el mantenimiento de otras medidas como distancia relativa al parachoque delantero o trasero.
-
-Posteriormente, en $1958$, se presentó el modelo GM\sidenote{Debido a que el desarrollo del modelo se realizó dentro de la \textit{General Motors Corporation}.} (\cite{Chandler1958}), el cual sirvió como base para el desarrollo de numerosos modelos posteriores. Este modelo se caracteriza por el uso del concepto \textit{estímulo $\leftarrow$ respuesta}, donde la acción (respuesta) del vehículo es debida a la activación de un estímulo tras pasar un tiempo de retardo  $\tau$. En el modelo de \cite{Chandler1958} la respuesta es el cambio de tasa de aceleración en función de la variación de la distancia al vehículo delantero. Algunas modificaciones sobre el algoritmo original son, entre otras, la asimetría en la tasa de cambio de aceleración y deceleración o la inclusión de segundos coches delanteros (\cite{Gazis1959}, \cite{Bexelius1968}).
+Los primeros trabajos sobre modelos de conducción de este tipo datan de comienzo de los años $50$ con estudios sobre el concepto que más adelante se denominaría \textit{\idx{car-following}} (\cite{reuschel1950fahrzeugbewegungen, Pipes1953}).
 
 \begin{figure}
-	\missingfigure[figheight=4cm]{Una clasificación entre los tres tipos identificados de car-following: mantenimiento de medidas, estímulo-respuesta y psicofísicos}
-	\caption{Los tres tipos generales de modelo de \textit{car-following}: basados en mantenimiento de medidas, basados en estímulo-respuesta y psicofísicos.}
+	\centering
+	\smartdiagramset{
+		border color=none,
+		back arrow disabled=true
+	}
+	\smartdiagram[flow diagram:horizontal] {
+		Mantenimiento de medidas,
+		estímulo~/ respuesta,
+		psico-físicos
+	}
+	\caption{Evolución de los tres tipos generales de modelo de \textit{car-following}: mantenimiento de medidas, estímulo$\rightarrow$respuesta y psico-físicos. Con la llegada de los psico-físicos se vio que \textit{car-following} no era más que uno de tantos regímenes distintos dentro de los modelos de aceleración.}
 	\label{fig:car-following-there-different-models}
 \end{figure}
 
-Los métodos de estas dos clases de modelo suelen ser sencillos de implementar, pero tienen un problema principal: suponen que el conductor es capaz de percibir todo cambio, incluso el más mínimo, en el coche delantero cuando esto en realidad no es así. En $1974$ apareció una nueva clase de modelos de \textit{\idx{car-following}}, denominados posteriormente como \textbf{psicofísicos} (\cite{wiedemann1974simulation} and \cite{Leutzbach1988}) donde se introduce el concepto de \textit{umbral perceptual}\sidenote{El \textit{umbral perceptual} de una medida es el límite a partir del cual se percibe un cambio en dicha medida. Mediante el uso de umbrales perceptuales, se limitan las acciones de los coches a cambios perceptibles en los coches delanteros.} como medida para superar la limitación de los otros dos tipos de modelo.
+\newthought{Un vehículo está en una situación \idx{car-following}} cuando su velocidad está condicionada por el vehículo que se encuentra frente a él. En el primer modelo concreto (\cite{Pipes1953}), el comportamiento responde a tratar de mantener un espacio variable en función de la velocidad\sidenote{
+	En el modelo concreto de Pipes, el espacio viene determinado a partir de la ecuación de la velocidad cuando el tiempo no baja de $1,02$ segundos.
+}. Este modelo se puede considerar de una clase que denominaremos \textbf{mantenimiento de medida} dado que su objetivo es mantener constantemente una distancia segura. Otros trabajos trabajan con el mantenimiento de otras medidas como distancia relativa al parachoque delantero o trasero (\TODO{He perdido las referencias}.
 
-Sucesivos trabajos sobre el concepto de \textit{umbral perceptual} y los modelos psico-físicos llevaron a conclusión de que el \textit{\idx{car-following}} no era más que una clase más de un conjunto más amplio de modelos de aceleración (ver imagen~\ref{fig:acceleration-model-classes}). En \cite{wiedemann1992microscopic} se proponen hasta cuatro clases diferentes de modelos de aceleración en función de las posiciones y velocidades relativas entre el vehículo sujeto y el siguiente: \textit{free-flow}, donde el vehículo no se ve afectado por el comportamiento del siguiente vehículo y se basa en velocidad que quiere alcanzar sin impedimentos (más allá de los impuestos por el tipo y condición de la vía), \textit{car-following} cuando el comportamiento del vehículo se ve influenciado por el vehículo delantero, obligando a disminuir la velocidad deseada en el conductor en cuestión, \textit{approaching} como situación intermedia entre las dos anteriores y \textit{emergency} cuando la situación es crítica (e.g. colisión inminente). Otros autores posteriormente (e.g. \cite{Toledo2003} o \cite{Liu2013}) diferencian otras situaciones como el \textit{close-following} o \textit{stop-and-go}
+Más adelante, a finales de la década, se presentó el modelo \textbf{GM}\sidenote{
+	Desarrollado dentro de la \textit{General Motors}, de ahí su nombre.
+} (\cite{Chandler1958}), el cual sirvió como base para el desarrollo de modelos posteriores. Éste se caracteriza por el uso del concepto \textbf{estímulo $\rightarrow$ respuesta}, donde la respuesta del vehículo (el cambio en la tasa de aceleración) es debida a la activación de un estímulo (la variación en la distancia con el vehículo delantero) tras pasar un tiempo de retardo $\tau$\sidenote{
+	En realidad los modelos estímulo $\rightarrow$ respuesta son la evolución lógica de los modelos anteriores, donde se pasa de un cálculo de velocidad en función de la distancia (u otra medida) a un sistema de control donde la variable a controlar es la aceleración en función de uno o varios estímulos de entrada, además con un retardo simulando el tiempo de reacción.
+}. Algunas modificaciones sobre el algoritmo original son, entre otras, la asimetría en la tasa de cambio de aceleración y deceleración (\cite{Gazis1959}) o la inclusión de segundos coches delanteros (\cite{Bexelius1968}).
+
+Los métodos de estas dos clases de modelo suelen ser \enquote{sencillos} de implementar, pero tienen un problema principal: suponen que el conductor es capaz de percibir incluso el más mínimo cambio en el coche delantero cuando la realidad no es así. Por ello, a mediados de los años $70$ apareció una nueva clase de modelos de \textit{\idx{car-following}}, denominados posteriormente como \textbf{psicofísicos} (\cite{wiedemann1974simulation} and \cite{Leutzbach1988}) donde se introduce el concepto de \textit{umbral perceptual}\sidenote{El \textit{umbral perceptual} de una medida es el límite a partir del cual se percibe un cambio en dicha medida. Mediante el uso de umbrales perceptuales, se limitan las acciones de los coches a cambios perceptibles en los coches delanteros.} como medida para superar la limitación de los otros dos tipos de modelo.
+
+\newthought{Con los modelos psico-físicos se llegó a la conclusión de que existían diferentes situaciones} en las que los estímulos y las respuestas obedecían a diferentes umbrales y que, por tanto, los modelos de tipo \textit{\idx{car-following}} no eran sino una clase más de un conjunto más amplio de modelos de aceleración (imagen~\ref{fig:acceleration-model-classes}).
 
 \begin{figure}
-	\missingfigure[figheight=4cm]{Diferentes clases de modelos de aceleración}
-	\caption{El modelo \textit{car-following} sólo es uno entre muchas clases de modelos de aceleración.}
+	\centering
+	\smartdiagramset{
+		set color list={
+			orange!60,
+			green!50!lime!60,
+			magenta!60,
+			blue!50!cyan
+		},
+		uniform connection color=true
+	}
+	\smartdiagram[constellation diagram]{
+		modelos de aceleración, free-flow, approaching, car-following, emergency
+	}
+	\caption{Tras la aparición de los modelos psico-físicos se comprobó que los umbrales en las percepciones y por tanto el comportamiento podía variar dependiendo de las situaciones. Por ello, el \textit{car-following} no era más que una entre diferentes clases o regímenes de aceleración. Algunos de los regímenes más usados en la literatura son \textit{free-flow}, \textit{car-following}, \textit{approaching}, y \textit{emergency}, aunque algunos autores definen nuevos regímenes, cada uno con sus límites de aplicación.}
 	\label{fig:acceleration-model-classes}
 \end{figure}
 
-\newthought{Agrupar en un mismo modelo} las diferentes clases de modelos de aceleración es un trabajo que se empezó a desarrollar a partir de los años $1990$. Los principales problemas son la complejidad de estos modelos, ya que aumentar las clases implica la generalización de multitud de factores. Algunos trabajos a este respecto son el modelo de Gipps (\cite{Gipps1981}) el cual agrupa las clases \textit{\idx{free-flow}} y \textit{\idx{car-following}}, el modelo de Yang et. al (\cite{Yang1996}) que agrupa las de \textit{emergency}, \textit{car-following} y \textit{free-flow} o el modelo Optimal Velocity (\cite{Bando1998}) que agrupa las de \textit{\idx{free-flow}}, \textit{\idx{car-following}} y \textit{stop-and-go}.
+En \cite{wiedemann1992microscopic} se proponen hasta cuatro clases diferentes de modelos de aceleración en función de las posiciones y velocidades relativas entre el vehículo sujeto y el siguiente: \textit{free-flow}, donde el vehículo no se ve afectado por el comportamiento del siguiente vehículo y se basa en velocidad que quiere alcanzar sin impedimentos (más allá de los impuestos por el tipo y condición de la vía), \textit{car-following} cuando el comportamiento del vehículo se ve influenciado por el vehículo delantero, obligando a disminuir la velocidad deseada en el conductor en cuestión, \textit{approaching} como situación intermedia entre las dos anteriores y \textit{emergency} cuando la situación es crítica (e.g. colisión inminente). Más adelante diferentes autores identifican otros regímenes que pueden considerarse en algunos casos como situaciones independientes (e.g. \textit{close-following} o \textit{stop-and-go} \cite{Toledo2003, Liu2013}).
 
-Una característica de todos los modelos hasta el momento es que no capturan los comportamientos de los diferentes tipos de conductor o vehículo. Sin embargo, el comportamiento puede variar en función de los comportamientos de los vehículos que se encuentran en su entorno (\cite{Tordeux2010}). Algunos estudios recientes como los de \cite{Simonelli2009}, Colombaroni and Fusco, 2013 o Zheng et al., 2013 se puede decir que incorporan el comportamiento del entorno, pero únicamente porque entrenan redes neuronales con información tanto del coche como del entorno y por tanto éstas pueden haber aprendido detalles de éste. Más adelante se hablará de los modelos basados en técniacs de la glsentrylong{ci}.
+\newthought{Agrupar en un mismo modelo las diferentes clases de modelo de aceleración} es un trabajo que se empezó a desarrollar a partir de los años $90$ debido, en parte, a la proliferación de diferentes modelos de aceleración. El principal problema residía en que cuantos más regímenes se trataban de agrupar en un mismo modelo, más aumentaba el número de factores a generalizar y ajustar.
 
-...
+Algunos trabajos a este respecto son el modelo de Gipps (\cite{Gipps1981}) el cual agrupa las clases \textit{\idx{free-flow}} y \textit{\idx{car-following}}, el modelo de Yang et. al (\cite{Yang1996}) que agrupa las de \textit{emergency}, \textit{car-following} y \textit{free-flow} o el modelo Optimal Velocity (\cite{Bando1998}) que agrupa las de \textit{\idx{free-flow}}, \textit{\idx{car-following}} y \textit{stop-and-go}.
 
-SUMO usa (al menos así lo indican en el paper del 2002) el modelo Gipps\cite{krajzewicz2002sumo}. No sé si ellos han hecho una extensión del modelo o están referenciando la extensión y ellos sólo la implementan. En el paper del 2012 citan que el modelo car-following que usan por defecto es el desarrollado por Stefan Krauß\cite{jin2016evaluation}, debido a su simplicidad y su velocidad de ejecución. El modelo ha probado ser válido, pero tiene algunos defectos, por lo que existe un API para implementar otros modelos. En la actualidad están incluidos en el sistema los modelos IDM\cite{treiber2000congested} (\textit{Intelligent Driver Model}), el modelo de tres fases de Kerner\cite{kerner2008testbed} y el modelo de Wiedemann\cite{wiedemann1974simulation}.
+\newthought{Una de las deficiencias de los modelos vistos hasta el momento} es que no capturan los comportamientos de los diferentes tipos de conductor o de vehículo. Sin embargo, el comportamiento puede variar en función de los comportamientos de los vehículos que se encuentran en su entorno (\cite{Tordeux2010}).
 
-(Barcelo et al., 1996, PETRI: A parallel environment for a real-time traffic management and information system) describen el simulador AIMSUN. El comportamiento de cada vehículo en la simulación es modelado a través de múltiples modelos de comportamiento (e.g. car following, lane changing, gap acceptance). El modelo de cambio de carril es el usado en el modelo de Gipps, aunque el propio simulador permite la modelización de incidentes por lo que debe existir alguna variación del modelo original o un nuevo modelo para ese caso concreto.
+Algunos estudios recientes sí que los incorporan debido a que uso de modelos de la \gls{ci} como las \glsentrylongpl{ann} (e.g. \cite{Simonelli2009, Fusco2013, Zheng2013}), que se alimentan con datos del coche y del entorno y, por tanto, llegan a aprender detalles de éstos. Entraremos más en detalle dentro de este mismo capítulo en éstas y otras técnicas de la \gls{ci}.
+
 
 \subsection{Modelos de cambio de carril}
 
@@ -200,6 +228,8 @@ Los modelos de aceleración y de cambio de carril han sido tratados tradicionalm
 Sin embargo, a partir de los años $90$ se ha tendido al desarrollo de modelos de comportamiento que combinan los modelos de aceleración y de cambio de carril (\cite{Ma2004}). Un ejemplo actual de este tipo de modelos es el descrito en \cite{Toledo2007}, el cual se basa en el concepto de \enquote{objetivo a corto plazo} para elaborar un \enquote{plan a corto plazo} apoyándose en un árbol de decisión que determina la accinó a realizar (ver figura~\ref{fig:toledo-2007-behavior-model-tree}).
 
 ...
+
+(Barcelo et al., 1996, PETRI: A parallel environment for a real-time traffic management and information system) describen el simulador AIMSUN. El comportamiento de cada vehículo en la simulación es modelado a través de múltiples modelos de comportamiento (e.g. car following, lane changing, gap acceptance). El modelo de cambio de carril es el usado en el modelo de Gipps, aunque el propio simulador permite la modelización de incidentes por lo que debe existir alguna variación del modelo original o un nuevo modelo para ese caso concreto.
 
 \section{La \glsentrylong{ci} en los modelos de conducción}
 
