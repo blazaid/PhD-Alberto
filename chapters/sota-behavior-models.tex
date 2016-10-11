@@ -153,12 +153,11 @@ Algunos trabajos a este respecto son el modelo de Gipps (\cite{Gipps1981}) el cu
 
 Algunos estudios recientes sí que los incorporan debido a que uso de modelos de la \gls{ci} como las \glsentrylongpl{ann} (e.g. \cite{Simonelli2009, Fusco2013}), que se alimentan con datos del coche y del entorno y, por tanto, llegan a aprender detalles de éstos. Entraremos más en detalle dentro de este mismo capítulo en éstas y otras técnicas de la \gls{ci}.
 
-
 \subsection{Modelos de cambio de carril}
 
 El tráfico real no está compuesto por un sólo carril, sino por varios. El cambio de carril ocurre cuando un vehículo se mueve del carril que está usando a un carril destino, ya sea porque quiere mejorar su circulación (e.g. quiere realizar un adelantamiento) o porque su ruta lo requiere (e.g. está próxima la rampa de salida que quiere tomar en una autopista).
 
-Este comportamiento mejora la velocidad media del flujo de la vía en situaciones de poca carga de tráfico, aunque pueden afectar al tráfico en formas de ondas de choque e interferir en éste (\cite{Sasoh2002, Jin2006}). En situaciones de carga de tráfico medio o de congestión pueden llegar a interferir en el tráfico más aún incluso que los modelos de \textit{\idx{car-following}} (\cite{Laval2006}).
+Este comportamiento mejora la velocidad media del flujo de la vía en situaciones de poca carga de tráfico, aunque pueden afectar a éste en formas de ondas de choque e interferir en éste (\cite{Sasoh2002, Jin2006}). En situaciones de carga de tráfico medio o de congestión pueden llegar a interferir incluso más que los modelos de \textit{\idx{car-following}} (\cite{Laval2006}).
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Dos ilustraciones, una con la seleccción de cambio de carril y otra con el cambio.}
@@ -166,13 +165,38 @@ Este comportamiento mejora la velocidad media del flujo de la vía en situacione
 	\label{fig:lane-selection-plus-merging}
 \end{figure}
 
-Los modelos de cambio de carril o \textit{\idx{lane-change}} se ocupan de determinar cuándo un vehículo quiere desplazarse de un carril a otro (denominado \textbf{\idx{lane-selection}}) y de la ejecución del mismo (denominado \textbf{merging}). Esta división fue introducida en \cite{Sparmann1978}, donde el autor, además, distinguía entre cambios hacia el carril lento y el rápido\sidenote{
-	En el estudio el autor entiende la derecha como el carril lento y la izquierda como el carril rápido. Los cambios al carril lento son motivados para no obstruir, al carril rápido para evitar obstrucciones y la ejecución a tener espacio en el carril objetivo.
+Los modelos de cambio de carril o \textit{\idx{lane-change}} se ocupan de determinar cuándo y cómo se desplaza del carril origen a un carril destino. Quizá el modelo presentado por Gipps\sidenote{
+	\TODO{Escribir aquí un resumen del modelo de Gipps. Hay poco sitio. Mejor, así lo hago breve que la gente secansa de las formulitas. Si da para un par de ecuaciones, un par de párrafitos y una imagen, fetén.}
+} en $1986$ (\cite{Gipps1986}) es el conocido como primera solución al problema del cambio de carril.
+
+Sin embargo, a finales de la decada anterior, Sparmann definió un modelo psicofísico de cambio de carril más básico (\cite{Sparmann1978}), pero definiendo dos conceptos que aún hoy en día siguen en uso. El primero, la diferenciación entre cambio a carriles rápidos y lentos\sidenote{
+	En \cite{Sparmann1978} el autor entiende la derecha como el carril lento y la izquierda como el carril rápido, y es como se entiende dentro del contexto de esta tesis. Sin embargo en otros países esta correspondencia es al revés.
+}. El segundo, la diferenciación entre la selección de carril o \textbf{\idx{lane-selection}} y la ejecución del cambio o \textbf{\idx{merging}}.
+
+El primero de los conceptos se mantiene prácticamente constante en la mayoría de los modelos de la literatura. Sin embargo, algunos autores añaden nuevos pasos en al diferenciación de cambio de carril, anuque en general, dichos pasos sólo obedecen a pequeñas especializaciones antes o después de los pasos originales. Por ejemplo, en \cite{Ahmed1999} el autor propone la división del primer paso (\textit{\idx{lane-selection}}) en dos: \textit{\idx{change-decision}}\sidenote{
+	Este paso concreto definido en \cite{Ahmed1999} es en realidad parte del arbol de decisión probabilístico de su modelo. Dado que este modelo nicluye además un submodelo de aceleración dentro del árbol, es comprensible que quiera incluir dicho paso en el modelo de cambio de carril.
+} y \textbf{\idx{lane-selection}}.
+
+\newthought{Los cambios de carril obedecen a diferentes motivaciones}. Estas motivaciones se resumen en dos clases principales de cambio de carril: el cambio \textbf{obligatorio} (denominado \gls{mlc}) y el cambio \textbf{discrecional} (denominado \gls{dlc}) Éstos fueron introducidos por Gipps en su trabajo \cite{Gipps1986}. El primero obecede a un abandono de carril obligado, mientras que el segundo obedece a motivaciones más relacionadas con mejorar el confort o la situación actual de conducción (ver figura~\ref{fig:lane-change-mandatory-vs-discretional}).
+
+Al igual con la diferenciación en pasos, la clasificación entre cambio obligatorio y discrecional se mantiene en toda la literatura. Y también algunos autores añaden sus variaciones para especializar casos concretos como en \cite{Ahmed1999}, donde se incluye el cambio \textbf{forzado} como especialización de cambio en situaciones de mucha congestión de tráfico\sidenote{
+	La razón de esta especialización es el mal desempeño del modelo de Gipps en situaciones de congestión, ya que supone que el cambio de carril ocurre sin forzar a los vehículos del carril de destino a modificar su comportamiento como disminuir la velocidad o parar.
 }.
 
-\newthought{Los cambios de carril obedecen a diferentes motivaciones}. A lo largo de la literatura existen dos tipos principales de cambio de carril: el \textbf{obligatorio} y el \textbf{discrecional}, introducidos por Gipps en su trabajo \cite{Gipps1986}. El primero obecede a una motivación de obligatoriedad de abandono de carril, mientras que el segundo obedece a motivaciones más cercanas a mejorar el confort o la situación actual de conducción (ver figura~\ref{fig:lane-change-mandatory-vs-discretional}).
+\newthought{¿Cómo decidir un cambio de carril?}. Quizá esta sea la razón por la que el modelo de Gipps ha sido el más versionado hasta la fecha. En \cite{Gipps1986} el autor propuso un modelo para el cambio de carril al aproximarse a un cambio de dirección. Dicho modelo identifica tres distancias que caracterizan el comportamiento del conductor en función de cómo de lejos está dicho punto: (i) textbf{lejos}, en el que no existe condicionamiento en la decisión de cambio de carril, (ii) textbf{medio}, donde el conductor empieza a ignorar los cambio que dan ventaja de velocidad si no hacia carriles distanciados del de salida y (iii) \textbf{cerca} donde los vahículos deben estar en el carril de cambio de salida.
 
-Este trabajo propone un framework para el problema de cambio de carril al aproximarse a un cambio de dirección. El modelo identifica tres distancias que caracterizan el comportamiento del conductor en función de cómo de lejos está dicho punto: (i) textbf{lejos}, en el que no existe condicionamiento en la decisión de cambio de carril, (ii) textbf{medio}, donde el conductor empieza a ignorar los cambio que dan ventaja de velocidad si no hacia carriles distanciados del de salida y (iii) \textbf{cerca} donde los vahículos deben estar en el carril de cambio de salida. El modelo tiene los problemas de que los factores son evaluados secuencialmente (por lo que no se evalúan factores más bajos en la jerarquía si no es necesario) y de que supone que el cambio de carril ocurre sin forzar a los vehículos del carril de destino a modificar su comportamiento como disminuir la velocidad o parar. El modelo de \cite{Hidas2002} advierte de esta situación indicando que el cambio en situaciones de congestión ha de ser o bien forzado o bien a través de colaboración.
+Posteriormente, en \cite{wiedemann1992microscopic} se desarrolla un framework similar pero teniendo en cuenta los cambios a carriles lentos (para representar, por ejemplo, obstrucciones como accidentes o un vehículo lento) y a carriles rápidos (para situaciones como condiciones de la ruta). Además el autor incluye un modelo para influir en su desempeño en función del entorno actual (las características de los vehículos de alrededor) y el entorno potencial (la estimación de las características del entorno en momentos posteriores).
+
+Estos dos modelos, se basan en una estructura jerarquizada y secuencial. Su principal problema es que los factores son evaluados secuencialmente y por tanto no se evalúan factores más bajos en la jerarquía si no es necesario.
+
+
+
+
+
+
+
+
+
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Dos ilustraciones, una con un cambio de carril obligatorio (que se acabe el carril por ejemplo) y otro discrecional (que se vea un vehículo lento como un camión y el coche adelantando).}
@@ -180,13 +204,12 @@ Este trabajo propone un framework para el problema de cambio de carril al aproxi
 	\label{fig:lane-change-mandatory-vs-discretional}
 \end{figure}
 
-En \cite{wiedemann1992microscopic} se desarrolla un framework que tiene en cuenta los cambios de carril lento a rápido (debido, por ejemplo a alguna obstrucción como accidente o un vehículo lento) y de rápido a lento (por ejemplo debido a las condiciones de la ruta). Ya que el modelo está afectado por la influencia del entorno, divide esta en dos tipos: (i) actual, las características de los vehículos de alrededor y (ii) potencial, la estimación de las características del entorno en momentos posteriores al actual.
 
 En \cite{Hidas2002} se presenta un modelo similar al de \cite{Gipps1986} apoyándose también en los dos tipos de cambio de carril, \textbf{obligatorio} y \textbf{discrecional}. Se presentan una serie de factores (también evaluados en secuencia) que provocan situaciones de cambio de carril. Cuando las situaciones son del tipo de mejora de la situación de conducción, se dispara un cambio discrecional, pero cualquier situación que dispara un cambio obligatorio descarta toda decisión de cambio discrecional por considerarse prioritario.
 
 Más trabajos en la línea de los anteriores son \cite{Halati1997, Yang1996, Ahmed1999}, los cuales fijan la separación jerárquica entre cambios obligatorios y cambios discrecionales, o \cite{Toledo2003, Wei2000} donde salvan dicha limitación.
 
-\cite{Ahmed1999} propone un modelo probabilístico que divide la secuencia de cambio de carril en tres fases: decisión de camboi, selección de carril y ejecución (i.e. aceptación del hueco y merge). Además, a las clases de cambio de carril \textbf{obligatorio} y \textbf{discrecional} definidas en \cite{Gipps1986} añade una nueva, \textbf{forzado}, definida para situaciones de mucha congestión de tráfico, cuando se abre un hueco suficiente para ejecutar el cambio. Se usa \gls{mitsim} como plataforma en la que realizar los tests del modelo.
+
 
 En \cite{Toledo2003, Toledo2009} Plantean un modelo en el que, manteniendo la clasificación de los cambios de carril en obligatorio y discrecional, separan el adelantamiento en selección de carril y gap-acceptance. El modelo es probabilístico y clasifica las entradas en cuatro grupos de variables: las de vecindad (e.g. huecos y velocidades), las de planificación de ruta (e.g. distancia a la salida objetivo), las relacionadas con la experiencia (e.g. evitar un determinado carril en un determinado tramo) y las de estilo de conducción.
 
@@ -209,15 +232,15 @@ En \cite{Gipps1986} y \cite{Ahmed1996} dividen sin embargo el hueco crítico en 
 
 \newthought{Un cambio de carril no tiene por qué involucrar al conductor que lo ejecuta}....
 
+El modelo de \cite{Hidas2002} advierte de esta situación indicando que el cambio en situaciones de congestión ha de ser o bien forzado o bien a través de colaboración.
+
+
 ...
 
 En \cite{Fritzsche1994} se describe un modelo de microsimulación para analizar cuellos de botella (e.g. un accidente donde se bloquea uno de los carriles). Es un caso típico donde los vehículos no pueden cambiar de carril sin la participación activa del resto de vehículos (colaboración). El modelo lo describe de una maera muy sucinta y no considera comportamiento colaborativo en el cambio de carril.
 
 En (Yang and Koutsopoulos, 1996, A Microscopic Traffic Simulator for Evaluation of Dynamic Traffic Management Systems) presentan el simulador MITSIM, desarrollado por el MIT (creo) en el que se habla específicamente de comportamiento colaborativo en cambio de carriles haciendo uso de lo que denominan "courtesy yielding function" (algo así como función de cesión de paso de cortesía), la cual se usa para para hacer espacio al vehículo que va a incorporarse al carril. Sin embargo, los detalles de dicho proceso no están especificados en el paper.
 
-...
-
-Sparmann (\cite{Sparmann1978}) propone modelo psico-físico a las velocidades y distancias relativas.
 
 \subsection{Modelos mixtos}
 
