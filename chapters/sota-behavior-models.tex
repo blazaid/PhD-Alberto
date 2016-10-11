@@ -160,7 +160,7 @@ El tráfico real no está compuesto por un sólo carril, sino por varios. El cam
 Este comportamiento mejora la velocidad media del flujo de la vía en situaciones de poca carga de tráfico, aunque pueden afectar a éste en formas de ondas de choque e interferir en éste (\cite{Sasoh2002, Jin2006}). En situaciones de carga de tráfico medio o de congestión pueden llegar a interferir incluso más que los modelos de \textit{\idx{car-following}} (\cite{Laval2006}).
 
 \begin{figure}
-	\missingfigure[figheight=4cm]{Dos ilustraciones, una con la seleccción de cambio de carril y otra con el cambio.}
+	\missingfigure[figheight=4cm]{Dos ilustraciones, una con la selección de cambio de carril y otra con el cambio.}
 	\caption{El cambio de carril se divide tradicionalmente en una operación que involucra dos pasos. La selección de carril (\textit{lane-selection}) al que cambiarse y la ejecución del cambio (\textit{merging}).}
 	\label{fig:lane-selection-plus-merging}
 \end{figure}
@@ -185,9 +185,18 @@ Al igual con la diferenciación en pasos, la clasificación entre cambio obligat
 
 \newthought{¿Cómo decidir un cambio de carril?}. Quizá esta sea la razón por la que el modelo de Gipps ha sido el más versionado hasta la fecha. En \cite{Gipps1986} el autor propuso un modelo para el cambio de carril al aproximarse a un cambio de dirección. Dicho modelo identifica tres distancias que caracterizan el comportamiento del conductor en función de cómo de lejos está dicho punto: (i) textbf{lejos}, en el que no existe condicionamiento en la decisión de cambio de carril, (ii) textbf{medio}, donde el conductor empieza a ignorar los cambio que dan ventaja de velocidad si no hacia carriles distanciados del de salida y (iii) \textbf{cerca} donde los vahículos deben estar en el carril de cambio de salida.
 
-Posteriormente, en \cite{wiedemann1992microscopic} se desarrolla un framework similar pero teniendo en cuenta los cambios a carriles lentos (para representar, por ejemplo, obstrucciones como accidentes o un vehículo lento) y a carriles rápidos (para situaciones como condiciones de la ruta). Además el autor incluye un modelo para influir en su desempeño en función del entorno actual (las características de los vehículos de alrededor) y el entorno potencial (la estimación de las características del entorno en momentos posteriores).
+Posteriormente, en \cite{wiedemann1992microscopic} se desarrolla un framework similar pero teniendo en cuenta los cambios a carriles lentos (para representar, por ejemplo, obstrucciones como accidentes o un vehículo lento) y a carriles rápidos (para situaciones como condiciones de la ruta). Además el autor incluye un modelo para influir en su desempeño en función del entorno actual (las características de los vehículos de alrededor) y el entorno potencial (la estimación de las características del entorno en momentos posteriores). En \cite{Hidas2002} también se desarrolla un modelo que separa las jerarquías en situaciones de \gls{mlc} y \gls{dlc}, además de añadir más situaciones que pueden disparar un cambio de carril. Algunos trabajos en la línea de los anteriores pueden ser \cite{Halati1997, Yang1996, Ahmed1999}.
 
-Estos dos modelos, se basan en una estructura jerarquizada y secuencial. Su principal problema es que los factores son evaluados secuencialmente y por tanto no se evalúan factores más bajos en la jerarquía si no es necesario.
+Todos ellos se basan en una estructura jerarquizada y secuencial. Su principal problema es que los factores son evaluados uno detrás de otro hasta encontrar una situación favorable, en cuyo caso el resto de factores no son evaluados. Por ejemplo, tal y como está formado el modelo de \cite{Hidas2002}, un \gls{mlc} inhibe cualquier posibilidad de realizar un \gls{dlc} independientemente de la ultilidad de ambos.
+
+Para evitar esta limitación, algunos autores hacen uso de técnicas como modelos probabilísticos. Ejemplos de avances en esta línea de trabajo pueden ser \cite{Toledo2003, Toledo2009, Wei2000}
+
+Más trabajos en la línea de los anteriores son \cite{Halati1997, Yang1996, Ahmed1999}, los cuales fijan la separación jerárquica entre cambios obligatorios y cambios discrecionales, o \cite{Toledo2003, Wei2000} donde salvan dicha limitación.
+
+
+
+En \cite{Toledo2003, Toledo2009} Plantean un modelo en el que, manteniendo la clasificación de los cambios de carril en obligatorio y discrecional, separan el adelantamiento en selección de carril y gap-acceptance. El modelo es probabilístico y clasifica las entradas en cuatro grupos de variables: las de vecindad (e.g. huecos y velocidades), las de planificación de ruta (e.g. distancia a la salida objetivo), las relacionadas con la experiencia (e.g. evitar un determinado carril en un determinado tramo) y las de estilo de conducción.
+
 
 
 
@@ -205,13 +214,7 @@ Estos dos modelos, se basan en una estructura jerarquizada y secuencial. Su prin
 \end{figure}
 
 
-En \cite{Hidas2002} se presenta un modelo similar al de \cite{Gipps1986} apoyándose también en los dos tipos de cambio de carril, \textbf{obligatorio} y \textbf{discrecional}. Se presentan una serie de factores (también evaluados en secuencia) que provocan situaciones de cambio de carril. Cuando las situaciones son del tipo de mejora de la situación de conducción, se dispara un cambio discrecional, pero cualquier situación que dispara un cambio obligatorio descarta toda decisión de cambio discrecional por considerarse prioritario.
 
-Más trabajos en la línea de los anteriores son \cite{Halati1997, Yang1996, Ahmed1999}, los cuales fijan la separación jerárquica entre cambios obligatorios y cambios discrecionales, o \cite{Toledo2003, Wei2000} donde salvan dicha limitación.
-
-
-
-En \cite{Toledo2003, Toledo2009} Plantean un modelo en el que, manteniendo la clasificación de los cambios de carril en obligatorio y discrecional, separan el adelantamiento en selección de carril y gap-acceptance. El modelo es probabilístico y clasifica las entradas en cuatro grupos de variables: las de vecindad (e.g. huecos y velocidades), las de planificación de ruta (e.g. distancia a la salida objetivo), las relacionadas con la experiencia (e.g. evitar un determinado carril en un determinado tramo) y las de estilo de conducción.
 
 Tanto \cite{Ahmed1999} como \cite{Toledo2003, Toledo2009} prueban sus modelos en \gls{mitsim}
 
@@ -233,6 +236,7 @@ En \cite{Gipps1986} y \cite{Ahmed1996} dividen sin embargo el hueco crítico en 
 \newthought{Un cambio de carril no tiene por qué involucrar al conductor que lo ejecuta}....
 
 El modelo de \cite{Hidas2002} advierte de esta situación indicando que el cambio en situaciones de congestión ha de ser o bien forzado o bien a través de colaboración.
+
 
 
 ...
