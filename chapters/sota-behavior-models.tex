@@ -185,48 +185,47 @@ Al igual con la diferenciación en pasos, la clasificación entre cambio obligat
 
 \newthought{¿Cómo decidir un cambio de carril?}. Quizá esta sea la razón por la que el modelo de Gipps ha sido el más versionado hasta la fecha. En \cite{Gipps1986} el autor propuso un modelo para el cambio de carril al aproximarse a un cambio de dirección. Dicho modelo identifica tres distancias que caracterizan el comportamiento del conductor en función de cómo de lejos está dicho punto: (i) textbf{lejos}, en el que no existe condicionamiento en la decisión de cambio de carril, (ii) textbf{medio}, donde el conductor empieza a ignorar los cambio que dan ventaja de velocidad si no hacia carriles distanciados del de salida y (iii) \textbf{cerca} donde los vahículos deben estar en el carril de cambio de salida.
 
-Posteriormente, en \cite{wiedemann1992microscopic} se desarrolla un framework similar pero teniendo en cuenta los cambios a carriles lentos (para representar, por ejemplo, obstrucciones como accidentes o un vehículo lento) y a carriles rápidos (para situaciones como condiciones de la ruta). Además el autor incluye un modelo para influir en su desempeño en función del entorno actual (las características de los vehículos de alrededor) y el entorno potencial (la estimación de las características del entorno en momentos posteriores). En \cite{Hidas2002} también se desarrolla un modelo que separa las jerarquías en situaciones de \gls{mlc} y \gls{dlc}, además de añadir más situaciones que pueden disparar un cambio de carril. Algunos trabajos en la línea de los anteriores pueden ser \cite{Halati1997, Yang1996, Ahmed1999}.
-
-Todos ellos se basan en una estructura jerarquizada y secuencial. Su principal problema es que los factores son evaluados uno detrás de otro hasta encontrar una situación favorable, en cuyo caso el resto de factores no son evaluados. Por ejemplo, tal y como está formado el modelo de \cite{Hidas2002}, un \gls{mlc} inhibe cualquier posibilidad de realizar un \gls{dlc} independientemente de la ultilidad de ambos.
-
-Para evitar esta limitación, algunos autores hacen uso de técnicas como modelos probabilísticos. Ejemplos de avances en esta línea de trabajo pueden ser \cite{Toledo2003, Toledo2009, Wei2000}
-
-Más trabajos en la línea de los anteriores son \cite{Halati1997, Yang1996, Ahmed1999}, los cuales fijan la separación jerárquica entre cambios obligatorios y cambios discrecionales, o \cite{Toledo2003, Wei2000} donde salvan dicha limitación.
-
-
-
-En \cite{Toledo2003, Toledo2009} Plantean un modelo en el que, manteniendo la clasificación de los cambios de carril en obligatorio y discrecional, separan el adelantamiento en selección de carril y gap-acceptance. El modelo es probabilístico y clasifica las entradas en cuatro grupos de variables: las de vecindad (e.g. huecos y velocidades), las de planificación de ruta (e.g. distancia a la salida objetivo), las relacionadas con la experiencia (e.g. evitar un determinado carril en un determinado tramo) y las de estilo de conducción.
-
-
-
-
-
-
-
-
-
-
-
 \begin{figure}
 	\missingfigure[figheight=4cm]{Dos ilustraciones, una con un cambio de carril obligatorio (que se acabe el carril por ejemplo) y otro discrecional (que se vea un vehículo lento como un camión y el coche adelantando).}
 	\caption{Los cambios de carril se clasifican en la literatura como aquellos necesarios para continuar con la conducción u \textbf{obligatorios} y aquellos útiles para mejorar la situación de conducción o \textbf{discrecionales}.}
 	\label{fig:lane-change-mandatory-vs-discretional}
 \end{figure}
 
+Posteriormente, en \cite{wiedemann1992microscopic} se desarrolla un framework similar pero teniendo en cuenta los cambios a carriles lentos (para representar, por ejemplo, obstrucciones como accidentes o un vehículo lento) y a carriles rápidos (para situaciones como condiciones de la ruta). Además el autor incluye un modelo para influir en su desempeño en función del entorno actual (las características de los vehículos de alrededor) y el entorno potencial (la estimación de las características del entorno en momentos posteriores). En \cite{Hidas2002} también se desarrolla un modelo que separa las jerarquías en situaciones de \gls{mlc} y \gls{dlc}, además de añadir más situaciones que pueden disparar un cambio de carril. Algunos trabajos en la línea de los anteriores pueden ser \cite{Yang1996, Halati1997, Ahmed1999}.
+
+Todos ellos se basan en una estructura jerarquizada y secuencial. Su principal problema es que los factores son evaluados uno detrás de otro hasta encontrar una situación favorable, en cuyo caso el resto de factores no son evaluados. Por ejemplo, tal y como está formado el modelo de \cite{Hidas2002}, un \gls{mlc} inhibe cualquier posibilidad de realizar un \gls{dlc} independientemente de la utilidad de ambos. Para evitar esta limitación, algunos autores hacen uso de técnicas como modelos probabilísticos. Ejemplos de avances en esta línea de trabajo pueden ser \cite{Toledo2003, Toledo2009, Wei2000}\sidenote{
+	El modelo propuesto por \cite{Toledo2003, Toledo2009}, aunque mantienen la clasificación, es probabilístico y existe opción de realizar un \gls{dlc} en lugar de un \gls{mlc} aun en situaciones donde acciones de ambas clases se activen.
+	
+	Éste clasifica las entradas en cuatro grupos de variables: las de vecindad (e.g. huecos y velocidades), las de planificación de ruta (e.g. distancia a la salida objetivo), las relacionadas con la experiencia (e.g. evitar un determinado carril en un determinado tramo) y las de estilo de conducción.
+}.
+
+\newthought{La viabilidad en un cambio de carril} se determina haciendo uso de modelos denominados \textit{\idx{gap acceptance}}, donde los vehículos calculan si caben o no en un determinado hueco y actuan en consecuencia.
+
+En su origen los modelos de \textit{\idx{gap acceptance}} se desarrollaron para resolver situaciones en intersecciones e incorporaciones. En la actualidad son los modelos que se usan en el momento de después de seleccionar el cambio de carril y antes de ejecutar físicamente el cambio.
 
 
 
-Tanto \cite{Ahmed1999} como \cite{Toledo2003, Toledo2009} prueban sus modelos en \gls{mitsim}
 
 
-\newthought{La viabilidad en un cambio de carril} se determina haciendo uso de modelos denominados \textit{\idx{gap acceptance}}, donde los vehículos calculan si caben o no en un determinado huevo. Estos modelos fueron creados inicialmente para situaciones emplazadas en intersecciones aunque posteriormente se comprobó su utilidad para determinar si es posible o no el cambio a un carril basándose principalmente en el espacio hueco existente en el carril destino.
 
-\begin{equation}
-f_{g_l}(t) = \twopartf {0} {g_l(t) < g^{crit}_l(t)} {1} {g_l(t) \geq g^{crit}_l(t)}
-\label{eq:gap-acceptance-model}
-\end{equation}
 
-En la ecuación~\ref{eq:gap-acceptance-model} se describe el modelo típico de un modelo de \idx{gap accceptance}. En un momento $t$, el cambio a un carril $l$ es viable ($f_{g_l}(t) = 1$) o no ($f_{g_l}(t) = 0$) dependiendo de si el espacio en el carril destino $g_l(t)$ es mayor o menor que un \enquote{hueco crítico} (en inglés \idx{critical gap}) $g^{crit}_l(t)$. Diferentes autores determinan el hueco crítico basándose en diferentes parámetros (e.g. \cite{Miller1972} o \cite{Cassidy1995})
+
+
+
+
+
+\marginnote{
+	El modelo típico de \textit{\idx{gap acceptance}} es el expuesto en la ecuación~\ref{eq:gap-acceptance-model}.
+	
+	En un momEn un momento $t$, el cambio a un carril $l$ es viable ($f_{g_l}(t) = 1$) o no ($f_{g_l}(t) = 0$) dependiendo de si el espacio en el carril destino $g_l(t)$ es mayor o menor que un \enquote{hueco crítico} (en inglés \idx{critical gap}) $g^{crit}_l(t)$.ento $t$, el cambio a un carril $l$ es viable ($f_{g_l}(t) = 1$) o no ($f_{g_l}(t) = 0$) dependiendo de si el espacio en el carril destino $g_l(t)$ es mayor o menor que un \enquote{hueco crítico} (en inglés \textit{\idx{critical gap}}) $g^{crit}_l(t)$.
+	
+	\begin{equation}
+	f_{g_l}(t) = \twopartf {0} {g_l(t) < g^{crit}_l(t)} {1} {g_l(t) \geq g^{crit}_l(t)}
+	\label{eq:gap-acceptance-model}
+	\end{equation}
+}
+
+En la ecuación~\ref{eq:gap-acceptance-model} se describe el modelo típico de un modelo de \idx{gap accceptance}.  Diferentes autores determinan el hueco crítico basándose en diferentes parámetros (e.g. \cite{Miller1972} o \cite{Cassidy1995})
 
 En \cite{Gipps1986} y \cite{Ahmed1996} dividen sin embargo el hueco crítico en dos, hasta el vehículo delantero y hasta el vehículo trasero. Ambos deben ser aceptables y en dichos huecos influye además la velocidad relativa respecto a los vehículos delantero y trasero. Otras variaciones a la hora de determinar el hueco crítico incluyen la variación del tamaño en función de si es obligatorio o discrecional (\cite{Toledo2003}), velocidades relativas (\cite{Ahmed1999}) o cooperación entre conductor realizando el cambio y conductores en carril destino (\cite{Ahmed1999}, \cite{Hidas2002}).
 
@@ -244,7 +243,6 @@ El modelo de \cite{Hidas2002} advierte de esta situación indicando que el cambi
 En \cite{Fritzsche1994} se describe un modelo de microsimulación para analizar cuellos de botella (e.g. un accidente donde se bloquea uno de los carriles). Es un caso típico donde los vehículos no pueden cambiar de carril sin la participación activa del resto de vehículos (colaboración). El modelo lo describe de una maera muy sucinta y no considera comportamiento colaborativo en el cambio de carril.
 
 En (Yang and Koutsopoulos, 1996, A Microscopic Traffic Simulator for Evaluation of Dynamic Traffic Management Systems) presentan el simulador MITSIM, desarrollado por el MIT (creo) en el que se habla específicamente de comportamiento colaborativo en cambio de carriles haciendo uso de lo que denominan "courtesy yielding function" (algo así como función de cesión de paso de cortesía), la cual se usa para para hacer espacio al vehículo que va a incorporarse al carril. Sin embargo, los detalles de dicho proceso no están especificados en el paper.
-
 
 \subsection{Modelos mixtos}
 
