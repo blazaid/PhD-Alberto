@@ -145,9 +145,9 @@ Los métodos de estas dos clases de modelo suelen ser \enquote{sencillos} de imp
 
 En \cite{wiedemann1992microscopic} se proponen hasta cuatro clases diferentes de modelos de aceleración en función de las posiciones y velocidades relativas entre el vehículo sujeto y el siguiente: \textit{free-flow}, donde el vehículo no se ve afectado por el comportamiento del siguiente vehículo y se basa en velocidad que quiere alcanzar sin impedimentos (más allá de los impuestos por el tipo y condición de la vía), \textit{car-following} cuando el comportamiento del vehículo se ve influenciado por el vehículo delantero, obligando a disminuir la velocidad deseada en el conductor en cuestión, \textit{approaching} como situación intermedia entre las dos anteriores y \textit{emergency} cuando la situación es crítica (e.g. colisión inminente). Más adelante diferentes autores identifican otros regímenes que pueden considerarse en algunos casos como situaciones independientes (e.g. \textit{close-following} o \textit{stop-and-go} \cite{Toledo2003, Liu2013}).
 
-\newthought{Agrupar en un mismo modelo las diferentes clases de modelo de aceleración} es un trabajo que se empezó a desarrollar a partir de los años $90$ debido, en parte, a la proliferación de diferentes modelos de aceleración. El principal problema residía en que cuantos más regímenes se trataban de agrupar en un mismo modelo, más aumentaba el número de factores a generalizar y ajustar.
+\newthought{Agrupar en un mismo modelo las diferentes clases de modelo de aceleración} es un trabajo que se empezó a desarrollar a partir de los años $90$ debido, en parte, a la proliferación de diferentes modelos de aceleración. El principal problema reside en que cuantos más regímenes se tratan de agrupar en un mismo modelo, más aumenta el número de factores a generalizar y ajustar.
 
-Algunos trabajos a este respecto son el modelo de Gipps (\cite{Gipps1981}) el cual agrupa las clases \textit{\idx{free-flow}} y \textit{\idx{car-following}}, el modelo de Yang et. al (\cite{Yang1996}) que agrupa las de \textit{emergency}, \textit{car-following} y \textit{free-flow} o el modelo Optimal Velocity (\cite{Bando1998}) que agrupa las de \textit{\idx{free-flow}}, \textit{\idx{car-following}} y \textit{stop-and-go}.
+Algunos trabajos a este respecto son el modelo de Gipps (\cite{Gipps1981}) el cual agrupa las clases \textit{\idx{free-flow}} y \textit{\idx{car-following}}, el modelo incluido en el simulador \gls{mitsim} de \cite{Yang1996} que agrupa las de \textit{emergency}, \textit{car-following} y \textit{free-flow} o el modelo Optimal Velocity (\cite{Bando1998}) que agrupa las de \textit{\idx{free-flow}}, \textit{\idx{car-following}} y \textit{stop-and-go}.
 
 \newthought{Una de las deficiencias de los modelos vistos hasta el momento} es que no capturan los comportamientos de los diferentes tipos de conductor o de vehículo. Sin embargo, el comportamiento puede variar en función de los comportamientos de los vehículos que se encuentran en su entorno (\cite{Tordeux2010}).
 
@@ -194,55 +194,37 @@ Al igual con la diferenciación en pasos, la clasificación entre cambio obligat
 Posteriormente, en \cite{wiedemann1992microscopic} se desarrolla un framework similar pero teniendo en cuenta los cambios a carriles lentos (para representar, por ejemplo, obstrucciones como accidentes o un vehículo lento) y a carriles rápidos (para situaciones como condiciones de la ruta). Además el autor incluye un modelo para influir en su desempeño en función del entorno actual (las características de los vehículos de alrededor) y el entorno potencial (la estimación de las características del entorno en momentos posteriores). En \cite{Hidas2002} también se desarrolla un modelo que separa las jerarquías en situaciones de \gls{mlc} y \gls{dlc}, además de añadir más situaciones que pueden disparar un cambio de carril. Algunos trabajos en la línea de los anteriores pueden ser \cite{Yang1996, Halati1997, Ahmed1999}.
 
 Todos ellos se basan en una estructura jerarquizada y secuencial. Su principal problema es que los factores son evaluados uno detrás de otro hasta encontrar una situación favorable, en cuyo caso el resto de factores no son evaluados. Por ejemplo, tal y como está formado el modelo de \cite{Hidas2002}, un \gls{mlc} inhibe cualquier posibilidad de realizar un \gls{dlc} independientemente de la utilidad de ambos. Para evitar esta limitación, algunos autores hacen uso de técnicas como modelos probabilísticos. Ejemplos de avances en esta línea de trabajo pueden ser \cite{Toledo2003, Toledo2009, Wei2000}\sidenote{
-	El modelo propuesto por \cite{Toledo2003, Toledo2009}, aunque mantienen la clasificación, es probabilístico y existe opción de realizar un \gls{dlc} en lugar de un \gls{mlc} aun en situaciones donde acciones de ambas clases se activen.
-	
-	Éste clasifica las entradas en cuatro grupos de variables: las de vecindad (e.g. huecos y velocidades), las de planificación de ruta (e.g. distancia a la salida objetivo), las relacionadas con la experiencia (e.g. evitar un determinado carril en un determinado tramo) y las de estilo de conducción.
+	El modelo propuesto por \cite{Toledo2003, Toledo2009}, aunque mantienen la clasificación, es probabilístico y existe opción de realizar un \gls{dlc} en lugar de un \gls{mlc} aún en situaciones donde acciones de ambas clases se activen. Clasifica las entradas en cuatro grupos de variables: las de vecindad (e.g. huecos y velocidades), las de planificación de ruta (e.g. distancia a la salida objetivo), las relacionadas con la experiencia (e.g. evitar un determinado carril en un determinado tramo) y las de estilo de conducción.
 }.
 
 \newthought{La viabilidad en un cambio de carril} se determina haciendo uso de modelos denominados \textit{\idx{gap acceptance}}, donde los vehículos calculan si caben o no en un determinado hueco y actuan en consecuencia.
 
 En su origen los modelos de \textit{\idx{gap acceptance}} se desarrollaron para resolver situaciones en intersecciones e incorporaciones. En la actualidad son los modelos que se usan en el momento de después de seleccionar el cambio de carril y antes de ejecutar físicamente el cambio.
 
-
-
-
-
-
-
-
-
-
-
+En general se basan en el mismo principio. Una fórmula determina si, en función de una serie de parámetros entre los que se incluye el hueco del carril destino, el cambio es viable, en cuyo caso el cambio se ejecuta. En la ecuación~\ref{eq:gap-acceptance-model} se describe el modelo típico de un modelo de \idx{gap accceptance}. 
 
 \marginnote{
-	El modelo típico de \textit{\idx{gap acceptance}} es el expuesto en la ecuación~\ref{eq:gap-acceptance-model}.
-	
-	En un momEn un momento $t$, el cambio a un carril $l$ es viable ($f_{g_l}(t) = 1$) o no ($f_{g_l}(t) = 0$) dependiendo de si el espacio en el carril destino $g_l(t)$ es mayor o menor que un \enquote{hueco crítico} (en inglés \idx{critical gap}) $g^{crit}_l(t)$.ento $t$, el cambio a un carril $l$ es viable ($f_{g_l}(t) = 1$) o no ($f_{g_l}(t) = 0$) dependiendo de si el espacio en el carril destino $g_l(t)$ es mayor o menor que un \enquote{hueco crítico} (en inglés \textit{\idx{critical gap}}) $g^{crit}_l(t)$.
+	\paragraph{Modelo típico de \textit{\idx{gap acceptance}}}
 	
 	\begin{equation}
 	f_{g_l}(t) = \twopartf {0} {g_l(t) < g^{crit}_l(t)} {1} {g_l(t) \geq g^{crit}_l(t)}
 	\label{eq:gap-acceptance-model}
 	\end{equation}
+	
+	En un momento $t$, el cambio a un carril $l$ es viable ($f_{g_l}(t) = 1$) o no ($f_{g_l}(t) = 0$) dependiendo de si el espacio en el carril destino $g_l(t)$ es mayor o menor que un \enquote{hueco crítico} (en inglés \idx{critical gap}) $g^{crit}_l(t)$.
 }
 
-En la ecuación~\ref{eq:gap-acceptance-model} se describe el modelo típico de un modelo de \idx{gap accceptance}.  Diferentes autores determinan el hueco crítico basándose en diferentes parámetros (e.g. \cite{Miller1972} o \cite{Cassidy1995})
+Algunos ejemplos de factores de influencia en el modelo de \textit{\idx{gap acceptance}} son la del tipo de cambio (\gls{mlc} o \gls{dlc}, usado en \cite{Ahmed1999, Toledo2009}), la velocidad absoluta del vehículo (\cite{Gipps1986, Ahmed1996}), la relativa con los vehículos delantero y trasero del carril destino (\cite{Ahmed1999}) o incluso el peso de encontrarse o no en una situación de cooperación (\cite{Ahmed1999, Hidas2002}).
 
-En \cite{Gipps1986} y \cite{Ahmed1996} dividen sin embargo el hueco crítico en dos, hasta el vehículo delantero y hasta el vehículo trasero. Ambos deben ser aceptables y en dichos huecos influye además la velocidad relativa respecto a los vehículos delantero y trasero. Otras variaciones a la hora de determinar el hueco crítico incluyen la variación del tamaño en función de si es obligatorio o discrecional (\cite{Toledo2003}), velocidades relativas (\cite{Ahmed1999}) o cooperación entre conductor realizando el cambio y conductores en carril destino (\cite{Ahmed1999}, \cite{Hidas2002}).
+El \textit{\idx{critical gap}} no está limitado a un único hueco. Tanto el modelo de \cite{Gipps1986} como algunos posteriores (e.g. \cite{Ahmed1996}) dividen el hueco crítico en dos: las distancias hasta el vehículo delantero y hasta el vehículo trasero. Y para aceptar la condción, ambos han de ser aceptables.
 
-...
+\newthought{Un cambio de carril no tiene por qué involucrar al conductor que lo ejecuta}. El \cite{Hidas2002}, el autor resalta un problema del modelo de \cite{Gipps1986} heredado por multitud de modelos basados en éste: el cambio en situaciones de congestión ha de ser o bien forzado o bien a través de colaboración; en caso contrario, los vehículos no abandonarán el carril congestionado.
 
+Uno de los primeros trabajos en abordar el comoprtamiento colaborativo es el de \cite{Fritzsche1994}. En éste, se describe un modelo de microsimulación para analizar cuellos de botella (e.g. un accidente donde se bloquea uno de los carriles). Es un caso típico donde los vehículos no pueden cambiar de carril sin la participación activa del resto de vehículos. Sin embargo la descripción del modelo se realiza de forma muy sucinta y no considera comportamiento colaborativo en el cambio de carril.
 
-\newthought{Un cambio de carril no tiene por qué involucrar al conductor que lo ejecuta}....
+Más adelante, en \cite{Yang1996} se presenta el entorno de microsimulacińo \gls{mitsim} que introduce, entre otros, un modelo de cambio de carril en el que se habla específicamente de comportamiento colaborativo en cambio de carriles haciendo uso de lo que denominan \textit{\idx{courtesy yielding function}}\sidenote{Describir un poquito cómo funciona el tema de la courtesy yielding function. La traducción literal viene a ser algo así como } (algo así como \textit{función de cesión de paso de cortesía}), la cual se usa para para hacer espacio al vehículo que va a incorporarse al carril. Sin embargo, los detalles de dicho proceso no están especificados en el paper.
 
-El modelo de \cite{Hidas2002} advierte de esta situación indicando que el cambio en situaciones de congestión ha de ser o bien forzado o bien a través de colaboración.
-
-
-
-...
-
-En \cite{Fritzsche1994} se describe un modelo de microsimulación para analizar cuellos de botella (e.g. un accidente donde se bloquea uno de los carriles). Es un caso típico donde los vehículos no pueden cambiar de carril sin la participación activa del resto de vehículos (colaboración). El modelo lo describe de una maera muy sucinta y no considera comportamiento colaborativo en el cambio de carril.
-
-En (Yang and Koutsopoulos, 1996, A Microscopic Traffic Simulator for Evaluation of Dynamic Traffic Management Systems) presentan el simulador MITSIM, desarrollado por el MIT (creo) en el que se habla específicamente de comportamiento colaborativo en cambio de carriles haciendo uso de lo que denominan "courtesy yielding function" (algo así como función de cesión de paso de cortesía), la cual se usa para para hacer espacio al vehículo que va a incorporarse al carril. Sin embargo, los detalles de dicho proceso no están especificados en el paper.
+Otros trabajos que inciden en la influencia de los vehículos del entorno y en el comoprtmiento colaborativo son \cite{Ahmed1999, Hidas2002}.
 
 \subsection{Modelos mixtos}
 
