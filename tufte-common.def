@@ -559,15 +559,30 @@
 % Modified \title, \author, and \date commands.  These store the
 % (footnote-less) values in \plaintitle, \plainauthor, and \thedate, respectively.
 
-\newcommand{\plaintitle}{}%     plain-text-only title
-\newcommand{\plainauthor}{}%    plain-text-only author
-\newcommand{\plainpublisher}{}% plain-text-only publisher
+\newcommand{\plaintitle}{}
+\newcommand{\plainauthor}{}
+\newcommand{\plainauthortitle}{}
+\newcommand{\plainuniversity}{}
+\newcommand{\plaindepartment}{}
+\newcommand{\plainschool}{}
+\newcommand{\plainadvisor}{}
+\newcommand{\plainadvisortitle}{}
 
-\newcommand{\thanklesstitle}{}%     full title text minus \thanks{}
-\newcommand{\thanklessauthor}{}%    full author text minus \thanks{}
-\newcommand{\thanklesspublisher}{}% full publisher minus \thanks{}
+\newcommand{\thanklesstitle}{}
+\newcommand{\thanklessauthor}{}
+\newcommand{\thanklessauthortitle}{}
+\newcommand{\thanklessuniversity}{}
+\newcommand{\thanklessdepartment}{}
+\newcommand{\thanklessschool}{}
+\newcommand{\thanklessadvisor}{}
+\newcommand{\thanklessadvisortitle}{}
 
-\newcommand{\@publisher}{}% full publisher with \thanks{}
+\newcommand{\@authortitle}{}
+\newcommand{\@university}{}
+\newcommand{\@department}{}
+\newcommand{\@school}{}
+\newcommand{\@advisor}{}
+\newcommand{\@advisortitle}{}
 \newcommand{\thedate}{\today}
 
 % TODO Fix it so that \thanks is not spaced out (with `soul') and can be
@@ -615,17 +630,81 @@
 }
 
 %%
-% Provides a \publisher command to set the publisher
-
-\newcommand{\publisher}[2][]{%
-  \gdef\@publisher{#2}%
+% Provides a \university command to set the university
+\newcommand{\university}[2][]{%
+  \gdef\@university{#2}%
   \begingroup%
     \renewcommand{\thanks}[1]{}% swallow \thanks contents
-    \protected@xdef\thanklesspublisher{#2}%
+    \protected@xdef\thanklessuniversity{#2}%
   \endgroup%
   \ifthenelse{\isempty{#1}}
-    {\renewcommand{\plainpublisher}{\thanklesspublisher}}% use thankless publisher
-    {\renewcommand{\plainpublisher}{#1}}% use provided plain-text publisher
+    {\renewcommand{\plainuniversity}{\thanklessuniversity}}
+    {\renewcommand{\plainuniversity}{#1}}
+}
+
+%%
+% Provides a \department command to set the department
+\newcommand{\department}[2][]{%
+\gdef\@department{#2}%
+\begingroup%
+\renewcommand{\thanks}[1]{}% swallow \thanks contents
+\protected@xdef\thanklessdepartment{#2}%
+\endgroup%
+\ifthenelse{\isempty{#1}}
+{\renewcommand{\plaindepartment}{\thanklessdepartment}}
+{\renewcommand{\plaindepartment}{#1}}
+}
+
+%%
+% Provides a \school command to set the school
+\newcommand{\school}[2][]{%
+\gdef\@school{#2}%
+\begingroup%
+\renewcommand{\thanks}[1]{}% swallow \thanks contents
+\protected@xdef\thanklessschool{#2}%
+\endgroup%
+\ifthenelse{\isempty{#1}}
+{\renewcommand{\plainschool}{\thanklessschool}}
+{\renewcommand{\plainschool}{#1}}
+}
+
+%%
+% Provides a \authortitle command to set the authortitle
+\newcommand{\authortitle}[2][]{%
+\gdef\@authortitle{#2}%
+\begingroup%
+\renewcommand{\thanks}[1]{}% swallow \thanks contents
+\protected@xdef\thanklessauthortitle{#2}%
+\endgroup%
+\ifthenelse{\isempty{#1}}
+{\renewcommand{\plainauthortitle}{\thanklessauthortitle}}
+{\renewcommand{\plainauthortitle}{#1}}
+}
+
+%%
+% Provides a \advisor command to set the advisor
+\newcommand{\advisor}[2][]{%
+\gdef\@advisor{#2}%
+\begingroup%
+\renewcommand{\thanks}[1]{}% swallow \thanks contents
+\protected@xdef\thanklessadvisor{#2}%
+\endgroup%
+\ifthenelse{\isempty{#1}}
+{\renewcommand{\plainadvisor}{\thanklessadvisor}}
+{\renewcommand{\plainadvisor}{#1}}
+}
+
+%%
+% Provides a \advisortitle command to set the advisortitle
+\newcommand{\advisortitle}[2][]{%
+\gdef\@advisortitle{#2}%
+\begingroup%
+\renewcommand{\thanks}[1]{}% swallow \thanks contents
+\protected@xdef\thanklessadvisortitle{#2}%
+\endgroup%
+\ifthenelse{\isempty{#1}}
+{\renewcommand{\plainadvisortitle}{\thanklessadvisortitle}}
+{\renewcommand{\plainadvisortitle}{#1}}
 }
 
 % TODO: Test \hypersetup{pdfauthor,pdftitle} with DVI and XeTeX
@@ -1538,20 +1617,53 @@
 %%
 % Produces a full title page
 
-\newcommand{\maketitlepage}[0]{%
-  \cleardoublepage%
-  {%
-  \sffamily%
-  \begin{fullwidth}%
-  \fontsize{18}{20}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessauthor}}%
-  \vspace{11.5pc}%
-  \fontsize{36}{40}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklesstitle}}%
-  \vfill%
-  \fontsize{14}{16}\selectfont\par\noindent\allcaps{\thanklesspublisher}%
-  \end{fullwidth}%
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\newcommand{\maketitlepage}[0]{
+  \cleardoublepage {
+    \sffamily
+    \begin{fullwidth}
+
+      \begin{center}
+        \vspace{5cm}
+
+        \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessdepartment}}\\
+        \fontsize{12}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessschool}}\\
+
+        \vspace{5cm}
+		{\bfseries \fontsize{18}{20}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklesstitle}}}
+
+        \vspace{2.5cm}
+        \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{Tesis doctoral}}\\
+		
+        \vspace{2.5cm}
+        {\bfseries \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
+          \thanklessauthor
+        }}\\
+        \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
+          \thanklessauthortitle
+        }\\
+
+        \vspace{2.5cm}
+        \fontsize{12}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{Director}}\\
+
+        \vspace{0.5cm}
+        {\bfseries \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
+          \thanklessadvisor
+        }}\\
+        \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
+          \thanklessadvisortitle
+        }\\
+
+		\vfill
+		{\large Madrid \today}
+      \end{center}
+
+    \end{fullwidth}%
   }
   \thispagestyle{empty}%
-  \clearpage%
+  \clearpage
+
+
 }
 
 %%
