@@ -138,12 +138,49 @@ La unión, intersección y el complemento son operaciones básicas en la teoría
 
 \subsection{Razonamiento}
 
+Al igual que en la lógica tradicional, en la \gls{fl} el razonamiento o inferencia es la manera de extraer conclusiones a partir de premisas en función de un conjunto de reglas.
+
+Estas reglas se expresan como implicaciones, definidas típicamente en lógica difusa como $A \rightarrow B \equiv A \land B$\sidenote{
+	Las implicaciones se representan como $A \rightarrow B$, donde $A$ es cualquier operación de premisas y $B$ la conclusión que arrojan.
+	
+	En lógica tradicional, el valor de verdad de una implicación es equivalente al de la expresión $\not A \lor B$. Sin embargo, en lógicas multivaluadas (y por tanto en lógica difusa) esta equivalencia da lugar a razonamientos que se pueden considerar contraintuitivos.
+
+	En el caso concreto de la lógica difusa se han propuesto gran cantidad de equivalencias. Sólo en los trabajos \cite{Kiszka1985} se analizan $72$ alternativas al operador $\not A \lor B$.
+	
+	El operador más usado no obstante es el definido como $A \land B$ debido a su rendimiento (en la implicación de Mamdani la $T$-norma se implementa como el operador mínimo).
+}.
+
+Las dos formas de extraer conclusiones a partir de premisas en \gls{fl} son el \textit{modus ponens} generalizado (del que hablaremos) y el \textit{modus tollens} generalizado, modificaciones sobre los procesos de inferencia \textit{modus ponens} y \textit{modus tollens}\sidenote{
+	En realidad se llaman \textit{modus ponendo ponens} (\enquote{la forma que al afirmar, afirma}) y \textit{modus tollendo tollens} (\enquote{la forma que al negar, niega}).
+}, dos formas similares de razonamiento (figura~\ref{fig:modus-ponens-and-modus-tollens}). Nosotros centraremos nuestro discurso en la primera.
+
+\begin{figure}
+	\missingfigure[figheight=4cm]{Ilustración con las dos formas de razonamiento}
+	\caption{Formas de razonamiento en lógica tradicional: \textit{modus ponendo ponens} y \textit{modus tollendo tollens}.}
+	\label{fig:modus-ponens-and-modus-tollens}
+\end{figure}
+
+\newthought{El modus ponens generalizado es una generalización del modus ponens de la lógica tradicional} donde, en lugar de expresas las reglas de forma absoluta, se expresan de forma aproximada. En la figura~\ref{fig:modus-ponens-traditional-vs-generalized} se ilustra las diferencias fundamentales entre ambos modos.
+
+\begin{figure}
+	\missingfigure[figheight=4cm]{Ilustración con el modus ponens y el modus ponens generalizado}
+	\caption{Proceso de razonamiento según el \textit{modus ponens} tradicional frente al \textit{modus ponens} generalizado. En el primero, si la premisa $A$ es cierta, entonces la conclusión $B$ será cierta. En el segundo, dado que la premisa $A$ no es del todo cierta (es $A'$), entonces la conclusión $B$ será cierta sólo en parte ($B'$).}
+	\label{fig:modus-ponens-traditional-vs-generalized}
+\end{figure}
+
+Para determinar qué grado le asignamos a un consecuente a partir de las premisas parciales y las reglas que dirigen el razonamiento se utiliza un método denominado \textbf{regla composicional de inferencia}.
+
+Una regla $A' \rightarrow B'$ se puede representar como una implicación caracterizada por una función $I(\mu_A(x), \mu_B(y))$ (\cite{Fuller1993}).
+
+\TODO{Explicar mejor porque es terrorífico.}
+
+...
+
 En \cite{Ma2004} hay un capítulo de razonamiento que parece que está guay. Revisarlo un poco a fondo a ver si merece la pena tirar or ahí.
 
-\subsection{Sistemas de inferencia difusa}
+\subsection{\glsentrylong{fis}}
 
-Los \acp{fis} o \acp{fcs} son sistemas que utilizan el razonamiento difuso para inferir una respuesta a partir de un conjunto de entradas. Habitualmente son divididos en tres bloques conceptuales, los cuales se ilustran en la figura~\ref{fig:fis-general-schema}:
-
+Los \gls{fis} (o \gls{fcs}) son son el caso de éxito de la lógica difusa que más resultados ha cosechado tanto a nivel académico como a nivel industrial. Se trata sistemas que utilizan el razonamiento difuso para inferir una respuesta a partir de un conjunto de entradas.
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Ilustración general de un controlador difuso}
@@ -151,12 +188,25 @@ Los \acp{fis} o \acp{fcs} son sistemas que utilizan el razonamiento difuso para 
 	\label{fig:fis-general-schema}
 \end{figure}
 
+Habitualmente son descritos como un componente dividido en tres bloques conceptuales:
 
 \begin{itemize}
 	\item \textbf{Fuzzificación}. Traducir los valores de entrada en crudo del dominio sobre el que está definida cada variable lingüística a sus respectivos grados de pertenencia a conjuntos difusos a través de sus funciones de pertenencia. \TODO Ojo, algunos controladores toman como valores de entrada conjuntos difusos según \cite{Ma2004}. Habrá que buscar sobre ello.
 	\item \textbf{Inferencia}. Realiza todo el proceso de razonamiento difuso a partir del conjunto de reglas qeu dan significado a este controlador difuso.
 	\item \textbf{Defuzzificación}. Traduce los conjunto difuso resultado del proceso de inferencia a valores del los dominios sobre los que están definidos dichos conjuntos difusos. \TODO En un sugeno, la salida es una función directamente así que se podría especificar que en un tipo Sugeno,se puede ver como que la salida son sólo singletones, manteniendo la generalización del proceso de funcionamiento de un \ac{fis}.
 \end{itemize}
+
+Esta división se ilustra en la figura~\ref{fig:fis-general-schema}.
+
+\newthought{Hay varios tipos diferentes de \gls{fis}}, aunque tienden a seguir el esquema básico de un controlador difuso típico (figura~\ref{fig:fis-general-schema}).
+
+\paragraph{Sistemas de tipo Mandamni}
+
+Son la primera aproximación de \gls{fis} propuestos
+
+\paragraph{Sistemas de tipo Takagi-Sugeno}
+
+...
 
 Hablar someramente de los tres tipos clásicos que se usan, e indicar que al final los más usados son el Mandamni y el Sugeno. Añadir también quizá una tabla comparativa enter los tres o al menos entre los dos principales:
 
