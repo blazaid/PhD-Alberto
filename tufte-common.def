@@ -565,8 +565,10 @@
 \newcommand{\plainuniversity}{}
 \newcommand{\plaindepartment}{}
 \newcommand{\plainschool}{}
-\newcommand{\plainadvisor}{}
-\newcommand{\plainadvisortitle}{}
+\newcommand{\plainadvisorone}{}
+\newcommand{\plainadvisoronetitle}{}
+\newcommand{\plainadvisortwo}{}
+\newcommand{\plainadvisortwotitle}{}
 
 \newcommand{\thanklesstitle}{}
 \newcommand{\thanklessauthor}{}
@@ -574,15 +576,19 @@
 \newcommand{\thanklessuniversity}{}
 \newcommand{\thanklessdepartment}{}
 \newcommand{\thanklessschool}{}
-\newcommand{\thanklessadvisor}{}
-\newcommand{\thanklessadvisortitle}{}
+\newcommand{\thanklessadvisorone}{}
+\newcommand{\thanklessadvisoronetitle}{}
+\newcommand{\thanklessadvisortwo}{}
+\newcommand{\thanklessadvisortwotitle}{}
 
 \newcommand{\@authortitle}{}
 \newcommand{\@university}{}
 \newcommand{\@department}{}
 \newcommand{\@school}{}
-\newcommand{\@advisor}{}
-\newcommand{\@advisortitle}{}
+\newcommand{\@advisorone}{}
+\newcommand{\@advisoronetitle}{}
+\newcommand{\@advisortwo}{}
+\newcommand{\@advisortwotitle}{}
 \newcommand{\thedate}{\today}
 
 % TODO Fix it so that \thanks is not spaced out (with `soul') and can be
@@ -682,29 +688,55 @@
 }
 
 %%
-% Provides a \advisor command to set the advisor
-\newcommand{\advisor}[2][]{%
-\gdef\@advisor{#2}%
+% Provides a \advisorone command to set the advisorone
+\newcommand{\advisorone}[2][]{%
+\gdef\@advisorone{#2}%
 \begingroup%
 \renewcommand{\thanks}[1]{}% swallow \thanks contents
-\protected@xdef\thanklessadvisor{#2}%
+\protected@xdef\thanklessadvisorone{#2}%
 \endgroup%
 \ifthenelse{\isempty{#1}}
-{\renewcommand{\plainadvisor}{\thanklessadvisor}}
-{\renewcommand{\plainadvisor}{#1}}
+{\renewcommand{\plainadvisorone}{\thanklessadvisorone}}
+{\renewcommand{\plainadvisorone}{#1}}
 }
 
 %%
-% Provides a \advisortitle command to set the advisortitle
-\newcommand{\advisortitle}[2][]{%
-\gdef\@advisortitle{#2}%
+% Provides a \advisoronetitle command to set the advisoronetitle
+\newcommand{\advisoronetitle}[2][]{%
+\gdef\@advisoronetitle{#2}%
 \begingroup%
 \renewcommand{\thanks}[1]{}% swallow \thanks contents
-\protected@xdef\thanklessadvisortitle{#2}%
+\protected@xdef\thanklessadvisoronetitle{#2}%
 \endgroup%
 \ifthenelse{\isempty{#1}}
-{\renewcommand{\plainadvisortitle}{\thanklessadvisortitle}}
-{\renewcommand{\plainadvisortitle}{#1}}
+{\renewcommand{\plainadvisoronetitle}{\thanklessadvisoronetitle}}
+{\renewcommand{\plainadvisoronetitle}{#1}}
+}
+
+%%
+% Provides a \advisortwo command to set the advisortwo
+\newcommand{\advisortwo}[2][]{%
+\gdef\@advisortwo{#2}%
+\begingroup%
+\renewcommand{\thanks}[1]{}% swallow \thanks contents
+\protected@xdef\thanklessadvisortwo{#2}%
+\endgroup%
+\ifthenelse{\isempty{#1}}
+{\renewcommand{\plainadvisortwo}{\thanklessadvisortwo}}
+{\renewcommand{\plainadvisortwo}{#1}}
+}
+
+%%
+% Provides a \advisortwotitle command to set the advisortwotitle
+\newcommand{\advisortwotitle}[2][]{%
+\gdef\@advisortwotitle{#2}%
+\begingroup%
+\renewcommand{\thanks}[1]{}% swallow \thanks contents
+\protected@xdef\thanklessadvisortwotitle{#2}%
+\endgroup%
+\ifthenelse{\isempty{#1}}
+{\renewcommand{\plainadvisortwotitle}{\thanklessadvisortwotitle}}
+{\renewcommand{\plainadvisortwotitle}{#1}}
 }
 
 % TODO: Test \hypersetup{pdfauthor,pdftitle} with DVI and XeTeX
@@ -1624,7 +1656,7 @@
     \begin{fullwidth}
 
       \begin{center}
-        \vspace{5cm}
+        \vspace{6cm}
 
         \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessdepartment}}\\
         \fontsize{12}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessschool}}\\
@@ -1635,7 +1667,7 @@
         \vspace{2.5cm}
         \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{Tesis doctoral}}\\
 		
-        \vspace{2.5cm}
+        \vspace{1cm}
         {\bfseries \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
           \thanklessauthor
         }}\\
@@ -1643,16 +1675,23 @@
           \thanklessauthortitle
         }\\
 
-        \vspace{2.5cm}
-        \fontsize{12}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{Director}}\\
+        \vspace{1.5cm}
+        \fontsize{12}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{Direcci\'{o}n}}\\
 
-        \vspace{0.5cm}
+        \vspace{0.2cm}
         {\bfseries \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
-          \thanklessadvisor
+          \thanklessadvisorone
         }}\\
         \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
-          \thanklessadvisortitle
+          \thanklessadvisoronetitle
         }\\
+		\vspace{0.2cm}
+		{\bfseries \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
+		\thanklessadvisortwo
+		}}\\
+		\fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
+		\thanklessadvisortwotitle
+		}\\
 
 		\vfill
 		{\large Madrid \today}
