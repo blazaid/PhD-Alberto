@@ -1,9 +1,9 @@
 \chapter{Modelos de comportamiento}
 \label{ch:sota-behavior-models}
 
-El objetivo que persigue la simulación de tráfico es hacer cada vez más realistas los modelos generados. En un simulador de tipo \glsentrylongsp{mas} donde cada uno de los agentes modela, entre otros, a conductores, el realismo aumenta cuanto más se parecen el comportamiento\sidenote{
-	¿A qué nos referimos cuando hablamos del \textit{comportamiento al volante}? \textit{comportar} (segun la RAE) se define como \textit{actuar de una manera determinada}. Por tanto, comportamiento al volante lo tratamos en este estudio como las acciones o tareas que se ejecutan durante la conducción, es decir, la manera de actuar de un individuo mientras conduce.
-} del agente al del conductor real.
+El objetivo que persigue la simulación de tráfico es hacer cada vez más realistas los modelos generados. ECuando el smiulador está basado en \glsentrylongsp{mas}, donde cada uno de los agentes (en general) representa a un conductores, el realismo aumenta cuanto más se parecen el comportamiento del agente al del conductor real\sidenote{
+	\textit{Comportar} se define como \textit{actuar de una manera determinada}. Por tanto, comportamiento al volante lo tratamos en este estudio como las acciones o tareas que se ejecutan durante la conducción, es decir, la manera de actuar de un individuo mientras conduce.
+}.
 
 Conducir implica la ejecución de múltiples tareas en paralelo, cada una de ellas pertenecientes a un nivel cognitivo. Además, las acciones no están limitadas a la interacción con el vehículo; el conductor ha de tener en cuenta otros factores como, por ejemplo las señales, los peatones o los \glspl{adas}.
 
@@ -17,25 +17,25 @@ Conducir implica la ejecución de múltiples tareas en paralelo, cada una de ell
 	}
 	
 	\matrix (m) [
-			matrix of nodes,
-			column sep      = 2em,
-			row sep         = 1em,
-			column 1/.style = { nodes = { font=\sffamily\scriptsize, fill=black!20, centered}},
-			column 2/.style = { nodes = { font=\sffamily, centered, fill=orange!20, text width=3cm }},
-			column 3/.style = { nodes = { font=\sffamily, centered, text width=2.2cm }},
-			column 4/.style = { nodes = { font=\sffamily, centered }},
-		] {
-			& Nivel estratégico & planes generales & $\gg s.$\\
-			Entorno & Nivel táctico  & patrones de acción & $s.$ \\
-			Entorno  & Nivel de control & comportamientos automáticos & $ms.$ \\
-		};
-		\draw[arrow] (m-1-2) -> (m-1-3);
-		\draw[arrow] (m-2-1) -> (m-2-2);
-		\draw[dblarrow] (m-2-2) -> (m-2-3);
-		\draw[arrow] (m-3-1) -> (m-3-2);
-		\draw[dblarrow] (m-3-2) -> (m-3-3);
-		\draw[dblarrow] (m-2-2) -> (m-1-2);
-		\draw[dblarrow] (m-3-2) -> (m-2-2);
+	matrix of nodes,
+	column sep      = 2em,
+	row sep         = 1em,
+	column 1/.style = { nodes = { font=\sffamily\scriptsize, fill=black!20, centered}},
+	column 2/.style = { nodes = { font=\sffamily, centered, fill=orange!20, text width=3cm }},
+	column 3/.style = { nodes = { font=\sffamily, centered, text width=2.2cm }},
+	column 4/.style = { nodes = { font=\sffamily, centered }},
+	] {
+		& Nivel estratégico & planes generales & $\gg s.$\\
+		Entorno & Nivel táctico  & patrones de acción & $s.$ \\
+		Entorno  & Nivel de control & comportamientos automáticos & $ms.$ \\
+	};
+	\draw[arrow] (m-1-2) -> (m-1-3);
+	\draw[arrow] (m-2-1) -> (m-2-2);
+	\draw[dblarrow] (m-2-2) -> (m-2-3);
+	\draw[arrow] (m-3-1) -> (m-3-2);
+	\draw[dblarrow] (m-3-2) -> (m-3-3);
+	\draw[dblarrow] (m-2-2) -> (m-1-2);
+	\draw[dblarrow] (m-3-2) -> (m-2-2);
 	\end{tikzpicture}
 	\caption{Los tres niveles jerárquicos que describen la tarea de conducción según~\cite{michon1985critical}: \textit{estrategia} (i.e. las decisiones generales), la \textit{maniobra} (i.e. decisiones durante la conducción de más corto plazo) y \textit{control} (i.e. automatismos).}
 	\label{fig:three-levels-of-human-driving}
@@ -51,7 +51,9 @@ El resto del capítulo introducirá los modelos de comportamiento más conocidos
 
 En~\cite{sekizawa2007modeling} describen modelos supervisados offline para capturar el comportamiento del conductor basados en auto-regresión a trozos. Más adelante lo extienden en~\cite{terada2010multi}, aunque los datos de entrenamiento son extraídos directamente de simulaciones, no del \enquote{mundo real\textsuperscript{TM}}.
 
-\section{Tipos de maniobra}
+\newthought{enfoque de agentes}
+
+\section{Comportamientos modelados}
 
 En el nivel táctico del comportamiento, las tareas que se realizan durante la conducción son las relacionadas a circular con el vehículo dentro del flujo de tráfico, sin bajar demasiado de detalle. En la literatura, estas tareas se centran en dos clases generales de problema diferentes (figura \ref{fig:behavior-model-classification}): el de \textbf{aceleración}, que se ocupa de modelar el comportamiento de un conductor en el carril en el que se encuentra y el de \textbf{cambio de carril}, encargado de decidir y ejecutar los cambios de carril.
 
@@ -92,9 +94,62 @@ El resto de la sección incidirá en los modelos de aceleración y en los de cam
 
 Sin embargo, es importante destacar que partir de los años $90$ se ha tendido al desarrollo de modelos de comportamiento que combinan diferentes aspectos de modelos de aceleración y de cambio de carril (e.g. \cite{Ma2004}).
 
-\subsection{Notación y nomenclatura}
+\subsection{Nomenclatura}
 
 \TODO{Hablar aquí de que los modelos de este nivel hacen uso de una nomenclatura que explicamos aquí. Poner también una ilustración estupendísima indicando qué es qué en cada uno de los vehículos en una vía. No debería ocupar más de 3-4 párrafos y la figura guay que identifica todos los elementos (el vehículo, el lead car, el lag car, ...).}
+
+\section{Modelado de conductores clásico}
+
+\newthought{car following}
+
+Un poco de su evolución
+
+\newthought{Llega el lane changing}
+
+Un poquito
+
+\newthought{Integración de modelos}
+
+Otro poquito
+
+\newthought{Cooperación entre agentes}
+
+\section{Modelado de conductores basado en \glsentrylong{ci}}
+
+\newthought{}
+
+Un poquito de introducción
+
+\newthought{detección, caracterización y modelado}
+
+\newthought{modelos basados en lógica difusa}
+
+\newthought{modelos basados en redes neuronales artificiales}
+
+\newthought{otras técnicas y modelos mixtos}
+
+
+
+
+
+
+
+
+
+...
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Notación y nomenclatura}
+
 
 \subsection{Modelos de aceleración}
 
@@ -121,9 +176,16 @@ Los primeros trabajos sobre modelos de conducción de este tipo datan de comienz
 	En el modelo concreto de Pipes, el espacio viene determinado a partir de la ecuación de la velocidad cuando el tiempo no baja de $1,02$ segundos.
 }. Este modelo se puede considerar de una clase que denominaremos \textbf{mantenimiento de medida} dado que su objetivo es mantener constantemente una distancia segura. Otros trabajos trabajan con el mantenimiento de otras medidas como distancia relativa al parachoque delantero o trasero (\TODO{He perdido las referencias}.
 
-Más adelante, a finales de la década, se presentó el modelo \textbf{GM}\sidenote{
-	Desarrollado dentro de la \textit{General Motors}, de ahí su nombre.
-} (\cite{Chandler1958}), el cual sirvió como base para el desarrollo de modelos posteriores. Éste se caracteriza por el uso del concepto \textbf{estímulo $\rightarrow$ respuesta}, donde la respuesta del vehículo (el cambio en la tasa de aceleración) es debida a la activación de un estímulo (la variación en la distancia con el vehículo delantero) tras pasar un tiempo de retardo $\tau$\sidenote{
+Más adelante, a finales de la década, se presentó el modelo \textbf{GM} (\cite{Chandler1958})\sidenote{
+	El modelo \gls{ghr} es el modelo más conocido antes de la introducción del modelo de Gipps. Desarrollado a finales de los años $50$ (dentro de la \textit{General Motors}, de ahí su nombre), calcula el valor de la aceleración $a$ en un instante $t$ como:
+	
+	\begin{equation}
+	a(t) = c v^m(t) \frac{\Delta v(t - \tau)}{\Delta x^l(t - \tau)}
+	\label{eq:ghr-car-following-model}
+	\end{equation}
+	
+	Siendo $t$ es el instante actual, $a(t)$ la aceleración del vehículo, $\delta v(t)$ y $\delta x(t)$ son la velocidad y distancia relativas al siguiente coche respectivamente, $v$ la velocidad del vehículo y $c$, $m$, $l$ y $\tau$ constantes, siendo ésta última el tiempo de reacción del conductor.
+}, el cual sirvió como base para el desarrollo de modelos posteriores. Éste se caracteriza por el uso del concepto \textbf{estímulo $\rightarrow$ respuesta}, donde la respuesta del vehículo (el cambio en la tasa de aceleración) es debida a la activación de un estímulo (la variación en la distancia con el vehículo delantero) tras pasar un tiempo de retardo $\tau$\sidenote{
 	En realidad los modelos estímulo $\rightarrow$ respuesta son la evolución lógica de los modelos anteriores, donde se pasa de un cálculo de velocidad en función de la distancia (u otra medida) a un sistema de control donde la variable a controlar es la aceleración en función de uno o varios estímulos de entrada, además con un retardo simulando el tiempo de reacción.
 }. Algunas modificaciones sobre el algoritmo original son, entre otras, la asimetría en la tasa de cambio de aceleración y deceleración (\cite{Gazis1959}) o la inclusión de segundos coches delanteros (\cite{Bexelius1968}).
 
@@ -311,16 +373,7 @@ En \cite{Ehlert2001} (ver si este otro paper del autor cuenta lo mismo y me quit
 
 Los modelos de conducción basados en \glsentrylong{fl} parten de la hipótesis de que la información que maneja el conductor a la hora de tomar decisiones proviene de un análisis no demasiado detallado de la situación que le rodea; es decir, la percepción y el comportamiento humanos son estímulos percibidos de manera aproximada. Por tanto, el resultado debe ser fruto de un proceso de razonamiento que tenga en cuenta esa imprecisión en los estímulos.
 
-El primer trabajo documentado en \gls{fl} es \cite{Kikuchi1992}, donde los autores aplicaron la lógica difusa sobre un modelo de aceleración de tipo \textit{\idx{car-following}}. Utilizaron el modelo \gls{ghr}\sidenote{
-	El modelo \gls{ghr} (\cite{Chandler1958}) es el modelo más conocido antes de la introducción del modelo de Gipps. Desarrollado a finales de los años $50$, calcula el valor de la aceleración $a$ en un instante $t$ como:
-	
-	\begin{equation}
-	a(t) = c v^m(t) \frac{\Delta v(t - \tau)}{\Delta x^l(t - \tau)}
-	\label{eq:ghr-car-following-model}
-	\end{equation}
-	
-	Siendo $t$ es el instante actual, $a(t)$ la aceleración del vehículo, $\delta v(t)$ y $\delta x(t)$ son la velocidad y distancia relativas al siguiente coche respectivamente, $v$ la velocidad del vehículo y $c$, $m$, $l$ y $\tau$ constantes, siendo ésta última el tiempo de reacción del conductor.
-} como base y determinaron las entradas al modelo como valores de pertenencia a conjuntos difusos. Las entradas del modelo eran las distancias y velocidades relativas entre el vehículo modelado y el delantero y las variaciones en la aceleración del vehículo delantero, y como salidael cambio en la tasa de aceleración sobre el vehículo modelado. Más adelante los mismos autores aplicaron el mismo razonamiento sobre el modelo de General Motors (Modelo GMC)~\cite{Chakroborty1999}.
+El primer trabajo documentado en \gls{fl} es \cite{Kikuchi1992}, donde los autores aplicaron la lógica difusa sobre un modelo de aceleración de tipo \textit{\idx{car-following}}. Utilizaron el modelo \gls{ghr} como base y determinaron las entradas al modelo como valores de pertenencia a conjuntos difusos. Las entradas del modelo eran las distancias y velocidades relativas entre el vehículo modelado y el delantero y las variaciones en la aceleración del vehículo delantero, y como salidael cambio en la tasa de aceleración sobre el vehículo modelado. Más adelante los mismos autores aplicaron el mismo razonamiento sobre el modelo de General Motors (Modelo GMC)~\cite{Chakroborty1999}.
 
 Otros trabajos en la línea de investigación de~\cite{Kikuchi1992} y \cite{Chakroborty1999}
 ...
