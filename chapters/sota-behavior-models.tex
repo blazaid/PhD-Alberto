@@ -43,6 +43,15 @@ Conducir implica la ejecución de múltiples tareas en paralelo, cada una de ell
 
 \cite{michon1985critical} divide en tres los niveles de abstracción de las tareas: el de \textbf{control}, que se ocupa de las tareas de más bajo nivel destinadas éstas a mantener la conducción como son la aceleración o los cambios de marcha, el de \textbf{maniobra} o táctico, donde sus tareas son las encargadas de mantener la interacción con el entorno como los cambios de carril o el control de las señales y demás estímulos externos, y el \textbf{estratégico}, que engloba las tareas de más alto nivel como el razonamiento y la planificación de rutas (ver figura~\ref{fig:three-levels-of-human-driving})\sidenote{Algunos estudios llegan incluso a definir intervalos temporales de tiempo de razonamiento para las tareas de cada nivel. Por ejemplo, en \cite{Alexiadis2004} se establecen los siguientes tiempos: alrededor de $30$ segundos para las tareas del nivel de planificación, de $5$ a $30$ segundos para las tareas de nivel táctico y por debajo de los $5$ segundos para las tareas de control.}.
 
+\TODO{Esto está cogido de un apartado de más abajo que creo que tiene más sentido aquí (porque hablan de prácticamente lo mismo, vamos :D.)}
+
+ Su modelo se basa en una estructura jerárquica definida por los niveles de comportamiento humano y de técnicas de razonamiento propuestas por \cite{Rasmussen1986} (skill-rule-knowledge). El comportamiento basado en habilidades (skills) se refiere a las actividades completamente automatizadas (percepción--ejecución) usadas típicamente en situaciones rutinarias. comportamiento basado en reglas se refiere a situaciones esteorotipadas (percepción--reconocimiento de la situación--planificación--ejecución) aplicable en su mayoría en situaciones familiares. El comportamiento basado en el conocimiento se refiere a actividades conscientes que implican trabajo de resolución de problemas y toma de decisiones (perception--reconocimiento de la situación--toma e decisión--planificación de la ejecución) que suelen ser necesarias en situaciones poco familiares. En SITRAS se ven estas diferencias claramente en el cálculo de la aceleración. (i) si no hay ninguna otra restriccinó, llegar a la máxima velocidad es acelerar hasta la máxima velocidad (skill), (ii) si hay ua luz roja más adelante, se va frenando hasta para el coche (rule) y (ii) si se recibe información de coches alrededor (por ejemplo se está incorporando un nuevo coche a nuestro carril) se requiere un conocimiento más complejo (knowledge).
+
+\TODO{Hasta aquí}
+
+
+
+
 El comportamiento de un conductor al volante tiene una relación directa con el nivel de abstracción de maniobra o táctico. Ésta se puede concebir como la encargada de planificar acciones a corto plazo para conseguir objetivos a corto plazo. Las tareas de control son automáticas e influyen poco o nada en las tomas de decisión relacionadas con tareas del estilo de cuánto acelerar en esta situación o cuándo cambiar de carril. Las tareas estratégicas estan a un nivel más alto de abstracción (e.g. la ruta a seguir hasta mi destino) y tampoco afectan demasiado al comportamiento en situaciones concretas\sidenote{No obstante algunos trabajos han demostrado que en ocasiones la planificación de la ruta sí afecta a decisiones normalmente asociadas el nivel táctico como por ejemplo la preferencia de un conductor por uno u otro carril de la vía \cite{Wei2000, Toledo2003}.}.
 
 El resto del capítulo introducirá los modelos de comportamiento más conocidos y hará especial hincapié en el estado más reciente de modelos basados en técnicas de la \glsentrylong{ci}\sidenote{
@@ -188,7 +197,7 @@ Más adelante, a finales de la década, se presentó el modelo \textbf{GM} (\cit
 	En realidad los modelos estímulo $\rightarrow$ respuesta son la evolución lógica de los modelos anteriores, donde se pasa de un cálculo de velocidad en función de la distancia (u otra medida) a un sistema de control donde la variable a controlar es la aceleración en función de uno o varios estímulos de entrada, además con un retardo simulando el tiempo de reacción.
 }. Algunas modificaciones sobre el algoritmo original son, entre otras, la asimetría en la tasa de cambio de aceleración y deceleración (\cite{Gazis1959}) o la inclusión de segundos coches delanteros (\cite{Bexelius1968}).
 
-Los métodos de estas dos clases de modelo suelen ser \enquote{sencillos} de implementar, pero tienen un problema principal: suponen que el conductor es capaz de percibir incluso el más mínimo cambio en el coche delantero cuando la realidad no es así. Por ello, a mediados de los años $70$ apareció una nueva clase de modelos de \textit{\idx{car-following}}, denominados posteriormente como \textbf{psicofísicos} (\cite{wiedemann1974simulation} and \cite{Leutzbach1988}) donde se introduce el concepto de \textit{umbral perceptual}\sidenote{El \textit{umbral perceptual} de una medida es el límite a partir del cual se percibe un cambio en dicha medida. Mediante el uso de umbrales perceptuales, se limitan las acciones de los coches a cambios perceptibles en los coches delanteros.} como medida para superar la limitación de los otros dos tipos de modelo.
+Los métodos de estas dos clases de modelo suelen ser \enquote{sencillos} de implementar, pero tienen un problema principal: suponen que el conductor es capaz de percibir incluso el más mínimo cambio en el coche delantero cuando la realidad no es así. Por ello, a mediados de los años $70$ apareció una nueva clase de modelos de \textit{\idx{car-following}}, denominados posteriormente como \textbf{psicofísicos} (\cite{wiedemann1974simulation} donde se introduce el concepto de \textit{umbral perceptual}\sidenote{El \textit{umbral perceptual} de una medida es el límite a partir del cual se percibe un cambio en dicha medida. Mediante el uso de umbrales perceptuales, se limitan las acciones de los coches a cambios perceptibles en los coches delanteros.} como medida para superar la limitación de los otros dos tipos de modelo.
 
 \newthought{Con los modelos psico-físicos se llegó a la conclusión de que existían diferentes situaciones} en las que los estímulos y las respuestas obedecían a diferentes umbrales y que, por tanto, los modelos de tipo \textit{\idx{car-following}} no eran sino una clase más de un conjunto más amplio de modelos de aceleración (imagen~\ref{fig:acceleration-model-classes}).
 
@@ -376,7 +385,7 @@ Los modelos estudiados no tienen en cuenta las inconsistencias y la incertidumbr
 
 Sin embargo, los conductores basan sus decisiones en sus percepciones y éstas, aunque imprecisas, no tienen por qué seguir una distribución aleatoria con distribución clásica (e.g. normal). Las técnicas basadas en \gls{ci} palian los inconvenientes típicos de estas técnicas al pertenencer sus técnicas a soluciones de la clase \glsentrylong{sc}.
 
-\cite{Das2009} una nueva metodología para cambio de carril basada en lógica difusa. El simulador se denomina Autonomous Agent SIMulation Package (AASIM). La motivación es que los sistemas difusos son capaces de modelar sistemas no lineales complejos como  reglas de la forma \texttt{if \ldots then \ldots} y que además la lógica difusa es ideal para modelar la incertidumbre del mundo real y por tanto de las percepciones de los conductores. Clasifican los cambios de carril en MLC y DLC. En MLC las reglas tienen en cuenta la distancia al siguiente punto característico (e.g. una salida) (\TODO{a lo mejor en la ilustración del principuio podemos ponerle nombre aesto y asi'erferirnos a ello en el resto del texto}) y el número de cambios de carril necesarios. En DLC deciden si cambiar o no basándose en el nivel de satisfacción del conductor y en el nivel de congestión en los carriles adjacentes.
+\cite{Das2009} una nueva metodología para cambio de carril basada en lógica difusa. El simulador se denomina Autonomous Agent SIMulation Package (AASIM). La motivación es que los sistemas difusos son capaces de modelar sistemas no lineales complejos como  reglas de la forma \texttt{if \ldots then \ldots} y que además la lógica difusa es ideal para modelar la incertidumbre del mundo real y por tanto de las percepciones de los conductores. Clasifican los cambios de carril en MLC y DLC. En MLC las reglas tienen en cuenta la distancia al siguiente punto característico (e.g. una salida) (\TODO{a lo mejor en la ilustración del principuio podemos ponerle nombre aesto y así referirnos a ello en el resto del texto}) y el número de cambios de carril necesarios. En DLC deciden si cambiar o no basándose en el nivel de satisfacción del conductor y en el nivel de congestión en los carriles adjacentes.
 
 \cite{McDonald1997, Wu2003} desarrollan otro modelo de simulación denominado Fuzzy LOgic motorWay SIMulation (FLOWSIM) con similares características donde establecen conjuntos difusos para el modelo. Dso categorías de cambio de carril, al lento (principalmente para evitar incordiar a los vehículos que se aproximan por detrás a velocidades superiores, usan dos variables, presión del vehículo trasero y satisfacción en el gap del carril destino) y al rápido (para ganar velocidad, variables: velocidad ganada con el cambio y oportunidad, es decir, seguridad y confort con el cambio).
 
@@ -390,14 +399,13 @@ Sin embargo, los conductores basan sus decisiones en sus percepciones y éstas, 
 
 \cite{Hidas2002} --> También aquí hablan de los DVOs (driver-vehicle objects) (¿esto es un clon de \glspl{dvu}?. Tienen características individuales como (i) tipo de vehículo, (ii) magnitudes físicas (tamaño, velocidad máxima, ...), (iii) tipo de conduictor y (iv) nivel de conocimiento de la red (porque afecta en la elección de ruta). Tienen un objetivo, llegar del origen al destino tan rápido como puedan. Esto implica un conjunto de decisiones a hacer en intervalos periódicos durante su funcionamiento (i) selección de ruta cada vez que se entra en un nuevo tramo y (ii) cálculo de la aceleración en cada intervalo).
 
-En (Chaib-draa and Levesque, 1996, ) proponen un framework para trabajar con tres tipos diferentes de situaciones (rutina, familiar y no familiar) en sistemas multiagente, demostrando la aplicación en escenarios de microsimulacinó urbana). Su modelo se basa en una estructura jerárquica definida por los niveles de comportamiento humano y de técnicas de razonamiento propuestas por (Rasmussen, 1986, ) (skill-rule-knowledge). El comportamiento basado en habilidades (skills) se refiere a las actividades completamente automatizadas (percepción--ejecución) usadas típicamente en situaciones rutinarias. comportamiento basado en reglas se refiere a situaciones esteorotipadas (percepción--reconocimiento de la situación--planificación--ejecución) aplicable en su mayoría en situaciones familiares. El comportamiento basado en el conocimiento se refiere a actividades conscientes que implican trabajo de resolución de problemas y toma de decisiones (perception--reconocimiento de la situación--toma e decisión--planificación de la ejecución) que suelen ser necesarias en situaciones poco familiares. En SITRAS se ven estas diferencias claramente en el cálculo de la aceleración. (i) si no hay ninguna otra restriccinó, llegar a la máxima velocidad es acelerar hasta la máxima velocidad (skill), (ii) si hay ua luz roja más adelante, se va frenando hasta para el coche (rule) y (ii) si se recibe información de coches alrededor (por ejemplo se está incorporando un nuevo coche a nuestro carril) se requiere un conocimiento más complejo (knowledge). Los DVO aquí tienen las siguientes debilidades: no tienen memoria (sólo planean el segundo siguiente de acuerdo a la información actual) y tienen poco contacto directo con los demás DVOs de alrededor (saben del de delante y del de detrás, pero no de los lados).
+En \cite{Chaib-draa1994} proponen un framework para trabajar con tres tipos diferentes de situaciones (rutina, familiar y no familiar) en sistemas multiagente, demostrando la aplicación en escenarios de microsimulación urbana). Su modelo se basa en una estructura jerárquica definida por los niveles de comportamiento humano y de técnicas de razonamiento propuestas por \cite{Rasmussen1986} (skill-rule-knowledge). Los DVO aquí tienen las siguientes debilidades: no tienen memoria (sólo planean el segundo siguiente de acuerdo a la información actual) y tienen poco contacto directo con los demás DVOs de alrededor (saben del de delante y del de detrás, pero no de los lados).
 
 En~\cite{al2001framework} describen un framework para la modelización de comportamiento de conductores dentro de simuladores. Se basa en cuatro unidades de funcionamiento interconectadas, la de percepción (percibe el entorno en términos locales y globales), la de emoción (cómo responde emocionalmete al entorno), la de decision-making (investiga posibles acciones que podrían servir a las necesidades del módulo emocional) y la de decision-implementation (intenta implementar las decisiones cuando emergen condiciones de tráfico lo suficientemente seguras para llevarlas a cabo). Tengo que volver a leerlo después de hacer una primera introducción en el tema de agentes, porque me parece poner nombrecitos a un tipo de agente que funciona de esa misma manera, pero lo mismo no. En \cite{Kuge2000} proponen otro framework de este palo.
 
-
 En \cite{Das} se realiza una simulación de comportamiento de vehículos en autopista. Los agentes basan su comportamiento en un sistema difuso donde las reglas definen la conclusión en autopista (i.e. car-following y lane-changing). Llaman a este simulador AASIM (Autonomous Agent Simulator).,
 
-En \cite{Ehlert2001} (ver si este otro paper del autor cuenta lo mismo y me quito de una de las dos referencias: \cite{Ehlert2001-2}), simulación donde los agentes son de tipo reactivo. Además, poseen diferentes estuilos de conduccińo. El agente cntinuamente va realizando decisiones de control para mantenerse en la via y llegar a su destino.
+En \cite{Ehlert2001} simulación donde los agentes son de tipo reactivo. Además, poseen diferentes estuilos de conduccińo. El agente cntinuamente va realizando decisiones de control para mantenerse en la via y llegar a su destino.
 
 
 \subsection{Modelos basados en lógica difusa}
@@ -406,32 +414,32 @@ Los modelos de conducción basados en \glsentrylong{fl} parten de la hipótesis 
 
 El primer trabajo documentado en \gls{fl} es \cite{Kikuchi1992}, donde los autores aplicaron la lógica difusa sobre un modelo de aceleración de tipo \textit{\idx{car-following}}. Utilizaron el modelo \gls{ghr} como base y determinaron las entradas al modelo como valores de pertenencia a conjuntos difusos. Las entradas del modelo eran las distancias y velocidades relativas entre el vehículo modelado y el delantero y las variaciones en la aceleración del vehículo delantero, y como salidael cambio en la tasa de aceleración sobre el vehículo modelado. Más adelante los mismos autores aplicaron el mismo razonamiento sobre el modelo de General Motors (Modelo GMC)~\cite{Chakroborty1999}.
 
-Otros trabajos en la línea de investigación de~\cite{Kikuchi1992} y \cite{Chakroborty1999}
 ...
 
 Data-driven approaches have already been used in developing a fully adaptive cruise control system (\cite{Simonelli2009, Bifulco2014})
 
-Otros trabajos que trabajan con lógica difusa: (Calibrating the membership functions of the fuzzy inference system: instantiated by car-following data, A FUZZY LOGIC MODEL OF FREEWAY DRIVER BEHAVIOR, The Modeling and Simulation of the Car-following Behavior Based on Fuzzy Inference, Fuzzy parameters estimation for car-following modelling, A Fuzzy Logic Approach for Car-Following Modelling, Variable response time lag module for car-following models, Development of a fuzzy logic based microscopic motorway simulation model, Establishment of car following theory based on fuzzy-based sensitivity parameters. Advances in multimedia modelling, Application of fuzzy systems in the car-following behaviour analysis, The validation of a microscopic simulation model: A methodological case study). Ninguno de estos estudios considera diferentes tipologías de vehículos para el car following
+Otros trabajos que trabajan con lógica difusa: \cite{Chakroborty2003, Das1999, Gao2008, Gonzalez-Rojo2000, Gonzalez-Rojo2002a, Hatipkarasulu2002, McDonald1997, Won2007, Zheng2005, Wu2003}). Ninguno de estos estudios considera diferentes tipologías de vehículos para el car following
 
 Problemas:
 
 \begin{enumerate}
-	\item ¿Qué reglas usan los humanos para modelar su comportamiento? Desconocerlas implica modelos no realistas. En (The validation of a microscopic simulation model: A methodological case study) intenta suplir este problema con encuestas a conductores.
+	\item ¿Qué reglas usan los humanos para modelar su comportamiento? Desconocerlas implica modelos no realistas. En \cite{Wu2003} intenta suplir este problema con encuestas a conductores.
 	\item Los problemas inherentes de los controladores difusos. ¿Cómo validar las funciones de pertenencia? ¿cómo determinar las reglas difusas?
 \end{enumerate}
 
 \subsection{Modelos basados en redes neuronales artificiales}
 
-Las redes neuronales se han aplicado mucho sobre el campo de las ITS en general, y sobre la conducción autónoma y el análisis del comportamiento de los conductores (A review of neural networks applied to transport).
+\cite{zheng2013}
 
-En (Modelling human performance with neural networks) implementaron un controlador basado en redes neuronales para el comportamiento del car following en un microsimulador entrenando dicho modelo previamente con datos extraídos de un conductor en dicho simulador.
+Las redes neuronales se han aplicado mucho sobre el campo de las ITS en general, y sobre la conducción autónoma y el análisis del comportamiento de los conductores (\cite{Dougherty1995}).
 
-(Develop a car-following model using data collected by ‘five-wheel
-system’) son los primers en usar datos reales de un coche instrumentado usando el método Five-Wheel-System, que está especificado en su paper de aquella manera y que no me entero de nada. A partir de las entradas correspondientes a velocidad relativa, espacio relativo, velocidad y velocidad deseada (para ello, clasifican al conductor de agresivo, normal, conservador) determinan la aceleración/deceleración del vehículo. No lo aplican a ningún simulador, sólo que los valores se ajustan.
+En \cite{Fix1990} implementaron un controlador basado en redes neuronales para el comportamiento del car following en un microsimulador entrenando dicho modelo previamente con datos extraídos de un conductor en dicho simulador.
 
-(Neural agent car-following models) redes neuronales usando el dataset de (Traffic simulation supporting urban control system development) desarrollan una red neuronal para mantener la distancia con el siguiente vehículo. Este modelo sí se evaluó en el simulador AIMSUN, y los resultados muestran una buena correspondiencia entre los datos y la realidad. No replica sin embargo el comportamiento de frenar hasta parar o de acelerar desde parado.
+\cite{Jia2003} son los primers en usar datos reales de un coche instrumentado usando el método Five-Wheel-System, que está especificado en su paper de aquella manera y que no me entero de nada. A partir de las entradas correspondientes a velocidad relativa, espacio relativo, velocidad y velocidad deseada (para ello, clasifican al conductor de agresivo, normal, conservador) determinan la aceleración/deceleración del vehículo. No lo aplican a ningún simulador, sólo que los valores se ajustan.
 
-A Modified Car-Following Model Based on a Neural Network Model of the Human Driver Effects
+\cite{Panwai2007} redes neuronales usando el dataset de \cite{Manstetten1997} desarrollan una red neuronal para mantener la distancia con el siguiente vehículo. Este modelo sí se evaluó en el simulador AIMSUN, y los resultados muestran una buena correspondiencia entre los datos y la realidad. No replica sin embargo el comportamiento de frenar hasta parar o de acelerar desde parado.
+
+\cite{Khodayari2012}
 
 
 Problemas:
@@ -443,7 +451,7 @@ Problemas:
 
 ...
 
-En (Hunt and Lyons, 1994, Modelling of dual-carriageway lane-changing using neural networks) desarrollan un modelo de decisión usando redes neuronales. El modelo funciona a partir de presentarle una entrada visual del entorno alrededor del vehículo que quiere cambiar de carril. Sin embargo, no considera la cooperación entre vehículos.
+En \cite{Hunt1994} desarrollan un modelo de decisión usando redes neuronales. El modelo funciona a partir de presentarle una entrada visual del entorno alrededor del vehículo que quiere cambiar de carril. Sin embargo, no considera la cooperación entre vehículos.
 
 \cite{Simonelli2009} have applied neural networks to develop a real-time learning mode for capturing car-following behavior taking into consideration individual drivers’ characteristics. \cite{Bifulco2014} extended the work of \cite{Simonelli2009} into a framework for reproducing spacing in adaptive cruise control applications. While in this research we have used data derived from the same experiment as \cite{Simonelli2009}, the scope and level of complexity of the studies is very different. While all studies adopt a data-driven approach, in this paper the objective is to create a simple and practical methodology for speed estimation using car-following models for use in a microscopic traffic simulator.
 
@@ -453,10 +461,19 @@ En \cite{Hou2011} proponen una técnica basada en modelos ocultos de Markov para
 
 \subsection{Aproximaciones híbridas}
 
-(Simulation of car-following decision using fuzzy neural network system) y (Toward an integrated car-following and lane-changing model based on neural-fuzzy approach) usan aproximaciones de fuzzy neural networks y neuro-fuzzy respectivamente. No proveen sin embargo de documentación y no se investiga la aplicación de estos modelos a microsimuladores de tráfico.
+\cite{Li2003, Ma2004} usan aproximaciones de fuzzy neural networks y neuro-fuzzy respectivamente. No proveen sin embargo de documentación y no se investiga la aplicación de estos modelos a microsimuladores de tráfico.
 
-(Exploring a local linear model tree approach to car-following) usan el modelo de árboles lineales locales (LOLIMOT, (Nonlinear system identification: From classical approaches to neural networks and fuzzy models)) que no deja de ser una aproximación neuro-fuzzy del comportamiento. Intenta incorporar imperfecciones perceptuales en un modelo de car following. El modelo está basado usando datasets reales y los resultados indican que se ajusta lo predicho con la realidad, pero no hay pruebas realizadas en microsimuladores.
+\cite{Aghabayk2013} usan el modelo de árboles lineales locales (LOLIMOT, \cite{Nelles2013}) que no deja de ser una aproximación neuro-fuzzy del comportamiento. Intenta incorporar imperfecciones perceptuales en un modelo de car following. El modelo está basado usando datasets reales y los resultados indican que se ajusta lo predicho con la realidad, pero no hay pruebas realizadas en microsimuladores.
 
 En~\cite{Ma2004}, bajo la suposición de que el ser humano toma múltiples decisiones relacionadas basándose en su percepción (imprecisa) del entorno propone un método masado en un sistema de inferencia difusa para tomar decisiones tanto para el problema del \textit{car following} como para el del \textit{lane changing}, calibrando y ajustando dicho controlador mediante el uso de redes neuronales (aproximación Neuro-Fuzzy).
 
-Modeling car-following behavior via artificial neural networks (Colombaroni and Fusco, 2013; Chong et al., 2013; Zheng et al., 2013)
+Otros~\cite{Colombaroni2013,Kesting2008,Chong2011,Abbas2011,Chong2011a,Abbas2012,Chong2013}
+
+\section{Datos y papers que son sólo para comentar y no para meter en el análisis del estado del arte}
+
+\cite{terroso2015complex} desarrollan una aplicación que, basada en un \gls{cep}, implementa un modelo de clusterización para identificar el número de ocupantes así como la tipología de los mismos. También implementan un identificador de diferentes tipos de itinerario (pongo esto por si hay que citarlo desde diferentes puntos).
+
+\cite{reuschel1950} sólo vale para decir que es el primer momento que se habla de car following.
+
+\cite{Pipes1953} sólo vale para hablar de los modelos de car-following de \enquote{mantenimiento de medida}.
+
