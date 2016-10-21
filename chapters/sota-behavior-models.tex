@@ -48,7 +48,6 @@ El comportamiento de un conductor al volante tiene una relación directa con el 
 El resto del capítulo introducirá los modelos de comportamiento más conocidos y hará especial hincapié en el estado más reciente de modelos basados en técnicas de la \glsentrylong{ci}\sidenote{
 	Otros usos de las técnicas de la \gls{ci} como la caracterización de los conductores no serán explorados. Algunos estudios de interés son \cite{sekizawa2007modeling, terada2010multi} donde se hace uso de regresión parcial sobre datos extraídos de simuladores para la caracterización del comportamiento y \cite{DiazAlvarez2014} donde se aplican redes neuronales a datos de conducción reales para la predicción del consumo y la identificación de comportamientos agresivos.
 }.
-
 En~\cite{sekizawa2007modeling} describen modelos supervisados offline para capturar el comportamiento del conductor basados en auto-regresión a trozos. Más adelante lo extienden en~\cite{terada2010multi}, aunque los datos de entrenamiento son extraídos directamente de simulaciones, no del \enquote{mundo real\textsuperscript{TM}}.
 
 \section{Tipos de maniobra}
@@ -239,22 +238,55 @@ Más adelante, en \cite{Yang1996} se presenta el entorno de microsimulacińo \gl
 
 \section{La \glsentrylong{ci} en los modelos de conducción}
 
-Hasta ahora, los modelos que hemos explorado en la descripción de maniobras pertenencen al dominio del  \glsentrylong{hc}, es decir, están basados en fórmulas matemáticas y reglas de la lógica convencional con parámetros que se ajustan a partir de la observación de datos reales.
+Desde mediados de los años $90$ empezó a crecer el interés por aplicar técnicas de \gls{ai} a los \gls{its}. Hay razones principales por las que esto es así: la primera, por los éxitos cosechados por la rama de la \gls{ci}, los cuales atrayeron a investigadores de multitud de áreas incluida esta. La segunda, por el rápido desarrollo de la tecnología\sidenote{
+	Cada vez es cada vez más barata, más precisa y con más funcionalidades. En la última década hemos vivido una explosión de dispositivos de todo tipo: teléfonos y relojes con GPS, acelerómetros y giroscopio, ordenadores completamente funcionales del tamaño de una moneda, sensores RADAR y LIDAR para uso amateur además de profesional y así un largo etcétera.
+}, que ha posibilitado la existencia de conjuntos de datos masivos con la capacidad de explotarlos y aprender de ellos.
 
-Sin embargo, desde mediados de los años $90$ empezó a crecer el interés por las técnicas de la \gls{ci} debido, entre otras a las siguientes razones:
+Algunos autores (\cite{Zhang2011}) se atreven a afirmar incluso que el futuro de las \gls{its} son las técnicas de la \gls{ci}, y que los resultados que se puedan cosechar de técnicas basadas en el desarrollo convencional de sistemas es marginal comparado con las que se obtendrán con el nuevo enfoque.
 
-\begin{itemize}
-	\item A mediados del interés volvió el interés de la \gls{ai} debido a los éxistos cosechados por las técnicas de la \gls{ci}, y por tanto se comenzaron a usar en todas las áreas, incluída la de las its.
-	\item El rápido desarrollo de la tecnología ha hecho posible la existencia de conjuntos de datos masivos (i.e. mayor capacidad de captura y almacenamiento), con más calidad (e.g. sensores más precisos) y más cantidad de fuentes (e.g. GPS, acelerómetros, giroscopios, \ldots). Esto no sólo permite el ajuste de los modelos existentes o las pequeñas modificaciones, sino que son una fuente de datos muy interesante para técnicas de \glsentrylongsp{ml}, rama que pertenece a la \gls{ci}.
-\end{itemize}
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+	\begin{scope}[blend group = soft light]
+	\fill[red!20!white]   ( 90:1.8) circle (2);
+	\fill[green!20!white] (210:1.8) circle (2);
+	\fill[blue!20!white]  (330:1.8) circle (2);
+	\end{scope}
+	\node at ( 90:1.8) [align=center] {
+		Detección de\\patrones
+	};
+	\node at ( 210:1.8) [align=center] {
+		Caracterización\\de conductores
+	};
+	\node at ( 330:1.8) [align=center] {
+		Modelado de\\conductores
+	};
+	\end{tikzpicture}
+	\caption{Las tres principales areas de aplicación de la \glsentrylong{ci} en los \glsentrylong{its} son la detección de patrones, la caracterización de conductores y la modelización de los mismos. Aunque son áreas de aplicación distintas, los estudios en general tienden a solaparse. Por ejemplo, las técnicas de detección de patrones pueden usarse como forma de extracción de características para una caracterización de conductores y a su vez esta caracterización puede usarse como base para su modelado.}
+	\label{fig:three-main-applications-of-ci-in-its}
+\end{figure}
 
-Algunos autores incluso sugieren que el futuro de las \gls{its} pasa por cambiar del paradigma hacia técnicas basadas en \gls{ml}. Es decir, pasar del desarrollo convencional de sistemas al desarrollo con técnicas basadas en procesado y aprendizaje de datos (\cite{Zhang2011}).
+Dentro de las \gls{its}, las áreas de aplicación de la \gls{ci} se centra en tres puntos: detección de patrones, caracterización de conductores y modelado de conductores. Es necesario mencionar que aunque se trate de tres áreas distintas, éstas suelen retroalimentarse, y es difícil encontrar estudios que se centren en una única área sin tocar el resto (figura~\ref{fig:three-main-applications-of-ci-in-its}). Y por ello, aunque nuestro interés pueda centrarse en el modelado de conductores, es necesario conocer el estado de las demás áreas.
 
-Las técnicas de \gls{ci} se usan principalmente para dos áreas: la caracterización y el modelado\sidenote{
-	No es en estas áreas exclusivamente. La \gls{ci} se usa prácticamente en cualquier problema que tenga que ver con detección de patrones, predicción, planificación, etcétera. Por ello, es fácil encontrar aplicaciones de sus técnicas a prácticamente cualquier tema. Por ejemplo, en \cite{terroso2015complex} hacen uso de un \gls{cep} que procesa los diferentes sensores del vehículo para detectar y analizar patrones característicos con técnicas tales como clasificadores basados en \gls{fl} y, de esta manera, predecir no sólo el número de ocupantes, sino la tipología o clase de ocupante (e.g. niños, adultos, \ldots).
-}.
+\newthought{La detección de patrones es un paso necesario} para la consecución de dos objetivos básicos: la identificación y la predicción.
 
-\newthought{La caracterización} de conductores es interesante porque permite identificar perfiles de conducción y clasificar a los conductores de acuerdo a indicadores extraídos de su manera de conducir. Por ejemplo, en \cite{van2013driver} hacen uso de datos extraídos de sensores de inercia para construir un perfil de conductor, concluyendo que frenar y girar son mejores indicadores para la caracterización que la aceleración.
+...
+
+\textbf{detección de patrones en general}
+
+\cite{sekizawa2007modeling}, \cite{terada2010multi} y \cite{bando2013unsupervised}, \cite{maye2011bayesian} (online), \cite{johnson2011driving}, \cite{van2013driver} \cite{bender2015unsupervised} basan su funcionamiento (offline u online) en la detección de patrones en conjuntos de datos masivos para pasar a una extracción de características y realizar desde ahí el proceso de clasificación.
+
+Esto es debido a que la cantidad de datos que se pueden generar en un sólo coche (no digamos ya una flota de ellos) es tan grande que para determinados sistemas disponer de información de más alto nivel haría más sencillo su desempeño (por ejemplo, \gls{adas} que funcionasen con datos de \enquote{adelantando} que sus valores de giro, aceleración en una ventana temporal).
+
+En~\cite{satzoda2013towards}, haciendo uso de la información combinada de bus CAN, cámaras, GPS e información digitalizada el mapa donde se circula se determina una amplio abanico de información crítica en diferentes condiciones de la carretera. La información que sacan es: número de cambios de carril a la derecha, a la izquierda, tiempo en autopista y carretera urbana, distancia recorrida, velocidades medias en autopista y urbano, paradas, giros a la derecha, a la izquierda, incormporaciones y salidas de autopsta, tiempo gastado en un sólo carril, curvas a la izquierda, curvas a la derecha y distancia media al carril central
+
+\textbf{predicción}
+
+En \cite{Dougherty1993} usan redes para determinar el nivel de congestión en la vía.
+
+En \cite{terroso2015complex} hacen uso de un \gls{cep} que procesa los diferentes sensores del vehículo para detectar y analizar patrones característicos con técnicas tales como clasificadores basados en \gls{fl} y, de esta manera, predecir no sólo el número de ocupantes, sino la tipología o clase de ocupante (e.g. niños, adultos, \ldots).
+
+\newthought{La caracterización de conductores} es interesante porque permite identificar perfiles de conducción y clasificar a los conductores de acuerdo a indicadores extraídos de su manera de conducir. Por ejemplo, en \cite{van2013driver} hacen uso de datos extraídos de sensores de inercia para construir un perfil de conductor, concluyendo que frenar y girar son mejores indicadores para la caracterización que la aceleración.
 
 En~\cite{bando2013unsupervised} describen otro modelo no supervisado offline basado en un modelo bayesiano no paramétrico para la clusterización, combinado con un LDA (Latent Dirichlet Allocation, sea lo que sea esto) para la clusterización a más alto nivel. (\TODO ¿este método usa datos reales?)
 
@@ -264,10 +296,9 @@ En~\cite{maye2011bayesian} se presenta un modelo online donde se infiere el comp
 
 En el artículo~\cite{bender2015unsupervised} se usa también un modelo no supervisado online con una aproximación bayesiana para identificar los puntos de cambio sin depender de parámetros externos (e.g. umbrales o señales). Se basa también en (1) segmentar los datos de conducción y (2) asignar estos datos a clases que se corresponde n con comportamientos de conducción. Tiene la ventaja de ser más eficiente y rubusto que los anteriores.
 
-La idea de estos métodos desde el~\cite{sekizawa2007modeling} hasta el~\cite{bender2015unsupervised} creo que es el de un sistema que traduzca datos en crudo a datos de más alto nivel. Esto es debido a que la cantidad de datos que se pueden generar en un sólo coche (no digamos ya una flota de ellos) es tan grande que para determinados sistemas disponer de información de más alto nivel haría más sencillo su desempeño (por ejemplo, \gls{adas} que funcionasen con datos de \enquote{adelantando} que sus valores de giro, aceleración en una ventana temporal).
+...
 
-En~\cite{satzoda2013towards}, haciendo uso de la información combinada de bus CAN, cámaras, GPS e información digitalizada el mapa donde se circula se determina una amplio abanico de información crítica en diferentes condiciones de la carretera. La información que sacan es: número de cambios de carril a la derecha, a la izquierda, tiempo en autopista y carretera urbana, distancia recorrida, velocidades medias en autopista y urbano, paradas, giros a la derecha, a la izquierda, incormporaciones y salidas de autopsta, tiempo gastado en un sólo carril, curvas a la izquierda, curvas a la derecha y distancia media al carril central
-
+En~\cite{sekizawa2007modeling} describen modelos supervisados offline para capturar el comportamiento del conductor basados en auto-regresión a trozos. Más adelante lo extienden en~\cite{terada2010multi}, aunque los datos de entrenamiento son extraídos directamente de simulaciones, no del \enquote{mundo real\textsuperscript{TM}}.
 
 \newthought{}
 
@@ -341,9 +372,6 @@ Problemas:
 Las redes neuronales se han aplicado mucho sobre el campo de las ITS en general, y sobre la conducción autónoma y el análisis del comportamiento de los conductores (A review of neural networks applied to transport).
 
 En (Modelling human performance with neural networks) implementaron un controlador basado en redes neuronales para el comportamiento del car following en un microsimulador entrenando dicho modelo previamente con datos extraídos de un conductor en dicho simulador.
-
-En (The  use  of  neural  networks  to  recognise  and
-predict traffic congestion) usan redes para determinar el nivel de congestión en la vía.
 
 (Develop a car-following model using data collected by ‘five-wheel
 system’) son los primers en usar datos reales de un coche instrumentado usando el método Five-Wheel-System, que está especificado en su paper de aquella manera y que no me entero de nada. A partir de las entradas correspondientes a velocidad relativa, espacio relativo, velocidad y velocidad deseada (para ello, clasifican al conductor de agresivo, normal, conservador) determinan la aceleración/deceleración del vehículo. No lo aplican a ningún simulador, sólo que los valores se ajustan.
