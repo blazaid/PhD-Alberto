@@ -41,22 +41,23 @@ Conducir implica la ejecución de múltiples tareas en paralelo, cada una de ell
 
 \cite{michon1985critical} divide en tres los niveles de abstracción de las tareas: el de \textbf{control}, que se ocupa de las tareas de más bajo nivel como son el mantenimiento de la velocidad o los cambios de marcha, el de \textbf{maniobra} o táctico, donde sus tareas son las encargadas de mantener la interacción con el entorno como los cambios de carril o el control de las señales y demás estímulos externos, y el \textbf{estratégico}, que engloba las tareas de más alto nivel como el razonamiento y la planificación de rutas (ver figura~\ref{fig:three-levels-of-human-driving})\sidenote{Algunos estudios llegan incluso a definir intervalos temporales de tiempo de razonamiento para las tareas de cada nivel. Por ejemplo, en \cite{Alexiadis2004} se establecen los siguientes tiempos: alrededor de $30$ segundos para las tareas del nivel de planificación, de $5$ a $30$ segundos para las tareas de nivel táctico y por debajo de los $5$ segundos para las tareas de control.}.
 
-Otro modelo jerárquico de tres niveles muy referenciado en la literatura es el \textit{skill-rule-knowledge} de \cite{Rasmussen1986}, el cual no es más que una pequeña generalización del modelo propuesto por \cite{michon1985critical} al comportamiento y razonamiento humano. Postula que éste se puede basar en \textbf{habilidades} (actividades completamente automatizadas de la forma \textit{percepción $rightarrow$ ejecución}), en \textbf{reglas} (situaciones familiares o estereotipadas de la forma \textit{percepción $rightarrow$ reconocimiento de la situación $rightarrow$ planificación $rightarrow$ ejecución}) y en \textbf{conocimiento} (actividades conscientes que implican resolución de problemas y toma de decisiones de la forma \textit{percepción $rightarrow$ reconocimiento de la situación $rightarrow$ toma de decisión $rightarrow$ planificación de la ejecución}) que suelen ser necesarias en situaciones poco familiares).
+Otro modelo jerárquico de tres niveles muy referenciado en la literatura es el \textit{skill-rule-knowledge} de \cite{Rasmussen1986}, el cual no es más que una pequeña generalización del modelo propuesto por \cite{michon1985critical} al comportamiento y razonamiento humano. Postula que éste se puede basar en \textbf{habilidades} (actividades completamente automatizadas de la forma \textit{percepción $\rightarrow$ ejecución}), en \textbf{reglas} (situaciones familiares o estereotipadas de la forma \textit{percepción $\rightarrow$ reconocimiento de la situación $\rightarrow$ planificación $\rightarrow$ ejecución}) y en \textbf{conocimiento} (actividades conscientes que implican resolución de problemas y toma de decisiones de la forma \textit{percepción $\rightarrow$ reconocimiento de la situación $\rightarrow$ toma de decisión $\rightarrow$ planificación de la ejecución}) que suelen ser necesarias en situaciones poco familiares).
 
-El comportamiento de un conductor al volante tiene una relación directa con el nivel de abstracción de maniobra o táctico. Ésta se puede concebir como la encargada de planificar acciones a corto plazo para conseguir objetivos a corto plazo. Las tareas de control son automáticas e influyen poco o nada en las tomas de decisión relacionadas con tareas del estilo de cuánto acelerar en esta situación o cuándo cambiar de carril. Las tareas estratégicas estan a un nivel más alto de abstracción (e.g. la ruta a seguir hasta mi destino) y tampoco afectan demasiado al comportamiento en situaciones concretas\sidenote{No obstante algunos trabajos han demostrado que en ocasiones la planificación de la ruta sí afecta a decisiones normalmente asociadas el nivel táctico como por ejemplo la preferencia de un conductor por uno u otro carril de la vía \cite{Wei2000, Toledo2003}.}.
-
-El resto del capítulo introducirá los modelos de comportamiento más conocidos y hará especial hincapié en el estado más reciente de modelos basados en técnicas de la \glsentrylong{ci}\sidenote{
-	Otros usos de las técnicas de la \gls{ci} como la caracterización de los conductores no serán explorados. Algunos estudios de interés son \cite{sekizawa2007modeling, terada2010multi} donde se hace uso de regresión parcial sobre datos extraídos de simuladores para la caracterización del comportamiento y \cite{DiazAlvarez2014} donde se aplican redes neuronales a datos de conducción reales para la predicción del consumo y la identificación de comportamientos agresivos.
+El comportamiento de un conductor al volante tiene una relación directa con el nivel de abstracción táctico. Se puede entender como el encargado de planificar acciones a corto plazo para conseguir objetivos a corto plazo. Las tareas de control son automáticas e influyen poco o nada en las tomas de decisión relacionadas con tareas del estilo de cuánto acelerar en esta situación o cuándo cambiar de carril. Las tareas estratégicas estan a un nivel más alto de abstracción (e.g. la ruta a seguir hasta mi destino) y tampoco afectan demasiado al comportamiento en situaciones concretas\sidenote{
+	No obstante algunos trabajos han demostrado que en ocasiones la planificación de la ruta sí afecta a decisiones normalmente asociadas el nivel táctico como por ejemplo la preferencia de un conductor por uno u otro carril de la vía \cite{Wei2000, Toledo2003}.
 }.
-En~\cite{sekizawa2007modeling} describen modelos supervisados offline para capturar el comportamiento del conductor basados en auto-regresión a trozos. Más adelante lo extienden en~\cite{terada2010multi}, aunque los datos de entrenamiento son extraídos directamente de simulaciones, no del \enquote{mundo real\textsuperscript{TM}}.
 
-\section{Enfoque de agentes}
+\newthought{Nuestro interés es el uso de agentes} como unidades en simulación. Después de todo trabajamos con \glspl{mas}. Sin embargo, y aunque en los trabajos más modernos exista una cierta desviación hacia este paradigma, no todos los trabajos se basan en éste. El auge de su uso coincide con el renacimiento de la \glsentrylongsp{ai}, alrededor de los años $90$, y los modelos que se describen en este apartado, sobre todo posteriores a esta fecha, se basan en este tipo de sistemas.
 
-Quizá esta parte habrá que mezclarla con la introducción y sin explayarse demasiado.
+Las tipologías de agentes utilizadas es de tido tipo. Existen desde trabajos que explotan las características de los agentes reactivos (e.g. en \cite{Ehlert2001} se estudian agentes que continuamente van realizando decisiones de control para mantenerse en la via y llegar a su destino) hasta aquellos que proponen frameworks nuevos para definir comportamientos\sidenote{
+	Un \textit{framework} muy interesante de modelización de comportamiento de conductores es el propuesto por \cite{al2001framework}. Éste se basa en cuatro unidades de funcionamiento interconectadas, la de \textbf{percepción}, que percibe el entorno en términos locales y globales, la de \textbf{emoción}, que se ocupa de identificar cómo responde emocionalmente al entorno, la de \textbf{toma de decisiones}, que investiga posibles acciones que podrían servir a las necesidades del módulo emocional y la de \textbf{ejecución de decisiones}, que intenta implementar las decisiones cuando emergen condiciones de tráfico lo suficientemente seguras para llevarlas a cabo. \TODO{poner ilustración y volver a leerlo para incluir conclusiones. No parece que sean nada del otro mundo más allá que agentes basados en utilidad, pero bueno. Más allá de simlpes, definen una forma de trabajar que probablemente usen el resto de frameworks y que podemos basarnos en ella.}.
+}.
+
+La información que manejan estos agentes dentro de los simuladores suele limitarse a tipologías (e.g. utilitarios o vehículos de grandes dimensiones) y magnitudes físicas (tamaño, velocidad máxima). Dependiendo del trabajo, algunos autores añaden más conocimiento a los agentes; por ejemplo, en \cite{hidas2002}, el autor incluye en los agentes, denominados \glspl{dvo} (otra forma de denominar al concepto de \gls{dvu}), información adicional sobre el tipo de conductor y el nivel de conocimiento de la red de carreteras.
+
+El resto del capítulo introducirá los modelos de comportamiento más conocidos y hará especial hincapié en el estado más reciente de modelos basados en técnicas de la \glsentrylong{ci}.
 
 \section{Comportamientos modelados}
-
-En el nivel táctico del comportamiento, las tareas que se realizan durante la conducción son las relacionadas a circular con el vehículo dentro del flujo de tráfico, sin bajar demasiado de detalle. En la literatura, estas tareas se centran en dos clases generales de problema diferentes (figura \ref{fig:behavior-model-classification}): el de \textbf{aceleración}, que se ocupa de modelar el comportamiento de un conductor en el carril en el que se encuentra y el de \textbf{cambio de carril}, encargado de decidir y ejecutar los cambios de carril.
 
 \begin{figure}
 	\centering
@@ -83,36 +84,103 @@ En el nivel táctico del comportamiento, las tareas que se realizan durante la c
 		}
 	};
 	\end{tikzpicture}
-	\caption{Las diferentes tareas para modelar el comportamiento de un conductor al volante. Están clasificadas en dos tipos, de aceleración, encargadas de definir cómo acelera el conductor en casos con y sin vehículo delantero y de lane-changing, encargadas de las tareas relacionadas con el cambio de carril.\TODO{Volver a echar un ojo a modelos de aceleración porque lo he cambiado.}}
+	\caption{Las diferentes tareas para modelar el comportamiento de un conductor al volante. Están clasificadas en dos tipos, de aceleración (cómo acelera/frena en función de la situación) y de cambio de carril (cuándo y cómo cambia de carril). Estas clases están formadas por diferentes subclases de comportamiento dependiendo del problema.}
 	\label{fig:behavior-model-classification}
 \end{figure}
 
-Dentro de éstas, los autores en función del alcance y el objetivo del estudio identifican diferentes clases de sub-problemas. Algunos de éstos pueden ser selección de carril, cambio de carril, adelantamiento, adaptación a velocidad de vehículo frontal, etcétera (\cite{Aycin1999}).
+Las tareas que se realizan en el nivel táctico del comportamiento son aquellas relacionadas con circular dentro del flujo de tráfico. En la literatura, estas tareas se centran en dos clases generales de problema diferentes (figura \ref{fig:behavior-model-classification}): el de la \textbf{aceleración} y el del \textbf{cambio de carril}.
 
-El resto de la sección incidirá en los modelos de aceleración y en los de cambio de carril\sidenote{
-	Esto es debido a que tradicionalmente han sido tratados como modelos independientes.
-}. En la literatura los modelos de aceleración han sido mucho más estudiados que los de cambio de carril, enrte otras cosas por la dificultad en la captura de los datos y, por tanto, por su escasez.
+Los modelos de \textbf{aceleración} se ocupan de gestionar las alteraciones de la tasa de aceleración (positiva o negativa) en un entorno lineal como lo es un carril de tráfico.
 
-Sin embargo, es importante destacar que partir de los años $90$ se ha tendido al desarrollo de modelos de comportamiento que combinan diferentes aspectos de modelos de aceleración y de cambio de carril (e.g. \cite{Ma2004}).
+Ahora bien, el tráfico real no está compuesto por un sólo carril, sino por varios. Los modelos de \textbf{cambio de carril} tienen como objetivo identificar cuándo el conductor desea cambiar de carril y realizar dicho cambio, ya sea porque quiere mejorar su circulación (e.g. quiere realizar un adelantamiento) o porque su ruta lo requiere (e.g. está próxima la rampa de salida que quiere tomar en una autopista).
 
-\TODO{Indicar por aquí qué son y qué incluyen los modelos de aceleración y de cambio de carril.}
+En la literatura los modelos de aceleración han sido mucho más estudiados que los de cambio de carril, entre otras cosas por la dificultad en la captura de los datos y, por tanto, por su escasez.
 
-\textbf{aceleración}
-
-Se ocupan de gestionar el comportamiento del conductor sobre la aceleración (positiva o negativa) en un entorno lineal como lo es un carril de tráfico.
-
-\textbf{cambio de carril}
-
-El tráfico real no está compuesto por un sólo carril, sino por varios. El cambio de carril ocurre cuando un vehículo se mueve del carril que está usando a un carril destino, ya sea porque quiere mejorar su circulación (e.g. quiere realizar un adelantamiento) o porque su ruta lo requiere (e.g. está próxima la rampa de salida que quiere tomar en una autopista).
-
-Este comportamiento mejora la velocidad media del flujo de la vía en situaciones de poca carga de tráfico, aunque pueden afectar a éste en formas de ondas de choque e interferir en éste (\cite{Sasoh2002, Jin2006}). En situaciones de carga de tráfico medio o de congestión pueden llegar a interferir incluso más que los modelos de \textit{\idx{car-following}} (\cite{Laval2006}).
-
+El estudio del comportamiento en los cambios de carril es muy interesante debido a que tiene efectos opuestos según la carga de tráfico de la vía en la que se ejecutan. Por un lado, si la carga de tráfico es de ligera, mejora la velocidad media del flujo de la vía. Sin embargo, según aumenta la carga de tráfico, los cambios de carril comienzan a afectar a éste en formas de ondas de choque (\cite{Sasoh2002, Jin2006}) e interferir incluso más que los modelos de \textit{\idx{car-following}} (\cite{Laval2006}).
 
 \subsection{Nomenclatura}
 
-\TODO{Hablar aquí de que los modelos de este nivel hacen uso de una nomenclatura que explicamos aquí. Poner también una ilustración estupendísima indicando qué es qué en cada uno de los vehículos en una vía. No debería ocupar más de 3-4 párrafos y la figura guay que identifica todos los elementos (el vehículo, el lead car, el lag car, ...).}
+Para no llevar a equívocos, en la figura \ref{fig:lane-representation-with-namings} se ilustran los actores típicos en una situación de tráfico junto con los nombres y su rol. A continuación los explicamos:
+
+\begin{figure}
+	\missingfigure[figheight=4cm]{Ilustración estupenda y maravillosa de los vehículos en la vía y cómo están relacionados unos con otros.}
+	\caption{Representación de los vehículos en una vía junto con la nomenclatura a usar durante el resto de la tesis.}
+	\label{fig:lane-representation-with-namings}
+\end{figure}
+
+\begin{itemize}
+	\item \textbf{Lag car}.
+	\item \textbf{Lead car}.
+\end{itemize}
 
 \section{Modelado de conductores clásico}
+
+Los primeros trabajos sobre modelos de conducción de este tipo datan de comienzo de los años $50$ con estudios sobre el concepto denominado \textbf{\idx{car-following}}, acuñado por \cite{reuschel1950fahrzeugbewegungen}. Un vehículo está en una situación \idx{car-following} cuando su velocidad está condicionada por el vehículo que se encuentra frente a él. En el primer modelo concreto (\cite{Pipes1953}), el comportamiento responde a tratar de mantener un espacio variable en función de la velocidad.
+
+\begin{marginfigure}
+	\centering
+	
+	\smartdiagramset{
+		border color=none,
+		back arrow disabled=true,
+		text width=2.5cm
+	}
+	\smartdiagram[flow diagram:vertical] {
+		Mantenimiento de medidas,
+		estímulo~/ respuesta,
+		psico-físicos
+	}
+	\caption{Evolución de los tres tipos generales de modelo de \textit{car-following}: mantenimiento de medidas, estímulo$\rightarrow$respuesta y psico-físicos. Con la llegada de los psico-físicos se vio que \textit{car-following} no era más que uno de tantos regímenes distintos dentro de los modelos de aceleración.\TODO{Esto es un mojón de ilustración.}}
+	\label{fig:car-following-there-different-models}
+\end{marginfigure}
+
+Este modelo se puede considerar de una clase que denominaremos \textbf{mantenimiento de medida} dado que su objetivo es mantener constantemente una distancia segura, determinada a partir de la ecuación de la velocidad cuando el tiempo no baja de $1,02$ segundos. Otros trabajos trabajan con el mantenimiento de otras medidas como distancia relativa al parachoque delantero o trasero.
+
+\marginnote{
+	El modelo \gls{ghr} es el modelo más conocido antes de la introducción del modelo de Gipps. Desarrollado a finales de los años $50$ (dentro de la \textit{General Motors}, de ahí su nombre), calcula el valor de la aceleración $a$ en un instante $t$ como:
+	
+	\begin{equation}
+	a(t) = c v^m(t) \frac{\Delta v(t - \tau)}{\Delta x^l(t - \tau)}
+	\label{eq:ghr-car-following-model}
+	\end{equation}
+	
+	Siendo $t$ es el instante actual, $a(t)$ la aceleración del vehículo, $\delta v(t)$ y $\delta x(t)$ son la velocidad y distancia relativas al siguiente coche respectivamente, $v$ la velocidad del vehículo y $c$, $m$, $l$ y $\tau$ constantes, siendo ésta última el tiempo de reacción del conductor.
+}
+
+Más adelante, a finales de la década, se presentó el modelo \gls{ghr} (\cite{Chandler1958}), el cual ha servido como base para el desarrollo de muchos modelos posteriores. Éste se caracteriza por el uso del concepto \textbf{estímulo $\rightarrow$ respuesta}, donde la respuesta del vehículo (el cambio en la tasa de aceleración) es debida a la activación de un estímulo (la variación en la distancia con el vehículo delantero) tras pasar un tiempo de retardo $\tau$\sidenote{
+En realidad los modelos estímulo $\rightarrow$ respuesta son la evolución lógica de los modelos anteriores, donde se pasa de un cálculo de velocidad en función de la distancia (u otra medida) a un sistema de control donde la variable a controlar es la aceleración en función de uno o varios estímulos de entrada, además con un retardo simulando el tiempo de reacción.
+}. Algunas modificaciones sobre el algoritmo original son, entre otras, la asimetría en la tasa de cambio de aceleración y deceleración (\cite{Gazis1959}) o la inclusión de segundos coches delanteros (\cite{Bexelius1968}).
+
+Los métodos de estas dos clases de modelo suelen ser \enquote{sencillos} de implementar, pero tienen un problema principal: suponen que el conductor es capaz de percibir incluso el más mínimo cambio en el coche delantero cuando la realidad no es así. Por ello, a mediados de los años $70$ apareció una nueva clase de modelos de \textit{\idx{car-following}}, denominados posteriormente como \textbf{psicofísicos} (\cite{wiedemann1974simulation} donde se introduce el concepto de \textit{umbral perceptual}\sidenote{El \textit{umbral perceptual} de una medida es el límite a partir del cual se percibe un cambio en dicha medida. Mediante el uso de umbrales perceptuales, se limitan las acciones de los coches a cambios perceptibles en los coches delanteros.} como medida para superar la limitación de los otros dos tipos de modelo.
+
+\begin{figure}
+	\centering
+	\smartdiagramset{
+		set color list={
+			orange!60,
+			green!50!lime!60,
+			magenta!60,
+			blue!50!cyan
+		},
+		uniform connection color=true
+	}
+	\smartdiagram[bubble diagram]{
+		modelos de aceleración, free-flow, approaching, car-following, emergency
+	}
+	\caption{Tras la aparición de los modelos psico-físicos se comprobó que los umbrales en las percepciones y por tanto el comportamiento podía variar dependiendo de las situaciones. Por ello, el \textit{car-following} no era más que una entre diferentes clases o regímenes de aceleración. Algunos de los regímenes más usados en la literatura son \textit{free-flow}, \textit{car-following}, \textit{approaching}, y \textit{emergency}, aunque algunos autores definen nuevos regímenes, cada uno con sus límites de aplicación.}
+	\label{fig:acceleration-model-classes}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
 
 Primer trabajo: \cite{reuschel1950fahrzeugbewegungen}. Poco después \cite{Pipes1953} define el primer modelo concreto denominado car-following (tipo \textbf{mantenimiento de medida}). Más adelante, \cite{Chandler1958} presenta el modelo GHR (estímulo $\rightarrow$ respuesta). Algunas modificaciones son \cite{Gazis1959} y \cite{Bexelius1968}. Luego viene \cite{wiedemann1974simulation} con los psicofísicos.
 
@@ -164,19 +232,29 @@ Algunos autores (\cite{Zhang2011}) se atreven a afirmar incluso que el futuro de
 
 Dentro de las \gls{its}, las áreas de aplicación de la \gls{ci} se centra en tres puntos: detección de patrones, caracterización de conductores y modelado de conductores. Es necesario mencionar que aunque se trate de tres áreas distintas, éstas suelen retroalimentarse, y es difícil encontrar estudios que se centren en una única área sin tocar el resto (figura~\ref{fig:three-main-applications-of-ci-in-its}). Y por ello, aunque nuestro interés pueda centrarse en el modelado de conductores, es necesario conocer el estado de las demás áreas.
 
+...
+
+
+En \cite{Chaib-draa1994} proponen un framework para trabajar con tres tipos diferentes de situaciones (rutina, familiar y no familiar) en sistemas multiagente, demostrando la aplicación en escenarios de microsimulación urbana). Su modelo se basa en una estructura jerárquica definida por los niveles de comportamiento humano y de técnicas de razonamiento propuestas por \cite{Rasmussen1986} (skill-rule-knowledge). Los DVO aquí tienen las siguientes debilidades: no tienen memoria (sólo planean el segundo siguiente de acuerdo a la información actual) y tienen poco contacto directo con los demás DVOs de alrededor (saben del de delante y del de detrás, pero no de los lados).
+
+
+En~\cite{sekizawa2007modeling} describen modelos supervisados offline para capturar el comportamiento del conductor basados en auto-regresión a trozos. Más adelante lo extienden en~\cite{terada2010multi}, aunque los datos de entrenamiento son extraídos directamente de simulaciones, no del \enquote{mundo real\textsuperscript{TM}}.
+
+Otros usos de las técnicas de la \gls{ci} como la caracterización de los conductores no serán explorados. Algunos estudios de interés son \cite{sekizawa2007modeling, terada2010multi} donde se hace uso de regresión parcial sobre datos extraídos de simuladores para la caracterización del comportamiento y \cite{DiazAlvarez2014} donde se aplican redes neuronales a datos de conducción reales para la predicción del consumo y la identificación de comportamientos agresivos.
+...
+
 \newthought{modelos basados en lógica difusa}
+
+...
+
+En \cite{Das} se realiza una simulación de comportamiento de vehículos en autopista. Los agentes basan su comportamiento en un sistema difuso donde las reglas definen la conclusión en autopista (i.e. car-following y lane-changing). Llaman a este simulador AASIM (Autonomous Agent Simulator).,
+
 
 \newthought{modelos basados en redes neuronales artificiales}
 
 \newthought{otras técnicas y modelos mixtos}
 
-
-
-
-
-
-
-
+En \cite{Kuge2000} proponen un framework de identificar comportamiento de conductor basado en modelos ocultos de Markov.
 
 ...
 
@@ -188,68 +266,9 @@ Dentro de las \gls{its}, las áreas de aplicación de la \gls{ci} se centra en t
 
 
 
-
-
-\subsection{Notación y nomenclatura}
-
-
 \subsection{Modelos de aceleración}
 
-Los primeros trabajos sobre modelos de conducción de este tipo datan de comienzo de los años $50$ con estudios sobre el concepto que más adelante se denominaría \textit{\idx{car-following}} (\cite{reuschel1950fahrzeugbewegungen, Pipes1953}).
 
-\begin{figure}
-	\centering
-	\smartdiagramset{
-		border color=none,
-		back arrow disabled=true
-	}
-	\smartdiagram[flow diagram:horizontal] {
-		Mantenimiento de medidas,
-		estímulo~/ respuesta,
-		psico-físicos
-	}
-	\caption{Evolución de los tres tipos generales de modelo de \textit{car-following}: mantenimiento de medidas, estímulo$\rightarrow$respuesta y psico-físicos. Con la llegada de los psico-físicos se vio que \textit{car-following} no era más que uno de tantos regímenes distintos dentro de los modelos de aceleración.}
-	\label{fig:car-following-there-different-models}
-\end{figure}
-
-\newthought{Un vehículo está en una situación \idx{car-following}} cuando su velocidad está condicionada por el vehículo que se encuentra frente a él. En el primer modelo concreto (\cite{Pipes1953}), el comportamiento responde a tratar de mantener un espacio variable en función de la velocidad\sidenote{
-	En el modelo concreto de Pipes, el espacio viene determinado a partir de la ecuación de la velocidad cuando el tiempo no baja de $1,02$ segundos.
-}. Este modelo se puede considerar de una clase que denominaremos \textbf{mantenimiento de medida} dado que su objetivo es mantener constantemente una distancia segura. Otros trabajos trabajan con el mantenimiento de otras medidas como distancia relativa al parachoque delantero o trasero (\TODO{He perdido las referencias}.
-
-Más adelante, a finales de la década, se presentó el modelo \textbf{GM} (\cite{Chandler1958})\sidenote{
-	El modelo \gls{ghr} es el modelo más conocido antes de la introducción del modelo de Gipps. Desarrollado a finales de los años $50$ (dentro de la \textit{General Motors}, de ahí su nombre), calcula el valor de la aceleración $a$ en un instante $t$ como:
-	
-	\begin{equation}
-	a(t) = c v^m(t) \frac{\Delta v(t - \tau)}{\Delta x^l(t - \tau)}
-	\label{eq:ghr-car-following-model}
-	\end{equation}
-	
-	Siendo $t$ es el instante actual, $a(t)$ la aceleración del vehículo, $\delta v(t)$ y $\delta x(t)$ son la velocidad y distancia relativas al siguiente coche respectivamente, $v$ la velocidad del vehículo y $c$, $m$, $l$ y $\tau$ constantes, siendo ésta última el tiempo de reacción del conductor.
-}, el cual sirvió como base para el desarrollo de modelos posteriores. Éste se caracteriza por el uso del concepto \textbf{estímulo $\rightarrow$ respuesta}, donde la respuesta del vehículo (el cambio en la tasa de aceleración) es debida a la activación de un estímulo (la variación en la distancia con el vehículo delantero) tras pasar un tiempo de retardo $\tau$\sidenote{
-	En realidad los modelos estímulo $\rightarrow$ respuesta son la evolución lógica de los modelos anteriores, donde se pasa de un cálculo de velocidad en función de la distancia (u otra medida) a un sistema de control donde la variable a controlar es la aceleración en función de uno o varios estímulos de entrada, además con un retardo simulando el tiempo de reacción.
-}. Algunas modificaciones sobre el algoritmo original son, entre otras, la asimetría en la tasa de cambio de aceleración y deceleración (\cite{Gazis1959}) o la inclusión de segundos coches delanteros (\cite{Bexelius1968}).
-
-Los métodos de estas dos clases de modelo suelen ser \enquote{sencillos} de implementar, pero tienen un problema principal: suponen que el conductor es capaz de percibir incluso el más mínimo cambio en el coche delantero cuando la realidad no es así. Por ello, a mediados de los años $70$ apareció una nueva clase de modelos de \textit{\idx{car-following}}, denominados posteriormente como \textbf{psicofísicos} (\cite{wiedemann1974simulation} donde se introduce el concepto de \textit{umbral perceptual}\sidenote{El \textit{umbral perceptual} de una medida es el límite a partir del cual se percibe un cambio en dicha medida. Mediante el uso de umbrales perceptuales, se limitan las acciones de los coches a cambios perceptibles en los coches delanteros.} como medida para superar la limitación de los otros dos tipos de modelo.
-
-
-
-\begin{figure}
-	\centering
-	\smartdiagramset{
-		set color list={
-			orange!60,
-			green!50!lime!60,
-			magenta!60,
-			blue!50!cyan
-		},
-		uniform connection color=true
-	}
-	\smartdiagram[constellation diagram]{
-		modelos de aceleración, free-flow, approaching, car-following, emergency
-	}
-	\caption{Tras la aparición de los modelos psico-físicos se comprobó que los umbrales en las percepciones y por tanto el comportamiento podía variar dependiendo de las situaciones. Por ello, el \textit{car-following} no era más que una entre diferentes clases o regímenes de aceleración. Algunos de los regímenes más usados en la literatura son \textit{free-flow}, \textit{car-following}, \textit{approaching}, y \textit{emergency}, aunque algunos autores definen nuevos regímenes, cada uno con sus límites de aplicación.}
-	\label{fig:acceleration-model-classes}
-\end{figure}
 
 En \cite{wiedemann1992microscopic} se proponen hasta cuatro clases diferentes de modelos de aceleración en función de las posiciones y velocidades relativas entre el vehículo sujeto y el siguiente: \textit{free-flow}, donde el vehículo no se ve afectado por el comportamiento del siguiente vehículo y se basa en velocidad que quiere alcanzar sin impedimentos (más allá de los impuestos por el tipo y condición de la vía), \textit{car-following} cuando el comportamiento del vehículo se ve influenciado por el vehículo delantero, obligando a disminuir la velocidad deseada en el conductor en cuestión, \textit{approaching} como situación intermedia entre las dos anteriores y \textit{emergency} cuando la situación es crítica (e.g. colisión inminente). Más adelante diferentes autores identifican otros regímenes que pueden considerarse en algunos casos como situaciones independientes (e.g. \textit{close-following} o \textit{stop-and-go} \cite{Toledo2003, Liu2013}).
 
@@ -392,19 +411,9 @@ Sin embargo, los conductores basan sus decisiones en sus percepciones y éstas, 
 
 \TODO{Echar un vistazo a la tabla resumen}
 
-\subsection{El enfoque de agentes}
+... Puta idea
 
-...
-
-\cite{Hidas2002} --> También aquí hablan de los DVOs (driver-vehicle objects) (¿esto es un clon de \glspl{dvu}?. Tienen características individuales como (i) tipo de vehículo, (ii) magnitudes físicas (tamaño, velocidad máxima, ...), (iii) tipo de conduictor y (iv) nivel de conocimiento de la red (porque afecta en la elección de ruta). Tienen un objetivo, llegar del origen al destino tan rápido como puedan. Esto implica un conjunto de decisiones a hacer en intervalos periódicos durante su funcionamiento (i) selección de ruta cada vez que se entra en un nuevo tramo y (ii) cálculo de la aceleración en cada intervalo).
-
-En \cite{Chaib-draa1994} proponen un framework para trabajar con tres tipos diferentes de situaciones (rutina, familiar y no familiar) en sistemas multiagente, demostrando la aplicación en escenarios de microsimulación urbana). Su modelo se basa en una estructura jerárquica definida por los niveles de comportamiento humano y de técnicas de razonamiento propuestas por \cite{Rasmussen1986} (skill-rule-knowledge). Los DVO aquí tienen las siguientes debilidades: no tienen memoria (sólo planean el segundo siguiente de acuerdo a la información actual) y tienen poco contacto directo con los demás DVOs de alrededor (saben del de delante y del de detrás, pero no de los lados).
-
-En~\cite{al2001framework} describen un framework para la modelización de comportamiento de conductores dentro de simuladores. Se basa en cuatro unidades de funcionamiento interconectadas, la de percepción (percibe el entorno en términos locales y globales), la de emoción (cómo responde emocionalmete al entorno), la de decision-making (investiga posibles acciones que podrían servir a las necesidades del módulo emocional) y la de decision-implementation (intenta implementar las decisiones cuando emergen condiciones de tráfico lo suficientemente seguras para llevarlas a cabo). Tengo que volver a leerlo después de hacer una primera introducción en el tema de agentes, porque me parece poner nombrecitos a un tipo de agente que funciona de esa misma manera, pero lo mismo no. En \cite{Kuge2000} proponen otro framework de este palo.
-
-En \cite{Das} se realiza una simulación de comportamiento de vehículos en autopista. Los agentes basan su comportamiento en un sistema difuso donde las reglas definen la conclusión en autopista (i.e. car-following y lane-changing). Llaman a este simulador AASIM (Autonomous Agent Simulator).,
-
-En \cite{Ehlert2001} simulación donde los agentes son de tipo reactivo. Además, poseen diferentes estuilos de conduccińo. El agente cntinuamente va realizando decisiones de control para mantenerse en la via y llegar a su destino.
+\cite{Hidas2002} --> También aquí hablan de los \glspl{dvo} (¿esto es un clon de \glspl{dvu}?. Tienen características individuales como (i) tipo de vehículo, (ii) magnitudes físicas (tamaño, velocidad máxima, ...), (iii) tipo de conduictor y (iv) nivel de conocimiento de la red (porque afecta en la elección de ruta). Tienen un objetivo, llegar del origen al destino tan rápido como puedan. Esto implica un conjunto de decisiones a hacer en intervalos periódicos durante su funcionamiento (i) selección de ruta cada vez que se entra en un nuevo tramo y (ii) cálculo de la aceleración en cada intervalo).
 
 
 \subsection{Modelos basados en lógica difusa}

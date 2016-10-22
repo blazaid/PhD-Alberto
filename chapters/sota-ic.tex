@@ -86,7 +86,7 @@ Una \ac{ann} es independiente del modelo del problema a solucionar. Se la puede 
 \newthought{El modelo de neurona artificial} de McCulloch-Pitts introducido en el trabajo \enquote{A logical calculus of the ideas immanent in nervous activity} (\cite{McCulloch1943}, ilustración en la figura~\ref{fig:mccullocs-pitts-neuron-model}) es el considerado primer trabajo en la disciplina de las \acp{ann}, y aunque existen muchas y muy diferentes tipologías y formas de operar con redes, todas funcionan de la misma manera: unidades (i.e. neuronas) interconectados mediante enlaces por los que fluye la información de manera unidireccional, donde algunas de dichas unidades sirven de entrada al sistema (i.e. entradas o sensores), otras sirven de salida del sistema (i.e. salidas y actuadores) y otras como elementos internos (i.e. ocultas), y donde las conexiones se ajustan mediante un proceso denominado \textit{entrenamiento}.
 
 \begin{figure}
-	\missingfigure[figheight=4.6cm]{Figura del modelo artificial de McCullocs-Pitts}
+	\missingfigure[figheight=2cm]{Figura del modelo artificial de McCullocs-Pitts}
 	\caption{Variación de la representación del modelo de neurona artificial propuesto por McCullocs y Pitts. En éste, cada una de las entradas $x_i$ es incrementada o inhibida aplicando el producto con su peso asociado $w_i$. La activación vendrá determinada por la aplicación de una función (denominada \enquote{de activación}) a la suma de los valores. Esta variación en concreto incluye una entrada $x_0$ y un peso $w_0$ como bias de la neurona para la variación dinámica del umbral de activación.}
 	\label{fig:mccullocs-pitts-neuron-model}
 \end{figure}
@@ -98,7 +98,7 @@ Este primer modelo de neurona proponía una función escalón para determinar si
 	\end{equation}
 }.
 
-\todo{Parrafito sobre la limitación de la neurona singular para dar hilo a las topologías}
+\TODO{Parrafito sobre la limitación de la neurona singular para dar hilo a las topologías}
 
 \newthought{Existen diferentes topologías de redes neuronales} o arquitecturas dependiendo de qué forma toma el grafo que modela las neuronas y sus conexiones. En este caso, las redes neuronales pueden ser de dos tipos:
 
@@ -220,7 +220,9 @@ Existe un conjunto de algoritmos denominados \gls{si} que también son algoritmo
 
 \subsection{\glsentrylongplsp{ga}: bases y funcionamiento}
 
-Un \gls{ga} es un algoritmo iterativo estocástico donde se aplica una serie de pasos inspirados en la \idx{síntesis evolutiva moderna} para la resolución de un problema. Éstos fueron introducidos por John Henry Holland en su libro \textit{\enquote{Adaptation in Natural and Artificial Systems}} (\cite{Holland1975}) y constituyen una familia de soluciones con mucho éxito en problemas de aprendizaje, búsqueda y optimización. Desde nuestro punto de vista, podemos decir que la \gls{cev} es el área que trabaja con \gls{ga}\sidenote{
+Un \gls{ga} es un algoritmo iterativo estocástico donde se aplica una serie de pasos inspirados en la \idx{síntesis evolutiva moderna} para la resolución de un problema. Éstos fueron introducidos por John Henry Holland en su libro \textit{\enquote{Adaptation in Natural and Artificial Systems}} (\cite{Holland1975}) y constituyen una familia de soluciones con mucho éxito en problemas de aprendizaje, búsqueda y optimización. Desde nuestro punto de vista, podemos decir que la \gls{cev} es el área que trabaja con \gls{ga}.
+
+\TODO{Esto lo he extraído de una marginnote que no iba bien. Hay que reformular o recolocar}
 	Dentro de la \gls{cev} existen familias de algoritmos consideradas por muchos autores como entidades diferentes a los \glspl{ga}:
 	
 	\begin{itemize}
@@ -229,7 +231,7 @@ Un \gls{ga} es un algoritmo iterativo estocástico donde se aplica una serie de 
 	\end{itemize}
 	
 	Quizá en el momento de su nacimiento pudieran estar más diferenciadas, pero en la actualidad se puede pensar en ellas como diferentes especializaciones de un \gls{ga} genérico. En el caso de las \glspl{es}, es evidente que se pueden considerar como una especialización de algoritmo genético donde la recombinación y el reemplazo parcial pasan a un segundo plano, y en el caso de la \gls{gp}, son un \gls{ga} una estructura de datos diferentes para el genotipo (la cual conlleva una serie de modificaciones a los algoritmos de recombinación y mutación, así como una serie de desventajas inherentes a su representación).
-}.
+\TODO{Hasta aquí}
 
 La \idx{síntesis evolutiva moderna} o \idx{neodarwinismo} es una integración de teorías que complementan la teoría de la evolución propuesta por Charles Darwin. En el momento de enunciar la teoría, no se conocía de qué manera los organismos vivos transmitían sus rasgos característicos a su progenie. Las características en las que se inspiran los \glspl{ga} de la síntesis evolutiva moderna incluyen, entre otras:
 

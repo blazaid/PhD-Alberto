@@ -1661,13 +1661,13 @@
         \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessdepartment}}\\
         \fontsize{12}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessschool}}\\
 
-        \vspace{5cm}
+        \vspace{4cm}
 		{\bfseries \fontsize{18}{20}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklesstitle}}}
 
-        \vspace{2.5cm}
+        \vspace{1.5cm}
         \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{Tesis doctoral}}\\
 		
-        \vspace{1cm}
+        \vspace{2cm}
         {\bfseries \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
           \thanklessauthor
         }}\\
@@ -1694,7 +1694,7 @@
 		}\\
 
 		\vfill
-		{\large Madrid \today}
+		{\small Madrid \today}
       \end{center}
 
     \end{fullwidth}%

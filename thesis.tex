@@ -1,10 +1,11 @@
-\documentclass[a4paper,nobib,makeidx,justified,twoside,symmetric]{tufte-book}
+\documentclass[b5paper,nobib,makeidx,justified,twoside,symmetric]{tufte-book}
 
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{ntheorem}
 \usepackage{units}
 \usepackage{listingsutf8}
+\usepackage{xspace}
 
 \setlength{\parskip}{0.5\baselineskip}%
 \setlength{\parindent}{0pt}%
@@ -15,20 +16,47 @@
 \newtheorem{definition}{Definición}
 
 % Package listingutf8
-\lstset
-{
+\lstset{
 	language=[LaTeX]TeX,
 	breaklines=true,
 	basicstyle=\tt\scriptsize,
 	keywordstyle=\color{blue},
-	identifierstyle=\color{magenta},
+    literate=
+	     {á}{{\'a}}1
+	     {í}{{\'i}}1
+	     {é}{{\'e}}1
+	     {ý}{{\'y}}1
+	     {ú}{{\'u}}1
+	     {ó}{{\'o}}1
+	     {ě}{{\v{e}}}1
+	     {š}{{\v{s}}}1
+	     {č}{{\v{c}}}1
+	     {ř}{{\v{r}}}1
+	     {ž}{{\v{z}}}1
+	     {ď}{{\v{d}}}1
+	     {ť}{{\v{t}}}1
+	     {ň}{{\v{n}}}1                
+	     {ů}{{\r{u}}}1
+	     {Á}{{\'A}}1
+	     {Í}{{\'I}}1
+	     {É}{{\'E}}1
+	     {Ý}{{\'Y}}1
+	     {Ú}{{\'U}}1
+	     {Ó}{{\'O}}1
+	     {Ě}{{\v{E}}}1
+	     {Š}{{\v{S}}}1
+	     {Č}{{\v{C}}}1
+	     {Ř}{{\v{R}}}1
+	     {Ž}{{\v{Z}}}1
+	     {Ď}{{\v{D}}}1
+	     {Ť}{{\v{T}}}1
+	     {Ň}{{\v{N}}}1                
+	     {Ů}{{\r{U}}}1
 }
 
 \def\thetitle{Modelado de comportamiento de conductores con técnicas de Inteligencia Computacional}
 \def\theauthor{Alberto Díaz Álvarez}
 \def\thedate{\today}
-
-\hypersetup{colorlinks}
 \title{\thetitle}
 \author[\theauthor]{\theauthor}
 \authortitle{Máster en Ciencias y Tecnologías de la Computación}
@@ -39,6 +67,8 @@
 \advisoronetitle{Doctor en Inteligencia Artificial}
 \advisortwo{Dr. Felipe Jiménez Alonso}
 \advisortwotitle{Doctor en Ingeniería Mecánica}
+
+\hypersetup{colorlinks}
 
 \IfFileExists{bergamo.sty}{\usepackage[osf]{bergamo}}{} % Bembo
 \IfFileExists{chantill.sty}{\usepackage{chantill}}{} % Gill Sans
@@ -52,8 +82,6 @@
 
 \usepackage{fancyvrb}
 \fvset{fontsize=\normalsize}
-
-\usepackage{xspace}
 
 % Inserts a blank page
 \newcommand{\blankpage}{\newpage\hbox{}\thispagestyle{empty}\newpage}
@@ -113,8 +141,6 @@
 	\right.
 }
 
-\usepackage{morefloats}
-
 \begin{document}
 
 \hyphenpenalty=10
@@ -132,13 +158,10 @@
 \listoftables
 
 \mainmatter
-\part{Introducción}
 \input{chapters/introduction}
-\part{Estado de la cuestión}
 \input{chapters/sota-ic}
 \input{chapters/sota-traffic-simulation}
 \input{chapters/sota-behavior-models}
-\part{Desarrollo de la tesis}
 \input{chapters/developed-software}
 \input{chapters/behavior-model-study}
 \input{chapters/results}
@@ -150,6 +173,5 @@
 \printindex
 
 \input{chapters/colophon}
-
 
 \end{document}
