@@ -1,9 +1,7 @@
 \chapter{Modelos de comportamiento}
 \label{ch:sota-behavior-models}
 
-El objetivo que persigue la simulación de tráfico es hacer cada vez más realistas los modelos generados. ECuando el smiulador está basado en \glsentrylongsp{mas}, donde cada uno de los agentes (en general) representa a un conductores, el realismo aumenta cuanto más se parecen el comportamiento del agente al del conductor real\sidenote{
-	\textit{Comportar} se define como \textit{actuar de una manera determinada}. Por tanto, comportamiento al volante lo tratamos en este estudio como las acciones o tareas que se ejecutan durante la conducción, es decir, la manera de actuar de un individuo mientras conduce.
-}.
+El objetivo que persigue la simulación de tráfico es hacer cada vez más realistas los modelos generados. Cuando el simulador está basado en \glsentrylongplsp{mas}, el realismo aumenta cuanto más se parece el comportamiento de los agentes al de los conductores reales.
 
 Conducir implica la ejecución de múltiples tareas en paralelo, cada una de ellas pertenecientes a un nivel cognitivo. Además, las acciones no están limitadas a la interacción con el vehículo; el conductor ha de tener en cuenta otros factores como, por ejemplo las señales, los peatones o los \glspl{adas}.
 
@@ -37,20 +35,13 @@ Conducir implica la ejecución de múltiples tareas en paralelo, cada una de ell
 	\draw[dblarrow] (m-2-2) -> (m-1-2);
 	\draw[dblarrow] (m-3-2) -> (m-2-2);
 	\end{tikzpicture}
-	\caption{Los tres niveles jerárquicos que describen la tarea de conducción según~\cite{michon1985critical}: \textit{estrategia} (i.e. las decisiones generales), la \textit{maniobra} (i.e. decisiones durante la conducción de más corto plazo) y \textit{control} (i.e. automatismos).}
+	\caption{Los tres niveles jerárquicos que describen la tarea de conducción según~\cite{michon1985critical}: \textit{estrategia} (i.e. las decisiones generales), la \textit{maniobra} (i.e. decisiones durante la conducción de más corto plazo) y \textit{control} (i.e. automatismos).\TODO{Esta ilustración es una puta mierda. Tiene que ser más bonita, por dios!}}
 	\label{fig:three-levels-of-human-driving}
 \end{figure}
 
-\cite{michon1985critical} divide en tres los niveles de abstracción de las tareas: el de \textbf{control}, que se ocupa de las tareas de más bajo nivel destinadas éstas a mantener la conducción como son la aceleración o los cambios de marcha, el de \textbf{maniobra} o táctico, donde sus tareas son las encargadas de mantener la interacción con el entorno como los cambios de carril o el control de las señales y demás estímulos externos, y el \textbf{estratégico}, que engloba las tareas de más alto nivel como el razonamiento y la planificación de rutas (ver figura~\ref{fig:three-levels-of-human-driving})\sidenote{Algunos estudios llegan incluso a definir intervalos temporales de tiempo de razonamiento para las tareas de cada nivel. Por ejemplo, en \cite{Alexiadis2004} se establecen los siguientes tiempos: alrededor de $30$ segundos para las tareas del nivel de planificación, de $5$ a $30$ segundos para las tareas de nivel táctico y por debajo de los $5$ segundos para las tareas de control.}.
+\cite{michon1985critical} divide en tres los niveles de abstracción de las tareas: el de \textbf{control}, que se ocupa de las tareas de más bajo nivel como son el mantenimiento de la velocidad o los cambios de marcha, el de \textbf{maniobra} o táctico, donde sus tareas son las encargadas de mantener la interacción con el entorno como los cambios de carril o el control de las señales y demás estímulos externos, y el \textbf{estratégico}, que engloba las tareas de más alto nivel como el razonamiento y la planificación de rutas (ver figura~\ref{fig:three-levels-of-human-driving})\sidenote{Algunos estudios llegan incluso a definir intervalos temporales de tiempo de razonamiento para las tareas de cada nivel. Por ejemplo, en \cite{Alexiadis2004} se establecen los siguientes tiempos: alrededor de $30$ segundos para las tareas del nivel de planificación, de $5$ a $30$ segundos para las tareas de nivel táctico y por debajo de los $5$ segundos para las tareas de control.}.
 
-\TODO{Esto está cogido de un apartado de más abajo que creo que tiene más sentido aquí (porque hablan de prácticamente lo mismo, vamos :D.)}
-
- Su modelo se basa en una estructura jerárquica definida por los niveles de comportamiento humano y de técnicas de razonamiento propuestas por \cite{Rasmussen1986} (skill-rule-knowledge). El comportamiento basado en habilidades (skills) se refiere a las actividades completamente automatizadas (percepción--ejecución) usadas típicamente en situaciones rutinarias. comportamiento basado en reglas se refiere a situaciones esteorotipadas (percepción--reconocimiento de la situación--planificación--ejecución) aplicable en su mayoría en situaciones familiares. El comportamiento basado en el conocimiento se refiere a actividades conscientes que implican trabajo de resolución de problemas y toma de decisiones (perception--reconocimiento de la situación--toma e decisión--planificación de la ejecución) que suelen ser necesarias en situaciones poco familiares. En SITRAS se ven estas diferencias claramente en el cálculo de la aceleración. (i) si no hay ninguna otra restriccinó, llegar a la máxima velocidad es acelerar hasta la máxima velocidad (skill), (ii) si hay ua luz roja más adelante, se va frenando hasta para el coche (rule) y (ii) si se recibe información de coches alrededor (por ejemplo se está incorporando un nuevo coche a nuestro carril) se requiere un conocimiento más complejo (knowledge).
-
-\TODO{Hasta aquí}
-
-
-
+Otro modelo jerárquico de tres niveles muy referenciado en la literatura es el \textit{skill-rule-knowledge} de \cite{Rasmussen1986}, el cual no es más que una pequeña generalización del modelo propuesto por \cite{michon1985critical} al comportamiento y razonamiento humano. Postula que éste se puede basar en \textbf{habilidades} (actividades completamente automatizadas de la forma \textit{percepción $rightarrow$ ejecución}), en \textbf{reglas} (situaciones familiares o estereotipadas de la forma \textit{percepción $rightarrow$ reconocimiento de la situación $rightarrow$ planificación $rightarrow$ ejecución}) y en \textbf{conocimiento} (actividades conscientes que implican resolución de problemas y toma de decisiones de la forma \textit{percepción $rightarrow$ reconocimiento de la situación $rightarrow$ toma de decisión $rightarrow$ planificación de la ejecución}) que suelen ser necesarias en situaciones poco familiares).
 
 El comportamiento de un conductor al volante tiene una relación directa con el nivel de abstracción de maniobra o táctico. Ésta se puede concebir como la encargada de planificar acciones a corto plazo para conseguir objetivos a corto plazo. Las tareas de control son automáticas e influyen poco o nada en las tomas de decisión relacionadas con tareas del estilo de cuánto acelerar en esta situación o cuándo cambiar de carril. Las tareas estratégicas estan a un nivel más alto de abstracción (e.g. la ruta a seguir hasta mi destino) y tampoco afectan demasiado al comportamiento en situaciones concretas\sidenote{No obstante algunos trabajos han demostrado que en ocasiones la planificación de la ruta sí afecta a decisiones normalmente asociadas el nivel táctico como por ejemplo la preferencia de un conductor por uno u otro carril de la vía \cite{Wei2000, Toledo2003}.}.
 
@@ -59,7 +50,9 @@ El resto del capítulo introducirá los modelos de comportamiento más conocidos
 }.
 En~\cite{sekizawa2007modeling} describen modelos supervisados offline para capturar el comportamiento del conductor basados en auto-regresión a trozos. Más adelante lo extienden en~\cite{terada2010multi}, aunque los datos de entrenamiento son extraídos directamente de simulaciones, no del \enquote{mundo real\textsuperscript{TM}}.
 
-\newthought{enfoque de agentes}
+\section{Enfoque de agentes}
+
+Quizá esta parte habrá que mezclarla con la introducción y sin explayarse demasiado.
 
 \section{Comportamientos modelados}
 
@@ -131,26 +124,45 @@ En 1978 \cite{Sparmann1978} define un modelo psicofísico de cambio de carril. D
 
 El principal problema reside en que cuantos más regímenes se tratan de agrupar en un mismo modelo, más aumenta el número de factores a generalizar y ajustar.
 
-Algunos trabajos a este respecto son el modelo de Gipps (\cite{Gipps1981}) el cual agrupa las clases \textit{\idx{free-flow}} y \textit{\idx{car-following}}, el modelo incluido en el simulador \gls{mitsim} de \cite{Yang1996} que agrupa las de \textit{emergency}, \textit{car-following} y \textit{free-flow} o el modelo Optimal Velocity (\cite{Bando1998}) que agrupa las de \textit{\idx{free-flow}}, \textit{\idx{car-following}} y \textit{stop-and-go}.
-
 
 \newthought{El trabajo de Gipps} en \cite{1981} es uno de los primeros modelos que agrupa varios regímenes distintos (concretamente \textit{\idx{car-following}} y \textit{\idx{free-flow}}). Sin embargo es más interesante su posterior trabajo \cite{Gipps1986} el cual puede considerarse además como la primera solución para el cambio de carril y es uno de los primeros modelos en incorporar varios regímenes individuales\sidenote{
 	Su trabajo no obstante esá apoyado en 
 }. Introduce los conceptos de MLC y DLC como originados por diferentes motivaciones.
 
-\newthought{Integración de modelos}
-
-Otro poquito
 
 \newthought{Cooperación entre agentes}
 
 \section{Modelado de conductores basado en \glsentrylong{ci}}
 
-\newthought{}
+Desde mediados de los años $90$ empezó a crecer el interés por aplicar técnicas de \gls{ai} a los \gls{its}. Hay razones principales por las que esto es así: la primera, por los éxitos cosechados por la rama de la \gls{ci}, los cuales atrayeron a investigadores de multitud de áreas incluida esta. La segunda, por el rápido desarrollo de la tecnología\sidenote{
+	Cada vez es cada vez más barata, más precisa y con más funcionalidades. En la última década hemos vivido una explosión de dispositivos de todo tipo: teléfonos y relojes con GPS, acelerómetros y giroscopio, ordenadores completamente funcionales del tamaño de una moneda, sensores RADAR y LIDAR para uso amateur además de profesional y así un largo etcétera.
+}, que ha posibilitado la existencia de conjuntos de datos masivos con la capacidad de explotarlos y aprender de ellos.
 
-Un poquito de introducción
+Algunos autores (\cite{Zhang2011}) se atreven a afirmar incluso que el futuro de las \gls{its} son las técnicas de la \gls{ci}, y que los resultados que se puedan cosechar de técnicas basadas en el desarrollo convencional de sistemas es marginal comparado con las que se obtendrán con el nuevo enfoque.
 
-\newthought{detección, caracterización y modelado}
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+	\begin{scope}[blend group = soft light]
+	\fill[red!20!white]   ( 90:1.8) circle (2);
+	\fill[green!20!white] (210:1.8) circle (2);
+	\fill[blue!20!white]  (330:1.8) circle (2);
+	\end{scope}
+	\node at ( 90:1.8) [align=center] {
+		Detección de\\patrones
+	};
+	\node at ( 210:1.8) [align=center] {
+		Caracterización\\de conductores
+	};
+	\node at ( 330:1.8) [align=center] {
+		Modelado de\\conductores
+	};
+	\end{tikzpicture}
+	\caption{Las tres principales areas de aplicación de la \glsentrylong{ci} en los \glsentrylong{its} son la detección de patrones, la caracterización de conductores y la modelización de los mismos. Aunque son áreas de aplicación distintas, los estudios en general tienden a solaparse. Por ejemplo, las técnicas de detección de patrones pueden usarse como forma de extracción de características para una caracterización de conductores y a su vez esta caracterización puede usarse como base para su modelado.}
+	\label{fig:three-main-applications-of-ci-in-its}
+\end{figure}
+
+Dentro de las \gls{its}, las áreas de aplicación de la \gls{ci} se centra en tres puntos: detección de patrones, caracterización de conductores y modelado de conductores. Es necesario mencionar que aunque se trate de tres áreas distintas, éstas suelen retroalimentarse, y es difícil encontrar estudios que se centren en una única área sin tocar el resto (figura~\ref{fig:three-main-applications-of-ci-in-its}). Y por ello, aunque nuestro interés pueda centrarse en el modelado de conductores, es necesario conocer el estado de las demás áreas.
 
 \newthought{modelos basados en lógica difusa}
 
@@ -182,8 +194,6 @@ Un poquito de introducción
 
 
 \subsection{Modelos de aceleración}
-
-
 
 Los primeros trabajos sobre modelos de conducción de este tipo datan de comienzo de los años $50$ con estudios sobre el concepto que más adelante se denominaría \textit{\idx{car-following}} (\cite{reuschel1950fahrzeugbewegungen, Pipes1953}).
 
@@ -324,39 +334,9 @@ El \textit{\idx{critical gap}} no está limitado a un único hueco. Tanto el mod
 
 Uno de los primeros trabajos en abordar el comportamiento colaborativo es el de \cite{Fritzsche1994}. En éste, se describe un modelo de microsimulación para analizar cuellos de botella (e.g. un accidente donde se bloquea uno de los carriles). Es un caso típico donde los vehículos no pueden cambiar de carril sin la participación activa del resto de vehículos. Sin embargo la descripción del modelo se realiza de forma muy sucinta y no considera comportamiento colaborativo en el cambio de carril.
 
-Más adelante, en \cite{Yang1996} se presenta el entorno de microsimulacińo \gls{mitsim} que introduce, entre otros, un modelo de cambio de carril en el que se habla específicamente de comportamiento colaborativo en cambio de carriles haciendo uso de lo que denominan \textit{\idx{courtesy yielding function}}\sidenote{Describir un poquito cómo funciona el tema de la courtesy yielding function. La traducción literal viene a ser algo así como } (algo así como \textit{función de cesión de paso de cortesía}), la cual se usa para para hacer espacio al vehículo que va a incorporarse al carril. Sin embargo, los detalles de dicho proceso no están especificados en el paper. Otros trabajos relacionados con la influencia del entorno y en el comportamiento colaborativo son \cite{Ahmed1999, Hidas2002}.
+Más adelante, en \cite{Yang1996} se presenta el entorno de microsimulacińo \gls{mitsim} que introduce, entre otros, un modelo de cambio de carril en el que se habla específicamente de comportamiento colaborativo en cambio de carriles haciendo uso de lo que denominan \textit{\idx{courtesy yielding function}}\sidenote{Describir un poquito cómo funciona el tema de la courtesy yielding function. La traducción literal viene a ser algo así como } (algo así como \textit{función de cesión de paso de cortesía}), la cual se usa para para hacer espacio al vehículo que va a incorporarse al carril. Sin embargo, los detalles de dicho proceso no están especificados en el paper. Otros trabajos relacionados con la influencia del entorno y en el comportamiento colaborativo son \cite{Ahmed1999}.
 
 \section{La \glsentrylong{ci} en los modelos de conducción}
-
-Desde mediados de los años $90$ empezó a crecer el interés por aplicar técnicas de \gls{ai} a los \gls{its}. Hay razones principales por las que esto es así: la primera, por los éxitos cosechados por la rama de la \gls{ci}, los cuales atrayeron a investigadores de multitud de áreas incluida esta. La segunda, por el rápido desarrollo de la tecnología\sidenote{
-	Cada vez es cada vez más barata, más precisa y con más funcionalidades. En la última década hemos vivido una explosión de dispositivos de todo tipo: teléfonos y relojes con GPS, acelerómetros y giroscopio, ordenadores completamente funcionales del tamaño de una moneda, sensores RADAR y LIDAR para uso amateur además de profesional y así un largo etcétera.
-}, que ha posibilitado la existencia de conjuntos de datos masivos con la capacidad de explotarlos y aprender de ellos.
-
-Algunos autores (\cite{Zhang2011}) se atreven a afirmar incluso que el futuro de las \gls{its} son las técnicas de la \gls{ci}, y que los resultados que se puedan cosechar de técnicas basadas en el desarrollo convencional de sistemas es marginal comparado con las que se obtendrán con el nuevo enfoque.
-
-\begin{figure}
-	\centering
-	\begin{tikzpicture}
-	\begin{scope}[blend group = soft light]
-	\fill[red!20!white]   ( 90:1.8) circle (2);
-	\fill[green!20!white] (210:1.8) circle (2);
-	\fill[blue!20!white]  (330:1.8) circle (2);
-	\end{scope}
-	\node at ( 90:1.8) [align=center] {
-		Detección de\\patrones
-	};
-	\node at ( 210:1.8) [align=center] {
-		Caracterización\\de conductores
-	};
-	\node at ( 330:1.8) [align=center] {
-		Modelado de\\conductores
-	};
-	\end{tikzpicture}
-	\caption{Las tres principales areas de aplicación de la \glsentrylong{ci} en los \glsentrylong{its} son la detección de patrones, la caracterización de conductores y la modelización de los mismos. Aunque son áreas de aplicación distintas, los estudios en general tienden a solaparse. Por ejemplo, las técnicas de detección de patrones pueden usarse como forma de extracción de características para una caracterización de conductores y a su vez esta caracterización puede usarse como base para su modelado.}
-	\label{fig:three-main-applications-of-ci-in-its}
-\end{figure}
-
-Dentro de las \gls{its}, las áreas de aplicación de la \gls{ci} se centra en tres puntos: detección de patrones, caracterización de conductores y modelado de conductores. Es necesario mencionar que aunque se trate de tres áreas distintas, éstas suelen retroalimentarse, y es difícil encontrar estudios que se centren en una única área sin tocar el resto (figura~\ref{fig:three-main-applications-of-ci-in-its}). Y por ello, aunque nuestro interés pueda centrarse en el modelado de conductores, es necesario conocer el estado de las demás áreas.
 
 \newthought{La detección de patrones es un paso necesario} para la consecución de dos objetivos básicos: la identificación y la predicción.
 
