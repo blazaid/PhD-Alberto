@@ -115,7 +115,7 @@ Para no llevar a equívocos, en la figura \ref{fig:lane-representation-with-nami
 
 \section{Modelado de conductores clásico}
 
-Los primeros trabajos sobre modelos de conducción de este tipo datan de comienzo de los años $50$ con estudios sobre el concepto denominado \textbf{\idx{car-following}}, acuñado por \cite{reuschel1950fahrzeugbewegungen}. Un vehículo está en una situación \idx{car-following} cuando su velocidad está condicionada por el vehículo que se encuentra frente a él. En el primer modelo concreto (\cite{Pipes1953}), el comportamiento responde a tratar de mantener un espacio variable en función de la velocidad.
+Los primeros trabajos sobre modelos de conducción datan de comienzo de los años $50$ con estudios sobre el concepto denominado \textbf{\idx{car-following}}, acuñado por \cite{reuschel1950fahrzeugbewegungen}. Un vehículo está en una situación \idx{car-following} cuando su velocidad está condicionada por el vehículo que se encuentra frente a él. En el primer modelo concreto (\cite{Pipes1953}), el comportamiento responde a tratar de mantener un espacio variable en función de la velocidad.
 
 \begin{marginfigure}
 	\centering
@@ -137,7 +137,7 @@ Los primeros trabajos sobre modelos de conducción de este tipo datan de comienz
 Este modelo se puede considerar de una clase que denominaremos \textbf{mantenimiento de medida} dado que su objetivo es mantener constantemente una distancia segura, determinada a partir de la ecuación de la velocidad cuando el tiempo no baja de $1,02$ segundos. Otros trabajos trabajan con el mantenimiento de otras medidas como distancia relativa al parachoque delantero o trasero.
 
 \marginnote{
-	El modelo \gls{ghr} es el modelo más conocido antes de la introducción del modelo de Gipps. Desarrollado a finales de los años $50$ (dentro de la \textit{General Motors}, de ahí su nombre), calcula el valor de la aceleración $a$ en un instante $t$ como:
+	El modelo \glsentryshort{ghr} presentado en \cite{Chandler1958} es el modelo más conocido antes de la introducción del modelo de Gipps. Desarrollado a finales de los años $50$ dentro de la \textit{General Motors}, se caracteriza por el uso del concepto \textit{estímulo $\rightarrow$ respuesta}, donde la respuesta del vehículo (el cambio en la tasa de aceleración) es debida a la activación de un estímulo (la variación en la distancia con el vehículo delantero) tras pasar un tiempo de retardo $\tau$. Concretamente calcula el valor de la aceleración $a$ en un instante $t$ como:
 	
 	\begin{equation}
 	a(t) = c v^m(t) \frac{\Delta v(t - \tau)}{\Delta x^l(t - \tau)}
@@ -147,11 +147,11 @@ Este modelo se puede considerar de una clase que denominaremos \textbf{mantenimi
 	Siendo $t$ es el instante actual, $a(t)$ la aceleración del vehículo, $\delta v(t)$ y $\delta x(t)$ son la velocidad y distancia relativas al siguiente coche respectivamente, $v$ la velocidad del vehículo y $c$, $m$, $l$ y $\tau$ constantes, siendo ésta última el tiempo de reacción del conductor.
 }
 
-Más adelante, a finales de la década, se presentó el modelo \gls{ghr} (\cite{Chandler1958}), el cual ha servido como base para el desarrollo de muchos modelos posteriores. Éste se caracteriza por el uso del concepto \textbf{estímulo $\rightarrow$ respuesta}, donde la respuesta del vehículo (el cambio en la tasa de aceleración) es debida a la activación de un estímulo (la variación en la distancia con el vehículo delantero) tras pasar un tiempo de retardo $\tau$\sidenote{
-En realidad los modelos estímulo $\rightarrow$ respuesta son la evolución lógica de los modelos anteriores, donde se pasa de un cálculo de velocidad en función de la distancia (u otra medida) a un sistema de control donde la variable a controlar es la aceleración en función de uno o varios estímulos de entrada, además con un retardo simulando el tiempo de reacción.
-}. Algunas modificaciones sobre el algoritmo original son, entre otras, la asimetría en la tasa de cambio de aceleración y deceleración (\cite{Gazis1959}) o la inclusión de segundos coches delanteros (\cite{Bexelius1968}).
+Más adelante, a finales de la decada se presentó el modelo \gls{ghr} (ver ecuación~\ref{eq:ghr-car-following-model}), el cual sirvió como base para el desarrollo de muchos modelos posteriores. Eset modelo dio origen a a una nueva clase de modelos de conducción, los de tipo \textbf{estímulo $\rightarrow$ respuesta}. 
 
-Los métodos de estas dos clases de modelo suelen ser \enquote{sencillos} de implementar, pero tienen un problema principal: suponen que el conductor es capaz de percibir incluso el más mínimo cambio en el coche delantero cuando la realidad no es así. Por ello, a mediados de los años $70$ apareció una nueva clase de modelos de \textit{\idx{car-following}}, denominados posteriormente como \textbf{psicofísicos} (\cite{wiedemann1974simulation} donde se introduce el concepto de \textit{umbral perceptual}\sidenote{El \textit{umbral perceptual} de una medida es el límite a partir del cual se percibe un cambio en dicha medida. Mediante el uso de umbrales perceptuales, se limitan las acciones de los coches a cambios perceptibles en los coches delanteros.} como medida para superar la limitación de los otros dos tipos de modelo.
+En realidad los modelos estímulo $\rightarrow$ respuesta son la evolución lógica de los modelos anteriores, donde se pasa de un cálculo de velocidad en función de la distancia (u otra medida) a un sistema de control donde la variable a controlar es la aceleración en función de uno o varios estímulos de entrada, además con un retardo simulando el tiempo de reacción. Algunas modificaciones sobre el algoritmo original son, entre otras, la asimetría en la tasa de cambio de aceleración y deceleración (\cite{Gazis1959}) o la inclusión de segundos coches delanteros (\cite{Bexelius1968}).
+
+Los métodos de estas dos clases tienen un problema principal: suponen que el conductor es capaz de percibir incluso el más ínfimo cambio en las variables observadas cuando la realidad no es así. Por ello, a mediados de los años $70$ apareció una nueva clase de modelos de \textit{\idx{car-following}}, denominados posteriormente como \textbf{psicofísicos} (\cite{wiedemann1974simulation}, donde se introduce el concepto de \textit{umbral perceptual} como solución a dicha limitación. El \textit{umbral perceptual} de una medida es el límite a partir del cual se percibe un cambio en dicha medida. Mediante el uso de umbrales perceptuales, se limitan las acciones de los coches a cambios perceptibles en los coches delanteros.
 
 \begin{figure}
 	\centering
@@ -165,48 +165,81 @@ Los métodos de estas dos clases de modelo suelen ser \enquote{sencillos} de imp
 		uniform connection color=true
 	}
 	\smartdiagram[bubble diagram]{
-		modelos de aceleración, free-flow, approaching, car-following, emergency
+		modelos de\\ aceleración, free-flow, approaching, car-following, emergency
 	}
 	\caption{Tras la aparición de los modelos psico-físicos se comprobó que los umbrales en las percepciones y por tanto el comportamiento podía variar dependiendo de las situaciones. Por ello, el \textit{car-following} no era más que una entre diferentes clases o regímenes de aceleración. Algunos de los regímenes más usados en la literatura son \textit{free-flow}, \textit{car-following}, \textit{approaching}, y \textit{emergency}, aunque algunos autores definen nuevos regímenes, cada uno con sus límites de aplicación.}
 	\label{fig:acceleration-model-classes}
 \end{figure}
 
+A finales de la década, en $1978$, se cumplió otro hito en el desarrollo de modelos de conducción. Sparmann en \cite{Sparmann1978} define el primer modelo de cambio de carril, inspirándose en las clases de modelo psicofísico. El verdadero interés de este modelo es que sentó las bases de dos conceptos que perduran hoy en día. El primero, la diferenciación entre cambio a carriles rápidos y lentos\sidenote{
+	En \cite{Sparmann1978} el autor entiende la derecha como el carril lento y la izquierda como el carril rápido, y es como se entiende dentro del contexto de esta tesis. Sin embargo en otros países esta correspondencia es al revés.
+}. El segundo, la diferenciación entre la selección de carril o \textit{\idx{lane-selection}} y la ejecución del cambio o \textit{\idx{merging}}.
 
+\newthought{La viabilidad en un cambio de carril} se determina haciendo uso de modelos denominados \textit{\idx{gap acceptance}}, donde los vehículos calculan si caben o no en un determinado hueco y actuan en consecuencia.
 
+En su origen los modelos de \textit{\idx{gap acceptance}} se desarrollaron para resolver situaciones en intersecciones e incorporaciones. En la actualidad son los modelos que se usan en el momento de después de seleccionar el cambio de carril y antes de ejecutar físicamente el cambio, y dependiendo del autor del modelo, lo incluye dentro de la operación \textit{\idx{lane-selection}} y la ejecución del cambio o \textbf{\idx{merging}}.
 
+En general se basan en una fórmula que determina si, en función de una serie de parámetros entre los que se incluye el hueco del carril destino, el cambio es viable, en cuyo caso el cambio se ejecuta. En la ecuación~\ref{eq:gap-acceptance-model} se describe el modelo típico de un modelo de \idx{gap accceptance}. 
 
+\marginnote{
+	\paragraph{Modelo típico de \textit{\idx{gap acceptance}}}
+	
+	\begin{equation}
+	f_{g_l}(t) = \twopartf {0} {g_l(t) < g^{crit}_l(t)} {1} {g_l(t) \geq g^{crit}_l(t)}
+	\label{eq:gap-acceptance-model}
+	\end{equation}
+	
+	En un momento $t$, el cambio a un carril $l$ es viable ($f_{g_l}(t) = 1$) o no ($f_{g_l}(t) = 0$) dependiendo de si el espacio en el carril destino $g_l(t)$ es mayor o menor que un \enquote{hueco crítico} (en inglés \idx{critical gap}) $g^{crit}_l(t)$.
+}
 
+\newthought{Llegados a este punto}, con los modelos psicofísicos se llegó a la conclusión que no todas las situaciones eran iguales, sino que en función del entorno y el momento los umbrales podían variar, y que el \textit{\idx{car-following}} no era sino un subtipo más de una clase más amplia que se definió como \textit{modelos de aceleración} (figura~\ref{fig:acceleration-model-classes}).
 
+Debido a eso y a la irrupción de los modelos de cambio de carril, los posteriores modelos y \textit{frameworks} desarrollados se componen de dos o más submodelos que responden a diferentes umbrales. Sin embargo, esto provoca que los modelos desarrollados sean más complejos ya que, cuantos más regímenes se tratan de agrupar en un mismo modelo, más aumenta el número de factores a generalizar y ajustar.
 
+\newthought{El trabajo de Gipps} en \cite{Gipps1981} es uno de los primeros modelos que agrupa varios regímenes distintos (concretamente \textit{\idx{car-following}} y \textit{\idx{free-flow}}). Sin embargo consideramos más interesante su posterior trabajo, \cite{Gipps1986} ya que puede considerarse como la primera solución para el cambio de carril.
 
+\begin{figure}
+	\missingfigure[figheight=4cm]{Dos ilustraciones, una con un cambio de carril obligatorio (que se acabe el carril por ejemplo) y otro discrecional (que se vea un vehículo lento como un camión y el coche adelantando).}
+	\caption{Los cambios de carril se clasifican como aquellos necesarios para continuar con la conducción (obligatorios) y aquellos útiles para mejorar la situación de conducción (discrecionales).}
+	\label{fig:lane-change-mandatory-vs-discretional}
+\end{figure}
 
+\marginnote{
+	En el trabajo de \cite{wiedemann1992microscopic} se proponen hasta cuatro clases diferentes de modelos de aceleración en función de las posiciones y velocidades relativas entre el vehículo sujeto y el siguiente:
+	
+	\begin{itemize}
+		\item \textbf{free-flow}. El comportamiento del vehículo no se ve afectado por el del vehículo delantero.
+		\item \textbf{car-following}. El comportamiento vehículo se ve influenciado por el vehículo delantero, obligando a disminuir la velocidad deseada en el conductor en cuestión.
+		\item \textbf{approaching}. Situación intermedia entre las dos anteriores
+		\item \textbf{emergency}. La situación es crítica (e.g. colisión inminente) obligando, normalmente, a respuestas extremas.
+	\end{itemize}
+	
+	Más adelante diferentes autores identifican otros regímenes que pueden considerarse en algunos casos como situaciones independientes (e.g. \textit{close-following} o \textit{stop-and-go} \cite{Toledo2003, Liu2013}).
+}
 
+Introduce el concepto de que los cambios de carril obedecen a diferentes motivaciones. Por un lado, los cambios pueden ser \textbf{obligatorios} (denominado en la literatura como \gls{mlc}) cuando los vehículos se ven obligados a abandonar el carril que ocupan. Por otro lado, pueden ser \textbf{discrecionales} cuando el cambio obedece a motivaciones más relacionadas con la mejora del confort o de la situación actual de conducción (ver figura~\ref{fig:lane-change-mandatory-vs-discretional}).
 
-Primer trabajo: \cite{reuschel1950fahrzeugbewegungen}. Poco después \cite{Pipes1953} define el primer modelo concreto denominado car-following (tipo \textbf{mantenimiento de medida}). Más adelante, \cite{Chandler1958} presenta el modelo GHR (estímulo $\rightarrow$ respuesta). Algunas modificaciones son \cite{Gazis1959} y \cite{Bexelius1968}. Luego viene \cite{wiedemann1974simulation} con los psicofísicos.
+En su modelo Gipps propone un modelo para el cambio de carril al aproximarse a un cambio de dirección. Dicho modelo identifica tres distancias que caracterizan el comportamiento del conductor en función de cómo de lejos está dicho punto: (i) textbf{lejos}, en el que no existe condicionamiento en la decisión de cambio de carril, (ii) textbf{medio}, donde el conductor empieza a ignorar los cambio que dan ventaja de velocidad si no hacia carriles distanciados del de salida y (iii) \textbf{cerca} donde los vahículos deben estar en el carril de cambio de salida.
 
-Con los modelos psicofísicos se llegó a la conclusión de que existían diferentes situaciones en las que los estímulos y las respuestas obedecían a diferentes umbrales y que, por tanto, los modelos de tipo \textit{\idx{car-following}} no eran sino una clase de un conjunto más amplio de modelos.
+Otro concepto que incluye el modelo de Gipps y que exporta a modelos posteriores de cambio de carril\index{lane-changing} es el de ampliar el \textit{\idx{critical gap}} a más de un hueco: las distancias hasta el vehículo delantero y hasta el vehículo trasero, forzando a que durante el proceso de \idx{gap acceptance} las condiciones de ambos huecos tengan que ser aceptables.
 
-En 1978 \cite{Sparmann1978} define un modelo psicofísico de cambio de carril. Diferencia entre cambio a carril lento y a carril rápido. También diferencia entre lane selection y merging.
+Posteriormente, en \cite{wiedemann1992microscopic} se desarrolla un framework similar pero teniendo en cuenta los cambios a carriles lentos (para representar, por ejemplo, obstrucciones como accidentes o un vehículo lento) y a carriles rápidos (para situaciones como condiciones de la ruta). Además el autor incluye un modelo para influir en su desempeño en función del entorno actual (las características de los vehículos de alrededor) y el entorno potencial (la estimación de las características del entorno en momentos posteriores).
 
-\newthought{Llegados a este punto} (a medidados de la decada de los $80$) la existencia de diferentes situaciones dentro de los modelos de aceleración y la aparición de los primeros modelos de cambio de carril provocaron que los posteriores modelos y \textit{frameworks} estudiesen compuestos por dos o más submodelos.
-
-El principal problema reside en que cuantos más regímenes se tratan de agrupar en un mismo modelo, más aumenta el número de factores a generalizar y ajustar.
-
-
-\newthought{El trabajo de Gipps} en \cite{1981} es uno de los primeros modelos que agrupa varios regímenes distintos (concretamente \textit{\idx{car-following}} y \textit{\idx{free-flow}}). Sin embargo es más interesante su posterior trabajo \cite{Gipps1986} el cual puede considerarse además como la primera solución para el cambio de carril y es uno de los primeros modelos en incorporar varios regímenes individuales\sidenote{
-	Su trabajo no obstante esá apoyado en 
-}. Introduce los conceptos de MLC y DLC como originados por diferentes motivaciones.
-
-
-\newthought{Cooperación entre agentes}
+\begin{figure}
+	\missingfigure[figheight=4cm]{Tres ilustraciones, una para cada caso de lejos, medio y cerca..}
+	\caption{En el modelo de Gipps, la distancia al punto determina el grado de obligatoriedad del cambio.}
+	\label{fig:lane-change-type-depending-on-the-distance}
+\end{figure}
 
 \section{Modelado de conductores basado en \glsentrylong{ci}}
 
-Desde mediados de los años $90$ empezó a crecer el interés por aplicar técnicas de \gls{ai} a los \gls{its}. Hay razones principales por las que esto es así: la primera, por los éxitos cosechados por la rama de la \gls{ci}, los cuales atrayeron a investigadores de multitud de áreas incluida esta. La segunda, por el rápido desarrollo de la tecnología\sidenote{
+Desde mediados de los años $90$ empezó a crecer el interés por aplicar técnicas de \gls{ai} a los \gls{its}. Hay razones principales por las que esto es así: la primera, en los éxitos cosechados por la rama de la \gls{ci}, los cuales atrayeron a investigadores de multitud de áreas incluida esta. La segunda, por el rápido desarrollo de la tecnología\sidenote{
 	Cada vez es cada vez más barata, más precisa y con más funcionalidades. En la última década hemos vivido una explosión de dispositivos de todo tipo: teléfonos y relojes con GPS, acelerómetros y giroscopio, ordenadores completamente funcionales del tamaño de una moneda, sensores RADAR y LIDAR para uso amateur además de profesional y así un largo etcétera.
 }, que ha posibilitado la existencia de conjuntos de datos masivos con la capacidad de explotarlos y aprender de ellos.
 
 Algunos autores (\cite{Zhang2011}) se atreven a afirmar incluso que el futuro de las \gls{its} son las técnicas de la \gls{ci}, y que los resultados que se puedan cosechar de técnicas basadas en el desarrollo convencional de sistemas es marginal comparado con las que se obtendrán con el nuevo enfoque.
+
+Dentro de las \gls{its}, las áreas de aplicación de la \gls{ci} se centran en los siguientes conceptos: reconocimiento de patrones, caracterización de conductores y modelado de conductores. Es necesario mencionar que aunque se trate de tres áreas distintas, éstas suelen retroalimentarse, y es difícil encontrar estudios que se centren en una única área sin tocar el resto (figura~\ref{fig:three-main-applications-of-ci-in-its}). Por ello, aunque nuestro interés pueda centrarse en el modelado de conductores, es necesario conocer el estado de las demás áreas.
 
 \begin{figure}
 	\centering
@@ -230,10 +263,23 @@ Algunos autores (\cite{Zhang2011}) se atreven a afirmar incluso que el futuro de
 	\label{fig:three-main-applications-of-ci-in-its}
 \end{figure}
 
-Dentro de las \gls{its}, las áreas de aplicación de la \gls{ci} se centra en tres puntos: detección de patrones, caracterización de conductores y modelado de conductores. Es necesario mencionar que aunque se trate de tres áreas distintas, éstas suelen retroalimentarse, y es difícil encontrar estudios que se centren en una única área sin tocar el resto (figura~\ref{fig:three-main-applications-of-ci-in-its}). Y por ello, aunque nuestro interés pueda centrarse en el modelado de conductores, es necesario conocer el estado de las demás áreas.
+\begin{itemize}
+	\item Caracterización de conductores.
+	\item Modelado de conductores
+	\item Reconocimieto de patrones (para extracción y predicción).
+\end{itemize}
 
 ...
 
+En \cite{Hidas2002} también se desarrolla un modelo que separa las jerarquías en situaciones de \gls{mlc} y \gls{dlc}, además de añadir más situaciones que pueden disparar un cambio de carril. Algunos trabajos en la línea de los anteriores pueden ser \cite{Yang1996, Halati1997, Ahmed1999}.
+
+
+\newthought{Cooperación entre agentes}
+
+Una de las deficiencias de los modelos vistos hasta el momento es que no capturan los comportamientos de los diferentes tipos de conductor o de vehículo. Sin embargo, el comportamiento puede variar en función de los comportamientos de los vehículos que se encuentran en su entorno (\cite{Tordeux2010}).
+
+Algunos estudios recientes sí que los incorporan debido a que uso de modelos de la \gls{ci} como las \glsentrylongpl{ann} (e.g. \cite{Simonelli2009, Fusco2013}), que se alimentan con datos del coche y del entorno y, por tanto, llegan a aprender detalles de éstos. Entraremos más en detalle dentro de este mismo capítulo en éstas y otras técnicas de la \gls{ci}.
+...
 
 En \cite{Chaib-draa1994} proponen un framework para trabajar con tres tipos diferentes de situaciones (rutina, familiar y no familiar) en sistemas multiagente, demostrando la aplicación en escenarios de microsimulación urbana). Su modelo se basa en una estructura jerárquica definida por los niveles de comportamiento humano y de técnicas de razonamiento propuestas por \cite{Rasmussen1986} (skill-rule-knowledge). Los DVO aquí tienen las siguientes debilidades: no tienen memoria (sólo planean el segundo siguiente de acuerdo a la información actual) y tienen poco contacto directo con los demás DVOs de alrededor (saben del de delante y del de detrás, pero no de los lados).
 
@@ -264,24 +310,7 @@ En \cite{Kuge2000} proponen un framework de identificar comportamiento de conduc
 
 
 
-
-
-\subsection{Modelos de aceleración}
-
-
-
-En \cite{wiedemann1992microscopic} se proponen hasta cuatro clases diferentes de modelos de aceleración en función de las posiciones y velocidades relativas entre el vehículo sujeto y el siguiente: \textit{free-flow}, donde el vehículo no se ve afectado por el comportamiento del siguiente vehículo y se basa en velocidad que quiere alcanzar sin impedimentos (más allá de los impuestos por el tipo y condición de la vía), \textit{car-following} cuando el comportamiento del vehículo se ve influenciado por el vehículo delantero, obligando a disminuir la velocidad deseada en el conductor en cuestión, \textit{approaching} como situación intermedia entre las dos anteriores y \textit{emergency} cuando la situación es crítica (e.g. colisión inminente). Más adelante diferentes autores identifican otros regímenes que pueden considerarse en algunos casos como situaciones independientes (e.g. \textit{close-following} o \textit{stop-and-go} \cite{Toledo2003, Liu2013}).
-
-
-\newthought{Una de las deficiencias de los modelos vistos hasta el momento} es que no capturan los comportamientos de los diferentes tipos de conductor o de vehículo. Sin embargo, el comportamiento puede variar en función de los comportamientos de los vehículos que se encuentran en su entorno (\cite{Tordeux2010}).
-
-Algunos estudios recientes sí que los incorporan debido a que uso de modelos de la \gls{ci} como las \glsentrylongpl{ann} (e.g. \cite{Simonelli2009, Fusco2013}), que se alimentan con datos del coche y del entorno y, por tanto, llegan a aprender detalles de éstos. Entraremos más en detalle dentro de este mismo capítulo en éstas y otras técnicas de la \gls{ci}.
-
 \subsection{Modelos de cambio de carril}
-
-El tráfico real no está compuesto por un sólo carril, sino por varios. El cambio de carril ocurre cuando un vehículo se mueve del carril que está usando a un carril destino, ya sea porque quiere mejorar su circulación (e.g. quiere realizar un adelantamiento) o porque su ruta lo requiere (e.g. está próxima la rampa de salida que quiere tomar en una autopista).
-
-Este comportamiento mejora la velocidad media del flujo de la vía en situaciones de poca carga de tráfico, aunque pueden afectar a éste en formas de ondas de choque e interferir en éste (\cite{Sasoh2002, Jin2006}). En situaciones de carga de tráfico medio o de congestión pueden llegar a interferir incluso más que los modelos de \textit{\idx{car-following}} (\cite{Laval2006}).
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Dos ilustraciones, una con la selección de cambio de carril y otra con el cambio.}
@@ -293,29 +322,18 @@ Los modelos de cambio de carril o \textit{\idx{lane-change}} se ocupan de determ
 	\TODO{Escribir aquí un resumen del modelo de Gipps. Hay poco sitio. Mejor, así lo hago breve que la gente secansa de las formulitas. Si da para un par de ecuaciones, un par de párrafitos y una imagen, fetén.}
 } en $1986$ (\cite{Gipps1986}) es el conocido como primera solución al problema del cambio de carril.
 
-Sin embargo, a finales de la decada anterior, Sparmann definió un modelo psicofísico de cambio de carril más básico (\cite{Sparmann1978}), pero definiendo dos conceptos que aún hoy en día siguen en uso. El primero, la diferenciación entre cambio a carriles rápidos y lentos\sidenote{
-	En \cite{Sparmann1978} el autor entiende la derecha como el carril lento y la izquierda como el carril rápido, y es como se entiende dentro del contexto de esta tesis. Sin embargo en otros países esta correspondencia es al revés.
-}. El segundo, la diferenciación entre la selección de carril o \textbf{\idx{lane-selection}} y la ejecución del cambio o \textbf{\idx{merging}}.
+
+
+
 
 El primero de los conceptos se mantiene prácticamente constante en la mayoría de los modelos de la literatura. Sin embargo, algunos autores añaden nuevos pasos en al diferenciación de cambio de carril, anuque en general, dichos pasos sólo obedecen a pequeñas especializaciones antes o después de los pasos originales. Por ejemplo, en \cite{Ahmed1999} el autor propone la división del primer paso (\textit{\idx{lane-selection}}) en dos: \textit{\idx{change-decision}}\sidenote{
 	Este paso concreto definido en \cite{Ahmed1999} es en realidad parte del arbol de decisión probabilístico de su modelo. Dado que este modelo nicluye además un submodelo de aceleración dentro del árbol, es comprensible que quiera incluir dicho paso en el modelo de cambio de carril.
 } y \textbf{\idx{lane-selection}}.
 
-\newthought{Los cambios de carril obedecen a diferentes motivaciones}. Estas motivaciones se resumen en dos clases principales de cambio de carril: el cambio \textbf{obligatorio} (denominado \gls{mlc}) y el cambio \textbf{discrecional} (denominado \gls{dlc}) Éstos fueron introducidos por Gipps en su trabajo \cite{Gipps1986}. El primero obecede a un abandono de carril obligado, mientras que el segundo obedece a motivaciones más relacionadas con mejorar el confort o la situación actual de conducción (ver figura~\ref{fig:lane-change-mandatory-vs-discretional}).
-
-Al igual con la diferenciación en pasos, la clasificación entre cambio obligatorio y discrecional se mantiene en toda la literatura. Y también algunos autores añaden sus variaciones para especializar casos concretos como en \cite{Ahmed1999}, donde se incluye el cambio \textbf{forzado} como especialización de cambio en situaciones de mucha congestión de tráfico\sidenote{
+Y también algunos autores añaden sus variaciones para especializar casos concretos como en \cite{Ahmed1999}, donde se incluye el cambio \textbf{forzado} como especialización de cambio en situaciones de mucha congestión de tráfico\sidenote{
 	La razón de esta especialización es el mal desempeño del modelo de Gipps en situaciones de congestión, ya que supone que el cambio de carril ocurre sin forzar a los vehículos del carril de destino a modificar su comportamiento como disminuir la velocidad o parar.
 }.
 
-\newthought{¿Cómo decidir un cambio de carril?}. Quizá esta sea la razón por la que el modelo de Gipps ha sido el más versionado hasta la fecha. En \cite{Gipps1986} el autor propuso un modelo para el cambio de carril al aproximarse a un cambio de dirección. Dicho modelo identifica tres distancias que caracterizan el comportamiento del conductor en función de cómo de lejos está dicho punto: (i) textbf{lejos}, en el que no existe condicionamiento en la decisión de cambio de carril, (ii) textbf{medio}, donde el conductor empieza a ignorar los cambio que dan ventaja de velocidad si no hacia carriles distanciados del de salida y (iii) \textbf{cerca} donde los vahículos deben estar en el carril de cambio de salida.
-
-\begin{figure}
-	\missingfigure[figheight=4cm]{Dos ilustraciones, una con un cambio de carril obligatorio (que se acabe el carril por ejemplo) y otro discrecional (que se vea un vehículo lento como un camión y el coche adelantando).}
-	\caption{Los cambios de carril se clasifican en la literatura como aquellos necesarios para continuar con la conducción u \textbf{obligatorios} y aquellos útiles para mejorar la situación de conducción o \textbf{discrecionales}.}
-	\label{fig:lane-change-mandatory-vs-discretional}
-\end{figure}
-
-Posteriormente, en \cite{wiedemann1992microscopic} se desarrolla un framework similar pero teniendo en cuenta los cambios a carriles lentos (para representar, por ejemplo, obstrucciones como accidentes o un vehículo lento) y a carriles rápidos (para situaciones como condiciones de la ruta). Además el autor incluye un modelo para influir en su desempeño en función del entorno actual (las características de los vehículos de alrededor) y el entorno potencial (la estimación de las características del entorno en momentos posteriores). En \cite{Hidas2002} también se desarrolla un modelo que separa las jerarquías en situaciones de \gls{mlc} y \gls{dlc}, además de añadir más situaciones que pueden disparar un cambio de carril. Algunos trabajos en la línea de los anteriores pueden ser \cite{Yang1996, Halati1997, Ahmed1999}.
 
 \begin{figure}
 	\includegraphics{toledo-2007-behavior-model-tree}
@@ -328,26 +346,7 @@ Todos ellos se basan en una estructura jerarquizada y secuencial. Su principal p
 } (figura~\ref{fig:toledo-2007-behavior-model-tree}).
 
 
-\newthought{La viabilidad en un cambio de carril} se determina haciendo uso de modelos denominados \textit{\idx{gap acceptance}}, donde los vehículos calculan si caben o no en un determinado hueco y actuan en consecuencia.
-
-En su origen los modelos de \textit{\idx{gap acceptance}} se desarrollaron para resolver situaciones en intersecciones e incorporaciones. En la actualidad son los modelos que se usan en el momento de después de seleccionar el cambio de carril y antes de ejecutar físicamente el cambio.
-
-En general se basan en el mismo principio. Una fórmula determina si, en función de una serie de parámetros entre los que se incluye el hueco del carril destino, el cambio es viable, en cuyo caso el cambio se ejecuta. En la ecuación~\ref{eq:gap-acceptance-model} se describe el modelo típico de un modelo de \idx{gap accceptance}. 
-
-\marginnote{
-	\paragraph{Modelo típico de \textit{\idx{gap acceptance}}}
-	
-	\begin{equation}
-	f_{g_l}(t) = \twopartf {0} {g_l(t) < g^{crit}_l(t)} {1} {g_l(t) \geq g^{crit}_l(t)}
-	\label{eq:gap-acceptance-model}
-	\end{equation}
-	
-	En un momento $t$, el cambio a un carril $l$ es viable ($f_{g_l}(t) = 1$) o no ($f_{g_l}(t) = 0$) dependiendo de si el espacio en el carril destino $g_l(t)$ es mayor o menor que un \enquote{hueco crítico} (en inglés \idx{critical gap}) $g^{crit}_l(t)$.
-}
-
-Algunos ejemplos de factores de influencia en el modelo de \textit{\idx{gap acceptance}} son la del tipo de cambio (\gls{mlc} o \gls{dlc}, usado en \cite{Ahmed1999, Toledo2007}), la velocidad absoluta del vehículo (\cite{Gipps1986, Ahmed1996}), la relativa con los vehículos delantero y trasero del carril destino (\cite{Ahmed1999}) o incluso el peso de encontrarse o no en una situación de cooperación (\cite{Ahmed1999, Hidas2002}).
-
-El \textit{\idx{critical gap}} no está limitado a un único hueco. Tanto el modelo de \cite{Gipps1986} como algunos posteriores (e.g. \cite{Ahmed1996}) dividen el hueco crítico en dos: las distancias hasta el vehículo delantero y hasta el vehículo trasero. Y para aceptar la condción, ambos han de ser aceptables.
+(GAP ACCEPTANCE) Algunos ejemplos de factores de influencia en el modelo de \textit{\idx{gap acceptance}} son la del tipo de cambio (\gls{mlc} o \gls{dlc}, usado en \cite{Ahmed1999, Toledo2007}), la velocidad absoluta del vehículo (\cite{Gipps1986, Ahmed1996}), la relativa con los vehículos delantero y trasero del carril destino (\cite{Ahmed1999}) o incluso el peso de encontrarse o no en una situación de cooperación (\cite{Ahmed1999, Hidas2002}).
 
 \newthought{Un cambio de carril no tiene por qué involucrar al conductor que lo ejecuta}. El \cite{Hidas2002}, el autor resalta un problema del modelo de \cite{Gipps1986} heredado por multitud de modelos basados en éste: el cambio en situaciones de congestión ha de ser o bien forzado o bien a través de colaboración; en caso contrario, los vehículos no abandonarán el carril congestionado.
 
