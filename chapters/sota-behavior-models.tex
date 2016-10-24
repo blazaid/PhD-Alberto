@@ -41,7 +41,9 @@ Conducir implica la ejecución de múltiples tareas en paralelo, cada una de ell
 
 \cite{michon1985critical} divide en tres los niveles de abstracción de las tareas: el de \textbf{control}, que se ocupa de las tareas de más bajo nivel como son el mantenimiento de la velocidad o los cambios de marcha, el de \textbf{maniobra} o táctico, donde sus tareas son las encargadas de mantener la interacción con el entorno como los cambios de carril o el control de las señales y demás estímulos externos, y el \textbf{estratégico}, que engloba las tareas de más alto nivel como el razonamiento y la planificación de rutas (ver figura~\ref{fig:three-levels-of-human-driving})\sidenote{Algunos estudios llegan incluso a definir intervalos temporales de tiempo de razonamiento para las tareas de cada nivel. Por ejemplo, en \cite{Alexiadis2004} se establecen los siguientes tiempos: alrededor de $30$ segundos para las tareas del nivel de planificación, de $5$ a $30$ segundos para las tareas de nivel táctico y por debajo de los $5$ segundos para las tareas de control.}.
 
-Otro modelo jerárquico de tres niveles muy referenciado en la literatura es el \textit{skill-rule-knowledge} de \cite{Rasmussen1986}, el cual no es más que una pequeña generalización del modelo propuesto por \cite{michon1985critical} al comportamiento y razonamiento humano. Postula que éste se puede basar en \textbf{habilidades} (actividades completamente automatizadas de la forma \textit{percepción $\rightarrow$ ejecución}), en \textbf{reglas} (situaciones familiares o estereotipadas de la forma \textit{percepción $\rightarrow$ reconocimiento de la situación $\rightarrow$ planificación $\rightarrow$ ejecución}) y en \textbf{conocimiento} (actividades conscientes que implican resolución de problemas y toma de decisiones de la forma \textit{percepción $\rightarrow$ reconocimiento de la situación $\rightarrow$ toma de decisión $\rightarrow$ planificación de la ejecución}) que suelen ser necesarias en situaciones poco familiares).
+Otro modelo jerárquico de tres niveles muy referenciado en la literatura es el \textit{skill-rule-knowledge} de \cite{Rasmussen1986}, el cual no es más que una pequeña generalización del modelo propuesto por \cite{michon1985critical} al comportamiento y razonamiento humano. Postula que éste se puede basar en \textbf{habilidades} (actividades completamente automatizadas de la forma \textit{percepción $\rightarrow$ ejecución}), en \textbf{reglas} (situaciones familiares o estereotipadas de la forma \textit{percepción $\rightarrow$ reconocimiento de la situación $\rightarrow$ planificación $\rightarrow$ ejecución}) y en \textbf{conocimiento} (actividades conscientes que implican resolución de problemas y toma de decisiones de la forma \textit{percepción $\rightarrow$ reconocimiento de la situación $\rightarrow$ toma de decisión $\rightarrow$ planificación de la ejecución}) que suelen ser necesarias en situaciones poco familiares)\sidenote{
+	El framework desarrollado en \cite{Chaib-draa1994} se basa en esta jerarquización del razonamiento humano y abarca los $3$ niveles de abstracción representando en un escenario urbano tres tipos diferentes de situaciones: rutinaria, familiar y no familiar.
+}.
 
 El comportamiento de un conductor al volante tiene una relación directa con el nivel de abstracción táctico. Se puede entender como el encargado de planificar acciones a corto plazo para conseguir objetivos a corto plazo. Las tareas de control son automáticas e influyen poco o nada en las tomas de decisión relacionadas con tareas del estilo de cuánto acelerar en esta situación o cuándo cambiar de carril. Las tareas estratégicas estan a un nivel más alto de abstracción (e.g. la ruta a seguir hasta mi destino) y tampoco afectan demasiado al comportamiento en situaciones concretas\sidenote{
 	No obstante algunos trabajos han demostrado que en ocasiones la planificación de la ruta sí afecta a decisiones normalmente asociadas el nivel táctico como por ejemplo la preferencia de un conductor por uno u otro carril de la vía \cite{Wei2000, Toledo2003}.
@@ -137,7 +139,7 @@ Los primeros trabajos sobre modelos de conducción datan de comienzo de los año
 Este modelo se puede considerar de una clase que denominaremos \textbf{mantenimiento de medida} dado que su objetivo es mantener constantemente una distancia segura, determinada a partir de la ecuación de la velocidad cuando el tiempo no baja de $1,02$ segundos. Otros trabajos trabajan con el mantenimiento de otras medidas como distancia relativa al parachoque delantero o trasero.
 
 \marginnote{
-	El modelo \glsentryshort{ghr} presentado en \cite{Chandler1958} es el modelo más conocido antes de la introducción del modelo de Gipps. Desarrollado a finales de los años $50$ dentro de la \textit{General Motors}, se caracteriza por el uso del concepto \textit{estímulo $\rightarrow$ respuesta}, donde la respuesta del vehículo (el cambio en la tasa de aceleración) es debida a la activación de un estímulo (la variación en la distancia con el vehículo delantero) tras pasar un tiempo de retardo $\tau$. Concretamente calcula el valor de la aceleración $a$ en un instante $t$ como:
+	El modelo \glsentryshort{ghr} (también conocido como modelo \gls{gm}) presentado en \cite{Chandler1958} es el modelo más conocido antes de la introducción del modelo de Gipps. Desarrollado a finales de los años $50$ dentro de la \textit{General Motors}, se caracteriza por el uso del concepto \textit{estímulo $\rightarrow$ respuesta}, donde la respuesta del vehículo (el cambio en la tasa de aceleración) es debida a la activación de un estímulo (la variación en la distancia con el vehículo delantero) tras pasar un tiempo de retardo $\tau$. Concretamente calcula el valor de la aceleración $a$ en un instante $t$ como:
 	
 	\begin{equation}
 	a(t) = c v^m(t) \frac{\Delta v(t - \tau)}{\Delta x^l(t - \tau)}
@@ -223,12 +225,30 @@ En su modelo Gipps propone un modelo para el cambio de carril al aproximarse a u
 
 Otro concepto que incluye el modelo de Gipps y que exporta a modelos posteriores de cambio de carril\index{lane-changing} es el de ampliar el \textit{\idx{critical gap}} a más de un hueco: las distancias hasta el vehículo delantero y hasta el vehículo trasero, forzando a que durante el proceso de \idx{gap acceptance} las condiciones de ambos huecos tengan que ser aceptables.
 
-Posteriormente, en \cite{wiedemann1992microscopic} se desarrolla un framework similar pero teniendo en cuenta los cambios a carriles lentos (para representar, por ejemplo, obstrucciones como accidentes o un vehículo lento) y a carriles rápidos (para situaciones como condiciones de la ruta). Además el autor incluye un modelo para influir en su desempeño en función del entorno actual (las características de los vehículos de alrededor) y el entorno potencial (la estimación de las características del entorno en momentos posteriores).
-
 \begin{figure}
 	\missingfigure[figheight=4cm]{Tres ilustraciones, una para cada caso de lejos, medio y cerca..}
 	\caption{En el modelo de Gipps, la distancia al punto determina el grado de obligatoriedad del cambio.}
 	\label{fig:lane-change-type-depending-on-the-distance}
+\end{figure}
+
+Posteriormente, en \cite{wiedemann1992microscopic} se desarrolla un framework similar pero teniendo en cuenta los cambios a carriles lentos (para representar, por ejemplo, obstrucciones como accidentes o un vehículo lento) y a carriles rápidos (para situaciones como condiciones de la ruta). Además el autor incluye un modelo para influir en su desempeño en función del entorno actual (las características de los vehículos de alrededor) y el entorno potencial (la estimación de las características del entorno en momentos posteriores).
+
+El modelo de Gipps sin embargo adolecía de dos problemas clave. Muchos de estos problemas fueron heredados por multitud de trabajos posteriores que basaban su funcionamiento o su concepto en éste.
+
+\newthought{Un cambio de carril no sólo involucra} al conductor que lo ejecuta. El \cite{Hidas2002}, el autor resalta el problema de que, en situaciones de congestión, el cambio ha de ser o bien forzado o bien a través de colaboración; en caso contrario, los vehículos no abandonarán el carril congestionado.
+
+Uno de los primeros trabajos en abordar el comportamiento colaborativo es el de \cite{Fritzsche1994}. En éste, se describe un modelo de microsimulación para analizar cuellos de botella (e.g. un accidente donde se bloquea uno de los carriles). Los autores describen el problema pero no consideran la modificación de los modelos en cambio de carril. \cite{Yang1996} sin embargo presenta un entorno de simulación (\gls{mitsim}) que introduce, entre otros, un modelo de cambio de carril en el que se habla específicamente de comportamiento colaborativo. Introducen el concepto de función de cortesía (\textit{\idx{courtesy yielding function}}) la cuál afecta al modelo de \textit{\idx{car-following}} de un vehículo cuando otro intenta incorporarse al carril. Sin embargo, los detalles de dicho proceso no están especificados en el artículo.
+
+\marginnote{
+
+}
+
+\newthought{Además, al usar árboles secuenciales}, los factores son evaluados uno detrás de otro hasta encontrar una situación favorable, en cuyo caso el resto de factores no son evaluados. Por ejemplo, tal y como está formado el modelo de \cite{Hidas2002}, un \gls{mlc} inhibe cualquier posibilidad de realizar un \gls{dlc} independientemente de la utilidad de ambos. Para evitar esta limitación, algunos autores hacen uso de técnicas como modelos probabilísticos. Ejemplos de avances en esta línea de trabajo pueden ser \cite{Toledo2003, Toledo2007, Wei2000} (figura~\ref{fig:toledo-2007-behavior-model-tree}).
+
+\begin{figure}
+	\includegraphics{toledo-2007-behavior-model-tree}
+	\caption{Estructura del modelo de comportamiento de los vehículos propuesto por \cite{Toledo2007}. Este modelo se basa en el concepto de \enquote{objetivo a corto plazo} para elaborar un \enquote{plan a corto plazo} apoyándose, para ello, en un arbol de decisión. Aunque mantiene la clasificación, es probabilístico y existe opción de realizar un \gls{dlc} en lugar de un \gls{mlc} aún en situaciones donde acciones de ambas clases se activen. Clasifica las entradas en cuatro grupos de variables: las de vecindad (e.g. huecos y velocidades), las de planificación de ruta (e.g. distancia a la salida objetivo), las relacionadas con la experiencia (e.g. evitar un determinado carril en un determinado tramo) y las de estilo de conducción. Fuente: \cite{Toledo2007}.\TODO{Quizá la es muy grande. Hay que ver si merece más la pena ponerla en horizontal ocupando todo lo largo de la página y si es así, quitamos la fuente de la ilustración. Además es que es fea. Y además creo que la figura no refleja la eleccińo probabilística.}}
+	\label{fig:toledo-2007-behavior-model-tree}
 \end{figure}
 
 \section{Modelado de conductores basado en \glsentrylong{ci}}
@@ -239,7 +259,7 @@ Desde mediados de los años $90$ empezó a crecer el interés por aplicar técni
 
 Algunos autores (\cite{Zhang2011}) se atreven a afirmar incluso que el futuro de las \gls{its} son las técnicas de la \gls{ci}, y que los resultados que se puedan cosechar de técnicas basadas en el desarrollo convencional de sistemas es marginal comparado con las que se obtendrán con el nuevo enfoque.
 
-Dentro de las \gls{its}, las áreas de aplicación de la \gls{ci} se centran en los siguientes conceptos: reconocimiento de patrones, caracterización de conductores y modelado de conductores. Es necesario mencionar que aunque se trate de tres áreas distintas, éstas suelen retroalimentarse, y es difícil encontrar estudios que se centren en una única área sin tocar el resto (figura~\ref{fig:three-main-applications-of-ci-in-its}). Por ello, aunque nuestro interés pueda centrarse en el modelado de conductores, es necesario conocer el estado de las demás áreas.
+Dentro de las \gls{its}, las áreas de aplicación de la \gls{ci} se centran en los siguientes conceptos: reconocimiento de patrones, caracterización de conductores y modelado de conductores. Es necesario mencionar que aunque se trate de áreas distintas, éstas suelen retroalimentarse, y es difícil encontrar estudios que se centren en una única área sin tocar el resto (figura~\ref{fig:main-applications-of-ci-in-its}). Por ello, aunque nuestro interés pueda centrarse en el modelado de conductores, es necesario conocer el estado de las demás áreas.
 
 \begin{figure}
 	\centering
@@ -250,26 +270,59 @@ Dentro de las \gls{its}, las áreas de aplicación de la \gls{ci} se centran en 
 	\fill[blue!20!white]  (330:1.8) circle (2);
 	\end{scope}
 	\node at ( 90:1.8) [align=center] {
-		Detección de\\patrones
+		Reconocimiento\\ de patrones
 	};
 	\node at ( 210:1.8) [align=center] {
-		Caracterización\\de conductores
+		Caracterización\\ de conductores
 	};
 	\node at ( 330:1.8) [align=center] {
-		Modelado de\\conductores
+		Modelado\\ de conductores
 	};
 	\end{tikzpicture}
-	\caption{Las tres principales areas de aplicación de la \glsentrylong{ci} en los \glsentrylong{its} son la detección de patrones, la caracterización de conductores y la modelización de los mismos. Aunque son áreas de aplicación distintas, los estudios en general tienden a solaparse. Por ejemplo, las técnicas de detección de patrones pueden usarse como forma de extracción de características para una caracterización de conductores y a su vez esta caracterización puede usarse como base para su modelado.}
-	\label{fig:three-main-applications-of-ci-in-its}
+	\caption{Las principales areas de aplicación de la \glsentrylong{ci} en los \glsentrylong{its} son el reconocimiento de patrones, la caracterización de conductores y la modelización de los mismos. Aunque son áreas de aplicación distintas, los estudios en general tienden a solaparse. Por ejemplo, las técnicas de reconocimiento de patrones pueden usarse como forma de extracción de características para una caracterización de conductores y a su vez esta caracterización puede usarse como base para su modelado.}
+	\label{fig:main-applications-of-ci-in-its}
 \end{figure}
 
 \begin{itemize}
-	\item Caracterización de conductores.
-	\item Modelado de conductores
-	\item Reconocimieto de patrones (para extracción y predicción).
+	\item En el \textbf{reconocimiento de patrones} las técnicas suelen trabajar en los temas de extracción de características y de predicción de comportamientos. La cantidad de datos que se pueden generar en un coche es tal que el trabajo a través de información en curdo es inviable (no digamos ya cuando los datos son extraídos de una flota de vehículos).
+	\item La \textbf{caracterización de conductores} es interesante debido a que permite la identificación de perfiles de conducción y su clasificación de acuerdo a indicadores extraídos de su manera de conducir.
+	\item El \textbf{modelado de conductores} nos permite la reproducción de comportamientos en simulación.
 \end{itemize}
 
+Las principales técnicas de \gls{ci} utilizadas en el modelado de conductores son las \gls{fl} y las \glspl{ann}.
+
+\newthought{Las \glsentrylongplsp{ann}} fueron el punto de entrada de la \gls{ci} en la modelización de conductores. Los perceptrones multicapa y sus nuevas técnicas de entrenamiento se habían convertido en la nueva solución universal para todo aquel problema del que se disponiesen datos.
+
+Las \gls{ann} se han aplicado mucho sobre el campo de las \glspl{its} en general, no sólo en modelado de conductores sino en prácticamente todos los aspectos como la conducción autónoma (\cite{huval2015empirical}), la clasificación de conductores (\cite{DiazAlvarez2014}) o la predicción (\cite{Dougherty1993, chan2012neural}) entre muchos otros.
+
+El primer trabajo de la literatura sobre la aplicación de \glspl{ann} al modelado de conductores es \cite{Fix1990}, donde los autores desarrollan un controlador para imitar el comportamiento de un conductor. El estudio partió de una fase de conducción real en el simulador de donde se extrajeron datos para posteriormente entrenar un modelo basado en un perceptrón multicapa.
+
+\newthought{Poco después, en $1992$ la \glsentrylongsp{fl}} fue usada también para un modelo de \textit{\idx{car-following}}. Después de todo los modelos psicofísicos aparecieron debido a que la percepción del conductor no es absoluta, sino imprecisa.
+
+Los modelos de conducción basados en \glsentrylong{fl} parten de la hipótesis de que la información que maneja el conductor a la hora de tomar decisiones proviene de un análisis no demasiado detallado de la situación que le rodea; es decir, la percepción y el comportamiento humanos son estímulos percibidos de manera aproximada. Por tanto, el resultado debe ser fruto de un proceso de razonamiento que tenga en cuenta esa imprecisión en los estímulos.
+
+El primer trabajo documentado en \gls{fl} es \cite{Kikuchi1992} (extendido en \cite{Chakroborty1999}), donde los autores aplicaron la lógica difusa sobre un modelo de aceleración de tipo \textit{\idx{car-following}}. Utilizaron el modelo \gls{ghr} (Ecuación~\ref{eq:ghr-car-following-model}) como base y determinaron las entradas al modelo como valores de pertenencia a conjuntos difusos. Las entradas del modelo eran las distancia y velocidad relativa entre el vehículo modelado y el delantero y la variación en la aceleración del vehículo delantero. Como salida, el cambio en la tasa de aceleración sobre el vehículo modelado.
+
+\newthought{En realidad ambos trabajos, aunque} orientados hacia el modelo de \textit{\idx{car-following}} incluían más comportamientos por el simple hecho de su naturaleza: al ser entrenados con datos de conductores reales y manejar la información con incertidumbre, aprendieron a comportarse en diferentes regímenes (e.g. \textit{\idx{free-flow}}).
+
+\begin{figure}
+	\missingfigure[figheight=4cm]{Creo que una ilustración pequeña aquí de un controlador difuso y una red neuronal quedaría genial.}
+	\caption{Al trabajar con métodos como las \glsentrylongplsp{ann} o la \glsentrylongsp{fl}, la inexactitud y la incertidumbre son ciudadanos de primera clase y forman parte de los modelos solución.}
+	\label{fig:ann-and-fl-work-with-uncertainty}
+\end{figure}
+
+
+
+
+
+
+
+\newthought{Existen otras técnicas} usadas en la 
+
+En \cite{Hou2011} proponen una técnica basada en modelos ocultos de Markov para la identificación de posibles cambios de carril. Los conductores conducen vehículos en un simulador de autopistas. A partir del ángulo de giro del volante el modelo es capaz de estimar, con una precisión del $0,95$, si el conductor va a realizar un cambio a la derecha, a la izquierda o si va a mantenerse en el carril. Creo que \cite{Berndt2008} es también por el estilo. De hecho puede que el primero es haya \enquote{inspirado} mucho.
 ...
+
+Otros trabajos relacionados con la influencia del entorno y en el comportamiento colaborativo son \cite{Ahmed1999}.
 
 En \cite{Hidas2002} también se desarrolla un modelo que separa las jerarquías en situaciones de \gls{mlc} y \gls{dlc}, además de añadir más situaciones que pueden disparar un cambio de carril. Algunos trabajos en la línea de los anteriores pueden ser \cite{Yang1996, Halati1997, Ahmed1999}.
 
@@ -279,9 +332,11 @@ En \cite{Hidas2002} también se desarrolla un modelo que separa las jerarquías 
 Una de las deficiencias de los modelos vistos hasta el momento es que no capturan los comportamientos de los diferentes tipos de conductor o de vehículo. Sin embargo, el comportamiento puede variar en función de los comportamientos de los vehículos que se encuentran en su entorno (\cite{Tordeux2010}).
 
 Algunos estudios recientes sí que los incorporan debido a que uso de modelos de la \gls{ci} como las \glsentrylongpl{ann} (e.g. \cite{Simonelli2009, Fusco2013}), que se alimentan con datos del coche y del entorno y, por tanto, llegan a aprender detalles de éstos. Entraremos más en detalle dentro de este mismo capítulo en éstas y otras técnicas de la \gls{ci}.
+
+Los DVO aquí tienen las siguientes debilidades: no tienen memoria (sólo planean el segundo siguiente de acuerdo a la información actual) y tienen poco contacto directo con los demás DVOs de alrededor (saben del de delante y del de detrás, pero no de los lados).
 ...
 
-En \cite{Chaib-draa1994} proponen un framework para trabajar con tres tipos diferentes de situaciones (rutina, familiar y no familiar) en sistemas multiagente, demostrando la aplicación en escenarios de microsimulación urbana). Su modelo se basa en una estructura jerárquica definida por los niveles de comportamiento humano y de técnicas de razonamiento propuestas por \cite{Rasmussen1986} (skill-rule-knowledge). Los DVO aquí tienen las siguientes debilidades: no tienen memoria (sólo planean el segundo siguiente de acuerdo a la información actual) y tienen poco contacto directo con los demás DVOs de alrededor (saben del de delante y del de detrás, pero no de los lados).
+
 
 
 En~\cite{sekizawa2007modeling} describen modelos supervisados offline para capturar el comportamiento del conductor basados en auto-regresión a trozos. Más adelante lo extienden en~\cite{terada2010multi}, aunque los datos de entrenamiento son extraídos directamente de simulaciones, no del \enquote{mundo real\textsuperscript{TM}}.
@@ -335,24 +390,10 @@ Y también algunos autores añaden sus variaciones para especializar casos concr
 }.
 
 
-\begin{figure}
-	\includegraphics{toledo-2007-behavior-model-tree}
-	\caption{Estructura del modelo de comportamiento de los vehículos en \cite{Toledo2007}. Este modelo se basa en el concepto de \enquote{objetivo a corto plazo} para elaborar un \enquote{plan a corto plazo} apoyándose, para ello, en un arbol de decisión. El agente comprueba constantemente se desea o no cambiar de carril, y una vez decidido comprueba la viabilidad. Es interesante destacar que, en cualquier caso, toda decisión finaliza con la comprobación de la aceleración. Fuente: \cite{Toledo2007}.\TODO{Quizá la es muy grande. Hay que ver si merece más la pena ponerla en horizontal ocupando todo lo largo de la página y si es así, quitamos la fuente de la ilustración. Además es que es fea.}}
-	\label{fig:toledo-2007-behavior-model-tree}
-\end{figure}
-
-Todos ellos se basan en una estructura jerarquizada y secuencial. Su principal problema es que los factores son evaluados uno detrás de otro hasta encontrar una situación favorable, en cuyo caso el resto de factores no son evaluados. Por ejemplo, tal y como está formado el modelo de \cite{Hidas2002}, un \gls{mlc} inhibe cualquier posibilidad de realizar un \gls{dlc} independientemente de la utilidad de ambos. Para evitar esta limitación, algunos autores hacen uso de técnicas como modelos probabilísticos. Ejemplos de avances en esta línea de trabajo pueden ser \cite{Toledo2003, Toledo2007, Wei2000}\sidenote{
-	El modelo propuesto por \cite{Toledo2003, Toledo2007}, aunque mantienen la clasificación, es probabilístico y existe opción de realizar un \gls{dlc} en lugar de un \gls{mlc} aún en situaciones donde acciones de ambas clases se activen. Clasifica las entradas en cuatro grupos de variables: las de vecindad (e.g. huecos y velocidades), las de planificación de ruta (e.g. distancia a la salida objetivo), las relacionadas con la experiencia (e.g. evitar un determinado carril en un determinado tramo) y las de estilo de conducción.
-} (figura~\ref{fig:toledo-2007-behavior-model-tree}).
 
 
 (GAP ACCEPTANCE) Algunos ejemplos de factores de influencia en el modelo de \textit{\idx{gap acceptance}} son la del tipo de cambio (\gls{mlc} o \gls{dlc}, usado en \cite{Ahmed1999, Toledo2007}), la velocidad absoluta del vehículo (\cite{Gipps1986, Ahmed1996}), la relativa con los vehículos delantero y trasero del carril destino (\cite{Ahmed1999}) o incluso el peso de encontrarse o no en una situación de cooperación (\cite{Ahmed1999, Hidas2002}).
 
-\newthought{Un cambio de carril no tiene por qué involucrar al conductor que lo ejecuta}. El \cite{Hidas2002}, el autor resalta un problema del modelo de \cite{Gipps1986} heredado por multitud de modelos basados en éste: el cambio en situaciones de congestión ha de ser o bien forzado o bien a través de colaboración; en caso contrario, los vehículos no abandonarán el carril congestionado.
-
-Uno de los primeros trabajos en abordar el comportamiento colaborativo es el de \cite{Fritzsche1994}. En éste, se describe un modelo de microsimulación para analizar cuellos de botella (e.g. un accidente donde se bloquea uno de los carriles). Es un caso típico donde los vehículos no pueden cambiar de carril sin la participación activa del resto de vehículos. Sin embargo la descripción del modelo se realiza de forma muy sucinta y no considera comportamiento colaborativo en el cambio de carril.
-
-Más adelante, en \cite{Yang1996} se presenta el entorno de microsimulacińo \gls{mitsim} que introduce, entre otros, un modelo de cambio de carril en el que se habla específicamente de comportamiento colaborativo en cambio de carriles haciendo uso de lo que denominan \textit{\idx{courtesy yielding function}}\sidenote{Describir un poquito cómo funciona el tema de la courtesy yielding function. La traducción literal viene a ser algo así como } (algo así como \textit{función de cesión de paso de cortesía}), la cual se usa para para hacer espacio al vehículo que va a incorporarse al carril. Sin embargo, los detalles de dicho proceso no están especificados en el paper. Otros trabajos relacionados con la influencia del entorno y en el comportamiento colaborativo son \cite{Ahmed1999}.
 
 \section{La \glsentrylong{ci} en los modelos de conducción}
 
@@ -417,10 +458,6 @@ Sin embargo, los conductores basan sus decisiones en sus percepciones y éstas, 
 
 \subsection{Modelos basados en lógica difusa}
 
-Los modelos de conducción basados en \glsentrylong{fl} parten de la hipótesis de que la información que maneja el conductor a la hora de tomar decisiones proviene de un análisis no demasiado detallado de la situación que le rodea; es decir, la percepción y el comportamiento humanos son estímulos percibidos de manera aproximada. Por tanto, el resultado debe ser fruto de un proceso de razonamiento que tenga en cuenta esa imprecisión en los estímulos.
-
-El primer trabajo documentado en \gls{fl} es \cite{Kikuchi1992}, donde los autores aplicaron la lógica difusa sobre un modelo de aceleración de tipo \textit{\idx{car-following}}. Utilizaron el modelo \gls{ghr} como base y determinaron las entradas al modelo como valores de pertenencia a conjuntos difusos. Las entradas del modelo eran las distancias y velocidades relativas entre el vehículo modelado y el delantero y las variaciones en la aceleración del vehículo delantero, y como salidael cambio en la tasa de aceleración sobre el vehículo modelado. Más adelante los mismos autores aplicaron el mismo razonamiento sobre el modelo de General Motors (Modelo GMC)~\cite{Chakroborty1999}.
-
 ...
 
 Data-driven approaches have already been used in developing a fully adaptive cruise control system (\cite{Simonelli2009, Bifulco2014})
@@ -438,9 +475,7 @@ Problemas:
 
 \cite{zheng2013}
 
-Las redes neuronales se han aplicado mucho sobre el campo de las ITS en general, y sobre la conducción autónoma y el análisis del comportamiento de los conductores (\cite{Dougherty1995}).
 
-En \cite{Fix1990} implementaron un controlador basado en redes neuronales para el comportamiento del car following en un microsimulador entrenando dicho modelo previamente con datos extraídos de un conductor en dicho simulador.
 
 \cite{Jia2003} son los primers en usar datos reales de un coche instrumentado usando el método Five-Wheel-System, que está especificado en su paper de aquella manera y que no me entero de nada. A partir de las entradas correspondientes a velocidad relativa, espacio relativo, velocidad y velocidad deseada (para ello, clasifican al conductor de agresivo, normal, conservador) determinan la aceleración/deceleración del vehículo. No lo aplican a ningún simulador, sólo que los valores se ajustan.
 
@@ -462,9 +497,6 @@ En \cite{Hunt1994} desarrollan un modelo de decisión usando redes neuronales. E
 
 \cite{Simonelli2009} have applied neural networks to develop a real-time learning mode for capturing car-following behavior taking into consideration individual drivers’ characteristics. \cite{Bifulco2014} extended the work of \cite{Simonelli2009} into a framework for reproducing spacing in adaptive cruise control applications. While in this research we have used data derived from the same experiment as \cite{Simonelli2009}, the scope and level of complexity of the studies is very different. While all studies adopt a data-driven approach, in this paper the objective is to create a simple and practical methodology for speed estimation using car-following models for use in a microscopic traffic simulator.
 
-\subsection{Otras técnicas}
-
-En \cite{Hou2011} proponen una técnica basada en modelos ocultos de Markov para la identificación de posibles cambios de carril. Los conductores conducen vehículos en un simulador de autopistas. A partir del ángulo de giro del volante el modelo es capaz de estimar, con una precisión del $0,95$, si el conductor va a realizar un cambio a la derecha, a la izquierda o si va a mantenerse en el carril. Creo que \cite{Berndt2008} es también por el estilo. De hecho puede que el primero es haya \enquote{inspirado} mucho.
 
 \subsection{Aproximaciones híbridas}
 
