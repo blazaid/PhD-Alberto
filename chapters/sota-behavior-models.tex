@@ -229,7 +229,7 @@ Uno de los primeros trabajos en abordar el comportamiento colaborativo es el de 
 
 \begin{figure}
 	\includegraphics{toledo-2007-behavior-model-tree}
-	\caption{Estructura del modelo de comportamiento de los vehículos propuesto por \cite{Toledo2007}. Este modelo se basa en el concepto de \enquote{objetivo a corto plazo} para elaborar un \enquote{plan a corto plazo} apoyándose, para ello, en un arbol de decisión. Aunque mantiene la clasificación, es probabilístico y existe opción de realizar un \gls{dlc} en lugar de un \gls{mlc} aún en situaciones donde acciones de ambas clases se activen. Para ello implementa agentes basados en utilidad donde ésta se calcula teniendo en cuenta cada uno de los nodos en un árbol de decisión. Fuente: \cite{Toledo2007}.\TODO{Quizá la es muy grande. Hay que ver si merece más la pena ponerla en horizontal ocupando todo lo largo de la página y si es así, quitamos la fuente de la ilustración.}}
+	\caption{Estructura del modelo de comportamiento de los vehículos propuesto por \cite{Toledo2007}. Este modelo se basa en el concepto de \enquote{objetivo a corto plazo} para elaborar un \enquote{plan a corto plazo} apoyándose, para ello, en un arbol de decisión. Aunque mantiene la clasificación, es probabilístico y existe opción de realizar un \gls{dlc} en lugar de un \gls{mlc} aún en situaciones donde acciones de ambas clases se activen. Para ello implementa agentes basados en utilidad donde ésta se calcula teniendo en cuenta cada uno de los nodos en un árbol de decisión. Fuente: \cite{Toledo2007}.}
 	\label{fig:toledo-2007-behavior-model-tree}
 \end{figure}
 
@@ -237,13 +237,19 @@ Uno de los primeros trabajos en abordar el comportamiento colaborativo es el de 
 
 \section{Modelado de conductores basado en \glsentrylong{ci}}
 
-Desde mediados de los años $90$ empezó a crecer el interés por aplicar técnicas de \gls{ai} a los \gls{its}. Hay razones principales por las que esto es así: la primera, en los éxitos cosechados por la rama de la \gls{ci}, los cuales atrayeron a investigadores de multitud de áreas incluida esta. La segunda, por el rápido desarrollo de la tecnología\sidenote{
-	Cada vez es cada vez más barata, más precisa y con más funcionalidades. En la última década hemos vivido una explosión de dispositivos de todo tipo: teléfonos y relojes con GPS, acelerómetros y giroscopio, ordenadores completamente funcionales del tamaño de una moneda, sensores RADAR y LIDAR para uso amateur además de profesional y así un largo etcétera.
+Desde mediados de los años $90$ empezó a crecer el interés por aplicar técnicas de \glsentrylongsp{ai} a los \gls{its}. Hay dos razones por las que esto es así: la primera, en los éxitos cosechados por la rama de la \gls{ci}, los cuales atrayeron a investigadores de multitud de áreas incluida esta. La segunda, por el rápido desarrollo de la tecnología\sidenote{
+	Cada vez es más barata, más precisa y con más funcionalidades. En la última década hemos vivido una explosión de dispositivos de todo tipo: teléfonos y relojes con GPS, acelerómetros y giroscopio, ordenadores completamente funcionales del tamaño de una moneda, sensores RADAR y LIDAR para uso amateur además de profesional y así un largo etcétera.
 }, que ha posibilitado la existencia de conjuntos de datos masivos con la capacidad de explotarlos y aprender de ellos.
 
 Algunos autores (\cite{Zhang2011}) se atreven a afirmar incluso que el futuro de las \gls{its} son las técnicas de la \gls{ci}, y que los resultados que se puedan cosechar de técnicas basadas en el desarrollo convencional de sistemas es marginal comparado con las que se obtendrán con el nuevo enfoque.
 
 Dentro de las \gls{its}, las áreas de aplicación de la \gls{ci} se centran en los siguientes conceptos: reconocimiento de patrones, caracterización de conductores y modelado de conductores. Es necesario mencionar que aunque se trate de áreas distintas, éstas suelen retroalimentarse, y es difícil encontrar estudios que se centren en una única área sin tocar el resto (figura~\ref{fig:main-applications-of-ci-in-its}). Por ello, aunque nuestro interés pueda centrarse en el modelado de conductores, es necesario conocer el estado de las demás áreas.
+
+\begin{itemize}
+	\item En el \textbf{reconocimiento de patrones} las técnicas suelen trabajar en los temas de extracción de características y de predicción de comportamientos. La cantidad de datos que se pueden generar en un coche es tal que el trabajo a través de información en curdo es inviable (no digamos ya cuando los datos son extraídos de una flota de vehículos).
+	\item La \textbf{caracterización de conductores} es interesante debido a que permite la identificación de perfiles de conducción y su clasificación de acuerdo a indicadores extraídos de su manera de conducir.
+	\item El \textbf{modelado de conductores} nos permite la reproducción de coómportamientos en simulación.
+\end{itemize}
 
 \begin{figure}
 	\centering
@@ -267,15 +273,11 @@ Dentro de las \gls{its}, las áreas de aplicación de la \gls{ci} se centran en 
 	\label{fig:main-applications-of-ci-in-its}
 \end{figure}
 
-\begin{itemize}
-	\item En el \textbf{reconocimiento de patrones} las técnicas suelen trabajar en los temas de extracción de características y de predicción de comportamientos. La cantidad de datos que se pueden generar en un coche es tal que el trabajo a través de información en curdo es inviable (no digamos ya cuando los datos son extraídos de una flota de vehículos).
-	\item La \textbf{caracterización de conductores} es interesante debido a que permite la identificación de perfiles de conducción y su clasificación de acuerdo a indicadores extraídos de su manera de conducir.
-	\item El \textbf{modelado de conductores} nos permite la reproducción de coómportamientos en simulación.
-\end{itemize}
-
 Las principales técnicas de \gls{ci} utilizadas en el modelado de conductores son las \gls{ann} y la \glspl{fl}. Es comprensible ya que, las primeras son una de las técnicas principales en la rama del \gls{ml}, y la segunda por ser una manera sencilla y cercana a la manera de razonar del ser humano.
 
 En general, aun sólo por la propia naturaleza de las técnicas, los modelos incluyen siempre más de un único comportamiento: al ser entrenados con datos de conductores reales y manejar la información con incertidumbre, aprendieron a comportarse en diferentes regímenes (e.g. \textit{\idx{free-flow}}).
+
+\newthought{Las \glsentrylongplsp{ann}} fueron el punto de entrada de la \gls{ci} en la modelización de conductores. Los perceptrones multicapa y sus nuevas técnicas de entrenamiento se habían convertido en la nueva solución universal para todo aquel problema del que se disponiesen datos.
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Creo que una ilustración pequeña aquí de un controlador difuso y una red neuronal quedaría genial.}
@@ -283,9 +285,7 @@ En general, aun sólo por la propia naturaleza de las técnicas, los modelos inc
 	\label{fig:ann-and-fl-work-with-uncertainty}
 \end{figure}
 
-\newthought{Las \glsentrylongplsp{ann}} fueron el punto de entrada de la \gls{ci} en la modelización de conductores. Los perceptrones multicapa y sus nuevas técnicas de entrenamiento se habían convertido en la nueva solución universal para todo aquel problema del que se disponiesen datos.
-
-Las \gls{ann} se han aplicado mucho sobre el campo de las \glspl{its} en general, no sólo en modelado de conductores sino en prácticamente todos los aspectos como la conducción autónoma (\cite{huval2015empirical}), la clasificación de conductores (\cite{DiazAlvarez2014}) o la predicción (\cite{Dougherty1993, chan2012neural}) entre muchos otros.
+Las \gls{ann} se han aplicado mucho sobre el campo de las \glspl{its} en general, no sólo en modelado de conductores sino en prácticamente todos los aspectos como la clasificación de conductores \cite{DiazAlvarez2014}, la conducción autónoma \cite{huval2015empirical} o la predicción (\cite{Dougherty1993, chan2012neural} entre muchos otros.
 
 El primer trabajo de la literatura sobre la aplicación de \glspl{ann} al modelado de conductores es \cite{Fix1990}, donde los autores desarrollan un controlador para imitar el comportamiento de un conductor.
 
@@ -299,11 +299,11 @@ El trabajo de \cite{Simonelli2009} también se apoya en datos extraídos de ento
 
 Estos modelos parten de la hipótesis de que la información que maneja el conductor a la hora de tomar decisiones proviene de un análisis no demasiado detallado de la situación que le rodea; es decir, la percepción y el comportamiento humanos son estímulos percibidos de manera aproximada. Por tanto, el resultado debe ser fruto de un proceso de razonamiento que tenga en cuenta esa imprecisión en los estímulos, y la lógica difusa es ideal para modelar la incertidumbre del mundo real y por tanto de las percepciones de los conductores.
 
-\cite{Kikuchi1992} es el primer trabajo documentado sobre el tema, extendido posteriormente en \cite{Chakroborty1999}. En él, los autores aplicaron la lógica difusa sobre un modelo de aceleración de tipo \textit{\idx{car-following}}. Utilizaron el modelo \gls{ghr} (Ecuación~\ref{eq:ghr-car-following-model}) como base y determinaron las entradas al modelo como valores de pertenencia a conjuntos difusos. Las entradas del modelo eran las distancia y velocidad relativa entre el vehículo modelado y el delantero y la variación en la aceleración del vehículo delantero. Como salida, el cambio en la tasa de aceleración sobre el vehículo modelado.
+\cite{Kikuchi1992} es el primer trabajo documentado sobre el tema. En él, los autores aplicaron la lógica difusa sobre un modelo de aceleración de tipo \textit{\idx{car-following}}. Utilizaron el modelo \gls{ghr} (Ecuación~\ref{eq:ghr-car-following-model}) como base y determinaron las entradas al modelo como valores de pertenencia a conjuntos difusos. Las entradas del modelo eran las distancia y velocidad relativa entre el vehículo modelado y el delantero y la variación en la aceleración del vehículo delantero. Como salida, el cambio en la tasa de aceleración sobre el vehículo modelado.
 
 \cite{McDonald1997, Wu2003} desarrollaron del modelo \gls{flowsim} con similares características pero incluyendo el comportamiento de cambio de carril, además en dos categorías: al carril lento (principalmente para evitar incordiar a los vehículos que se aproximan por detrás a velocidades superiores, usan dos variables, presión del vehículo trasero y satisfacción en el gap del carril destino) y al rápido (para ganar velocidad, variables: velocidad ganada con el cambio y oportunidad, es decir, seguridad y confort con el cambio).
 
-Los modelos hasta el momento se basaban en conjuntos difusos y reglas definidos \textit{ad-hoc}. En el trabajo \cite{Chakroborty2003} se introduce el concepto de personalización, ajustando los conjuntos difusos de las variables de entrada y salida a valores extraídos de conductores reales. Este ajuste se realiza mediante la representación del controlador difuso como red neuronal y posterior ajuste mediante entrenamiento de dicha red (back-propagation). A este trabajo le siguen muchas otras aproximaciónes \idx{neuro-fuzzy} como \cite{Ma2004, Zheng2005}
+Los modelos hasta el momento se basaban en conjuntos difusos y reglas definidos \textit{ad-hoc}. En \cite{Chakroborty2003} se introduce el concepto de personalización, ajustando los conjuntos difusos de las variables de entrada y salida a valores extraídos de conductores reales. Este ajuste se realiza mediante la representación del controlador difuso como red neuronal y posterior ajuste mediante entrenamiento de dicha red (back-propagation). A este trabajo le siguen muchas otras aproximaciónes \idx{neuro-fuzzy} como \cite{Ma2004, Zheng2005}
 
 Más adelante, en \cite{Das2009}, dentro de su simulador \gls{aasim} añaden los conceptos de \gls{mlc} y \gls{dlc} a los comportamientos de cambos de carril. En \gls{mlc} las reglas tienen en cuenta la distancia al siguiente punto característico (e.g. una salida) y el número de cambios de carril necesarios. En \gls{dlc} deciden si cambiar o no basándose en el nivel de satisfacción del conductor y en el nivel de congestión en los carriles adjacentes\sidenote{
 	Este trabajo se apoya en trabajos anteriores que separan las jerarquías en situaciones de \gls{mlc} y \gls{dlc} como \cite{Yang1996, Halati1997, Hidas2002}. Estos trabajos, no obstante, no pertenecen al área de la \gls{ci}.
