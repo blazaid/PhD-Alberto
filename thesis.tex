@@ -97,8 +97,10 @@
 \usepackage{smartdiagram}
 \usepackage[caption=false]{subfig}
 
+
 \usepackage{tikz}
 \usetikzlibrary{matrix,arrows,arrows.meta,shapes,trees,mindmap}
+
 \usepackage{smartdiagram}
 
 \usepackage{pgfplots}
@@ -146,13 +148,14 @@
 
 \frontmatter
 \maketitle
+\input{front/chair}
 \input{front/copyright}
-
 \input{front/dedication}
+\input{front/abstract-esp}
+\input{front/abstract-eng}
 \cleardoublepage
 
 \tableofcontents
-\printglossaries
 \listoffigures
 \listoftables
 
@@ -165,6 +168,8 @@
 \input{chapters/behavior-model-study}
 \input{chapters/results}
 \input{chapters/conclusions}
+\printglossaries
+
 \backmatter
 
 \bibliography{thesis}
