@@ -7,6 +7,7 @@
 \usepackage{listingsutf8}
 \usepackage{xspace}
 
+
 \setlength{\parskip}{0.5\baselineskip}%
 \setlength{\parindent}{0pt}%
 
@@ -99,7 +100,7 @@
 
 
 \usepackage{tikz}
-\usetikzlibrary{matrix,arrows,arrows.meta,shapes,shapes.geometric,trees,mindmap}
+\usetikzlibrary{matrix,arrows,arrows.meta,shapes,shapes.geometric,trees,mindmap,shadows}
 
 \usepackage{smartdiagram}
 
@@ -142,6 +143,18 @@
 	\right.
 }
 
+\usepackage{afterpage}
+
+
+\titleformat{\part}[display]
+	{\Huge\filleft}
+	{\textsc{\thepart}}
+	{20pt}
+	{
+		\pagecolor{black}\afterpage{\nopagecolor}
+		\color{white}
+	}
+
 \begin{document}
 
 \hyphenpenalty=10
@@ -161,11 +174,14 @@
 
 \mainmatter
 \input{chapters/introduction}
+\part{Estado de la cuestión}
 \input{chapters/sota-ic}
 \input{chapters/sota-traffic-simulation}
 \input{chapters/sota-behavior-models}
+\part{Desarrollo de la tesis}
 \input{chapters/developed-software}
 \input{chapters/behavior-model-study}
+\part{Resultados y conclusiones}
 \input{chapters/results}
 \input{chapters/conclusions}
 \printglossaries

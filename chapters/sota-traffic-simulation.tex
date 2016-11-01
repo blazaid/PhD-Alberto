@@ -1,27 +1,31 @@
 \chapter{Simulación de tráfico}
 \label{ch:sota-traffic-simulation}
 
-\begin{marginfigure}
-	\missingfigure[figheight=4cm]{ok}
-	\caption{A lo largo del capítulo, se utilizarán indistintamente los términos \glsentryshort{dvu}, conductor y vehículo para referirse al mismo concepto. En caso de no ser así, se indicará de manera explícita.}
-	\label{fig:dvu-driver-and-vehicle-are-the-same-concept}
-\end{marginfigure}
+\marginnote{
+	A lo largo del capítulo, se utilizarán indistintamente los términos \glsentryshort{dvu}, conductor y vehículo para referirse al mismo concepto. En caso de no ser así, se indicará de manera explícita.
+}
 
-En un sistema de comportamiento tan caótico como lo es el del tráfico, obtener modelos de su funcionamiento es una tarea prácticamente imposible. Por un lado, el numero de variables existentes es innumerable y en muchos casos con relaciones no detectables a primera vista. Por otro, es un sistema que funciona en el mundo real, es decir, donde las mediciones en muchos caso afectan a los resultados y donde muchas mediciones no se pueden realizar, ya sea por regulaciones vigentes o por imposibilidad física.
+El tráfico es un sistema de comportamiento tan caótico que extraer modelos de su funcionamiento es una tarea prácticamente imposible. Por un lado, la cantidad de variables existentes es innumerable y en muchos casos con relaciones no detectables a primera vista. Por otro, es un sistema que funciona en el mundo real, es decir, donde las mediciones en unos casos afectan a los resultados y en otros, directamente no se pueden realizar, ya sea por regulaciones vigentes o por imposibilidad física.
 
 Los simuladores de tráfico son herramientas de software que, usando diferentes modelos para representar sus componentes, describen el tráfico como sistema, permitiendo, entre otros:
 
 \begin{itemize}
 	\item Extracción de resultados y conclusiones en escenarios de tráfico determinados.
 	\item Implementación de técnicas determinadas en tráfico simulado para su evaluación sin necesidad de alterar el tráfico real.
-	\item Introducción de modificaciones en puntos determinados (e.g. espaciales o temporales) de un escenario conocido para estudiar la divergencia enla evolución del tráfico.
+	\item Introducción de modificaciones en puntos determinados (e.g. espaciales o temporales) de un escenario conocido para estudiar la divergencia en la evolución del tráfico.
 \end{itemize}
 
 El objetivo principal de un simulador de tráfico es el de hacer que sus modelos se parezcan lo máximo posible a la realidad. En este capítulo vamos a ver cuál es la realidad actual de este tipo de simuladores, cuáles son sus diferentes tipologías y formas de modelar los diferentes aspectos del tráfico y, posteriormente, qué simulador de los disponibles en el mercado es el idóneo para nuestro trabajo.
 
-Limitaremos nuestro estudio a los simuladores de \glspl{dvu}, obviando otros tipos de simulación de tráfico que nada tienen que ver con esta temática, como por ejemplo los orientados a la evaluación de sistemas de señalización inteligentes (e.g.~\cite{jin2016evaluation}), a la estimación de emisiones (e.g.~\cite{quaassdorff2016microscale}) o los de carreras (e.g. \cite{Wymann2013}\sidenote{
-	Aunque \gls{torcs} es usado como entorno de simulación en diversos concursos e investigaciones, se trata de un juego, y es que los juegos son un sandbox perfecto como entorno de simulación, ya que presentan una abstracción del dominio sobre el que trabajar. Algunos trabajos interesantes que usan como base \gls{torcs} son \cite{munoz2010human} y \cite{van2009robust}, donde en ambos se hace uso de conjuntos de datos de conductores reales (en el simulador) para emular su comportamiento mediante redes neuronales (el primero usando un enfoque clásico de entrenamiento mediante \textit{\idx{back propagation}} y el segundo usando algoritmos genéticos multiobjetivo). Sin embargo, este tipo de modelos se encuentran más cercanos al nivel de control que al nivel de maniobra descritos en la figura~\ref{fig:three-levels-of-human-driving}.
-}).
+\marginnote{
+	El entorno de simulación \gls{torcs}, usado en multitud de concursos e investigaciones, se trata de un juego. Los juegos son un \textit{sandbox} perfecto ya que presentan una abstracción de complejidad acotada sobre el dominio que trabajar.
+
+	\includegraphics{torcs-logo}
+	
+	Algunos trabajos interesantes que usan como base \gls{torcs} para emular comportamientos de conductores reales (conduciendo en el simulador) son \cite{munoz2010human}, donde se usan perceptrones multicapa entrenados con técnicas de \textit{\idx{back propagation}} y \cite{van2009robust}, donde también se usan perceptrones, pero esta vez entrenados mediante \glsentrylongsp{ga} multiobjetivo. Sin embargo, este tipo de modelos se encuentran más cercanos al nivel de control que al nivel táctico (ver figura~\ref{fig:three-levels-of-human-driving}.
+}
+
+Limitaremos nuestro estudio a los simuladores de \glspl{dvu}, obviando otros tipos de simulación de tráfico que nada tienen que ver con esta temática, como por ejemplo los orientados a la evaluación de sistemas de señalización inteligentes (e.g.~\cite{jin2016evaluation}), a la estimación de emisiones (e.g.~\cite{quaassdorff2016microscale}) o los de carreras (e.g. \cite{Wymann2013}).
 
 \section{Clasificación de simuladores de tráfico}
 
@@ -30,7 +34,7 @@ Los aspectos simulables y medibles del problema del tráfico son muy diversos, d
 \begin{itemize}
 	\item Del nivel de \textbf{complejidad} del tráfico (e.g. modelar una vía por la que circula un centenar de coches no es lo mismo que modelar una ciudad por la que circulan millones).
 	\item De \textbf{qué} queremos medir (e.g. evaluar a un conductor en una situación determinada o evaluar la evolución del flujo de tráfico en un cuello de botella causado por un accidente).
-	\item De \textbf{cómo} (e.g. un \ac{ca} se modela de forma diferente a un modelo lineal de vías o carriles).
+	\item De \textbf{cómo} (e.g. un \glsentrylongsp{ca} se modela de forma diferente a un modelo lineal de vías o carriles).
 \end{itemize}
 
 El resto de la sección ofrece una visión de las principales categorías existentes para clasificar a los simuladores de tráfico.
@@ -39,10 +43,59 @@ El resto de la sección ofrece una visión de las principales categorías existe
 
 La complejidad en una simulación se refiere al nivel de detalle que queremos alcanzar durante la ejecución de la misma y/o en sus resultados. Es evidente que según aumentamos el detalle en la simulación aumenta la cantidad de cálculo. Por ejemplo, si queremos modelar el comportamiento de $10$ billones de canicas cayendo por un tubo es considerablemente más eficiente modelarlas como un fluido con una serie de parámetros que como una colección de elementos individuales, cada uno con sus propiedades (e.g. masa, aceleración, \ldots) e interaccionando entre sí.
 
+\begin{figure*}[t]
+	\centering
+	\begin{tikzpicture}[
+	every node/.style = {draw, rounded corners=3pt, semithick},
+	ROOT/.style = {fill=blue!30, inner sep=2mm, font=\bfseries},
+	L2/.style = {fill=orange!30},
+	L3/.style = {
+		fill=green!30,
+		grow=down,
+		xshift=0.5em,
+		anchor=west, 
+		edge from parent path={
+			(\tikzparentnode.south) |- (\tikzchildnode.west)
+		}
+	},
+	edge from parent/.style = {draw, thick},
+	LD1/.style = {level distance=5ex},
+	LD2/.style = {level distance=10ex},
+	LD3/.style = {level distance=15ex},
+	LD4/.style = {level distance=20ex},
+	level 1/.style = {sibling distance=40mm}
+	]
+	\node[ROOT] {Aspectos medibles}
+	[edge from parent fork down]
+	child{node[L2] {Complejidad}
+		child[L3,LD1] {node[L3] {micro}}
+		child[L3,LD2] {node[L3] {macro}}
+		child[L3,LD3] {node[L3] {meso}}
+		child[L3,LD4] {node[L3] {\ldots}}
+	}
+	child{node[L2] {¿Qué medir?}
+		child[L3,LD1] {node[L3] {vehículos}}
+		child[L3,LD2] {node[L3] {flujo en vía}}
+		child[L3,LD3] {node[L3] {componentes}}
+		child[L3,LD4] {node[L3] {\ldots}}
+	}
+	child {node[L2] {¿Cómo medir?}
+		child[L3,LD1] {node[L3] {\glsentrylongplsp{mas}}}
+		child[L3,LD2] {node[L3] {\glsentrylongplsp{ca}}}
+		child[L3,LD3] {node[L3] {Ecuaciones diferenciales}}
+		child[L3,LD4] {node[L3] {\ldots}}
+	};
+	\end{tikzpicture}
+	\caption{Los aspectos medibles del problema del táfico son muy diversos, y dependen del nivel de granularidad (i.e. complejidad) al que se quiere llegar, de qué queremos medir y de cómo lo queremos hacer.}
+	\label{fig:how-to-simulate-traffic}
+\end{figure*}
+
 El caso de los simuladores de tráfico es similar. En éstos existe un amplio intervalo de granularidades, desde por ejemplo el flujo de entrada en una autovía hasta el consumo de carburante de un vehículo en ciudad. Lo más común es clasificar los simuladores dentro de dos grandes grupos, los cuales se ilustran en la figura~\ref{fig:granularities-in-traffic-simulation}:
 
 \begin{itemize}
-	\item \textbf{Microsimulación} o simulación de tipo \textbf{micro}. Su objetivo es estudiar, desde un punto de vista de granularidad fina (e.g. vehículos o peatones), las micropropiedades del flujo de tráfico como, por ejemplo, los cambios de carril, las aproximaciones a vehículos delanteros o los adelantamientos, para evaluar su comportamiento. Tiene dos principales ventajas, la posibilidad de estudiar el tráfico como un todo a partir de sus elementos más simples (ofreciendo una representación más fiel de éste) y la posibilidad de estudiar cada elemento por separado. Sin embargo, la principal desventaja de este tipo de modelos es que cada elemento de la simulación requiere de cómputo independiente y por tanto simulaciones con alto contenido de elementos pueden llegar a ser inviables\sidenote{Existen técnicas de computación distribuida que superan ampliamente los límites impuestos por la computación en un único nodo. Un ejemplo relativamente reciente es el simulador de IBM \textit{Megaffic}. Éste implementa un modelo de granularidad micro donde cada elemento es un agente independiente (i.e. sistema multiagente) usando para ello entornos con cientos de núcleos de proceso que proveen de capacidad suficiente para modelar ciudades enteras como Tokio (ver~\cite{Osogami2012} y~\cite{Suzumura2012}).}.
+	\item \textbf{Microsimulación} o simulación de tipo \textbf{micro}. Su objetivo es estudiar, desde un punto de vista de granularidad fina (e.g. vehículos o peatones), las micropropiedades del flujo de tráfico como, por ejemplo, los cambios de carril, las aproximaciones a vehículos delanteros o los adelantamientos, para evaluar su comportamiento. Sus dos principales ventajas son la posibilidad de estudiar el tráfico como un todo a partir de sus elementos más simples (ofreciendo una representación más fiel de éste) y la posibilidad de estudiar cada elemento por separado. Sin embargo, su principal desventaja es que cada elemento de la simulación requiere de cómputo independiente y por tanto simulaciones con alto contenido de elementos pueden llegar a ser inviables\sidenote{
+		Existen técnicas de computación distribuida que superan ampliamente los límites impuestos por la computación en un único nodo. Un ejemplo relativamente reciente es el simulador de IBM \textit{Megaffic}. Éste implementa un modelo de granularidad micro donde cada elemento es un agente independiente (i.e. \glsentrylongplsp{mas}) usando para ello entornos con cientos de núcleos de proceso que proveen de capacidad suficiente para modelar ciudades enteras como Tokio (ver~\cite{Osogami2012} y~\cite{Suzumura2012}).
+	}.
 	\item \textbf{Macrosimulación} o simulación de tipo \textbf{macro}. Este tipo de modelos centran su esfuerzo en estudiar el flujo de tráfico como un todo (generalmente como fluido), explorando sus macropropiedades (e.g. evolución del tráfico, efectos onda, velocidad media o flujo en vías). Su ventaja principal es que a nivel macroscópico permiten estudiar propiedades que a nivel microscópico requeriría una cantidad ingente de recursos. Sin embargo, con este modelo es imposible obtener información precisa de un elemento en particular del tráfico.
 \end{itemize}
 
@@ -75,70 +128,76 @@ Existen otras dos formas de clasificar los simuladores en función de cómo evol
 \begin{figure}
 	\centering
 	\includegraphics[width=10cm]{images/cellular-automata-based-sim}
-	\caption{Simulador de tráfico basado en \glsentryshortpl{ca}. En éste, el espacio se divide en celdas que pueden, o bien estar vacías, o bien ocupadas por un vehículo a una velocidad (más oscuro implica más lento). Concretamente muestra la evolución a lo largo del tiempo del movimiento de un modelo de \gls{car-following} de $5$ vehículos donde en eje $x$ representa la posición en la vía y el eje $y$ el momento temporal (iteración) de la vía. Ilustración generada con el simulador \texttt{nagel-scherckenberg-demo} desarrollado en esta tesis.}
+	\caption{Simulador de tráfico basado en \glsentryshort{ca}. El espacio se divide en celdas que pueden estar vacías u ocupadas por un vehículo a una velocidad (más oscuro implica más lento). Concretamente muestra la evolución a lo largo del tiempo del movimiento de un modelo de \textit{car-following} de $2$ vehículos donde en eje $x$ representa la posición en la vía y el eje $y$ el momento temporal (iteración) de la vía. Fuente: simulador \texttt{nagel-scherckenberg-demo} (Ver capítulo \nameref{ch:developed-software}).}
 	\label{fig:cellular-automata-based-sim}
 \end{figure}
 
 En el caso de la dimensión \textbf{espacio}, la clasificación diferencia las simulaciones que se mueven por un espacio discreto o por uno continuo:
 
 \begin{itemize}
-	\item Espacio \textbf{discreto}. Simulación donde el espacio está dividido en celdas que nosmalmente sólo pueden estar ocupadas por un elemento en un momento determinado. Este es el caso, por ejemplo, de los simuladores basados en \acp{ca}. La figura~\ref{fig:cellular-automata-based-sim} ilustra el comportamiento de uno de estos tipos de simulador.
-	\item Espacio \textbf{continuo}. Simulación que transcurre en una secuencia infinita de puntos en el espacio. Es el caso por ejemplo de los simuladores basados en modelos lineales, como podemos ver en la figura~\ref{fig:car-following-based-sim}.
+	\item Espacio \textbf{discreto}. Simulación donde el espacio está dividido en celdas que (normalmente) sólo pueden estar ocupadas por un elemento en un momento determinado. Este es el caso, por ejemplo, de los simuladores basados en \acp{ca} (figura~\ref{fig:cellular-automata-based-sim}.
+	\item Espacio \textbf{continuo}. Simulación que transcurre en una secuencia infinita de puntos en el espacio. Es el caso por ejemplo de los simuladores basados en modelos lineales (figura~\ref{fig:car-following-based-sim}).
 \end{itemize}
 
 En el caso de la dimensión \textbf{tiempo}, la división se realiza en los mismos términos que en los del espacio:
 
 \begin{itemize}
-	\item Tiempo \textbf{discreto}. También denominada \textit{simulación de eventos discretos}, divide el tiempo en intervalos discretos, generalmente (aunque existen excepciones) de longitud fija durante toda la simulación. Los simuladores basados en \acp{ca} son también simuladores típicos discretos, ya que cada posición en el espacio se va calculando para cada intervalo discreto de tiempo (ver figuras~\ref{fig:cellular-automata-based-sim} y~\ref{fig:nagel-schreck}).
-	\item Tiempo \textbf{continuo}. En estos simuladores el tiempo es un factor más para un modelo de ecuaciones diferenciales. La figura~\ref{fig:car-following-based-sim} ilustra un modelo de \gls{car-following} que puede implementarse en una simulación de tiempo continuo si la aceleración viene determinada por un modelo que entre otros factores incluye el tiempo.
+	\item Tiempo \textbf{discreto}. También denominada \textit{simulación de eventos discretos}, divide el tiempo en intervalos discretos, generalmente (aunque existen excepciones) de longitud fija durante toda la simulación. Los simuladores basados en \acp{ca} son también simuladores típicos discretos, ya que cada posición en el espacio se va calculando para cada intervalo discreto de tiempo (figuras~\ref{fig:cellular-automata-based-sim} y~\ref{fig:nagel-schreck}).
+	\item Tiempo \textbf{continuo}. En estos simuladores el tiempo es un factor más para un modelo de ecuaciones diferenciales. La figura~\ref{fig:car-following-based-sim} ilustra un modelo de \textit{\idx{car-following}} que puede implementarse en una simulación de tiempo continuo si la aceleración viene determinada por un modelo que entre otros factores incluye el tiempo.
 \end{itemize}
 
-Dado que en nuestro caso queremos conocer la situación exacta del vehículo y no una situación aproximada en una separación discreta del espacio. Esto nos dirige hacia simuladores de espacio continuo. Por otro lado, realizamos la recolección de datos en intervalos cuantificables de tiempo, los cuales serán usados para modelar los comportamientos de los conductores y para contrastar los resultados; por tanto, la elección en la dimensión tiempo ha de ser de eventos discretos.
-
-\begin{figure}
+\begin{figure*}[t]
 	\centering
 	\includegraphics{images/car-following-based-sim}
-	\caption{Ejemplo de un modelo lineal en un espacio continuo. La posición del vehículo es un valor $x \in \mathbb{R}$. Este ejemplo muestra un modelo de \gls{car-following} donde el comportamiento de la aceleración del vehículo es determinado por la distancia al coche siguiente. \TODO{Si hago yo la ilustración, me quito de esta cita y de este dibujo tan feo.} Fuente:~\cite{Tordeux2011}.}
+	\caption{Ejemplo de un modelo lineal en un espacio continuo. La posición del vehículo es un valor $x \in \mathbb{R}$. Este ejemplo muestra un modelo de \textit{car-following} donde el comportamiento de la aceleración del vehículo es determinado por la distancia al coche siguiente. Fuente:~\cite{Tordeux2011}.}
 	\label{fig:car-following-based-sim}
-\end{figure}
+\end{figure*}
+
+En nuestro caso queremos conocer la situación exacta del vehículo y no una situación aproximada en una separación discreta del espacio. Esto nos dirige hacia simuladores de \textbf{espacio continuo}. Por otro lado, realizamos la recolección de datos en intervalos cuantificables de tiempo, los cuales serán usados para modelar los comportamientos de los conductores y para contrastar los resultados; por tanto, la elección en la dimensión tiempo ha de ser de \textbf{eventos discretos}.
 
 \section{Modelos de microsimulación}
 
-Los simuladores que se basan en un modelo de granularidad micro están en su mayoría implementados en dos tipos de paradigma: \acrlongplsp{ca} y \acrlongplsp{mas}.
+Los simuladores que se basan en un modelo de granularidad micro están en su mayoría implementados en dos tipos de paradigma: \glsentrylongplsp{ca} y \glsentrylongplsp{mas}.
 
 Existe un tercer punto de vista a la hora de implementar este tipo de modelos, que es el de los sistemas de partículas. Sin embargo, su ámbito de aplicación es el mismo que el del punto de vista macroscópico, esto es, usar sistemas de partículas para el análisis del tráfico como fluido. Por tanto, el resto de la sección describirá los dos tipos principales sin tener en cuenta éste último.
 
 \subsection{Microsimulación basada en \glsentrylongplsp{ca}}
 
-Un \ac{ca} es una colección ordenada de celdas o \textit{células} ordenadas en un espacio $n$-dimensional que parcelan el universo en estudio. Cada una de ellas se encuentra en un estado (e.g. contiene un valor numérico), y el estado de toda la malla se actualiza de manera síncrona (esto es, todas a la vez) en intervalos regulares de tiempo denominados \textit{ciclos}. El cambio de estado de cada célula depende de los valores de las células vecinas y del mismo algoritmo de modificación al que responden todas y cada una de las células.\sidenote{Existen arquitecturas diseñadas para operar de esta manera, esto es, arquitecturas basadas en \acp{ca} (e.g.~\cite{Margolus1993}). En ellas, cada ciclo de reloj actualiza todas las celdas de memoria del autómata. Éstas arquitecturas se suelen usar para la implementación de modelos físicos superando en varios órdenes de magnitud la capacidad computacional de las arquitecturas tradicionales.}.
-
-Estos modelos de microsimulación, debido a la propia naturaleza de los \acp{ca}, se encuentran clasificados como simuladores de tiempo y espacio discreto, y se usa debido a su facilidad de implementación y a su eficiencia, ya que es fácilmente paralelizable.
-
-El modelo clásico de esta aproximación es el propuesto por Nagel-Scherckenberg en su artículo \textit{A cellular automaton model for freeway traffic} \cite{Nagel1992}, un modelo teórico creado para la simulación de tráfico en autopistas. La figura~\ref{fig:nagel-schreck} muestra la evolución del tráfico en una autopista a lo largo del tiempo en una implementación basada en este paradigma. El resúmen de su funcionamiento es el siguiente:
-
-\begin{figure}
+\begin{figure}[t]
 	\centering
 	\includegraphics{images/nagel-schreck}
-	\caption{Aparición de retenciones en una autopista de $250$ celdas de usando el modelo Nagel-Scherckenberg. La densidad de ocupación es de $50$ coches en la vía, la velocidad máxima es de $5 c/\Delta t$ y la probabilidad de frenada es de $p = 0.5$. Se puede observar en la figura cómo se desplazan las olas del atasco a lo largo de las $100$ iteraciones. Ilustración generada con el simulador \texttt{nagel-scherckenberg-demo} desarrollado para esta tesis.}
+	\caption{Aparición de retenciones en una autopista de $250$ celdas usando el modelo Nagel-Scherckenberg. La densidad de ocupación es de $50$ coches en la vía, la velocidad máxima es de $5 c/\Delta t$ y la probabilidad de frenada es de $p = 0.5$. Se puede observar en la figura cómo se desplazan las olas del atasco a lo largo de las $100$ iteraciones. Fuente: simulador \texttt{nagel-scherckenberg-demo} (Ver capítulo \nameref{ch:developed-software}).}
 	\label{fig:nagel-schreck}
-.\end{figure}
+\end{figure}
 
-\begin{itemize}
-	\item La vía está divida en celdas de longitud $7,5m$. La razón de este valor es debida a que esta es la distancia media entre los parachoques traseros de dos coches consecutivos en un atasco.
-	\item La celda puede tener dos estados, vacía o con un vehículo a velocidad $v = \{0, \ldots, v_{max}\} \in \mathbb{N}$, esto es, discreta. La unidad de medida es $c/\Delta t$ siendo $c$ un número de celdas.
-	\item $\Delta t$ queda establecido en $1s$, considerado el tiempo medio de reacción de un conductor ante una eventualidad. Esto hace, por ejemplo, que una velocidad de $6 c/\Delta t$ sea $45 m/s$ ($162 km/h$).
-	\item En cada ciclo, se realizan cuatro acciones de manera simultánea: acelerar (una unidad si no están a la máxima velocidad), frenar (si se ven obligados en función de la velocidad y la distancia del siguiente vehículo), freno aleatorio (la velocidad se reduce en una unidad hasta un mínimo de $v = 1 c/\Delta t$ con una probabilidad de $p = 0.5$) y reposicionamiento (se avanzan tantas celdas como indica la velocidad.)
-\end{itemize}
+Un \ac{ca} es una colección ordenada de celdas (\textit{células}) ordenadas en un espacio $n$-dimensional que parcelan el universo de estudio. Cada una de ellas se encuentra en un estado (e.g. contiene un valor numérico), y el estado de toda la malla se actualiza de manera síncrona\sidenote{
+	Existen arquitecturas diseñadas para operar de esta manera, esto es, arquitecturas basadas en \gls{ca} (e.g.~\cite{Margolus1993}). En ellas, cada ciclo de reloj actualiza todas las celdas de memoria del autómata. Éstas arquitecturas se suelen usar para la implementación de modelos físicos superando en varios órdenes de magnitud la capacidad computacional de las arquitecturas tradicionales.
+} (i.e., todas a la vez) en intervalos regulares de tiempo denominados \textit{ciclos}. El cambio de estado de cada célula depende de los valores de las células vecinas y del mismo algoritmo de modificación al que responden todas y cada una de las células.
 
-En general los modelos de la literatura suelen ser una variación de éste con ligeras modificaciones para estudiar aspectos concretos de modelos de tráfico, como la modificación del paso de \textit{aleatorización} (e.g. \cite{Barlovic1998}) o celdas más pequeñas (e.g. \cite{Krauss1997}) para comprobar la metaestabilidad del flujo de tráfico, o modelos y reglas para vías de dos carriles como modelos para cambio de carril (e.g. \cite{Brilon1999} y \cite{Nagel1998}). Concretamente, en \cite{Wagner1997} los autores centran su esfuerzo en la definición de una jerarquía de muchas reglas individuales (e.g. reglas para describir cuándo cambiar de carril, reglas para determinar los niveles de molestia a los coches del carril destino, etcétera) para dotar de la mayor cantidad de realismo posible al modelo.
+\marginnote{
+	\textbf{El modelo Nagel-Scherckenberg} es un \glsentrylongsp{ca} que basa su funcionamiento en los siguientes aspectos:
+	
+	\begin{itemize}
+		\item La vía está divida en celdas de longitud $7,5m$. La razón de este valor es que ésta es la distancia media entre los parachoques traseros de dos coches consecutivos en un atasco.
+		\item La celda puede tener dos estados, vacía o con un vehículo a velocidad $v = \{0, \ldots, v_{max}\} \in \mathbb{N}$. La unidad de medida es $c/\Delta t$ (celdas por unidad de tiempo).
+		\item $\Delta t$ queda establecido en \unit{1}{s.}, considerado el tiempo medio de reacción de un conductor ante una eventualidad. Esto hace, por ejemplo, que una velocidad de $6 c/\Delta t$ sea $45 m/s$ ($162 km/h$).
+		\item En cada ciclo y para cada vehículo, se realizan tres acciones de manera consecutiva: (i) acelerar una unidad si no está a la máxima velocidad o frenar si se ve obligado, (ii) freno aleatorio (la velocidad se reduce en una unidad hasta un mínimo de $v = 1 c/\Delta t$ con una probabilidad de $p = 0.5$) y (iii) reposicionamiento.
+	\end{itemize}
+}
+
+Estos modelos de microsimulación, debido a la propia naturaleza de los \gls{ca}, se encuentran clasificados como simuladores de tiempo y espacio discreto, y se usan debido a su facilidad de implementación y a su eficiencia, ya que son fácilmente paralelizable.
+
+El modelo clásico de esta aproximación es el propuesto por Nagel-Scherckenberg en su artículo \textit{A cellular automaton model for freeway traffic} \cite{Nagel1992}, un modelo teórico creado para la simulación de tráfico en autopistas. La figura~\ref{fig:nagel-schreck} muestra la evolución del tráfico en una autopista a lo largo del tiempo en una implementación basada en este paradigma.
+
+En general los modelos de la literatura suelen ser una variación del de Nagel-Scherckenberg con modificaciones para estudiar aspectos concretos de modelos de tráfico o para dotarle de un mayor realismo. Algunos ejemplos de estas variaciones son la modificación del paso de \textit{aleatorización} (e.g. \cite{Barlovic1998}), reglas para determinar niveles de molestia a vehículos vecinos (\cite{Wagner1997}), celdas más pequeñas (e.g. \cite{Krauss1997}) para comprobar la metaestabilidad del flujo de tráfico, o modelos y reglas para cambio de carril en vías de dos carriles (\cite{Brilon1999, Nagel1998}).
 
 \subsection{Microsimulación basada en sistemas multiagentes}
 
-Los modelos basados en \ac{ca}, aunque interesantes, no son suficientemente realistas desde un punto de vista microscópico. Por poner un ejemplo, en una situación típica de un modelo Nagel-Scherckenberg, las posiciones de los vehículos se dan en múltiplos de $7,5$ metros. Además, un vehículo realiza aleatoriamente aceleraciones y deceleraciones de $27 km/h$. Incluso en una situación favorable, cualquier vehículo puede realizar una aceleración de $0$ a $162km/h$ en sólo $6$ segundos. Por tanto, no ofrecen una visión demasiado realista ni fiable en caso de querer realizar estudios muy detallados de tráfico a nivel micro.
+Los modelos basados en \glsentrylongplsp{ca}, aunque interesantes, no son suficientemente realistas desde un punto de vista microscópico. Por poner un ejemplo, en una situación típica de un modelo Nagel-Scherckenberg, los vehículos realizan aleatoriamente aceleraciones y deceleraciones de $27 km/h$. Es más, en una situación favorable, cualquier vehículo puede realizar una aceleración de $0$ a $162km/h$ en tan sólo $6$ segundos. Por tanto, no ofrecen una visión demasiado realista ni fiable en caso de querer realizar estudios muy detallados de tráfico a nivel micro.
 
-Por otro lado, en un \ac{mas} cada uno de los individuos o \enquote{agentes} tiene su propia entidad dentro del sistema. Esto es, perciben tanto el entorno como al resto de agentes y actúan de acuerdo a lo percibido y a su comportamiento preestablecido. Basarse no sólo en las magnitudes físicas del resto de vehículos (e.g. distancia, aceleración, \ldots) sino también en un comportamiento de conducción ofrece un interesante campo de estudio a nivel cognitivo. El paradigma de los sistemas multiagentes se desarrolla en detalle en el capítulo \ref{ch:sota-agents-and-mas} y los comportamientos concretos de los agentes de interés para esta tesis en el capítulo~\ref{ch:sota-behavior-models}. Por ello, este apartado únicamente hará una pequeña introducción a estudios existentes y aplicaciones de simuladores basados en este modelo.
+Por otro lado, en un \glsentrylong{mas} cada uno de los agentes tiene su propia entidad dentro del sistema. Esto es, perciben tanto el entorno como al resto de agentes y actúan de acuerdo a lo percibido y a su comportamiento. Basarse no sólo en las magnitudes físicas del resto de vehículos (e.g. distancia, aceleración, \ldots) sino también en un comportamiento de conducción ofrece un interesante campo de estudio a nivel cognitivo. Se entra habla más en detalle sobre los \glspl{mas} en el capítulo \nameref{ch:sota-ci} y sobre los comportamientos concretos de agentes de interés para esta tesis en el capítulo~\ref{ch:sota-behavior-models}. Por ello, este apartado únicamente hará una pequeña introducción a estudios existentes y aplicaciones de simuladores basados en este modelo.
 
-\begin{figure}
+\begin{figure}[t]
 	\centering
 	\includegraphics[width=10cm, height=4.9cm]{images/autonomous-vehicles-at-intersections}
 	\caption{Simulación de comportamiento en intersección basada en un \glsentryshort{mas}. En ésta, cada uno de los vehículos representa a un vehículo real que posee un controlador para hacerlo autónomo. Modelar este caso de estudio con una arquitectura basada en \glsentryshortpl{mas} permite centrarse en el diseño del agente en concreto (i.e. el controlador de conducción del vehículo) y estudiar el comportamiento emergente surgido de la interacción de todos los agentes. Fuente: Proyecto AIM (\url{http://www.cs.utexas.edu/~aim/}).}

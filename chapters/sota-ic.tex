@@ -1,12 +1,6 @@
 \chapter{\glsentrylongsp{ci}}
 \label{ch:sota-ci}
 
-\begin{marginfigure}
-	\includegraphics{turing-test}
-	\caption{Ilustración del Test de Turing. Modelo propuesto para probar si una máquina es capaz de exhibir comportamiento inteligente similar al del ser humano. Hay tres participantes, dos humanos ($A$ y $C$) y una máquina ($B$), separados entre sí pero pudiendo intercambiarse mensajes de texto. $C$ envía preguntas a $A$ y $B$ sin saber quién es humano y quién es máquina y éstos le responden. Si $C$ no es capaz de identificar qué participante es la máquina, se puede concluir que la máquina es inteligente. Fuente: Hugo Férée, via Wikimedia Commons.}
-	\label{fig:turing-test}
-\end{marginfigure}
-
 El comportamiento de un individuo en un entorno se ve influenciado por una infinidad de variables. Identificar las relaciones entre éstas es en la mayoría de las ocasiones una tarea que va de lo muy difícil a lo imposible, más aún si añadimos que éstas son muy numerosas y pueden llegar a ser imposibles de cuantificar o incluso de detectar.
 
 La \ac{ci} engloba un conjunto de técnicas que facilitan enormemente estas tareas. En este capítulo se ofrece una perspectiva de la literatura actual sobre las técnicas de la \gls{ci} que son de interés para esta tesis. Introduciremos el concepto y las nociones de \enquote{agente} y de \enquote{aprendizaje} para posteriormente introducir algunas de las técnicas utilizadas dentro del área. Por último, desarrollaremos las tres técnicas principales sobre las que reposa el trabajo teórico de esta tesis: \glsentrylongplsp{ann}, \glsentrylongsp{fl} y \glsentrylongsp{cev}.
@@ -17,23 +11,37 @@ La \ac{ci} engloba un conjunto de técnicas que facilitan enormemente estas tare
 
 El primer concepto a introducir es el de \enquote{conexionismo}. Se puede considerar a Santiago Ramón y Cajal como principal precursor de esta idea por sus trabajos acerca de la estructura de las neuronas y sus conexiónes (e.g. \cite{y1888estructura} y~\cite{ramon1904textura}). Otros prefieren citar el trabajo \textit{\enquote{A logical calculus of the ideas immanent in nervous activity}} (\cite{McCulloch1943}) sobre \glspl{ann} o \textit{\enquote{The organization of behavior}} (\cite{hebb19680}) acerca de la teoría del aprendizaje como primeros trabajos en este tema. Independientemente de su origen, el conexionismo postula que la mente y el conocimiento surgen de redes formadas por unidades sencillas interconectadas (i.e. neuronas).
 
-\begin{marginfigure}
+\marginnote{
+	\textbf{El Test de Turing} es un modelo que propuso Alan Turing para probar si una máquina es capaz de exhibir comportamiento inteligente similar al del ser humano. Hay tres participantes, dos humanos ($A$ y $C$) y una máquina ($B$), separados entre sí pero pudiendo intercambiarse mensajes de texto. $C$ envía preguntas a $A$ y $B$ sin saber quién es humano y quién es máquina y éstos le responden. Si $C$ no es capaz de identificar qué participante es la máquina, se puede concluir que la máquina es inteligente.
+}
+
+Por otro lado, en 1950, Alan Turing publicó un artículo que comenzaba con la frase \textit{\enquote{Can machines think?~\cite{turing1950computing}}}\sidenote{
+	El concepto de \enquote{pensar} es en sí un tema controvertido en el propio ser humano: ¿pensar es algo inherentemente biológico? ¿surge de la mente? Tanto si sí como si no, ¿de qué forma lo hace? Por ello existen detractores de la validez del Test de Turing como, por ejemplo, el experimento de la habitación china, propuesto por John Searle.
+	
 	\includegraphics{chinese-room}
-	\caption{\enquote{La habitación china} es un experimento mental  propuesto por John Searle que parte de un Test de Turing donde la máquina ha aprendido a hablar chino. Ésta es reemplazada por una persona que no sabe nada del idioma pero que va equipada con manual de correspondencias (ideograma de entrada $\rightarrow$ ideograma de salida). Cuando una persona le manda mensajes en chino, esta otra responde. ¿Podemos decir que dicha persona sabe chino? Evidentemente no. Pero entonces, ¿cómo podemos asegurar que la máquina reemplazada ha \enquote{aprendido} chino?. Autor: Jolyon Troscianko (http://www.jolyon.co.uk/)}
-	\label{fig:chinese-room}
-\end{marginfigure}
+	
+	Se parte de un Test de Turing donde la máquina ha aprendido a hablar chino. Se reemplaza por una persona que no sabe nada del idioma pero que va equipada con un manual de correspondencias de ideogramas. Cuando una persona le manda mensajes en chino, esta otra responde. Evidentemente la persona no sabe hablar chino, y por ello no podemos afirmar que la máquina sabe hablarlo. Sin embargo, esto lleva a cuestiones quizá más intrigantes. Por ejemplo, si la máquina es capaz de realizar una acción sin entender lo que hace y por qué lo hace, ¿qué garantías tenemos de que el humano sí es capaz? Si los ordenadores operan sobre símbolos sin comprender el verdadero contenido de éstos, ¿hasta qué punto los humanos lo hacen de forma diferente?.
+}, introduciendo el famoso Test de Turing para determinar si una máquina es o no inteligente. Se puede considerar este momento como el punto donde se estableció el objetivo a largo plazo del campo de la \ac{ai}, ya que en el artículo Turing propuso un método para determinar si una máquina era capaz de exhibir comportamiento inteligente. Sin embargo, no fue hasta $1956$ en la Conferencia de Dartmouth~\cite{mccarthy1956dartmouth} donde John McCarthy acuñó el término~\ac{ai} a la vez que presentó el tema de la conferencia como la pregunta realizada por Turing en dicho artículo.
 
-Por otro lado, en 1950, Alan Turing publicó un artículo que comenzaba con la frase \textit{\enquote{Can machines think\sidenote{El propio concepto de \enquote{pensar} es en sí un tema controvertido en el propio ser humano: ¿pensar es algo inherentemente biológico? ¿surge de la mente? Tanto si sí como si no, ¿de qué forma lo hace? Por ello existen detractores de la validez del Test de Turing. Por ejemplo, el experimento de la habitación china (figura~\ref{fig:chinese-room}) nace precisamente como refutación de dicho test, aunque puede llevar a cuestiones quizá más intrigantes. Por ejemplo, si la máquina es capaz de realizar una acción sin entender lo que hace y por qué lo hace, ¿qué garantías tenemos de que el humano sí es capaz? Si los ordenadores operan sobre símbolos sin comprender el verdadero contenido de éstos, ¿hasta qué punto los humanos lo hacen de forma diferente?.}?~\cite{turing1950computing}}}, introduciendo el famoso Test de Turing para determinar si una máquina es o no inteligente (figura~\ref{fig:turing-test}). Se puede considerar este momento como el punto donde se estableció el objetivo a largo plazo del campo de la \ac{ai}, ya que en el artículo Turing propuso un método para determinar si una máquina era capaz de exhibir comportamiento inteligente. Sin embargo, no fue hasta $1956$ en la Conferencia de Dartmouth~\cite{mccarthy1956dartmouth} donde John McCarthy acuñó el término~\ac{ai} a la vez que presentó el tema de la conferencia como la pregunta realizada por Turing en dicho artículo.
+A partir de este punto la investigación en~\ac{ai} recibió muchísima atención por parte de investigadores y gobiernos, lo que se tradujo en financiación. Los estudios estaban dominados por aquellos relacionados con las ideas del conexionismo hasta que en $1969$, se publicó el libro \textit{Perceptrons}~\cite{minsky1969perceptrons} de Marvin Minsky y Seymour Papert, donde se expusieron las limitaciones de los modelos de \acp{ann} desarrollados hasta la fecha. El impacto fue tal que la investigación en \gls{ai} se abandonó casi por completo. Concretamente el conexionismo dejó de estar presente en la literatura científica durante dos décadas. Es lo que se conoce como \textit{AI Winter}.
 
-A partir de este punto la investigación en~\ac{ai} recibió muchísima atención por parte de investigadores y gobiernos, lo que se tradujo en financiación. Los estudios estaban dominados por aquellos relacionados con las idesa del conexionismo hasta que en $1969$, se publicó el libro \textit{Perceptrons}~\cite{minsky1969perceptrons} de Marvin Minsky y Seymour Papert, donde se expusieron las limitaciones de los modelos de \acp{ann} desarrollados hasta la fecha. El impacto fue tal que la investigación en \gls{ai} se abandonó casi por completo. Concretamente el conexionismo dejó de estar presente en la literatura científica durante dos décadas. Es lo que se conoce como \textit{AI Winter}\sidenote{Es injusto achacar el \textit{AI Winter} sólo al libro \textit{Perceptrons}. El \enquote{efecto gurú} del libro fue sólo la gota que colmó el vaso. A la emoción inicial por los avances le siguieron muchos años de promesas incumplidas, investigación sin resultados significativos, limitaciones de hardware, aumento de la complejidad del software (los comienzos de la crisis del software. Ver~\cite{dijkstra1972humble}). Todo ello provocó un desinterés y una disminución de la financiación que se retroalimentaron la una a la otra.}.
+\marginnote{
+	\textbf{El AI Winter} no sólo se produjo por el efecto gurú del libro \textit{Perceptrons}, aunque éste fue la gota que colmó el vaso. A la emoción inicial por los avances le siguieron muchos años de promesas incumplidas, investigación sin resultados significativos, limitaciones de hardware, aumento de la complejidad del software (los comienzos de la crisis del software \cite{dijkstra1972humble}). Todo ello provocó un desinterés y una disminución de la financiación que se retroalimentaron la una a la otra.
+}
 
-El interés por el campo volvió de nuevo a principios de $1980$ con la aparición en escena de los primeros Sistemas Expertos, los cuales se consideran como el primer caso de éxito en la \gls{ai}  (\cite{russell2003artificial}). A finales de la década, sin embargo, empezaron a resurgir los enfoques conexionistas, en gran parte por la aparición de nuevas técnicas de entrenamiento en perceptrones multicapa o por conceptos como activación no lineal en neuronas (e.g.~\cite{rumelhart1985learning} o~\cite{cybenko1989approximation}). En este momento los sistemas expertos empezaron a perder interés frente al nuevo avance del conexionismo\sidenote{A esta década se la conoce como segundo \textit{AI Winter} dado que la investigación sobre Sistemas Expertos disminuye. Sin embargo no fue un abandono tan acusado como el del primer \textit{AI Winter}.}.
+El interés por el campo volvió de nuevo a principios de los $80$ con la aparición en escena de los primeros \glsentrylongplsp{esys}, los cuales se consideran como el primer caso de éxito en la \gls{ai}  (\cite{russell2003artificial}). A finales de la década, sin embargo, empezaron a resurgir los enfoques conexionistas, en gran parte por la aparición de nuevas técnicas de entrenamiento en perceptrones multicapa y por el concepto de activación no lineal en neuronas \cite{rumelhart1985learning, cybenko1989approximation}). En este momento los sistemas expertos empezaron a perder interés frente al nuevo avance del conexionismo. Ésta década es conocida como segundo \textit{AI Winter} dado que la investigación sobre \glsentrylongplsp{esys} disminuye. Sin embargo no fue un abandono tan acusado como el del primer \textit{AI Winter}.
 
-Mientras que el enfoque clásico de la \ac{ai} postulaba que la mente operaba de la misma manera que una máquina de Turing, es decir, mediante operaciones sobre un lenguaje de símbolos, el enfoque del conexionismo postulaba que la mente, el comportamiento inteligente, emergía de modelos a más bajo nivel. Esto provocó que algunas voces se alzaran contra lo que se consideraba el \enquote{enfoque incorrecto} de la \ac{ai}. Sin embargo, otras técnicas alineadas con el conexionismo (debido a su enfoque de comportamiento emergente y aproximación como lo son la \ac{fl} o los \acp{ga}) ganaban popularidad y alimentaban el éxito cosechado por este \enquote{enfoque incorrecto}\sidenote{Es comprensible ya que el método clásico produce modelos fáciles de interpretar mientras que el enfoque conexionista produce modelos cuyo funcionamiento en general no es del todo deducible. Sin embargo, existen problemas con alto grado de complejidad muy difíciles (o imposibles) de modelar. Más aún cuando éstos son de naturaleza estocástica~\cite{siddique2013computational}.}.
+Mientras que el enfoque clásico de la \gls{ai} postulaba que la mente operaba de la misma manera que una máquina de Turing, es decir, mediante operaciones sobre un lenguaje de símbolos, el enfoque del conexionismo postulaba que la mente, el comportamiento inteligente, emergía de modelos a más bajo nivel. Esto provocó que algunas voces se alzaran contra lo que se consideraba el \textit{enfoque incorrecto} de la \gls{ai}. Sin embargo, otras técnicas alineadas con el conexionismo como la \glsentrylongsp{fl} o los \glsentrylongplsp{ga}) ganaban popularidad y alimentaban el éxito del nuevo enfoque\sidenote{
+	Es comprensible ya que los modelos del método clásico son fáciles de interpretar mientras que los del enfoque conexionista no son del todo deducibles. Sin embargo, existen problemas muy complejos de modelar. Más aún cuando éstos son de naturaleza estocástica~\cite{siddique2013computational}.
+}.
 
 Esto provocó una explosión de terminologías para diferenciar las investigaciones de la propia~\ac{ai} clásica. Por un lado se evitaba el conflicto, nombrando lasáreas de trabajo con un término más acorde con el comportamiento o técnica utilizada. Por otro, se separaba de las connotaciones negativas que fue cosechando la \ac{ai} con el paso de los años, \enquote{promesas, pero no resultados}).
 
 Lo verdaderamente interesante es ver la evolución de la literatura, y por tanto de los objetivos de la \ac{ai} durante estos años. En el nacimiento del campo, se buscan literalmente máquinas que piensen como humanos, o al menos seres racionales, con mente. Con el paso de los años (y los continuos choques contra la realidad), la literatura va tendiendo hacia la búsqueda de conductas y comportamientos inteligentes cada vez más específicos. Este hecho se hace más patente en este momento, donde cada investigación se nombra de cualquier forma menos con el término \ac{ai} (e.g \ac{ml}, \acp{rs}, o \ac{nlp}). Es evidente que la \ac{ai} se puede observar desde diferentes puntos de vista, todos perfectamente válidos. En~\cite{russell2003artificial}, tras un análisis de las definiciones existentes en la literatura por parte de diferentes autores, se hace énfasis en este hecho mostrando los diferentes puntos de vista a la hora de hablar de lo que es la \ac{ai}. El resumen se puede observar en la figura~\ref{fig:different-povs-ai}.
+
+Volviendo al tema de la terminología, muchas de las técnicas se fueron agrupando dentro de diferentes áreas. Una de ellas es la conocida como \glsentrylongsp{ci}. Dado que persigue el mismo objetivo a largo plazo y que surje de la propia \ac{ai} parece lógico mantenerla como un subconjunto y no como un nuevo campo del conocimiento humano. Sin embargo, algunos autores abogan por que la \ac{ci} es un campo diferenciado de la \ac{ai}.
+
+Podemos definir la \ac{ci} como la \enquote{\textit{rama de la \ac{ai} que aporta soluciones a \textbf{tareas específicas} de forma \textbf{inteligente} a partir del aprendizaje mediante el uso de \textbf{datos experimentales}}}. A diferencia de la aproximación clásica de la \ac{ai}, se buscan aproximaciones a las soluciones y no las soluciones exactas. Esto es debido a que muchos problemas son de naturaleza compleja, ya sea por la erlación entre sus multiplas variables, a la falta de información o a la imposibilidad de traducirlos a lenguaje binario.
 
 \begin{figure}
 	\includegraphics{different-povs-ai}
@@ -41,30 +49,31 @@ Lo verdaderamente interesante es ver la evolución de la literatura, y por tanto
 	\label{fig:different-povs-ai}
 \end{figure}
 
-Volviendo al tema de la terminología, muchas de las diferentes técnicas se fueron agrupando dentro de diferentes áreas. Una de ellas es la conocida como \glsentrylong{ci}. Dado que persigue el mismo objetivo a largo plazo y que surje de la propia \ac{ai} parece lógico mantenerla como un subconjunto y no como un nuevo campo del conocimiento humano. Sin embargo, algunos autores abogan por que la \ac{ci} es un campo diferenciado de la \ac{ai}.
-
-Podemos definir la \ac{ci} como la \enquote{\textit{rama de la \ac{ai} que aporta soluciones a \textbf{tareas específicas} de forma \textbf{inteligente} a partir del aprendizaje mediante el uso de \textbf{datos experimentales}}}. A diferencia de la aproximación clásica de la \ac{ai}, se buscan aproximaciones a las soluciones y no las soluciones exactas. Esto es debido a que muchos problemas son de naturaleza compleja, ya sea por la erlación entre sus multiplas variables, a la falta de información o a la imposibilidad de traducirlos a lenguaje binario.
-
-Se puede fijar el año $1994$ como el que el término \ac{ci} nace como área, coincidiendo con el cambio de nombre del \textit{IEEE Neural Networks Council} a \textit{IEEE Computational Intelligence Society} (\url{http://cis.ieee.org/}). Poco antes, en $1993$, Bob Marks en su trabajo~\cite{bezdek1993intelligence} presentó las que él consideraba diferencias fundamentales entre la \ac{ai} y la \ac{ci} resumiéndolas en la siguiente frase.
+Se puede establecer el año $1994$ como en el que nace formalmente la \glsentrylongplsp{ci} nace como área, coincidiendo con el cambio de nombre del \textit{IEEE Neural Networks Council} a \textit{IEEE Computational Intelligence Society}\sidenote{
+	\url{http://cis.ieee.org/}
+}. Poco antes, en $1993$, Bob Marks presentaba las que él consideraba diferencias fundamentales entre la \glsentrylongsp{ai} clásica y la \glsentrylongsp{ci} resumiéndolas en la siguiente frase:
 
 \blockquote{Neural networks, genetic algorithms, fuzzy systems, evolutionary programming, and artificial life are the building blocks of CI.}
 
-Durante estos años ganaba popularidad también el concepto del \ac{sc}. Éste engloba las técnicas que buscan resolver problemas con información incompleta o con ruido. Debido a que el conjunto de técnicas definidas como consituyentes del \ac{sc} son las mismas que las de la \ac{ci} algunos autores consideran ambos términos equivalentes. Nosotros consideramos que el \ac{sc} es un punto de vista de la computación más que de la \ac{ai} en contraposición con el \ac{hc}, y que la \ac{ci} hace uso de métodos del \ac{sc}\sidenote{El \ac{hc} es como se define la computación convencional frente al \ac{sc}. El \ac{hc} basa sus técnicas en aquellas basadas en modelos analíticos definidos de forma precisa y que en ocasiones requieren mucho tiempo de cómputo. Están basados en lógica binaria, análisis numérico, algoritmos y respuestas exactas. El \ac{sc} por otro lado es tolerante a la imprecisión y al ruido y tiende a llegar a soluciones aproximadas de manera más rápida. Se basa en modelos aproximados, emergencia de algoritmos y modelos estocásticos.}.
+Durante estos años ganaba popularidad también el concepto del \gls{sc} en contraposición con el \gls{hc}. El \gls{sc} engloba las técnicas que buscan resolver problemas con información incompleta o con ruido. Debido a que el conjunto de técnicas definidas como consituyentes del \gls{sc} son las mismas que se usan en la \gls{ci} algunos autores consideran ambos términos equivalentes. Nosotros consideramos que el \gls{sc} es un punto de vista de la computación y que la \gls{ci} es un área de la \glsentrylong{ai} hace uso de métodos del \gls{sc}.
+
+\marginnote{
+	\textbf{\gls{hc} y \gls{sc}} son la forma de referirse a la computación convencional frente al \gls{sc}. El \gls{hc} basa sus técnicas en aquellas basadas en modelos analíticos definidos de forma precisa y que en ocasiones requieren mucho tiempo de cómputo. Están basados en lógica binaria, análisis numérico, algoritmos y respuestas exactas. El \gls{sc} por otro lado es tolerante a la imprecisión y al ruido y tiende a llegar a soluciones aproximadas de manera más rápida. Se basa en modelos aproximados, emergencia de algoritmos y modelos estocásticos.
+}
 
 \section{Aprendizaje}
 
 La resolución clásica a un problema suele ser la aplicación de una secuencia de instrucciones basadas en un conjunto de símbolos (e.g. una función escrita en el lenguaje de programación C). Esta forma de solucionar un problema no \textit{aprende} a solucionarlo. Se puede interpretar como que la solución está grabada en su memoria.
 
-En la aproximación de la \ac{ci}, existen modelos y existen técnicas para hacer aprender esos modelos. La aplicación de dichas técnicas es lo que se conoce como \textbf{aprendizaje}. Las técnicas de aprendizaje en \ac{ci} se suelen clasificar en $2$ paradigmas:
+En la aproximación de la \gls{ci}, existen modelos y existen técnicas para hacer aprender esos modelos. La aplicación de dichas técnicas es lo que se conoce como \textbf{aprendizaje}. Las técnicas de aprendizaje en \gls{ci} se suelen clasificar en $3$ paradigmas:
 
 \begin{itemize}
 	\item \textbf{Supervisado}. El entorno presentado al modelo consiste en un conjunto de la forma $D = {(I_i, O_i) | \forall i \in \mathbb{N}}$, donde cada $O_i$ es la salida esperada del modelo a la entrada $I_i$. Los algoritmos tratarán de ajustar el modelo todo lo posible para que las salidas obtenidas sean lo más parecidas a las salidas originales. Este paradigma de entrenamiento suele estar relacionado con problemas de \textit{regresión}.
 	\item \textbf{No supervisado}. Al modelo se le ofrece un conjunto de la forma $D = {I_i | \forall i \in \mathbb{N}}$, donde cada $I_i$ es una entrada al problema, pero del que no conocemos la salida. Los algoritmos dentro de esta categoría harán uso de estos datos para ir reajustando el modelo tratando de encontrar las estructuras ocultas entre dichos datos (e.g. patrones, correlaciones o clases). Es un paradigma de entrenamiento íntimamente relacionado con problemas de \textit{clasificación}.
+	\item \textbf{Por refuerzo}. \TODO{Explicar}
 \end{itemize}
 
 Algunos autores hacen uso de técnicas pertenecientes a ambos paradigmas en forma de aproximación híbrida para suplir deficiencias u optimizar/acelerar el aprendizaje. Un claro ejemplo lo podemos ver en \cite{Hinton2006}, donde los autores hacen uso de \textit{autoencoders} como técnica no supervisada para la inicialización de los pesos de una red neuronal y posteriormente realizan un entrenamiento supervisado para la optimización es éstos.
-
-Otros, añaden un paradigma más a estos dos existentes, el denominado aprendizaje \textbf{por refuerzo}. Sin embargo, nosotros preferimos considerarlo como un tipo de aprendizaje supervisado, ya que la única característica que lo diferencia es que es un tipo de aprendizaje que se usa en entornos de aprendizaje \textit{on line} ajustando el modelo en función de los estímulos percibidos del entorno por sus acciones sobre el mismo, y no en un entorno aislado previo de entrenamiento (\textit{off line}), como la práctica totalidad de técnicas supervisadas y no supervisadas.
 
 \section{Técnicas en la \Glsentrylongsp{ci}}
 
@@ -72,26 +81,27 @@ Bajo el paraguas de la \ac{ci} se incluyen muchas técnicas diferentes, entre la
 
 \subsection{\Glsentrylongplsp{ann}}
 
-Una \acrlongsp{ann} puede considerarse como una herramienta que trata de replicar las funciones cerebrales de un ser vivo de una manera muy fundamental (esto es, desde sus componentes más básicos, las neuronas) basándose para ello en estudios de neurobiología y de ciencia cognitiva moderna del cerebro humano\sidenote{Aún apoyándose en la topología y funcionamiento del cerebro humano para realizar el símil, lo cierto es que dichos modelos distan aún de considerarse \textit{cerebros artificiales}. La red neuronal más compleja hasta la fecha es la propuesta en~\cite{TraskANDREWTRASK}, con alrededor de $160.000$ parámetros a ser ajustados (podemos abstraernos y pensar en ellos como conexiones entre neuronas). Como dato anecdótico, se estima que sólo en el neocórtex (ver figura~\ref{fig:neocortex}) del ser humano existen alrededor de $20.000$ millones de neuronas, cada una de las cuales conectada a entre $100$ y $100.000$ neuronas vecinas (\cite{Pakkenberg1997}). Esto supone entre $2 \cdot 10^{12}$ y $2 \cdot 10^{15}$ conexiones. Tecnológicamente hablando, la sensación esque estamos aún a años luz de aproximarnos siquiera a la complejiadd de un cerebro humano.}.
-
-\begin{figure}
-	\includegraphics{neocortex}
-	\caption{Una sección del neocórtex humano, región asociada a las capacidades cognitivas y que supone alrededor de un $76\%$ del volumen total del cerebro humano. Está distribuído en $6$ capas y miles de columnas que las atraviesan, cada una con alrededor de $10.000$ neuronas y un diámetro de $0.5mm$. Fuente: \textit{Blue Brain Project EPFL}, \url{http://bluebrain.epfl.ch/}.}
-	\label{fig:neocortex}
-	\setfloatalignment{b}
-\end{figure}
+Son herramientas que tratan de replicar las funciones cerebrales de un ser vivo de una manera muy fundamental, esto es, desde sus componentes más básicos, las neuronas. Para ello se basan en estudios de neurobiología y de ciencia cognitiva moderna del cerebro humano\sidenote{
+	Aún apoyándose en la topología y funcionamiento del cerebro humano para realizar el símil, lo cierto es que dichos modelos distan aún de considerarse \textit{cerebros artificiales}. La red neuronal más compleja hasta la fecha es la propuesta en~\cite{TraskANDREWTRASK}, con alrededor de $160.000$ parámetros a ser ajustados (podemos abstraernos y pensar en ellos como conexiones entre neuronas). Si comparamos esta cifra sólo con las del neocórtex (figura~\ref{fig:neocortex}) hace que, tecnológicamente hablando, nos quedemos con la sensación de estar aún a años luz de aproximarnos a la complejidad de un cerebro humano.
+}.
 
 Una \ac{ann} es independiente del modelo del problema a solucionar. Se la puede considerar como una caja negra que aprende las relaciones que subyacen en los datos del problema para abstraer el modelo a partir de éstas. Estas características de aprendizaje y abstracción son los factores determinantes por los que son usadas en prácticamente todas las áreas de la ciencia y de la ingeniería (\cite{Du2006}).
 
-\newthought{El modelo de neurona artificial} de McCulloch-Pitts introducido en el trabajo \enquote{A logical calculus of the ideas immanent in nervous activity} (\cite{McCulloch1943}, ilustración en la figura~\ref{fig:mccullocs-pitts-neuron-model}) es el considerado primer trabajo en la disciplina de las \acp{ann}, y aunque existen muchas y muy diferentes tipologías y formas de operar con redes, todas funcionan de la misma manera: unidades (i.e. neuronas) interconectados mediante enlaces por los que fluye la información de manera unidireccional, donde algunas de dichas unidades sirven de entrada al sistema (i.e. entradas o sensores), otras sirven de salida del sistema (i.e. salidas y actuadores) y otras como elementos internos (i.e. ocultas), y donde las conexiones se ajustan mediante un proceso denominado \textit{entrenamiento}.
+\begin{figure}
+	\includegraphics{neocortex}
+	\caption{Sección del neocórtex humano, región asociada a las capacidades cognitivas y que supone alrededor de un $76\%$ del volumen total del cerebro humano. Está distribuído en $6$ capas y miles de columnas que las atraviesan, cada una con alrededor de $10.000$ neuronas y un diámetro de $0.5mm$.  Como dato anecdótico, se estima que sólo en el neocórtex humano existen alrededor de $20.000$ millones de neuronas, cada una de las cuales conectada a entre $100$ y $100.000$ neuronas vecinas (\cite{Pakkenberg1997}). Esto supone entre $2 \cdot 10^{12}$ y $2 \cdot 10^{15}$ conexiones. Fuente: \textit{Blue Brain Project EPFL}, \url{http://bluebrain.epfl.ch/}.}
+	\label{fig:neocortex}
+\end{figure}
+
+\newthought{El primer trabajo} en la disciplina se le atribuye a  los investigadores McCulloch-Pitts por su modelo de neurona artificial ilustrado en la figura~\ref{fig:mccullocs-pitts-neuron-model} (\cite{McCulloch1943}). Existen diferentes tipologías y formas de operar con redes, pero todas funcionan de la misma manera: unidades (e.g. neuronas) interconectados mediante enlaces por los que fluye la información de manera unidireccional, donde algunas de dichas unidades sirven de entrada al sistema (i.e. entradas o sensores), otras sirven de salida del sistema (i.e. salidas y actuadores) y otras como elementos internos (i.e. ocultas), y donde las conexiones se ajustan mediante un proceso denominado \textit{entrenamiento}.
 
 \begin{figure}
 	\missingfigure[figheight=2cm]{Figura del modelo artificial de McCullocs-Pitts}
-	\caption{Variación de la representación del modelo de neurona artificial propuesto por McCullocs y Pitts. En éste, cada una de las entradas $x_i$ es incrementada o inhibida aplicando el producto con su peso asociado $w_i$. La activación vendrá determinada por la aplicación de una función (denominada \enquote{de activación}) a la suma de los valores. Esta variación en concreto incluye una entrada $x_0$ y un peso $w_0$ como bias de la neurona para la variación dinámica del umbral de activación.}
+	\caption{Variación de la representación del modelo de neurona artificial propuesto por McCulloch y Pitts. En éste, cada una de las entradas $x_i$ es incrementada o inhibida aplicando el producto con su peso asociado $w_i$. La activación vendrá determinada por la aplicación de una función (denominada \enquote{de activación}) a la suma de los valores. Esta variación en concreto incluye una entrada $x_0$ y un peso $w_0$ como bias de la neurona para la variación dinámica del umbral de activación.}
 	\label{fig:mccullocs-pitts-neuron-model}
 \end{figure}
 
-Este primer modelo de neurona proponía una función escalón para determinar si la neurona se activaba o no (analogía al funcoinamiento de la neurona artificial). Posteriormente aparecieron nuevos modelos de neuronas diferentes funciones de activación. De éstas, las más comunes son las de tipo sigmoide\sidenote{
+Este primer modelo de neurona proponía una función escalón para determinar si la neurona se activaba o no (analogía al funcionamiento de la neurona artificial). Posteriormente aparecieron nuevos modelos de neuronas con diferentes funciones de activación. De éstas, las más comunes son las de tipo sigmoide\sidenote{
 	Concretamente la función logística de pendiente $1$ definida como:
 	\begin{equation}
 		\frac{1}{1 + e^{-x}}
@@ -111,7 +121,11 @@ Este primer modelo de neurona proponía una función escalón para determinar si
 
 \section{\Glsentrylongsp{fl}}
 
-La lógica matemática (y por extensión la teoría de conjuntos)\sidenote{Se puede establecer el siglo IV a.C. como el momento del nacimiento de la lógica dentro de la física Aristotélica, que permaneció inalterada hasta los trabajos de Galileo (cita?) y Newton (cita, seguramente el Principia Matematica) en el siglo XVI. d.C., momento en que se separó y permaneció como disciplina paralela perteneciente más al campo de la filosofía que de la física y la matemática. Empezó a relacionarse de nuevo con la matemática a principios del siglo XIX y a principios del siglo XX la lógica y la teoría de conjuntos pasaron a convertirse en partes indispensables la una de la otra. Por ello suelen ir de la mano cada vez que se habla de la una y de la otra. La evolución de la teoría de conjuntos (Cantor, finales del siglo XIX, buscar referencia) y su unión con la lógica es una época bastante convulsa dentro de la historia de la matemática pero esta tesis no es lugar para su desarrollo. Por ello se ofrece la referencia al libro \textit{La historia de la matemática} de Miguel de Guzmán (referencia. Poner la página. Lo mismo no es de aquí y es del libro de "Los lógicos", pero estoy casi seguro de que es aquí.) en caso de que el lector tenga interés en el tema.} tiene como misión servir de fundamento del razonamiento matemático. Se basa en la definición precisa y con rigor de un razonamiento evitando cualquier tipo de ambigiüedad y de contradicción. Es por ello que la lógica tradicional no suele servir como fundamento de razonamientos del mundo real.
+\marginnote{
+	\textbf{La lógica nace} en el siglo IV a.C. dentro de la física Aristotélica, que permaneció inalterada hasta la revolución científica (alrededor del siglo XVI. d.C.), momento en que se separó y permaneció como disciplina paralela perteneciente más al campo de la filosofía que de la física y la matemática. Empezó a relacionarse de nuevo con la matemática a principios del siglo XIX y a principios del siglo XX la lógica y la teoría de conjuntos pasaron a convertirse en partes indispensables la una de la otra. Por ello suelen ir de la mano cada vez que se habla de la una y de la otra. La evolución de la teoría de conjuntos (Cantor, finales del siglo XIX, buscar referencia) y su unión con la lógica es una época bastante convulsa dentro de la historia de la matemática.
+}
+
+La lógica matemática (y por extensión la teoría de conjuntos) tiene como misión servir de fundamento del razonamiento matemático. Se basa en la definición precisa y con rigor de un razonamiento evitando cualquier tipo de ambigiüedad y de contradicción. Es por ello que la lógica tradicional no suele servir como fundamento de razonamientos del mundo real.
 
 Los conceptos que se manejan en el mundo real suelen ser vagos, llenos de imprecisiones. Además tienden a ser nombrados cualitativamente, no quantitativamente, y cuando existe una correspondencia, ésta suele estar marcada por la subjetividad de los términos.
 
@@ -140,15 +154,17 @@ La unión, intersección y el complemento son operaciones básicas en la teoría
 
 Al igual que en la lógica tradicional, en la \gls{fl} el razonamiento o inferencia es la manera de extraer conclusiones a partir de premisas en función de un conjunto de reglas.
 
-Estas reglas se expresan como implicaciones, definidas típicamente en lógica difusa como $A \rightarrow B \equiv A \land B$\sidenote{
-	Las implicaciones se representan como $A \rightarrow B$, donde $A$ es cualquier operación de premisas y $B$ la conclusión que arrojan.
+\sidenote{
+	\textbf{La implicación} en lógica se representa como $A \rightarrow B$, donde $A$ es cualquier operación de premisas y $B$ la conclusión que arrojan.
 	
 	En lógica tradicional, el valor de verdad de una implicación es equivalente al de la expresión $\not A \lor B$. Sin embargo, en lógicas multivaluadas (y por tanto en lógica difusa) esta equivalencia da lugar a razonamientos que se pueden considerar contraintuitivos.
-
-	En el caso concreto de la lógica difusa se han propuesto gran cantidad de equivalencias. Sólo en los trabajos \cite{Kiszka1985} se analizan $72$ alternativas al operador $\not A \lor B$.
+	
+	En el caso concreto de la lógica difusa se han propuesto muchas cantidad de equivalencias. Sólo en los trabajos \cite{Kiszka1985} se analizan $72$ alternativas al operador $\not A \lor B$.
 	
 	El operador más usado no obstante es el definido como $A \land B$ debido a su rendimiento (en la implicación de Mamdani la $T$-norma se implementa como el operador mínimo).
-}.
+}
+
+Estas reglas se expresan como implicaciones, definidas típicamente en lógica difusa como $A \rightarrow B \equiv A \land B$.
 
 Las dos formas de extraer conclusiones a partir de premisas en \gls{fl} son el \textit{modus ponens} generalizado (del que hablaremos) y el \textit{modus tollens} generalizado, modificaciones sobre los procesos de inferencia \textit{modus ponens} y \textit{modus tollens}\sidenote{
 	En realidad se llaman \textit{modus ponendo ponens} (\enquote{la forma que al afirmar, afirma}) y \textit{modus tollendo tollens} (\enquote{la forma que al negar, niega}).
@@ -160,7 +176,7 @@ Las dos formas de extraer conclusiones a partir de premisas en \gls{fl} son el \
 	\label{fig:modus-ponens-and-modus-tollens}
 \end{figure}
 
-\newthought{El modus ponens generalizado es una generalización del modus ponens de la lógica tradicional} donde, en lugar de expresas las reglas de forma absoluta, se expresan de forma aproximada. En la figura~\ref{fig:modus-ponens-traditional-vs-generalized} se ilustra las diferencias fundamentales entre ambos modos.
+\newthought{El modus ponens generalizado} es una generalización del modus ponens de la lógica tradicional donde, en lugar de expresas las reglas de forma absoluta, se expresan de forma aproximada. En la figura~\ref{fig:modus-ponens-traditional-vs-generalized} se ilustra las diferencias fundamentales entre ambos modos.
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Ilustración con el modus ponens y el modus ponens generalizado}
@@ -180,11 +196,11 @@ En \cite{Ma2004} hay un capítulo de razonamiento que parece que está guay. Rev
 
 \subsection{\glsentrylong{fis}}
 
-Los \gls{fis} (o \gls{fcs}) son son el caso de éxito de la lógica difusa que más resultados ha cosechado tanto a nivel académico como a nivel industrial. Se trata sistemas que utilizan el razonamiento difuso para inferir una respuesta a partir de un conjunto de entradas.
+Los \glspl{fis} (o \glspl{fcs}) son el caso de éxito de la lógica difusa que más resultados ha cosechado tanto a nivel académico como a nivel industrial. Se trata sistemas que utilizan el razonamiento difuso para inferir una respuesta a partir de un conjunto de entradas.
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Ilustración general de un controlador difuso}
-	\caption{Diagrama del esquema general de un \glsentrylong{fis}.}
+	\caption{Diagrama del esquema general de un \glsentrylongsp{fis}.}
 	\label{fig:fis-general-schema}
 \end{figure}
 
@@ -216,57 +232,61 @@ El consecuente de un \ac{fis} de tipo Mandamni siempre es un conjunto difuso. Po
 
 Otra de las técnicas inspiradas en principios biológicos es la de la \gls{cev}. Esta área de la \gls{ci} trabaja sobre algoritmos iterativos inspirados en la \idx{síntesis evolutiva moderna} o \idx{\textit{neodarwinismo}}.
 
-Existe un conjunto de algoritmos denominados \gls{si} que también son algoritmos iterativos estocásticos inspirados en cómo se comportan sistemas colectivos donde el conocimiento emerge de la interacción de individuos, ya se trate de sistemas naturales como por ejemplo el de las bandadas de murciélagos (\cite{Yang2010}) o de sistemas artificiales como sistemas de partículas abstractas (\cite{Artyukhin2014}). Algunos autores consideran este conjunto de algoritmos como pertenecientes al subcampo de la \gls{cev}, pero nosotros consideramos a la \gls{si} como un subcampo independiente dado que el adjetivo \textit{evolutivo} no es característico de este tipo de algoritmos\sidenote{El punto de vista de los autores que lo incluyen es que la evolución no sólo ha sido la razón de la adaptación de los individuos, sino que también es la causante de comportamientos inteligentes grupales. Y, aunque es una apreciación cierta, el adjetivo \textit{evolutivo} se refiere a cómo trabajan los algoritmos, no a lo que ha propiciado la evolución en la naturaleza.}.
+En esta sección hablaremos de los \glsentrylongsp{ga} como técnica base de la \gls{cev}. Sin embargo, existen familias de algoritmos consideradas por muchos autores como entidades diferentes a los \glspl{ga}:
+
+\begin{itemize}
+	\item \textbf{\glspl{es}}. Surgen casi a la par con los \gls{ga} por parte de Ingo Rechenberg (\cite{Rechenberg1973}). Se caracterizan principalmente por ser algoritmos iterativos inspirados en la evolución pero que basan su funcionamiento en los pasos de selección y mutación y donde el reemplazo es total.
+	\item \textbf{\gls{gp}}. Sus comienzos se pueden trazar hasta Koza 13, dnode el autro hace usio de algoritmos genético para la generación de programas. La idea de esta aproximación es la de representar los genotipos de los individuos no como cadenas de símbolos (la representación clásica de genotipos) sino como árboles sintácticos.
+\end{itemize}
+
+Quizá en el momento de su nacimiento pudieran estar más diferenciadas, pero en la actualidad se puede pensar en ellas como diferentes especializaciones de un \gls{ga} genérico. En el caso de las \glspl{es}, es evidente que se pueden considerar como una especialización de algoritmo genético donde la recombinación y el reemplazo parcial pasan a un segundo plano, y en el caso de la \gls{gp}, son un \gls{ga} una estructura de datos diferentes para el genotipo (la cual conlleva una serie de modificaciones a los algoritmos de recombinación y mutación, así como una serie de desventajas inherentes a su representación).
+
+Existe otro conjunto de algoritmos denominados \gls{si} que también son algoritmos iterativos estocásticos inspirados en cómo se comportan sistemas colectivos donde el conocimiento emerge de la interacción de individuos, ya se trate de sistemas naturales como por ejemplo el de las bandadas de murciélagos (\cite{Yang2010}) o de sistemas artificiales como sistemas de partículas abstractas (\cite{Artyukhin2014}). Algunos autores consideran este conjunto de algoritmos como pertenecientes al subcampo de la \gls{cev}. Este punto de vista se apoya en que la evolución no sólo ha sido la razón de la adaptación de los individuos, sino que también es la causante de comportamientos inteligentes grupales. Y, aunque es una apreciación cierta, nuestro punto de vista es que el adjetivo \textit{evolutivo} se refiere a cómo trabajan los algoritmos, no a lo que ha propiciado la evolución en la naturaleza, y por tanto consideramos a la \gls{si} como un subcampo independiente de la \glsentrylongsp{cev}.
 
 \subsection{\glsentrylongplsp{ga}: bases y funcionamiento}
 
 Un \gls{ga} es un algoritmo iterativo estocástico donde se aplica una serie de pasos inspirados en la \idx{síntesis evolutiva moderna} para la resolución de un problema. Éstos fueron introducidos por John Henry Holland en su libro \textit{\enquote{Adaptation in Natural and Artificial Systems}} (\cite{Holland1975}) y constituyen una familia de soluciones con mucho éxito en problemas de aprendizaje, búsqueda y optimización. Desde nuestro punto de vista, podemos decir que la \gls{cev} es el área que trabaja con \gls{ga}.
 
-\TODO{Esto lo he extraído de una marginnote que no iba bien. Hay que reformular o recolocar}
-	Dentro de la \gls{cev} existen familias de algoritmos consideradas por muchos autores como entidades diferentes a los \glspl{ga}:
-	
+\marginnote{
+	La \idx{síntesis evolutiva moderna} o \idx{neodarwinismo} es una integración de teorías que complementan la teoría de la evolución propuesta por Charles Darwin. En el momento de enunciar la teoría, no se conocía de qué manera los organismos vivos transmitían sus rasgos característicos a su progenie. Las características en las que se inspiran los \glspl{ga} de la síntesis evolutiva moderna incluyen, entre otras:
+
 	\begin{itemize}
-		\item \textbf{\glspl{es}}. Surgen casi a la par con los \gls{ga} por parte de Ingo Rechenberg (\cite{Rechenberg1973}). Se caracterizan principalmente por ser algoritmos iterativos inspirados en la evolución pero que basan su funcionamiento en los pasos de selección y mutación y donde el reemplazo es total.
-		\item \textbf{\gls{gp}}. Sus comienzos se pueden trazar hasta Koza 13, dnode el autro hace usio de algoritmos genético para la generación de programas. La idea de esta aproximación es la de representar los genotipos de los individuos no como cadenas de símbolos (la representación clásica de genotipos) sino como árboles sintácticos.
+		\item El principio de \textbf{selección natural}. Introducido en la teoría de la evolución, indica que los rasgos de un individuo e facilitan (o dificultan) sus posibilidades de reproducción en un entorno, y por tanto de transmisión de sus rasgos.
+		\item La \textbf{teoría genética}, por Gregor Mendel. Concretamente los conceptos de \textit{gen} (unidad de información genética), alelo (variación de valor de un gen que da lugar a variaciones en el fenotipo), genotipo (conjunto de genes que caracterizan a un individuo), fenotipo (las características físicas del individuo, determinadas por el genotipo y el entorno) y la herencia genética.
+		\item La \textbf{mutación} como fuente de variación dentro de una población.
+		\item El principio de \textbf{diversidad alélica} de la genética de poblaciones.
 	\end{itemize}
-	
-	Quizá en el momento de su nacimiento pudieran estar más diferenciadas, pero en la actualidad se puede pensar en ellas como diferentes especializaciones de un \gls{ga} genérico. En el caso de las \glspl{es}, es evidente que se pueden considerar como una especialización de algoritmo genético donde la recombinación y el reemplazo parcial pasan a un segundo plano, y en el caso de la \gls{gp}, son un \gls{ga} una estructura de datos diferentes para el genotipo (la cual conlleva una serie de modificaciones a los algoritmos de recombinación y mutación, así como una serie de desventajas inherentes a su representación).
-\TODO{Hasta aquí}
+}
 
-La \idx{síntesis evolutiva moderna} o \idx{neodarwinismo} es una integración de teorías que complementan la teoría de la evolución propuesta por Charles Darwin. En el momento de enunciar la teoría, no se conocía de qué manera los organismos vivos transmitían sus rasgos característicos a su progenie. Las características en las que se inspiran los \glspl{ga} de la síntesis evolutiva moderna incluyen, entre otras:
+La estructura de un \gls{ga} se asemeja al proceso de evolución de poblaciones finitas de individuos. Un ejemplo de esta estructura lo podemos ver en la figura~\ref{fig:genetic-algorithm-schema} Los principales pasos dentro del algoritmo son los siguientes:
 
-\begin{itemize}
-	\item El principio de selección natural. Introducido en la teoría de la evolución, el principio de selección natural indica que las características de un individuo en un entorno son las que facilitan (o dificultan) sus posibilidades de reproducción, y por tanto de posibilidad de transmisión de dichas características.
-	\item La teoría genética, por Gregor Mendel. Concretamente los conceptos de gen (unidad de información genética que tiene posición y valor dentro de un genotipo), alelo (variación de valor de un gen que da lugar a variaciones en el individuo, como por ejemplo color de ojos), genotipo (conjunto de genes que caracterizan a un individuo de una especie), fenotipo (las características físicas del individuo, determinadas por el genotipo y el entorno) y la herencia genética.
-	\item La mutación como fuente de variación dentro de una población.
-	\item El principio de diversidad alélica de la genética de poblaciones.
-\end{itemize}
-
-\begin{figure}
+\begin{figure}[t]
 	\missingfigure[figheight=3.5cm]{Esquema general de funcionamiento de un algoritmo genético}
 	\caption{Esquema general del funcionamiento de un \glsentrylong{ga}. Se parte de una población de individuos y en iteraciones de selección-recombinación-mutación-reemplazo se va mejorando la población hasta llegar a una solución que, si bien no tiene por qué ser necesariamente la mejor, es lo suficientemente buena como para ser válida.}
 	\label{fig:genetic-algorithm-schema}
 \end{figure}
 
-Basándose en estos conceptos, la estructura de un \gls{ga} se asemeja al proceso de evolución de poblaciones finitas de individuos. Un ejemplo de esta estructura lo podemos ver en la figura~\ref{fig:genetic-algorithm-schema} Los principales pasos dentro del algoritmo son los siguientes:
-
 \begin{itemize}
 	\item \textbf{Inicialización}. El algoritmo crea una \textit{población} de individuos donde cada uno representa una posible aproximación a la solución del problema a resolver.
-	\item \textbf{Selección}. Al igual que en la naturaleza, donde el individuo más apto tiene la mayor probabilidad de sobrevivir y tener descendencia con sus características diferenciadoras, en un \gls{ga} el individuo más apto (que represente una solucion más cercana a la buscada) es el que más probabilidades tiene de ser seleccionado para transmitir sus características a las sucesivas poblaciones.
-	\item \textbf{Recombinación}. Tras seleccionar a uno o más individuos, existe una probabilidad (generalmente alta) de que éstos generen uno o más individuos con una composición genética resultado de la combinación de éstos. El algoritmo general habla de selección de $2$ individuos y del operador \enquote{cruce}, pero es posible generalizarlo para que el cruce vaya de $1$ individuo (i.e. no hay cruce, es traspaso de una versión de los genes) a $n$ (i.e. todos los individuos tienen probabilidad de transmitir su genotipo, ya sea directamente o aplicando una función a combinaciones de éstos). La recombinación consigue que la composición genética de los individuos (que probablemente sea buena porque han sido seleccionados frente al resto de individuos) se perpetúe en sucesivas poblaciones.
-	\item \textbf{Mutación}. Una vez generada una descendencia en la recombinación (o no, pueden ser los individuos originales), los individuos tiene cierta probabilidad (por lo general baja) de que su genotipo sea modificado aleatoriamente. Esto puede hacer del individuo resultante una mala solución, pero también puede hacer que la solución sea nueva o si no, al menos ofrecer más variedad genética a la población.
-	\item \textbf{Reemplazo}. Tras uno o más pasos de selección, recombinación y mutación, los nuevos individuos generados reemplazarán a individuos de la población inicial. En general la población en un \gls{ga} contiene el mismo número de individuos según pasan las generaciones, pero no es un requisito fundamental.
+	\item \textbf{Selección}. Al igual que en la naturaleza, donde el individuo más apto tiene la mayor probabilidad de sobrevivir y tener descendencia transmitiendo sus rasgos diferenciadores, en un \gls{ga}, el individuo que represente una solucion más cercana a la buscada es el que más probabilidades tiene de ser seleccionado y por tanto, de transmitir sus características.
+	\item \textbf{Recombinación}. Tras seleccionar a uno o más individuos, existe una probabilidad (generalmente alta) de que éstos generen uno o más individuos con una composición genética resultado de la combinación de éstos. El algoritmo general habla de selección de $2$ individuos y del operador \textit{cruce}, pero es posible generalizarlo para que el cruce vaya de $1$ individuo (i.e. no hay cruce, es traspaso de una versión de los genes) a $n$ (i.e. todos los individuos tienen probabilidad de transmitir su genotipo, ya sea directamente o aplicando una función a combinaciones de éstos). La recombinación consigue que la composición genética de los individuos (que probablemente sea buena porque han sido seleccionados frente al resto de individuos) se perpetúe en sucesivas poblaciones.
+	\item \textbf{Mutación}. Una vez generada una descendencia en la recombinación (o los individuos originales), existe cierta probabilidad (por lo general baja) de que el genotipo de éstos sea modificado aleatoriamente. Esto puede hacer del individuo resultante una mala solución, pero también puede hacer que la solución sea nueva o si no, al menos ofrecer más variedad genética a la población.
+	\item \textbf{Reemplazo}. Tras uno o más pasos de selección, recombinación y mutación, los nuevos individuos generados reemplazarán a individuos de la población inicial. En general la población mantiene el mismo número de individuos según pasan las generaciones, pero no es un requisito fundamental.
 \end{itemize}
 
 \subsection{El balance de la biodiversidad: presión selectiva y convergencia}
 
-Las características de todo individuo vienen determinadas por su genotipo. Éste contiene conjuntos de uno o más genes que se manifiestan en el fenotipo como rasgos característicos del individuo. Algunos rasgos son más favorables que otros\sidenote{Lo bueno o malo que es un individuo viene determinado también por el entorno y no sólo por el individuo. Un ejemplo claro es el de la mariposa del abedul. A principios del siglo XIX, en Inglaterra, la mariposa se confundía con los líquenes de la corteza del abedul debido a que tenían colores y patrones similares (ambas eran blancas). Sin embargo, un cambio en un único gen las convertía en negras, y por tanto muy apetecibles para los depredadores, por lo que se puede concluir que las mejores eran las de color blanco. Sin embargo, para mediados de siglo, el hollín del humo del carbón de las fábricas había teñido de negro la práctica totalidad de los líquenes convirtiendo la ventaja de la mariposa blanca en una total desventaja. Por tanto, los rasgos son favorables dependiendo del entorno.} y hacen que el individuo tenga más probabilidad de sobrevivir y, por tanto, de recombinarse y transmitir sus genes.
+\marginnote{
+	\textbf{¿qué rasgos son favorables?} Lo bueno o malo que es un individuo depende completamente del entorno en el que se desenvuelve su actividad. Un ejemplo claro es el de la mariposa del abedul. A principios del siglo XIX, en Inglaterra, la mariposa se confundía con los líquenes de la corteza del abedul debido a que tenían colores y patrones similares (ambas eran blancas). Sin embargo, un cambio en un único gen las convertía en negras, y por tanto muy apetecibles para los depredadores, por lo que se puede concluir que las mejores eran las de color blanco. Sin embargo, para mediados de siglo, el hollín del humo del carbón de las fábricas había teñido de negro la práctica totalidad de los líquenes convirtiendo la ventaja de la mariposa blanca en una total desventaja. Por tanto, los rasgos son favorables dependiendo del entorno.
+}
+
+Las características de todo individuo vienen determinadas por su genotipo. Éste contiene conjuntos de uno o más genes que se manifiestan en el fenotipo como rasgos característicos del individuo. Algunos rasgos son más favorables que otros y hacen que el individuo tenga más probabilidad de sobrevivir y, por tanto, de recombinarse y transmitir sus genes.
 
 \newthought{La presión selectiva} es el mecanismo por el cual se favorece o pensaliza la biodiversidad. Cuando es fácil sobrevivir en un entorno, todas las variaciones de una especie son capaces de recombinarse, tener descendencia y seguir perpetuando rasgos característicos. Cuando es difícil, sólo los más aptos son los que sobreviven y por lo tanto los que se reproducen.
 
 \newthought{La biodiversidad} se refiere a la riqueza genética que existe entre los individuos de la población. Si la biodiversidad es alta, tenemos más posibilidades de combinaciones de genes. Visto de otro modo, cuando tenemos más variedad de genes en la población, la cantidad de posibles soluciones a explorar es mayor.
 
-\begin{figure}
+\begin{figure}[t]
 	\missingfigure[figheight=4cm]{Tres gráficas donde se ve el efecto de una biodiversidad muy alta, de una biodiversidad normal y de una biodiversidad muy baja.}
 	\caption{No sé cómo explicarlo. uando esté más despierto mejor.}
 	\label{fig:different-levels-of-biodiversity}
@@ -274,7 +294,7 @@ Las características de todo individuo vienen determinadas por su genotipo. Ést
 
 Mantener una biodiversidad justa en un \gls{ga} es esencial. Cuando la variedad genética es demasiado baja, los individuos tienden a ser muy parecidos y se hace imposible que aparezcan rasgos genéticos nuevos\sidenote{En realidad sí es posible, con la mutación, pero generalmente es un operador que entra en juego con probabilidad muy baja y por tanto no se puede depender únicamente en él para mantener la biodiversidad.}, haciendo que el algoritmo se estanque. Por otro lado, cuando la variedad genética es muy alta quiere decir que hay muchos individuos todos con características muy distintas. Esto provoca tal cantidad de posibles variaciones que el algoritmo acaba avanzando muy lentamente hacia la solución. Una ilustración de este concepto se puede ver en la figura~\ref{fig:different-levels-of-biodiversity}.
 
-\newthought{Según el algoritmo converge, la biodiversidad disminuye}. Esto es debido a que cuando según vamos acercando nuestra población a una región del espacio, todos los valores que se toman tienden a ser cercanos a esta posición. Esta característica se denomina \textit{explotación}, y es el caso contrario a la \textit{exploración}, es decir, cuando los individuos están distribuidos por todo el espacio de búsqueda buscando posibles soluciones.
+\newthought{Según converge el algoritmo}, la biodiversidad disminuye. Esto es debido a que cuando según vamos acercando nuestra población a una región del espacio, todos los valores que se toman tienden a ser cercanos a esta posición. Esta característica se denomina \textit{explotación}, y es el caso contrario a la \textit{exploración}, es decir, cuando los individuos están distribuidos por todo el espacio de búsqueda buscando posibles soluciones.
 
 Es importante que nuestro algoritmo tienda a explorar en los estacios iniciales de su funcionamiento, y que tienda a explotar cuando se encuentre en momentos cercanos a la localización de una solución. Ésto se puede lograr mediante un buen ajuste de la presión selectiva, aunque el operador de recombinación es el más indicado para gestionar este equilibrio exlporación/explotación.
 

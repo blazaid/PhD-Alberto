@@ -63,6 +63,9 @@
 \newboolean{@tufte@bfivepaper}
 \DeclareOptionX[tufte]<common>{b5paper}{\setboolean{@tufte@bfivepaper}{true}}
 
+\newboolean{@tufte@bfivecrop}
+\DeclareOptionX[tufte]<common>{b5crop}{\setboolean{@tufte@bfivecrop}{true}}
+
 %%
 % `sfsidenotes' option -- typesets sidenotes in sans serif typeface
 
@@ -449,9 +452,19 @@
   {\geometry{a4paper,left=24.8mm,top=27.4mm,headsep=2\baselineskip,textwidth=107mm,marginparsep=8.2mm,marginparwidth=49.4mm,textheight=49\baselineskip,headheight=\baselineskip}}
   {}
 
-\ifthenelse{\boolean{@tufte@bfivepaper}}
-  {\geometry{paperwidth=176mm,paperheight=250mm,left=14.66mm,top=13.88mm,textwidth=102.66mm,marginparsep=7.33mm,marginparwidth=36.66mm,textheight=38\baselineskip,includehead}}
-  {}
+\ifthenelse{
+	\boolean{@tufte@bfivepaper}
+}{
+	\geometry{b5paper,left=14.66mm,top=13.88mm,textwidth=102.66mm,marginparsep=7.33mm,marginparwidth=36.66mm,textheight=38\baselineskip,includehead}
+}{
+}
+
+\ifthenelse{
+	\boolean{@tufte@bfivecrop}
+}{
+		\geometry{a4paper,layout=b5paper,layouthoffset=17mm,layoutvoffset=23.5mm,showcrop,left=14.66mm,top=13.88mm,textwidth=102.66mm,marginparsep=7.33mm,marginparwidth=36.66mm,textheight=38\baselineskip,includehead}
+}{
+}
 
 \ifthenelse{\boolean{@tufte@symmetric}}
   {}
@@ -1618,6 +1631,7 @@
   \typeout{Class options:}
   \typeoutbool{a4paper}{@tufte@afourpaper}
   \typeoutbool{b5paper}{@tufte@bfivepaper}
+  \typeoutbool{b5crop}{@tufte@bfivecrop}
   \typeoutbool{load fonts}{@tufte@loadfonts}
   \typeoutbool{fully-justified}{@tufte@justified}
   \typeoutbool{letterspacing}{@tufte@letterspace}
