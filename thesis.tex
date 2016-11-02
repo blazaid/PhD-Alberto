@@ -155,7 +155,7 @@
 	{\textsc{\thepart}}
 	{20pt}
 	{
-		\pagecolor{black}\afterpage{\nopagecolor}
+		\pagecolor{black}%\afterpage{\nopagecolor}
 		\color{white}
 	}
 
@@ -179,21 +179,24 @@
 \mainmatter
 \input{chapters/introduction}
 \part{Estado de la cuestión}
+\afterpage{\nopagecolor}
 \input{chapters/sota-ic}
 \input{chapters/sota-traffic-simulation}
 \input{chapters/sota-behavior-models}
 \part{Desarrollo de la tesis}
+\afterpage{\nopagecolor}
 \input{chapters/developed-software}
 \input{chapters/behavior-model-study}
 \part{Resultados y conclusiones}
+\afterpage{\nopagecolor}
 \input{chapters/results}
 \input{chapters/conclusions}
-\printglossaries
 
 \backmatter
-
+\printglossaries
 \bibliography{thesis}
 \bibliographystyle{apalike}
+
 \printindex
 
 \input{chapters/colophon}
