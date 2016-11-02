@@ -204,11 +204,11 @@ Por otro lado, en un \glsentrylong{mas} cada uno de los agentes tiene su propia 
 	\label{fig:autonomous-vehicles-at-intersections}
 \end{figure}
 
-A diferencia de los \acp{ca}, los \acp{mas} pueden emplazarse en un entorno virtual que represente un espacio continuo y no discreto. Esto permite modelar con mayor fidelidad magnitudes físicas asociadas a cada agente (e.g. posición y velocidades actuales, dimensiones del vehículo, masa, velocidad máxima permitida, \ldots). Sin embargo, aun así no es una propiedad inherente de éstos. No existe ninguna limitación en cuanto a la representación del espacio y es perfectamente posible representar un modelo basado en un \ac{ca} usando para ello un \ac{mas}.
+A diferencia de los \acp{ca}, los \acp{mas} pueden emplazarse en un entorno virtual que represente un espacio continuo y no discreto. Esto permite modelar con mayor fidelidad magnitudes físicas asociadas a cada agente (e.g. posición y velocidades actuales, dimensiones del vehículo, masa, velocidad máxima permitida, \ldots). Sin embargo, aun así no es una propiedad inherente de éstos. No existe ninguna limitación en cuanto a la representación del espacio y es perfectamente posible representar un modelo basado en \glsentrylongplsp{ca} usando para ello \glsentrylongsp{mas}.
 
-Cada uno de los agentes es independiente del resto, y una consecuencia directa es que el comportamiento de cada individuo permite evaluar comportamientos grupales complejos, como el descrito en la figura~\ref{fig:autonomous-vehicles-at-intersections}\sidenote{Existe también una aproximación de modelar agentes como zonas de la vía y donde los vehículos, aunque poseen comportamiento, lo reciben del agente que les guía de acuerdo a la zona en la que se encuentran. Esto tiene la ventaja de que el paso de información a vehículos dentro de la misma zona se realiza mucho más rápido en un entorno distribuido. Para más información, en \cite{Galis2000} se implementa un simulador siguiendo este concepto.}. Esta independencia da la posibilidad de tener todos los agentes diferentes entre sí y, por tanto, ofrece la ventaja de permitir experimentar con diferentes perfiles de conducción (e.g. un perfil agresivo en un flujo de tráfico dominado por conductores tranquilos). Esto es debido a que en un \ac{mas} cada agente es una parte del sistema y las decisiones de cómo se ha de comportar las toma él mismo. Desde el punto de vista de un \ac{ca}, el comportamiento existe en cada celda, sin dar control al contenido o estado de cada celda.
+Cada uno de los agentes es independiente del resto, y una consecuencia directa es que el comportamiento de cada individuo permite evaluar comportamientos grupales complejos, como el descrito en la figura~\ref{fig:autonomous-vehicles-at-intersections}. Esta independencia da la posibilidad de tener todos los agentes diferentes entre sí, ofreciendo la ventaja de permitir experimentar con diferentes perfiles de conducción (e.g. un perfil agresivo en un flujo de tráfico dominado por conductores tranquilos). Esto es debido a que en un \ac{mas} cada agente es una parte del sistema y las decisiones de cómo se ha de comportar las toma él mismo. Desde el punto de vista de un \ac{ca}, el comportamiento existe en cada celda, sin dar control al contenido o estado de cada celda.
 
-En general los estudios basados en este modelo suelen seguir el patrón $1$ \ac{dvu}, $1$ agente, dando así una enorme cantidad de posibilidades a experimentar. Por ejemplo en \cite{Das} se hace uso de sistemas difusos para decidir cómo comportarse en la vía mientras que en \cite{Ehlert2001} se hace uso de un patrón reactivo. Otros, como \cite{Dia2002} o \cite{Balmer} hacen uso de encuestas o censos para establecer las propiedades y calibrar los parámetros de diferentes tipos de agentes.
+En general los estudios basados en este modelo suelen seguir el patrón $1 \text{ \gls{dvu}} \equiv 1 \text{ agente}$, dando así una enorme cantidad de posibilidades a experimentar. Por ejemplo en \cite{Das} se hace uso de sistemas difusos para decidir cómo comportarse en la vía mientras que en \cite{Ehlert2001} se hace uso de un patrón reactivo. Otros, como \cite{Dia2002} o \cite{Balmer} hacen uso de encuestas o censos para establecer las propiedades y calibrar los parámetros de diferentes tipos de agentes.
 
 \begin{figure}
 	\centering
@@ -217,23 +217,67 @@ En general los estudios basados en este modelo suelen seguir el patrón $1$ \ac{
 	\label{fig:cooperative-traffic-movsim}
 \end{figure}
 
-Los estudios en materia de simuladores de tráfico con \ac{mas} no se limitan a vehículos, sino que se usan también en otras áreas como el control de luces de tráfico o agentes para peatones entre otros. Un ejemplo es el estudio presentado en~\cite{Clymer2002} donde los agentes del sistema son las señales de tráfico luminosas y no los vehículos, y donde el objetivo es adaptar la señalización en una red de carreteras para minimizar al máximo el tiempo de espera por parte de los vehículos en las intersecciones gestionadas por las señales.
+Los estudios en materia de simuladores de tráfico con \glsentrylongsp{mas} no se limitan a vehículos, sino que se usan también en otras áreas como el control de luces de tráfico o agentes para peatones entre otros. Por ejemplo el estudio presentado en \cite{Clymer2002}, los agentes del sistema son las señales de tráfico luminosas y no los vehículos, y el objetivo es adaptar la señalización en una red de carreteras para minimizar al máximo el tiempo de espera por parte de los vehículos en las intersecciones gestionadas por las señales. Otro ejemplo es el propuesto por en \cite{Galis2000}, donde los agentes, en lugar de ser los vehículos son los tramos de las carreteras; en él, los vehículos poseen comportamiento, pero lo reciben del agente que les guía de acuerdo a la zona en la que se encuentran. Esto tiene la ventaja de que el paso de información a vehículos dentro de la misma zona se realiza mucho más rápido en un entorno distribuido.
 
-En los últimos años, otro concepto que está en auge es el de las llamadas redes o comunicaciones intervehiculares, o \ac{v2v} y extravehiculares, o \ac{v2i}. El modelo de \ac{mas} permite la implementación rápida de diferentes políticas y protocolos de comunicación via sensores y actuadores para estudiar estos tipos de redes de comunicación (ver figura~\ref{fig:cooperative-traffic-movsim}). Estudios como por ejemplo \cite{Shiose2001} o \cite{Galis2000} hacen uso de un \ac{mas} para implementar diferentes formas de \ac{v2v} con el objetivo de aliviar congestiones de tráfico (en el primer caso) y por el propio estudio de las comunicaciones en si (en el segundo caso). En el caso de redes \ac{v2i}, un buen ejemplo es~\cite{Dresner2004}, donde se representan como agentes tanto los vehículos como las intersecciones de la vía. Éstas gestionan un sistema de reservas de tokens que los vehículos solicitan cuando van a entrar en la intersección y devuelven cuando salen, gestionando  comunicando en todo momento mediante eventos los cambios en dicho sistema. El estudio concluye que una comunicación de este tipo es más eficiente que una intersección clásica basada en señales de tráfico luminosas.
+En los últimos años, otro concepto que está en auge es el de las redes intervehiculares e intravehículares, \gls{v2v} y \gls{v2i} respectivamente. El modelo de \gls{mas} permite la implementación rápida de diferentes políticas y protocolos de comunicación via sensores y actuadores para estudiar estos tipos de redes de comunicación (figura~\ref{fig:cooperative-traffic-movsim}). Estudios como por ejemplo \cite{Shiose2001} o \cite{Galis2000} hacen uso de un \ac{mas} para implementar diferentes formas de \ac{v2v} con el objetivo de aliviar congestiones de tráfico (en el primer caso) y por el propio estudio de las comunicaciones en si (en el segundo caso). En el caso de redes \ac{v2i}, un buen ejemplo es~\cite{Dresner2004}, donde se representan como agentes tanto los vehículos como las intersecciones de la vía. Éstas gestionan un sistema de reservas de tokens que los vehículos solicitan cuando van a entrar en la intersección y devuelven cuando salen, gestionando  comunicando en todo momento mediante eventos los cambios en dicho sistema. El estudio concluye que una comunicación de este tipo es más eficiente que una intersección clásica basada en señales de tráfico luminosas.
 
 \section{Software de simulación}
 
-Para la realización de esta tesis es necesario contar con un paquete de simulación que permita modelar un \ac{mas} en el que poder ejecutar los modelos de comportamiento desarrollados.
+Para la realización de esta tesis es necesario contar con un paquete de simulación que permita modelar un \glsentrylongsp{mas} en el que poder ejecutar los modelos de comportamiento desarrollados.
 
-Aunque en un principio se ha valorado el desarrollo de una solución propia, la oferta de simuladores en el mercado es muy amplia, cada uno de ellos implementando uno o varios modelos diferentes y bajo muy distintas licencias. Por ello se ha optado por la elección de un paquete de simulación ya desarrollado.
+Aunque en un principio se ha valorado el desarrollo de una solución propia, la oferta de simuladores en el mercado es muy amplia, cada uno de ellos implementando uno o varios modelos diferentes bajo distintas licencias. Por ello se ha optado por la elección de un paquete de simulación ya desarrollado.
 
-Para elegir el mejor simulador que se adapte a nuestras necesidades se ha realizado un listado de características obligatorias y, de este modo, realizar una primera criba eliminando simuladores no aptos:
+
+Para elegir el mejor simulador que se adapte a nuestras necesidades se ha realizado un listado de características obligatorias y, de este modo, realizar una primera criba eliminando simuladores no aptos (resumidos en la figura~\ref{fig:simulator-features}):
+
+\begin{figure}[t]
+	\centering
+	\begin{tikzpicture}[
+	every node/.style = {draw, rounded corners=3pt, semithick},
+	ROOT/.style = {fill=blue!30, inner sep=2mm, font=\bfseries},
+	L2/.style = {fill=orange!30},
+	L3/.style = {
+		fill=green!30,
+		grow=down,
+		xshift=0.5em,
+		anchor=west, 
+		edge from parent path={
+			(\tikzparentnode.south) |- (\tikzchildnode.west)
+		}
+	},
+	edge from parent/.style = {draw, thick},
+	LD1/.style = {level distance=5ex},
+	LD2/.style = {level distance=10ex},
+	LD3/.style = {level distance=15ex},
+	LD4/.style = {level distance=20ex},
+	LD5/.style = {level distance=25ex},
+	level 1/.style = {sibling distance=45mm}
+	]
+	\node[ROOT] {Características}
+	[edge from parent fork down]
+	child{node[L2] {Obligatorias}
+		child[L3,LD1] {node[L3] {Tipo de simulador}}
+		child[L3,LD2] {node[L3] {Modelo de simulación}}
+		child[L3,LD3] {node[L3] {Entorno de simulación}}
+		child[L3,LD4] {node[L3] {Extensibilidad}}
+		child[L3,LD5] {node[L3] {Sistema operativo (GNU/Linux)}}
+	}
+	child {node[L2] {Opcionales}
+		child[L3,LD1] {node[L3] {Activo}}
+		child[L3,LD2] {node[L3] {Lenguaje de programación}}
+		child[L3,LD3] {node[L3] {Licencia}}
+		child[L3,LD4] {node[L3] {Sistema operativo (OS-X)}}
+	};
+	\end{tikzpicture}
+	\caption{Características obligatorias y deseables del simulador donde implementar nuestros modelos personalizados de conductor.}
+	\label{fig:simulator-features}
+\end{figure}
 
 \begin{enumerate}
 	\item \textbf{Tipo de simulador}. Para nuestras necesidades es necesario un simulador que implemente \textbf{microsimulación}, ya que es el único tipo de granularidad que permite evaluar el comportamiento de un conductor independientemente del resto de la simulación. Además, debido a la forma en la que se recolectan los datos, es necesario que represente un \textbf{espacio continuo} y una dimensión de \textbf{tiempo discreto} con una resolución de al menos $1$ segundo.
-	\item \textbf{Modelo de simulación}. Debe ofrecer un entorno basado en un \textbf{\ac{mas}} donde cada \ac{dvu} se comporte como agente individual.
+	\item \textbf{Modelo de simulación}. Debe ofrecer un entorno basado en un \textbf{\gls{mas}} donde cada \gls{dvu} se comporte como agente individual.
 	\item \textbf{Entorno de simulación}. Debe ofrecer un entorno de \textbf{simulación de tráfico general}, permitiendo la creación de escenarios. Quedan excluídos los simuladores de propósito específico o de casos particulares como simuladores de autopistas, congestiones o colisiones.
-	\item \textbf{Extensibilidad}. El simulador debe permitir extender de alguna la ejecución de los modelos desarrollados en los agentes (\acp{dvu}). Aunque se puede considerar que si es simulador \Ac{oss}, es posible modificar su comportamiento para adecuarlo a los modelos desarrollados, es mejor que el propio software ofrezca los mecanismos necesarios para la integración sin necesidad de tocar los fuentes del sistema.
+	\item \textbf{Extensibilidad}. El simulador debe permitir extender de alguna la ejecución de los modelos desarrollados en los agentes (\glspl{dvu}). Aunque se puede considerar que si es simulador \gls{oss}, se puede modificar su comportamiento para adecuarlo a los modelos desarrollados, es mejor que el propio software ofrezca los mecanismos necesarios para la integración sin necesidad de tocar los fuentes del sistema.
 	\item \textbf{Sistema operativo}. Es imprescindible que el software se ejecute sobre sistemas operativos GNU/Linux por la configuración de los sistemas sobre los que se trabaja.
 \end{enumerate}
 
@@ -248,71 +292,67 @@ Posteriormente se ha desarrollado un listado de características deseables. No s
 
 \subsection{Entornos de simulación a estudiar}
 
-El primer listado de características deja atrás la mayoría de simuladores (una gran cantidad de ellos son o bien de propósito específico, están desarrollados para sistemas operativos Windows o no permiten extender su modelo). Tras la selección, nos quedamos con tres simuladores: \ac{aorta}, \ac{matsim} y \ac{sumo}.
+El primer listado de características deja atrás la mayoría de simuladores (una gran cantidad de ellos son o bien de propósito específico, están desarrollados para sistemas operativos Windows o no permiten extender su modelo). Tras la selección, nos quedamos con los siguientes simuladores: \gls{aorta}, \gls{matsim}, \gls{mitsim}, \gls{movsim} y \gls{sumo}.
 
-\TODO{Hay que evaluar \gls{mitsim}, porque tiene la licencia MIT y hay algunos modelos que lo usan}
+Dichos entornos están prácticamente igualados en las características presentadas, tal y como se puede observar en el cuadro~\ref{tbl:simulators-comparison}. Sin embargo, en matería de extensibilidad, \ac{sumo} es el único que permite el desarrollo de \acp{dvu} de manera externa. El resto requiere la modificación del código fuente del simulador para varias los comportamientos de los conductores. \ac{aorta} además no es un proyecto que se mantenga activo en la actualidad (las últimas modificaciones del repositorio datan de principios del año $2014$).
 
-\begin{table}
-	\caption{Tabla comparativa donde se contrastan las caracterísitcas de los simuladores seleccionados. El simulador \gls{sumo} es el que más características cumple de las originalmente planteadas.}
+\begin{table*}[t]
+	\caption[Tabla comparativa de los simuladores seleccionados][1.5em]{Tabla comparativa donde se contrastan las caracterísitcas de los simuladores seleccionados. El simulador \gls{sumo} es el que más características cumple de las originalmente planteadas.}
 	\label{tbl:simulators-comparison}
-	\begin{tabular}{lllll}
+	\begin{tabular}{llllll}
 		\toprule
-		& \gls{aorta} & \gls{matsim} & \gls{sumo} \\
+		& \gls{aorta} & \gls{matsim} & \gls{mitsim} & \gls{movsim} & \gls{sumo} \\
 		\midrule
-		Activo & \nop & \yep & \yep \\
+		Activo & \nop & \yep & \nop & \yep & \yep \\
 		\addlinespace
-		Lenguaje de programación & Scala & Java & C++/Python \\
+		Lenguajes de programación & Scala & Java & C++ & Java & C++ y Python \\
 		\addlinespace
-		Licencia & & & & \\
-		\quad Propietaria & \nop & \nop & \nop \\
-		\quad Open Software & \yep & \yep & \yep \\
-		\quad Compatible GPL & \yep & \yep & \yep \\
+		Licencia & & & & & \\
+		\quad Propietaria & \nop & \nop & \nop & \nop & \nop \\
+		\quad \glsentryshort{oss} & \yep & \yep & \yep & \yep & \yep \\
+		\quad GPL & \yep & \yep & \nop & \yep & \yep \\
 		\addlinespace
-		Extensibilidad \acp{dvu} & & & & \\
-		\quad Código fuente & \yep & \yep & \yep \\
-		\quad API & \nop & \nop & \yep \\
-		Sistema operativo & & & & \\
-		\quad GNU/Linux & \yep & \yep & \yep \\
-		\quad OS X & \yep & \yep & \yep & \\
-		\quad Windows & \yep & \yep & \yep \\
+		Extensibilidad & & & & & \\
+		\quad Código fuente & \yep & \yep & \yep & \yep & \yep \\
+		\quad API & \nop & \nop & \nop & \nop & \yep \\
+		\glsentrylongplsp{os} & & & & & \\
+		\quad GNU/Linux & \yep & \yep & \yep & \yep & \yep \\
+		\quad OS X & \yep & \yep & \nop & \yep & \yep \\
+		\quad Windows & \yep & \yep & \nop & \yep & \yep \\
 		\bottomrule
 	\end{tabular}
-\end{table}
+\end{table*}
 
-Dichos entornos están prácticamente igualados en las características presentadas, tal y como se puede observar en el cuadro~\ref{tbl:simulators-comparison}. in embargo, en matería de extensibilidad, \ac{sumo} es el único que permite el desarrollo de \acp{dvu} de manera externa. Tanto \ac{aorta} como \ac{matsim} requieren la modificación del código fuente del simulador para varias los comportamientos de los conductores. \ac{aorta} además no es un proyecto que se mantenga activo en la actualidad (las últimas modificaciones del repositorio datan de principios del año $2014$).
-
-No obstante se ha tratado de modificar los comportamientos de los conductores en los tres simuladores para validar este hecho y ha quedado patente qeu para nuestro cometido es mucho más eficaz usar \ac{sumo} como simulador para nuestro estudio.
+No obstante se ha tratado de modificar los comportamientos de los conductores en los cuatro simuladores para validar este hecho y ha quedado patente que es mucho más eficaz usar \gls{sumo} como simulador para nuestro estudio.
 
 \section{Entorno seleccionado: \gls{sumo}}
 
-En definitiva, el simulador que más se adapta a nuestras necesidades y el que se usará como simulador base en el desarrollo de esta tesis será \gls{sumo}. Existen muchas publicaciones acerca de aspectos de este simulador, pero las principales son \cite{krajzewicz2002sumo}, \cite{behrisch2011sumo} y \cite{krajzewicz2012recent}.
+En definitiva, el simulador que más se adapta a nuestras necesidades y el que se usará como simulador base en el desarrollo de esta tesis será \gls{sumo} \cite{krajzewicz2002sumo, behrisch2011sumo, krajzewicz2012recent}.
 
-\begin{figure}
+\begin{figure}[t]
 	\includegraphics{sumo-simulator}
 	\caption{Captura de pantalla del simulador \gls{sumo}. Además de software de simulación propiamente dicho, \gls{sumo} provee de una interfaz gráfica que permite una visualización general, de zonas y de elementos en concreto a la vez que permite la variación de configuración de la simulación durante el desarrollo de la misma.\TODO{Meter una imagen de nuestras simulaciones cuando estén, a poder ser sin color. Hacer el alto más pequeño}}
 	\label{fig:sumo-simulator}
 \end{figure}
 
-\gls{sumo} es un entorno de microsimulación de código abierto\sidenote{Licenciado bajo la \gls{gpl}, concretamente la versión $3.0$.} desarrollado por el instituto de sistemas de transporte del Centro Aeroespacial Alemán. Implementa un modelo discreto en el tiempo y continuo en el espacio.
+\gls{sumo} es un entorno de microsimulación licenciado bajo la \gls{gpl} versión $3.0$ y desarrollado por el instituto de sistemas de transporte del Centro Aeroespacial Alemán. Implementa un modelo discreto en el tiempo y continuo en el espacio.
 
-Además de simulación clásica, incorpora de una interfaz gráfica (se puede ver una captura de la vista gráfica en la figura~\ref{fig:sumo-simulator}) donde se puede ver el comportamiento de cada vehículo durante la simulación. Es interesante para obtener de un vistazo información acerca del funcionamiento del modelo en concreto a controlar. Otras de las características que el simulador ofrece son las siguientes:
+Además de simulación clásica, incorpora una interfaz gráfica (se puede ver una captura de la vista gráfica en la figura~\ref{fig:sumo-simulator}) donde se puede ver el comportamiento de cada vehículo durante la simulación. Es interesante para obtener de un vistazo información acerca del funcionamiento del modelo en concreto a controlar. Otras de las características que el simulador ofrece son las siguientes:
 
 \begin{itemize}
 	\item Granularidad micro y meso.
 	\item Multimodalidad permitiendo modelar no sólo tráfico de vehículos sino de peatones, bicicletas, trenes e incluso de barcos.
 	\item Simulación con y sin colisiones de vehículos.
-	\item Diferentes tipos de vehículos y de carreteras, cada una con diferentes carriles y éstas con diferentes subdivisiones de subcarriles (diseño conceptual para permitir modelar comportamientos en vehículos como motocicletas y similares).
+	\item Diferentes tipologías de vehículos y de carreteras, cada una con diferentes carriles y éstas con diferentes subdivisiones de subcarriles (diseño conceptual para permitir modelar comportamientos en vehículos como motocicletas y similares).
 \end{itemize}
+
+\gls{sumo} usa como modelo por defecto de \textit{\idx{car-following}} el modelo de Stefan Krauß\cite{jin2016evaluation}, debido a su simplicidad y su velocidad de ejecución y como modelo de cambio de carril el modelo de Gipps \cite{krajzewicz2002sumo}. No obstante, se encuentran paraseleccionar otros modelos como el \gls{idm} \textit{Intelligent Driver Model}, el modelo de tres fases de Kerner \cite{kerner2008testbed} y el modelo de Wiedemann \cite{wiedemann1974simulation}.
 
 Al estar licenciado bajo la licencia \gls{gpl}, su distribución implica a su vez la distribución de su código fuente. Esto permite la modificación de su comportamiento y el desarrollo de nuevos modelos integrados dentro del simulador. Sin embargo nosotros no haremos uso de esta característica, sino que usaremos \gls{sumo} como aplicación servidor y el módulo \gls{traci} como aplicación cliente desde donde gestionar todos los aspectos de la simulación.
 
-...
-
-SUMO usa (al menos así lo indican en el paper del 2002) el modelo Gipps\cite{krajzewicz2002sumo}. No sé si ellos han hecho una extensión del modelo o están referenciando la extensión y ellos sólo la implementan. En el paper del 2012 citan que el modelo car-following que usan por defecto es el desarrollado por Stefan Krauß\cite{jin2016evaluation}, debido a su simplicidad y su velocidad de ejecución. El modelo ha probado ser válido, pero tiene algunos defectos, por lo que existe un API para implementar otros modelos. En la actualidad están incluidos en el sistema los modelos IDM\cite{treiber2000congested} (\textit{Intelligent Driver Model}), el modelo de tres fases de Kerner\cite{kerner2008testbed} y el modelo de Wiedemann\cite{wiedemann1974simulation}.
-
 \subsection{La interfaz \gls{traci}}
 
-\gls{traci} (\cite{Wegener2008}) es tanto el nombre del protocolo de comunicación expuesto por \gls{sumo} en su versión servidor como el nombre de la librería escrita en Python para interactuar con el mismo.
+\gls{traci} \cite{Wegener2008} es tanto el nombre del protocolo de comunicación expuesto por \gls{sumo} en su versión servidor como el nombre de la librería escrita en Python para interactuar con el mismo.
 
 \begin{figure}
 	\centering
@@ -325,22 +365,43 @@ SUMO usa (al menos así lo indican en el paper del 2002) el modelo Gipps\cite{kr
 	\subfloat[Desconexión.\label{fig:traci-messages-c}]{
 		\includegraphics[width=0.31\linewidth]{sequence-diagram-traci-sumo-disconnect}
 	}
-	\caption{\gls{sumo} ofrece la posibilidad de interactuar con la simulación desde cualquier aplicación a través del uso del protocolo \gls{traci}. En la figura podemos ver, de izquierda a derecha, ejemplos de comunicación a través de la interfaz como el \textit{handshake} o inicialización, mensajes de obtención de información y modificación de la misma más una solicitud de avance de paso en la simulación y una señal de finalizaión de simulación y desconexión.}
+	\caption{\gls{sumo} ofrece la posibilidad de interactuar con la simulación desde cualquier aplicación a través del uso del protocolo \gls{traci}. En la figura podemos ver, de izquierda a derecha, ejemplos de comunicación a través de la interfaz como el \textit{handshake} o inicialización, mensajes de obtención de información y modificación de la misma más una solicitud de avance de paso en la simulación y una señal de finalización de simulación y desconexión.}
 	\label{fig:traci-messages}
 \end{figure}
 
 Como protocolo, la interacción a través de cliente/servidor comienza especificando a \gls{sumo} que se desea trabajar de este modo. En ese momento, \gls{sumo} se inicializa en modo servidor dejando abierto un puerto TCP para la conexión del cliente (figura~\ref{fig:traci-messages} \subref{fig:traci-messages-a}).
 
-\begin{figure}
+\begin{figure}[t]
 	\centering
-	\includegraphics{images/traas}
+	\begin{tikzpicture}[
+		node distance=3pt,
+		blueb/.style={
+			draw=white,
+			fill=blue,
+			rounded corners,
+			text width=2.5cm,
+			font={\sffamily\bfseries\color{white}},
+			align=center,
+			text height=12pt,
+			text depth=9pt},
+		greenb/.style={blueb,fill=green},
+	]
+		\node[greenb,fill=orange,text width=7.5cm+44pt] (sumo-traffic-simulation-suite) {SUMO Traffic Simulation Suite};
+		\node[blueb,below=of sumo-traffic-simulation-suite,text width=7.5cm+26pt] (traffic-control-interface) {TraCI Traffic Control Interface};
+		\node[blueb,below=of traffic-control-interface,text width=7.5cm+26pt] (web-service) {Servicios Web};
+		\node[blueb, fill=orange, below=of web-service] (python-client) {Cliente Python};
+		\node[blueb, fill=orange, left=of python-client]
+			(java-client) {Cliente Java};
+		\node[blueb, fill=orange, right=of python-client]
+			(other-clients) {Otros clientes};
+	\end{tikzpicture}
 	\caption{Concepto arquitectural de la plataforma \gls{traas}. La plataforma se conecta como cliente a \gls{sumo} y ofrece un \glsentryshort{api} basado en \glsentryshort{soap} de mensajes que traduce en mensajes del protocolo \gls{traci}, lo que independiza completamente la elección de lenguaje de programación a la vez que abstrae los detalles del protocolo de comunicación.}
 	\label{fig:traas}
 \end{figure}
 
 Una vez el servidor se encuentra en ese estado, el cliente se conecta enviando una señal de conexión indicando que él se encargará de controlar la simulación. Desde ese momento y hasta que el cliente no envíe una señal de desconexión (figura~\ref{fig:traci-messages} \subref{fig:traci-messages-c}), el cliente podrá enviar y recibir todos los mensajes que desee para capturar información y modificar los detalles de la simulación, incluido el mensaje \textit{step}, que es el encargado de avanzar un paso en la simulación (figura~\ref{fig:traci-messages} \subref{fig:traci-messages-b}).
 
-Como librería, \gls{traci} es un módulo desarrollado en \mbox{Python} $2$.$7$. Si bien es cierto que es posible trabajar directamente con el protocolo de comunicación a través de sockets, una librería abstrae todos los detalles dando una interfaz de trabajo más clara y sencilla. Por ello, aunque no se usarán en la tesis, existen otras dos implementaciones que merece la pena mencionar:
+Como librería, \gls{traci} es un módulo desarrollado en \mbox{Python} $2$.$7$. Aunque es posible trabajar directamente con el protocolo de comunicación a través de sockets, una librería abstrae todos los detalles dando una interfaz de trabajo más clara y sencilla. Por ello, aunque no se usarán en la tesis, existen otras dos implementaciones que merece la pena mencionar:
 
 \begin{itemize}
 	\item \textbf{TraCI4J}\sidenote{\url{https://github.com/egueli/TraCI4J}.}. El homólogo de la librería de abstracción de Python pero para el lenguaje Java. Está desarrollada por un tercero.
