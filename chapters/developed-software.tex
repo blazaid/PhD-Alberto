@@ -3,11 +3,21 @@
 
 Este capítulo describe todos los sistemas y el software desarrollados e implementados para realizar la tesis. Éstos son tanto los encargados de la captura de datos de los conductores, los que trabajan directamente con el simulador para integrar los controladores generados y los desarrollos para la generación de Software.
 
-\section{ScanBUS}
+\section{Outrun}
+
+Biblioteca para la incorporación de modelos de conductor personalizados en SUMO. Hace uso de \gls{traci}.
+
+\section{Modelos de comportamiento}
+
+\subsection{Entrenamiento de controladores difusos mediante \gls{cev}}
+
+\section{Otro software desarrollado}
+
+\subsection{ScanBUS}
 
 ScanBUS es un software para la identificación de paquetes enviados por dispositivos a través del Bus CAN del vehículo.
 
-\section{Sistema para la captura de datos multidispositivo}
+\subsection{Sistema para la captura de datos multidispositivo}
 
 Para la obtención de los datos de conducción se ha desarrollado un sistema que permite la conexión a múltiples dispositivos desde diferentes interfaces. Las razones para su desarrollo son las siguientes
 
@@ -17,11 +27,14 @@ Para la obtención de los datos de conducción se ha desarrollado un sistema que
 	\item Hardware compacto. El sistema está integrado en un ordenador de tipo Raspberry PI, aunque es factible su integración en otros sistemas siempre y cuando funcionen con un sistema GNU/Linux e incluyan el hardware necesario para las capturas.
 \end{itemize}
 
-\section{Biblioteca para la incorporación de modelos de conductor personalizados en SUMO}
+\subsection{Nagel-Schreckenberg}
 
-Hace uso de \gls{traci}.
-
-\section{Modelos de comportamiento}
-
-\subsection{Entrenamiento de controladores difusos mediante \gls{cev}}
-
+\begin{lstlisting}[style=bash]
+$ python3 main.py \
+            --highway_len 250 \
+            --iterations 100 \
+            --num_cars 50 \
+            --max_speed 5 \
+            --p 250 \
+            --output output.pdf
+\end{lstlisting}

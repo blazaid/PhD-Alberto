@@ -6,7 +6,7 @@
 \usepackage{units}
 \usepackage{listingsutf8}
 \usepackage{xspace}
-
+\usepackage{forest}
 
 \setlength{\parskip}{0.5\baselineskip}%
 \setlength{\parindent}{0pt}%
@@ -54,6 +54,10 @@
 	     {Ň}{{\v{N}}}1                
 	     {Ů}{{\r{U}}}1
 }
+\lstdefinestyle{bash}{
+    backgroundcolor=\color{black},
+    basicstyle=\scriptsize\color{white}\ttfamily
+}
 
 \def\thetitle{Modelado de comportamiento de conductores con técnicas de Inteligencia Computacional}
 \def\theauthor{Alberto Díaz Álvarez}
@@ -100,7 +104,7 @@
 
 
 \usepackage{tikz}
-\usetikzlibrary{matrix,arrows,arrows.meta,shapes,shapes.geometric,trees,mindmap,shadows}
+\usetikzlibrary{matrix,arrows,arrows.meta,shapes,shapes.geometric,trees,mindmap,shadows,automata}
 
 \usepackage{smartdiagram}
 

@@ -39,25 +39,21 @@ Conducir implica la ejecución de múltiples tareas en paralelo, cada una de ell
 	\label{fig:three-levels-of-human-driving}
 \end{figure}
 
-\cite{michon1985critical} define tres los niveles de abstracción de las tareas: el nivel de \textbf{control}, que se ocupa de las tareas de más bajo nivel como son el mantenimiento de la velocidad o los cambios de marcha, el de \textbf{maniobra} o táctico, donde sus tareas son las encargadas de mantener la interacción con el entorno como los cambios de carril o el control de las señales y demás estímulos externos, y el \textbf{estratégico}, que engloba las tareas de más alto nivel como el razonamiento y la planificación de rutas (ver figura~\ref{fig:three-levels-of-human-driving}). A pesar de que se trata de una clasificación subjetiva, algunos estudios llegan incluso a definir intervalos temporales de tiempo de razonamiento para las tareas de cada nivel. Por ejemplo, en \cite{Alexiadis2004} se establecen los siguientes tiempos: alrededor de \unit[30]{s} para las tareas del nivel de planificación, entre \unit[5]{s} a \unit[30]{s} para las tareas de nivel táctico y por debajo de los \unit[5]{s} para las tareas de control.
+\cite{michon1985critical} define tres los niveles de abstracción de las tareas: el nivel de \textbf{control}, que se ocupa de las tareas de más bajo nivel como son el mantenimiento de la velocidad o los cambios de marcha, el de \textbf{maniobra} o táctico, donde sus tareas son las encargadas de mantener la interacción con el entorno como los cambios de carril o el control de las señales y demás estímulos externos, y el \textbf{estratégico}, que engloba las tareas de más alto nivel como el razonamiento y la planificación de rutas (ver figura~\ref{fig:three-levels-of-human-driving}). A pesar de que se trata de una clasificación subjetiva, algunos estudios llegan incluso a definir intervalos de tiempo de razonamiento para las tareas de cada nivel. Por ejemplo, en \cite{Alexiadis2004} se establecen los siguientes tiempos: alrededor de \unit[30]{s} para las tareas del nivel de planificación, entre \unit[5]{s} a \unit[30]{s} para las tareas de nivel táctico y por debajo de los \unit[5]{s} para las tareas de control.
 
-Otro modelo jerárquico de tres niveles muy referenciado en la literatura es el \textit{skill-rule-knowledge} de \cite{Rasmussen1986}, una generalización del modelo propuesto por \cite{michon1985critical} al comportamiento y razonamiento humano. Postula que éste se puede basar en \textbf{habilidades} (actividades completamente automatizadas de la forma \textit{percepción $\rightarrow$ ejecución}), en \textbf{reglas} (situaciones familiares o estereotipadas de la forma \textit{percepción $\rightarrow$ reconocimiento de la situación $\rightarrow$ planificación $\rightarrow$ ejecución}) y en \textbf{conocimiento} (actividades conscientes que implican resolución de problemas y toma de decisiones de la forma \textit{percepción $\rightarrow$ reconocimiento de la situación $\rightarrow$ toma de decisión $\rightarrow$ planificación de la ejecución}) que suelen ser necesarias en situaciones poco familiares)\sidenote{
-	El trabajo presentado en \cite{Chaib-draa1994} se basa en esta jerarquización del razonamiento humano y abarca los $3$ niveles de abstracción representando en un escenario urbano tres tipos diferentes de situaciones: rutinaria, familiar y no familiar.
-}.
+Otro modelo jerárquico de tres niveles muy referenciado en la literatura es el \textit{skill-rule-knowledge} de \cite{Rasmussen1986}, una generalización del modelo propuesto por \cite{michon1985critical} al comportamiento y razonamiento humano. Postula que éste se puede basar en \textbf{habilidades} (actividades completamente automatizadas de la forma \textit{percepción $\rightarrow$ ejecución}), \textbf{reglas} (situaciones familiares o estereotipadas de la forma \textit{percepción $\rightarrow$ reconocimiento de la situación $\rightarrow$ planificación $\rightarrow$ ejecución}) y \textbf{conocimiento} (actividades conscientes que implican resolución de problemas y toma de decisiones de la forma \textit{percepción $\rightarrow$ reconocimiento de la situación $\rightarrow$ toma de decisión $\rightarrow$ planificación de la ejecución}) que suelen ser necesarias en situaciones poco familiares). Algunos trabajos se basan en este modelo en lugar del de \cite{michon1985critical} como el presentado por \cite{Chaib-draa1994} donde abarca los tres niveles de abstracción representando en un escenario urbano tres tipos diferentes de situaciones: rutinaria, familiar y no familiar.
 
 El comportamiento de un conductor al volante tiene una relación directa con el nivel de abstracción táctico. Se puede entender como el nivel encargado de planificar acciones a corto plazo para conseguir objetivos a corto plazo. Las tareas de control son automáticas e influyen poco o nada en la toma de deciones de tareas como \textit{cuánto acelerar en esta situación} o \textit{cuándo cambiar de carril}. Las tareas estratégicas están a un nivel más alto de abstracción (e.g. la ruta a seguir hasta mi destino) y tampoco afectan demasiado al comportamiento en situaciones concretas\sidenote{
 	No obstante algunos trabajos han demostrado que en ocasiones la planificación de la ruta sí afecta a decisiones normalmente asociadas el nivel táctico como por ejemplo la preferencia de un conductor por uno u otro carril de la vía \cite{Wei2000, Toledo2003}.
 }.
 
-\newthought{Nuestro interés es el uso de agentes} como unidades en simulación. Después de todo trabajamos con \glsentrylongplsp{mas}. Sin embargo, y aunque en los trabajos más modernos exista una cierta predisposició hacia este paradigma, no todos los trabajos se basan en él. El auge de su uso coincide con el renacimiento de la \glsentrylongsp{ai}, alrededor de los años $90$, y los modelos que se describen en este apartado, sobre todo posteriores a esta fecha, se basan en este tipo de sistemas.
+\newthought{Nuestro interés es el uso de agentes} como unidades en simulación. Después de todo trabajamos con \glsentrylongplsp{mas}. Sin embargo, y aunque en los trabajos más modernos exista una cierta predisposición hacia este paradigma, no todos los trabajos se basan en él. El auge de su uso coincide con el renacimiento de la \glsentrylongsp{ai}, alrededor de los años $90$, y los modelos que se describen en este apartado, sobre todo posteriores a esta fecha, se basan en este tipo de sistemas.
 
-Las tipologías de agentes utilizadas es de todo tipo. Existen desde trabajos que explotan las características de los agentes reactivos (e.g. agentes que continuamente van realizando decisiones de control para mantenerse en la via y llegar a su destino \cite{Ehlert2001}) hasta aquellos que proponen frameworks nuevos para definir comportamientos\sidenote{
-	El \textit{framework} propuesto por \cite{al2001framework} es muy interesante por cómo modela los agentes del sistema. Se basan en cuatro unidades de funcionamiento interconectadas: (i) \textbf{percepción}, que percibe el entorno en términos locales y globales, (ii) \textbf{emoción}, que identifica cómo responde emocionalmente al entorno, (iii) \textbf{toma de decisiones}, que investiga posibles acciones para satisfacer al módulo emocional y (iv) \textbf{ejecución}, que intenta implementar las decisiones cuando surgen condiciones lo suficientemente seguras para llevarlas a cabo.
-}.
+Las tipologías de agentes utilizadas es de todo tipo. Existen desde trabajos que explotan las características de los agentes reactivos (e.g. agentes que continuamente van realizando decisiones de control para mantenerse en la via \cite{Ehlert2001}) hasta aquellos que proponen complejos frameworks para definir comportamientos (e.g. cuatro unidades de funcionamiento interconectadas, \textit{percepción}, \textit{emoción}, \textit{toma de decisiones} y \textit{ejecución}, que gestionan el comportamiento inteligente del agente en cada situación \cite{al2001framework}).
 
 La información que manejan estos agentes dentro de los simuladores suele limitarse a tipologías de vehículo (e.g. utilitarios o vehículos de grandes dimensiones) y magnitudes físicas (tamaño, velocidad máxima). Dependiendo del trabajo, algunos autores añaden más conocimiento a los agentes; por ejemplo, en \cite{hidas2002}, el autor incluye en los agentes, denominados \glspl{dvo} (otra denominación del concepto de \gls{dvu}), información adicional sobre el tipo de conductor y el nivel de conocimiento de la red de carreteras.
 
-El resto del capítulo introducirá los modelos de comportamiento más conocidos y hará especial hincapié en el estado más reciente de modelos basados en técnicas de la \glsentrylong{ci}.
+El resto del capítulo introducirá los modelos de comportamiento más conocidos y hará especial hincapié en el estado más reciente de modelos basados en técnicas de la \glsentrylongsp{ci}.
 
 \section{Comportamientos modelados}
 
@@ -65,26 +61,58 @@ Las tareas que se realizan en el nivel táctico del comportamiento son aquellas 
 
 Los modelos de \textbf{aceleración} se ocupan de gestionar las alteraciones de la tasa de aceleración (positiva o negativa) en un entorno lineal como lo es un carril de tráfico.
 
-El tráfico real, sin embargo, no está compuesto por un sólo carril, sino por varios. Los modelos de \textbf{cambio de carril} (figure~\ref{fig:lane-change-types}) tienen como objetivo identificar cuándo el conductor desea cambiar de carril y realizar dicho cambio, ya sea porque quiere mejorar su circulación (e.g. quiere realizar un adelantamiento) o porque su ruta lo requiere (e.g. está próxima la rampa de salida que quiere tomar en una autopista).
-
-\begin{figure}
+\begin{figure}[t]
 	\centering
-	\smartdiagramset{
-		set color list={
-			orange!60,
-			green!50!lime!60,
-			magenta!60,
-			blue!50!cyan,
-			red!50!blue,
-		},
-		uniform connection color=true
-	}
-	\smartdiagram[bubble diagram]{
-		modelos de\\ cambio de carril, lane-selection, gap-acceptance, merging, \ldots
-	}
+	\begin{forest}
+		for tree={
+			align=center,
+			parent anchor=south,
+			child anchor=north,
+			font=\sffamily,
+			edge={thick, -{Stealth[]}},
+			l sep+=10pt,
+			edge path={
+				\noexpand\path [draw, \forestoption{edge}] (!u.parent anchor) -- +(0,-10pt) -| (.child anchor)\forestoption{edge label};
+			},
+		}
+		[Modelos de aceleración
+			[\idx{free flow}]
+			[\idx{approaching}]
+			[\idx{car-following}]
+			[\idx{emergency}]
+			[\ldots]
+		]
+	\end{forest}
+	\caption{Tras la aparición de los modelos psico-físicos se comprobó que los umbrales en las percepciones y por tanto el comportamiento podía variar dependiendo de las situaciones. Por ello, el \textit{car-following} no era más que una entre diferentes clases o regímenes de aceleración. Algunos de los regímenes más usados en la literatura son \textit{free-flow}, \textit{car-following}, \textit{approaching}, y \textit{emergency}, aunque algunos autores definen nuevos regímenes, cada uno con sus límites de aplicación.}
+	\label{fig:acceleration-model-classes}
+\end{figure}
+
+\begin{figure}[b]
+	\centering
+	\begin{forest}
+		for tree={
+			align=center,
+			parent anchor=south,
+			child anchor=north,
+			font=\sffamily,
+			edge={thick, -{Stealth[]}},
+			l sep+=10pt,
+			edge path={
+				\noexpand\path [draw, \forestoption{edge}] (!u.parent anchor) -- +(0,-10pt) -| (.child anchor)\forestoption{edge label};
+			},
+		}
+		[Modelos de cambio de carril
+		[\idx{lane selection}]
+		[\idx{gap acceptance}]
+		[\idx{merging}]
+		[\ldots]
+		]
+	\end{forest}
 	\caption{El cambio de carril se divide tradicionalmente en una operación que involucra dos pasos. La selección de carril (\textit{lane-selection}) al que cambiarse y la ejecución del cambio (\textit{merging}). En la operación de merging se suele involucrar otra operación denominada \textit{gap-acceptance}, aunque algunos autores la tratan como operación independiente. Otros autores pueden llegar a añadir opreaciones más especializadas.}
 	\label{fig:lane-selection-plus-merging}
 \end{figure}
+
+El tráfico real, sin embargo, no está compuesto por un sólo carril, sino por varios. Los modelos de \textbf{cambio de carril} (figure~\ref{fig:lane-change-types}) tienen como objetivo identificar cuándo el conductor desea cambiar de carril y realizar dicho cambio, ya sea porque quiere mejorar su circulación (e.g. quiere realizar un adelantamiento) o porque su ruta lo requiere (e.g. está próxima la rampa de salida que quiere tomar en una autopista).
 
 En la literatura los modelos de aceleración han sido mucho más estudiados que los de cambio de carril, entre otras cosas por la dificultad en la captura de los datos y, por tanto, por su escasez.
 
@@ -94,7 +122,7 @@ El estudio del comportamiento en los cambios de carril es muy interesante debido
 
 Para no llevar a equívocos, en la figura \ref{fig:lane-representation-with-namings} se ilustran los actores típicos en una situación de tráfico junto con los nombres y su rol. A continuación los explicamos:
 
-\begin{figure}
+\begin{figure}[t]
 	\missingfigure[figheight=4cm]{Ilustración estupenda y maravillosa de los vehículos en la vía y cómo están relacionados unos con otros.}
 	\caption{Representación de los vehículos en una vía junto con la nomenclatura a usar durante el resto de la tesis.}
 	\label{fig:lane-representation-with-namings}
@@ -112,9 +140,7 @@ Los primeros trabajos sobre modelos de conducción datan de comienzo de los año
 Este modelo se puede considerar de una clase que denominaremos \textbf{mantenimiento de medida} dado que su objetivo es mantener constantemente una distancia segura, determinada a partir de la ecuación de la velocidad cuando el tiempo no baja de $1,02$ segundos. Otros trabajos trabajan con el mantenimiento de otras medidas como distancia relativa al parachoque delantero o trasero.
 
 \marginnote{
-	\textbf{Modelo \glsentryshort{ghr}}
-	\\
-	Presentado en \cite{Chandler1958} es el modelo más conocido antes de la introducción del modelo de Gipps. Desarrollado a finales de los años $50$ dentro de la \textit{General Motors} (por ello también se le conoce como modelo \gls{gm}), se caracteriza por el uso del concepto \textit{estímulo $\rightarrow$ respuesta}, donde la respuesta del vehículo (el cambio en la tasa de aceleración) es debida a la activación de un estímulo (la variación en la distancia con el vehículo delantero) tras pasar un tiempo de retardo $\tau$. Concretamente calcula el valor de la aceleración $a$ en un instante $t$ como:
+	\textbf{El Modelo \glsentryshort{ghr}}, presentado en \cite{Chandler1958}, es el modelo más conocido antes de la introducción del modelo de Gipps. Desarrollado a finales de los años $50$ dentro de la \textit{General Motors} (por ello también se le conoce como modelo \gls{gm}), se caracteriza por el uso del concepto \textit{estímulo $\rightarrow$ respuesta}, donde la respuesta del vehículo (el cambio en la tasa de aceleración) es debida a la activación de un estímulo (la variación en la distancia con el vehículo delantero) tras pasar un tiempo de retardo $\tau$. Concretamente calcula el valor de la aceleración $a$ en un instante $t$ como:
 	
 	\begin{equation}
 	a(t) = c v^m(t) \frac{\Delta v(t - \tau)}{\Delta x^l(t - \tau)}
@@ -126,7 +152,7 @@ Este modelo se puede considerar de una clase que denominaremos \textbf{mantenimi
 
 Más adelante, a finales de la decada se presentó el modelo \gls{ghr} (ver ecuación~\ref{eq:ghr-car-following-model}), el cual sirvió como base para el desarrollo de muchos modelos posteriores. Eset modelo dio origen a a una nueva clase de modelos de conducción, los de tipo \textbf{estímulo $\rightarrow$ respuesta}. 
 
-\begin{figure}
+\begin{figure}[t]
 	\begin{center}
 		\smartdiagramset{
 			border color=none,
@@ -144,42 +170,22 @@ Más adelante, a finales de la decada se presentó el modelo \gls{ghr} (ver ecua
 	\end{center}
 \end{figure}
 
-En realidad los modelos estímulo $\rightarrow$ respuesta son la evolución lógica de los modelos anteriores, donde se pasa de un cálculo de velocidad en función de la distancia (u otra medida) a un sistema de control donde la variable a controlar es la aceleración en función de uno o varios estímulos de entrada, además con un retardo simulando el tiempo de reacción. Algunas modificaciones sobre el algoritmo original son, entre otras, la asimetría en la tasa de cambio de aceleración y deceleración (\cite{Gazis1959}) o la inclusión de segundos coches delanteros (\cite{Bexelius1968}).
+En realidad los modelos \textit{estímulo $\rightarrow$ respuesta} son la evolución lógica de los modelos anteriores, donde se pasa de un cálculo de velocidad en función de la distancia (u otra medida) a un sistema de control donde la variable a controlar es la aceleración en función de uno o varios estímulos de entrada, además con un retardo simulando el tiempo de reacción. Algunas modificaciones sobre el algoritmo original son la asimetría en la tasa de cambio de aceleración y deceleración \cite{Gazis1959} o la inclusión del efecto de segundos coches delanteros \cite{Bexelius1968}.
 
-\begin{figure}
-	\centering
-	\smartdiagramset{
-		set color list={
-			orange!60,
-			green!50!lime!60,
-			magenta!60,
-			blue!50!cyan,
-			red!50!blue,
-		},
-		uniform connection color=true
-	}
-	\smartdiagram[bubble diagram]{
-		modelos de\\ aceleración, free-flow, approaching, car-following, emergency, \ldots
-	}
-	\caption{Tras la aparición de los modelos psico-físicos se comprobó que los umbrales en las percepciones y por tanto el comportamiento podía variar dependiendo de las situaciones. Por ello, el \textit{car-following} no era más que una entre diferentes clases o regímenes de aceleración. Algunos de los regímenes más usados en la literatura son \textit{free-flow}, \textit{car-following}, \textit{approaching}, y \textit{emergency}, aunque algunos autores definen nuevos regímenes, cada uno con sus límites de aplicación.}
-	\label{fig:acceleration-model-classes}
-\end{figure}
+Los métodos de estas dos clases tienen un problema principal: suponen que el conductor es capaz de percibir incluso el más ínfimo cambio en las variables observadas, cuando la realidad no es así. Por ello, a mediados de los años $70$ apareció una nueva clase de modelos de \textit{\idx{car-following}}, denominados posteriormente como \textbf{psicofísicos} \cite{wiedemann1974simulation}, donde se introduce el concepto de \textit{\idx{umbral perceptual}} como solución a dicha limitación. El \textit{umbral perceptual} de una medida es el límite a partir del cual se percibe un cambio en dicha medida. Mediante su uso, las acciones de los vehículos se limitan únicamente a los cambios \textbf{perceptibles} en los coches delanteros.
 
-Los métodos de estas dos clases tienen un problema principal: suponen que el conductor es capaz de percibir incluso el más ínfimo cambio en las variables observadas cuando la realidad no es así. Por ello, a mediados de los años $70$ apareció una nueva clase de modelos de \textit{\idx{car-following}}, denominados posteriormente como \textbf{psicofísicos} (\cite{wiedemann1974simulation}, donde se introduce el concepto de \textit{umbral perceptual} como solución a dicha limitación. El \textit{umbral perceptual} de una medida es el límite a partir del cual se percibe un cambio en dicha medida. Mediante el uso de umbrales perceptuales, se limitan las acciones de los coches a cambios perceptibles en los coches delanteros.
-A finales de la década, en $1978$, se cumplió otro hito en el desarrollo de modelos de conducción. Sparmann en \cite{Sparmann1978} define el primer modelo de cambio de carril, inspirándose en las clases de modelo psicofísico. El verdadero interés de este modelo es que sentó las bases de dos conceptos que perduran hoy en día. El primero, la diferenciación entre cambio a carriles rápidos y lentos\sidenote{
+A finales de la década, en $1978$, se cumplió otro hito en el desarrollo de modelos de conducción. \cite{Sparmann1978} define el primer modelo de cambio de carril, inspirándose en las clases de modelo psicofísico. El verdadero interés de este modelo es que sentó las bases de dos conceptos que perduran hoy en día. El primero, la diferenciación entre cambio a carriles rápidos y lentos\sidenote{
 	En \cite{Sparmann1978} el autor entiende la derecha como el carril lento y la izquierda como el carril rápido, y es como se entiende dentro del contexto de esta tesis. Sin embargo en otros países esta correspondencia es al revés.
 }. El segundo, la diferenciación entre la selección de carril o \textit{\idx{lane-selection}} y la ejecución del cambio o \textit{\idx{merging}}.
 
 \newthought{La viabilidad en un cambio de carril} se determina haciendo uso de modelos denominados \textit{\idx{gap acceptance}}, donde los vehículos calculan si caben o no en un determinado hueco y actuan en consecuencia.
 
-En su origen los modelos de \textit{\idx{gap acceptance}} se desarrollaron para resolver situaciones en intersecciones e incorporaciones. En la actualidad son los modelos que se usan en el momento de después de seleccionar el cambio de carril y antes de ejecutar físicamente el cambio, y dependiendo del autor del modelo, lo incluye dentro de la operación \textit{\idx{lane-selection}} y la ejecución del cambio o \textbf{\idx{merging}}.
+En su origen los modelos de \textit{\idx{gap acceptance}} se desarrollaron para resolver situaciones en intersecciones e incorporaciones. En la actualidad son los modelos usados tras seleccionar el cambio de carril y antes de ejecutar físicamente el cambio, y dependiendo del modelo, es incluido como operación dentro de uno u otro.
 
-En general se basan en una fórmula que determina si, en función de una serie de parámetros entre los que se incluye el hueco del carril destino, el cambio es viable, en cuyo caso el cambio se ejecuta. En la ecuación~\ref{eq:gap-acceptance-model} se describe el modelo típico de un modelo de \idx{gap accceptance}. 
+En general se basan en una fórmula que determina si el cambio es viable o no en función de una serie de parámetros entre los que se incluye el hueco del carril destino. En la ecuación~\ref{eq:gap-acceptance-model} se describe el modelo típico de un modelo de \textit{\idx{gap accceptance}}. 
 
 \marginnote{
-	\paragraph{\textit{\idx{gap acceptance}}}
-	
-	El modelo típico de \textit{\idx{gap acceptance}} responde a la ecuación~\ref{eq:gap-acceptance-model}, donde en un momento $t$, el cambio a un carril $l$ es viable ($f_{g_l}(t) = 1$) o no ($f_{g_l}(t) = 0$) dependiendo de si el espacio en el carril destino $g_l(t)$ es mayor o menor que un \enquote{hueco crítico} (en inglés \idx{critical gap}) $g^{crit}_l(t)$.
+	El modelo típico del \textbf{\idx{gap acceptance}} responde a la ecuación~\ref{eq:gap-acceptance-model}, donde en un momento $t$, el cambio a un carril $l$ es viable ($f_{g_l}(t) = 1$) o no ($f_{g_l}(t) = 0$) dependiendo de si el espacio en el carril destino $g_l(t)$ es mayor o menor que un \enquote{hueco crítico} (en inglés \idx{critical gap}) $g^{crit}_l(t)$.
 	
 	\begin{equation}
 	f_{g_l}(t) = \twopartf {0} {g_l(t) < g^{crit}_l(t)} {1} {g_l(t) \geq g^{crit}_l(t)}
@@ -189,39 +195,39 @@ En general se basan en una fórmula que determina si, en función de una serie d
 	Por otro lado, existen autores que definen factores de influencia que modifican el modelo típico. Algunos ejemplos de factores pueden ser la velocidad absoluta del vehículo (\cite{Gipps1986, Ahmed1996}),el tipo de cambio (\gls{mlc} o \gls{dlc}, usado en \cite{Ahmed1999, Toledo2007}), la relativa con los vehículos delantero y trasero del carril destino (\cite{Ahmed1999}) o incluso el peso de encontrarse o no en una situación de cooperación (\cite{Ahmed1999, Hidas2002}).
 }
 
-\newthought{Llegados a este punto}, con los modelos psicofísicos se llegó a la conclusión que no todas las situaciones eran iguales, sino que en función del entorno y el momento los umbrales podían variar, y que el \textit{\idx{car-following}} no era sino un subtipo más de una clase más amplia que se definió como \textit{modelos de aceleración} (figura~\ref{fig:acceleration-model-classes}).
-
-\marginnote{
-	En el trabajo de \cite{wiedemann1992microscopic} se proponen hasta cuatro clases diferentes de modelos de aceleración en función de las posiciones y velocidades relativas entre el vehículo sujeto y el siguiente: (i) \textbf{free-flow}, donde el comportamiento no se ve afectado por el del vehículo delantero), (ii) \textbf{car-following}, donde el comportamiento sí se ve influenciado por el vehículo delantero, obligando a disminuir la velocidad deseada en el conductor en cuestión, (iii) \textbf{approaching}, stuación intermedia entre las dos anteriores y (iv) \textbf{emergency}, donde la situación es crítica (e.g. colisión inminente) obligando, normalmente, a respuestas extremas.
-	
-	Más adelante diferentes autores identifican otros regímenes que pueden considerarse en algunos casos como situaciones independientes (e.g. \textit{close-following} o \textit{stop-and-go} \cite{Toledo2003, Liu2013}).
-}
+\newthought{con los modelos psicofísicos} se llegó a la conclusión que no todas las situaciones eran iguales, sino que en función del entorno y el momento los umbrales podían variar, y que el \textit{\idx{car-following}} no era sino un subtipo más de una clase más amplia que se definió como \textit{modelos de aceleración} (figura~\ref{fig:acceleration-model-classes}).
 
 Debido a eso y a la irrupción de los modelos de cambio de carril, los posteriores modelos y \textit{frameworks} desarrollados se componen de dos o más submodelos que responden a diferentes umbrales. Sin embargo, esto provoca que los modelos desarrollados sean más complejos ya que, cuantos más regímenes se tratan de agrupar en un mismo modelo, más aumenta el número de factores a generalizar y ajustar.
 
-\newthought{El trabajo de Gipps} en \cite{Gipps1981} es uno de los primeros modelos que agrupa varios regímenes distintos (concretamente \textit{\idx{car-following}} y \textit{\idx{free-flow}}). Sin embargo consideramos más interesante su posterior trabajo, \cite{Gipps1986} ya que puede considerarse como la primera solución para el cambio de carril.
+\newthought{El trabajo de Gipps} es uno de los primeros modelos que agrupa varios regímenes distintos (concretamente \textit{\idx{car-following}} y \textit{\idx{free-flow}}) \cite{Gipps1981}. Sin embargo consideramos más interesante su posterior trabajo, \cite{Gipps1986} ya que puede considerarse como la primera solución para el cambio de carril.
 
 Introduce el concepto de que los cambios de carril obedecen a diferentes motivaciones. Por un lado, los cambios pueden ser \textbf{obligatorios} (denominado en la literatura como \gls{mlc}) cuando los vehículos se ven obligados a abandonar el carril que ocupan. Por otro lado, pueden ser \textbf{discrecionales} cuando el cambio obedece a motivaciones más relacionadas con la mejora del confort o de la situación actual de conducción (ver figura~\ref{fig:lane-change-mandatory-vs-discretional}).
 
-\begin{figure}
+\begin{figure}[t]
 	\missingfigure[figheight=4cm]{Dos ilustraciones, una con un cambio de carril obligatorio (que se acabe el carril por ejemplo) y otro discrecional (que se vea un vehículo lento como un camión y el coche adelantando).}
 	\caption{Los cambios de carril se clasifican como aquellos necesarios para continuar con la conducción (obligatorios) y aquellos útiles para mejorar la situación de conducción (discrecionales).}
 	\label{fig:lane-change-mandatory-vs-discretional}
 \end{figure}
 
-En su modelo Gipps propone un modelo para el cambio de carril al aproximarse a un cambio de dirección. Dicho modelo identifica tres distancias que caracterizan el comportamiento del conductor en función de cómo de lejos está dicho punto: (i) textbf{lejos}, en el que no existe condicionamiento en la decisión de cambio de carril, (ii) textbf{medio}, donde el conductor empieza a ignorar los cambio que dan ventaja de velocidad si no hacia carriles distanciados del de salida y (iii) \textbf{cerca} donde los vahículos deben estar en el carril de cambio de salida.
+En su modelo, Gipps propone un modelo para el cambio de carril al aproximarse a un cambio de dirección. Dicho modelo identifica tres distancias que caracterizan el comportamiento del conductor en función de cómo de lejos está dicho punto: (i) \textbf{lejos}, en el que no existe condicionamiento en la decisión de cambio de carril, (ii) \textbf{medio}, donde el conductor empieza a ignorar los cambio que dan ventaja de velocidad si no hacia carriles distanciados del de salida y (iii) \textbf{cerca} donde los vahículos deben estar en el carril de cambio de salida.
 
-Otro concepto que incluye el modelo de Gipps y que exporta a modelos posteriores de cambio de carril\index{lane-changing} es el de ampliar el \textit{\idx{critical gap}} a más de un hueco: las distancias hasta el vehículo delantero y hasta el vehículo trasero, forzando a que durante el proceso de \idx{gap acceptance} las condiciones de ambos huecos tengan que ser aceptables.
-
-\begin{figure}
-	\missingfigure[figheight=4cm]{Tres ilustraciones, una para cada caso de lejos, medio y cerca..}
-	\caption{En el modelo de Gipps, la distancia al punto determina el grado de obligatoriedad del cambio.}
-	\label{fig:lane-change-type-depending-on-the-distance}
-\end{figure}
+Otro concepto que incluye el modelo de Gipps y que exporta a modelos posteriores de cambio de carril\index{lane-changing} es el de ampliar el número de \index{critical-gap}\textit{critical gaps} a más de un hueco: las distancias hasta el vehículo delantero y hasta el vehículo trasero, forzando a que durante el proceso de \textit{\idx{gap-acceptance}} las condiciones de ambos huecos tengan que ser aceptables.
 
 Posteriormente, en \cite{wiedemann1992microscopic} se desarrolla un framework similar pero teniendo en cuenta los cambios a carriles lentos (para representar, por ejemplo, obstrucciones como accidentes o un vehículo lento) y a carriles rápidos (para situaciones como condiciones de la ruta). Además el autor incluye un modelo para influir en su desempeño en función del entorno actual (las características de los vehículos de alrededor) y el entorno potencial (la estimación de las características del entorno en momentos posteriores).
 
-El modelo de Gipps sin embargo adolecía de dos problemas clave. Muchos de estos problemas fueron heredados por multitud de trabajos posteriores que basaban su funcionamiento o su concepto en éste.
+\begin{figure}[t]
+	\missingfigure[figheight=4cm]{Tres ilustraciones, una para cada caso de lejos, medio y cerca..}
+	\caption{En el modelo de Gipps, la distancia al punto (i.e. cerca, media distancia y lejos) determina el grado de obligatoriedad del cambio.}
+	\label{fig:lane-change-type-depending-on-the-distance}
+\end{figure}
+
+\marginnote{
+	En el trabajo de \cite{wiedemann1992microscopic} se proponen hasta cuatro clases diferentes de modelos de aceleración en función de las posiciones y velocidades relativas entre el vehículo sujeto y el siguiente: (i) \textbf{free-flow}, donde el comportamiento no se ve afectado por el del vehículo delantero), (ii) \textbf{car-following}, donde el comportamiento sí se ve influenciado por el vehículo delantero, obligando a disminuir la velocidad deseada en el conductor en cuestión, (iii) \textbf{approaching}, stuación intermedia entre las dos anteriores y (iv) \textbf{emergency}, donde la situación es crítica (e.g. colisión inminente) obligando, normalmente, a respuestas extremas.
+	
+	Esto es sólo un ejemplo, y diferentes autores identifican diferentes situaciones dependiendo del alcance del trabajpo como por ejemplo el \textit{close-following} o el \textit{stop-and-go} \cite{Toledo2003, Liu2013}).
+}
+
+El modelo de Gipps sin embargo, sufre de dos problemas clave. Muchos de estos problemas fueron heredados por posteriores trabajos que basaban su funcionamiento en éste.
 
 \newthought{Un cambio de carril no sólo involucra} al conductor que lo ejecuta. En \cite{Hidas2002}, el autor resalta el problema de que, en situaciones de congestión, el cambio ha de ser o bien forzado o bien a través de colaboración; en caso contrario, los vehículos no abandonarán el carril congestionado.
 
@@ -233,17 +239,39 @@ Uno de los primeros trabajos en abordar el comportamiento colaborativo es el de 
 	\label{fig:toledo-2007-behavior-model-tree}
 \end{figure}
 
-\newthought{Además, al usar árboles secuenciales}, los factores son evaluados uno detrás de otro hasta encontrar una situación favorable, en cuyo caso el resto de factores no son evaluados. Por ejemplo, tal y como está formado el modelo de \cite{Hidas2002}, un \gls{mlc} inhibe cualquier posibilidad de realizar un \gls{dlc} independientemente de la utilidad de ambos. Para evitar esta limitación, algunos autores hacen uso de técnicas como modelos probabilísticos. Ejemplos de avances en esta línea de trabajo pueden ser \cite{Toledo2003, Toledo2007, Wei2000} (figura~\ref{fig:toledo-2007-behavior-model-tree}).
+\newthought{Además, al usar árboles secuenciales}, los factores son evaluados uno detrás de otro hasta encontrar una situación favorable, en cuyo caso el resto de factores no son evaluados. Por ejemplo, tal y como está formado el modelo de Gibbs, y algunos basados en éste como \cite{Hidas2002}, un \gls{mlc} inhibe cualquier posibilidad de realizar un \gls{dlc} independientemente de la utilidad de ambos. Para evitar esta limitación, algunos autores hacen uso de técnicas como modelos probabilísticos. Ejemplos de avances en esta línea de trabajo pueden ser \cite{Toledo2003, Toledo2007, Wei2000} (figura~\ref{fig:toledo-2007-behavior-model-tree}).
 
-\section{Modelado de conductores basado en \glsentrylong{ci}}
+\section{Modelado basado en \glsentrylongsp{ci}}
 
-Desde mediados de los años $90$ empezó a crecer el interés por aplicar técnicas de \glsentrylongsp{ai} a los \gls{its}. Hay dos razones por las que esto es así: la primera, en los éxitos cosechados por la rama de la \gls{ci}, los cuales atrayeron a investigadores de multitud de áreas incluida esta. La segunda, por el rápido desarrollo de la tecnología\sidenote{
-	Cada vez es más barata, más precisa y con más funcionalidades. En la última década hemos vivido una explosión de dispositivos de todo tipo: teléfonos y relojes con GPS, acelerómetros y giroscopio, ordenadores completamente funcionales del tamaño de una moneda, sensores RADAR y LIDAR para uso amateur además de profesional y así un largo etcétera.
-}, que ha posibilitado la existencia de conjuntos de datos masivos con la capacidad de explotarlos y aprender de ellos.
+Desde mediados de los años $90$ empezó a crecer el interés por aplicar la \glsentrylongsp{ai} a los \gls{its}. Hay dos razones por las que esto es así: la primera, los éxitos cosechados por la \glsentrylongsp{ci}, los cuales atrayeron a investigadores de multitud de áreas incluida ésta. La segunda, el rápido desarrollo de la tecnología\sidenote{
+	La tecnología es cada vez más barata, más precisa y con más funcionalidades. En la última década hemos vivido una explosión de dispositivos de todo tipo: teléfonos y relojes con GPS, acelerómetros y giroscopio, ordenadores completamente funcionales del tamaño de una moneda, sensores RADAR y LIDAR para uso amateur además de profesional y así un largo etcétera.
+}, que posibilita la existencia de conjuntos de datos masivos con la capacidad de explotarlos y aprender de ellos.
 
 Algunos autores (\cite{Zhang2011}) se atreven a afirmar incluso que el futuro de las \gls{its} son las técnicas de la \gls{ci}, y que los resultados que se puedan cosechar de técnicas basadas en el desarrollo convencional de sistemas es marginal comparado con las que se obtendrán con el nuevo enfoque.
 
-Dentro de las \gls{its}, las áreas de aplicación de la \gls{ci} se centran en los siguientes conceptos: reconocimiento de patrones, caracterización de conductores y modelado de conductores. Es necesario mencionar que aunque se trate de áreas distintas, éstas suelen retroalimentarse, y es difícil encontrar estudios que se centren en una única área sin tocar el resto (figura~\ref{fig:main-applications-of-ci-in-its}). Por ello, aunque nuestro interés pueda centrarse en el modelado de conductores, es necesario conocer el estado de las demás áreas.
+Dentro de las \gls{its}, las áreas de aplicación de la \gls{ci} se centran en los siguientes conceptos: \textbf{reconocimiento de patrones}, \textbf{caracterización de conductores} y \textbf{modelado de conductores}. Es necesario mencionar que aunque se trate de áreas distintas, éstas suelen retroalimentarse, y es difícil encontrar estudios que se centren en una única área sin tocar el resto (figura~\ref{fig:main-applications-of-ci-in-its}). Por ello, aunque nuestro interés pueda centrarse en el modelado de conductores, es necesario conocer el estado de las demás áreas.
+
+\begin{figure}[t]
+	\centering
+	\begin{tikzpicture}
+	\begin{scope}[blend group = soft light]
+	\fill[red!20!white]   ( 90:1.6) circle (2);
+	\fill[green!20!white] (210:1.6) circle (2);
+	\fill[blue!20!white]  (330:1.6) circle (2);
+	\end{scope}
+	\node at ( 90:1.6) [align=center] {
+		Reconocimiento\\ de patrones
+	};
+	\node at ( 210:1.6) [align=center] {
+		Caracterización\\ de conductores
+	};
+	\node at ( 330:1.6) [align=center] {
+		Modelado\\ de conductores
+	};
+	\end{tikzpicture}
+	\caption{Las principales areas de aplicación de la \glsentrylongsp{ci} en los \gls{its} son el reconocimiento de patrones, la caracterización de conductores y la modelización de los mismos. Aunque son áreas de aplicación distintas, los estudios en general tienden a solaparse. Por ejemplo, las técnicas de reconocimiento de patrones pueden usarse como forma de extracción de características para una caracterización de conductores y a su vez esta caracterización puede usarse como base para su modelado.}
+	\label{fig:main-applications-of-ci-in-its}
+\end{figure}
 
 \begin{itemize}
 	\item En el \textbf{reconocimiento de patrones} las técnicas suelen trabajar en los temas de extracción de características y de predicción de comportamientos. La cantidad de datos que se pueden generar en un coche es tal que el trabajo a través de información en curdo es inviable (no digamos ya cuando los datos son extraídos de una flota de vehículos).
@@ -251,33 +279,11 @@ Dentro de las \gls{its}, las áreas de aplicación de la \gls{ci} se centran en 
 	\item El \textbf{modelado de conductores} nos permite la reproducción de coómportamientos en simulación.
 \end{itemize}
 
-\begin{figure}
-	\centering
-	\begin{tikzpicture}
-	\begin{scope}[blend group = soft light]
-	\fill[red!20!white]   ( 90:1.8) circle (2);
-	\fill[green!20!white] (210:1.8) circle (2);
-	\fill[blue!20!white]  (330:1.8) circle (2);
-	\end{scope}
-	\node at ( 90:1.8) [align=center] {
-		Reconocimiento\\ de patrones
-	};
-	\node at ( 210:1.8) [align=center] {
-		Caracterización\\ de conductores
-	};
-	\node at ( 330:1.8) [align=center] {
-		Modelado\\ de conductores
-	};
-	\end{tikzpicture}
-	\caption{Las principales areas de aplicación de la \glsentrylong{ci} en los \glsentrylong{its} son el reconocimiento de patrones, la caracterización de conductores y la modelización de los mismos. Aunque son áreas de aplicación distintas, los estudios en general tienden a solaparse. Por ejemplo, las técnicas de reconocimiento de patrones pueden usarse como forma de extracción de características para una caracterización de conductores y a su vez esta caracterización puede usarse como base para su modelado.}
-	\label{fig:main-applications-of-ci-in-its}
-\end{figure}
+Las técnicas de \gls{ci} más utilizadas en el modelado de conductores son las \glsentrylongplsp{ann} y la \glsentrylongsp{fl}. Es comprensible dado que las primeras son una de las técnicas principales en la rama del \glsentrylongsp{ml}, y la segunda por ser una manera sencilla y cercana a la manera de razonar del ser humano.
 
-Las principales técnicas de \gls{ci} utilizadas en el modelado de conductores son las \gls{ann} y la \glspl{fl}. Es comprensible ya que, las primeras son una de las técnicas principales en la rama del \gls{ml}, y la segunda por ser una manera sencilla y cercana a la manera de razonar del ser humano.
+Sólo por la propia naturaleza de las técnicas, los modelos incluyen siempre más de un único comportamiento: al ser entrenados con datos de conductores reales y manejar la información con incertidumbre, \enquote{aprenden} a comportarse en diferentes regímenes (e.g. \textit{\idx{free-flow}}).
 
-En general, aun sólo por la propia naturaleza de las técnicas, los modelos incluyen siempre más de un único comportamiento: al ser entrenados con datos de conductores reales y manejar la información con incertidumbre, aprendieron a comportarse en diferentes regímenes (e.g. \textit{\idx{free-flow}}).
-
-\newthought{Las \glsentrylongplsp{ann}} fueron el punto de entrada de la \gls{ci} en la modelización de conductores. Los perceptrones multicapa y sus nuevas técnicas de entrenamiento se habían convertido en la nueva solución universal para todo aquel problema del que se disponiesen datos.
+\newthought{Las \glsentrylongplsp{ann}} fueron el punto de entrada de la \gls{ci} en la modelización de conductores. Los perceptrones multicapa y sus nuevas técnicas de entrenamiento se habían convertido en la nueva solución universal para todo aquel problema del que se dispusiese de datos.
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Creo que una ilustración pequeña aquí de un controlador difuso y una red neuronal quedaría genial.}
@@ -285,7 +291,7 @@ En general, aun sólo por la propia naturaleza de las técnicas, los modelos inc
 	\label{fig:ann-and-fl-work-with-uncertainty}
 \end{figure}
 
-Las \gls{ann} se han aplicado mucho sobre el campo de las \glspl{its} en general, no sólo en modelado de conductores sino en prácticamente todos los aspectos como la clasificación de conductores \cite{DiazAlvarez2014}, la conducción autónoma \cite{huval2015empirical} o la predicción (\cite{Dougherty1993, chan2012neural} entre muchos otros.
+Las \gls{ann} se han aplicado mucho sobre el campo de los \glspl{its} en general, no sólo en modelado de conductores sino en prácticamente todos los aspectos como la clasificación de conductores \cite{DiazAlvarez2014}, la conducción autónoma \cite{huval2015empirical} o la predicción (\cite{Dougherty1993, chan2012neural} entre muchos otros.
 
 El primer trabajo de la literatura sobre la aplicación de \glspl{ann} al modelado de conductores es \cite{Fix1990}, donde los autores desarrollan un controlador para imitar el comportamiento de un conductor.
 
@@ -293,7 +299,7 @@ En la misma década, en \cite{Hunt1994} se desarrolló uso de \gls{ann} aplicada
 
 Los modelos hasta el momento hacen uso de datos extraídos de conductores reales pero desde entorno de simulación. El primer trabajo en usar datos reales de vehículos instrumentados para este cometido es \cite{Jia2003}. A partir de las entradas correspondientes a velocidad relativa, espacio relativo, velocidad y velocidad deseada (para ello, clasifican al conductor de agresivo, normal, conservador) determinan la aceleración/deceleración del vehículo. No lo aplican a ningún simulador, sólo que los valores se ajustan. Otros trabajos similares son \cite{Panwai2007, Khodayari2012}.
 
-El trabajo de \cite{Simonelli2009} también se apoya en datos extraídos de entornos reales. El interés de este estudio radica en que es el primero en realizar una comparativa entre el desempeño de una arquitectura \textit{\idx{fast-forward}} (e.g. perceptrón multicapa) frente a una \idx{recurrente} (e.g. red de Elman). El por qué del uso de redes recurrentes es porque las redes recurrentes son capaces de reconocer patrones dinámicos, los cuales son de esperar en este tipo de comportamientos.
+El trabajo de \cite{Simonelli2009} también se apoya en datos extraídos de entornos reales. El interés de este estudio radica en que es el primero en realizar una comparativa entre el desempeño de una arquitectura \textit{\idx{fast-forward}} (e.g. perceptrón multicapa) frente a una \idx{recurrente} (e.g. red de Elman). El por qué del uso de redes recurrentes es por su capacidad de reconocer patrones dinámicos, los cuales son de esperar en este tipo de comportamientos.
 
 \newthought{El primer uso de la \glsentrylongsp{fl}} fue contemporáneo al de las \gls{ann}, y también aplicada a un modelo de \textit{\idx{car-following}}. Después de todo los modelos psicofísicos aparecieron debido a que la percepción del conductor no es absoluta, sino imprecisa.
 
@@ -301,9 +307,15 @@ Estos modelos parten de la hipótesis de que la información que maneja el condu
 
 \cite{Kikuchi1992} es el primer trabajo documentado sobre el tema. En él, los autores aplicaron la lógica difusa sobre un modelo de aceleración de tipo \textit{\idx{car-following}}. Utilizaron el modelo \gls{ghr} (Ecuación~\ref{eq:ghr-car-following-model}) como base y determinaron las entradas al modelo como valores de pertenencia a conjuntos difusos. Las entradas del modelo eran las distancia y velocidad relativa entre el vehículo modelado y el delantero y la variación en la aceleración del vehículo delantero. Como salida, el cambio en la tasa de aceleración sobre el vehículo modelado.
 
-\cite{McDonald1997, Wu2003} desarrollaron del modelo \gls{flowsim} con similares características pero incluyendo el comportamiento de cambio de carril, además en dos categorías: al carril lento (principalmente para evitar incordiar a los vehículos que se aproximan por detrás a velocidades superiores, usan dos variables, presión del vehículo trasero y satisfacción en el gap del carril destino) y al rápido (para ganar velocidad, variables: velocidad ganada con el cambio y oportunidad, es decir, seguridad y confort con el cambio).
+\cite{McDonald1997, Wu2003} desarrollaron del modelo \gls{flowsim} con similares características pero incluyendo el comportamiento de cambio de carril, además en dos categorías: al carril \textbf{lento} (principalmente para evitar incordiar a los vehículos que se aproximan por detrás a velocidades superiores, usan dos variables, presión del vehículo trasero y satisfacción en el gap del carril destino) y al \textbf{rápido} (para ganar velocidad, variables: velocidad ganada con el cambio y oportunidad, es decir, seguridad y confort con el cambio).
 
-Los modelos hasta el momento se basaban en conjuntos difusos y reglas definidos \textit{ad-hoc}. En \cite{Chakroborty2003} se introduce el concepto de personalización, ajustando los conjuntos difusos de las variables de entrada y salida a valores extraídos de conductores reales. Este ajuste se realiza mediante la representación del controlador difuso como red neuronal y posterior ajuste mediante entrenamiento de dicha red (back-propagation). A este trabajo le siguen muchas otras aproximaciónes \idx{neuro-fuzzy} como \cite{Ma2004, Zheng2005}
+Los modelos hasta el momento se basaban en conjuntos difusos y reglas definidos \textit{ad-hoc}. En \cite{Chakroborty2003} se introduce el concepto de personalización, ajustando los conjuntos difusos de las variables de entrada y salida a valores extraídos de conductores reales. Este ajuste se realiza mediante la representación del controlador difuso como red neuronal y posterior ajuste mediante entrenamiento de dicha red (\textit{\idx{back-propagation}}). A este trabajo le siguen muchas otras aproximaciónes \textit{\idx{neuro-fuzzy}} como \cite{Ma2004, Zheng2005}
+
+\begin{marginfigure}
+	\includegraphics{neuro-fuzzy-in-its}
+	\caption[Ejemplo de aproximación \textit{neuro-fuzzy} al control de señales de tráfico]{Un ejemplo de aproximación \textit{neuro-fuzzy}, en este caso aplicado al control de señales de tráfico. El \glsentrylongsp{fcs} se implementa como una \glsentrylongsp{ann} de tipo \textit{feed-forward} en lugar de con una representación tradicional. Además, el sistema completo lleva integrado un subsistema basado en también en \glsentrylongplsp{ann} \textit{feed-forward} que ajusta las funciones de pertenencia a trabés de enrtenamiento por refuerzo. Fuente: \cite{bingham2001reinforcement}}
+	\label{fig:neuro-fuzzy-in-its}
+\end{marginfigure}
 
 Más adelante, en \cite{Das2009}, dentro de su simulador \gls{aasim} añaden los conceptos de \gls{mlc} y \gls{dlc} a los comportamientos de cambos de carril. En \gls{mlc} las reglas tienen en cuenta la distancia al siguiente punto característico (e.g. una salida) y el número de cambios de carril necesarios. En \gls{dlc} deciden si cambiar o no basándose en el nivel de satisfacción del conductor y en el nivel de congestión en los carriles adjacentes\sidenote{
 	Este trabajo se apoya en trabajos anteriores que separan las jerarquías en situaciones de \gls{mlc} y \gls{dlc} como \cite{Yang1996, Halati1997, Hidas2002}. Estos trabajos, no obstante, no pertenecen al área de la \gls{ci}.
