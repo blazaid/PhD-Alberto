@@ -13,6 +13,22 @@ En \cite{Toledo2007} (o \cite{Toledo2007-3}), plantea cosas a mejorar en el esta
 
 En un paper que me ha pasado Felipe para revisar (A Novel Method for Predicting Vehicle State in Internet of Vehicle) plantean un modelo basado en árboles de clasificación para identificar el estado del vehículo. El caso es que plantean comportamientos del estilo "evitar jam", "intento de adelantamiento" (que por cierto, se basan únicamente en el tamaño y velocidad del vehículo delantero). Echarle un ojo más adelante.
 
+...
+
+Proponer el modelo en cuatro partes. Car following, free flow, lane exit, decisión de cambio de carril y ejecución de cambio de carril. Todos ellos se ejecutarán con un árbol molón en el que primero se realizarán o no los cambios de carril y luego se decidirá la velocidad del vehículo (yéndose por una de las dos ramas del modelo longitudinal).
+
+\begin{enumerate}
+	\item **Car following**. En este caso, el modelo se definirá como controladores difusos ajustados a los conductores con lo que he estado haciendo de representar el controlador difuso como grafo computacional. Las entradas el modelo serán la distancia al vehículo siguiente (hasta un máximo), la diferencia de velocidad con éste y ¿la aceleración actual?. La salida será la aceleración.
+	\item **Free flow**. Este caso creo que lo mejor será representarlo como un perceptrón multicapa donde las entradas sean la velocidad máxima de la vía, la velocidad actual del vehículo y la aceleración de esta. Tanto en el caso anterior como en este, la salida deberá ser la aceleración.
+	\item **Lane exit**. Este caso es similar al siguiente en entradas, pero la salida es la aceleración a aplicar.
+	\item **Decisión de cambio de carril**. Para decidir el cambio de carril debemos saber el estado de los carriles de alrededor, si es posible o no desde esos carriles seguir por la siguente salida y la distancia al comienzo y al final de la siguiente salida. La salida del modelo debe ser "quiero cambiar a la izquierda, a la derecha o no cambiar".
+	\item **Ejecución de cambio de carril**. Este es el que hecho y parte de las entradas del entorno y del módulo anterior. Esto lo tengo que describir de forma similar a la del paper publicado.
+\end{enumerate}
+
+El orden de los módulos es modelo más grande cuya salida son cuatro valores: la aceleración (como valor de coma flotante) a aplicar, cambio a la izquierda (0 o 1) y cambio a la derecha (0 o 1).
+
+Las entradas pasarán, por un lado a los modelos longitudinales (fx, ff y le) y el resultado será el del menor de los tres y por otro al modelo de cambio de carril.
+
 \section{El vehículo como agente inteligente}
 
 En nuestra tesis el trabajo se basa en la representación del comportamiento de un conductor (\gls{dvu}).
