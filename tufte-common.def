@@ -40,31 +40,11 @@
 \DeclareOptionX[tufte]<common>{nols}{\setboolean{@tufte@letterspace}{false}}
 
 %%
-% `nobib' option -- doesn't load natbib or adjust the \cite command
-\newboolean{@tufte@loadnatbib}\setboolean{@tufte@loadnatbib}{true}
-\DeclareOptionX[tufte]<common>{nobib}{\setboolean{@tufte@loadnatbib}{false}}
-
-%%
 % `titlepage' option -- creates a full title page with \maketitle
 
 \newboolean{@tufte@titlepage}
 \DeclareOptionX[tufte]<common>{titlepage}{\setboolean{@tufte@titlepage}{true}}
 \DeclareOptionX[tufte]<common>{notitlepage}{\setboolean{@tufte@titlepage}{false}}
-
-%%
-% `a4paper' option
-
-\newboolean{@tufte@afourpaper}
-\DeclareOptionX[tufte]<common>{a4paper}{\setboolean{@tufte@afourpaper}{true}}
-
-%%
-% `b5paper' option
-
-\newboolean{@tufte@bfivepaper}
-\DeclareOptionX[tufte]<common>{b5paper}{\setboolean{@tufte@bfivepaper}{true}}
-
-\newboolean{@tufte@bfivecrop}
-\DeclareOptionX[tufte]<common>{b5crop}{\setboolean{@tufte@bfivecrop}{true}}
 
 %%
 % `sfsidenotes' option -- typesets sidenotes in sans serif typeface
@@ -73,40 +53,12 @@
 \DeclareOptionX[tufte]<common>{sfsidenotes}{\setboolean{@tufte@sfsidenotes}{true}}
 
 %%
-% `symmetric' option -- puts marginpar space to the outside edge of the page
-%   Note: this option forces the twoside option (see the .cls files)
-
-\newboolean{@tufte@symmetric}
-\DeclareOptionX[tufte]<common>{symmetric}{
-  \setboolean{@tufte@symmetric}{true}
-  \@tufte@info@noline{The `symmetric' option implies `twoside'}
-  \ExecuteOptionsX[tufte]<common>{twoside}
-}
-
-%%
-% `twoside' option -- alternates running heads
-
-\newboolean{@tufte@twoside}
-\DeclareOptionX[tufte]<common>{twoside}{%
-  \setboolean{@tufte@twoside}{true}
-  \@tufte@info@noline{Passing the `twoside' option to the `\@tufte@class' class}
-  \PassOptionsToClass{twoside}{\@tufte@class}
-}
-
-%%
 % `notoc' option -- suppresses the Tufte-style table of contents
 
 \newboolean{@tufte@toc}
 \setboolean{@tufte@toc}{true}
 \DeclareOptionX[tufte]<common>{notoc}{\setboolean{@tufte@toc}{false}}
 \DeclareOptionX[tufte]<common>{toc}{\setboolean{@tufte@toc}{true}}
-
-%%
-% `justified' option -- uses fully justified text (flush left and flush
-% right) instead of ragged right.
-
-\newboolean{@tufte@justified}
-\DeclareOptionX[tufte]<common>{justified}{\setboolean{@tufte@justified}{true}}
 
 %%
 % `bidi' option -- loads the bidi package for bi-directional text
@@ -129,92 +81,92 @@
 
 \newcommand*{\@tufte@sidenote@justification}{\@tufte@justification@autodetect}
 \define@choicekey*+[tufte]{common}{sidenote}[\@tufte@kvtext\@tufte@kvnum]{justified,raggedleft,raggedright,raggedouter,auto}[auto]{%
-  \ifcase\@tufte@kvnum\relax
-    \renewcommand*{\@tufte@sidenote@justification}{\justifying}% justified
-  \or
-    \renewcommand*{\@tufte@sidenote@justification}{\RaggedLeft}% ragged left
-  \or
-    \renewcommand*{\@tufte@sidenote@justification}{\RaggedRight}% ragged right
-  \or
-    \renewcommand*{\@tufte@sidenote@justification}{\@tufte@justification@outer}% ragged outer (flush right on verso pages, flush left on recto pages)
-  \or
-    \renewcommand*{\@tufte@sidenote@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
-  \fi
+	\ifcase\@tufte@kvnum\relax
+	\renewcommand*{\@tufte@sidenote@justification}{\justifying}% justified
+	\or
+	\renewcommand*{\@tufte@sidenote@justification}{\RaggedLeft}% ragged left
+	\or
+	\renewcommand*{\@tufte@sidenote@justification}{\RaggedRight}% ragged right
+	\or
+	\renewcommand*{\@tufte@sidenote@justification}{\@tufte@justification@outer}% ragged outer (flush right on verso pages, flush left on recto pages)
+	\or
+	\renewcommand*{\@tufte@sidenote@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
+	\fi
 }{%
-  \@tufte@warning@noline{Invalid option `#1' for sidenote key. Must be one of: justified, raggedleft, raggedright, raggedouter, auto}
-  \renewcommand*{\@tufte@sidenote@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
+	\@tufte@warning@noline{Invalid option `#1' for sidenote key. Must be one of: justified, raggedleft, raggedright, raggedouter, auto}
+	\renewcommand*{\@tufte@sidenote@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
 }
 
 \newcommand*{\@tufte@marginnote@justification}{\@tufte@justification@autodetect}
 \define@choicekey*+[tufte]{common}{marginnote}[\@tufte@kvtext\@tufte@kvnum]{justified,raggedleft,raggedright,raggedouter,auto}[auto]{%
-  \ifcase\@tufte@kvnum\relax
-    \renewcommand*{\@tufte@marginnote@justification}{\justifying}% justified
-  \or
-    \renewcommand*{\@tufte@marginnote@justification}{\RaggedLeft}% ragged left
-  \or
-    \renewcommand*{\@tufte@marginnote@justification}{\RaggedRight}% ragged right
-  \or
-    \renewcommand*{\@tufte@marginnote@justification}{\@tufte@justification@outer}% ragged outer (flush right on verso pages, flush left on recto pages)
-  \or
-    \renewcommand*{\@tufte@marginnote@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
-  \fi
+	\ifcase\@tufte@kvnum\relax
+	\renewcommand*{\@tufte@marginnote@justification}{\justifying}% justified
+	\or
+	\renewcommand*{\@tufte@marginnote@justification}{\RaggedLeft}% ragged left
+	\or
+	\renewcommand*{\@tufte@marginnote@justification}{\RaggedRight}% ragged right
+	\or
+	\renewcommand*{\@tufte@marginnote@justification}{\@tufte@justification@outer}% ragged outer (flush right on verso pages, flush left on recto pages)
+	\or
+	\renewcommand*{\@tufte@marginnote@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
+	\fi
 }{%
-  \@tufte@warning@noline{Invalid option `#1' for marginnote key. Must be one of: justified, raggedleft, raggedright, raggedouter, auto}
-  \renewcommand*{\@tufte@marginnote@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
+	\@tufte@warning@noline{Invalid option `#1' for marginnote key. Must be one of: justified, raggedleft, raggedright, raggedouter, auto}
+	\renewcommand*{\@tufte@marginnote@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
 }
 
 \newcommand*{\@tufte@caption@justification}{\@tufte@justification@autodetect}
 \define@choicekey*+[tufte]{common}{caption}[\@tufte@kvtext\@tufte@kvnum]{justified,raggedleft,raggedright,raggedouter,auto}[auto]{%
-  \ifcase\@tufte@kvnum\relax
-    \renewcommand*{\@tufte@caption@justification}{\justifying}% justified
-  \or
-    \renewcommand*{\@tufte@caption@justification}{\RaggedLeft}% ragged left
-  \or
-    \renewcommand*{\@tufte@caption@justification}{\RaggedRight}% ragged right
-  \or
-    \renewcommand*{\@tufte@caption@justification}{\@tufte@justification@caption@outer}% ragged outer (flush right on verso pages, flush left on recto pages)
-  \or
-    \renewcommand*{\@tufte@caption@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
-  \fi
+	\ifcase\@tufte@kvnum\relax
+	\renewcommand*{\@tufte@caption@justification}{\justifying}% justified
+	\or
+	\renewcommand*{\@tufte@caption@justification}{\RaggedLeft}% ragged left
+	\or
+	\renewcommand*{\@tufte@caption@justification}{\RaggedRight}% ragged right
+	\or
+	\renewcommand*{\@tufte@caption@justification}{\@tufte@justification@caption@outer}% ragged outer (flush right on verso pages, flush left on recto pages)
+	\or
+	\renewcommand*{\@tufte@caption@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
+	\fi
 }{%
-  \@tufte@warning@noline{Invalid option `#1' for caption key. Must be one of: justified, raggedleft, raggedright, raggedouter, auto}
-  \renewcommand*{\@tufte@caption@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
+	\@tufte@warning@noline{Invalid option `#1' for caption key. Must be one of: justified, raggedleft, raggedright, raggedouter, auto}
+	\renewcommand*{\@tufte@caption@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
 }
 
 \newcommand*{\@tufte@citation@justification}{\@tufte@justification@autodetect}
 \define@choicekey*+[tufte]{common}{citation}[\@tufte@kvtext\@tufte@kvnum]{justified,raggedleft,raggedright,raggedouter,auto}[auto]{%
-  \ifcase\@tufte@kvnum\relax
-    \renewcommand*{\@tufte@citation@justification}{\justifying}% justified
-  \or
-    \renewcommand*{\@tufte@citation@justification}{\RaggedLeft}% ragged left
-  \or
-    \renewcommand*{\@tufte@citation@justification}{\RaggedRight}% ragged right
-  \or
-    \renewcommand*{\@tufte@citation@justification}{\@tufte@justification@outer}% ragged outer (flush right on verso pages, flush left on recto pages)
-  \or
-    \renewcommand*{\@tufte@citation@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
-  \fi
+	\ifcase\@tufte@kvnum\relax
+	\renewcommand*{\@tufte@citation@justification}{\justifying}% justified
+	\or
+	\renewcommand*{\@tufte@citation@justification}{\RaggedLeft}% ragged left
+	\or
+	\renewcommand*{\@tufte@citation@justification}{\RaggedRight}% ragged right
+	\or
+	\renewcommand*{\@tufte@citation@justification}{\@tufte@justification@outer}% ragged outer (flush right on verso pages, flush left on recto pages)
+	\or
+	\renewcommand*{\@tufte@citation@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
+	\fi
 }{%
-  \@tufte@warning@noline{Invalid option `#1' for citation key. Must be one of: justified, raggedleft, raggedright, raggedouter, auto}
-  \renewcommand*{\@tufte@citation@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
+	\@tufte@warning@noline{Invalid option `#1' for citation key. Must be one of: justified, raggedleft, raggedright, raggedouter, auto}
+	\renewcommand*{\@tufte@citation@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
 }
 
 % The ``marginals'' key simultaneously sets the same justification for all marginal material
 \define@choicekey*+[tufte]{common}{marginals}[\@tufte@kvtext\@tufte@kvnum]{justified,raggedleft,raggedright,raggedouter,auto}[auto]{%
-  \ifcase\@tufte@kvnum\relax
-    \ExecuteOptionsX[tufte]<common>{citation=justified,sidenote=justified,caption=justified,marginnote=justified}% justified
-  \or
-    \ExecuteOptionsX[tufte]<common>{citation=raggedleft,sidenote=raggedleft,caption=raggedleft,marginnote=raggedleft}% ragged left
-  \or
-    \ExecuteOptionsX[tufte]<common>{citation=raggedright,sidenote=raggedright,caption=raggedright,marginnote=raggedright}% ragged right
-  \or
-    \ExecuteOptionsX[tufte]<common>{citation=raggedouter,sidenote=raggedouter,caption=raggedouter,marginnote=raggedouter}% ragged outer (flush right on verso pages, flush left on recto pages)
-  \or
-    \ExecuteOptionsX[tufte]<common>{citation=auto,sidenote=auto,caption=auto,marginnote=auto}% autodetects best justification mode based on all class options
-  \fi
+	\ifcase\@tufte@kvnum\relax
+	\ExecuteOptionsX[tufte]<common>{citation=justified,sidenote=justified,caption=justified,marginnote=justified}% justified
+	\or
+	\ExecuteOptionsX[tufte]<common>{citation=raggedleft,sidenote=raggedleft,caption=raggedleft,marginnote=raggedleft}% ragged left
+	\or
+	\ExecuteOptionsX[tufte]<common>{citation=raggedright,sidenote=raggedright,caption=raggedright,marginnote=raggedright}% ragged right
+	\or
+	\ExecuteOptionsX[tufte]<common>{citation=raggedouter,sidenote=raggedouter,caption=raggedouter,marginnote=raggedouter}% ragged outer (flush right on verso pages, flush left on recto pages)
+	\or
+	\ExecuteOptionsX[tufte]<common>{citation=auto,sidenote=auto,caption=auto,marginnote=auto}% autodetects best justification mode based on all class options
+	\fi
 }{%
-  \@tufte@warning@noline{Invalid option `#1' for marginals key. Must be one of: justified, raggedleft, raggedright, raggedouter, auto}
-  \ExecuteOptionsX[tufte]<common>{citation=auto,sidenote=auto,caption=auto,marginnote=auto}% autodetects best justification mode based on all class options
+	\@tufte@warning@noline{Invalid option `#1' for marginals key. Must be one of: justified, raggedleft, raggedright, raggedouter, auto}
+	\ExecuteOptionsX[tufte]<common>{citation=auto,sidenote=auto,caption=auto,marginnote=auto}% autodetects best justification mode based on all class options
 }
 
 
@@ -237,13 +189,13 @@
 % Default `book' and `handout' options
 
 \ifthenelse{\equal{\@tufte@pkgname}{tufte-book}}
-  {\ExecuteOptionsX[tufte]<common>{titlepage}}
-  {\ExecuteOptionsX[tufte]<common>{notitlepage}}
+{\ExecuteOptionsX[tufte]<common>{titlepage}}
+{\ExecuteOptionsX[tufte]<common>{notitlepage}}
 
 
 \DeclareOptionX*{%
-  \@tufte@info@noline{Passing \CurrentOption\space to the `\@tufte@class' class.}%
-  \PassOptionsToClass{\CurrentOption}{\@tufte@class}%
+	\@tufte@info@noline{Passing \CurrentOption\space to the `\@tufte@class' class.}%
+	\PassOptionsToClass{\CurrentOption}{\@tufte@class}%
 }
 \ProcessOptionsX*[tufte]<common>\relax
 
@@ -253,26 +205,16 @@
 \LoadClass{\@tufte@class}
 
 %%
-% Detect whether we're in two-side mode or not.  (Used to set up running
-% heads later.)
-
-\ifthenelse{\boolean{@twoside}}
-  {\setboolean{@tufte@twoside}{true}}
-  {}
-
-
-
-%%
 % Detect if we're using pdfLaTeX
 
 \newboolean{@tufte@pdf}
 \IfFileExists{ifpdf.sty}{%
-  \RequirePackage{ifpdf}
-  \ifthenelse{\boolean{pdf}}
-    {\setboolean{@tufte@pdf}{true}}
-    {\setboolean{@tufte@pdf}{false}}
+	\RequirePackage{ifpdf}
+	\ifthenelse{\boolean{pdf}}
+	{\setboolean{@tufte@pdf}{true}}
+	{\setboolean{@tufte@pdf}{false}}
 }{% assume we're not using pdfTex?
-  \setboolean{@tufte@pdf}{false}
+	\setboolean{@tufte@pdf}{false}
 }
 
 %%
@@ -280,16 +222,16 @@
 
 \newboolean{@tufte@xetex}
 \IfFileExists{ifxetex.sty}{%
-  \RequirePackage{ifxetex}
-  \ifthenelse{\boolean{xetex}}
-    {\setboolean{@tufte@xetex}{true}}
-    {\setboolean{@tufte@xetex}{false}}
+	\RequirePackage{ifxetex}
+	\ifthenelse{\boolean{xetex}}
+	{\setboolean{@tufte@xetex}{true}}
+	{\setboolean{@tufte@xetex}{false}}
 }{% not using xelatex
-  \setboolean{@tufte@xetex}{false}
+	\setboolean{@tufte@xetex}{false}
 }
 
 \ifthenelse{\boolean{@tufte@xetex}}{%
-  \RequirePackage{xltxtra}% xltxtra loads xunicode and fontspec; must be loaded before bidi
+	\RequirePackage{xltxtra}% xltxtra loads xunicode and fontspec; must be loaded before bidi
 }{}
 
 %%
@@ -297,41 +239,41 @@
 
 \newboolean{@tufte@luatex}
 \IfFileExists{ifluatex.sty}{%
-  \RequirePackage{ifluatex}
-  \ifthenelse{\boolean{luatex}}
-    {\setboolean{@tufte@luatex}{true}}
-    {\setboolean{@tufte@luatex}{false}}
+	\RequirePackage{ifluatex}
+	\ifthenelse{\boolean{luatex}}
+	{\setboolean{@tufte@luatex}{true}}
+	{\setboolean{@tufte@luatex}{false}}
 }{% not using luatex
-  \setboolean{@tufte@luatex}{false}
+	\setboolean{@tufte@luatex}{false}
 }
 
 \ifthenelse{\boolean{@tufte@luatex}}{%
-  \RequirePackage{fontspec}
-  \RequirePackage[osf,sc]{mathpazo}
-  \setmainfont[Renderer=Basic, Numbers=OldStyle, Scale = 1.0]{TeX Gyre Pagella}
-  \setsansfont[Renderer=Basic, Scale=0.90]{TeX Gyre Heros}
-  \setmonofont[Renderer=Basic]{TeX Gyre Cursor}
+	\RequirePackage{fontspec}
+	\RequirePackage[osf,sc]{mathpazo}
+	\setmainfont[Renderer=Basic, Numbers=OldStyle, Scale = 1.0]{TeX Gyre Pagella}
+	\setsansfont[Renderer=Basic, Scale=0.90]{TeX Gyre Heros}
+	\setmonofont[Renderer=Basic]{TeX Gyre Cursor}
 }{}
 
 %%
 % Globally sets the length
 
 \newcommand*{\gsetlength}[2]{%
-  \setlength{#1}{#2}%
-  \global#1=#1\relax%
+	\setlength{#1}{#2}%
+	\global#1=#1\relax%
 }
 
 %%
 % Globally sets a boolean
 
 \newcommand*{\gsetboolean}[2]{% based on code from ifthen pkg
-  \lowercase{\def\@tempa{#2}}%
-  \@ifundefined{@tempswa\@tempa}%
-    {\PackageError{ifthen}{You can only set a boolean to `true' or `false'}\@ehc}%
-    {\@ifundefined{#1\@tempa}%
-      {\PackageError{ifthen}{Boolean #1 undefined}\@ehc}%
-      {\global\csname#1\@tempa\endcsname}%
-    }%
+	\lowercase{\def\@tempa{#2}}%
+	\@ifundefined{@tempswa\@tempa}%
+	{\PackageError{ifthen}{You can only set a boolean to `true' or `false'}\@ehc}%
+	{\@ifundefined{#1\@tempa}%
+		{\PackageError{ifthen}{Boolean #1 undefined}\@ehc}%
+		{\global\csname#1\@tempa\endcsname}%
+	}%
 }
 
 %%
@@ -345,59 +287,59 @@
 %% Loads the hyperref package and sets some default options.
 
 \newcommand{\TufteLoadHyperref}{%
-  \ifthenelse{\boolean{@tufte@xetex}}
-    {\RequirePackage[unicode,hyperfootnotes=false,xetex]{hyperref}}
-    {\RequirePackage[unicode,hyperfootnotes=false]{hyperref}}
-  \hypersetup{%
-    pdfborder = {0 0 0},
-    bookmarksdepth = section,
-    citecolor = DarkGreen,
-    linkcolor = DarkBlue,
-    urlcolor = DarkGreen,
-  }%
+	\ifthenelse{\boolean{@tufte@xetex}}
+	{\RequirePackage[unicode,hyperfootnotes=false,xetex]{hyperref}}
+	{\RequirePackage[unicode,hyperfootnotes=false]{hyperref}}
+	\hypersetup{%
+		pdfborder = {0 0 0},
+		bookmarksdepth = section,
+		citecolor = DarkGreen,
+		linkcolor = DarkBlue,
+		urlcolor = DarkGreen,
+	}%
 }
 
 %%%
 %% Load the `hyperref' package.
 
 \ifthenelse{\boolean{@tufte@loadhyper}}{%
-  \TufteLoadHyperref%
+	\TufteLoadHyperref%
 }{% hyperfootnotes override our modifications to the \footnote* and \@footnote* commands.
-  \PassOptionsToPackage{hyperfootnotes=false}{hyperref}
+	\PassOptionsToPackage{hyperfootnotes=false}{hyperref}
 }
 
 %%
 % Set the font sizes and baselines to match Tufte's books
 \renewcommand\normalsize{%
-   \@setfontsize\normalsize\@xpt{14}%
-   \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
-   \abovedisplayshortskip \z@ \@plus3\p@
-   \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
-   \belowdisplayskip \abovedisplayskip
-   \let\@listi\@listI}
+	\@setfontsize\normalsize\@xpt{14}%
+	\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+	\abovedisplayshortskip \z@ \@plus3\p@
+	\belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+	\belowdisplayskip \abovedisplayskip
+	\let\@listi\@listI}
 \normalbaselineskip=14pt
 \normalsize
 \renewcommand\small{%
-   \@setfontsize\small\@ixpt{12}%
-   \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
-   \abovedisplayshortskip \z@ \@plus2\p@
-   \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
-   \def\@listi{\leftmargin\leftmargini
-               \topsep 4\p@ \@plus2\p@ \@minus2\p@
-               \parsep 2\p@ \@plus\p@ \@minus\p@
-               \itemsep \parsep}%
-   \belowdisplayskip \abovedisplayskip
+	\@setfontsize\small\@ixpt{12}%
+	\abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
+	\abovedisplayshortskip \z@ \@plus2\p@
+	\belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
+	\def\@listi{\leftmargin\leftmargini
+		\topsep 4\p@ \@plus2\p@ \@minus2\p@
+		\parsep 2\p@ \@plus\p@ \@minus\p@
+		\itemsep \parsep}%
+	\belowdisplayskip \abovedisplayskip
 }
 \renewcommand\footnotesize{%
-   \@setfontsize\footnotesize\@viiipt{10}%
-   \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
-   \abovedisplayshortskip \z@ \@plus\p@
-   \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
-   \def\@listi{\leftmargin\leftmargini
-               \topsep 3\p@ \@plus\p@ \@minus\p@
-               \parsep 2\p@ \@plus\p@ \@minus\p@
-               \itemsep \parsep}%
-   \belowdisplayskip \abovedisplayskip
+	\@setfontsize\footnotesize\@viiipt{10}%
+	\abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
+	\abovedisplayshortskip \z@ \@plus\p@
+	\belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
+	\def\@listi{\leftmargin\leftmargini
+		\topsep 3\p@ \@plus\p@ \@minus\p@
+		\parsep 2\p@ \@plus\p@ \@minus\p@
+		\itemsep \parsep}%
+	\belowdisplayskip \abovedisplayskip
 }
 \renewcommand\scriptsize{\@setfontsize\scriptsize\@viipt\@viiipt}
 \renewcommand\tiny{\@setfontsize\tiny\@vpt\@vipt}
@@ -427,19 +369,19 @@
 
 % Paragraph indentation and separation for normal text
 \newcommand{\@tufte@reset@par}{%
-  \setlength{\RaggedRightParindent}{1.0pc}%
-  \setlength{\JustifyingParindent}{1.0pc}%
-  \setlength{\parindent}{1pc}%
-  \setlength{\parskip}{0pt}%
+	\setlength{\RaggedRightParindent}{1.0pc}%
+	\setlength{\JustifyingParindent}{1.0pc}%
+	\setlength{\parindent}{1pc}%
+	\setlength{\parskip}{0pt}%
 }
 \@tufte@reset@par
 
 % Paragraph indentation and separation for marginal text
 \newcommand{\@tufte@margin@par}{%
-  \setlength{\RaggedRightParindent}{0.5pc}%
-  \setlength{\JustifyingParindent}{0.5pc}%
-  \setlength{\parindent}{0.5pc}%
-  \setlength{\parskip}{0pt}%
+	\setlength{\RaggedRightParindent}{0.5pc}%
+	\setlength{\JustifyingParindent}{0.5pc}%
+	\setlength{\parindent}{0.5pc}%
+	\setlength{\parskip}{0pt}%
 }
 
 
@@ -448,27 +390,7 @@
 
 \RequirePackage[letterpaper,left=1in,top=1in,headsep=2\baselineskip,textwidth=26pc,marginparsep=2pc,marginparwidth=12pc,textheight=44\baselineskip,headheight=\baselineskip]{geometry}
 
-\ifthenelse{\boolean{@tufte@afourpaper}}
-  {\geometry{a4paper,left=24.8mm,top=27.4mm,headsep=2\baselineskip,textwidth=107mm,marginparsep=8.2mm,marginparwidth=49.4mm,textheight=49\baselineskip,headheight=\baselineskip}}
-  {}
-
-\ifthenelse{
-	\boolean{@tufte@bfivepaper}
-}{
-	\geometry{b5paper,left=14.66mm,top=13.88mm,textwidth=102.66mm,marginparsep=7.33mm,marginparwidth=36.66mm,textheight=38\baselineskip,includehead}
-}{
-}
-
-\ifthenelse{
-	\boolean{@tufte@bfivecrop}
-}{
-		\geometry{a4paper,layout=b5paper,layouthoffset=17mm,layoutvoffset=23.5mm,showcrop,left=14.66mm,top=13.88mm,textwidth=102.66mm,marginparsep=7.33mm,marginparwidth=36.66mm,textheight=38\baselineskip,includehead}
-}{
-}
-
-\ifthenelse{\boolean{@tufte@symmetric}}
-  {}
-  {\geometry{asymmetric}}% forces internal LaTeX `twoside'
+\geometry{a4paper,left=24.8mm,top=27.4mm,headsep=2\baselineskip,textwidth=107mm,marginparsep=8.2mm,marginparwidth=49.4mm,textheight=49\baselineskip,headheight=\baselineskip}
 
 
 %%
@@ -480,8 +402,8 @@
 % Font for margin items
 
 \ifthenelse{\boolean{@tufte@sfsidenotes}}
-  {\newcommand{\@tufte@marginfont}{\normalfont\footnotesize\sffamily}}
-  {\newcommand{\@tufte@marginfont}{\normalfont\footnotesize}}
+{\newcommand{\@tufte@marginfont}{\normalfont\footnotesize\sffamily}}
+{\newcommand{\@tufte@marginfont}{\normalfont\footnotesize}}
 
 \newcommand*{\@tufte@sidenote@font}{\@tufte@marginfont}
 \newcommand*{\@tufte@caption@font}{\@tufte@marginfont}
@@ -496,19 +418,12 @@
 %%
 % Set the justification baesed on the `justified' class option
 
-\newcommand{\@tufte@justification}{%
-  \ifthenelse{\boolean{@tufte@justified}}%
-    {\justifying}%
-    {\RaggedRight}%
-}
+\newcommand{\@tufte@justification}{\justifying}
 
 %%
 % Turn off section numbering
 
 \setcounter{secnumdepth}{-1}
-
-%%
-% Tighten up space between displays (e.g., a figure or table) and make symmetric
 
 \setlength\abovedisplayskip{6pt plus 2pt minus 4pt}
 \setlength\belowdisplayskip{6pt plus 2pt minus 4pt}
@@ -518,52 +433,52 @@
 
 \newboolean{@tufte@changepage}
 \IfFileExists{changepage.sty}{%
-  \@tufte@debug@info@noline{Found changepage.sty}
-  \RequirePackage[strict]{changepage}
-  \setboolean{@tufte@changepage}{true}
+	\@tufte@debug@info@noline{Found changepage.sty}
+	\RequirePackage[strict]{changepage}
+	\setboolean{@tufte@changepage}{true}
 }{%
-  \@tufte@debug@info@noline{Found chngpage.sty}
-  \RequirePackage[strict]{chngpage}
-  \setboolean{@tufte@changepage}{false}
+	\@tufte@debug@info@noline{Found chngpage.sty}
+	\RequirePackage[strict]{chngpage}
+	\setboolean{@tufte@changepage}{false}
 }
 
 % Write our own aliases for the \checkoddpage and \ifoddpage or \ifcpoddpage commands
 \newboolean{@tufte@odd@page}
 \setboolean{@tufte@odd@page}{true}
 \newcommand*{\@tufte@checkoddpage}{%
-  \checkoddpage%
-  \ifthenelse{\boolean{@tufte@changepage}}{%
-    \ifoddpage%
-      \setboolean{@tufte@odd@page}{true}%
-    \else%
-      \setboolean{@tufte@odd@page}{false}%
-    \fi%
-  }{%
-    \ifcpoddpage%
-      \setboolean{@tufte@odd@page}{true}%
-    \else%
-      \setboolean{@tufte@odd@page}{false}%
-    \fi%
-  }%
+	\checkoddpage%
+	\ifthenelse{\boolean{@tufte@changepage}}{%
+		\ifoddpage%
+		\setboolean{@tufte@odd@page}{true}%
+		\else%
+		\setboolean{@tufte@odd@page}{false}%
+		\fi%
+	}{%
+		\ifcpoddpage%
+		\setboolean{@tufte@odd@page}{true}%
+		\else%
+		\setboolean{@tufte@odd@page}{false}%
+		\fi%
+	}%
 }
 
 %%
 % Compute lengths used for full-width displays
 
-\newlength{\@tufte@overhang}% used by the fullwidth environment and the running heads
+\newlength{\@tufte@overhang}
 \newlength{\@tufte@fullwidth}
 \newlength{\@tufte@caption@fill}
 
 \newcommand{\TufteRecalculate}{%
-  \setlength{\@tufte@overhang}{\marginparwidth}
-  \addtolength{\@tufte@overhang}{\marginparsep}
-
-  \setlength{\@tufte@fullwidth}{\textwidth}
-  \addtolength{\@tufte@fullwidth}{\marginparsep}
-  \addtolength{\@tufte@fullwidth}{\marginparwidth}
-
-  \setlength{\@tufte@caption@fill}{\textwidth}
-  \addtolength{\@tufte@caption@fill}{\marginparsep}
+	\setlength{\@tufte@overhang}{\marginparwidth}
+	\addtolength{\@tufte@overhang}{\marginparsep}
+	
+	\setlength{\@tufte@fullwidth}{\textwidth}
+	\addtolength{\@tufte@fullwidth}{\marginparsep}
+	\addtolength{\@tufte@fullwidth}{\marginparwidth}
+	
+	\setlength{\@tufte@caption@fill}{\textwidth}
+	\addtolength{\@tufte@caption@fill}{\marginparsep}
 }
 
 \AtBeginDocument{\TufteRecalculate}
@@ -1580,28 +1495,24 @@
 
 % The 'fancy' page style is the default style for all pages.
 \fancyhf{} % clear header and footer fields
-\ifthenelse{\boolean{@tufte@twoside}}
-  {\fancyhead[LE]{\thepage\quad\smallcaps{\newlinetospace{\plainauthor}}}%
-    \fancyhead[RO]{\smallcaps{\newlinetospace{\plaintitle}}\quad\thepage}}
-  {\fancyhead[RE,RO]{\smallcaps{\newlinetospace{\plaintitle}}\quad\thepage}}
+\fancyhead[LE]{\thepage\quad\smallcaps{\newlinetospace{\plainauthor}}}
+\fancyhead[RO]{\smallcaps{\newlinetospace{\plaintitle}}\quad\thepage}
 
 
 % The `plain' page style is used on chapter opening pages.
 % In Tufte's /Beautiful Evidence/ he never puts page numbers at the
 % bottom of pages -- the folios are unexpressed.
 \fancypagestyle{plain}{
-  \fancyhf{} % clear header and footer fields
-  % Uncomment the following five lines of code if you want the opening page
-  % of the chapter to express the folio in the lower outside corner.
-  %\ifthenelse{\boolean{@tufte@twoside}}
-  %  {\fancyfoot[LE,RO]{\thepage}}
-  %  {\fancyfoot[RE,RO]{\thepage}}
+	\fancyhf{} % clear header and footer fields
+	% Uncomment the following five lines of code if you want the opening page
+	% of the chapter to express the folio in the lower outside corner.
+	% \fancyfoot[LE,RO]{\thepage}
 }
 
 % The `empty' page style suppresses all headers and footers.
 % It's used on title pages and `intentionally blank' pages.
 \fancypagestyle{empty}{
-  \fancyhf{} % clear header and footer fields
+	\fancyhf{} % clear header and footer fields
 }
 
 
