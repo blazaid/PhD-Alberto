@@ -101,7 +101,7 @@ El caso de los simuladores de tráfico es similar. En éstos existe un amplio in
 
 \begin{figure}
 	\centering
-	\includegraphics[width=10cm, height=4cm]{images/granularities-in-traffic-simulation}
+	\includegraphics[width=10cm, height=4cm]{granularities-in-traffic-simulation}
 	\caption[Clasificación de simuladores según granularidad]{Clasificación clásica de simuladores en función de la granularidad (complejidad) de la simulación. En la imagen de la izquierda se muestra un ejemplo clásico de macrosimulador donde el tráfico se modela como un flujo a través de las vías. En la de la derecha, se ilustra un modelo clásico de microsimulación donde cada elemento (en este caso vehículos) circula por un carril de la vía.}
 	\label{fig:granularities-in-traffic-simulation}
 \end{figure}
@@ -112,7 +112,7 @@ Los \textbf{sub-micromodelos} especifican granularidades por debajo del nivel de
 
 \begin{figure}
 	\centering
-	\includegraphics[width=10cm, height=3.4cm]{images/mesoscopic-and-submicroscopic-simulation}
+	\includegraphics[width=10cm, height=3.4cm]{mesoscopic-and-submicroscopic-simulation}
 	\caption[Alternativas a la clasificación por granularidad]{Otras aproximaciones alternativas de modelos en función de la complejidad. Ejemplo de mesosimulación como ventana de microsimulación dentro de un flujo de tráfico en un macrosimulador (e.g. \cite{munoz2001integrated}) y ejemplo de submicrosimulación donde se modelan componentes internos de un vehículo.}
 	\label{fig:mesoscopic-and-submicroscopic-simulation}
 \end{figure}
@@ -127,7 +127,7 @@ Existen otras dos formas de clasificar los simuladores en función de cómo evol
 
 \begin{figure}
 	\centering
-	\includegraphics[width=10cm]{images/cellular-automata-based-sim}
+	\includegraphics[width=10cm]{cellular-automata-based-sim}
 	\caption[Ejemplo de simulador basado en \glsentrylongsp{ca}]{Simulador de tráfico basado en \glsentryshort{ca}. El espacio se divide en celdas que pueden estar vacías u ocupadas por un vehículo a una velocidad (más oscuro implica más lento). Concretamente muestra la evolución a lo largo del tiempo del movimiento de un modelo de \textit{car-following} de $2$ vehículos donde en eje $x$ representa la posición en la vía y el eje $y$ el momento temporal (iteración) de la vía. Fuente: simulador \texttt{nagel-scherckenberg-demo} (Ver capítulo \nameref{ch:developed-software}).}
 	\label{fig:cellular-automata-based-sim}
 \end{figure}
@@ -148,7 +148,7 @@ En el caso de la dimensión \textbf{tiempo}, la división se realiza en los mism
 
 \begin{figure*}[t]
 	\centering
-	\includegraphics{images/car-following-based-sim}
+	\includegraphics{car-following-based-sim}
 	\caption[Ejemplo de modelo lineal en un espacio continuo]{Ejemplo de un modelo lineal en un espacio continuo. La posición del vehículo es un valor $x \in \mathbb{R}$. Este ejemplo muestra un modelo de \textit{car-following} donde el comportamiento de la aceleración del vehículo es determinado por la distancia al coche siguiente. Fuente:~\cite{Tordeux2011}.}
 	\label{fig:car-following-based-sim}
 \end{figure*}
@@ -165,7 +165,7 @@ Existe un tercer punto de vista a la hora de implementar este tipo de modelos, q
 
 \begin{figure}[t]
 	\centering
-	\includegraphics{images/nagel-schreck}
+	\includegraphics{nagel-schreck}
 	\caption[Ejemplo de efecto de ondas de choque en simulación de tipo Nagel-Scherckenberg]{Aparición de retenciones en una autopista de $250$ celdas usando el modelo Nagel-Scherckenberg. La densidad de ocupación es de $50$ coches en la vía, la velocidad máxima es de $5 c/\Delta t$ y la probabilidad de frenada es de $p = 0.5$. Se puede observar en la figura cómo se desplazan las olas del atasco a lo largo de las $100$ iteraciones. Fuente: simulador \texttt{nagel-scherckenberg-demo} (Ver capítulo \nameref{ch:developed-software}).}
 	\label{fig:nagel-schreck}
 \end{figure}
@@ -199,7 +199,7 @@ Por otro lado, en un \glsentrylong{mas} cada uno de los agentes tiene su propia 
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=10cm, height=4.9cm]{images/autonomous-vehicles-at-intersections}
+	\includegraphics[width=10cm, height=4.9cm]{autonomous-vehicles-at-intersections}
 	\caption[Simulación de comportamiento en intersección basada en un \glsentryshort{mas}]{Simulación de comportamiento en intersección basada en un \glsentryshort{mas}. En ésta, cada uno de los vehículos representa a un vehículo real que posee un controlador para hacerlo autónomo. Modelar este caso de estudio con una arquitectura basada en \glsentryshortpl{mas} permite centrarse en el diseño del agente en concreto (i.e. el controlador de conducción del vehículo) y estudiar el comportamiento emergente surgido de la interacción de todos los agentes. Fuente: Proyecto AIM (\url{http://www.cs.utexas.edu/~aim/}).}
 	\label{fig:autonomous-vehicles-at-intersections}
 \end{figure}
@@ -212,7 +212,7 @@ En general los estudios basados en este modelo suelen seguir el patrón $1 \text
 
 \begin{figure}
 	\centering
-	\includegraphics{images/cooperative-traffic-movsim}
+	\includegraphics{cooperative-traffic-movsim}
 	\caption[Captura de pantalla del simulador \gls{movsim}]{Captura de pantalla del simulador \gls{movsim}. Este simulador implementa un modelo multiagente donde los vehículos incorporan sistemas de comunicación vehicular. El estudio se centra en el uso de la comunicación entre vehículos para el acoplamiento dinámico de vehículos en sus respectivos carriles. Fuente: \cite{Gu2015}.}
 	\label{fig:cooperative-traffic-movsim}
 \end{figure}

@@ -1,16 +1,12 @@
-% This file is a derivative work from the original 'tufte-book.cls'
-
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 
-\ProvidesClass{upm-phd}[2015/06/30 v0.0.1 UPM thesis template based on Edward Tufte styles]
+\ProvidesClass{upm-phd}[2018/01/11 v0.0.1 UPM thesis template based on Edward Tufte styles]
 
 %%
 % Declare we're tufte-book
 \newcommand{\@tufte@class}{book}% the base LaTeX class (defaults to the article/handout style)
-\newcommand{\@tufte@pkgname}{upm-phd}% the name of the package (defaults to tufte-handout)
+\newcommand{\@tufte@pkgname}{tufte-book}% the name of the package (defaults to tufte-handout)
 
-%%
-% Load the common style elements
 %%
 % The `xkeyval' package simplifies the user interface for the document class options
 \RequirePackage{xkeyval}
@@ -47,13 +43,6 @@
 \DeclareOptionX[tufte]<common>{nols}{\setboolean{@tufte@letterspace}{false}}
 
 %%
-% `titlepage' option -- creates a full title page with \maketitle
-
-\newboolean{@tufte@titlepage}
-\DeclareOptionX[tufte]<common>{titlepage}{\setboolean{@tufte@titlepage}{true}}
-\DeclareOptionX[tufte]<common>{notitlepage}{\setboolean{@tufte@titlepage}{false}}
-
-%%
 % `sfsidenotes' option -- typesets sidenotes in sans serif typeface
 
 \newboolean{@tufte@sfsidenotes}
@@ -75,18 +64,10 @@
 \DeclareOptionX[tufte]<common>{nobidi}{\setboolean{@tufte@loadbidi}{false}}
 
 %%
-% `nohyper' option -- suppresses loading of the hyperref package
-
-\newboolean{@tufte@loadhyper}
-\setboolean{@tufte@loadhyper}{true}
-\DeclareOptionX[tufte]<common>{hyper}{\setboolean{@tufte@loadhyper}{true}}
-\DeclareOptionX[tufte]<common>{nohyper}{\setboolean{@tufte@loadhyper}{false}}
-
-%%
 % `sidenote', `marginnote', `caption', `citation', `marginals' options
 % Each allows one of {justified,raggedleft,raggedright,raggedouter,auto}.
 
-\newcommand*{\@tufte@sidenote@justification}{\@tufte@justification@autodetect}
+\newcommand*{\@tufte@sidenote@justification}{\justifying}
 \define@choicekey*+[tufte]{common}{sidenote}[\@tufte@kvtext\@tufte@kvnum]{justified,raggedleft,raggedright,raggedouter,auto}[auto]{%
 	\ifcase\@tufte@kvnum\relax
 	\renewcommand*{\@tufte@sidenote@justification}{\justifying}% justified
@@ -97,14 +78,14 @@
 	\or
 	\renewcommand*{\@tufte@sidenote@justification}{\@tufte@justification@outer}% ragged outer (flush right on verso pages, flush left on recto pages)
 	\or
-	\renewcommand*{\@tufte@sidenote@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
+	\renewcommand*{\@tufte@sidenote@justification}{\justifying}% autodetects best justification mode based on all class options
 	\fi
 }{%
 	\@tufte@warning@noline{Invalid option `#1' for sidenote key. Must be one of: justified, raggedleft, raggedright, raggedouter, auto}
-	\renewcommand*{\@tufte@sidenote@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
+	\renewcommand*{\@tufte@sidenote@justification}{\justifying}% autodetects best justification mode based on all class options
 }
 
-\newcommand*{\@tufte@marginnote@justification}{\@tufte@justification@autodetect}
+\newcommand*{\@tufte@marginnote@justification}{\justifying}
 \define@choicekey*+[tufte]{common}{marginnote}[\@tufte@kvtext\@tufte@kvnum]{justified,raggedleft,raggedright,raggedouter,auto}[auto]{%
 	\ifcase\@tufte@kvnum\relax
 	\renewcommand*{\@tufte@marginnote@justification}{\justifying}% justified
@@ -115,14 +96,14 @@
 	\or
 	\renewcommand*{\@tufte@marginnote@justification}{\@tufte@justification@outer}% ragged outer (flush right on verso pages, flush left on recto pages)
 	\or
-	\renewcommand*{\@tufte@marginnote@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
+	\renewcommand*{\@tufte@marginnote@justification}{\justifying}% autodetects best justification mode based on all class options
 	\fi
 }{%
 	\@tufte@warning@noline{Invalid option `#1' for marginnote key. Must be one of: justified, raggedleft, raggedright, raggedouter, auto}
-	\renewcommand*{\@tufte@marginnote@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
+	\renewcommand*{\@tufte@marginnote@justification}{\justifying}% autodetects best justification mode based on all class options
 }
 
-\newcommand*{\@tufte@caption@justification}{\@tufte@justification@autodetect}
+\newcommand*{\@tufte@caption@justification}{\justifying}
 \define@choicekey*+[tufte]{common}{caption}[\@tufte@kvtext\@tufte@kvnum]{justified,raggedleft,raggedright,raggedouter,auto}[auto]{%
 	\ifcase\@tufte@kvnum\relax
 	\renewcommand*{\@tufte@caption@justification}{\justifying}% justified
@@ -133,14 +114,14 @@
 	\or
 	\renewcommand*{\@tufte@caption@justification}{\@tufte@justification@caption@outer}% ragged outer (flush right on verso pages, flush left on recto pages)
 	\or
-	\renewcommand*{\@tufte@caption@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
+	\renewcommand*{\@tufte@caption@justification}{\justifying}% autodetects best justification mode based on all class options
 	\fi
 }{%
 	\@tufte@warning@noline{Invalid option `#1' for caption key. Must be one of: justified, raggedleft, raggedright, raggedouter, auto}
-	\renewcommand*{\@tufte@caption@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
+	\renewcommand*{\@tufte@caption@justification}{\justifying}% autodetects best justification mode based on all class options
 }
 
-\newcommand*{\@tufte@citation@justification}{\@tufte@justification@autodetect}
+\newcommand*{\@tufte@citation@justification}{\justifying}
 \define@choicekey*+[tufte]{common}{citation}[\@tufte@kvtext\@tufte@kvnum]{justified,raggedleft,raggedright,raggedouter,auto}[auto]{%
 	\ifcase\@tufte@kvnum\relax
 	\renewcommand*{\@tufte@citation@justification}{\justifying}% justified
@@ -151,11 +132,11 @@
 	\or
 	\renewcommand*{\@tufte@citation@justification}{\@tufte@justification@outer}% ragged outer (flush right on verso pages, flush left on recto pages)
 	\or
-	\renewcommand*{\@tufte@citation@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
+	\renewcommand*{\@tufte@citation@justification}{\justifying}% autodetects best justification mode based on all class options
 	\fi
 }{%
 	\@tufte@warning@noline{Invalid option `#1' for citation key. Must be one of: justified, raggedleft, raggedright, raggedouter, auto}
-	\renewcommand*{\@tufte@citation@justification}{\@tufte@justification@autodetect}% autodetects best justification mode based on all class options
+	\renewcommand*{\@tufte@citation@justification}{\justifying}% autodetects best justification mode based on all class options
 }
 
 % The ``marginals'' key simultaneously sets the same justification for all marginal material
@@ -192,14 +173,6 @@
 \DeclareOptionX[tufte]<common>{onecolumn}{\@tufte@unsupported@option{\CurrentOption}}
 \DeclareOptionX[tufte]<common>{twocolumn}{\@tufte@unsupported@option{\CurrentOption}}
 
-%%
-% Default `book' and `handout' options
-
-\ifthenelse{\equal{\@tufte@pkgname}{tufte-book}}
-{\ExecuteOptionsX[tufte]<common>{titlepage}}
-{\ExecuteOptionsX[tufte]<common>{notitlepage}}
-
-
 \DeclareOptionX*{%
 	\@tufte@info@noline{Passing \CurrentOption\space to the `\@tufte@class' class.}%
 	\PassOptionsToClass{\CurrentOption}{\@tufte@class}%
@@ -210,6 +183,7 @@
 % Load the appropriate base class
 \@tufte@info@noline{Loading the base class `\@tufte@class'}
 \LoadClass{\@tufte@class}
+
 
 %%
 % Detect if we're using pdfLaTeX
@@ -293,26 +267,20 @@
 %%%
 %% Loads the hyperref package and sets some default options.
 
-\newcommand{\TufteLoadHyperref}{%
-	\ifthenelse{\boolean{@tufte@xetex}}
-	{\RequirePackage[unicode,hyperfootnotes=false,xetex]{hyperref}}
-	{\RequirePackage[unicode,hyperfootnotes=false]{hyperref}}
-	\hypersetup{%
-		pdfborder = {0 0 0},
-		bookmarksdepth = section,
-		citecolor = DarkGreen,
-		linkcolor = DarkBlue,
-		urlcolor = DarkGreen,
-	}%
+\ifthenelse{\boolean{@tufte@xetex}}
+{
+	\RequirePackage[unicode,hyperfootnotes=false,xetex]{hyperref}
 }
-
-%%%
-%% Load the `hyperref' package.
-
-\ifthenelse{\boolean{@tufte@loadhyper}}{%
-	\TufteLoadHyperref%
-}{% hyperfootnotes override our modifications to the \footnote* and \@footnote* commands.
-	\PassOptionsToPackage{hyperfootnotes=false}{hyperref}
+{
+	\RequirePackage[unicode,hyperfootnotes=false]{hyperref}
+}
+\hypersetup{
+	colorlinks,
+	pdfborder = {0 0 0},
+	bookmarksdepth = section,
+	citecolor = DarkGreen,
+	linkcolor = DarkBlue,
+	urlcolor = DarkGreen,
 }
 
 %%
@@ -399,7 +367,6 @@
 
 \geometry{a4paper,left=24.8mm,top=27.4mm,headsep=2\baselineskip,textwidth=107mm,marginparsep=8.2mm,marginparwidth=49.4mm,textheight=49\baselineskip,headheight=\baselineskip}
 
-
 %%
 % Separation marginpars by a line's worth of space.
 
@@ -423,15 +390,12 @@
 \newcommand*{\setcitationfont}[1]{\renewcommand*{\@tufte@citation@font}{#1}}
 
 %%
-% Set the justification baesed on the `justified' class option
-
-\newcommand{\@tufte@justification}{\justifying}
-
-%%
 % Turn off section numbering
 
 \setcounter{secnumdepth}{-1}
 
+%%
+% Tighten up space between displays (e.g., a figure or table) and make symmetric
 \setlength\abovedisplayskip{6pt plus 2pt minus 4pt}
 \setlength\belowdisplayskip{6pt plus 2pt minus 4pt}
 
@@ -472,7 +436,7 @@
 %%
 % Compute lengths used for full-width displays
 
-\newlength{\@tufte@overhang}
+\newlength{\@tufte@overhang}% used by the fullwidth environment and the running heads
 \newlength{\@tufte@fullwidth}
 \newlength{\@tufte@caption@fill}
 
@@ -561,12 +525,13 @@
 	{\hypersetup{pdfauthor={\plainauthor}}}% set the PDF metadata author
 }
 
-\renewcommand{\date}[1]{
-	\gdef\@date{#1}
-	\begingroup
-	\renewcommand{\thanks}[1]{}
-	\protected@xdef\thedate{#1}
-	\endgroup
+\renewcommand{\date}[1]{%
+	\gdef\@date{#1}%
+	\begingroup%
+	% TODO store contents of \thanks command
+	\renewcommand{\thanks}[1]{}% swallow \thanks contents
+	\protected@xdef\thedate{#1}%
+	\endgroup%
 }
 
 %%
@@ -672,6 +637,8 @@
 	{\renewcommand{\plainadvisortwotitle}{\thanklessadvisortwotitle}}
 	{\renewcommand{\plainadvisortwotitle}{#1}}
 }
+
+% TODO: Test \hypersetup{pdfauthor,pdftitle} with DVI and XeTeX
 
 %%
 % Require paralist package for tighter lists
@@ -911,6 +878,73 @@
 \catcode`\Q=11
 
 %%
+% Normal \cite behavior
+\newcounter{@tufte@num@bibkeys}%
+\newcommand{\@tufte@normal@cite}[2][0pt]{%
+	% Snag the last bibentry in the list for later comparison
+	\let\@temp@last@bibkey\@empty%
+	\@for\@temp@bibkey:=#2\do{\let\@temp@last@bibkey\@temp@bibkey}%
+	\sidenote[][#1]{%
+		% Loop through all the bibentries, separating them with semicolons and spaces
+		\normalsize\normalfont\@tufte@citation@font%
+		\setcounter{@tufte@num@bibkeys}{0}%
+		\@for\@temp@bibkeyx:=#2\do{%
+			\ifthenelse{\equal{\@temp@last@bibkey}{\@temp@bibkeyx}}%
+			{\ifthenelse{\equal{\value{@tufte@num@bibkeys}}{0}}{}{and\ }%
+				\@tufte@trim@spaces\@temp@bibkeyx% trim spaces around bibkey
+				\bibentry{\@temp@bibkeyx}}%
+			{\@tufte@trim@spaces\@temp@bibkeyx% trim spaces around bibkey
+				\bibentry{\@temp@bibkeyx};\ }%
+			\stepcounter{@tufte@num@bibkeys}%
+		}%
+	}%
+}
+
+
+%%
+% Macros for holding the list of cite keys until after the \sidenote
+
+\gdef\@tufte@citations{}% list of cite keys
+\newcommand\@tufte@add@citation[1]{\relax% adds a new bibkey to the list of cite keys
+	\ifx\@tufte@citations\@empty\else
+	\g@addto@macro\@tufte@citations{,}% separate by commas
+	\fi
+	\g@addto@macro\@tufte@citations{#1}
+}
+
+\newcommand{\@tufte@print@citations}[1][0pt]{% puts the citations in a margin note
+	% Snag the last bibentry in the list for later comparison
+	\let\@temp@last@bibkey\@empty%
+	\@for\@temp@bibkey:=\@tufte@citations\do{\let\@temp@last@bibkey\@temp@bibkey}%
+	\marginpar{%
+		\hbox{}\vspace*{#1}%
+		\@tufte@citation@font%
+		\@tufte@citation@justification%
+		\@tufte@margin@par% use parindent and parskip settings for marginal text
+		\vspace*{-1\baselineskip}%
+		% Loop through all the bibentries, separating them with semicolons and spaces
+		\setcounter{@tufte@num@bibkeys}{0}%
+		\@for\@temp@bibkeyx:=\@tufte@citations\do{%
+			\ifthenelse{\equal{\@temp@last@bibkey}{\@temp@bibkeyx}}%
+			{\ifthenelse{\equal{\value{@tufte@num@bibkeys}}{0}}{}{and\ }%
+				\@tufte@trim@spaces\@temp@bibkeyx% trim spaces around bibkey
+				\bibentry{\@temp@bibkeyx}}%
+			{\@tufte@trim@spaces\@temp@bibkeyx% trim spaces around bibkey
+				\bibentry{\@temp@bibkeyx};\ }%
+			\stepcounter{@tufte@num@bibkeys}%
+		}%
+	}%
+}
+
+%%
+% \cite behavior when executed within a sidenote
+
+\newcommand{\@tufte@sidenote@citations}{}% contains list of \cites in sidenote
+\newcommand{\@tufte@infootnote@cite}[1]{%
+	\@tufte@add@citation{#1}
+}
+
+%%
 % Transform existing \footnotes into \sidenotes
 % Sidenote: ``Where God meant footnotes to go.'' ---Tufte
 
@@ -998,7 +1032,7 @@
 \setlength{\@tufte@sidenote@vertical@offset}{0pt}
 
 % #1 = footnote num, #2 = vertical offset, #3 = footnote text
-\long\def\@tufte@sidenote[#1][#2]#3{%
+\long\def\@tufte@sidenote[#1][#2]#3{
 	\ifthenelse{\NOT\isempty{#2}}{%
 		\gsetlength{\@tufte@sidenote@vertical@offset}{#2}%
 	}{%
@@ -1029,7 +1063,9 @@
 % Sidenote without the footnote mark
 
 \newcommand\marginnote[2][0pt]{%
+	\gdef\@tufte@citations{}%           clear out any old citations
 	\marginpar{\hbox{}\vspace*{#1}\@tufte@marginnote@font\@tufte@marginnote@justification\@tufte@margin@par\vspace*{-1\baselineskip}\noindent #2}%
+	\@tufte@print@citations%            print any citations
 }
 
 
@@ -1074,12 +1110,6 @@
 \newenvironment{margintable}[1][-1.2ex]%
 {\begin{@tufte@margin@float}[#1]{table}}
 	{\end{@tufte@margin@float}}
-
-
-%%
-% Auto-detects the proper text alignment based on the various class options
-
-\newcommand*{\@tufte@justification@autodetect}{\justifying}
 
 %%
 % Forces the outer edge of the caption to be set ragged.  
@@ -1218,7 +1248,7 @@
 		{\typeout{Float label: [\@tufte@stored@label]}}%
 		\typeout{Page number: [\thepage]}%
 		\def\MessageBreak{^^J}%
-		\typeout{\@tufte@float@debug@info}
+		\typeout{\@tufte@float@debug@info}%
 		\typeout{Symmetric: [true]}
 		\typeout{----------------------------------------------------^^J^^J}%
 	}{}%
@@ -1234,22 +1264,23 @@
 	\gsetlength{\@tufte@caption@vertical@offset}{0pt}% reset caption offset
 }
 
-\newcommand{\@tufte@float@textwidth}[3][0pt]{
-	\ifthenelse{\boolean{@tufte@float@recto}}{
-		\hbox{
-			\usebox{#2}
-			\hspace{\marginparsep}
-			\smash{\raisebox{#1}{\usebox{#3}}}
-		}
-		\@tufte@float@debug{Caption position: [right]}
-	}{
-		\hbox{
-			\smash{\raisebox{#1}{\usebox{#3}}}
-			\hspace{\marginparsep}
-			\usebox{#2}
-		}
-		\@tufte@float@debug{Caption position: [left]}
-	}
+\newcommand{\@tufte@float@textwidth}[3][0pt]{%
+	\ifthenelse{\boolean{@tufte@float@recto}}{%
+		% page is odd, so caption is on the right
+		\hbox{%
+			\usebox{#2}%
+			\hspace{\marginparsep}%
+			\smash{\raisebox{#1}{\usebox{#3}}}%
+		}%
+		\@tufte@float@debug{Caption position: [right]}%
+	}{% page is even, so caption is on the left
+		\hbox{%
+			\smash{\raisebox{#1}{\usebox{#3}}}%
+			\hspace{\marginparsep}%
+			\usebox{#2}%
+		}%
+		\@tufte@float@debug{Caption position: [left]}%
+	}%
 }
 
 \newcommand{\@tufte@float@fullwidth}[3][0pt]{%
@@ -1303,10 +1334,22 @@
 
 \newenvironment{fullwidth}
 {
-	\ifthenelse{\boolean{@tufte@changepage}}{\begin{adjustwidth*}{}{-\@tufte@overhang}}{\begin{adjustwidth}[]{}{-\@tufte@overhang}}
+	\ifthenelse{\boolean{@tufte@changepage}}
+	{
+		\begin{adjustwidth*}{}{-\@tufte@overhang}
+	}
+	{
+		\begin{adjustwidth}[]{}{-\@tufte@overhang}
+	}
 }
 {
-	\ifthenelse{\boolean{@tufte@changepage}}{\end{adjustwidth*}}{\end{adjustwidth}}
+	\ifthenelse{\boolean{@tufte@changepage}}
+	{
+		\end{adjustwidth*}
+	}
+	{
+		\end{adjustwidth}
+	}
 }
 
 %%
@@ -1363,17 +1406,12 @@
 
 %%
 % Sets up the running heads and folios.
-
 \RequirePackage{fancyhdr}
-
-% Set the default page style to 'fancy'
 \pagestyle{fancy}
 
 % Set the header/footer width to be the body text block plus the margin
 % note area.
-\AtBeginDocument{%
-	\fancyhfoffset[LE,RO]{\@tufte@overhang}
-}
+\AtBeginDocument{\fancyhfoffset[LE,RO]{\@tufte@overhang}}
 
 % The running heads/feet don't have rules
 \renewcommand{\headrulewidth}{0pt}
@@ -1381,9 +1419,8 @@
 
 % The 'fancy' page style is the default style for all pages.
 \fancyhf{} % clear header and footer fields
-\fancyhead[LE]{\thepage\quad\smallcaps{\newlinetospace{\plainauthor}}}
+\fancyhead[LE]{\thepage\quad\smallcaps{\newlinetospace{\plainauthor}}}%
 \fancyhead[RO]{\smallcaps{\newlinetospace{\plaintitle}}\quad\thepage}
-
 
 % The `plain' page style is used on chapter opening pages.
 % In Tufte's /Beautiful Evidence/ he never puts page numbers at the
@@ -1392,7 +1429,7 @@
 	\fancyhf{} % clear header and footer fields
 	% Uncomment the following five lines of code if you want the opening page
 	% of the chapter to express the folio in the lower outside corner.
-	% \fancyfoot[LE,RO]{\thepage}
+	%  \fancyfoot[LE,RO]{\thepage}
 }
 
 % The `empty' page style suppresses all headers and footers.
@@ -1405,7 +1442,7 @@
 %%
 % Set raggedright and paragraph indentation for document
 
-\AtBeginDocument{\@tufte@justification}
+\AtBeginDocument{\justifying}
 
 
 %%
@@ -1429,7 +1466,6 @@
 	\typeoutbool{load fonts}{@tufte@loadfonts}
 	\typeoutbool{letterspacing}{@tufte@letterspace}
 	\typeoutbool{sans-serif sidenotes}{@tufte@sfsidenotes}
-	\typeoutbool{titlepage}{@tufte@titlepage}
 	\typeoutbool{debug}{@tufte@debug}
 	\typeout{}
 	\typeout{Internal variables:}
@@ -1455,58 +1491,58 @@
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 \newcommand{\maketitlepage}[0]{
-  \cleardoublepage {
-    \sffamily
-    \begin{fullwidth}
-
-      \begin{center}
-        \vspace{6cm}
-
-        \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessdepartment}}\\
-        \fontsize{12}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessschool}}\\
-
-        \vspace{4cm}
-		{\bfseries \fontsize{18}{20}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklesstitle}}}
-
-        \vspace{1.5cm}
-        \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{Tesis doctoral}}\\
-		
-        \vspace{2cm}
-        {\bfseries \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
-          \thanklessauthor
-        }}\\
-        \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
-          \thanklessauthortitle
-        }\\
-
-        \vspace{1.5cm}
-        \fontsize{12}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{Direcci\'{o}n}}\\
-
-        \vspace{0.2cm}
-        {\bfseries \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
-          \thanklessadvisorone
-        }}\\
-        \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
-          \thanklessadvisoronetitle
-        }\\
-		\vspace{0.2cm}
-		{\bfseries \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
-		\thanklessadvisortwo
-		}}\\
-		\fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
-		\thanklessadvisortwotitle
-		}\\
-
-		\vfill
-		{\small Madrid \today}
-      \end{center}
-
-    \end{fullwidth}%
-  }
-  \thispagestyle{empty}%
-  \clearpage
-
-
+	\cleardoublepage {
+		\sffamily
+		\begin{fullwidth}
+			
+			\begin{center}
+				\vspace{6cm}
+				
+				\fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessdepartment}}\\
+				\fontsize{12}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessschool}}\\
+				
+				\vspace{4cm}
+				{\bfseries \fontsize{18}{20}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklesstitle}}}
+				
+				\vspace{1.5cm}
+				\fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{Tesis doctoral}}\\
+				
+				\vspace{2cm}
+				{\bfseries \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
+						\thanklessauthor
+				}}\\
+				\fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
+					\thanklessauthortitle
+				}\\
+				
+				\vspace{1.5cm}
+				\fontsize{12}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{Direcci\'{o}n}}\\
+				
+				\vspace{0.2cm}
+				{\bfseries \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
+						\thanklessadvisorone
+				}}\\
+				\fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
+					\thanklessadvisoronetitle
+				}\\
+				\vspace{0.2cm}
+				{\bfseries \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
+						\thanklessadvisortwo
+				}}\\
+				\fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
+					\thanklessadvisortwotitle
+				}\\
+				
+				\vfill
+				{\small Madrid \today}
+			\end{center}
+			
+		\end{fullwidth}%
+	}
+	\thispagestyle{empty}%
+	\clearpage
+	
+	
 }
 
 %%
@@ -1539,14 +1575,7 @@
 	\@afterindentfalse\@afterheading% suppress indentation of the next paragraph
 }
 
-
-%%
-% Title page (if the `titlepage' option was passed to the tufte-handout
-% class.)
-
-\ifthenelse{\boolean{@tufte@titlepage}}
-{\renewcommand{\maketitle}{\maketitlepage}}
-{}
+\renewcommand{\maketitle}{\maketitlepage}
 
 %%
 % When \cleardoublepage is called, produce a blank (empty) page -- i.e.,
@@ -1565,13 +1594,13 @@
 %%
 % Make Tuftian-style section headings and TOC formatting
 
-\titleformat{\chapter}%
-[display]% shape
-{\relax}
-{\itshape\huge\thechapter}
+\titleformat{\chapter}
+[display]
+{\relax}% format applied to label+text
+{\itshape\huge\chaptertitlename~\thechapter}% label
 {0pt}% horizontal separation between label and title body
 {\huge\rmfamily\itshape}% before the title body
-[]% after the title body
+[]
 
 \titleformat{\section}%
 [hang]% shape
@@ -1631,7 +1660,7 @@
 	[0em] % distance from left margin
 	{\vspace{1.5\baselineskip}\begin{fullwidth}\LARGE\rmfamily\itshape} % above (global formatting of entry)
 		{\contentslabel{2em}} % before w/label (label = ``II'')
-		{} % before w/o ltextabel
+		{} % before w/o label
 		{\rmfamily\upshape\qquad\thecontentspage} % filler + page (leaders and page num)
 		[\end{fullwidth}] % after
 	\titlecontents{chapter}%
@@ -1967,18 +1996,18 @@
 % to the opening page of Chapter 1.  The running heads, when they appear,
 % contain only the (arabic) page number in the outside corner.
 %\newif\if@mainmatter \@mainmattertrue
-\renewcommand\frontmatter{
-	\if@openright
-		\cleardoublepage
-	\else
-		\clearpage
-	\fi
-	\@mainmatterfalse
-	\pagenumbering{arabic}
-	\fancyhf{}%
-	\fancyhead[LE,RO]{\thepage}
+\renewcommand\frontmatter{%
+  \if@openright%
+    \cleardoublepage%
+  \else%
+    \clearpage%
+  \fi%
+  \@mainmatterfalse%
+  \pagenumbering{arabic}%
+  %\pagestyle{plain}%
+  \fancyhf{}%
+  \fancyhead[LE,RO]{\thepage}
 }
-
 
 %%
 % The main matter in Tufte's /Beautiful Evidence/ doesn't restart the page
@@ -1992,8 +2021,8 @@
   \@mainmattertrue%
   \fancyhf{}%
   \renewcommand{\chaptermark}[1]{\markboth{##1}{}}%
-  \fancyhead[LE]{\thepage\quad\smallcaps{\newlinetospace{\plaintitle}}}% book title
-  \fancyhead[RO]{\smallcaps{\newlinetospace{\leftmark}}\quad\thepage}% chapter title
+  \fancyhead[LE]{\thepage\quad\smallcaps{\newlinetospace{\plaintitle}}}
+  \fancyhead[RO]{\smallcaps{\newlinetospace{\leftmark}}\quad\thepage}
 }
 
 
@@ -2021,92 +2050,157 @@
   \input{tufte-book-local}%
 }{}
 
+% Better use utf8 so encoding problemas are less
+\usepackage[utf8]{inputenc}
+
 %%
-% Packages and configuration for the PhD stuff
+% Theorems, hypothesis and so
+\usepackage{ntheorem}
+\theoremseparator{:}
+\newtheorem{hyp}{Hipótesis}
+\newtheorem{definition}{Definición}
 
-\usepackage[utf8]{inputenc}  % Use UTF8 => less problems
+\usepackage{units}
 
-% A little gap for the paragraphs
+%%
+% Source code highlighting and formatting
+\usepackage{listingsutf8}
+\lstset{
+	language=[LaTeX]TeX,
+	breaklines=true,
+	basicstyle=\tt\scriptsize,
+	keywordstyle=\color{blue},
+	literate=
+	{á}{{\'a}}1
+	{í}{{\'i}}1
+	{é}{{\'e}}1
+	{ý}{{\'y}}1
+	{ú}{{\'u}}1
+	{ó}{{\'o}}1
+	{ě}{{\v{e}}}1
+	{š}{{\v{s}}}1
+	{č}{{\v{c}}}1
+	{ř}{{\v{r}}}1
+	{ž}{{\v{z}}}1
+	{ď}{{\v{d}}}1
+	{ť}{{\v{t}}}1
+	{ň}{{\v{n}}}1                
+	{ů}{{\r{u}}}1
+	{Á}{{\'A}}1
+	{Í}{{\'I}}1
+	{É}{{\'E}}1
+	{Ý}{{\'Y}}1
+	{Ú}{{\'U}}1
+	{Ó}{{\'O}}1
+	{Ě}{{\v{E}}}1
+	{Š}{{\v{S}}}1
+	{Č}{{\v{C}}}1
+	{Ř}{{\v{R}}}1
+	{Ž}{{\v{Z}}}1
+	{Ď}{{\v{D}}}1
+	{Ť}{{\v{T}}}1
+	{Ň}{{\v{N}}}1                
+	{Ů}{{\r{U}}}1
+}
+\lstdefinestyle{bash}{
+	backgroundcolor=\color{black},
+	basicstyle=\scriptsize\color{white}\ttfamily
+}
+
+\usepackage{xspace}
+
+\usepackage{forest}
+
+\IfFileExists{bergamo.sty}{\usepackage[osf]{bergamo}}{}% Bembo
+
+%%
+% Small typography corrections
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{graphicx}
+
+%%
+% Increase a little the separation betewen paragraphs
 \setlength{\parskip}{0.5\baselineskip}%
 \setlength{\parindent}{0pt}%
 
-\hypersetup{colorlinks}
-
-% To state theorems
-%\usepackage{ntheorem}
-%\theoremseparator{:}
-%\newtheorem{hyp}{Hipótesis}
-%\newtheorem{definition}{Definición}
-
-%\usepackage{units}
-
-% To output source code
-%\usepackage{listingsutf8}
-% Package listingutf8
-%\lstset{
-%	language=[LaTeX]TeX,
-%	breaklines=true,
-%	basicstyle=\tt\scriptsize,
-%	keywordstyle=\color{blue},
-%	literate=
-%	{á}{{\'a}}1
-%	{í}{{\'i}}1
-%	{é}{{\'e}}1
-%	{ý}{{\'y}}1
-%	{ú}{{\'u}}1
-%	{ó}{{\'o}}1
-%	{ě}{{\v{e}}}1
-%	{š}{{\v{s}}}1
-%	{č}{{\v{c}}}1
-%	{ř}{{\v{r}}}1
-%	{ž}{{\v{z}}}1
-%	{ď}{{\v{d}}}1
-%	{ť}{{\v{t}}}1
-%	{ň}{{\v{n}}}1                
-%	{ů}{{\r{u}}}1
-%	{Á}{{\'A}}1
-%	{Í}{{\'I}}1
-%	{É}{{\'E}}1
-%	{Ý}{{\'Y}}1
-%	{Ú}{{\'U}}1
-%	{Ó}{{\'O}}1
-%	{Ě}{{\v{E}}}1
-%	{Š}{{\v{S}}}1
-%	{Č}{{\v{C}}}1
-%	{Ř}{{\v{R}}}1
-%	{Ž}{{\v{Z}}}1
-%	{Ď}{{\v{D}}}1
-%	{Ť}{{\v{T}}}1
-%	{Ň}{{\v{N}}}1                
-%	{Ů}{{\r{U}}}1
-%}
-%\lstdefinestyle{bash}{
-%	backgroundcolor=\color{black},
-%	basicstyle=\scriptsize\color{white}\ttfamily
-%}
-
-%\usepackage{xspace}
-%\usepackage{forest}  % TODO No sé si usarlo o no
-
-% Typography refinement
-\usepackage{microtype}
-
-% Figures configuration
-\usepackage{graphicx}
 \setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+
+%%
+% Where the figures should be stored
 \graphicspath{{figures/}}
 
-% More manageable tabular environments
-\usepackage{booktabs}
 %%
-% Nice fonts tu use if installed
-% TODO A ver si encuentro estas putas fuentes y soy capaz de ponerlas
-% If they're installed, use Bergamo and Chantilly from www.fontsite.com.
-% They're clones of Bembo and Gill Sans, respectively.
-%\IfFileExists{bergamo.sty}{\usepackage[osf]{bergamo}}{}% Bembo
-%\IfFileExists{chantill.sty}{\usepackage{chantill}}{}% Gill Sans
+% TODO Para qué era esto?
+\usepackage{fancyvrb}
+\fvset{fontsize=\normalsize}
+
+%%
+% For having a blank page
+\newcommand{\blankpage}{\newpage\hbox{}\thispagestyle{empty}\newpage}
+
+%%
+% Just in case we need inster TODO tasks
+\newcommand{\TODO}{\textcolor{red}{\bf TODO!}\xspace}
+
+\usepackage{marginfix}
+\usepackage{mparhack}
+
+\usepackage{smartdiagram}
+\usepackage[caption=false]{subfig}
+
+
+\usepackage{tikz}
+\usetikzlibrary{matrix,arrows,arrows.meta,shapes,shapes.geometric,trees,mindmap,shadows,automata}
+
+\usepackage{smartdiagram}
+
+\usepackage{pgfplots}
+
+\usepackage{todonotes}
+
+\usepackage{pifont}
+\newcommand{\yep}{\textcolor{ForestGreen}{\ding{51}}}
+\newcommand{\nop}{\textcolor{Red}{\ding{55}}}
+\newcommand{\na}{\textcolor{Dandelion}{--}}
+
+\usepackage[
+type={CC},
+modifier={by-nc-sa},
+version={3.0},
+]{doclicense}
+
+\usepackage{imakeidx}
+\newcommand\idx[1]{#1\index{#1}}
+
+
+% Para definición de ecuaciones por partes (dos partes)
+\newcommand{\twopartf}[4]
+{
+	\left\{
+	\begin{array}{ll}
+		#1 & \mbox{si } #2 \\
+		#3 & \mbox{si } #4
+	\end{array}
+	\right.
+}
+
+\usepackage{afterpage}
+
+
+\titleformat{\part}[display]
+{\Huge\filleft}
+{\textsc{\thepart}}
+{20pt}
+{
+	\pagecolor{black}%\afterpage{\nopagecolor}
+	\color{white}
+}
+
+%%
+% To penalize more the use of hyphenation
+\hyphenpenalty=10
 
 %%
 % End of file
 \endinput
-

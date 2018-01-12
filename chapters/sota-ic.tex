@@ -1,13 +1,13 @@
 \chapter{\glsentrylongsp{ci}}
 \label{ch:sota-ci}
 
-El comportamiento de un individuo en un entorno se ve influenciado por una infinidad de variables. Identificar las relaciones entre éstas es en la mayoría de las ocasiones una tarea que va de lo muy difícil a lo imposible, más aún si añadimos que éstas son muy numerosas y pueden llegar a ser imposibles de cuantificar o incluso de detectar.
+Todo elemento dentro de un entorno se ve influenciado por una infinidad de variables. Identificar éstas están relacionadas es, en la mayoría de las ocasiones, una tarea que va de lo muy difícil a lo imposible, más aún si añadimos que éstas son muy numerosas y pueden llegar a ser imposibles de cuantificar o incluso de detectar.
 
-La \ac{ci} engloba un conjunto de técnicas que facilitan enormemente estas tareas. En este capítulo se ofrece una perspectiva de la literatura actual sobre las técnicas de la \gls{ci} que son de interés para esta tesis. Introduciremos el concepto y las nociones de \enquote{agente} y de \enquote{aprendizaje} para posteriormente introducir algunas de las técnicas utilizadas dentro del área. Por último, desarrollaremos en detalle las dos técnicas técnicas principales sobre las que se apoya el trabajo teórico de esta tesis: \glsentrylongplsp{ann} y \glsentrylongsp{fl}.
+La \acrfull{ci} engloba un conjunto de técnicas que facilitan enormemente estas tareas. El resto del capítulo ofrece una perspectiva de la literatura actual sobre las técnicas de la \gls{ci} que son de interés para esta tesis. Introduciremos además las nociones de \enquote{agente}, de \enquote{aprendizaje} y de algunas de las técnicas clave de este área. Por último, desarrollaremos en detalle las dos técnicas principales sobre las que se apoya el trabajo teórico de esta tesis: \glsentrylongplsp{ann} y \glsentrylongsp{fl}.
 
 \section{\glsentrylongsp{ai} vs. \glsentrylongsp{ci}}
 
-¿Qué es la \ac{ci}? Para entender el significado de éste término tenemos que entender cómo ha evolucionado el término \ac{ai} a lo largo de los años.
+¿Qué es la \gls{ci}? ¿Qué diferencias (si las hay) la separan de la \acrfull{ai}? Para responder a esta preguntas tenemos que entender cómo ha evolucionado el concepto de la \ac{ai} a lo largo de su historia.
 
 El primer concepto a introducir es el de \textbf{conexionismo}. Se puede considerar a Santiago Ramón y Cajal como principal precursor de esta idea por sus trabajos acerca de la estructura de las neuronas y sus conexiónes (e.g. \cite{y1888estructura} y~\cite{ramon1904textura}). Otros prefieren citar el trabajo \textit{\enquote{A logical calculus of the ideas immanent in nervous activity}} (\cite{McCulloch1943}) sobre \glspl{ann} o \textit{\enquote{The organization of behavior}} (\cite{hebb19680}) acerca de la teoría del aprendizaje como primeros trabajos en este tema. Independientemente de su origen, el conexionismo postula que tanto la \textit{mente} como el \textit{conocimiento} emergen de redes formadas por unidades sencillas interconectadas (i.e. neuronas).
 
@@ -116,6 +116,40 @@ Posteriormente aparecieron nuevos modelos de neuronas con diferentes funciones d
 	\item \textbf{Feed-Forward}. Sus grafos no contienen ninguń ciclo (figura XXX) |\TODO{Esa pedaaaaaso de figura. A lo mejor hacer una que incluya tres ejemplos.}. Es la topología más usada en aplicaciones prácticas debido a su sencillez y su efectividad. En ellas el flujo de información sigue un camino desde las entradas hasta las salidas, sin ninguna retroalimentación. No es requisito que las neuronas se agrupen en capas, aunque suele ser la estructura común. A las redes de más de dos capas ocultas (i.e. las capas que se encuentran entre la capa de neuronas de entrada y la capa de neuronas de salida) se las denomina \enquote{profundas} o \textit{deep}. Algunos tipos pertenecientes a esta categoría pueden ser el Perceptrón [Rosemblat, 1957], el Perceptrón multicapa [Rumelhart et al., 1986], el algoritmo LVQ y su sucesor los Mapas Auto-Organizados [Kohonen, 1998].
 	\item \textbf{Recurrentes}. Sus grafos contienen uno o más ciclos, de tal manera que el flujo de información de salida de una neurona puede llegar a afectar a su propio estado. Estas topologías representan de una forma más fiel las bases biológicas de las \ac{ann}, pero son más complejas a la hora de operar y entrenar. Algunos casos particulares de este tipo de arquitectura son las Redes de Hopfield [Hopfield, 1982] o las memorias LSTM (del inglés Long-Short Term Memory) [Hochreiter \& Schmidhuber, 1997].
 \end{itemize}
+
+\TODO{Más cosas a añadir del paper de modelling behabior of lane change execution}
+
+ANNs are CI techniques used as a general solution in prediction and classification problems. They are composed by single processing units called neurons and are usually classified depending on how are arranged and connected those neurons. Depending on its architecture, the ANN can be trained on a problem by means of a supervised training scheme (i.e. by showing tuples of input $\rightarrow$ output) or non-supervised training scheme (i.e. by showing a whole dataset and letting them to find patterns and solutions by themselves). They have been used successfully in several fields like speech recognition [20], series and sequences prediction [21] or terrain classification [22].
+
+In this paper, for mimicking the lane-change acceptance of a particular user, two different families of ANN are proposed: MLPs and CNNs. Figure 2. Example of two feed-forward architectures: (a) A Multilayer Perceptron architecture; (b) A Convolutional Neural Network architecture.Figure 2. Example of two feed-forward architectures: (a) A Multilayer Perceptron architecture; (b) A Convolutional Neural Network architecture. Both families rely on the same model of artificial neuron, the McCulloch-Pitts model [23], and belong to the category feed-forward, i.e. a Directed Acyclic Graph (DAG) where the inputs are presented by one end of the DAG (called input layer) and the outputs are collected at the other end (called output layer).
+
+In these two models, the connections are represented with a real value called weight imitating the behaviour of biological neurons with the strength of connection between axon and dendrites. Typically, the training process belongs to the supervised scheme and is based on the modification of these weights to obtain the desired response, following the principles of the Hebbian theory.
+
+One of the most difficult tasks on these models is their hyper-parameter tuning, and it is difficult because ANNs involve a lot of them. Apart from the family, and the arrangement of their neurons that fortunately, in the most of cases, comes imposed by the family, there are number of neurons, number of layers, training parameters (depending on the learning algorithm), and they follow the non-free lunch theorem [24]. The problems derived from that are two: the high bias or under-fitting and the high variance or over fitting.
+
+To avoid under-fitting, the classical technique is to increase the size of the network, both deepness and/or number of neurons. Over-fitting, on the other hand, is a little bit harder because it can be motivated for the lack of data, the number of layers, the number of neurons, etc. In these cases, the solution may be the augmentation of training set, either naturally or artificially, and/or regularization techniques. We will talk later about the data augmentation techniques used in this work.
+
+The regularization technique used in this experiment is the one called Dropout [25]. It’s a simple technique where in each training epoch some random neurons are, indeed, dropped. This technique slows down the convergence process a bit, also avoiding the neurons to rely only in few of their inputs, thus reducing the over-fitting. Figure 3 shows an example of this techniques through three different epochs.
+
+\begin{figure*}
+	\centering
+	\subfloat[]{\includegraphics[width=0.3\textwidth]{dropout-example-a}}\qquad
+	\subfloat[]{\includegraphics[width=0.3\textwidth]{dropout-example-b}}\qquad
+	\subfloat[]{\includegraphics[width=0.3\textwidth]{dropout-example-c}}
+	\caption{Three training epochs on a multilayer perceptron with a 0.5 dropout rate (i.e. 50\% probability for a neuron to be disabled) in its hidden layer. The grey neurons are the ones disabled each epoch.}
+	\label{fig:dropout-example}
+\end{figure*}
+
+Multilayer Perceptrons
+In a MLP, the neurons are arranged in layers so that all the neuron outputs on one layer are the inputs for all the neurons in the next layer. The first and last layers are called input layer and output layer respectively. The inner layers are called hidden layers. As shown in Figure 2 (b) (a two-layered MLP), in this architecture the inputs are usually presented as vectors. As they have been used extensively in several areas with great success, we use them here to make a comparison of the improvement of the use of CNNs over MLPs.
+
+onvolutional Neural Networks
+As its name suggests, a CNN uses convolutions, i.e. mathematical operations that filter regions of a structure (generally in the form of a matrix or a cube) for pattern identification and/or structure transformations.
+A CNN has also an arrangement of layers, but they work differently. Firstly, this architecture is separated into two groups of layers or phases that can be called pattern identification phase and prediction phase. The pattern recognition phase works with layers dealing with pattern recognitions and input sub-sampling while the prediction phase works with an MLP using the output of the pattern recognition phase as input. Secondly, the inputs are arranged as -dimensional matrices as opposed to the MLP that are always presented as vectors; this fact allows us working more easily with properties and patterns arranged in an n-dimensional space like images (2-dimension matrix) or videos (3-dimension matrix). The layer types in that phase are as follows:
+1. Convolutional Layer. Given a -dimensional input, a convolution or filter is an n-dimensional pattern (composed by neurons) that travels along the -dimensional space to generate a new -dimensional space. A convolutional layer is a layer composed by m filter and generate a set of m new -dimensional spaces which will be the new input for another layer.
+2. Local Response Normalization (LRN) layer [26]. This layer is intended to enhance the difference between the existent values in a space. They are commonly placed after a convolution layer to increase the contrast of the values in the space. In this paper, every convolution layer is followed by an LRN layer.
+3. Pooling layer. Pooling is grouping together elements. A pooling layer is intended to subsample a space to ease its management. Given an -dimensional space, a pooling filter of dimension  travels the space in steps of size  generating one value per step. When placed after convolutions, it is expected to subsample the space without losing the recognized pattern while reducing computation costs and avoiding overfitting. The most common operation used in pooling is the max operation.
+
 
 \TODO{Desarrollar un poquito el tema de los grafos computacionales indicando que si bien no se tratan de una técnica dentro de la inteligencia computacional, sí que se usan para representar operaciones.}
 

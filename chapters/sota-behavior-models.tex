@@ -5,41 +5,16 @@ El objetivo que persigue la simulación de tráfico es hacer cada vez más reali
 
 Conducir implica la ejecución de múltiples tareas en paralelo, cada una de ellas pertenecientes a un nivel cognitivo. Además, las acciones no están limitadas a la interacción con el vehículo; el conductor ha de tener en cuenta otros factores como pueden ser señales, peatones o \glspl{adas}.
 
+El modelo de \cite{michon1985critical} define tres niveles de abstracción para las tareas que requieren procesos cognitivo, entre ellas la tarea de conducir: el nivel de \textbf{control}, donde se encontrarían las tareas de más bajo nivel como el mantenimiento de la velocidad o los cambios de marcha, el \textbf{táctico} donde se engloban tareas encargadas de mantener la interacción con el entorno como los cambios de carril y el \textbf{estratégico}, al que pertenecen tareas de más alto nivel como el razonamiento y la planificación de rutas (ver figura~\ref{fig:three-levels-of-human-driving}).
+
 \begin{figure}
 	\centering
-	\begin{tikzpicture}
-	\tikzset{
-		centered/.style = { align=center, anchor=center },
-		arrow/.style = { black!20, arrows={-Triangle} },
-		dblarrow/.style = { black!20, arrows={Triangle-Triangle} },
-	}
-	
-	\matrix (m) [
-	matrix of nodes,
-	column sep      = 2em,
-	row sep         = 1em,
-	column 1/.style = { nodes = { font=\sffamily\scriptsize, fill=black!20, centered}},
-	column 2/.style = { nodes = { font=\sffamily, centered, fill=orange!20, text width=3cm }},
-	column 3/.style = { nodes = { font=\sffamily, centered, text width=2.2cm }},
-	column 4/.style = { nodes = { font=\sffamily, centered }},
-	] {
-		& Nivel estratégico & planes generales & $\gg s.$\\
-		Entorno & Nivel táctico  & patrones de acción & $s.$ \\
-		Entorno  & Nivel de control & comportamientos automáticos & $ms.$ \\
-	};
-	\draw[arrow] (m-1-2) -> (m-1-3);
-	\draw[arrow] (m-2-1) -> (m-2-2);
-	\draw[dblarrow] (m-2-2) -> (m-2-3);
-	\draw[arrow] (m-3-1) -> (m-3-2);
-	\draw[dblarrow] (m-3-2) -> (m-3-3);
-	\draw[dblarrow] (m-2-2) -> (m-1-2);
-	\draw[dblarrow] (m-3-2) -> (m-2-2);
-	\end{tikzpicture}
+	\includegraphics{three-layer-model-of-cognitive-tasks}
 	\caption[Los tres niveles jerárquicos de conducción según~\cite{michon1985critical}]{Los tres niveles jerárquicos que describen la tarea de conducción según~\cite{michon1985critical}: \textit{estrategia} (i.e. las decisiones generales), la \textit{maniobra} (i.e. decisiones durante la conducción de más corto plazo) y \textit{control} (i.e. automatismos).}
 	\label{fig:three-levels-of-human-driving}
 \end{figure}
 
-\cite{michon1985critical} define tres los niveles de abstracción de las tareas: el nivel de \textbf{control}, que se ocupa de las tareas de más bajo nivel como son el mantenimiento de la velocidad o los cambios de marcha, el de \textbf{maniobra} o táctico, donde sus tareas son las encargadas de mantener la interacción con el entorno como los cambios de carril o el control de las señales y demás estímulos externos, y el \textbf{estratégico}, que engloba las tareas de más alto nivel como el razonamiento y la planificación de rutas (ver figura~\ref{fig:three-levels-of-human-driving}). A pesar de que se trata de una clasificación subjetiva, algunos estudios llegan incluso a definir intervalos de tiempo de razonamiento para las tareas de cada nivel. Por ejemplo, en \cite{Alexiadis2004} se establecen los siguientes tiempos: alrededor de \unit[30]{s} para las tareas del nivel de planificación, entre \unit[5]{s} a \unit[30]{s} para las tareas de nivel táctico y por debajo de los \unit[5]{s} para las tareas de control.
+A pesar de que se trata de una clasificación subjetiva, es un modelo aampliamente aceptado dentro del área de los \gls{its}. Algunos estudios llegan incluso a definir intervalos de tiempo de razonamiento para las tareas de cada nivel, como por ejemplo~\cite{Alexiadis2004}, donde se llegan a proponer tiempos que separan unos niveles de otros: alrededor de \unit[30]{s} para las tareas del nivel de planificación, entre \unit[5]{s} a \unit[30]{s} para las tareas de nivel táctico y por debajo de los \unit[5]{s} para las tareas de control.
 
 Otro modelo jerárquico de tres niveles muy referenciado en la literatura es el \textit{skill-rule-knowledge} de \cite{Rasmussen1986}, una generalización del modelo propuesto por \cite{michon1985critical} al comportamiento y razonamiento humano. Postula que éste se puede basar en \textbf{habilidades} (actividades completamente automatizadas de la forma \textit{percepción $\rightarrow$ ejecución}), \textbf{reglas} (situaciones familiares o estereotipadas de la forma \textit{percepción $\rightarrow$ reconocimiento de la situación $\rightarrow$ planificación $\rightarrow$ ejecución}) y \textbf{conocimiento} (actividades conscientes que implican resolución de problemas y toma de decisiones de la forma \textit{percepción $\rightarrow$ reconocimiento de la situación $\rightarrow$ toma de decisión $\rightarrow$ planificación de la ejecución}) que suelen ser necesarias en situaciones poco familiares). Algunos trabajos se basan en este modelo en lugar del de \cite{michon1985critical} como el presentado por \cite{Chaib-draa1994} donde abarca los tres niveles de abstracción representando en un escenario urbano tres tipos diferentes de situaciones: rutinaria, familiar y no familiar.
 
@@ -333,7 +308,7 @@ Por último, \cite{Aghabayk2013} presenta un modelo basado en \gls{lolimot} que 
 
 \newthought{Estas técnicas no sólo se usan para} modelar comportamientos complejos o modelos enteros. Algunos trabajos se ocupan de características o aspectos de un modelo concreto. Por ejemplo, los trabajos \cite{Hatipkarasulu2002, zheng2013} se ocupan exclusivamente del cálculo de tiempo de respuesta del conductor en modelos de \textit{\idx{car-following}}, el primero con controladores difusos y el segundo con \glspl{ann}.
 
-\section{PApers a añadir o al menos relevantes}
+\section{Papers a añadir o al menos relevantes}
 
 Analysis of Recurrent Neural Networks for Probabilistic Modeling of Driver Behavior (de Morton J, Wheeler T, Kochenderfer M). Explora redes recurrentes para estudiar modelos de aceleración.
 Review of microscopic lane-changing models and future research opportunities. Su propio nombre dice de qué va.

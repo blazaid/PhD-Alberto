@@ -1,0 +1,66 @@
+\chapter{Comportamiento de cambio de carril}
+\label{ch:lane-change-submodel}
+
+\TODO Creo que habría que indicar en la introducción y luego aquí que queremos reproducir nuestro modelo en SUMO, que determina los cambios de carril como teleportaciones de un carril a otro.
+
+Broadly speaking, the lane-change problem within the cognitive scheme is associated with the tactical level (also manoeuvre level) on a three-layer scheme where the tasks of intermediate cognitive process are grouped.
+
+
+
+\section{Determinando la intencionalidad en el cambio de carril}
+\label{s:lane-change-intention}
+
+\section{Ejecucutando el cambio de carril}
+\label{s:lane-change-execution}
+
+Multilayer Perceptrons
+In a MLP, the neurons are arranged in layers so that all the neuron outputs on one layer are the inputs for all the neurons in the next layer. The first and last layers are called input layer and output layer respectively. The inner layers are called hidden layers. As shown in Figure 2 (b) (a two-layered MLP), in this architecture the inputs are usually presented as vectors.
+As they have been used extensively in several areas with great success, we use them here to make a comparison of the improvement of the use of CNNs over MLPs.
+Error: no se encontró el origen de la referencia depicts the final MLP architectures used in this work. Each number on the “architecture” column represents the number of neurons in each of the hidden layers. The output layers contain 3 neurons corresponding to the activation neurons for left-change, no action and right change. Also, each row represents a set of topologies, where  points out the dataset employed to train this architecture (described in Table  later in section 4. Methodology) and  symbolizes the dropout applied to all their hidden layers. This results in a total of 90 MLP networks to work with.
+Name 1
+Layers
+Architecture
+MLP1--
+
+
+MLP2--
+
+
+MLP3--
+
+
+MLP4--
+
+
+MLP5--
+
+
+MLP6--
+
+
+1 The names represent different networks depending on the dataset used for training and the dropout rate.
+Table 1. MLP networks used in this work
+
+CNN
+
+Three architectures, each of them with different dropout rates, have been used in the comparison and are shown in Error: no se encontró el origen de la referencia.
+Name 1
+Layers
+Architecture
+CNN1--
+
+
+CNN2--
+
+
+CNN3--
+
+
+1 The names represent different networks depending on the dataset used for training and the dropout rate.
+Table 2. CNN networks used in this work.
+Each element in the “architecture” column corresponds to a different kind of layer, being  a convolution layer of C channels and  size,  a max-pool layer of  size with a step of  and  a dense layer of  neurons. In our case, the input layers of a convolution operation are padded with zeros to maintain the same  size on the output. As with the MLP architectures, the output layer contains 3 neurons corresponding to the activation neurons for left-change, no action and right change and each row represents a set of topologies, where  points to the dataset employed to train this architecture (described in Table ) and  symbolizes the dropout applied to all their hidden layers. This results in a total of 45 CNN networks to work with.
+
+Methodology
+
+In order to train, compare and validate the different lane-change acceptance models, the following method has been followed. An instrumented vehicle is used for recording driving data, firstly for driving patterns recognition to classify drivers into two subsets and, secondly, for constructing datasets for the models training process. In the second case, an operator will be present in the vehicle and will ask to the subjects to execute a left or right change in different situations (mainly with and without cars in the surroundings) while data is being recorded. Those events are then logged as lane-change intention because the subjects must execute the lane-change if possible. In this way, we guarantee that each lane-change execution (or impossibility of execution) is directly linked to a lane-change intention.
+The sections that follow describes the how the vehicle is instrumented, and data are obtained, how they are processed to a suitable representation to train the models and, finally, how the models are trained.

@@ -1,0 +1,69 @@
+\documentclass{upm-phd}
+
+\usepackage[spanish]{babel}
+
+\def\phdtitle{Modelado de comportamiento de conductores con técnicas de Inteligencia Computacional}
+\def\phdauthor{Alberto Díaz Álvarez}
+\def\date{\today}
+\authortitle{Máster en Ciencias y Tecnologías de la Computación}
+\department{Departamento de Inteligencia Artificial}
+\school{Escuela Técnica Superior de Ingenieros Informáticos}
+\university{Universidad Politécnica de Madrid}
+\advisorone{Dr. Francisco Serradilla García}
+\advisoronetitle{Doctor en Inteligencia Artificial}
+\advisortwo{Dr. Felipe Jiménez Alonso}
+\advisortwotitle{Doctor en Ingeniería Mecánica}
+
+\title{\phdtitle}
+\author[\phdauthor]{\phdauthor}
+
+\input{config/glossary}
+\makeglossaries
+\makeindex
+
+\begin{document}
+
+\frontmatter
+
+\maketitle
+\input{front/chair}
+\input{front/copyright}
+\input{front/dedication}
+\input{front/abstract-esp}
+\input{front/abstract-eng}
+\cleardoublepage
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\mainmatter
+
+\input{chapters/introduction}
+\part{Estado de la cuestión}
+\afterpage{\nopagecolor}
+\input{chapters/sota-ic}
+\input{chapters/sota-traffic-simulation}
+\input{chapters/sota-behavior-models}
+\part{Desarrollo de la tesis}
+\afterpage{\nopagecolor}
+\input{chapters/methodology}
+\input{chapters/longitudinal-submodel}
+\input{chapters/lane-change-submodel}
+\input{chapters/behavior-model}
+\input{chapters/developed-software}
+\part{Resultados y conclusiones}
+\afterpage{\nopagecolor}
+\input{chapters/results}
+\input{chapters/conclusions}
+
+\backmatter
+
+\printglossaries
+\bibliography{thesis}
+\bibliographystyle{apalike}
+\printindex
+
+\input{chapters/colophon}
+
+\end{document}
