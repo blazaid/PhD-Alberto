@@ -12,8 +12,8 @@ Las secciones que siguen describen cómo se instrumenta el vehículo, y se obtie
 El vehiculo usado para el desarrollo de esta tesis es un Mitsubishi iMiEV (Figura~\ref{fig:instrumented-imiev}). Éste ha sido instrumentado con los siguientes dispositivos:
 
 \begin{figure}
-	\inclidegraphics{instrumented-imiev}
-	\caption[The instrumented Mitsubishi iMiEV.}
+	\includegraphics{instrumented-imiev}
+	\caption{The instrumented Mitsubishi iMiEV.}
 	\label{fig:instrumented-imiev}
 \end{figure}
 
@@ -21,60 +21,32 @@ El vehiculo usado para el desarrollo de esta tesis es un Mitsubishi iMiEV (Figur
 	\item \textbf{LiDAR}. \TODO{explicación de qué es un LiDAR. Algo cortito del estilo mide la distancia a través la diferencia entre la emisión de pulsos de luz y su reflejo en un sensor. A lo mejor queda bien en un sidenote}. El usado es un Velodyne VLP-16, un LiDAR circular de 16 canales verticales separados 2º, dando un FOV (-15, 15) grados de apertura vertical). Este dispositivo se conecta a la máquina a través del puerto ethernet y se usa para la obtención de información del entorno del conductor. El LiDAR está situado en el techo del vehículo orientando los (0, 0) grados en al dirección y sentido de éste y con el plano horizontal paralelo al suelo.
 	\item \textbf{Keyboard}. \TODO{No sé si ponerlo, pero al menos habría que mencionarlo, aquí o más adelante en el apartado específico de la ejecución de cambio de carril. A lo mejor se podría disfracar como un "gestionador de eventos" o algo así y poner un mando o unos botones de recreativa, que eso siempre queda bien.} Un teclado común conectado a través del puerto usb para funcionar como detector de eventos.
 	\item \textbf{CAN Bus}. \TODO{Explicar qué es el CAN Bus, y si es necesario, un poquitín su funcionamiento (aunque sea en un sidenote, así queda todo más completito.)}. El BUS del vehículo se conecta a través del puerto USB al ordenador \TODO{a lo mejor hay que explicar un poco más la conexión, el tipo de cable y tal}. Es usado para la extracción de la interacción del conductor con el vehículo.
-	\item \textbf{GPS Receiver}. \TODO{A lo mejor este no es necesario ponerlo. Yo creo que se podría decir que se usa para obtener una segunda medida de velocidad y aceleración, así como para la localización espacial de subconjuntos de datos interesantes para su estudio.} El GPS está conectado a través del puerto USB.}
+	\item \textbf{GPS Receiver}. \TODO{A lo mejor este no es necesario ponerlo. Yo creo que se podría decir que se usa para obtener una segunda medida de velocidad y aceleración, así como para la localización espacial de subconjuntos de datos interesantes para su estudio.}
 \end{itemize}
 
 Todos los dispositivos se conectan a un ordenador con sistema operativo Ubuntu GNU/Linux sobre Intel i7-6400U CPU con 8GB de memoria RAM. El esquema del vehículo instrumentado se detalla en la Figura~\ref{fig:instrumented-imiev-schema}.
 
 \begin{figure}
-	\inclidegraphics{instrumented-imiev-schema}
-	\caption[The instrumented vehicle schema.}
+	\includegraphics{instrumented-imiev-schema}
+	\caption{The instrumented vehicle schema.}
 	\label{fig:instrumented-imiev-schema}
 \end{figure}
 
-Todos los dispositivos han sido, o bien configurados para una captura a 10Hz de frecuencia, o bien resequenciados a ésta. La tabla~\ref{tbl:} resume los datos recogidos y su dominio.
+Todos los dispositivos han sido, o bien configurados para una captura a 10Hz de frecuencia, o bien resequenciados a ésta. La tabla~\ref{tbl:data-obtained-from-instrumented-vehicle} resume los datos recogidos y su dominio.
 
-\begin{table*}[t]
-	\caption[Resúmen de información extraída del vehículo instrumentado][1.5em]{Valores capturados por el vehículo instrumentado y sus dominios.}
-	\label{tbl:simulators-comparison}
-	\begin{tabular}{llllll}
+\begin{table}[t]
+	\caption[Resúmen de información extraída del vehículo instrumentado][1.5em]{Valores capturados por el vehículo instrumentado y sus dominios. Los valores de 0, 1 y 2 se corresponden con los cambios de carril, siendo 0 cambio a la izquierda, 1 no cambio y 2 a la derecha.}
+	\label{tbl:data-obtained-from-instrumented-vehicle}
+	\begin{tabular}{lll}
 		\toprule
-		& \gls{aorta} & \gls{matsim} & \gls{mitsim} & \gls{movsim} & \gls{sumo} \\
+		Variable & Descripción & Dominio \\
 		\midrule
-		Activo & \nop & \yep & \nop & \yep & \yep \\
-		\addlinespace
-		Lenguajes de programación & Scala & Java & C++ & Java & C++ y Python \\
-		\addlinespace
-		Licencia & & & & & \\
-		\quad Propietaria & \nop & \nop & \nop & \nop & \nop \\
-		\quad \glsentryshort{oss} & \yep & \yep & \yep & \yep & \yep \\
-		\quad GPL & \yep & \yep & \nop & \yep & \yep \\
-		\addlinespace
-		Extensibilidad & & & & & \\
-		\quad Código fuente & \yep & \yep & \yep & \yep & \yep \\
-		\quad API & \nop & \nop & \nop & \nop & \yep \\
-		\glsentrylongplsp{os} & & & & & \\
-		\quad GNU/Linux & \yep & \yep & \yep & \yep & \yep \\
-		\quad OS X & \yep & \yep & \nop & \yep & \yep \\
-		\quad Windows & \yep & \yep & \nop & \yep & \yep \\
+		LiDAR & Coordenadas de todos los puntos capturados por el dispositivo. & $[-200m, 200m] \subset \mathbb{R}$ \\
 		\bottomrule
 	\end{tabular}
-\end{table*}
+\end{table}
 
 
-All the devices are configured to retrieve the data at 10Hz. The implemented application logs every data and saves it synchronously. Error: no se encontró el origen de la referencia describes the format and shape of the (relevant) extracted data.
-Variable
-Description
-Domain
-LiDAR
-Coordinates (m.) of all the captured points (10000)
 
-Change intention
-The indication of the direction of the intended change
-1
-Change action
-The direction of the lane change
-1
-1 The 0, 1 and 2 values correspond to the left change, no change and right change respectively.
-Table 4. The captured variables and their domains.
+
 Both Lane change intention and Lane change action are variables captured through the driver’s communication to an operator located in the co-pilot’s seat so some sort of noise is expected in the starting and ending point on each of the sequences of lane change manoeuvres. Experimental results have shown that a disposition where the left change and right change are in opposite sides (i.e. with the value of no change in the middle) speeds up the training convergence.
