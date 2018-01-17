@@ -13,7 +13,17 @@ Broadly speaking, the lane-change problem within the cognitive scheme is associa
 \section{Ejecucutando el cambio de carril}
 \label{s:lane-change-execution}
 
+
+Methodology
+
+In order to train, compare and validate the different lane-change acceptance models, the following method has been followed. An instrumented vehicle is used for recording driving data, firstly for driving patterns recognition to classify drivers into two subsets and, secondly, for constructing datasets for the models training process. In the second case, an operator will be present in the vehicle and will ask to the subjects to execute a left or right change in different situations (mainly with and without cars in the surroundings) while data is being recorded. Those events are then logged as lane-change intention because the subjects must execute the lane-change if possible. In this way, we guarantee that each lane-change execution (or impossibility of execution) is directly linked to a lane-change intention.
+The sections that follow describes the how the vehicle is instrumented, and data are obtained, how they are processed to a suitable representation to train the models and, finally, how the models are trained.
+
+Both Lane change intention and Lane change action are variables captured through the driver’s communication to an operator located in the co-pilot’s seat so some sort of noise is expected in the starting and ending point on each of the sequences of lane change manoeuvres. Experimental results have shown that a disposition where the left change and right change are in opposite sides (i.e. with the value of no change in the middle) speeds up the training convergence.
+
+
 Multilayer Perceptrons
+
 In a MLP, the neurons are arranged in layers so that all the neuron outputs on one layer are the inputs for all the neurons in the next layer. The first and last layers are called input layer and output layer respectively. The inner layers are called hidden layers. As shown in Figure 2 (b) (a two-layered MLP), in this architecture the inputs are usually presented as vectors.
 As they have been used extensively in several areas with great success, we use them here to make a comparison of the improvement of the use of CNNs over MLPs.
 Error: no se encontró el origen de la referencia depicts the final MLP architectures used in this work. Each number on the “architecture” column represents the number of neurons in each of the hidden layers. The output layers contain 3 neurons corresponding to the activation neurons for left-change, no action and right change. Also, each row represents a set of topologies, where  points out the dataset employed to train this architecture (described in Table  later in section 4. Methodology) and  symbolizes the dropout applied to all their hidden layers. This results in a total of 90 MLP networks to work with.
@@ -60,7 +70,44 @@ CNN3--
 Table 2. CNN networks used in this work.
 Each element in the “architecture” column corresponds to a different kind of layer, being  a convolution layer of C channels and  size,  a max-pool layer of  size with a step of  and  a dense layer of  neurons. In our case, the input layers of a convolution operation are padded with zeros to maintain the same  size on the output. As with the MLP architectures, the output layer contains 3 neurons corresponding to the activation neurons for left-change, no action and right change and each row represents a set of topologies, where  points to the dataset employed to train this architecture (described in Table ) and  symbolizes the dropout applied to all their hidden layers. This results in a total of 45 CNN networks to work with.
 
-Methodology
 
-In order to train, compare and validate the different lane-change acceptance models, the following method has been followed. An instrumented vehicle is used for recording driving data, firstly for driving patterns recognition to classify drivers into two subsets and, secondly, for constructing datasets for the models training process. In the second case, an operator will be present in the vehicle and will ask to the subjects to execute a left or right change in different situations (mainly with and without cars in the surroundings) while data is being recorded. Those events are then logged as lane-change intention because the subjects must execute the lane-change if possible. In this way, we guarantee that each lane-change execution (or impossibility of execution) is directly linked to a lane-change intention.
-The sections that follow describes the how the vehicle is instrumented, and data are obtained, how they are processed to a suitable representation to train the models and, finally, how the models are trained.
+
+Once all the data have been logged, the training and validation sets will be drawn from the intervals during the driving in which there has been a lane-change intention, regardless of whether it has been executed. Then, an exploratory training process (we call it stage 1) will be performed against the models exposed in section 3 with the different temporal versions of the sequences extracted from route  by  and will be validated against the validation sets extracted from route  by  and . After this, the best datasets and models will be chosen for a more in-deep training stage.
+
+
+The data logged for both  and  contains several information about the environment in no-intention situations. This information is not relevant for the purposes of the study and therefore those data are removed from the data sets. Situations in roundabouts and crossroads are also discarded. The remaining data are then grouped in sequences of continuous events and treated separately since each of them are ordered sets with full temporally meaning.
+After that, and before creating the full training and validation datasets, two more processes are accomplished to augment the available data and making it suitable for the ANNs.
+
+
+Data augmentation
+Complex problems require lots of data for the training process. Otherwise, they may succumb to the problem known as overfitting, where the model is capable of learning almost every example in the training data but fails in generalizing examples not seen before.
+Our problem seems to fit with this description. Even more, the numbers of possible lane changes executed during driving is quite small. It is therefore necessary to artificially increase the training data set (in validation sets, data augmentation makes no sense). In our case we will use the technique of symmetry or mirroring and a technique developed for this problem that we have called shaking.
+In the process of mirroring, we assume that the cognitive mechanisms that drive the lane change execution towards one side in a situation are the same that drives the execution to the opposite side in a mirrored situation (with respect to the  plane). An example of this concept is illustrated in Figure .
+
+(a)
+
+(b)
+Figure 7. An example of the mirroring technique: (a) A regular frame captured from the lidar; (b) The same frame after the mirroring process.
+By augmenting data with mirroring, the number of examples is doubled with the advantage of not losing any precision in the data.
+In the technique we have called shaking, we take advantage of the imprecise nature of the LIDAR data in three-dimensional space. Considering an accuracy of ±3cm, we have a sphere of imprecision of 3cm of radius for each point in which we can situate it randomly. The name shaking refers as if we shake all the points of a frame (Figure ).
+The process is as follows. For each sequence we get all the frames and, for each of them, we go through each point and apply it a new random shift of . After this process, a new sequence is created with the same lane-change intention and action, and similar but slightly different environment to the original one.
+
+(a)
+
+(b)
+Figure 8. An example of two frames after a shaking process over the frame displayed in Figure : (a) Shaking of ; (b) Shaking of .
+The intuition that this solution can help reducing the variance of the problem is that we assume that high precision is not required and that, therefore, two similar point clouds will produce similar effects. Due the LiDAR imprecision, we can play with all the 3cm spaces around each point without, in theory, lose any precision.
+In our case, new sequences are generated for each original and mirrored frame. For each point of the frame, its position is shifted  being ,  and  a uniform value belonging to the open interval  or , depending on the stage of the training process.
+4.4.2. Data representation
+These sequences contain, apart from the intention and execution of lane changes of the driver, the surroundings of the vehicle as a point cloud. The problem here lies in the requirement of the ANNs that need the input as a fixed set of elements, and the number of points in a point cloud varies depending on the number of elements in the surrounding where the laser impacts. For this solution a representation as a 2D deepness map is used.
+
+In this sense, the data acquired by our laser scanner is transformed into the image domain. Thus, the distance information of each point is projected into a 2D matrix where the vertical axis corresponds to the elevation angles and the horizontal axis is the azimuth angles. The former is discretized between -12 and 3 degrees with a step of 2.5 degrees, while the azimuth values corresponds to a 360 degrees wide field of view, discretized with a step of 1 degree. This configuration allows the transformation of all the point clouds into images with the same resolution of $6 \times 360$ (Figure~\ref{fig:deepness-map}).
+
+\begin{figure}
+	\includegraphics{deepness-map}
+	\caption{Un ejemplo de mapa de profundidad capturado en una de las pruebas. La celda es más azul cuanto más cercano está el obstáculo detectado.}
+	\label{fig:deepness-map}
+\end{figure}
+
+One problem that occurs using LiDAR sensors is that the divergence between points grows with the distance to them. Due this divergence in the data, the interval for the vertical field of view has been selected considering the sparse data acquired with high values of the elevation angles.
+All the values in the deepness map are normalized to [0, 1]. For this, a minimum distance of 0m and a maximum of 25m are specified, if all the events over this distance are not relevant for this problem (lane-change acceptance in an urban environment).

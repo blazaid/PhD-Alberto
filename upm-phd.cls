@@ -2201,6 +2201,9 @@ version={3.0},
 % To penalize more the use of hyphenation
 \hyphenpenalty=10
 
+\usepackage{multirow}
+\usepackage{siunitx}
+
 %%
 % End of file
 \endinput
