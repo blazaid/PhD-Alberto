@@ -104,3 +104,46 @@ Los sujetos realizaron la ruta primero para familiarizarse con el circuito. Post
 \section{Proceso de los datos}
 
 Tras la captura, los datos fueron preprocesados antes de entrenar los modelos. Los datos de cada modelo fueron preprocesados de manera distinta, por lo que este proceso quedará descrito más adelante en las secciones dedicadas a éstos.
+
+\subsection{Descripción de los conjuntos de datos}
+
+The datasets are built upon the sequences described above, but we need a way to feed up our models with a sense of time. For this purpose, the inputs in the datasets will be created with one or more previous rows of the sequences they include to add this temporary sense to the model in the form of a sliding temporal window.
+
+Throughout the document we will talk about the concept moment. We will say that the moment $t_i$ is the row of data that occurred $\frac{i}{10}$ seconds ago, and therefore $t_0$ is the data corresponding to the present moment. Figure~\ref{fig:explanation-of-data-frequency} shows a simplified schematic outlining this concept.
+
+\begin{figure}
+	\includegraphics{explanation-of-data-frequency}
+	\caption{Given the row of data in time $t$, we define the moment $T_i$ as the row of data that occurred in time $t - \frac{i}{10}$ seconds.}
+	\label{fig:explanation-of-data-frequency}
+\end{figure}
+
+We will define four datasets implementing different moments. All the datasets will have the same number of outputs (3 being change left, no change and change right) but a different number of inputs according to the temporal window. Table~\ref{tbl:data-sets-description} describes the datasets used during the first stage of the experiment. The datasets are named $dsi_t$ and $dsi_v$, correspond to the $i$-th dataset for the training and validation partition respectively, and all of them correspond to the profile $S_m$. The dataset named $dsE_v$ is a single validation dataset and corresponds to the profile $S_e$. The reason of having only one validation dataset for profile $S_e$ is due to the results obtained in stage 1 (see below in results section 5).
+
+\begin{table}[t]
+	\caption[Resúmen de información extraída del vehículo instrumentado][1.5em]{Descripción de los conjuntos de datos utilizados en los experimentos.}
+	\label{tbl:data-sets-description}
+	\begin{tabular}{llllllll}
+		\toprule
+		Name & left & no change & right & inputs & moments & size & profile \\
+		\midrule
+		$ds1_t$ & 9804 & 44376 & 9804 & 4322 & $t_5$ & 63984 & $S_m$ \\
+		$ds1_v$ & 410 & 1016 & 410 & 4322 & $t_5$ & 63984 & $S_m$ \\
+		$ds2_t$ & 8544 & 42408 & 8544 & 4322 & $t_{10}$ & 63984 & $S_m$ \\
+		$ds2_v$ & 312 & 976 & 312 & 4322 & $t_{10}$ & 63984 & $S_m$ \\
+		$ds3_t$ & 8544 & 42408 & 8544 & 6483 & $t_5, t_{10}$ & 63984 & $S_m$ \\
+		$ds3_v$ & 312 & 976 & 312 & 6483 & $t_5, t_{10}$ & 63984 & $S_m$ \\
+		$ds4_t$ & 6504 & 38800 & 6504 & 8644 & $t_5, t_{10}, t_{20}$ & 63984 & $S_m$ \\
+		$ds4_v$ & 144 & 896 & 144 & 8644 & $t_5, t_{10}, t_{20}$ & 63984 & $S_m$ \\
+		$dsE_v$ & 151 & 725 & 151 & 8644 & $t_5, t_{10}, t_{20}$ & 63984 & $S_m$ \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+The choice of 5 and 10 frames (500ms and 1s according with the frequency of 10Hz) as key time points in the temporal windows is not arbitrary. Here we assume that the process of lane-change execution is a task that involves the visual cortex and the prefrontal cortex in the brain. Thus, we could assume that the response time is between 0.2s to 1.2s \cite{lipton2015critical}.
+
+All the training and validations have been executed on a computer different from the one in the vehicle using the library TensorFlow [28] from Google. The operative system is a Debian GNU/Linux 9.1 (Stretch) over an Intel(R) Core(TM) i7-6700K CPU at 4.00GHz de 16GB of RAM and a nVidia TITAN X with 12GB of GDDR5X RAM and 3585 CUDA cores at 1.53GHz.
+We have used the training method called Adam (Adaptive Momentum Estimator [29]), a very successful gradient descent algorithm which combines the idea of momentum with the RMSProp [30]. Adam algorithm relies in 4 parameters, , ,  and . The parameter  is associated to the momentum, while  is the one associated with RMSProp.   corresponds to a very small value to avoid divisions by zero and the last one, , is the learning rate. In our case, we will maintain the default parameters proposed in the paper for ,  and  (,  and  respectively) and set a learning rate  deduced by a trial and error process.
+To avoid memory exhaustion problems and follow closely the evolution of the training processes, a minibatch of 1.000 items is implemented.
+For the purposes of including the lane-change intention features in the CNN architectures, a modification over the general layout has been implemented. In it, the LIDAR images are presented to the network input whereas the lane-change intention features are normalized and presented to the dense layers right after all the pattern detection phase. That is the reason of the variation on the number of neurons. The intuition behind this decision is that, after all the pattern detection phase, it is expected to have some of them recognized right before the dense layers, i.e. the classification phase. We can consider lane-change intention features as already recognized patterns and thus it is not necessary to add a transformation of them into the pattern recognition phase. So, if there are N neurons specified in that layers and the dataset specifying M lane-change intention features, the dense layer is composed of  neurons.
+To find the optimal architecture for this purpose, the training process is separated into two stages. In the first one (stage 1), a shallow analysis was performed over a superficial study on a wide range of architectures for all the training sets. Specifically, the training process has been performed over 135 ANNs (90 MLPs and 45CNNs as described in Error: no se encontró el origen de la referencia and Error: no se encontró el origen de la referencia respectively). The networks were trained during 10.000 epochs of 1.000 mini-batches and then validated for each of the proposed datasets (described in Table ).
+In the second one (stage 2), a more in-depth study over the most interesting architectures for both families is performed, improving the deficiencies detected (as shown in the results section) and training the models until the validation error is stabilized.
