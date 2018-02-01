@@ -2115,7 +2115,8 @@
 
 %%
 % Small typography corrections
-\usepackage{microtype}
+%\usepackage{microtype}
+\usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,stretch=10,shrink=10]{microtype}
 \usepackage{booktabs}
 \usepackage{graphicx}
 
