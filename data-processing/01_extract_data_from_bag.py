@@ -7,7 +7,7 @@ import numpy as np
 import rosbag
 from cv_bridge import CvBridge
 
-from pynsia.pcl import pc2_to_pcl
+from pynsia.pointcloud import pc2_to_pc
 from pynsia.ros.bag import topics
 
 FILE_PREFIX = 'subject1-test'
@@ -129,7 +129,7 @@ class LidarParser(MsgParser):
 
     def row(self, message):
         # Extract the pcl from the PointCloud2 message
-        pcl = pc2_to_pcl(message)
+        pcl = pc2_to_pc(message)
         # Save onto the current frame path
         path = os.path.join(self.path, 'pcl_' + str(self.index) + '.csv')
         np.savetxt(path, pcl, delimiter=',')
