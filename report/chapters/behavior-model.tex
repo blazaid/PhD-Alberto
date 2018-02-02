@@ -7,6 +7,24 @@
 
 \section{Captura de datos}
 
+\TODO{Lo siguiente son cosas que estoy pensando}
+
+Comentarios sobre las varaibles que estoy valorando introducir. Cuando se habla del carril $l$, 0 se refiere al carril en el que se encuentra el vehículo, $-1$ al carril de la derecha y $+1$ al carril de la izquierda.
+
+\begin{itemize}
+	\item \textbf{Nube de puntos}. Esta tiene que venir sí o sí porque además ya la usamos en la ejecución de cambio de carril.
+	\item \textbf{Velocidad del vehículo}.
+	\item \textbf{Máxima velocidad del carril l}. Ésta la tengo que añadir yo posteriormente. Para el simulador afortunadamente me viene dada.
+	\item \textbf{Distancia al vehículo delantero}. Creo que esta me la puedo quitar porque tengo la información del lidar.
+	\item \textbf{Diferencia de velocidad con el vehículo delantero}. Lo mismo que con la distancia. Al meter varios frames sucesivos temporalmente como entrada en el modelo, tenemos la diferencia de posición que viene a ser la velocidad.
+	\item \textbf{Dead end $l$}. La máxima distancia que se puede seguir en el carril $l$ antes de que no se pueda circular más. Es 0 si no hay carril, de esta manera nos quitamos de un plumazo el tener una variable para los carriles.
+	\item \textbf{Siguiente salida}. Distancia al siguiente cambio de sentido (esto es, que no se tiene que girar a la derecha).
+	\item \textbf{Siguiente salida}. Sentido de giro en la siguiente salida (1 o -1 dependiendo de si es izquierda o derecha).
+	\item \textbf{Distancia a siguiente semáforo}. Distancia al siguiente semáforo.
+	\item \textbf{Estado del siguiente semáforo}. Pues eso, si está en rojo, amarillo o verde.
+	\item \textbf{Siguiente estado del siguiente semáforo}. El estado que toca después. Lo pongo porque creo que puede influir en el comportamiento del conductor cuando se aproxima a un semáforo en verde que se acaba de poner en amarillo.
+\end{itemize}
+
 \subsection{Instrumentación del vehículo}
 
 \subsection{Descripción de datos a extraer}
