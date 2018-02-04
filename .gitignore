@@ -136,3 +136,7 @@ Session.vim
 .netrwhist
 *~
 *.glsdefs
+.ipynb_checkpoints
+*.pyc
+*.pyo
+

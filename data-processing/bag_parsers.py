@@ -1,8 +1,12 @@
 import abc
 import os
-
 import csv
+
+import cv2
 import numpy as np
+from cv_bridge import CvBridge
+
+from pynsia.pointcloud import pc2_to_pc
 
 class MsgParser(object):
     __metaclass__ = abc.ABCMeta
