@@ -1,6 +1,13 @@
-import os
+import argparse
 
-import numpy as np
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Curates the data in a the masters datasets.')
+    parser.add_argument('subject', help='The subject of the experiment.')
+    parser.add_argument('dataset', choices=('train', 'validation'), help='One of the dataset types')
+    parser.add_argument('path', help='The directory where are located the sensors csv with the raw data.')
+    parser.add_argument('output', help='The directory where the curated data is saved.')
+    args = parser.parse_args()
+
 
 POINTCLOUDS_PATH = 'lidar'
 
