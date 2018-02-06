@@ -137,6 +137,6 @@ Session.vim
 *~
 *.glsdefs
 .ipynb_checkpoints
-#*.pyc
-#*.pyo
+*.pyc
+*.pyo
 
