@@ -1,12 +1,11 @@
 import abc
 import os
-import csv
 
 import cv2
-import numpy as np
 from cv_bridge import CvBridge
 
-from pynsia.pointcloud import pc2_to_pc
+from pynsia.pointcloud import PointCloud
+
 
 class MsgParser(object):
     __metaclass__ = abc.ABCMeta
@@ -115,10 +114,10 @@ class LidarParser(MsgParser):
 
     def row(self, message):
         # Extract the pcl from the PointCloud2 message
-        pcl = pc2_to_pc(message)
+        pc = PointCloud.from_pc2(message)
         # Save onto the current frame path
         path = os.path.join(self.path, 'pcl_' + str(self.index) + '.csv')
-        np.savetxt(path, pcl, delimiter=',')
+        pc.save(path)
         self.index += 1
         # Return the values
         return (

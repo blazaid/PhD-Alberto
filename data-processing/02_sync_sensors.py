@@ -258,18 +258,18 @@ if __name__ == '__main__':
     print('Synchronizing datasets (and removing time columns in the process)')
     master_df = syncronize_dataframes(dfs, time_columns, freq=args.freq, exclude_columns=time_columns)
 
-    print('Saving images for synced dataframes')
+    print('Saving external files for synced dataframes')
     output_dir = os.path.join(args.output, args.subject, args.dataset)
     for path_column in master_df[[c for c in master_df.columns if c.endswith('_path')]].columns:
         for path in master_df[path_column]:
-            dest_path = output_dir + path.replace(os.path.join(args.path, args.subject, args.dataset), '')
-            try:
-                os.makedirs(os.path.dirname(dest_path))
-            except OSError as e:  # Guard against race condition
-                if e.errno != errno.EEXIST:
-                    raise
-            shutil.copyfile(path, dest_path)
+            if not pd.isnull(path):
+                dest_path = output_dir + path.replace(os.path.join(args.path, args.subject, args.dataset), '')
+                try:
+                    os.makedirs(os.path.dirname(dest_path))
+                except OSError as e:  # Guard against race condition
+                    if e.errno != errno.EEXIST:
+                        raise
+                shutil.copyfile(path, dest_path)
         master_df[path_column] = master_df[path_column].str.replace(input_dir, output_dir)
 
     master_df.to_csv(os.path.join(output_dir, 'dataset.csv'))
-
