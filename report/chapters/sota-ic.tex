@@ -244,6 +244,10 @@ Una regla $A' \rightarrow B'$ se puede representar como una implicación caracte
 
 ...
 
+Tengo que hablar también del softmax, el por qué usarlo. También de la entropía cruzada y de por qué usamos este loss sobre el resto.
+
+He visto una cosa curiosa que es el "negative sampling". Podría hablar de ello y usarlo porque haría el entrenamiento mucho más rápido. Por lo que me ha parecido ver, se usa en lugar de la capa softmax y de lo que va es transformar la capa softmax (que es coñazo de calcular) en una capa de k+1 clasificadores binarios, donde hay 1 correcto y k incorrectos. Se usa en clasificación.
+
 En \cite{Ma2004} hay un capítulo de razonamiento que parece que está guay. Revisarlo un poco a fondo a ver si merece la pena tirar or ahí.
 
 \subsection{\glsentrylong{fis}}

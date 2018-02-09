@@ -32,29 +32,29 @@ class PointCloud(object):
         for f in pc2.fields:
             # Mark each extra padding offset as so, so we can remove it later
             while offset < f.offset:
-                struct.append((EXTRA_PAD + '_' + str(offset), np.uint8))
+                struct.append((PointCloud.EXTRA_PAD + '_' + str(offset), np.uint8))
                 offset += 1
             # We're in a defined field, so create it and advance the offset
-            datatype, size = PF_MAPPINGS[f.datatype]
+            datatype, size = PointCloud.PF_MAPPINGS[f.datatype]
             struct.append((f.name, datatype))
             offset += size
 
         # If there is still padding space, fill it with bytes
         while offset < pc2.point_step:
-            struct.append((EXTRA_PAD + '_' + str(offset), np.uint8))
+            struct.append((PointCloud.EXTRA_PAD + '_' + str(offset), np.uint8))
             offset += 1
 
         # Parse the pcl data with the structure
         pcl = np.fromstring(pc2.data, struct)
 
         # Remove the extra padding columns
-        valid_columns = [f for f, _ in struct if not f.startswith(EXTRA_PAD)]
+        valid_columns = [f for f, _ in struct if not f.startswith(PointCloud.EXTRA_PAD)]
         pcl = pcl[valid_columns]
 
         # Convert into an array of shape (-1, 3) and return it
         instance = cls()
         instance.points = np.array([np.array(list(t)) for t in pcl])
-        instance.points = points[:, :3]
+        instance.points = instance.points[:, :3]
 
         return instance
 
@@ -65,7 +65,7 @@ class PointCloud(object):
         return instance
 
     def save(self, path):
-        if self.points:
+        if self.points is not None and self.points.size > 0:
             np.savetxt(path, self.points, delimiter=',')
         else:
-            raise valueError('Empty point cloud')
+            raise ValueError('Empty point cloud')

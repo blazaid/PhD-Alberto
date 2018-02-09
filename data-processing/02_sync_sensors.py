@@ -9,11 +9,11 @@ Usage: python2 02_sync_sensors.py subject validation 10 data/raw_csvs data/sync_
 """
 
 import argparse
+import errno
 import os
 import shutil
 from collections import defaultdict
 
-import errno
 import numpy as np
 import pandas as pd
 
@@ -119,21 +119,18 @@ def gps_speeds_transformer(df):
     return time_transformer([new_df])
 
 
-def snapshots_transformer(df):
-    return time_transformer([df])
+class SnapshotsTransformer(object):
+    def __init__(self, metadata_path):
+        self.metadata = pd.read_csv(metadata_path)
+
+    def __call__(self, df):
+        starting_index = self.metadata.iloc[0]['Starting image num']
+        ending_index = self.metadata.iloc[0]['Ending image num']
+        return time_transformer([df[starting_index:ending_index]])
 
 
 def pointclouds_transformer(df):
     return time_transformer([df])
-
-
-sensors_with_transformers = [
-    ('canbus', canbus_transformer),
-    ('gps_positions', gps_positions_transformer),
-    ('gps_speeds', gps_speeds_transformer),
-    ('snapshots', snapshots_transformer),
-    ('pointclouds', pointclouds_transformer),
-]
 
 
 def starting_indices(dfs, time_columns):
@@ -178,7 +175,6 @@ def syncronize_dataframes(dfs, time_columns, freq=10, exclude_columns=None):
         data_row = []
         for df_i, (df, row, col) in enumerate(zip(dfs, rows, time_columns)):
             possible_values = []
-            next_row = None
             for i in range(len(df) - row):
                 value = df.loc[row + i, col]
                 diff = step * time - value
@@ -186,9 +182,11 @@ def syncronize_dataframes(dfs, time_columns, freq=10, exclude_columns=None):
                     # We're inside the thresshold so we take the value
                     possible_values.append((value, row + i))
                 elif diff < -half_time:
-                    # We're over the thresshold, so no more values should be taken
+                    # We're over the threshold, so no more values should be taken
                     break
 
+            # We remove all the possible nan and None values
+            possible_values = [val for val in val if not pd.isnull(val)]
             if possible_values:
                 possible_values.sort()
                 _, row = possible_values[0]
@@ -229,6 +227,14 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     input_dir = os.path.join(args.path, args.subject, args.dataset)
+
+    sensors_with_transformers = [
+        ('canbus', canbus_transformer),
+        ('gps_positions', gps_positions_transformer),
+        ('gps_speeds', gps_speeds_transformer),
+        ('snapshots', SnapshotsTransformer(os.path.join(input_dir, 'metadata.csv'))),
+        ('pointclouds', pointclouds_transformer),
+    ]
 
     dfs = []
     for sensor, transformer in sensors_with_transformers:
