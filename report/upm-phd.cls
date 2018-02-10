@@ -1980,15 +1980,6 @@
 
 
 %%
-% If there is a `tufte-common-local.tex' file, load it up.
-
-\IfFileExists{tufte-common-local.tex}
-{\input{tufte-common-local.tex}%
-	\@tufte@info@noline{Loading tufte-common-local.tex}}
-{}
-
-
-%%
 % Set up any book-specific stuff now
 
 %%
@@ -2038,17 +2029,12 @@
   \@mainmatterfalse%
 }
 
+%\usepackage[acronym,shortcuts]{glossaries}
+\usepackage{glossaries}
+
 %%
 % Only show the chapter titles in the table of contents
 \setcounter{tocdepth}{0}
-
-%%
-% If there is a `tufte-book-local.sty' file, load it.
-
-\IfFileExists{tufte-book-local.tex}{%
-  \@tufte@info@noline{Loading tufte-book-local.tex}%
-  \input{tufte-book-local}%
-}{}
 
 % Better use utf8 so encoding problemas are less
 \usepackage[utf8]{inputenc}
@@ -2200,7 +2186,7 @@ version={3.0},
 
 %%
 % To penalize more the use of hyphenation
-\hyphenpenalty=10
+\hyphenpenalty=25
 
 \usepackage{multirow}
 \usepackage{siunitx}

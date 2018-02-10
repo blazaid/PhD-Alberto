@@ -1,41 +1,52 @@
-\chapter{\glsentrylongsp{ci}}
+\chapter{\acrlong{ci}}
 \label{ch:sota-ci}
 
-Todo elemento dentro de un entorno se ve influenciado por una infinidad de variables. Identificar éstas están relacionadas es, en la mayoría de las ocasiones, una tarea que va de lo muy difícil a lo imposible, más aún si añadimos que éstas son muy numerosas y pueden llegar a ser imposibles de cuantificar o incluso de detectar.
+Todo elemento dentro de un entorno se ve influenciado por multitud de variables que determinan en mayor o menor grado su comportamiento. Sin embargo, en la mayoría de los casos es muy complicado determinar el grado de efecto de estas variables, identificar las relaciones que existen entre las mismas o incluso determinar cuáles son.
 
-La \acrfull{ci} engloba un conjunto de técnicas que facilitan enormemente estas tareas. El resto del capítulo ofrece una perspectiva de la literatura actual sobre las técnicas de la \gls{ci} que son de interés para esta tesis. Introduciremos además las nociones de \enquote{agente}, de \enquote{aprendizaje} y de algunas de las técnicas clave de este área. Por último, desarrollaremos en detalle las dos técnicas principales sobre las que se apoya el trabajo teórico de esta tesis: \glsentrylongplsp{ann} y \glsentrylongsp{fl}.
+La definición que esta tesis da de la \acrfull{ci} es la de la rama de la \acrfull{ai} que engloba a todas aquellas técnicas que tratan de \textit{aprender}\sidenote{Veremos más detalles sobre el concepto de aprendizaje en este contexto y sus implicaciones en el área de la \gls{ai} más adelante} soluciones a problemas a través de la observación y el análisis de información, ya sea presente en conjuntos de datos, en el entorno o ambos.
 
-\section{\glsentrylongsp{ai} vs. \glsentrylongsp{ci}}
+Sin embargo, no existe una definición globalmente aceptada ya que, dependiendo del autor es considerada desde un sinónimo de la \gls{ai} hasta un campo completamente diferenciado.
 
-¿Qué es la \gls{ci}? ¿Qué diferencias (si las hay) la separan de la \acrfull{ai}? Para responder a esta preguntas tenemos que entender cómo ha evolucionado el concepto de la \ac{ai} a lo largo de su historia.
+Por ello, la primera sección del capítulo ofrecerá una visión histórica de la aparición del concepto para justificar el por qué de la definición. El resto del capítulo introducirá las nociones de agente y aprendizaje y ofrecerá una explicación en detalle de las técnicas sobre las que se apoya el trabajo teórico de esta tesis: Las \acrlong{ann} y la \acrlong{fl}.
 
-El primer concepto a introducir es el de \textbf{conexionismo}. Se puede considerar a Santiago Ramón y Cajal como principal precursor de esta idea por sus trabajos acerca de la estructura de las neuronas y sus conexiónes (e.g. \cite{y1888estructura} y~\cite{ramon1904textura}). Otros prefieren citar el trabajo \textit{\enquote{A logical calculus of the ideas immanent in nervous activity}} (\cite{McCulloch1943}) sobre \glspl{ann} o \textit{\enquote{The organization of behavior}} (\cite{hebb19680}) acerca de la teoría del aprendizaje como primeros trabajos en este tema. Independientemente de su origen, el conexionismo postula que tanto la \textit{mente} como el \textit{conocimiento} emergen de redes formadas por unidades sencillas interconectadas (i.e. neuronas).
+\section{De \acrlong{ai} a \acrlong{ci}}
 
-\marginnote{
-	\textbf{El Test de Turing} es un modelo que propuso Alan Turing para probar si una máquina es capaz de exhibir comportamiento inteligente similar al del ser humano. Hay tres participantes, dos humanos ($A$ y $C$) y una máquina ($B$), separados entre sí pero pudiendo intercambiarse mensajes de texto. $C$ envía preguntas a $A$ y $B$ sin saber quién es humano y quién es máquina y éstos le responden. Si $C$ no es capaz de identificar qué participante es la máquina, se puede concluir que la máquina es inteligente.
-}
+Es difícil precisar el comienzo del interés del ser humano por la emular la inteligencia humana. Los silogismos en la antigua grecia para modelar el conocimiento como reglas o los autómatas mecánicos de los filósofos modernos (siglos XVII al XIX) donde los cuerpos vivos son como un reloj son sólo dos ejemplos de este hecho.
 
-Por otro lado, en 1950, Alan Turing publicó un artículo que comenzaba con la frase \textit{\enquote{Can machines think?~\cite{turing1950computing}}}\sidenote{
-	El concepto de \enquote{pensar} es en sí un tema controvertido en el propio ser humano: ¿pensar es algo inherentemente biológico? ¿surge de la mente? Tanto si sí como si no, ¿de qué forma lo hace? Por ello existen detractores de la validez del Test de Turing como, por ejemplo, el experimento de la habitación china, propuesto por John Searle.
-	
-	\includegraphics{chinese-room}
-	
-	Se parte de un Test de Turing donde la máquina ha aprendido a hablar chino. Se reemplaza por una persona que no sabe nada del idioma pero que va equipada con un manual de correspondencias de ideogramas. Cuando una persona le manda mensajes en chino, esta otra responde. Evidentemente la persona no sabe hablar chino, y por ello no podemos afirmar que la máquina sabe hablarlo. Sin embargo, esto lleva a cuestiones quizá más intrigantes. Por ejemplo, si la máquina es capaz de realizar una acción sin entender lo que hace y por qué lo hace, ¿qué garantías tenemos de que el humano sí es capaz? Si los ordenadores operan sobre símbolos sin comprender el verdadero contenido de éstos, ¿hasta qué punto los humanos lo hacen de forma diferente?.
-}, introduciendo el famoso Test de Turing para determinar si una máquina es o no inteligente. Se puede considerar este momento como el punto donde se estableció el objetivo a largo plazo del campo de la \ac{ai}, ya que en el artículo Turing propuso un método para determinar si una máquina era capaz de exhibir comportamiento inteligente. Sin embargo, no fue hasta $1956$ en la Conferencia de Dartmouth~\cite{mccarthy1956dartmouth} donde John McCarthy acuñó el término~\ac{ai} a la vez que presentó el tema de la conferencia como la pregunta realizada por Turing en dicho artículo.
+Podemos aventurarnos a decir que a principios del siglo XX se comienza a gestar el área de la \gls{ai} con los trabajos relacionados con los principios del \textbf{conexionismo}\sidenote{El enfoque del \textbf{conexionismo} postula que tanto la \textit{mente} como el \textit{conocimiento} son comportamientos complejos que emergen de redes formadas por unidades sencillas (i.e. neuronas) interconectadas. Se puede considerar a Santiago Ramón y Cajal como principal precursor de esta idea por sus trabajos acerca de la estructura de las neuronas y sus conexiónes (e.g. \cite{y1888estructura} y~\cite{ramon1904textura})}.
 
-A partir de este punto la investigación en~\ac{ai} recibió muchísima atención por parte de investigadores y gobiernos, lo que se tradujo en financiación. Los estudios estaban dominados por aquellos relacionados con las ideas del conexionismo hasta que en $1969$, se publicó el libro \textit{Perceptrons}~\cite{minsky1969perceptrons} de Marvin Minsky y Seymour Papert, donde se expusieron las limitaciones de los modelos de \acp{ann} desarrollados hasta la fecha. El impacto fue tal que la investigación en \gls{ai} se abandonó casi por completo. Concretamente el conexionismo dejó de estar presente en la literatura científica durante dos décadas. Es lo que se conoce como el primer \textit{AI Winter}.
+Hacia mediados del siglo XX, estas ideas del conexionismo saltaron al campo de la computación cuando Warren S. McCulloch y Walter Pitts publicaron su trabajo \textit{\enquote{A logical calculus of the ideas immanent in nervous activity}}~\cite{McCulloch1943}\sidenote{Muchos autores prefieren nombrar este hito, junto con el trabajo \textit{\enquote{The organization of behavior}}\cite{hebb19680} de Donald O. Hebb como el punto de partida del área debido a su connotación computacional} donde se describe el primer modelo artificial de una neurona.
 
-\marginnote{
-	\textbf{El AI Winter} no sólo se produjo por el efecto gurú del libro \textit{Perceptrons}, aunque éste fue la gota que colmó el vaso. A la emoción inicial por los avances le siguieron muchos años de promesas incumplidas, investigación sin resultados significativos, limitaciones de hardware, aumento de la complejidad del software (los comienzos de la crisis del software \cite{dijkstra1972humble}). Todo ello provocó un desinterés y una disminución de la financiación que se retroalimentaron la una a la otra.
-}
+El trabajo suscitó tanta expectación que se comenzó a especular sobre la posibilidad de emular la inteligencia humana en máquinas. Uno de los resultados fue la publicación de un artículo por parte de Alan Turing que comenzaba con la frase \textit{\enquote{Can machines think?}}~\cite{turing1950computing}, introduciendo el famoso Test de Turing\sidenote{
+	El \textbf{Test de Turing} es una metodología para probar si una máquina es capaz de exhibir comportamiento inteligente \textit{similar} al del ser humano. En ella, dos humanos ($H_1$ y $H_2$) y una máquina ($M$) están separados entre sí pero pudiendo intercambiarse mensajes de texto. $H_2$ envía preguntas a $H_1$ y $M$ y éstos le responden. Si $H_2$ no es capaz de identificar qué participante es la máquina, se puede concluir que ésta es inteligente.
+} por el que el autor pretendía establecer una metodología para determinar si una máquina podía ser considerada inteligente y por tanto podría llegar a pensar\sidenote{
+	El concepto de \enquote{pensar} es un tema controvertido incluso en el propio ser humano: ¿es inherentemente biológico? ¿surge de la mente? Tanto si sí como si no, ¿de qué forma lo hace? Por ello existen detractores de la validez del Test de Turing. Un ejemplo es el experimento de la habitación china (Figura~\ref{fig:chinese-room}), donde se demuestra la invalidez argumentando que la máquina ha aprendido a realizar acciones sin \textit{entender} lo que hace y por qué lo hace. Sin embargo, ¿qué garantías tenemos de que el humano sí es capaz? Si los ordenadores operan sobre símbolos sin comprender el verdadero contenido de éstos, ¿hasta qué punto los humanos lo hacen de forma diferente?.
+}.
 
-El interés por el campo volvió de nuevo a principios de los $80$ con la aparición en escena de los primeros \glsentrylongplsp{esys}, los cuales se consideran como el primer caso de éxito en la \gls{ai} (\cite{russell2003artificial}). A finales de la década, sin embargo, empezaron a resurgir los enfoques conexionistas, en gran parte por la aparición de nuevas técnicas de entrenamiento en perceptrones multicapa y por el concepto de activación no lineal en neuronas \cite{rumelhart1985learning, cybenko1989approximation}). En este momento los sistemas expertos empezaron a perder interés frente al nuevo avance del conexionismo. Ésta década es conocida como segundo \textit{AI Winter} dado que la investigación sobre \glsentrylongplsp{esys} disminuye. Sin embargo no fue un abandono tan acusado como el del primero.
+Pocos años después de la publicación del artículo, en el año 1956, se celebró la \textbf{Conferencia Dartmouth}~\cite{mccarthy1956dartmouth}. En ésta, el tema de la conferencia fue la pregunta del artículo de Turing, y el área nació con entidad propia tras acuñarlo John McCarthy como \acrlong{ai}.
 
-Mientras que el enfoque clásico de la \gls{ai} postulaba que la mente opera de la misma manera que una máquina de Turing, es decir, mediante operaciones sobre un lenguaje de símbolos, el enfoque del conexionismo postula que la mente, el comportamiento inteligente, emerge de modelos a más bajo nivel. Esto provocó que algunas voces se alzaran contra lo que se consideraba el \textit{enfoque incorrecto} de la \gls{ai}. Después de todo, los modelos desarrollados en los métodos clásicos son fáciles de interpretar mientas que los del enfoque conexionista no son del todo deducibles, más aún si estos problemas son de naturaleza estocástica.
+A partir de este momento, la investigación en el área recibió mucha atención por parte de investigadores y gobiernos. Después de todo era un área nueva, muy prometedora y con mucho trabajo por delante. Tras su nacimiento el campo comenzó a dar resultados, aunque quizá la expectación y las promesas no permitían ver que los resultados se obtenían en problemas relativamente simples, muy formales y en general estériles, donde en realidad no era necesaria demasiada información para generar un conociminto del entorno en el que los modelos se movían.
 
-Sin embargo, otras técnicas alineadas con el conexionismo como la \glsentrylongsp{fl} o los \glsentrylongplsp{ga} ganaban popularidad y alimentaban el éxito del nuevo enfoque. Esto provocó una explosión de terminologías para diferenciar las investigaciones de la propia~\ac{ai} clásica. Por un lado se evitaba el conflicto, nombrando las áreas de trabajo con un término más acorde con el comportamiento o técnica utilizada. Por otro, se separaba de las connotaciones negativas que fue cosechando la \ac{ai} con el paso de los años (i.e. promesas, pero no resultados).
+\begin{figure*}
+	\centering
+	\includegraphics[width=0.72\textwidth]{chinese-room}
+	\label{fig:chinese-room}
+	\caption{La \textit{Habitación China} de John Searle es un experimento mental por el que se trata de demostrar la invalidez del Test de Turing. Partimeos de un Test de Turing donde la máquina ha aprendido a hablar chino. Reemplazamos la máquina por un humano sin idea de chino pero con un manual de correspondencias de ideogramas. Cuando una persona le manda mensajes en chino, esta otra responde usando el manual, por lo que podemos afirmar que la persona, y por tanto la máquina, no saben chino.}
+\end{figure*}
 
-Lo verdaderamente interesante es ver la evolución de la literatura, y por tanto de los objetivos de la \ac{ai} durante estos años. En el nacimiento del campo, se buscan literalmente máquinas que piensen como humanos, o al menos seres racionales, con mente. Con el paso de los años (y los continuos choques contra la realidad), la literatura va tendiendo hacia la búsqueda de conductas y comportamientos inteligentes cada vez más específicos. Este hecho se hace más patente en este momento, donde cada investigación se nombra de cualquier forma menos con el término \ac{ai} (e.g \ac{ml}, \acp{rs}, o \ac{nlp}). Es evidente que la \ac{ai} se puede observar desde diferentes puntos de vista, todos perfectamente válidos. En~\cite{russell2003artificial}, tras un análisis de las definiciones existentes en la literatura por parte de diferentes autores, se hace énfasis en este hecho mostrando los diferentes puntos de vista a la hora de hablar de lo que es la \ac{ai}. El resumen se puede observar en la figura~\ref{fig:different-povs-ai}.
+Dado que los estudios estaban dominados por aquellos relacionados con las ideas del conexionismo, la publicación del libro \textit{\enquote{Perceptrons}}~\cite{minsky1969perceptrons} de Marvin Minsky y Seymour Papert en 1969 supuso un varapalo para las investigaciones. En el se expusieron las limitaciones de los modelos de \gls{ann} desarrollados hasta la fecha, y el impacto fue de tal envergadura que la investigación en el área se abandonó casi por completo. Concretamente el conexionismo prácticamente desapareció de la literatura científica durante dos décadas. Es lo que se conoce como el primer \textit{AI Winter}\sidenote{
+	El \textbf{AI Winter} no sólo se produjo por el efecto gurú del libro \textit{Perceptrons}, aunque éste fue la gota que colmó el vaso. A la emoción inicial por los avances le siguieron muchos años de promesas incumplidas, investigación sin resultados significativos, limitaciones de hardware, aumento de la complejidad del software (los comienzos de la crisis del software \cite{dijkstra1972humble}). Todo ello provocó un desinterés y una disminución de la financiación que se retroalimentaron la una a la otra.
+}.
+
+El interés por el campo volvió de nuevo a principios de los $80$ con la aparición en escena de los primeros \glspl{esys}, los cuales se consideran como el primer caso de éxito en la \gls{ai} (\cite{russell2003artificial}). A finales de la década, sin embargo, empezaron a resurgir de nuevo los enfoques conexionistas, debido en gran parte a la aparición de nuevas técnicas de entrenamiento en perceptrones multicapa y por el concepto de activación no lineal en neuronas \cite{rumelhart1985learning, cybenko1989approximation}). En este momento los sistemas expertos empezaron a perder interés frente al nuevo avance del conexionismo\sidenote{
+	Esto no debió de sentar bien a los autores prolíficos en \glspl{esys}. Mientras que el enfoque en estos sistemas es el clásico en la computación, donde los problemas (en este caso el conocimiento experto) son resueltos mediante operaciones sobre un lenguaje de símbolos, el enfoque del conexionismo postula que la mente, el comportamiento inteligente, emerge de modelos a más bajo nivel. Por ello, algunas voces se alzaran contra lo que se consideraba el \textit{enfoque incorrecto} de la \gls{ai}. Después de todo, los modelos desarrollados en los métodos clásicos son fáciles de interpretar mientas que los del enfoque conexionista no son del todo deducibles, más aún si estos problemas son de naturaleza estocástica.
+}. Algunos autores identifican esta década como el segundo \textit{AI Winter}, dado que la investigación e inversiones sobre \glspl{esys} se vieron disminuidas.
+
+\TODO{Me he quedado aquí!!!!}
+
+Junto con el resurgir del conexionismo, otras técnica alineadas como la \gls{fl} o los \glspl{ga} también ganaban popularidad, y entre ellas retroalimentaban los exitos gracias a sus sinergias. Esto provocó una explosión de terminologías para diferenciar las investigaciones en curso de la propia \gls{ai} clásica. Por un lado se evitaba el conflicto, nombrando las áreas de trabajo con un término más acorde con el comportamiento o técnica utilizada. Por otro, se separaba de las connotaciones negativas que fue cosechando la \gls{ai} con el paso de los años (i.e. promesas, pero no resultados).
+
+Lo verdaderamente interesante es ver la evolución de la literatura durante estos años. En el nacimiento del campo, se buscan literalmente máquinas que piensen como humanos, o al menos seres racionales, con mente. Con el paso de los años (y los continuos choques contra la realidad), la literatura va tendiendo hacia la búsqueda de conductas y comportamientos inteligentes cada vez más específicos. Este hecho se hace más patente en este momento, donde cada investigación se nombra de cualquier forma menos con el término \gls{ai} (e.g \gls{ml}, \gls{rs}, o \gls{nlp}). Es evidente que la \gls{ai} se puede observar desde diferentes puntos de vista, todos perfectamente válidos. En~\cite{russell2003artificial}, tras un análisis de las definiciones existentes en la literatura por parte de diferentes autores, se hace énfasis en este hecho mostrando los diferentes puntos de vista a la hora de hablar de lo que es la \gls{ai}. El resumen se puede observar en la figura~\ref{fig:different-povs-ai}.
 
 Volviendo al tema de la terminología, muchas de las técnicas se fueron agrupando dentro de diferentes áreas. Una de ellas es la conocida como \glsentrylongsp{ci}. Dado que persigue el mismo objetivo a largo plazo y que surje de la propia \ac{ai} parece lógico mantenerla como un subconjunto y no como un nuevo campo del conocimiento humano. Sin embargo, algunos autores abogan por que la \ac{ci} es un campo diferenciado de la \ac{ai}.
 
@@ -58,6 +69,45 @@ Durante estos años ganaba popularidad también el concepto del \gls{sc} en cont
 \marginnote{
 	\textbf{\gls{hc} y \gls{sc}} son la forma de referirse a la computación convencional frente al \gls{sc}. El \gls{hc} basa sus técnicas en aquellas basadas en modelos analíticos definidos de forma precisa y que en ocasiones requieren mucho tiempo de cómputo. Están basados en lógica binaria, análisis numérico, algoritmos y respuestas exactas. El \gls{sc} por otro lado es tolerante a la imprecisión y al ruido y tiende a llegar a soluciones aproximadas de manera más rápida. Se basa en modelos aproximados, emergencia de algoritmos y modelos estocásticos.
 }
+
+
+\TODO{Añadir como colofón que hoy en día la inteligencia computacional es un campo con muchas aplicaciones prácticas y muchísimos research topics abiertos.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{El rol del aprendizaje en la \acrlong{ci}}
+\label{s:the-learning-role}
+
+\section{El paradigma de los Agentes Inteligentes}
+
+\section{\acrlongpl{ann}}
+
+\section{\acrlong{fl}}
+
+\section{Grafos computacionales}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \section{Aprendizaje}
 
