@@ -86,68 +86,81 @@ Durante estos años ganaba popularidad también el concepto del \gls{sc} en cont
 \section{El rol del aprendizaje en la \acrlong{ci}}
 \label{s:the-learning-role}
 
+El cambio más notorio entre los dos puntos de vista de la \gls{ai} tradicional y la de la \gls{ci} es el concepto de entrenamiento, es decir, pasar de \textit{\enquote{desarrollar un programa para resolver un problema}} a \textit{\enquote{entrenar un modelo para que aprenda la solución}}. Éste es el concepto de \textbf{aprendizaje}, y al proceso de ajuste del modelo a la solución buscada \textbf{entrenamiento}.
+
+Las técnicas de aprendizaje se clasifican dependiendo de la forma en la que se entrenan. \textit{Grosso modo}, cuando al modelo se presentan ejemplos de preguntas y respuestas para que las aprendan se dice que estamos realizando un \textit{aprendizaje supervisado} mientras que, si lo que le presentamos es un conjunto de datos en bruto del que extraer relaciones o patrones, hablamos de un \textit{aprendizaje no supervisado}\sidenote{
+	El \textbf{aprendizaje no supervisado} es el proceso por el cual un modelo aprende a partir de datos en brutos sus relaciones y extrae patrones, sin saber qué son esos datos ni recibir supervisión (a diferencia del aprendizaje supervisado donde los datos incluyen un valore de entrada y su salida correspondiente). En general, los algoritmos pertenecientes a esta categoría se dedican al problema del \textit{clustering}, es decir, identificar grupos de elementos cercanos en el espacio basándose en la suposición de que el comportamiento de dos elementos es más parecido cuanto más cerca están el uno del otro. Algunos ejemplos de técnicas que basan su entrenamiento en un esquema no supervisado son los mapas autoorganizados (SOM), los autoencoders o las redes de creencia profunda (DBN de Deep Belief Network).
+	
+	Esta tesis se dedica al modelado de comportamiento entrenando a partir de datos reales de conducción, por lo que el discurso se centrará únicamente en el esquema de aprendizaje supervisado.
+}\sidenote{
+Algunos autores hacen uso de técnicas pertenecientes a ambos paradigmas en forma de aproximación híbrida para suplir deficiencias u optimizar/acelerar el aprendizaje. Un claro ejemplo lo podemos ver en \cite{Hinton2006}, donde los autores hacen uso de \textit{autoencoders} como técnica no supervisada para la inicialización de los pesos de una red neuronal y posteriormente realizan un entrenamiento supervisado para la optimización es éstos.
+}.
+
+En el caso concreto del \textbf{aprendizaje supervisado}, vamos a suponer que disponemos de un modelo denotado por $M_V(V, I) = O$ donde $V$ es el conjunto de variables de determinan el comportamiento de $M_V$ y donde $I$ es un conjunto de valores (características) de entrada para las que el modelo obtiene un conjunto $O$ de valores de salida. Entonces, la forma de entrenar al modelo, es decir el \textit{algoritmo de entrenamiento} se encargaría de, a partir de un conjunto de la forma $D = {(I_i, O_i) | \forall i \in \mathbb{N}}$, donde cada $O_i$ es la salida esperada del modelo a la entrada $I_i$, modificar los valores de las variables del conjunto $V$ para ajustar lo más posible $O_i$ a $O$ dado $I_i$
+
+Los algoritmos de entrenamiento dependen tanto del modelo a usar (no es lo mismo un algoritmo de entrenamiento para una red neuronal recurrente que para un perceptrón multicapa), y suelen ser usado principalmente para la solución a problemas de \textbf{clasificación} (i.e. determinar si un elemento dada sus características pertenece o no a determinado conjunto) y de \textbf{regresión}, esto es, ajustar las salidas de un modelo para ajustarse lo máximo posible al valor real del sistema modelado.
+
+\subsection{Deep learning}
+
 \section{El paradigma de los Agentes Inteligentes}
 
+\subsection{Tipos de entorno}
+
+\subsection{Arquitecturas en sistemas de agentes}
+
+\subsection{Sistemas multiagente}
+
 \section{\acrlongpl{ann}}
-
-\section{\acrlong{fl}}
-
-\section{Grafos computacionales}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\section{Aprendizaje}
-
-\TODO{Fusionar los dos párrafos siguientes y el de la margin note con el párrafo anterior y crear una nueva introducción para la parte del aprendizaje. Sobre todo hacer hincapié en que en el HC lo normal es desarrollar una solución para el problema en cuestión mientras que en el Soft Computing lo normal es tener un modelo que se tunea y/o que aprende a solucionar un problema determinado.}
-
-La resolución clásica a un problema suele ser la aplicación de una secuencia de instrucciones basadas en un conjunto de símbolos (e.g. una función escrita en el lenguaje de programación C). Esta forma de solucionar un problema no \textit{aprende} a solucionarlo. Se puede interpretar como que la solución está grabada en su memoria.
-
-En la aproximación de la \gls{ci}, existen modelos y existen técnicas para hacer aprender esos modelos. La aplicación de dichas técnicas es lo que se conoce como \textbf{aprendizaje}. Las técnicas de aprendizaje en \gls{ci} se suelen clasificar en $3$ paradigmas:
-
-\begin{itemize}
-	\item \textbf{Supervisado}. El entorno presentado al modelo consiste en un conjunto de la forma $D = {(I_i, O_i) | \forall i \in \mathbb{N}}$, donde cada $O_i$ es la salida esperada del modelo a la entrada $I_i$. Los algoritmos tratarán de ajustar el modelo todo lo posible para que las salidas obtenidas sean lo más parecidas a las salidas originales. Este paradigma de entrenamiento suele estar relacionado con problemas de \textit{regresión}.
-	\item \textbf{No supervisado}. Al modelo se le ofrece un conjunto de la forma $D = {I_i | \forall i \in \mathbb{N}}$, donde cada $I_i$ es una entrada al problema, pero del que no conocemos la salida. Los algoritmos dentro de esta categoría harán uso de estos datos para ir reajustando el modelo tratando de encontrar las estructuras ocultas entre dichos datos (e.g. patrones, correlaciones o clases). Es un paradigma de entrenamiento íntimamente relacionado con problemas de \textit{clasificación}.
-	\item \textbf{Por refuerzo}. \TODO{Explicar}
-\end{itemize}
-
-Algunos autores hacen uso de técnicas pertenecientes a ambos paradigmas en forma de aproximación híbrida para suplir deficiencias u optimizar/acelerar el aprendizaje. Un claro ejemplo lo podemos ver en \cite{Hinton2006}, donde los autores hacen uso de \textit{autoencoders} como técnica no supervisada para la inicialización de los pesos de una red neuronal y posteriormente realizan un entrenamiento supervisado para la optimización es éstos.
-
-\section{Técnicas en la \Glsentrylongsp{ci}}
-
-Bajo el paraguas de la \ac{ci} se incluyen muchas técnicas diferentes, entre las cuales están las usadas en esta tesis. El resto de la sección describe el funcionamiento de cada una de estas técnicas. \TODO{Reescribir esto porque parece que lo ha escrito un crío de la ESO}
-
-\subsection{\Glsentrylongplsp{ann}}
 
 Son herramientas que tratan de replicar las funciones cerebrales de un ser vivo de una manera muy fundamental, esto es, desde sus componentes más básicos, las neuronas. Para ello se basan en estudios de neurobiología y de ciencia cognitiva moderna del cerebro humano\sidenote{
 	Aún apoyándose en la topología y funcionamiento del cerebro humano para realizar el símil, lo cierto es que dichos modelos distan aún de considerarse \textit{cerebros artificiales}. La red neuronal más compleja hasta la fecha es la propuesta en~\cite{TraskANDREWTRASK}, con alrededor de $160.000$ parámetros a ser ajustados (podemos abstraernos y pensar en ellos como conexiones entre neuronas). Si comparamos esta cifra sólo con las del neocórtex (figura~\ref{fig:neocortex}) hace que, tecnológicamente hablando, nos quedemos con la sensación de estar aún a años luz de aproximarnos a la complejidad de un cerebro humano.
 }.
 
-Una \ac{ann} es independiente del problema a solucionar. Se la puede considerar como una caja negra que aprende las relaciones que subyacen en los datos de un problema para abstraer el modelo a partir de éstos. Estas características de aprendizaje y abstracción son los factores determinantes por los que son usadas en prácticamente todas las áreas de la ciencia y de la ingeniería (\cite{Du2006}).
+Una \gls{ann} es independiente del problema a solucionar. Se la puede considerar como una caja negra que aprende las relaciones que subyacen en los datos de un problema para abstraer el modelo a partir de éstos. Estas características de aprendizaje y abstracción son los factores determinantes por los que son usadas en prácticamente todas las áreas de la ciencia y de la ingeniería (\cite{Du2006}).
 
-\begin{figure}
+\begin{figure}[t]
+	\centering
 	\includegraphics{neocortex}
 	\caption[Ilustración de una sección del neocórtex humano]{Sección del neocórtex humano, región asociada a las capacidades cognitivas y que supone alrededor de un $76\%$ del volumen total del cerebro humano. Está distribuído en $6$ capas y miles de columnas que las atraviesan, cada una con alrededor de $10.000$ neuronas y un diámetro de $0.5mm$.  Como dato anecdótico, se estima que sólo en el neocórtex humano existen alrededor de $20.000$ millones de neuronas, cada una de las cuales conectada a entre $100$ y $100.000$ neuronas vecinas (\cite{Pakkenberg1997}). Esto supone entre $2 \cdot 10^{12}$ y $2 \cdot 10^{15}$ conexiones. Fuente: \textit{Blue Brain Project EPFL}, \url{http://bluebrain.epfl.ch/}.}
 	\label{fig:neocortex}
 \end{figure}
 
-\newthought{El primer trabajo} en la disciplina se le atribuye a  los investigadores McCulloch-Pitts por su modelo de neurona artificial ilustrado en la figura~\ref{fig:mccullocs-pitts-neuron-model} (\cite{McCulloch1943}). Existen diferentes tipologías y formas de operar con redes, pero todas funcionan de la misma manera: unidades (e.g. neuronas) interconectados mediante enlaces por los que fluye la información de manera unidireccional, donde algunas de dichas unidades sirven de entrada al sistema (i.e. entradas o sensores), otras sirven de salida del sistema (i.e. salidas y actuadores) y otras como elementos internos (i.e. ocultas), y donde las conexiones se ajustan mediante un proceso denominado \textit{entrenamiento}.
+El primer trabajo en la disciplina se le atribuye a  los investigadores McCulloch-Pitts por su modelo de neurona artificial ilustrado en la figura~\ref{fig:mccullocs-pitts-neuron-model} (\cite{McCulloch1943}). Existen diferentes tipologías y formas de operar con redes, pero todas funcionan de la misma manera: unidades (e.g. neuronas) interconectados mediante enlaces por los que fluye la información de manera unidireccional, donde algunas de dichas unidades sirven de entrada al sistema (i.e. entradas o sensores), otras sirven de salida del sistema (i.e. salidas y actuadores) y otras como elementos internos (i.e. ocultas), y donde las conexiones se ajustan mediante un proceso denominado \textit{entrenamiento}.
 
 \begin{figure}
-	\missingfigure[figheight=2cm]{Figura del modelo artificial de McCullocs-Pitts}
+	\centering
+	\includegraphics{artificial-neuron-model}
 	\caption[Modelo de neurona artificial de McCulloch y Pitts]{Variación de la representación del modelo de neurona artificial propuesto por McCulloch y Pitts. En éste, cada una de las entradas $x_i$ es incrementada o inhibida aplicando el producto con su peso asociado $w_i$. La activación vendrá determinada por la aplicación de una función (denominada \enquote{de activación}) a la suma de los valores. Esta variación en concreto incluye una entrada $x_0$ y un peso $w_0$ como bias de la neurona para la variación dinámica del umbral de activación.}
 	\label{fig:mccullocs-pitts-neuron-model}
 \end{figure}
+
+
+\subsection{Estructura y clasificación de redes neuronales}
+
+Hablar del modelo de neurona artificial, de feed-forward vs recurrentes y del efecto de las diferentes funciones de activación.
+
+En esta tesis el trabajo se centra en dos topologías concretas dentro de las redes de tipo \textit{feed-forward}, el \acrlong{mlp} y la \acrlong{cnn}, que son con las que se cerrará la sección.
+
+\subsection{Perceptrones multicapa}
+
+\subsection{Redes de convolución}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Este primer modelo de neurona proponía una función escalón para determinar si la neurona se activaba o no (analogía al funcionamiento de la neurona artificial). \TODO{Parrafito sobre la limitación de la neurona singular para dar hilo a las topologías}.
 
@@ -162,7 +175,7 @@ Posteriormente aparecieron nuevos modelos de neuronas con diferentes funciones d
 
 \begin{itemize}
 	\item \textbf{Feed-Forward}. Sus grafos no contienen ninguń ciclo (figura XXX) |\TODO{Esa pedaaaaaso de figura. A lo mejor hacer una que incluya tres ejemplos.}. Es la topología más usada en aplicaciones prácticas debido a su sencillez y su efectividad. En ellas el flujo de información sigue un camino desde las entradas hasta las salidas, sin ninguna retroalimentación. No es requisito que las neuronas se agrupen en capas, aunque suele ser la estructura común. A las redes de más de dos capas ocultas (i.e. las capas que se encuentran entre la capa de neuronas de entrada y la capa de neuronas de salida) se las denomina \enquote{profundas} o \textit{deep}. Algunos tipos pertenecientes a esta categoría pueden ser el Perceptrón [Rosemblat, 1957], el Perceptrón multicapa [Rumelhart et al., 1986], el algoritmo LVQ y su sucesor los Mapas Auto-Organizados [Kohonen, 1998].
-	\item \textbf{Recurrentes}. Sus grafos contienen uno o más ciclos, de tal manera que el flujo de información de salida de una neurona puede llegar a afectar a su propio estado. Estas topologías representan de una forma más fiel las bases biológicas de las \ac{ann}, pero son más complejas a la hora de operar y entrenar. Algunos casos particulares de este tipo de arquitectura son las Redes de Hopfield [Hopfield, 1982] o las memorias LSTM (del inglés Long-Short Term Memory) [Hochreiter \& Schmidhuber, 1997].
+	\item \textbf{Recurrentes}. Sus grafos contienen uno o más ciclos, de tal manera que el flujo de información de salida de una neurona puede llegar a afectar a su propio estado. Estas topologías representan de una forma más fiel las bases biológicas de las \gls{ann}, pero son más complejas a la hora de operar y entrenar. Algunos casos particulares de este tipo de arquitectura son las Redes de Hopfield [Hopfield, 1982] o las memorias LSTM (del inglés Long-Short Term Memory) [Hochreiter \& Schmidhuber, 1997].
 \end{itemize}
 
 \TODO{Más cosas a añadir del paper de modelling behabior of lane change execution}
@@ -213,11 +226,52 @@ Una ventaja al representar un modelo como grafo computacional es que ayuda a abs
 
 \TODO{Poner aquí un ejemplo de grafo computacional, por ejemplo una recta o algo así. Algo que tenga al menos dos pasos y explicar cómo se calcula la derivada y por qué esto viene genial. Luego, en el seiguiente capítulo se puede explicar el backpropagation con esto (ver http://colah.github.io/posts/2015-08-Backprop/)}
 
-\subsection{Aprendizaje en \glsentrylongplsp{ann}}
+\subsection{Aprendizaje en \acrlongpl{ann}}
 
 \TODO{Falta un \textbf{huevazo}. Por lo menos hay que desarrollar las arquitecturas de MLP y CNN (que son las que uso), explicar el descenson del gradiente y ADAM (y cómo se llega a el explicando los conceptos de momento y su puta madre), explicar también cuales son los problemas de High bias y High variance o overfitting y underfitting y ilustracioones bonitas del to. También hay que explicar qué es un grafo computacional, aunque quizá esto mejor después de la lógica difusa y antes de agentes inteligentes. También hay que hablar de qué es el aprendizaje profundo, deep learning vs swallow learning.}
 
 \subsection{¿Qué es el aprendizaje profundo?}
+
+
+
+
+
+
+
+
+
+\section{\acrlong{fl}}
+
+\subsection{Ampliando la teoría de conjuntos}
+
+Aquí dentro hay que hablar también de operaciones entre conjuntos. Como aquí hablaremos de sismteas de orden tipo 1, en los bordes igual estaría genial hablar de qué son los de tipo 2, 3, ...
+
+\subsection{Razonamiento}
+
+\subsection{Sistemas de inferencia difusa}
+
+Hablar de los tipos de sistemas (Tipos Mandamni y Sugeno diferentes).
+
+\section{Grafos computacionales}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \section{\Glsentrylongsp{fl}}
 
