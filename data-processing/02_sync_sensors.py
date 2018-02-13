@@ -119,14 +119,8 @@ def gps_speeds_transformer(df):
     return time_transformer([new_df])
 
 
-class SnapshotsTransformer(object):
-    def __init__(self, metadata_path):
-        self.metadata = pd.read_csv(metadata_path)
-
-    def __call__(self, df):
-        starting_index = self.metadata.iloc[0]['Starting image num']
-        ending_index = self.metadata.iloc[0]['Ending image num']
-        return time_transformer([df[starting_index:ending_index]])
+def snapshots_transformer(df):
+    return time_transformer([df])
 
 
 def pointclouds_transformer(df):
@@ -186,7 +180,7 @@ def syncronize_dataframes(dfs, time_columns, freq=10, exclude_columns=None):
                     break
 
             # We remove all the possible nan and None values
-            possible_values = [val for val in val if not pd.isnull(val)]
+            possible_values = [val for val in possible_values if not pd.isnull(val)]
             if possible_values:
                 possible_values.sort()
                 _, row = possible_values[0]
@@ -220,7 +214,7 @@ def syncronize_dataframes(dfs, time_columns, freq=10, exclude_columns=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Transforms a the bag files to a set of csvs, one for each sensor.')
     parser.add_argument('subject', help='The subject of the experiment.')
-    parser.add_argument('dataset', choices=('train', 'validation'), help='One of the dataset types')
+    parser.add_argument('dataset', choices=('training', 'validation'), help='One of the dataset types')
     parser.add_argument('freq', type=int, help='The rate of the data to be synchronized.')
     parser.add_argument('path', help='The directory where are located the sensors csv with the raw data.')
     parser.add_argument('output', help='The directory where the data is extracted.')
@@ -232,7 +226,7 @@ if __name__ == '__main__':
         ('canbus', canbus_transformer),
         ('gps_positions', gps_positions_transformer),
         ('gps_speeds', gps_speeds_transformer),
-        ('snapshots', SnapshotsTransformer(os.path.join(input_dir, 'metadata.csv'))),
+        ('snapshots', snapshots_transformer),
         ('pointclouds', pointclouds_transformer),
     ]
 

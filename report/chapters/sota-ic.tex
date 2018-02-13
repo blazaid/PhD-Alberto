@@ -46,59 +46,46 @@ Junto con el resurgir del conexionismo, otras técnica alineadas como la \gls{fl
 
 Lo verdaderamente interesante es ver la evolución de la literatura durante estos años. En el nacimiento del campo, se buscan literalmente máquinas que piensen como humanos, o al menos seres racionales, con mente. Con el paso de los años, el área va tendiendo hacia la búsqueda de conductas y comportamientos inteligentes cada vez más específicos. Este hecho se hace más patente en este momento, donde cada investigación se nombra de cualquier forma menos con el término \gls{ai} (e.g \gls{ml}, \gls{rs}, o \gls{nlp}). Es evidente que la \gls{ai} se puede observar desde diferentes puntos de vista, todos perfectamente válidos. En~\cite{russell2003artificial}, tras un análisis de las definiciones existentes en la literatura por parte de diferentes autores, se hace énfasis en este hecho mostrando los diferentes puntos de vista a la hora de hablar de lo que es la \gls{ai}. El resumen se puede observar en la figura~\ref{fig:different-povs-ai}.
 
-Volviendo al tema de la terminología, muchas de las técnicas se fueron agrupando dentro de diferentes áreas. Una de ellas es la conocida como \glsentrylongsp{ci}. Dado que persigue el mismo objetivo a largo plazo y que surje de la propia \ac{ai} parece lógico mantenerla como un subconjunto y no como un nuevo campo del conocimiento humano. Sin embargo, algunos autores abogan por que la \ac{ci} es un campo diferenciado de la \ac{ai}.
+Volviendo al tema de la terminología, muchas de las técnicas se fueron agrupando dentro de diferentes áreas. Una de ellas es la conocida como \acrlong{ci}. Dado que persigue el mismo objetivo a largo plazo y que surje de la propia \gls{ai} parece lógico mantenerla como un subconjunto y no como un nuevo campo del conocimiento humano. Sin embargo, algunos autores abogan por que la \gls{ci} es un campo diferenciado de la \gls{ai}.
 
-Podemos definir la \ac{ci} como la \enquote{\textit{rama de la \ac{ai} que aporta soluciones a \textbf{tareas específicas} de forma \textbf{inteligente} a partir del aprendizaje mediante el uso de \textbf{datos experimentales}}}. A diferencia de la aproximación clásica de la \ac{ai}, se buscan aproximaciones a las soluciones y no las soluciones exactas. Esto es debido a que muchos problemas son de naturaleza compleja, ya sea por la erlación entre sus multiplas variables, a la falta de información o a la imposibilidad de traducirlos a lenguaje binario.
+Podemos definir la \acrlong{ci} como la \enquote{\textit{rama de la \gls{ai} que aporta soluciones a \textbf{tareas específicas} de forma \textbf{inteligente} a partir del aprendizaje mediante el uso de \textbf{datos experimentales}}}. A diferencia de la aproximación clásica de la \gls{ai}, se buscan aproximaciones a las soluciones y no las soluciones exactas. Esto es debido a que muchos problemas son de naturaleza compleja, ya sea por la erlación entre sus multiplas variables, a la falta de información o a la imposibilidad de traducirlos a lenguaje binario.
 
 \begin{figure}
 	\includegraphics{different-povs-ai}
-	\caption[Diferentes objetivos perseguidos por la \glsentrylongsp{ai}]{Diferentes objetivos perseguidos por la~\glsentrylongsp{ai}. Las filas diferencian entre pensamiento o comportamiento mientras que las columnas separan entre inteligencia humana o el ideal de la inteligencia (racionalidad). Fuente: \textit{Artificial Intelligence: A Modern Approach ($3^{rd}$ Ed.)},~\cite{russell2003artificial}.}
+	\caption[Diferentes objetivos perseguidos por la \acrlong{ai}]{Diferentes objetivos perseguidos por la~\acrlong{ai}. Las filas diferencian entre pensamiento o comportamiento mientras que las columnas separan entre inteligencia humana o el ideal de la inteligencia (racionalidad). Fuente: \textit{Artificial Intelligence: A Modern Approach ($3^{rd}$ Ed.)},~\cite{russell2003artificial}.}
 	\label{fig:different-povs-ai}
 \end{figure}
 
-Se puede establecer el año $1994$ como en el que la \glsentrylongplsp{ci} nace formalmente como área, coincidiendo con el cambio de nombre del \textit{IEEE Neural Networks Council} a \textit{IEEE Computational Intelligence Society}\sidenote{
+Se puede establecer el año $1994$ como en el que la \acrlong{ci} nace formalmente como área, coincidiendo con el cambio de nombre del \textit{IEEE Neural Networks Council} a \textit{IEEE Computational Intelligence Society}\sidenote{
 	\url{http://cis.ieee.org/}
-}. Poco antes, en $1993$, Bob Marks presentaba las que él consideraba diferencias fundamentales entre la \glsentrylongsp{ai} clásica y la \glsentrylongsp{ci}, resumiéndolas en la siguiente frase:
+}. Poco antes, en $1993$, Bob Marks presentaba las que él consideraba diferencias fundamentales entre la \acrlong{ai} clásica y la \acrlong{ci}, resumiéndolas en la siguiente frase:
 
 \blockquote{Neural networks, genetic algorithms, fuzzy systems, evolutionary programming, and artificial life are the building blocks of CI.}
 
-Durante estos años ganaba popularidad también el concepto del \gls{sc} en contraposición con el \gls{hc}. El \gls{sc} engloba las técnicas que buscan resolver problemas con información incompleta o con ruido. Debido a que el conjunto de técnicas definidas como consituyentes del \gls{sc} son las mismas que se usan en la \gls{ci} algunos autores consideran ambos términos equivalentes. Nosotros consideramos que el \gls{sc} es un punto de vista de la computación y que la \gls{ci} es un área de la \glsentrylong{ai} hace uso de métodos del \gls{sc}.
+Durante estos años ganaba popularidad también el concepto del \gls{sc} en contraposición con el \gls{hc}. El \gls{sc} engloba las técnicas que buscan resolver problemas con información incompleta o con ruido. Debido a que el conjunto de técnicas definidas como consituyentes del \gls{sc} son las mismas que se usan en la \gls{ci} algunos autores consideran ambos términos equivalentes. Nosotros consideramos que el \gls{sc} es un punto de vista de la computación a diferencia de la \gls{ci}, la cual es un área de específica dentro de la \gls{ai} hace uso de métodos incluídos en el concepto \gls{sc}.
 
 \marginnote{
 	\textbf{\gls{hc} y \gls{sc}} son la forma de referirse a la computación convencional frente al \gls{sc}. El \gls{hc} basa sus técnicas en aquellas basadas en modelos analíticos definidos de forma precisa y que en ocasiones requieren mucho tiempo de cómputo. Están basados en lógica binaria, análisis numérico, algoritmos y respuestas exactas. El \gls{sc} por otro lado es tolerante a la imprecisión y al ruido y tiende a llegar a soluciones aproximadas de manera más rápida. Se basa en modelos aproximados, emergencia de algoritmos y modelos estocásticos.
 }
 
-
-\TODO{Añadir como colofón que hoy en día la inteligencia computacional es un campo con muchas aplicaciones prácticas y muchísimos research topics abiertos.}
-
-
-
-
-
-
-
-
-
-
-
-
+Hoy en día la \gls{ci} es un área con muchas aplicaciones prácticas en una variedad muy distinta de campos de la ciencia y con muchos temas de investigación por explorar. Por ello, esta tesis pretende la exploración de una parte concreta de este área en el tema del modelado de comportamiento
 
 \section{El rol del aprendizaje en la \acrlong{ci}}
 \label{s:the-learning-role}
 
 El cambio más notorio entre los dos puntos de vista de la \gls{ai} tradicional y la de la \gls{ci} es el concepto de entrenamiento, es decir, pasar de \textit{\enquote{desarrollar un programa para resolver un problema}} a \textit{\enquote{entrenar un modelo para que aprenda la solución}}. Éste es el concepto de \textbf{aprendizaje}, y al proceso de ajuste del modelo a la solución buscada \textbf{entrenamiento}.
 
-Las técnicas de aprendizaje se clasifican dependiendo de la forma en la que se entrenan. \textit{Grosso modo}, cuando al modelo se presentan ejemplos de preguntas y respuestas para que las aprendan se dice que estamos realizando un \textit{aprendizaje supervisado} mientras que, si lo que le presentamos es un conjunto de datos en bruto del que extraer relaciones o patrones, hablamos de un \textit{aprendizaje no supervisado}\sidenote{
-	El \textbf{aprendizaje no supervisado} es el proceso por el cual un modelo aprende a partir de datos en brutos sus relaciones y extrae patrones, sin saber qué son esos datos ni recibir supervisión (a diferencia del aprendizaje supervisado donde los datos incluyen un valore de entrada y su salida correspondiente). En general, los algoritmos pertenecientes a esta categoría se dedican al problema del \textit{clustering}, es decir, identificar grupos de elementos cercanos en el espacio basándose en la suposición de que el comportamiento de dos elementos es más parecido cuanto más cerca están el uno del otro. Algunos ejemplos de técnicas que basan su entrenamiento en un esquema no supervisado son los mapas autoorganizados (SOM), los autoencoders o las redes de creencia profunda (DBN de Deep Belief Network).
-	
-	Esta tesis se dedica al modelado de comportamiento entrenando a partir de datos reales de conducción, por lo que el discurso se centrará únicamente en el esquema de aprendizaje supervisado.
-}\sidenote{
+Las técnicas de aprendizaje se clasifican dependiendo de la forma en la que entrenan los modelos. Podemos identificar tres clases principales de técnicas de entrenamiento las cuales se describen a continuación:
+
+\begin{itemize}
+	\item \textbf{Aprendizaje supervisado}. Supongamos que disponemos de un modelo denotado por $M_V(V, I) = O$ donde $V$ es el conjunto de variables de determinan el comportamiento de $M_V$ y donde $I$ es un conjunto de valores (características) de entrada para las que el modelo obtiene un conjunto $O$ de valores de salida. Entonces, la forma de entrenar al modelo, es decir el \textit{algoritmo de entrenamiento} se encargaría de, a partir de un conjunto de la forma $D = {(I_i, O_i) | \forall i \in \mathbb{N}}$, donde cada $O_i$ es la salida esperada del modelo a la entrada $I_i$, modificar los valores de las variables del conjunto $V$ para ajustar lo más posible $O_i$ a $O$ dado $I_i$.
+	\item \textbf{Aprendizaje no supervisado}. Es el proceso por el cual un modelo aprende a partir de datos en brutos sus relaciones y extrae patrones, sin saber qué son esos datos ni recibir supervisión (a diferencia del aprendizaje supervisado donde los datos incluyen un valore de entrada y su salida correspondiente). En general, los algoritmos pertenecientes a esta categoría se dedican al problema del \textit{clustering}, es decir, identificar grupos de elementos cercanos en el espacio basándose en la suposición de que el comportamiento de dos elementos es más parecido cuanto más cerca están el uno del otro. Algunos ejemplos de técnicas que basan su entrenamiento en un esquema no supervisado son los mapas autoorganizados (SOM), los autoencoders o las redes de creencia profunda (DBN de Deep Belief Network).
+	\item \textbf{Aprendizaje por refuerzo}. En este pardigma, el algoritmo ajusta el modelo de acuerdo a políticas de recompensa o penaliación en función de lo bien o lo mal que el modelo está desempeñando la tarea de acuerdo a una métrica determinada. 
+\end{itemize}
+
 Algunos autores hacen uso de técnicas pertenecientes a ambos paradigmas en forma de aproximación híbrida para suplir deficiencias u optimizar/acelerar el aprendizaje. Un claro ejemplo lo podemos ver en \cite{Hinton2006}, donde los autores hacen uso de \textit{autoencoders} como técnica no supervisada para la inicialización de los pesos de una red neuronal y posteriormente realizan un entrenamiento supervisado para la optimización es éstos.
-}.
 
-En el caso concreto del \textbf{aprendizaje supervisado}, vamos a suponer que disponemos de un modelo denotado por $M_V(V, I) = O$ donde $V$ es el conjunto de variables de determinan el comportamiento de $M_V$ y donde $I$ es un conjunto de valores (características) de entrada para las que el modelo obtiene un conjunto $O$ de valores de salida. Entonces, la forma de entrenar al modelo, es decir el \textit{algoritmo de entrenamiento} se encargaría de, a partir de un conjunto de la forma $D = {(I_i, O_i) | \forall i \in \mathbb{N}}$, donde cada $O_i$ es la salida esperada del modelo a la entrada $I_i$, modificar los valores de las variables del conjunto $V$ para ajustar lo más posible $O_i$ a $O$ dado $I_i$
-
-Los algoritmos de entrenamiento dependen tanto del modelo a usar (no es lo mismo un algoritmo de entrenamiento para una red neuronal recurrente que para un perceptrón multicapa), y suelen ser usado principalmente para la solución a problemas de \textbf{clasificación} (i.e. determinar si un elemento dada sus características pertenece o no a determinado conjunto) y de \textbf{regresión}, esto es, ajustar las salidas de un modelo para ajustarse lo máximo posible al valor real del sistema modelado.
+Esta tesis se dedica al modelado de comportamiento entrenando a partir de datos reales de conducción, por lo que el discurso se centrará únicamente en el esquema de aprendizaje supervisado. En él, los algoritmos de entrenamiento dependen del modelo a usar (no es lo mismo un algoritmo de entrenamiento para una red neuronal recurrente que para un perceptrón multicapa), y suelen ser usados principalmente para la solución a problemas de \textbf{clasificación} (i.e. determinar si un elemento dada sus características pertenece o no a determinado conjunto) y de \textbf{regresión}, esto es, ajustar las salidas de un modelo para ajustarse lo máximo posible al valor real del sistema modelado.
 
 \subsection{Deep learning}
 
@@ -134,14 +121,80 @@ El primer trabajo en la disciplina se le atribuye a  los investigadores McCulloc
 	\label{fig:mccullocs-pitts-neuron-model}
 \end{figure}
 
+Este primer modelo de neurona proponía una función escalón para determinar si la neurona se activaba o no, como analogía del funcionamiento de la neurona artificial. Sin embargo, este modelo es muy limitado. La verdadera potencia de las redes surge del tanto del uso de funciones de activación no lineales como de la agrupación de estas neuronas en estructuras más complejas.
+ 
 
 \subsection{Estructura y clasificación de redes neuronales}
 
 Hablar del modelo de neurona artificial, de feed-forward vs recurrentes y del efecto de las diferentes funciones de activación.
 
-En esta tesis el trabajo se centra en dos topologías concretas dentro de las redes de tipo \textit{feed-forward}, el \acrlong{mlp} y la \acrlong{cnn}, que son con las que se cerrará la sección.
+En esta tesis el trabajo se centra en dos topologías concretas dentro de las redes de tipo \textit{feed-forward}, el \acrlong{mlp} y la \acrlong{cnn}, que son con las que se cerrará la sección. ReLU viene al rescate (a(x) = max(0, x)), no tiene derivada, pero se puede decir que en 0 es 0 o 1, nos da igual.
+
+\subsection{Funciones de activación}
+
+El valor de salida de una neurona queda determinado por la aplicación de una función sobre la entrada neta a ésta. Esta función dictamina el grado de activación de la neurona y para un correcto funcionamiento de la red en términos generales debe ser no lineal\sidenote{
+	Supongamos que tenemos una estructura lineal como la siguiente:
+	
+	\includegraphics{mlp-linear}
+	
+	Si las funciones de activación de las neuronas fuesen lineales (por ejemplo, $f(x) = x$), tendríamos el siguiente desarrollo:
+	
+	\begin{align*}
+	y^1 = f(W_1 * \mathbf{x} + \mathbf{b_1}) \\
+	y = y^2 = f(W_2 * \mathbf{y^1} + \mathbf{b_2}) \\
+	\end{align*}
+
+	Por tanto:
+	
+	\begin{align*}
+	y &= f(W_2 * f(W_1 * \mathbf{x} + \mathbf{b_1}) + \mathbf{b_2}) \\
+	  &= (W_2 * W_1) * \mathbf{x} + (W_2 \cdot \mathbf{b_1} + \mathbf{b_2}) \\
+	  &= W' * \mathbf{x} + \mathbf{b'} \\
+	\end{align*}
+		
+	
+	Siendo $\mathbf{y^l}$ el vector columna de salida de la capa $l$, $\mathbf{b_l}$ el vector de los bias de la capa  $l$ y $\mathbf{x}$ el vector columna de las entradas.
+	
+	Es decir, usando funciones lineales da igual el número de capas que tengamos, ya que la composición de dos funciones lineales es siempre una función lineal y la arquitectura se reducirá a una única capa de activación lineal. Por ello no tiene demasiado sentido el uso de funciones lineales en las capas ocultas de una red.
+	
+	Sí podría tener sentido en la capa de salida en algunos problemas de regresión, por ejemplo, al intentar ajustar a un valor que crece o decrece con el tiempo y cuyos límites desconocemos, aunque en este tipo de problemas también podría servir una función de activación de tipo ReLU o Leaky ReLU.
+}.
+
+Las funciones de activación clásicas usadas en redes neuronales han sido la función sigmoidal y la tangente hiperbólica
+
+\begin{figure}[t]
+	\centering
+	\subfloat[]{\includegraphics[width=0.46\linewidth]{sigmoid-function}}\qquad
+	\subfloat[]{\includegraphics[width=0.46\linewidth]{tanh-function}}
+	\caption{Lasfunciones de activación sigmoida y tangente hiperbólicas. Ambas se han usado como funciones de activación no lineales gracias a que sus derivadas son continuas a lo largo de todo el dominio y además son fácilmente computables.}
+	\label{fig:dropout-example}
+\end{figure}
+
+
+Hablar de la sigmoidal y de la tanh, que es mejor en términos generales porque tienede a centrar los datos, lo cual es bueno para pasar los datos de una capa a otra.
+
+Un problema de estas funciones de activación es que si el valor absoluto de x es muy grande, la derivada tiende a 0, por lo que los entrenamientos, que en su mayoría se basan en el descenso del gradiente se hacen muy lentos. Por eso se decía que los valores de inicio de los pesos fuesen valores muy pequeños diferentes de 0.
+
+Para elegir, en general, si se está haciendo clasificación binaria o regresión, salida una sigmoidal y para el resto ReLU (es muy rápido) o tanh.
+
+una de las desventajas de la ReLU es que la derivada es 0 en valores menores que 0, por lo que las neuronas ``mueren'' si llegan a este punto. Hay una Leaky ReLU, pero no se usa demasiado.
+
+sigmoide: nunca a no se que se haga clasificación binaria, que entonces se usa en la salida. más que nada porque tanh es similar pero centra los datos.
+
+ReLU default
+
+$sig(x) = \frac{1}{1 + e^{-x}}$. Slope
+
+$tanh(x) = \frac{e^x - e^{-x}}{e^x + e^x}$
+
+$relu(x) = \max{0, x}$
+
+$lrelu = \max{\epsilon x, x}$ Epsilon pequeñito, como 0.01. Se puede convertir como un parámetro más a optimizar.
 
 \subsection{Perceptrones multicapa}
+
+
+
 
 \subsection{Redes de convolución}
 
@@ -162,7 +215,7 @@ En esta tesis el trabajo se centra en dos topologías concretas dentro de las re
 
 
 
-Este primer modelo de neurona proponía una función escalón para determinar si la neurona se activaba o no (analogía al funcionamiento de la neurona artificial). \TODO{Parrafito sobre la limitación de la neurona singular para dar hilo a las topologías}.
+
 
 Posteriormente aparecieron nuevos modelos de neuronas con diferentes funciones de activación. De éstas, las más comunes son las de tipo sigmoide\sidenote{
 	Concretamente la función logística de pendiente $1$ definida como:
