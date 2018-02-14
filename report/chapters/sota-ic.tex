@@ -130,18 +130,28 @@ Hablar del modelo de neurona artificial, de feed-forward vs recurrentes y del ef
 
 En esta tesis el trabajo se centra en dos topologías concretas dentro de las redes de tipo \textit{feed-forward}, el \acrlong{mlp} y la \acrlong{cnn}, que son con las que se cerrará la sección. ReLU viene al rescate (a(x) = max(0, x)), no tiene derivada, pero se puede decir que en 0 es 0 o 1, nos da igual.
 
+
+\paragraph{Perceptrones multicapa}
+
+
+
+
+\paragraph{Redes de convolución}
+
+
+
 \subsection{Funciones de activación}
 
 El valor de salida de una neurona queda determinado por la aplicación de una función sobre la entrada neta a ésta. Esta función dictamina el grado de activación de la neurona y para un correcto funcionamiento de la red en términos generales debe ser no lineal\sidenote{
-	Supongamos que tenemos una estructura lineal como la siguiente:
+	Supongamos una red neuronal con una estructura como la siguiente:
 	
 	\includegraphics{mlp-linear}
 	
-	Si las funciones de activación de las neuronas fuesen lineales (por ejemplo, $f(x) = x$), tendríamos el siguiente desarrollo:
-	
+	Supongamos, además, la función de activación de las neuronas es lineal (e.g. $f(x) = x$). La salida se puede expresar como:
+
 	\begin{align*}
-	y^1 = f(W_1 * \mathbf{x} + \mathbf{b_1}) \\
-	y = y^2 = f(W_2 * \mathbf{y^1} + \mathbf{b_2}) \\
+	 \mathbf{y^1} = f(W_1 * \mathbf{x} + \mathbf{b_1}) \\
+	y =  \mathbf{y^2} = f(W_2 * \mathbf{y^1} + \mathbf{b_2}) \\
 	\end{align*}
 
 	Por tanto:
@@ -156,48 +166,75 @@ El valor de salida de una neurona queda determinado por la aplicación de una fu
 	Siendo $\mathbf{y^l}$ el vector columna de salida de la capa $l$, $\mathbf{b_l}$ el vector de los bias de la capa  $l$ y $\mathbf{x}$ el vector columna de las entradas.
 	
 	Es decir, usando funciones lineales da igual el número de capas que tengamos, ya que la composición de dos funciones lineales es siempre una función lineal y la arquitectura se reducirá a una única capa de activación lineal. Por ello no tiene demasiado sentido el uso de funciones lineales en las capas ocultas de una red.
-	
-	Sí podría tener sentido en la capa de salida en algunos problemas de regresión, por ejemplo, al intentar ajustar a un valor que crece o decrece con el tiempo y cuyos límites desconocemos, aunque en este tipo de problemas también podría servir una función de activación de tipo ReLU o Leaky ReLU.
 }.
 
-Las funciones de activación clásicas usadas en redes neuronales han sido la función sigmoidal y la tangente hiperbólica
+Las funciones de activación clásicas usadas en redes neuronales han sido la función sigmoidal (eq.~\ref{eq:sigmoid}) y la tangente hiperbólica (eq.~\ref{eq:tanh}). Por un lado, son funciones no lineales que mantienen normalizados las activaciones de las neuronas, y por otro, son derivables a lo largo de todo el dominio de los reales, siendo su derivada además fácilmente computable. En la Figura~\ref{fig:sig-and-tanh} se muestra una representación gráfica de éstas funciones junto con su derivada.
+
+\begin{equation}
+	\sigma (x) = \frac{1}{1+e^{-x}} \qquad
+	\frac{d\sigma (x)}{d(x)} = \sigma (x)\cdot (1-\sigma(x)).
+	\label{eq:sigmoid}
+\end{equation}
+
+\begin{equation}
+	\tanh(x) = \frac{e^x - e^{-x}}{e^x+e^{-x}} \qquad
+	\frac{d\tanh (x)}{d(x)} = 1 - \tanh^2(x)
+	\label{eq:tanh}
+\end{equation}
+
 
 \begin{figure}[t]
 	\centering
 	\subfloat[]{\includegraphics[width=0.46\linewidth]{sigmoid-function}}\qquad
 	\subfloat[]{\includegraphics[width=0.46\linewidth]{tanh-function}}
-	\caption{Lasfunciones de activación sigmoida y tangente hiperbólicas. Ambas se han usado como funciones de activación no lineales gracias a que sus derivadas son continuas a lo largo de todo el dominio y además son fácilmente computables.}
-	\label{fig:dropout-example}
+	\caption{Las funciones de activación sigmoidal y tangente hiperbólicas. Ambas se han usado como funciones de activación no lineales gracias a que sus derivadas son continuas a lo largo de todo el dominio y además son fácilmente computables.}
+	\label{fig:sig-and-tanh}
 \end{figure}
 
+En general, la tangente hiperbólica es superior a la sigmoidal en todos sus aspectos. Computacionalmente es menos costoso el cálculo de una función sigmoidal, pero con la potencia de cómputo actual esta diferencia puede considerarse despreciable. Además de tener una forma similar a la sigmoidal, latangente hiperbólica permite enviar señales de activación negativas. Además, tiende a centrar los datos de una capa a otra en lugar de mantener un sesgo hacia el $0.5$ (recordemos que mientras que la sigmoidal está definida en el intervalo $(0, 1)$, la tangente hiperbólica se encuentra definida entre los intervalos $(-1, 1)$. Por tanto, en un caso general, la tengente hiperbólica suele ser preferible a la sigmoidal.
 
-Hablar de la sigmoidal y de la tanh, que es mejor en términos generales porque tienede a centrar los datos, lo cual es bueno para pasar los datos de una capa a otra.
+Aún así, en algunas situaciones sí podría tener sentido el uso de funciones sigmoidales en lugar de tangentes hiperbólicas. Por ejemplo, en un problema de clasificación, mantener en la capa de salida funciones de activación sigmoidales permite ajustar la salida en el intervalo $(0, 1)$, sin necesidad de realizar una posterior normalización.
 
-Un problema de estas funciones de activación es que si el valor absoluto de x es muy grande, la derivada tiende a 0, por lo que los entrenamientos, que en su mayoría se basan en el descenso del gradiente se hacen muy lentos. Por eso se decía que los valores de inicio de los pesos fuesen valores muy pequeños diferentes de 0.
+Sin embargo, el principal problema de estas funciones es cuando los valores netos de las entradas son muy grandes. En ese caso, las funciones se acercan a los extremos, aproximándose sus gradientes a 0, y por tanto frenando el aprendizaje. Este error es denominado frecuentemente como \textit{vanishing gradient} en la literatura. Es una de las razones por las que en la fase de inicialización de una red neuronal se tendía a valores en torno al 0 en los pesos. Unos valores altos hacían que las entradas netas fuesen muy grandes ralentizando el aprendizaje.
 
-Para elegir, en general, si se está haciendo clasificación binaria o regresión, salida una sigmoidal y para el resto ReLU (es muy rápido) o tanh.
+\begin{figure}[t]
+	\centering
+	\subfloat[]{\includegraphics[width=0.46\linewidth]{relu-function}}\qquad
+	\subfloat[]{\includegraphics[width=0.46\linewidth]{leaky-relu-function}}
+	\caption{La función de activación (a) \gls{relu} evita el problema del estancamiento cuando la entrada neta de la neurona es muy alta. La función de activación \textit{Leaky} \gls{relu} (en este ejemplo, con $\epsilon = 0.1$) es una de las posibles soluciones cuando se permite que la entrada neta a la red sea menor que 0, ya que en el caso de la función \gls{relu} la derivada es 0 y por tanto el gradiente no nos indica hacia dónde ha de descender el error.}
+	\label{fig:relu-and-leaky-relu}
+\end{figure}
 
-una de las desventajas de la ReLU es que la derivada es 0 en valores menores que 0, por lo que las neuronas ``mueren'' si llegan a este punto. Hay una Leaky ReLU, pero no se usa demasiado.
+Uno de los avances dentro del Deep Learning (ver~\ref{ss:deep-learning}) fue el uso de un tipo de función de activación denominada \acrfull{relu} (eq.~\ref{eq:relu}). Ésta posee una forma muy simple pero es increíblemente efectiva. Por un lado, evita el problema del \textit{vanishing gradient} dado que su derivada es constante en el intervalo $(0, \infty)$. Por otro, su cálculo es tremendamente simple comparado con el resto de funciones (no deja de ser un máximo). En la figura~\ref{fig:neocortex}
 
-sigmoide: nunca a no se que se haga clasificación binaria, que entonces se usa en la salida. más que nada porque tanh es similar pero centra los datos.
+\begin{equation}
+	ReLU(x) = max(0, x) \qquad
+	\frac{d ReLU(x)}{d(x)} \approx
+	\begin{cases}
+		0 &\quad\text{if} x < 0 \\
+		1 &\quad\text{if} x \geq 0 \\
+	\end{cases}
+	\label{eq:relu}
+\end{equation}
 
-ReLU default
+\begin{equation}
+	L-ReLU_\epsilon(x) = max(0, x) \qquad
+	\frac{d L-ReLU_\epsilon(x)}{d(x)} \approx
+	\begin{cases}
+	\epsilon &\quad\text{if} x < 0 \\
+	1 &\quad\text{if} x \geq 0 \\
+	\end{cases}
+	\label{eq:leaky-relu}
+\end{equation}
 
-$sig(x) = \frac{1}{1 + e^{-x}}$. Slope
+Este tipo de neurona tiene una serie de características que merece la pena comentar:
 
-$tanh(x) = \frac{e^x - e^{-x}}{e^x + e^x}$
+\begin{itemize}
+	\item No existe derivada en $0$. El aprendizaje, basado en el descenso del gradiente, se encuentra con una indeterminación en $0$. Sin embargo, es fácilmente subsanable incluyendo el valor 0 o 1 en la derivada en el punto 0. Aunque no es  matemáticamente correcto, computacionalmente se está reemplazando la derivada por una función muy aproximada al ésta en la que el algoritmo de descenso del gradiente se comporta de forma muy similar. Por ejemplo, la representación en la Figura~\ref{fig:relu-and-leaky-relu}, la derivada es $1$ en el punto $x = 0$.
+	\item Sin límite superior y derivada $0$ para $x < 0$. Estas características pueden ser una ventaja o una desventaja. Las activaciones muy fuertes representan relaciones entre elementos muy próximos entre sí, aunque tienen el riesgo de anular el impacto del resto de entradas, pudiendo ralentiazr el aprendizaje. Por otro lado, en el momento que el gradiente de una neurona se hace 0, ésta \textit{\enquote{muere}}, pudiendo ser una desventaja ya que la red dispone de menos neuronas para representar un modelo, como una ventaja, al ajustarse el modelo al número de neuronas necesarias. En general, las desventajas en estos aspectos aparecen cuando el factor de aprendizaje es notoriamente alto.
+\end{itemize}
 
-$relu(x) = \max{0, x}$
-
-$lrelu = \max{\epsilon x, x}$ Epsilon pequeñito, como 0.01. Se puede convertir como un parámetro más a optimizar.
-
-\subsection{Perceptrones multicapa}
-
-
-
-
-\subsection{Redes de convolución}
-
+Por último, la función de activación \textit{Leaky} \gls{relu} (eq.~\ref{eq:leaky-relu}) es una evolución de la \gls{relu} para el uso en problemas donde es ventajoso que una neurona no llegue a tener nunca un gradiente de 0. Van acompañadas de un parámetro $\epsilon \approx 0$ que determina la pendiente para todos aquellos valores menores de 0. Un ejemplo de esta neurona se ilustra en la figura~\ref{fig:relu-and-leaky-relu}. Su uso no está muy extendido, pero existen casos en los que su uso está justificado.
 
 
 
@@ -293,7 +330,7 @@ Una ventaja al representar un modelo como grafo computacional es que ayuda a abs
 
 
 
-\section{\acrlong{fl}}
+\section{\gls{fl}}
 
 \subsection{Ampliando la teoría de conjuntos}
 
@@ -305,28 +342,9 @@ Aquí dentro hay que hablar también de operaciones entre conjuntos. Como aquí 
 
 Hablar de los tipos de sistemas (Tipos Mandamni y Sugeno diferentes).
 
-\section{Grafos computacionales}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\section{\Glsentrylongsp{fl}}
+-----------------------------------------------------------
 
 \marginnote{
 	\textbf{La lógica nace} en el siglo IV a.C. dentro de la física Aristotélica, que permaneció inalterada hasta la revolución científica (alrededor del siglo XVI. d.C.), momento en que se separó y permaneció como disciplina paralela perteneciente más al campo de la filosofía que de la física y la matemática. Empezó a relacionarse de nuevo con la matemática a principios del siglo XIX y a principios del siglo XX la lógica y la teoría de conjuntos pasaron a convertirse en partes indispensables la una de la otra. Por ello suelen ir de la mano cada vez que se habla de la una y de la otra. La evolución de la teoría de conjuntos (Cantor, finales del siglo XIX, buscar referencia) y su unión con la lógica es una época bastante convulsa dentro de la historia de la matemática.
@@ -405,13 +423,13 @@ He visto una cosa curiosa que es el "negative sampling". Podría hablar de ello 
 
 En \cite{Ma2004} hay un capítulo de razonamiento que parece que está guay. Revisarlo un poco a fondo a ver si merece la pena tirar or ahí.
 
-\subsection{\glsentrylong{fis}}
+\subsection{\gls{fis}}
 
 Los \glspl{fis} (o \glspl{fcs}) son el caso de éxito de la lógica difusa que más resultados ha cosechado tanto a nivel académico como a nivel industrial. Se trata sistemas que utilizan el razonamiento difuso para inferir una respuesta a partir de un conjunto de entradas.
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Ilustración general de un controlador difuso}
-	\caption[Diagrama general de un \glsentrylongsp{fis}]{Diagrama del esquema general de un \glsentrylongsp{fis}.}
+	\caption[Diagrama general de un \gls{fis}]{Diagrama del esquema general de un \gls{fis}.}
 	\label{fig:fis-general-schema}
 \end{figure}
 
@@ -420,7 +438,7 @@ Habitualmente son descritos como un componente dividido en tres bloques conceptu
 \begin{itemize}
 	\item \textbf{Fuzzificación}. Traducir los valores de entrada en crudo del dominio sobre el que está definida cada variable lingüística a sus respectivos grados de pertenencia a conjuntos difusos a través de sus funciones de pertenencia. \TODO Ojo, algunos controladores toman como valores de entrada conjuntos difusos según \cite{Ma2004}. Habrá que buscar sobre ello.
 	\item \textbf{Inferencia}. Realiza todo el proceso de razonamiento difuso a partir del conjunto de reglas qeu dan significado a este controlador difuso.
-	\item \textbf{Defuzzificación}. Traduce los conjunto difuso resultado del proceso de inferencia a valores del los dominios sobre los que están definidos dichos conjuntos difusos. \TODO En un sugeno, la salida es una función directamente así que se podría especificar que en un tipo Sugeno,se puede ver como que la salida son sólo singletones, manteniendo la generalización del proceso de funcionamiento de un \ac{fis}.
+	\item \textbf{Defuzzificación}. Traduce los conjunto difuso resultado del proceso de inferencia a valores del los dominios sobre los que están definidos dichos conjuntos difusos. \TODO En un sugeno, la salida es una función directamente así que se podría especificar que en un tipo Sugeno,se puede ver como que la salida son sólo singletones, manteniendo la generalización del proceso de funcionamiento de un \gls{fis}.
 \end{itemize}
 
 Esta división se ilustra en la figura~\ref{fig:fis-general-schema}.
@@ -437,12 +455,48 @@ Son la primera aproximación de \gls{fis} propuestos
 
 Hablar someramente de los tres tipos clásicos que se usan, e indicar que al final los más usados son el Mandamni y el Sugeno. Añadir también quizá una tabla comparativa enter los tres o al menos entre los dos principales:
 
-El consecuente de un \ac{fis} de tipo Mandamni siempre es un conjunto difuso. Por tanto, el proceso de sacar un valor crisp es costoso. Lo bueno, se mantiene significado semántico de las salidas. El consecuente en un Sugeno es un valor, y se puede decir que no necesita proceso de defuzzificación. Si embargo, la respuesta pierde significado semántico si la suma de la fuerza de salida no es 1 (no entiendo qué quiero decir con esto).
+El consecuente de un \gls{fis} de tipo Mandamni siempre es un conjunto difuso. Por tanto, el proceso de sacar un valor crisp es costoso. Lo bueno, se mantiene significado semántico de las salidas. El consecuente en un Sugeno es un valor, y se puede decir que no necesita proceso de defuzzificación. Si embargo, la respuesta pierde significado semántico si la suma de la fuerza de salida no es 1 (no entiendo qué quiero decir con esto).
+
+
+------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Grafos computacionales}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \section{Agentes inteligentes}
 \label{ch:ci:s:agent-concept}
 
-Si echamos un poco la vista atrás, en la figura~\ref{fig:different-povs-ai} se mostraban los cuatro objetivos perseguidos por la \ac{ai}. En uno de ellos en particular se la entiende como el estudio del conseguir que las entidades (e.g. sistemas, software, \ldots) actúen de la manera más inteligente posible. A dichas entidades se las conoce como \textit{agentes}, concretamente en este contexto como \textit{agentes inteligentes}\sidenote{En realidad los autores prefieren denominarlo \textit{agente racional}, dado que captura la esencia de lo que es un comportamiento inteligente. Sin embargo, según esta definición, hasta un elemento tan rudimentario como un termostato puede ser considerado como elemento inteligente, ya que realiza siempre la mejor acción para cumplir sus objetivos, por simples que puedan parecer. Dónde está el límite entre qué es y que no es un agente inteligente cae dentro de los dominios de la filosofía.}. Sin embargo, si es difícil encontrar un consenso en la definición de agente más lo es a la hora de definir cuándo la conducta de éstos es inteligente.
+Si echamos un poco la vista atrás, en la figura~\ref{fig:different-povs-ai} se mostraban los cuatro objetivos perseguidos por la \gls{ai}. En uno de ellos en particular se la entiende como el estudio del conseguir que las entidades (e.g. sistemas, software, \ldots) actúen de la manera más inteligente posible. A dichas entidades se las conoce como \textit{agentes}, concretamente en este contexto como \textit{agentes inteligentes}\sidenote{En realidad los autores prefieren denominarlo \textit{agente racional}, dado que captura la esencia de lo que es un comportamiento inteligente. Sin embargo, según esta definición, hasta un elemento tan rudimentario como un termostato puede ser considerado como elemento inteligente, ya que realiza siempre la mejor acción para cumplir sus objetivos, por simples que puedan parecer. Dónde está el límite entre qué es y que no es un agente inteligente cae dentro de los dominios de la filosofía.}. Sin embargo, si es difícil encontrar un consenso en la definición de agente más lo es a la hora de definir cuándo la conducta de éstos es inteligente.
 
 Lo que sí existe es una serie de características comunes que se repiten a lo largo de la literatura (figura~\ref{fig:agent-properties}):
 
@@ -466,7 +520,7 @@ Pero, ¿qué hace a un agente inteligente? Según algunos autores, el hecho de q
 
 Por tanto, asumiremos la definición ofrecida por \cite{russell2003artificial} donde, se indica que un agente es considerado \textbf{agente inteligente} cuando éste realiza la mejor acción posible (según un criterio de medida). En este contexto, \enquote{la mejor acción posible} se refiere en términos de objetivos y comprensión del entorno, que puede ser o no correcta\sidenote{Que la comprensión del entorno no sea totales un factor clave que diferencia la racionalidad de la omnisciencia. La omnisciencia significa conocer el resultado de toda acción antes de realizarla y por tanto implica el conocimiento de absolutamente todos los detalles del entorno.La racionalidad existe dentro de un contexto de conocimiento limitado.}.
 
-Las nociones de agentes inteligentes y la de \ac{ci} van de la mano. Esto es debido a que su definición funciona a la perfección para las técnicas de la \ac{ci}, esto es, agentes autónomos que perciben el entorno (problema) y actuan de la mejor manera posible sobre él (resuelven) de acuerdo a su conocimento del medio y su estado interno (en base a algoritmos como \ac{ann}, \ac{fl}, \ldots). Por ello desde mediados de los años 1990 el concepto de agente inteligente ha ganado tanta popularidad\sidenote{Tanto es así que en algunos trabajos se define el objetivo de la \ac{ai} como la implementación de la función agente, esto es, la función que realiza la correspondiencia de una percepción a una acción, para un problema dado.}.
+Las nociones de agentes inteligentes y la de \gls{ci} van de la mano. Esto es debido a que su definición funciona a la perfección para las técnicas de la \gls{ci}, esto es, agentes autónomos que perciben el entorno (problema) y actuan de la mejor manera posible sobre él (resuelven) de acuerdo a su conocimento del medio y su estado interno (en base a algoritmos como \gls{ann}, \gls{fl}, \ldots). Por ello desde mediados de los años 1990 el concepto de agente inteligente ha ganado tanta popularidad\sidenote{Tanto es así que en algunos trabajos se define el objetivo de la \gls{ai} como la implementación de la función agente, esto es, la función que realiza la correspondiencia de una percepción a una acción, para un problema dado.}.
 
 \subsection{Tipos de entorno}
 
@@ -532,25 +586,25 @@ La siguiente clasificación viene motivada por la forma de deducir el conjunto d
 
 En la literatura se describen muchos tipos de agente, como por ejemplo los agentes BDI (Believe-Desire-Intention) o los agentes lógicos (i.e. el entorno se representa con reglas lógicas y se infiere mediante métodos como por ejemplo deducción lógica o prueba de teoremas). Sin embargo, éstos pueden definirse en los términos aquí expuestos (figuras~\ref{fig:agent-basic-architecture}, \ref{fig:memory-vs-amnesia-in-agents} y \ref{fig:agent-types}). 
 
-\subsection{\Glsentrylongsp{mas}}
+\subsection{\gls{mas}}
 
 Son aquellos sistemas compuestos de dos o más agentes que interactúan de alguna manera para llegar a una solución.
 
 Cuando los agentes son inteligentes y el problema cae dentro del dominio de la \gls{ai}, el ámbito de estudio es el de la \gls{dai}, la rama dedicada a la resolución de problemas mediante procesamiento descentralizado.
 
-Desde el punto de vista de la ingeniería de sistemas, y a pesar del aumento de complejidad, los \ac{mas}, al ser sistemas inherentemente descentralizados, ofrecen múltiples ventajas frente a los sistemas centralizados tradicionales:
+Desde el punto de vista de la ingeniería de sistemas, y a pesar del aumento de complejidad, los \gls{mas}, al ser sistemas inherentemente descentralizados, ofrecen múltiples ventajas frente a los sistemas centralizados tradicionales:
 
 \begin{itemize}
 	\item Los sistemas son más robustos y fiables frente a fallos, ya que los agentes son autónomos e independientes del resto.
 	\item La modificación del sistema se puede realizar sobre la marcha, agente a agente sin necesidad de parar el sistema al completo.
 	\item Su diseño fuerza a desacoplar las dependencias entre agentes.
 	\item Son inherentemente paralelizables y por tanto pueden llegar a ser más eficientes que sus homólogos centralizados. Este punto es quizá el más controvertido, ya que esta ganancia en eficiencia se puede perder rápidamente en función de la cantidad de comunicación existente entre agentes.
-	\item Debido al nivel de complejidad alcanzado en los sistemas existentes en la actualidad, la computación se distribuye a través de múltiples sistemas, normalmente heterogéneos. La tendencia además es a la alza. La definición de los \ac{mas} hace natural su implementación en este tipo de arquitecturas.
+	\item Debido al nivel de complejidad alcanzado en los sistemas existentes en la actualidad, la computación se distribuye a través de múltiples sistemas, normalmente heterogéneos. La tendencia además es a la alza. La definición de los \gls{mas} hace natural su implementación en este tipo de arquitecturas.
 \end{itemize}
 	
 Desde el punto de vista de la \gls{ai} podemos añadirles la ventaja de que permiten el estudio de conductas complejas de poblaciones a partir del comportamiento de sus elementos básicos, facilitando el estudio de modelosy de teorías sobre éstos.
 
-\newthought{La comunicación entre agentes}, se trata de una característica clave en un \gls{mas}, ya que para denominarse de esta manera dos o más agentes deben interactuar (i.e. comunicarse) entre si. Esta interacción puede implementarse de diversas maneras\sidenote{Las formas clásicas de comunicación son el de paso de mensajes, los sistemas de pizarra y la estigmergia. Para los dos primeros existen dos propuestas para estándar de lenguaje de comunicación, \Ac{kqml} (\cite{Finin1994}) y \Ac{acl} (\cite{Poslad2007}). La tercera forma de comunicación suele ser muy dependiente del problema y no se apoya en lenguajes estándares. Se trata de una forma de comunicación basada en la modificación del entorno, como la efectuada por las hormigas en la búsqueda de alimento, donde éstas dejan rastros de feromonas modificando el entorno para modificar el comportamiento del resto de la colonia.} y siempre toman una o las dos formas siguientes (figura~\ref{fig:communication-between-agents-in-mass}):
+\newthought{La comunicación entre agentes}, se trata de una característica clave en un \gls{mas}, ya que para denominarse de esta manera dos o más agentes deben interactuar (i.e. comunicarse) entre si. Esta interacción puede implementarse de diversas maneras\sidenote{Las formas clásicas de comunicación son el de paso de mensajes, los sistemas de pizarra y la estigmergia. Para los dos primeros existen dos propuestas para estándar de lenguaje de comunicación, \gls{kqml} (\cite{Finin1994}) y \gls{acl} (\cite{Poslad2007}). La tercera forma de comunicación suele ser muy dependiente del problema y no se apoya en lenguajes estándares. Se trata de una forma de comunicación basada en la modificación del entorno, como la efectuada por las hormigas en la búsqueda de alimento, donde éstas dejan rastros de feromonas modificando el entorno para modificar el comportamiento del resto de la colonia.} y siempre toman una o las dos formas siguientes (figura~\ref{fig:communication-between-agents-in-mass}):
 
 \begin{itemize}
 	\item \textbf{Cooperación}. Los agentes intercambian información entre sí para llegar a una solución. Esta solución puede ser fragmentada (i.e. cada agente posee parte de la solución y se comunican para ir avanzando de forma común hacia la solución global) o poseerla uno o varios agentes que hacen uso de más agentes para ir avanzando la solución.

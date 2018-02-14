@@ -19,6 +19,8 @@ import pandas as pd
 
 # Each key is the message id. The rest are list of tuples, each of one are specified in the form (indicator, msg_data)
 # Each data is specified in the form (init_byte, num_bits, first_bit, resolution, offset, unsigned).
+from settings import DATASET_NAME, DATASET_CHOICES
+
 CAN_MESSAGES = {
     # '208': [
     #     ('Brake pedal (%)', 3, 12, 0, 0.1, 0, True),
@@ -214,7 +216,7 @@ def syncronize_dataframes(dfs, time_columns, freq=10, exclude_columns=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Transforms a the bag files to a set of csvs, one for each sensor.')
     parser.add_argument('subject', help='The subject of the experiment.')
-    parser.add_argument('dataset', choices=('training', 'validation'), help='One of the dataset types')
+    parser.add_argument('dataset', choices=DATASET_CHOICES, help='One of the dataset types')
     parser.add_argument('freq', type=int, help='The rate of the data to be synchronized.')
     parser.add_argument('path', help='The directory where are located the sensors csv with the raw data.')
     parser.add_argument('output', help='The directory where the data is extracted.')
@@ -272,4 +274,4 @@ if __name__ == '__main__':
                 shutil.copyfile(path, dest_path)
         master_df[path_column] = master_df[path_column].str.replace(input_dir, output_dir)
 
-    master_df.to_csv(os.path.join(output_dir, 'dataset.csv'))
+    master_df.to_csv(os.path.join(output_dir, DATASET_NAME))

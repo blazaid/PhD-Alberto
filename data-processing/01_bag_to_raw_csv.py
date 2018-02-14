@@ -16,6 +16,7 @@ import rosbag
 
 from bag_parsers import CanParser, GpsPositionParser, GpsSpeedParser, KinectImageParser, LidarParser
 from pynsia.ros.bag import topics
+from settings import DATASET_CHOICES
 
 CAN_MESSAGES = '412',  # '208', '236', '346', '374', '412',
 
@@ -25,7 +26,7 @@ LIDAR_IMAGES_DIR = 'pointclouds'
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Transforms a the bag files to a set of csvs, one for each sensor.')
     parser.add_argument('subject', help='The subject of the experiment (the bag data belongs to him).')
-    parser.add_argument('dataset', choices=('training', 'validation'), help='One of the dataset types')
+    parser.add_argument('dataset', choices=DATASET_CHOICES, help='One of the dataset types')
     parser.add_argument('bag', help='The bag file to extract.')
     parser.add_argument('output', help='The directory where the data is extracted.')
     args = parser.parse_args()

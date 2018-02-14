@@ -1,14 +1,31 @@
 % Glossary terms
+\newglossaryentry{dai}{
+	name={Inteligencia Artificial Distribuida},
+	description={Rama de la \gls{ai} donde se estudian las técnicas de aplicación, coordinación y distribución de conocimiento en un entorno multiagente.},
+}
+
 \newglossaryentry{esys}{
 	name={Sistema Experto},
 	description={Sistema que emula a un humano en la toma de decisiones de un dominio en el que es experto.},
 	plural={Sistemas Expertos}
 }
 
-\newglossaryentry{sc}
+\newglossaryentry{fcs}
 {
-	name={Soft Computing},
-	description={Paradigma de computación por el que se hace uso de técnicas de resolución de problemas que manejan información incompleta, inexacta o con ruido.}
+	name=Sistema de Control Difuso,
+	description={Sistema para realizar tareas que basa su funcionamiento en inferencia difusa. En general es sinónimo de \gls{fis}, sólo que remarcando el objeto de su funcionamiento (tareas de control).}
+}
+
+\newglossaryentry{fis}
+{
+	name=Sistema de Inferencia Difusa,
+	description={Sistema que basa su funcionamiento en la aplicación de reglas lógicas con un motor de inferencia basado en la teoría de la lógica difusa.}
+}
+
+\newglossaryentry{fl}
+{
+	name=Lógica Difusa,
+	description={Extensión de la lógica tradicional donde los valores no son únicamente verdaderos ($1$) o falsos ($0$) sino que pueden tomar un grado de verdad o falsedad en todo el intervalo $[0, 1]$.}
 }
 
 \newglossaryentry{hc}
@@ -17,15 +34,29 @@
 	description={Forma de denominar a la computación clasíca en contraposición al término \gls{sc}.}
 }
 
+\newglossaryentry{mas}
+{
+	name=Sistema Multiagente,
+	description={Sistema que emplea al menos dos agentes que interactúan entre sí para solucionar el problema para el que está diseñado.}
+}
+
+\newglossaryentry{sc}
+{
+	name={Soft Computing},
+	description={Paradigma de computación por el que se hace uso de técnicas de resolución de problemas que manejan información incompleta, inexacta o con ruido.}
+}
+
 % Acronyms
+\newacronym{acl}{ACL}{Agent Communications Language}
 \newacronym{ai}{IA}{Inteligencia Artificial}
 \newacronym[\glslongpluralkey={Redes Neuronales Artificiales}]{ann}{RNA}{Red Neuronal Artificial}
 \newacronym{ci}{IC}{Inteligencia Computacional}
 \newacronym[\glslongpluralkey={Redes neuronales convolucionales}]{cnn}{CNN}{Red neuronal convolucional}
-\newacronym{fl}{FL}{Lógica Difusa}
 \newacronym[\glslongpluralkey={Algoritmos Genéticos}]{ga}{AG}{Algoritmo Genético}
+\newacronym{kqml}{KQML}{Knowledge Query and Manipulation Language}
 \newacronym{ml}{ML}{Machine Learning}
 \newacronym[\glslongpluralkey={Perceptrones multicapa}]{mlp}{MLP}{Perceptrón Multicapa}
 \newacronym{nlp}{NLP}{Natural Language Programming}
+\newacronym{relu}{ReLU}{Rectified Linear Unit}
 \newacronym{rs}{RS}{Recommender Systems}
 

@@ -3,6 +3,45 @@ import numpy as np
 from sensor_msgs.msg import PointField
 
 
+def to_spherical_old(x, y, z):
+    x2, y2, z2 = pow(x, 2), pow(y, 2), pow(z, 2)
+
+    d = np.math.sqrt(x2 + y2 + z2)
+    if x >= 0:
+        theta = np.math.acos(y / np.math.sqrt(x2 + y2))
+    else:
+        theta = 2 * np.math.pi - np.math.acos(y / np.math.sqrt(y2 + z2))
+    phi = np.math.asin(z / d)
+
+    return d, theta, phi
+
+
+def to_spherical(ps):
+    """ Transforms a set of points into its spherical representations.
+
+    The points should be expressed as a Mx3 matrix, where M is the number of
+    points and 3 the cartesian coordinates x, y and z.
+
+    :param ps: The matrix of points.
+    :return: The matrix of the same points but with their spherical coords where
+        each row will be in the form (distance, theta, phi).
+    """
+    x2, y2, z2 = ps[:, 0] ** 2, ps[:, 1] ** 2, ps[:, 2] ** 2
+    xy = np.sqrt(x2 + y2)
+
+    result = np.zeros(ps.shape)
+    # Distance to point
+    result[:, 0] = np.sqrt(x2 + y2 + z2)
+    # Theta
+    pos_x = ps[:,0] >= 0
+    neg_x = ps[:,0] < 0
+    result[pos_x, 1] = np.arccos(ps[pos_x, 1] / xy[pos_x])
+    result[neg_x, 1] = 2 * np.math.pi - np.arccos(ps[neg_x, 1] / np.sqrt(y2[neg_x] + z2[neg_x]))
+    # Rho: elevation angle from XY-plane up
+    result[:, 2] = np.arctan2(ps[:, 2], xy)
+    return result
+
+
 class PointCloud(object):
     PF_MAPPINGS = {
         PointField.INT8: (np.int8, 1),
@@ -18,6 +57,10 @@ class PointCloud(object):
     EXTRA_PAD = 'EXTRA_PADDING'
 
     def __init__(self):
+        """ Initializer for instances of this class.
+
+        It shouldn't be called directly, but from class methods.
+        """
         self.points = None
 
     @classmethod
@@ -69,3 +112,50 @@ class PointCloud(object):
             np.savetxt(path, self.points, delimiter=',')
         else:
             raise ValueError('Empty point cloud')
+
+    def to_deepmap(
+            self,
+            h_range=(0, 360), v_range=(-15, 15),
+            h_res=1, v_res=1,
+            max_dist=None,
+            normalize=True
+    ):
+        """ Transforms this instance into a deepness_map. """
+
+        # Establish the default values
+        h_range = list(map(float, h_range))
+        v_range = list(map(float, v_range))
+        h_res, v_res = float(h_res), float(v_res)
+        max_dist = float(max_dist) or np.inf
+
+        # Get the steps to travel horizontally and vertically
+        h_r = int(min(h_range) / h_res), int(max(h_range) / h_res)
+        v_r = int(min(v_range) / v_res), int(max(v_range) / v_res)
+
+        # Create the matrix for the deep map
+        dm = np.full((abs(v_r[0] - v_r[1]), abs(h_r[0] - h_r[1])), max_dist)
+
+        # Transform the points to their spherical coordinates
+        cartesian_coords = self.points[:, :3]
+        spherical_coords = to_spherical(cartesian_coords)
+        for d, t, r in cartesian_coords[spherical_coords[:,0] <= max_dist,:]:
+            # Translate the value
+            t, r = np.math.degrees(t), np.math.degrees(r)
+            while t < 0:
+                t = 360 + t
+            while r < 0:
+                r = 360 + r
+            t, r = int(t / h_res), int(r / v_res)
+            t = max(0, min(dm.shape[1] - 1, t))
+            r = max(0, min(dm.shape[0] - 1, r - v_r[0]))
+            dm[r][t] = max_dist - d
+        # Si normalize esta activo, normalizamos todos los valores al intervalo [0, 1] ([min, max] distancia).
+        if normalize:
+            dm = dm / max_dist
+            dm = 1 - dm
+        # Ahora recolocamos el array para que sea algo mas realista la imagen
+        dm = np.flipud(dm)
+        deep_map_l = dm[:, :len(dm[0]) // 2]
+        deep_map_r = dm[:, len(dm[0]) // 2:]
+        dm = np.concatenate((deep_map_r, deep_map_l), axis=1)
+        return dm

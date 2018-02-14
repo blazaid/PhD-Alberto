@@ -1,13 +1,10 @@
 import argparse
+import os
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Curates the data in a the masters datasets.')
-    parser.add_argument('subject', help='The subject of the experiment.')
-    parser.add_argument('dataset', choices=('train', 'validation'), help='One of the dataset types')
-    parser.add_argument('path', help='The directory where are located the sensors csv with the raw data.')
-    parser.add_argument('output', help='The directory where the curated data is saved.')
-    args = parser.parse_args()
+import pandas as pd
 
+from pynsia.pointcloud import PointCloud
+from settings import DATASET_NAME, DATASET_CHOICES
 
 POINTCLOUDS_PATH = 'lidar'
 
@@ -18,119 +15,34 @@ def point_cloud_key(pcl_name):
 
 DEEPMAP_MODES = 'deep', 'coords'
 
-
-def to_spherical_old(x, y, z):
-    x2, y2, z2 = pow(x, 2), pow(y, 2), pow(z, 2)
-
-    d = np.math.sqrt(x2 + y2 + z2)
-    if x >= 0:
-        theta = np.math.acos(y / np.math.sqrt(x2 + y2))
-    else:
-        theta = 2 * np.math.pi - np.math.acos(y / np.math.sqrt(y2 + z2))
-    phi = np.math.asin(z / d)
-
-    return d, theta, phi
-
-
-def to_spherical(ps):
-    """ Transforms a set of points into its spherical representations.
-
-    The points should be expressed as a Mx3 matrix, where M is the number of
-    points and 3 the cartesian coordinates x, y and z.
-
-    :param ps: The matrix of points.
-    :return: The matrix of the same points but with their spherical coords where
-        each row will be in the form (distance, theta, phi).
-    """
-    x2, y2, z2 = ps[:, 0] ** 2, ps[:, 1] ** 2, ps[:, 2] ** 2
-
-    result = np.zeros(ps.shape)
-    # Distance to point
-    result[:, 0] = np.sqrt(x2 + y2 + z2)
-    # Theta
-    result[ps[:, 0] >= 0, 1] = np.math.acos(ps[ps[:, 0] >= 0, 1] / np.sqrt(x2 + y2))
-    #result[ps[:, 0] < 0, 1] = 2 * np.math.pi - np.math.acos(ps[ps[:, 0] < 0, 1] / np.sqrt(y2 + z2))
-    result[not ps[:, 0] >= 0, 1] = np.math.acos(not ps[ps[:, 0] >= 0, 1] / np.sqrt(x2 + y2))
-    #result[:, 1] = np.arctan2(np.sqrt(xy), points[:, 2])
-    #result[:, 1] = np.arctan2(points[:, 1], points[:, 0])
-    # Phi: elevation angle from XY-plane up
-    result[:, 2] = np.arctan2(ps[:, 2], np.sqrt(x2 + y2))
-    return result
-
-
-class PointCloud(object):
-    """ Class that represents a point cloud. """
-
-    def __init__(self, pc):
-        """ Initializer for instances of this class.
-
-        It shouldn't be called directly, but from class methods.
-        """
-        self.pc = pc
-
-    @classmethod
-    def from_file(cls, path):
-        """ Creates a new PointCloud given the file with PointCloud information.
-
-        :param path: The location of the file.
-        :return: A new PointCloud instance.
-        """
-        pc = np.loadtxt(path, delimiter=',')
-        return cls(pc=pc)
-
-    def save(self, path):
-        """ Saves the point cloud into a file.
-
-        :param path: The location of the file.
-        """
-        np.savetxt(path, self.pc, delimiter=',')
-
-    def to_deepmap(
-            self,
-            h_range=(0, 360), v_range=(-15, 15),
-            h_res=1, v_res=1,
-            max_dist=None,
-            normalize=True
-    ):
-        """ Transforms this instance into a deepness_map. """
-        # Establish the default values
-        max_dist = max_dist or np.inf
-
-        # Get the steps to travel horizontally and vertically
-        h_r = int(min(h_range) / h_res), int(max(h_range) / h_res)
-        v_r = int(min(v_range) / v_res), int(max(v_range) / v_res)
-
-        # Create the matrix for the deep map
-        dm = np.full((abs(v_r[0] - v_r[1]), abs(h_r[0] - h_r[1])), max_dist)
-
-        # Transform the points to their spherical coordinates
-        cartesian_coords = self.pc[0, :3]
-        print(to_spherical_old(cartesian_coords[0], cartesian_coords[1], cartesian_coords[2]))
-        print(to_spherical(np.array([cartesian_coords])))
-        return
-        for x, y, z in point_cloud:
-            d, t, r = to_spherical(x, y, z)
-            if d < max_dist:
-                # traducimos a fila y columna.
-                t, r = int(math.degrees(t) / h_res), int(
-                    math.degrees(r) / v_res)
-                t = max(0, min(dm.shape[1], t))
-                r = max(0, min(dm.shape[0] - 1, r - v_r[0]))
-                dm[r][t] = max_dist - d
-        # Si normalize esta activo, normalizamos todos los valores al intervalo [0, 1] ([min, max] distancia).
-        if normalize:
-            dm = dm / max_dist
-        # Ahora recolocamos el array para que sea algo mas realista la imagen
-        dm = np.flipud(dm)
-        deep_map_l = dm[:, :len(dm[0]) // 2]
-        deep_map_r = dm[:, len(dm[0]) // 2:]
-        dm = np.concatenate((deep_map_r, deep_map_l), axis=1)
-        return dm
-
-
 if __name__ == '__main__':
-    for filename in sorted(os.listdir(POINTCLOUDS_PATH), key=point_cloud_key):
-        pointcloud_path = os.path.join(POINTCLOUDS_PATH, filename)
-        pointcloud = PointCloud.from_file(pointcloud_path)
-        deepmap = pointcloud.to_deepmap()
+    parser = argparse.ArgumentParser(description='Curates the data in a the masters datasets.')
+    parser.add_argument('subject', help='The subject of the experiment.')
+    parser.add_argument('dataset', choices=DATASET_CHOICES, help='One of the dataset types')
+    parser.add_argument('path', help='The directory where are located the subjects folders')
+    parser.add_argument('output', help='The directory where the curated data should be saved')
+    args = parser.parse_args()
+
+    input_dir = os.path.join(args.path, args.subject, args.dataset)
+    output_dir = os.path.join(args.output, args.subject, args.dataset)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    df = pd.read_csv(os.path.join(input_dir, DATASET_NAME))
+    # 1. Generate the the deepmap images for the point clouds
+    deepmaps_dir = os.path.join(output_dir, 'deepmaps')
+    if not os.path.exists(deepmaps_dir):
+        os.makedirs(deepmaps_dir)
+
+    for pointcloud_path in df['pointclouds_path']:
+        pc = PointCloud.load(pointcloud_path)
+        deepmap = pc.to_deepmap(h_range=(0, 360), v_range=(-15, 15), h_res=1, v_res=1, max_dist=25, normalize=True)
         break
+        # Creo el deepmap
+        # Lo salvo en la salida esperada
+    # 1. Extract full sequences.
+    # There could be point clouds not available, so we separate into sequences of well formed data.
+    # Sacar los mapas de profundidad
+    # Pasar la velocidad del CANBus a metros por segundo
+    # Extraer las seguncias con datos enteros (quitandonos los huecos no capturados)
+    # Enriquecer los datos (para la proxima)
