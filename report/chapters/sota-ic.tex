@@ -112,7 +112,7 @@ Una \gls{ann} es independiente del problema a solucionar. Se la puede considerar
 	\label{fig:neocortex}
 \end{figure}
 
-El primer trabajo en la disciplina se le atribuye a  los investigadores McCulloch-Pitts por su modelo de neurona artificial ilustrado en la figura~\ref{fig:mccullocs-pitts-neuron-model} (\cite{McCulloch1943}). Existen diferentes tipologías y formas de operar con redes, pero todas funcionan de la misma manera: unidades (e.g. neuronas) interconectados mediante enlaces por los que fluye la información de manera unidireccional, donde algunas de dichas unidades sirven de entrada al sistema (i.e. entradas o sensores), otras sirven de salida del sistema (i.e. salidas y actuadores) y otras como elementos internos (i.e. ocultas), y donde las conexiones se ajustan mediante un proceso denominado \textit{entrenamiento}.
+El primer trabajo en la disciplina se le atribuye a  los investigadores McCulloch-Pitts por su modelo de neurona artificial ilustrado en la figura~\ref{fig:mccullocs-pitts-neuron-model} (\cite{McCulloch1943}). Existen diferentes tipologías y formas de operar con redes, pero todas funcionan de la misma manera: unidades (e.g. neuronas) interconectados mediante enlaces por los que fluye la información de manera unidireccional, donde algunas de dichas unidades sirven de entrada al sistema (i.e. entradas o sensores), otras sirven de salida del sistema (i.e. salidas y actuadores) y otras como elementos internos (i.e. ocultas), y donde los pesos de sus conexiones se ajustan mediante un proceso denominado \textit{entrenamiento}, imitando los principios de la teoría hebbiana~\cite{hebb19680}.
 
 \begin{figure}
 	\centering
@@ -122,13 +122,42 @@ El primer trabajo en la disciplina se le atribuye a  los investigadores McCulloc
 \end{figure}
 
 Este primer modelo de neurona proponía una función escalón para determinar si la neurona se activaba o no, como analogía del funcionamiento de la neurona artificial. Sin embargo, este modelo es muy limitado. La verdadera potencia de las redes surge del tanto del uso de funciones de activación no lineales como de la agrupación de estas neuronas en estructuras más complejas.
- 
 
 \subsection{Estructura y clasificación de redes neuronales}
 
-Hablar del modelo de neurona artificial, de feed-forward vs recurrentes y del efecto de las diferentes funciones de activación.
+Las \gls{ann} reciben ese nombre debido a que son sistemas formados por multitud de neuronas artificiales simples. Dependiendo de cómo su topología y configuración, éstas serán más adecuadas para unos u otros problemas (e.g. unas serán más adecuadas para regresión, clasificación, predicción, \textit{clustering}).
 
-En esta tesis el trabajo se centra en dos topologías concretas dentro de las redes de tipo \textit{feed-forward}, el \acrlong{mlp} y la \acrlong{cnn}, que son con las que se cerrará la sección. ReLU viene al rescate (a(x) = max(0, x)), no tiene derivada, pero se puede decir que en 0 es 0 o 1, nos da igual.
+Típicamente, estas redes se componen de neuronas conectadas, por lo que se puede pensar en ellas como un grafo ponderado donde los nodos se corresponden a las neuronas, las aristas a las conexiones entre entradas y salidas y los pesos de las aristas a los pesos de las conexiones de entrada. Existen diferentes topologías o arquitecturas dependiendo de qué forma toma el grafo que modela las neuronas y sus conexiones. Estos dos tipos son los siguientes:
+
+\begin{itemize}
+	\item Redes \textbf{feed-forward} (o prealimentadas). Estas redes son concebidas como un grafo acíclico, donde un conjunto de neuronas son consideradas neuronas donde se introduce la información y otras de donde se extrae. El proceso sigue un flujo de entrada hacia la salida sin ninguna retroalimentación. Es el conjunto de redes más utilizadas hoy en día.
+	\item Redes \textbf{recurrentes}. Éstas, a diferencia de las prealimentadas, tienen al menos un ciclo dentro de su representación. Históricamente este tipo de redes han sido más difíciles de entrenar debido a su complejidad interna, y por tanto han sido menos utilizadas. Sin embargo, durante la última década han aparecido nuevas técnicas que permiten su entrenamiento y han demostrado ser extremadamente útiles en multitud de tareas como la predicción de series temporales, text-to-speech o traducción entre otros.
+\end{itemize}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.72\textwidth]{multilayer-perceptron}
+	\label{fig:multilayer-perceptron}
+	\caption{}
+\end{figure}
+
+Esta tesis se centra en redes pertenecientes al primer grupo. Concretamente, en dos topologías de redes denominadas \gls{mlp} y \gls{cnn}\sidenote{
+	Por supuesto existen muchas más topologías. Por ejemplo, los \glspl{som}, en los que todas las neuronas de entrada están conectadas a una capa de salida de neuronas típicamente dispuestas en una malla rectangular o hexagonal. Este tipo de redes se usan normalmente para la detección de grupos (i.e. \textit{clustering}). Otro ejemplo son los autoencoderes, redes similares a los \glspl{mlp} que también se entrenan de manera no supervisada para la identificación de características (i.e. \textit{dimensionality reduction}).
+}, con las que se cerrará la presente sección. Ambos tipos de redes han probado su efectividad en diferentes dominios, aunque las segundas están demostrando su efectividad con las nuevas ténicas surgidas a partir del \textit{deep learning}
+
+
+
+
+
+
+
+
+
+\begin{itemize}
+	\item \textbf{Feed-Forward}. Sus grafos no contienen ninguń ciclo (figura XXX) |\TODO{Esa pedaaaaaso de figura. A lo mejor hacer una que incluya tres ejemplos.}. Es la topología más usada en aplicaciones prácticas debido a su sencillez y su efectividad. En ellas el flujo de información sigue un camino desde las entradas hasta las salidas, sin ninguna retroalimentación. No es requisito que las neuronas se agrupen en capas, aunque suele ser la estructura común. A las redes de más de dos capas ocultas (i.e. las capas que se encuentran entre la capa de neuronas de entrada y la capa de neuronas de salida) se las denomina \enquote{profundas} o \textit{deep}. Algunos tipos pertenecientes a esta categoría pueden ser el Perceptrón [Rosemblat, 1957], el Perceptrón multicapa [Rumelhart et al., 1986], el algoritmo LVQ y su sucesor los Mapas Auto-Organizados [Kohonen, 1998].
+	\item \textbf{Recurrentes}. Sus grafos contienen uno o más ciclos, de tal manera que el flujo de información de salida de una neurona puede llegar a afectar a su propio estado. Estas topologías representan de una forma más fiel las bases biológicas de las \gls{ann}, pero son más complejas a la hora de operar y entrenar. Algunos casos particulares de este tipo de arquitectura son las Redes de Hopfield [Hopfield, 1982] o las memorias LSTM (del inglés Long-Short Term Memory) [Hochreiter \& Schmidhuber, 1997].
+\end{itemize}
+
 
 
 \paragraph{Perceptrones multicapa}
@@ -254,27 +283,11 @@ Por último, la función de activación \textit{Leaky} \gls{relu} (eq.~\ref{eq:l
 
 
 
-Posteriormente aparecieron nuevos modelos de neuronas con diferentes funciones de activación. De éstas, las más comunes son las de tipo sigmoide\sidenote{
-	Concretamente la función logística de pendiente $1$ definida como:
-	\begin{equation}
-		\frac{1}{1 + e^{-x}}
-	\end{equation}
-}.\TODO{Actualizar esto porque creo que empieza a er ás común la ReLU, que se usa hasta en la sopa. Una o dos ilustraciones mostrando los diferentes tipos (grafiquitas) de las funciones de activación en redes neuronales. Para que sea de un poco más de 1990 y no esta mierad. Poner escalón, sigmoidal y tanh (como clásicas)y ReLU y adjustid ReLU (o como coño se llamen) como modernas.}
-
-\newthought{Existen diferentes topologías de redes neuronales} o arquitecturas dependiendo de qué forma toma el grafo que modela las neuronas y sus conexiones. En este caso, las redes neuronales pueden ser de dos tipos:
-
-\begin{itemize}
-	\item \textbf{Feed-Forward}. Sus grafos no contienen ninguń ciclo (figura XXX) |\TODO{Esa pedaaaaaso de figura. A lo mejor hacer una que incluya tres ejemplos.}. Es la topología más usada en aplicaciones prácticas debido a su sencillez y su efectividad. En ellas el flujo de información sigue un camino desde las entradas hasta las salidas, sin ninguna retroalimentación. No es requisito que las neuronas se agrupen en capas, aunque suele ser la estructura común. A las redes de más de dos capas ocultas (i.e. las capas que se encuentran entre la capa de neuronas de entrada y la capa de neuronas de salida) se las denomina \enquote{profundas} o \textit{deep}. Algunos tipos pertenecientes a esta categoría pueden ser el Perceptrón [Rosemblat, 1957], el Perceptrón multicapa [Rumelhart et al., 1986], el algoritmo LVQ y su sucesor los Mapas Auto-Organizados [Kohonen, 1998].
-	\item \textbf{Recurrentes}. Sus grafos contienen uno o más ciclos, de tal manera que el flujo de información de salida de una neurona puede llegar a afectar a su propio estado. Estas topologías representan de una forma más fiel las bases biológicas de las \gls{ann}, pero son más complejas a la hora de operar y entrenar. Algunos casos particulares de este tipo de arquitectura son las Redes de Hopfield [Hopfield, 1982] o las memorias LSTM (del inglés Long-Short Term Memory) [Hochreiter \& Schmidhuber, 1997].
-\end{itemize}
 
 \TODO{Más cosas a añadir del paper de modelling behabior of lane change execution}
 
-ANNs are CI techniques used as a general solution in prediction and classification problems. They are composed by single processing units called neurons and are usually classified depending on how are arranged and connected those neurons. Depending on its architecture, the ANN can be trained on a problem by means of a supervised training scheme (i.e. by showing tuples of input $\rightarrow$ output) or non-supervised training scheme (i.e. by showing a whole dataset and letting them to find patterns and solutions by themselves). They have been used successfully in several fields like speech recognition [20], series and sequences prediction [21] or terrain classification [22].
 
-In this paper, for mimicking the lane-change acceptance of a particular user, two different families of ANN are proposed: MLPs and CNNs. Figure 2. Example of two feed-forward architectures: (a) A Multilayer Perceptron architecture; (b) A Convolutional Neural Network architecture.Figure 2. Example of two feed-forward architectures: (a) A Multilayer Perceptron architecture; (b) A Convolutional Neural Network architecture. Both families rely on the same model of artificial neuron, the McCulloch-Pitts model [23], and belong to the category feed-forward, i.e. a Directed Acyclic Graph (DAG) where the inputs are presented by one end of the DAG (called input layer) and the outputs are collected at the other end (called output layer).
 
-In these two models, the connections are represented with a real value called weight imitating the behaviour of biological neurons with the strength of connection between axon and dendrites. Typically, the training process belongs to the supervised scheme and is based on the modification of these weights to obtain the desired response, following the principles of the Hebbian theory.
 
 One of the most difficult tasks on these models is their hyper-parameter tuning, and it is difficult because ANNs involve a lot of them. Apart from the family, and the arrangement of their neurons that fortunately, in the most of cases, comes imposed by the family, there are number of neurons, number of layers, training parameters (depending on the learning algorithm), and they follow the non-free lunch theorem [24]. The problems derived from that are two: the high bias or under-fitting and the high variance or over fitting.
 
