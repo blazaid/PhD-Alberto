@@ -87,7 +87,7 @@ Algunos autores hacen uso de técnicas pertenecientes a ambos paradigmas en form
 
 Esta tesis se dedica al modelado de comportamiento entrenando a partir de datos reales de conducción, por lo que el discurso se centrará únicamente en el esquema de aprendizaje supervisado. En él, los algoritmos de entrenamiento dependen del modelo a usar (no es lo mismo un algoritmo de entrenamiento para una red neuronal recurrente que para un perceptrón multicapa), y suelen ser usados principalmente para la solución a problemas de \textbf{clasificación} (i.e. determinar si un elemento dada sus características pertenece o no a determinado conjunto) y de \textbf{regresión}, esto es, ajustar las salidas de un modelo para ajustarse lo máximo posible al valor real del sistema modelado.
 
-\subsection{Conjuntos de entrenamiento, test y validación}
+\subsection{Epochs, conjuntos de entrenamiento, test y validación}
 
 
 
@@ -163,45 +163,6 @@ El primer trabajo en la disciplina se le atribuye a  los investigadores McCulloc
 
 Este primer modelo de neurona proponía una función escalón para determinar si la neurona se activaba o no, como analogía del funcionamiento de la neurona artificial. Sin embargo, este modelo es muy limitado. La verdadera potencia de las redes surge del tanto del uso de funciones de activación no lineales como de la agrupación de estas neuronas en estructuras más complejas.
 
-\subsection{Estructura y clasificación de redes neuronales}
-
-Las \gls{ann} reciben ese nombre debido a que son sistemas formados por multitud de neuronas artificiales simples. Dependiendo de cómo su topología y configuración, éstas serán más adecuadas para unos u otros problemas (e.g. unas serán más adecuadas para regresión, clasificación, predicción, \textit{clustering}).
-
-Típicamente, estas redes se componen de neuronas conectadas, por lo que se puede pensar en ellas como un grafo ponderado donde los nodos se corresponden a las neuronas, las aristas a las conexiones entre entradas y salidas y los pesos de las aristas a los pesos de las conexiones de entrada. Existen diferentes topologías o arquitecturas dependiendo de qué forma toma el grafo que modela las neuronas y sus conexiones. Estos dos tipos son los siguientes:
-
-\begin{itemize}
-	\item Redes \textbf{feed-forward} (o prealimentadas). Sus representación como grafo no presenta ningún ciclo (por tanto ninguna retroalimentación entre neuronas, como se ilustra en la figura~\ref{fig:ff-vs-rnn}). Es la topología más usada en aplicaciones prácticas debido a su sencillez y su efectividad. En ellas el flujo de información sigue un camino desde un conjunto de neuronas denominadas \textit{entradas} hasta otro conjunto de neuronas denominado \textit{salidas}. No es requisito que las neuronas se agrupen en capas, aunque suele ser la estructura común. A las redes de más de dos/tres capas ocultas (i.e. las capas que se encuentran entre la capa de neuronas de entrada y la capa de neuronas de salida) se las suele denominar \textit{profundas} o \textit{deep}. Representantes clásicos de esta categoría pueden ser el \gls{mlp}~\cite{rumelhart1985learning}, los autoencoders~\cite{Hinton2006} o los \gls{som}~\cite{kohonen1998self}.
-	\item Redes \textbf{recurrentes}. Éstas, a diferencia de las prealimentadas, tienen al menos un ciclo dentro de su representación, de tal manera que el flujo de información de salida de una neurona puede llegar a afectar a su propio estado. Aunque estas topologías representan de una forma más fiel las bases biológicas de las \gls{ann}, históricamente han sido más complejas a la hora de operar y entrenar debido a sus relaciones entre nodos. Sin embargo, durante la última década han aparecido nuevas técnicas que facilitan su operación. Algunos casos particulares de este tipo de arquitectura son las Redes de Hopfield~\cite{hopfield1982neural} o las redes \gls{lstm}~\cite{hochreiter1997long}.
-\end{itemize}
-
-\begin{figure}
-	\centering
-	\subfloat[]{\includegraphics[width=0.46\linewidth]{multilayer-perceptron}}\qquad
-	\subfloat[]{\includegraphics[width=0.46\linewidth]{multilayer-perceptron}}
-	\caption{Diferencias entre los grafos que representan una red neuronal de tipo (a) \textit{feed-forward} y una (b) recurrente. Las redes recurrentes presentan ciclos entre sus nodos que permiten la retroalimentación interna entre las neuronas. Suelen ser más útiles a la hora de modelar eventos en el tiempo, aunque su entrenamiento es más complejo.\TODO{CAMBIAR LA FIGURA DE LA RECURRENTE}}
-	\label{fig:ff-vs-rnn}
-\end{figure}
-
-Esta tesis se centra en redes pertenecientes al primer grupo, concretamente en las topologías \gls{mlp} y \gls{cnn}, con las que se cerrará la presente sección. Ambos tipos de redes han probado su efectividad en diferentes dominios, aunque las segundas están demostrando su efectividad con las nuevas ténicas surgidas a partir del \textit{deep learning}
-
-
-
-
-
-
-\paragraph{Perceptrones multicapa}
-
-In a MLP, the neurons are arranged in layers so that all the neuron outputs on one layer are the inputs for all the neurons in the next layer. The first and last layers are called input layer and output layer respectively. The inner layers are called hidden layers. As shown in Figure 2 (b) (a two-layered MLP), in this architecture the inputs are usually presented as vectors. As they have been used extensively in several areas with great success, we use them here to make a comparison of the improvement of the use of CNNs over MLPs.
-
-
-\paragraph{Redes de convolución}
-
-As its name suggests, a CNN uses convolutions, i.e. mathematical operations that filter regions of a structure (generally in the form of a matrix or a cube) for pattern identification and/or structure transformations.
-A CNN has also an arrangement of layers, but they work differently. Firstly, this architecture is separated into two groups of layers or phases that can be called pattern identification phase and prediction phase. The pattern recognition phase works with layers dealing with pattern recognitions and input sub-sampling while the prediction phase works with an MLP using the output of the pattern recognition phase as input. Secondly, the inputs are arranged as -dimensional matrices as opposed to the MLP that are always presented as vectors; this fact allows us working more easily with properties and patterns arranged in an n-dimensional space like images (2-dimension matrix) or videos (3-dimension matrix). The layer types in that phase are as follows:
-1. Convolutional Layer. Given a -dimensional input, a convolution or filter is an n-dimensional pattern (composed by neurons) that travels along the -dimensional space to generate a new -dimensional space. A convolutional layer is a layer composed by m filter and generate a set of m new -dimensional spaces which will be the new input for another layer.
-2. Local Response Normalization (LRN) layer [26]. This layer is intended to enhance the difference between the existent values in a space. They are commonly placed after a convolution layer to increase the contrast of the values in the space. In this paper, every convolution layer is followed by an LRN layer.
-3. Pooling layer. Pooling is grouping together elements. A pooling layer is intended to subsample a space to ease its management. Given an -dimensional space, a pooling filter of dimension  travels the space in steps of size  generating one value per step. When placed after convolutions, it is expected to subsample the space without losing the recognized pattern while reducing computation costs and avoiding overfitting. The most common operation used in pooling is the max operation.
-
 \subsection{Funciones de activación}
 
 El valor de salida de una neurona queda determinado por la aplicación de una función sobre la entrada neta a ésta. Esta función dictamina el grado de activación de la neurona y para un correcto funcionamiento de la red en términos generales debe ser no lineal\sidenote{
@@ -210,20 +171,20 @@ El valor de salida de una neurona queda determinado por la aplicación de una fu
 	\includegraphics{mlp-linear}
 	
 	Supongamos, además, la función de activación de las neuronas es lineal (e.g. $f(x) = x$). La salida se puede expresar como:
-
+	
 	\begin{align*}
-	 \mathbf{y^1} = f(W_1 * \mathbf{x} + \mathbf{b_1}) \\
-	y =  \mathbf{y^2} = f(W_2 * \mathbf{y^1} + \mathbf{b_2}) \\
+		\mathbf{y^1} = f(W_1 * \mathbf{x} + \mathbf{b_1}) \\
+		y =  \mathbf{y^2} = f(W_2 * \mathbf{y^1} + \mathbf{b_2}) \\
 	\end{align*}
-
+	
 	Por tanto:
 	
 	\begin{align*}
-	y &= f(W_2 * f(W_1 * \mathbf{x} + \mathbf{b_1}) + \mathbf{b_2}) \\
-	  &= (W_2 * W_1) * \mathbf{x} + (W_2 \cdot \mathbf{b_1} + \mathbf{b_2}) \\
-	  &= W' * \mathbf{x} + \mathbf{b'} \\
+		y &= f(W_2 * f(W_1 * \mathbf{x} + \mathbf{b_1}) + \mathbf{b_2}) \\
+		&= (W_2 * W_1) * \mathbf{x} + (W_2 \cdot \mathbf{b_1} + \mathbf{b_2}) \\
+		&= W' * \mathbf{x} + \mathbf{b'} \\
 	\end{align*}
-		
+	
 	
 	Siendo $\mathbf{y^l}$ el vector columna de salida de la capa $l$, $\mathbf{b_l}$ el vector de los bias de la capa  $l$ y $\mathbf{x}$ el vector columna de las entradas.
 	
@@ -233,15 +194,15 @@ El valor de salida de una neurona queda determinado por la aplicación de una fu
 Las funciones de activación clásicas usadas en redes neuronales han sido la función sigmoidal (eq.~\ref{eq:sigmoid}) y la tangente hiperbólica (eq.~\ref{eq:tanh}). Por un lado, son funciones no lineales que mantienen normalizados las activaciones de las neuronas, y por otro, son derivables a lo largo de todo el dominio de los reales, siendo su derivada además fácilmente computable. En la Figura~\ref{fig:sig-and-tanh} se muestra una representación gráfica de éstas funciones junto con su derivada.
 
 \begin{equation}
-	\sigma (x) = \frac{1}{1+e^{-x}} \qquad
-	\frac{d\sigma (x)}{d(x)} = \sigma (x)\cdot (1-\sigma(x)).
-	\label{eq:sigmoid}
+\sigma (x) = \frac{1}{1+e^{-x}} \qquad
+\frac{d\sigma (x)}{d(x)} = \sigma (x)\cdot (1-\sigma(x)).
+\label{eq:sigmoid}
 \end{equation}
 
 \begin{equation}
-	\tanh(x) = \frac{e^x - e^{-x}}{e^x+e^{-x}} \qquad
-	\frac{d\tanh (x)}{d(x)} = 1 - \tanh^2(x)
-	\label{eq:tanh}
+\tanh(x) = \frac{e^x - e^{-x}}{e^x+e^{-x}} \qquad
+\frac{d\tanh (x)}{d(x)} = 1 - \tanh^2(x)
+\label{eq:tanh}
 \end{equation}
 
 \begin{figure}
@@ -269,23 +230,23 @@ Sin embargo, el principal problema de estas funciones es cuando los valores neto
 Uno de los avances dentro del Deep Learning (ver~\ref{ss:deep-learning}) fue el uso de un tipo de función de activación denominada \acrfull{relu} (eq.~\ref{eq:relu}). Ésta posee una forma muy simple pero es increíblemente efectiva. Por un lado, evita el problema del \textit{vanishing gradient} dado que su derivada es constante en el intervalo $(0, \infty)$. Por otro, su cálculo es tremendamente simple comparado con el resto de funciones (no deja de ser un máximo). En la figura~\ref{fig:neocortex}
 
 \begin{equation}
-	ReLU(x) = max(0, x) \qquad
-	\frac{d ReLU(x)}{d(x)} \approx
-	\begin{cases}
-		0 &\quad\text{if} x < 0 \\
-		1 &\quad\text{if} x \geq 0 \\
-	\end{cases}
-	\label{eq:relu}
+ReLU(x) = max(0, x) \qquad
+\frac{d ReLU(x)}{d(x)} \approx
+\begin{cases}
+0 &\quad\text{if} x < 0 \\
+1 &\quad\text{if} x \geq 0 \\
+\end{cases}
+\label{eq:relu}
 \end{equation}
 
 \begin{equation}
-	L-ReLU_\epsilon(x) = max(0, x) \qquad
-	\frac{d L-ReLU_\epsilon(x)}{d(x)} \approx
-	\begin{cases}
-	\epsilon &\quad\text{if} x < 0 \\
-	1 &\quad\text{if} x \geq 0 \\
-	\end{cases}
-	\label{eq:leaky-relu}
+L-ReLU_\epsilon(x) = max(0, x) \qquad
+\frac{d L-ReLU_\epsilon(x)}{d(x)} \approx
+\begin{cases}
+\epsilon &\quad\text{if} x < 0 \\
+1 &\quad\text{if} x \geq 0 \\
+\end{cases}
+\label{eq:leaky-relu}
 \end{equation}
 
 Este tipo de neurona tiene una serie de características que merece la pena comentar:
@@ -297,9 +258,116 @@ Este tipo de neurona tiene una serie de características que merece la pena come
 
 Por último, la función de activación \textit{Leaky} \gls{relu} (eq.~\ref{eq:leaky-relu}) es una evolución de la \gls{relu} para el uso en problemas donde es ventajoso que una neurona no llegue a tener nunca un gradiente de 0. Van acompañadas de un parámetro $\epsilon \approx 0$ que determina la pendiente para todos aquellos valores menores de 0. Un ejemplo de esta neurona se ilustra en la figura~\ref{fig:relu-and-leaky-relu}. Su uso no está muy extendido, pero existen casos en los que su uso está justificado.
 
-\subsection{¿Cómo aprenden las redes neuronales?}
+\subsection{Estructura y clasificación de redes neuronales}
 
+Las \gls{ann} reciben ese nombre debido a que son sistemas formados por multitud de neuronas artificiales simples. Dependiendo de cómo su topología y configuración, éstas serán más adecuadas para unos u otros problemas (e.g. unas serán más adecuadas para regresión, clasificación, predicción, \textit{clustering}).
 
+Típicamente, estas redes se componen de neuronas conectadas, por lo que se puede pensar en ellas como un grafo ponderado donde los nodos se corresponden a las neuronas, las aristas a las conexiones entre entradas y salidas y los pesos de las aristas a los pesos de las conexiones de entrada. Existen diferentes topologías o arquitecturas dependiendo de qué forma toma el grafo que modela las neuronas y sus conexiones. Estos dos tipos son los siguientes:
+
+\begin{itemize}
+	\item Redes \textbf{feed-forward} (o prealimentadas). Sus representación como grafo no presenta ningún ciclo (por tanto ninguna retroalimentación entre neuronas, como se ilustra en la figura~\ref{fig:ff-vs-rnn}). Es la topología más usada en aplicaciones prácticas debido a su sencillez y su efectividad. En ellas el flujo de información sigue un camino desde un conjunto de neuronas denominadas \textit{entradas} hasta otro conjunto de neuronas denominado \textit{salidas}. No es requisito que las neuronas se agrupen en capas, aunque suele ser la estructura común. A las redes de más de dos/tres capas ocultas (i.e. las capas que se encuentran entre la capa de neuronas de entrada y la capa de neuronas de salida) se las suele denominar \textit{profundas} o \textit{deep}. Representantes clásicos de esta categoría pueden ser el \gls{mlp}~\cite{rumelhart1985learning}, los autoencoders~\cite{Hinton2006} o los \gls{som}~\cite{kohonen1998self}.
+	\item Redes \textbf{recurrentes}. Éstas, a diferencia de las prealimentadas, tienen al menos un ciclo dentro de su representación, de tal manera que el flujo de información de salida de una neurona puede llegar a afectar a su propio estado. Aunque estas topologías representan de una forma más fiel las bases biológicas de las \gls{ann}, históricamente han sido más complejas a la hora de operar y entrenar debido a sus relaciones entre nodos. Sin embargo, durante la última década han aparecido nuevas técnicas que facilitan su operación. Algunos casos particulares de este tipo de arquitectura son las Redes de Hopfield~\cite{hopfield1982neural} o las redes \gls{lstm}~\cite{hochreiter1997long}.
+\end{itemize}
+
+\begin{figure}[t]
+	\centering
+	\subfloat[]{\includegraphics[width=0.46\linewidth]{multilayer-perceptron}}\qquad
+	\subfloat[]{\includegraphics[width=0.46\linewidth]{multilayer-perceptron}}
+	\caption{Diferencias entre los grafos que representan una red neuronal de tipo (a) \textit{feed-forward} y una (b) recurrente. Las redes recurrentes presentan ciclos entre sus nodos que permiten la retroalimentación interna entre las neuronas. Suelen ser más útiles a la hora de modelar eventos en el tiempo, aunque su entrenamiento es más complejo.\TODO{CAMBIAR LA FIGURA DE LA RECURRENTE}}
+	\label{fig:ff-vs-rnn}
+\end{figure}
+
+Esta tesis se centra en redes pertenecientes al primer grupo, concretamente en las topologías \gls{mlp} y \gls{cnn}, con las que se cerrará la presente sección. Ambos tipos de redes han probado su efectividad en diferentes dominios, aunque las segundas están demostrando su efectividad con las nuevas ténicas surgidas a partir del \textit{deep learning}
+
+\paragraph{Perceptrones multicapa}
+
+En un perceptrón multicapa, las neuronas se encuentran agrupads en capas de tal manera que todas las salidas de las neuronas de una capa se conectan a todas las entradas de cada una de las neuronas de la capa siguiente. A las primera y últimacapas de la red se las denomina respectivamente capa de entrada y de salida, mientras que las capas intermedias son denominadas capas ocultas. Hemos visto algunasilustraciones a lo largo del presente capítulo, pero en la Figura~\ref{fid:detailed-multilayer-perceptron} se puede ver en detalle este tipo de red.
+
+La forma de calcular la salida de un perceptrón multicapa es la siguiente. Supongamos que tenemos dos capas, $l-1$ y $l$, compuestas por $n^{l-1}$ y $n^l$ neuronas respectivamente cada una con su función de activación $f$, y como conexiones (pesos) entre ambas capas tendremos una matriz $W^l$ de dimensiones $(l-1, l)$. Cada una de las neuronas deberá tener una entrada de bias, por lo que tendremos tambien un vector columna $\mathbf{b}^l$ que los representará. La salida $\mathbf{s}^l$ de esa capa será un vector columna que se obtendrá a partir de la siguiente función que se muestra en la ecuación~\ref{eq:ff-mlp}:
+
+\begin{equation}
+	\mathbf{s}^l = f(W^l \mathbf{s}^{l-1} + \mathbf{b}^l)
+	\label{eq:ff-mlp}
+\end{equation}
+
+Como se puede observar, la salida $s^l$ de la capa $l$ depende directamente de la salida de la capa $l - 1$. El proceso de calcular la salida es incorporando las entradas en la capa de entrada e ir iterando hasta la capa de salida.
+
+El algoritmo base de aprendizaje en un perceptrón multicapa de denomina \textit{back-propagation}~\cite{rumelhart1985learning} y se basa en la regla delta~\cite{widrow1960adaptive} para el perceptrón simple. Éste usa una técnica denominada \textit{descenso del gradiente} donde lo que se intenta es minimizar el valor de una función $f(x)$ que representa el error (en realidad el \textit{coste}\sidenote{
+	Existen dos términos asociados al error en \glspl{ann}: el error y el coste, que en la literatura se denominan \textit{loss} y \textit{cost} respectivamente. El primero se refiere al error existente entre la salida de la red neuronal y la salida esperada de un ejemplo en concreto, mientras que el segundo se refiere al error sobre todo el conjunto de entrenamiento. Es de esperar que durante el proceso de entrenamiento este error baje.
+	
+	Existen diferentes funciones para calcular el error y el coste de un modelo en concreto. En el caso del coste, lo más común es usar la media entre todo el conjunto de entrenamiento como:
+	
+	\begin{equation*}
+		C(M) = \frac{1}{m} \sum_{i=1}^m L(\hat{y}_i, y_i)
+	\end{equation*}
+	
+	Donde $M$ es el modelo actual, $m$ el número total de ejemplos y $L$ la función de error entre las salidas $\hat{y}$ e $y$ de cada ejemplo $i$. En algunos casos se usa la media ponderada para dar más importancia a determinados casos, pero no es lo común.
+	
+	Sin embargo, en el caso del error, existen varias funciones dependiendo de cuál sea la tarea. Por ejemplo, para tareas de regresión, lo común es usar el error cuadrático medio o su raíz cuadrada. Para tareas de clasificación, una función de error muy útil que ha remplazado a la función $hit$ ()relación de aciertos-fracasos) es la entropía cruzada, que tiene la siguiente forma:
+	
+	\begin{equation*}
+		L(\hat{y}_i, y_i) = (1 - y) \log (1 - \hat{y}) - y \log \hat{y}
+	\end{equation*}
+	
+	La razón es que en esta última se capturan sutilezas como lo cercano que ha estado un acierto. Por ejemplo, si nuestro objetivo es una salida de clasificación $(1, 1, 0)$ y tenemos dos modelos, uno que dice $(0.9, 0.9, 0.6) \rightarrow (1, 1, 1)$ y otro que dice $(0.6, 0.6, 0.6) \rightarrow (1, 1, 1)$, según la función hiy, ambos modelos funcionan igual mientras que según la entropía cruzada el primero funciona mejor que el segundo.
+	
+	Curiosamente, la entropía cruzada también funciona bien en problemas de regresión, aunque es más sencillo interpretar los resultados de un $RMSE$ y por tanto su uso no está extendido.
+}) de la red calculando como aumenta o disminuye esta con peqñeas variaciones de $x$.
+
+El algoritmo trata de aplicar un error desde la salida de la red sobre todos los pesos de la misma en función de cuánto han colaborado en dicho error (bajo la suposición de que, cuando mayor es un error, más ha contribuido). El problema es cómo se calcula este error. En la última capa es sencillo (conocemos las salidas real y esperada), pero la genialidad del algoritmo es que el error en las interiores lo determina a partir del error de las sucesivas capas apoyándose en el descensodel gradiente. Es decir:
+
+Supongamos que nos encontramos en la capa $l$ para la cual conocemos el error de salida que denotaremos como el vector columna $\delta \mathbf{s}^l$, y donde todas las neuronas usan la función de activación $f$. Entonces, de acuerdo al gradiente, el error neto que produce nuestra salida se corresponde con:
+
+\begin{equation}
+	\delta \mathbf{e} = \delta \mathbf{s}^l \circ f'(W^l \cdot \mathbf{s}^{l-1} + \mathbf{b}^l)
+\end{equation}
+
+Nótese que $\circ$ denota al producto de Hadamard (elemento a elemento). También es interesante fijarse en que $W^l \cdot \mathbf{s}^{l-1} + b^l$ se corresponde al cálculo de la entrada neta de la capa $l$ antes de aplicarle la función de activación $f$.
+
+Una vez conocido este error podemos pasar a calcular cómo varían los parámetros de la capa (eq.~\ref{eq:bp-weights} y~\ref{eq:bp-bias}) y el error de salida (eq.~\ref{eq:error-previous-layer}) de la capa anterior de la siguiente manera:
+
+\begin{subequations}
+	\begin{equation}
+		\delta \mathbf{s}^{l-1} = W^{l\top} \cdot \delta \mathbf{e} \label{eq:error-previous-layer}
+	\end{equation}
+	\begin{equation}
+		\delta W^l = \delta \mathbf{e} \cdot \delta \mathbf{s}^{l-1} \label{eq:bp-weights}
+	\end{equation}
+	\begin{equation}
+		\delta \mathbf{b}^l = \delta \mathbf{e} \label{eq:bp-bias}
+	\end{equation}
+\end{subequations}
+
+El valor $\delta \mathbf{s}^{l-1}$ será el valor de entrada para la capa anterior, mientras que los valores $\delta W^l$ y $\delta b^l$ serán los gradientes calculados. La forma máscomúnde aplicar el error es la que se muestra en las ecuaciones~\ref{eq:error-applied-to-weights} y~\ref{eq:error-applied-to-bias}:
+
+\begin{subequations}
+	\begin{equation}
+		W^l = W^l + \alpha \delta W^l \label{eq:error-applied-to-weights}
+	\end{equation}
+	\begin{equation}
+		\mathbf{b}^l = \mathbf{b}^l + \alpha \delta \mathbf{b}^l \label{eq:error-applied-to-bias}
+	\end{equation}
+\end{subequations}
+
+Esta es la forma original del algoritmo de back propagation. Al valor $\alpha$ que aparece en las ecuaciones se le denomina factor de aprendizaje y como se puede apreciar, su valor determina lo rápido que cambian los pesos. Suele tomar valores entre $0.1$ y $0.01$, pero dependiendo de la evolución del entrenamiento y de la variación del algoritmo, éste puede llegar a tomar valores mucho más bajos. Algunas de las variaciones sobre el algoritmo inicial son las siguientes:
+
+\begin{itemize}
+	\item \textbf{Momento de inercia}~\cite{qian1999momentum}. Al algoritmo se le añade un factor por el cual los movimientos en el mismo sentido durante sucesivos epochs se acumulan. De esta manera, elriesgo de caer en mínimos locales disminuyen al ser capaz el algoritmo de \enquote{saltar} pequeños baches.
+	\item \textbf{Adagrad}~\ref{duchi2011adaptive}, \textbf{RMSProp}~\ref{tieleman2012lecture} y \textbf{Adadelta}~\cite{zeiler2012adadelta}. Los tres se basan en el mismo principio. Al factor de entrenamiento de la red se le añade la existencia de un factor de entrenamiento por cada peso de tal manera que se actualiza de forma diferente en función de la evolución de su gradiente individual.
+	\item \textbf{Adam}~\cite{kingma2014adam}. Este algoritmo combina los funcionamientos del momento junto con los del gradiente adaptativo del algoritmo RMSProp. Es el más utilizado en los últimos años.
+\end{itemize}
+
+\paragraph{Redes de convolución}
+
+As its name suggests, a CNN uses convolutions, i.e. mathematical operations that filter regions of a structure (generally in the form of a matrix or a cube) for pattern identification and/or structure transformations.
+A CNN has also an arrangement of layers, but they work differently. Firstly, this architecture is separated into two groups of layers or phases that can be called pattern identification phase and prediction phase. The pattern recognition phase works with layers dealing with pattern recognitions and input sub-sampling while the prediction phase works with an MLP using the output of the pattern recognition phase as input. Secondly, the inputs are arranged as -dimensional matrices as opposed to the MLP that are always presented as vectors; this fact allows us working more easily with properties and patterns arranged in an n-dimensional space like images (2-dimension matrix) or videos (3-dimension matrix). The layer types in that phase are as follows:
+1. Convolutional Layer. Given a -dimensional input, a convolution or filter is an n-dimensional pattern (composed by neurons) that travels along the -dimensional space to generate a new -dimensional space. A convolutional layer is a layer composed by m filter and generate a set of m new -dimensional spaces which will be the new input for another layer.
+2. Local Response Normalization (LRN) layer [26]. This layer is intended to enhance the difference between the existent values in a space. They are commonly placed after a convolution layer to increase the contrast of the values in the space. In this paper, every convolution layer is followed by an LRN layer.
+3. Pooling layer. Pooling is grouping together elements. A pooling layer is intended to subsample a space to ease its management. Given an -dimensional space, a pooling filter of dimension  travels the space in steps of size  generating one value per step. When placed after convolutions, it is expected to subsample the space without losing the recognized pattern while reducing computation costs and avoiding overfitting. The most common operation used in pooling is the max operation.
+
+Escribir aquí cómo es el proceso de inferencia
+
+Escribir aquí cómo es el proceso de aprendizaje
 
 \subsection{Solucionando los problemas de entrenamiento}
 
