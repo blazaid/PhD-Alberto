@@ -1,5 +1,6 @@
 import argparse
 import os
+from PIL import Image
 
 import pandas as pd
 
@@ -29,6 +30,10 @@ if __name__ == '__main__':
         os.makedirs(output_dir)
 
     df = pd.read_csv(os.path.join(input_dir, DATASET_NAME))
+    df['pointclouds_path'] = df['pointclouds_path'].str.replace('/media/blazaid/Saca/Phd/data',
+                                                                '/home/blazaid/Projects/data-phd')
+    df['snapshots_path'] = df['snapshots_path'].str.replace('/media/blazaid/Saca/Phd/data',
+                                                            '/home/blazaid/Projects/data-phd')
     # 1. Generate the the deepmap images for the point clouds
     deepmaps_dir = os.path.join(output_dir, 'deepmaps')
     if not os.path.exists(deepmaps_dir):
@@ -37,7 +42,8 @@ if __name__ == '__main__':
     for pointcloud_path in df['pointclouds_path']:
         pc = PointCloud.load(pointcloud_path)
         deepmap = pc.to_deepmap(h_range=(0, 360), v_range=(-15, 15), h_res=1, v_res=1, max_dist=25, normalize=True)
-        break
+        img = Image.fromarray(deepmap, 'L')
+        img.show()
         # Creo el deepmap
         # Lo salvo en la salida esperada
     # 1. Extract full sequences.

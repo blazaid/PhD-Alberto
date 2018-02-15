@@ -87,15 +87,55 @@ Algunos autores hacen uso de técnicas pertenecientes a ambos paradigmas en form
 
 Esta tesis se dedica al modelado de comportamiento entrenando a partir de datos reales de conducción, por lo que el discurso se centrará únicamente en el esquema de aprendizaje supervisado. En él, los algoritmos de entrenamiento dependen del modelo a usar (no es lo mismo un algoritmo de entrenamiento para una red neuronal recurrente que para un perceptrón multicapa), y suelen ser usados principalmente para la solución a problemas de \textbf{clasificación} (i.e. determinar si un elemento dada sus características pertenece o no a determinado conjunto) y de \textbf{regresión}, esto es, ajustar las salidas de un modelo para ajustarse lo máximo posible al valor real del sistema modelado.
 
+\subsection{Conjuntos de entrenamiento, test y validación}
+
+
+
+\subsection{Problemas del aprendizaje en la \acrlong{ci}}
+
+El entrenamiento de modelos en la \gls{ci} adolece de dos principales problemas que, además, no tienen una solución general (\textit{non free-lunch theorem}~\cite{wolpert1997no}) ya que dependen tanto de la estructura de los datos sobre los que vamos a trabar como de los hiperparámetros\sidenote{
+	En general, hablaremos de \textit{parámetros} cuando nos referimos a valores que son inherentes al modelo (e.g. en una \gls{ann}, los valores de los pesos) y de \textit{hiperparámetros} cuando nos referimos a aquellos parámetros que modifican los elementos que modifican los parámetros (e.g. en una \gls{ann}, el factor de aprendizaje).
+} del modelo. Estos son la sobreespecialización y la subespecialización\sidenote{
+	En la literatura también se habla de \textit{high variance} o \textit{over-fitting} y de \textit{high bias} o \textit{under-fitting} para referirse a la sobreespecialización y subespecialización respectivamente.
+}.
+
+El objetivo de un entrenamiento es conseguir modelos lo suficientemente buenos para que aprendan a generalizar sobre datos no conocidos, pero sin fallar demasiado. Cuando un modelo sufre de \textbf{sobreespecialización}, es porque aunque ha aprendido los ejemplos, falla a la hora de generalizar (podemos decir que ha aprendido los ejemplos \textit{de memoria}). El caso contrario, la \textbf{subespecialización}, pasa cuando el modelo no es lo suficientemente complejo como para aprender el problema y por lo tanto generaliza demasiado. Hablaremos de casos concretos y soluciones más adelante.
+
 \subsection{Deep learning}
 
-\section{El paradigma de los Agentes Inteligentes}
+La tónica general en la ciencia es que cada pocos años algún término se escape del mundo de la investigación y se convierta en la palabra de moda que definirá los eslóganes de todas las empresas del ámbito en el que se mueven. Palabras con fuerza como Big Data, Cloud Computing, Web Services o SaaS que visten muy bien logos de corporaciones y frases de consultores vendehúmos, pero que lo más normal es que sean conceptos ya existentes como proceso de datos masivos, computación distribuida o ejecución remota.
 
-\subsection{Tipos de entorno}
+Al margen de esta pequeña crítica, sí es cierto que en ocasiones estas palabras captan sutilidades o información que las hace más adecuadas que los antigüos conceptos y que incluso pueden llegar a abrir en elfuturo nuevas ramas dentro del área al que pertenecen. Un ejemplo podrían ser los \textit{sistemas de recomendación}, un caso particular de \textit{sistemas de filtrado de información} cuyo nombre estuvo de moda durante unos años y que en la actualidad conserva su entidad como una subrama de la rama principal.
 
-\subsection{Arquitecturas en sistemas de agentes}
+El \textit{deep learning} es una de las palabras con la que últimamente se inunda la prensa, pero lo cierto es que desde la aparición del término, parece que los avances dentro de éste no tienen límites. En esta tesis se considera al \textit{deep learning} a la nueva generación de enfoques en la que confluyen varios factores que han hecho posible una mejora sustancial en el entrenamiento y la operación de modelos con técnicas que, por otro lado, ya existían previamente. Estos factores son los siguientes:
 
-\subsection{Sistemas multiagente}
+\begin{itemize}
+	\item \textbf{Disponibilidad de datos}. En la última década, la cantidad de datos que generamos como especie ha crecido en muchos órdenes de magnitud. El abaratamiento de los costes de producción de dispositivos y de sensores o la acumulación temporal de los datos historicos son sólo dos factores que nos permiten en la actualidad el acceso a una cantidad ingente de datos con la que trabajar, algo impensable en la década anterior.
+	\item \textbf{Capacidad computacional}. Aunque obvio, es un factor también crucial. Una mayor capacidad computacional es directamente proporcional a una mayor velocidad en el ciclo de experimentación de modelos (ver Figura~\ref{fig:applied-ci-cycle}). El verdadero impacto de esta década ha sido el del uso de las GPU de las tarjetas gráfiacs como plataforma donde distribuir el cómputo.
+	\item \textbf{Algoritmos más eficientes}. Nuevos elementos como las funciones de activación \gls{relu}, la representación de las redes como grafos computacionales para facilitar su distribución o innovaciones en los algoritmos de entrenamiento son algunas de las mejoras en este aspecto que redunda, como no, en la optimización de la capacidad computacional de las máquinas y por tanto sobre el ciclo de experimentación.
+\end{itemize}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.5\textwidth]{applied-ci-cycle}
+	\caption[Ciclo de aplicación de soluciones basadas en \acrlong{ci}]{Ciclo de aplicación de soluciones basadas en \acrlong{ci}. Los sistemas inteligentes se conciben, se implementan y se prueba. En la fase de experimentación se determina cómo de bien o de mal lo está haciendo y cuales son las decisiones a tomar para el nuevo ciclo. Cuandto más rápido se puede realizar este ciclo, más soluciones se pueden probar, por ello el impacto de la mayor capacidad computacional y la optimización de las ténicas de entrenamiento es tan importante.}
+	\label{fig:applied-ci-cycle}
+\end{figure}
+
+El sobrenombre \textit{deep} se refiere a profundidad. En el contexto de las redes (e.g. redes neuronales, redes de creencia, \ldots), donde se origina este término, se refiere a una red con más capas de lo habitual\sidenote{
+	De aquí surge el nombre de \textbf{shallow network} o red superficial, en contraposición a \textbf{deep network} o red profunda.
+} (normalmente más de dos o tres). Este tipo de capas, históricamente ha sido más difícil de entrenar, debido entre otras cosas a las técnicas de entrenamiento (donde los parámetros tendían a diluirse según se aumentaba el número de capas entre la entrada y la salida) o a la disponibilidad de conjuntos de datos, los cuales al no ser muy grandes, las redes grandes tendían a sobre especializarse. La Figura~\ref{fig:deep-learning-capabilities} introduce, con una ilustración un tanto informal, las capacidades del deep learning frente a las de los modelos entrenados antes de esta época.
+
+\begin{figure}
+	\includegraphics{deep-learning-capabilities}
+	\caption[Capacidad de los modelos en función de la cantidad de datos]{La enorme cantidad de datos junto con la capacidad computacional y la mejora de las ténicas de entrenamiento hacen posible que en la actualidad, con las técnicas asociadas al contexto del deep learning, los modelos entrenados sean más eficientes  inteligentes. Imagen adaptada de la charla \textit{How scale is enabling deep learning} de Andrew Y. Ng, accesible \url{https://youtu.be/LcfLo7YP8O4}.}
+	\label{fig:deep-learning-capabilities}
+\end{figure}
+
+Los factores antes mencionados han hecho posible la operación sobre redes más grandes y profundas con cantidades de ordenes de magnitud muy superiores. El resultado en la actualidad es que tenemos modelos que mejoran mucho los modelos anteriores, y no parece haber cota superior en su capacidad de aprendizaje\sidenote{
+	Dentro de un contexto de aplicación específica, creemos que aún estamos muy lejos de crear vida inteligente.
+}.
+
 
 \section{\acrlongpl{ann}}
 
@@ -130,44 +170,37 @@ Las \gls{ann} reciben ese nombre debido a que son sistemas formados por multitud
 Típicamente, estas redes se componen de neuronas conectadas, por lo que se puede pensar en ellas como un grafo ponderado donde los nodos se corresponden a las neuronas, las aristas a las conexiones entre entradas y salidas y los pesos de las aristas a los pesos de las conexiones de entrada. Existen diferentes topologías o arquitecturas dependiendo de qué forma toma el grafo que modela las neuronas y sus conexiones. Estos dos tipos son los siguientes:
 
 \begin{itemize}
-	\item Redes \textbf{feed-forward} (o prealimentadas). Estas redes son concebidas como un grafo acíclico, donde un conjunto de neuronas son consideradas neuronas donde se introduce la información y otras de donde se extrae. El proceso sigue un flujo de entrada hacia la salida sin ninguna retroalimentación. Es el conjunto de redes más utilizadas hoy en día.
-	\item Redes \textbf{recurrentes}. Éstas, a diferencia de las prealimentadas, tienen al menos un ciclo dentro de su representación. Históricamente este tipo de redes han sido más difíciles de entrenar debido a su complejidad interna, y por tanto han sido menos utilizadas. Sin embargo, durante la última década han aparecido nuevas técnicas que permiten su entrenamiento y han demostrado ser extremadamente útiles en multitud de tareas como la predicción de series temporales, text-to-speech o traducción entre otros.
+	\item Redes \textbf{feed-forward} (o prealimentadas). Sus representación como grafo no presenta ningún ciclo (por tanto ninguna retroalimentación entre neuronas, como se ilustra en la figura~\ref{fig:ff-vs-rnn}). Es la topología más usada en aplicaciones prácticas debido a su sencillez y su efectividad. En ellas el flujo de información sigue un camino desde un conjunto de neuronas denominadas \textit{entradas} hasta otro conjunto de neuronas denominado \textit{salidas}. No es requisito que las neuronas se agrupen en capas, aunque suele ser la estructura común. A las redes de más de dos/tres capas ocultas (i.e. las capas que se encuentran entre la capa de neuronas de entrada y la capa de neuronas de salida) se las suele denominar \textit{profundas} o \textit{deep}. Representantes clásicos de esta categoría pueden ser el \gls{mlp}~\cite{rumelhart1985learning}, los autoencoders~\cite{Hinton2006} o los \gls{som}~\cite{kohonen1998self}.
+	\item Redes \textbf{recurrentes}. Éstas, a diferencia de las prealimentadas, tienen al menos un ciclo dentro de su representación, de tal manera que el flujo de información de salida de una neurona puede llegar a afectar a su propio estado. Aunque estas topologías representan de una forma más fiel las bases biológicas de las \gls{ann}, históricamente han sido más complejas a la hora de operar y entrenar debido a sus relaciones entre nodos. Sin embargo, durante la última década han aparecido nuevas técnicas que facilitan su operación. Algunos casos particulares de este tipo de arquitectura son las Redes de Hopfield~\cite{hopfield1982neural} o las redes \gls{lstm}~\cite{hochreiter1997long}.
 \end{itemize}
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.72\textwidth]{multilayer-perceptron}
-	\label{fig:multilayer-perceptron}
-	\caption{}
+	\subfloat[]{\includegraphics[width=0.46\linewidth]{multilayer-perceptron}}\qquad
+	\subfloat[]{\includegraphics[width=0.46\linewidth]{multilayer-perceptron}}
+	\caption{Diferencias entre los grafos que representan una red neuronal de tipo (a) \textit{feed-forward} y una (b) recurrente. Las redes recurrentes presentan ciclos entre sus nodos que permiten la retroalimentación interna entre las neuronas. Suelen ser más útiles a la hora de modelar eventos en el tiempo, aunque su entrenamiento es más complejo.\TODO{CAMBIAR LA FIGURA DE LA RECURRENTE}}
+	\label{fig:ff-vs-rnn}
 \end{figure}
 
-Esta tesis se centra en redes pertenecientes al primer grupo. Concretamente, en dos topologías de redes denominadas \gls{mlp} y \gls{cnn}\sidenote{
-	Por supuesto existen muchas más topologías. Por ejemplo, los \glspl{som}, en los que todas las neuronas de entrada están conectadas a una capa de salida de neuronas típicamente dispuestas en una malla rectangular o hexagonal. Este tipo de redes se usan normalmente para la detección de grupos (i.e. \textit{clustering}). Otro ejemplo son los autoencoderes, redes similares a los \glspl{mlp} que también se entrenan de manera no supervisada para la identificación de características (i.e. \textit{dimensionality reduction}).
-}, con las que se cerrará la presente sección. Ambos tipos de redes han probado su efectividad en diferentes dominios, aunque las segundas están demostrando su efectividad con las nuevas ténicas surgidas a partir del \textit{deep learning}
+Esta tesis se centra en redes pertenecientes al primer grupo, concretamente en las topologías \gls{mlp} y \gls{cnn}, con las que se cerrará la presente sección. Ambos tipos de redes han probado su efectividad en diferentes dominios, aunque las segundas están demostrando su efectividad con las nuevas ténicas surgidas a partir del \textit{deep learning}
 
 
 
-
-
-
-
-
-
-\begin{itemize}
-	\item \textbf{Feed-Forward}. Sus grafos no contienen ninguń ciclo (figura XXX) |\TODO{Esa pedaaaaaso de figura. A lo mejor hacer una que incluya tres ejemplos.}. Es la topología más usada en aplicaciones prácticas debido a su sencillez y su efectividad. En ellas el flujo de información sigue un camino desde las entradas hasta las salidas, sin ninguna retroalimentación. No es requisito que las neuronas se agrupen en capas, aunque suele ser la estructura común. A las redes de más de dos capas ocultas (i.e. las capas que se encuentran entre la capa de neuronas de entrada y la capa de neuronas de salida) se las denomina \enquote{profundas} o \textit{deep}. Algunos tipos pertenecientes a esta categoría pueden ser el Perceptrón [Rosemblat, 1957], el Perceptrón multicapa [Rumelhart et al., 1986], el algoritmo LVQ y su sucesor los Mapas Auto-Organizados [Kohonen, 1998].
-	\item \textbf{Recurrentes}. Sus grafos contienen uno o más ciclos, de tal manera que el flujo de información de salida de una neurona puede llegar a afectar a su propio estado. Estas topologías representan de una forma más fiel las bases biológicas de las \gls{ann}, pero son más complejas a la hora de operar y entrenar. Algunos casos particulares de este tipo de arquitectura son las Redes de Hopfield [Hopfield, 1982] o las memorias LSTM (del inglés Long-Short Term Memory) [Hochreiter \& Schmidhuber, 1997].
-\end{itemize}
 
 
 
 \paragraph{Perceptrones multicapa}
 
-
+In a MLP, the neurons are arranged in layers so that all the neuron outputs on one layer are the inputs for all the neurons in the next layer. The first and last layers are called input layer and output layer respectively. The inner layers are called hidden layers. As shown in Figure 2 (b) (a two-layered MLP), in this architecture the inputs are usually presented as vectors. As they have been used extensively in several areas with great success, we use them here to make a comparison of the improvement of the use of CNNs over MLPs.
 
 
 \paragraph{Redes de convolución}
 
-
+As its name suggests, a CNN uses convolutions, i.e. mathematical operations that filter regions of a structure (generally in the form of a matrix or a cube) for pattern identification and/or structure transformations.
+A CNN has also an arrangement of layers, but they work differently. Firstly, this architecture is separated into two groups of layers or phases that can be called pattern identification phase and prediction phase. The pattern recognition phase works with layers dealing with pattern recognitions and input sub-sampling while the prediction phase works with an MLP using the output of the pattern recognition phase as input. Secondly, the inputs are arranged as -dimensional matrices as opposed to the MLP that are always presented as vectors; this fact allows us working more easily with properties and patterns arranged in an n-dimensional space like images (2-dimension matrix) or videos (3-dimension matrix). The layer types in that phase are as follows:
+1. Convolutional Layer. Given a -dimensional input, a convolution or filter is an n-dimensional pattern (composed by neurons) that travels along the -dimensional space to generate a new -dimensional space. A convolutional layer is a layer composed by m filter and generate a set of m new -dimensional spaces which will be the new input for another layer.
+2. Local Response Normalization (LRN) layer [26]. This layer is intended to enhance the difference between the existent values in a space. They are commonly placed after a convolution layer to increase the contrast of the values in the space. In this paper, every convolution layer is followed by an LRN layer.
+3. Pooling layer. Pooling is grouping together elements. A pooling layer is intended to subsample a space to ease its management. Given an -dimensional space, a pooling filter of dimension  travels the space in steps of size  generating one value per step. When placed after convolutions, it is expected to subsample the space without losing the recognized pattern while reducing computation costs and avoiding overfitting. The most common operation used in pooling is the max operation.
 
 \subsection{Funciones de activación}
 
@@ -211,8 +244,7 @@ Las funciones de activación clásicas usadas en redes neuronales han sido la fu
 	\label{eq:tanh}
 \end{equation}
 
-
-\begin{figure}[t]
+\begin{figure}
 	\centering
 	\subfloat[]{\includegraphics[width=0.46\linewidth]{sigmoid-function}}\qquad
 	\subfloat[]{\includegraphics[width=0.46\linewidth]{tanh-function}}
@@ -226,7 +258,7 @@ Aún así, en algunas situaciones sí podría tener sentido el uso de funciones 
 
 Sin embargo, el principal problema de estas funciones es cuando los valores netos de las entradas son muy grandes. En ese caso, las funciones se acercan a los extremos, aproximándose sus gradientes a 0, y por tanto frenando el aprendizaje. Este error es denominado frecuentemente como \textit{vanishing gradient} en la literatura. Es una de las razones por las que en la fase de inicialización de una red neuronal se tendía a valores en torno al 0 en los pesos. Unos valores altos hacían que las entradas netas fuesen muy grandes ralentizando el aprendizaje.
 
-\begin{figure}[t]
+\begin{figure}
 	\centering
 	\subfloat[]{\includegraphics[width=0.46\linewidth]{relu-function}}\qquad
 	\subfloat[]{\includegraphics[width=0.46\linewidth]{leaky-relu-function}}
@@ -265,83 +297,39 @@ Este tipo de neurona tiene una serie de características que merece la pena come
 
 Por último, la función de activación \textit{Leaky} \gls{relu} (eq.~\ref{eq:leaky-relu}) es una evolución de la \gls{relu} para el uso en problemas donde es ventajoso que una neurona no llegue a tener nunca un gradiente de 0. Van acompañadas de un parámetro $\epsilon \approx 0$ que determina la pendiente para todos aquellos valores menores de 0. Un ejemplo de esta neurona se ilustra en la figura~\ref{fig:relu-and-leaky-relu}. Su uso no está muy extendido, pero existen casos en los que su uso está justificado.
 
+\subsection{¿Cómo aprenden las redes neuronales?}
 
 
 
+\subsection{Solucionando los problemas de entrenamiento}
 
+Anteriormente hablábamos de los problemas a los que se enfrentan los procesos de entrenamiento en la \gls{ci}. En líneas generales, los problemas de subespecialización pueden darse por tres razones diferentes:
 
+\begin{itemize}
+	\item La red no es lo suficientemente grande. Puede ocurrir que el conjunto de datos requiera de más propiedades o parámetros. Las solución es incrementar el número de capas o de neuronas por capa a fin de que el modelo acabe aprendiendo al menos los datos del conjunto de entrenamiento.
+	\item El modelo no ha sido entrenado lo suficiente. Este caso es más raro, pero puede ser que el modelo sea lo suficientemente complejo para requerir más ciclos de entrenamiento. También puede ser que algunos hiperparámetros como el factor de entrernamiento o las funciones de activación están predisponiendo al modelo a aprender más lentamente.
+	\item La topología del modelo no se adecúaa los datos. Puede ocurrir que el modelo que estamos tratando de aprender aprenda mucho mejor en una topologías que en otras. Por ejempo, para aprender a clasificar imágenes, las \glspl{cnn} funcionan mejor, entre otra serie de razones, porque mantiene una coherencia espacial entre los píxeles de la imagen desde el principio, cosas que con un \gls{mlp} no ocurre. Quizá representar los parámetros de entrada de una forma diferente o probar otra topología puede hacer que aprenda el problema de forma diferente.
+\end{itemize}
 
+El caso de la sobreespecialización es quizá algo más complejo. Cuando un modelo está sobreentrenado falla al generalizar, aunque los datos del conjunto de entrenamiento estén perfectamente aprendidos. Suele ser causado por dos razones principales:
 
+\begin{itemize}
+	\item No hay suficientes datos, por lo que el modelo no generaliza porque no sea capaz, sino porque todavía le queda por aprender. La solución suele ser aumentar la cantidad de datos que existen en el conjunto de entrenamiento.
+	\item La red está sobredimensionada. Este suele ser el caso más común, y es que la red tiene tantos parámetros que al final a aprendido a predecir uno a uno casi todos los ejemplos del conjunto de entrenamiento. Existen dos posibles soluciones no excluyentes, la simplificación de la red y la aplicación de técnicas de regularización.
+\end{itemize}
 
+En el caso concreto de la regularización, el objetivo de esta técnica es tratar de penalizar o limitar el entrenamiento a través de la inhibición de los parámetros. Existen diferntes ténicas para la regularización de parámetros, como las $l_1$ y $l_2$ (explicadas en detalle en~\cite{ng2004feature}). En esta tésis se ha escogido una técnica de regularización denominada dropout~\cite{srivastava2014dropout}.
 
+En ésta, la idea es en cada epoch de entrenamiento del modelo, se desactivan una serie de neuronas de manera aleatoria. estas neuronas no participan ni en la predicción ni en el posterior reajuste de pesos. Es muy fácil de implementar, computacionalmente muy eficiente y mejora sustancialmente el proceso de aprendizaje en redes que sufren de una alta especialización. La Figura~\ref{fig:dropout-example} describe un ejemlpo de funcionamiento en tres epochs de un perceptrón multicapa con una tasa de dropout del $0.5$.
 
-
-
-
-
-
-
-
-
-
-\TODO{Más cosas a añadir del paper de modelling behabior of lane change execution}
-
-
-
-
-One of the most difficult tasks on these models is their hyper-parameter tuning, and it is difficult because ANNs involve a lot of them. Apart from the family, and the arrangement of their neurons that fortunately, in the most of cases, comes imposed by the family, there are number of neurons, number of layers, training parameters (depending on the learning algorithm), and they follow the non-free lunch theorem [24]. The problems derived from that are two: the high bias or under-fitting and the high variance or over fitting.
-
-To avoid under-fitting, the classical technique is to increase the size of the network, both deepness and/or number of neurons. Over-fitting, on the other hand, is a little bit harder because it can be motivated for the lack of data, the number of layers, the number of neurons, etc. In these cases, the solution may be the augmentation of training set, either naturally or artificially, and/or regularization techniques. We will talk later about the data augmentation techniques used in this work.
-
-The regularization technique used in this experiment is the one called Dropout [25]. It’s a simple technique where in each training epoch some random neurons are, indeed, dropped. This technique slows down the convergence process a bit, also avoiding the neurons to rely only in few of their inputs, thus reducing the over-fitting. Figure 3 shows an example of this techniques through three different epochs.
-
-\TODO{Quizá esto quede bien al lado como ejemplo de dropout.}
-
-\begin{figure*}
+\begin{figure}[t]
 	\centering
-	\subfloat[]{\includegraphics[width=0.3\textwidth]{dropout-example-a}}\qquad
-	\subfloat[]{\includegraphics[width=0.3\textwidth]{dropout-example-b}}\qquad
-	\subfloat[]{\includegraphics[width=0.3\textwidth]{dropout-example-c}}
-	\caption{Three training epochs on a multilayer perceptron with a 0.5 dropout rate (i.e. 50\% probability for a neuron to be disabled) in its hidden layer. The grey neurons are the ones disabled each epoch.}
+	\subfloat[]{\includegraphics[width=0.28\textwidth]{dropout-example-a}}\qquad
+	\subfloat[]{\includegraphics[width=0.28\textwidth]{dropout-example-b}}\qquad
+	\subfloat[]{\includegraphics[width=0.28\textwidth]{dropout-example-c}}
+	\caption{Tres epochs del proceso de entrenamiento de un perceptrón multicapa donde las neuronas de la capa oculta tienen una tasa de dropout del 0.5 (un 50\% de probabilidad de ser desactivada durante ese epoch). Las neuronas grises son las elegidas en dicho epoch para ser eliminadas, y por tanto no afectarán ni al resultado de salida ni al reajuste de los pesos de sus conexiones entrantes.}
 	\label{fig:dropout-example}
-\end{figure*}
-
-Multilayer Perceptrons
-In a MLP, the neurons are arranged in layers so that all the neuron outputs on one layer are the inputs for all the neurons in the next layer. The first and last layers are called input layer and output layer respectively. The inner layers are called hidden layers. As shown in Figure 2 (b) (a two-layered MLP), in this architecture the inputs are usually presented as vectors. As they have been used extensively in several areas with great success, we use them here to make a comparison of the improvement of the use of CNNs over MLPs.
-
-onvolutional Neural Networks
-As its name suggests, a CNN uses convolutions, i.e. mathematical operations that filter regions of a structure (generally in the form of a matrix or a cube) for pattern identification and/or structure transformations.
-A CNN has also an arrangement of layers, but they work differently. Firstly, this architecture is separated into two groups of layers or phases that can be called pattern identification phase and prediction phase. The pattern recognition phase works with layers dealing with pattern recognitions and input sub-sampling while the prediction phase works with an MLP using the output of the pattern recognition phase as input. Secondly, the inputs are arranged as -dimensional matrices as opposed to the MLP that are always presented as vectors; this fact allows us working more easily with properties and patterns arranged in an n-dimensional space like images (2-dimension matrix) or videos (3-dimension matrix). The layer types in that phase are as follows:
-1. Convolutional Layer. Given a -dimensional input, a convolution or filter is an n-dimensional pattern (composed by neurons) that travels along the -dimensional space to generate a new -dimensional space. A convolutional layer is a layer composed by m filter and generate a set of m new -dimensional spaces which will be the new input for another layer.
-2. Local Response Normalization (LRN) layer [26]. This layer is intended to enhance the difference between the existent values in a space. They are commonly placed after a convolution layer to increase the contrast of the values in the space. In this paper, every convolution layer is followed by an LRN layer.
-3. Pooling layer. Pooling is grouping together elements. A pooling layer is intended to subsample a space to ease its management. Given an -dimensional space, a pooling filter of dimension  travels the space in steps of size  generating one value per step. When placed after convolutions, it is expected to subsample the space without losing the recognized pattern while reducing computation costs and avoiding overfitting. The most common operation used in pooling is the max operation.
-
-
-\TODO{Desarrollar un poquito el tema de los grafos computacionales indicando que si bien no se tratan de una técnica dentro de la inteligencia computacional, sí que se usan para representar operaciones.}
-
-\subsection{Grafos computacionales}
-
-En la actualidad el concepto de grafo computacional se relaciona directamente con las redes neuronales, y por ello se introduce el concepto en este apartado. Sin embargo, no se trata de un concepto exclusivo de esta técnica. De hecho, ni siquiera es un concepto perteneciente al área de la inteligencia computacional, sino que es simplemente una forma de representar operaciones sobre datos.
-
-Formalmente, un \textbf{grafo computacional} es un grafo dirigido donde los vértices representan operaciones sobre datos mientras que las aristas representan el flujo de dichos datos. La figura XXX ilustra un ejemplo de un grafo computacional.
-
-Una ventaja al representar un modelo como grafo computacional es que ayuda a abstraerse de la formas de las entradas y las salidas, facilitando el trabajo de operaciones en batch. Otra ventaja, todavía mayor, es que, al organizar de entrada a salida (en la figura XXX de izquierda a derecha) las operaciones que se necesitan para obtener una salida a partir de una entrada, en los casos donde el objetivo es optimizar la salida permiten fácilmente representar el gradiente al organizarlo del modo contrario (es decir, de las salidas a la entrada o, en el caso de la figura XXX de derecha a izquierda).
-
-\TODO{Poner aquí un ejemplo de grafo computacional, por ejemplo una recta o algo así. Algo que tenga al menos dos pasos y explicar cómo se calcula la derivada y por qué esto viene genial. Luego, en el seiguiente capítulo se puede explicar el backpropagation con esto (ver http://colah.github.io/posts/2015-08-Backprop/)}
-
-\subsection{Aprendizaje en \acrlongpl{ann}}
-
-\TODO{Falta un \textbf{huevazo}. Por lo menos hay que desarrollar las arquitecturas de MLP y CNN (que son las que uso), explicar el descenson del gradiente y ADAM (y cómo se llega a el explicando los conceptos de momento y su puta madre), explicar también cuales son los problemas de High bias y High variance o overfitting y underfitting y ilustracioones bonitas del to. También hay que explicar qué es un grafo computacional, aunque quizá esto mejor después de la lógica difusa y antes de agentes inteligentes. También hay que hablar de qué es el aprendizaje profundo, deep learning vs swallow learning.}
-
-\subsection{¿Qué es el aprendizaje profundo?}
-
-
-
-
-
-
-
-
+\end{figure}
 
 \section{\gls{fl}}
 
@@ -486,6 +474,15 @@ El consecuente de un \gls{fis} de tipo Mandamni siempre es un conjunto difuso. P
 
 \section{Grafos computacionales}
 
+\TODO{Desarrollar un poquito el tema de los grafos computacionales indicando que si bien no se tratan de una técnica dentro de la inteligencia computacional, sí que se usan para representar operaciones.}
+
+En la actualidad el concepto de grafo computacional se relaciona directamente con las redes neuronales, y por ello se introduce el concepto en este apartado. Sin embargo, no se trata de un concepto exclusivo de esta técnica. De hecho, ni siquiera es un concepto perteneciente al área de la inteligencia computacional, sino que es simplemente una forma de representar operaciones sobre datos.
+
+Formalmente, un \textbf{grafo computacional} es un grafo dirigido donde los vértices representan operaciones sobre datos mientras que las aristas representan el flujo de dichos datos. La figura XXX ilustra un ejemplo de un grafo computacional.
+
+Una ventaja al representar un modelo como grafo computacional es que ayuda a abstraerse de la formas de las entradas y las salidas, facilitando el trabajo de operaciones en batch. Otra ventaja, todavía mayor, es que, al organizar de entrada a salida (en la figura XXX de izquierda a derecha) las operaciones que se necesitan para obtener una salida a partir de una entrada, en los casos donde el objetivo es optimizar la salida permiten fácilmente representar el gradiente al organizarlo del modo contrario (es decir, de las salidas a la entrada o, en el caso de la figura XXX de derecha a izquierda).
+
+\TODO{Poner aquí un ejemplo de grafo computacional, por ejemplo una recta o algo así. Algo que tenga al menos dos pasos y explicar cómo se calcula la derivada y por qué esto viene genial. Luego, en el seiguiente capítulo se puede explicar el backpropagation con esto (ver http://colah.github.io/posts/2015-08-Backprop/)}
 
 
 
@@ -506,12 +503,13 @@ El consecuente de un \gls{fis} de tipo Mandamni siempre es un conjunto difuso. P
 
 
 
-\section{Agentes inteligentes}
+
+\section{El paradigma de los Agentes Inteligentes}
 \label{ch:ci:s:agent-concept}
 
-Si echamos un poco la vista atrás, en la figura~\ref{fig:different-povs-ai} se mostraban los cuatro objetivos perseguidos por la \gls{ai}. En uno de ellos en particular se la entiende como el estudio del conseguir que las entidades (e.g. sistemas, software, \ldots) actúen de la manera más inteligente posible. A dichas entidades se las conoce como \textit{agentes}, concretamente en este contexto como \textit{agentes inteligentes}\sidenote{En realidad los autores prefieren denominarlo \textit{agente racional}, dado que captura la esencia de lo que es un comportamiento inteligente. Sin embargo, según esta definición, hasta un elemento tan rudimentario como un termostato puede ser considerado como elemento inteligente, ya que realiza siempre la mejor acción para cumplir sus objetivos, por simples que puedan parecer. Dónde está el límite entre qué es y que no es un agente inteligente cae dentro de los dominios de la filosofía.}. Sin embargo, si es difícil encontrar un consenso en la definición de agente más lo es a la hora de definir cuándo la conducta de éstos es inteligente.
+En la figura~\ref{fig:different-povs-ai} se mostraban los cuatro objetivos perseguidos por la \gls{ai}. En uno de ellos en particular se la entiende como el estudio del conseguir que entidades (e.g. sistemas, software, \ldots) actúen de la manera más inteligente posible. El concepto de \textbf{agente} pertenece a todo el área de la computación, y no únicamente a la \gls{ai}.
 
-Lo que sí existe es una serie de características comunes que se repiten a lo largo de la literatura (figura~\ref{fig:agent-properties}):
+Es difícil encontrar un consenso en la definición de agente, y más todavía cuando entra en juego el adjetivo \textit{inteligente}. Sin embargo, sí existen una serie de características que coínciden dentro de la literatura que exponemos a continuación (ver Figura~\ref{fig:agent-properties}):
 
 \begin{itemize}
 	\item Operan siempre en un \textbf{entorno}, ya sea éste físico (e.g. una red de carreteras para un vehículo autónomo) o virtual (e.g. un cliente de correo electrónico para un clasificador de spam).
@@ -521,17 +519,21 @@ Lo que sí existe es una serie de características comunes que se repiten a lo l
 	\item Pueden ser \textbf{sociales}, es decir, tienen la capacidad de comunicarse con otras entidades (e.g. otros agentes) para llevar a cabo sus objetivos.
 \end{itemize}
 
-Por tanto nosotros usaremos la siguiente definición: Un agente es una entidad física o virtual que realiza una acción\sidenote{En \cite{russell2003artificial} se define como \textit{\enquote{\ldots just something that acts}} alegando que la palabra \textit{agent} proviene del latín \textit{agere}. Para clarificar esto, \textit{agere} es la forma verbal para \textit{hacer}, pero imprime un significado de movimiento/actividad diferente que no tiene mucho que ver con \textit{hacer} como forma verbal para \textit{crear} o \textit{dar forma} (de lo que se ocupa el verbo \textit{facere}). Por ello, el verbo \textit{actuar} es un verbo que se relaciona con \textit{agere} y de ahí la definición.} de manera total o parcialmente autónoma dada una secuencia de percepciones del entorno en el que se ubica.
+Nosotros hablaremos de estas entidades desde el punto de vista de la \gls{ai}, y las denominaremos indistintamente \textit{agentes}, \textit{agentes inteligentes} o \textit{agentes racionales}\sidenote{
+	El término preferido en esta tésis es precisamente este último, \textbf{agentes racionales}, dado que captura la esencia de lo que es un comportamiento inteligente. El problema de este punto de vista es que, como bromean en~\cite{russell2003artificial}, hasta un elemento tan rudimentario como un termostato puede ser considerado un elemento inteligente, ya que realiza siempre la mejor acción para cumplir sus objetivos por muy simples que puedan parecer. Pero, ¿qué hace a un agente inteligente? Según algunos autores, el hecho de que posea unos objetivos y autonomía suficiente para cumplirlos ya denota inteligencia (e.g. en~\cite{russell2003artificial}). Según otros, es necesario que el comportamiento sea flexible, esto es, que sea reactivo (reacciona ante el entorno que percibe), proactivo (iniciativa para tratar de cumplir sus objetivos) y social (capaz de interactuar con otros agentes para cumplir sus objetivos) (e.g.~\cite{Wooldridge1995}). Y otros directamente exigen, además, un comportamiento racional a la hora de cumplir los objetivos para calificarlo de inteligente (e.g.~\cite{shoham1993agent}). Como dijimos anteriormente, dónde está el límite entre qué es y que no es un inteligente cae dentro de los dominios de la filosofía.
+}. Por tanto usaremos la siguiente definición:
 
-\begin{figure}
-	\missingfigure[figheight=3.5cm]{Modelo genérico de agente con sus características típicas}
-	\caption[Esquema de agente y sus propiedades]{Esquema de un agente y sus propiedades. Aunque no existe una definición comúnmente aceptada de agente, sí que existe una serie de propiedades que los que los identifican. Es autónomo, opera realiza acciones sobre un entorno dependiendo de las percepciones que le llegan de éste y tiene la capacidad de comunicarse con el resto de elementos, incluídos otros agentes.}
+\blockquote{Un agente es una entidad física o virtual que realiza una acción\sidenote{
+		En \cite{russell2003artificial} se define como \textit{\enquote{\ldots just something that acts}} alegando que la palabra \textit{agent} proviene del latín \textit{agere}. Para clarificar esto, \textit{agere} es la forma verbal para \textit{hacer}, pero imprime un significado de movimiento/actividad diferente que no tiene mucho que ver con \textit{hacer} como forma verbal para \textit{crear} o \textit{dar forma} (de lo que se ocupa el verbo \textit{facere}). Por ello, el verbo \textit{actuar} es un verbo que se relaciona con \textit{agere} y de ahí la definición.
+	} de manera total o parcialmente autónoma dada una secuencia de percepciones del entorno en el que se ubica.}
+
+\begin{figure}[t]
+	\includegraphics{agent-properties}
+	\caption[Esquema de agente y sus propiedades]{Esquema de un agente y sus propiedades. Aunque no existe una definición comúnmente aceptada de agente, sí que existe una serie de propiedades que los que los identifican. Es autónomo, opera realiza acciones sobre un entorno dependiendo de las percepciones que le llegan de éste y tiene la capacidad de comunicarse con el resto de elementos, incluídos otros agentes.\TODO{CAMBIAR LA IMAGEN Y VER CÓMO SE PUEDE INCLUIR EL CONCEPTO DE COLABORACIÓN}}
 	\label{fig:agent-properties}
 \end{figure}
 
-Pero, ¿qué hace a un agente inteligente? Según algunos autores, el hecho de que posea unos objetivos y autonomía suficiente para cumplirlos ya denota inteligencia (\TODO{encontrar el trabajo y citar}). Según otros, es necesario que el comportamiento sea flexible, esto es, que sea reactivo (reacciona ante el entorno que percibe), proactivo (iniciativa para tratar de cumplir sus objetivos) y social (capaz de interactuar con otros agentes para cumplir sus objetivos) \cite{Wooldridge1995}. Y otros directamente exigen, además, un comportamiento racional a la hora de cumplir los objetivos para calificarlo de inteligente (\TODO{encontrar el trabajo y citar}).
-
-Por tanto, asumiremos la definición ofrecida por \cite{russell2003artificial} donde, se indica que un agente es considerado \textbf{agente inteligente} cuando éste realiza la mejor acción posible (según un criterio de medida). En este contexto, \enquote{la mejor acción posible} se refiere en términos de objetivos y comprensión del entorno, que puede ser o no correcta\sidenote{Que la comprensión del entorno no sea totales un factor clave que diferencia la racionalidad de la omnisciencia. La omnisciencia significa conocer el resultado de toda acción antes de realizarla y por tanto implica el conocimiento de absolutamente todos los detalles del entorno.La racionalidad existe dentro de un contexto de conocimiento limitado.}.
+Según ésta, un agente es considerado \textbf{agente inteligente} cuando éste realiza la mejor acción posible (según un criterio de medida). En este contexto, \textit{la mejor acción posible} se refiere en términos de objetivos a cumplir y comprensión del entorno en el que se desarrolla la acción, que puede ser o no correcta.
 
 Las nociones de agentes inteligentes y la de \gls{ci} van de la mano. Esto es debido a que su definición funciona a la perfección para las técnicas de la \gls{ci}, esto es, agentes autónomos que perciben el entorno (problema) y actuan de la mejor manera posible sobre él (resuelven) de acuerdo a su conocimento del medio y su estado interno (en base a algoritmos como \gls{ann}, \gls{fl}, \ldots). Por ello desde mediados de los años 1990 el concepto de agente inteligente ha ganado tanta popularidad\sidenote{Tanto es así que en algunos trabajos se define el objetivo de la \gls{ai} como la implementación de la función agente, esto es, la función que realiza la correspondiencia de una percepción a una acción, para un problema dado.}.
 
@@ -542,13 +544,17 @@ La tupla \textit{(entorno, agente)} es esencialmente una metáfora para referirs
 Afortunadamente es posible caracterizar los entornos de acuerdo a un conjunto de propiedades o dimensiones. Este conjunto es usado por la totalidad de la literatura a la hora de caracterizar entornos:
 
 \begin{itemize}
-	\item \textbf{Observable}. Un entorno es \textbf{totalmente observable} cuando el agente es capaz de captar toda la información relevante para la toma de una decisión y no necesita mantener ningún modelo interno del entorno, \textbf{parcialmente observable} cuando la información obtenida es incompleta o tiene ruido y \textbf{no observable} cuando el gente no posee sensores.
+	\item \textbf{Observable}. Un entorno es \textbf{totalmente observable} cuando el agente es capaz de captar toda la información relevante para la toma de una decisión y no necesita mantener ningún modelo interno del entorno, \textbf{parcialmente observable} cuando la información obtenida es incompleta o tiene ruido y \textbf{no observable} cuando el agente no posee sensores.
 	\item \textbf{Multiagente o. monoagente}. Un entorno es \textbf{multiagente} cuando requiere de múltiples agentes interactuando para llegar a una solución mientras que es \textbf{monoagente} cuando sólo requiere de uno para ello.
-	\item \textbf{Determinista o. no determinista}. Si el estado del entorno actual depende totalmente del estado anterior, se dice que el entorno es \textbf{determinista}. Si no es así, se considera \textbf{no determinista} o \textbf{estocástico}\sidenote{En general, los entornos del mundo real tienden a ser tan complejos que es imposible para un agente abarcar todos los aspectos medibles de éste. Por lo tanto, sea o no la naturaleza del entorno determinista, en general se suele suponer éste como no determinista.}.
+	\item \textbf{Determinista o. no determinista}. Si el estado del entorno actual depende totalmente del estado anterior, se dice que el entorno es \textbf{determinista}. Si no es así, se considera \textbf{no determinista} o \textbf{estocástico}\sidenote{
+		En general, los entornos del mundo real tienden a ser tan complejos que es imposible para un agente abarcar todos los aspectos medibles de éste. Por lo tanto, sea o no la naturaleza del entorno determinista, en general se suele suponer éste como no determinista.
+	}.
 	\item \textbf{Episódico o. secuencial}. Un entorno en el que las acciones se dividen atómicamente donde cada una de ellas conlleva un ciclo de (percepción, decisión, acción) y sin relación una con otra se denomina episódico. Si en lugar de ello la acción del agente puede afectar a las decisiones futuras se dice que el entorno es \textbf{no episódico} o \textbf{secuencial}.
 	\item \textbf{Estático o. dinámico}. Si durante la toma de decisioń en entorno no cambia, se dice que el entorno es \textbf{estático}. En caso contrario, se dice que es \textbf{dinámico}.
 	\item \textbf{Discreto o. continuo}. Esta dimensión en realidad se divide en cuatro, estado del entorno, tiempo en el entorno, percepciones y acciones. La dimensión es \textbf{discreta} cuando ésta se divide en una partición discretizada, y \textbf{continua} cuando no. Por ejemplo, en el Juego de la Vida de Conway, si se modela en un sistema multiagente, tanto el estado (i.e. tablero) como el tiempo (i.e. turnos) como las percepciones y acciones están discretizadas. Sin embargo, en un entorno de conducción automática se puede determinar que las cuatro dimensiones son continuas.
-	\item \textbf{Conocido o. desconocido}. Un entorno es \textbf{conocido} cuando es posible determinar cuál va a ser el resultado de una acción. Si por el contrario no es posible, entonces se dice que es \textbf{desconocido}.
+	\item \textbf{Conocido o. desconocido}. Un entorno es \textbf{conocido} cuando es posible determinar cuál va a ser el resultado de una acción. Si por el contrario no es posible, entonces se dice que es \textbf{desconocido}\sidenote{
+		Que el conocimiento del entorno no sea total es un factor clave que diferencia la racionalidad de la omnisciencia. La omnisciencia significa conocer el resultado de toda acción antes de realizarla y por tanto implica el conocimiento de absolutamente todos los detalles del entorno. La racionalidad existe dentro de un contexto de conocimiento limitado.
+	}.
 \end{itemize}
 
 \subsection{Arquitecturas}
@@ -614,7 +620,7 @@ Desde el punto de vista de la ingeniería de sistemas, y a pesar del aumento de 
 	\item Son inherentemente paralelizables y por tanto pueden llegar a ser más eficientes que sus homólogos centralizados. Este punto es quizá el más controvertido, ya que esta ganancia en eficiencia se puede perder rápidamente en función de la cantidad de comunicación existente entre agentes.
 	\item Debido al nivel de complejidad alcanzado en los sistemas existentes en la actualidad, la computación se distribuye a través de múltiples sistemas, normalmente heterogéneos. La tendencia además es a la alza. La definición de los \gls{mas} hace natural su implementación en este tipo de arquitecturas.
 \end{itemize}
-	
+
 Desde el punto de vista de la \gls{ai} podemos añadirles la ventaja de que permiten el estudio de conductas complejas de poblaciones a partir del comportamiento de sus elementos básicos, facilitando el estudio de modelosy de teorías sobre éstos.
 
 \newthought{La comunicación entre agentes}, se trata de una característica clave en un \gls{mas}, ya que para denominarse de esta manera dos o más agentes deben interactuar (i.e. comunicarse) entre si. Esta interacción puede implementarse de diversas maneras\sidenote{Las formas clásicas de comunicación son el de paso de mensajes, los sistemas de pizarra y la estigmergia. Para los dos primeros existen dos propuestas para estándar de lenguaje de comunicación, \gls{kqml} (\cite{Finin1994}) y \gls{acl} (\cite{Poslad2007}). La tercera forma de comunicación suele ser muy dependiente del problema y no se apoya en lenguajes estándares. Se trata de una forma de comunicación basada en la modificación del entorno, como la efectuada por las hormigas en la búsqueda de alimento, donde éstas dejan rastros de feromonas modificando el entorno para modificar el comportamiento del resto de la colonia.} y siempre toman una o las dos formas siguientes (figura~\ref{fig:communication-between-agents-in-mass}):

@@ -141,10 +141,6 @@ class PointCloud(object):
         for d, t, r in cartesian_coords[spherical_coords[:,0] <= max_dist,:]:
             # Translate the value
             t, r = np.math.degrees(t), np.math.degrees(r)
-            while t < 0:
-                t = 360 + t
-            while r < 0:
-                r = 360 + r
             t, r = int(t / h_res), int(r / v_res)
             t = max(0, min(dm.shape[1] - 1, t))
             r = max(0, min(dm.shape[0] - 1, r - v_r[0]))
