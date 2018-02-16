@@ -89,7 +89,41 @@ Esta tesis se dedica al modelado de comportamiento entrenando a partir de datos 
 
 \subsection{Epochs, conjuntos de entrenamiento, test y validación}
 
+La terminología general que se usa en la \gls{ci} no es demasiado compleja (con la salvedad de los nombres de técnicas y algoritmos). A continuación se resumen los más importantes:
 
+\begin{figure}
+	\missingfigure[figheight=4cm]{Ilustración con los distintos conjuntos de datos}
+	\caption[Los diferentes tipos de conjuntos de datos existentes]{Los diferentes tipos de conjuntos de datos existentes.}
+	\label{fig:different-kinds-of-datasets}
+\end{figure}
+
+\paragraph{Conjunto de datos o \textit{dataset}}
+
+Se refiere al conjunto total de ejemplos o datos del que disponemos. Se presupone que el dataset mantiene una distribución de datos similar al entorno real sobre el que pretendemos trabajar, lo cual puede no ser posible por multitud de factores.
+
+\paragraph{Conjunto de entrenamiento}
+
+El conjunto de entrenamiento (\textit{training set} en inglés) se refiere al conjunto de datos que se usará para entrenar al modelo. Se corresponde un un subconjunto del dataset, y es necesario que mantenga una distribución de datos lo más similar posible al dataset original para poder garantizar que el modelo entrenado represente a todos los sus datos.
+
+\paragraph{Epoch}
+
+Un epoch se suele referir a una iteración sobre todo el conjunto de ejemplos del conjunto de entrenamiento. Sin embargo, en la actualidad estos conjuntos pueden llegar a ocupar demasiado por lo que, dependiendo del contexto, un \textit{epoch} se puede referir a una iteración sobre una porción del conjunto total de entrenamiento.
+
+En otros contextos la definición de \textit{epoch} se mantiene y a cada porciones se las denomina \textit{batch} o \textit{mini-batch}.
+
+\paragraph{Conjunto de validación}
+
+Es el subconjunto de datos del dataset principal destinado a probar la efectividad del modelo. Al comienzo del entrenamiento, se reserva este conjunto y a lo largo del entrenamiento se valida contra él para comprobar la efectividad del modelo entrenado.
+
+Para una correcta validación es muy importante que, como el conjunto de entrenamiento, éste mantenga una distribución de ejemplos lo más similar posible al conjunto de datos original para evitar sesgos.
+
+\paragraph{Conjunto de test}
+
+Durante el proceso de entrenamiento, es una práctica habitual separar el conjunto de entrenamiento en dos partes, una más grande que se usará para el entrenamiento en el actual \textit{epoch} y otra más pequeña que se usará para validar el modelo \textbf{durante el proceso de entrenamiento}\sidenote{
+	Para evitar sesgos, un buen conjunto de test debe ir cambiando constantemente entre epochs. Debido a esto, el modelo acabará aprendiendo también el conjunto de test y por tanto sus resultados no nos sirven para validar la efectividad del modelo entrenado.
+}.
+
+Existen autores que prescinden de este conjunto y trabajan directamente con conjuntos de entrenamiento y validación.
 
 \subsection{Problemas del aprendizaje en la \acrlong{ci}}
 
@@ -122,7 +156,7 @@ El \textit{deep learning} es una de las palabras con la que últimamente se inun
 	\label{fig:applied-ci-cycle}
 \end{figure}
 
-El sobrenombre \textit{deep} se refiere a profundidad. En el contexto de las redes (e.g. redes neuronales, redes de creencia, \ldots), donde se origina este término, se refiere a una red con más capas de lo habitual\sidenote{
+El adjetivo \textit{deep}, en el contexto de las redes (e.g. redes neuronales, redes de creencia, \ldots), donde se origina este término, se refiere a una red con más capas de lo habitual\sidenote{
 	De aquí surge el nombre de \textbf{shallow network} o red superficial, en contraposición a \textbf{deep network} o red profunda.
 } (normalmente más de dos o tres). Este tipo de capas, históricamente ha sido más difícil de entrenar, debido entre otras cosas a las técnicas de entrenamiento (donde los parámetros tendían a diluirse según se aumentaba el número de capas entre la entrada y la salida) o a la disponibilidad de conjuntos de datos, los cuales al no ser muy grandes, las redes grandes tendían a sobre especializarse. La Figura~\ref{fig:deep-learning-capabilities} introduce, con una ilustración un tanto informal, las capacidades del deep learning frente a las de los modelos entrenados antes de esta época.
 
