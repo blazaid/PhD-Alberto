@@ -3,19 +3,6 @@ import numpy as np
 from sensor_msgs.msg import PointField
 
 
-def to_spherical_old(x, y, z):
-    x2, y2, z2 = pow(x, 2), pow(y, 2), pow(z, 2)
-
-    d = np.math.sqrt(x2 + y2 + z2)
-    if x >= 0:
-        theta = np.math.acos(y / np.math.sqrt(x2 + y2))
-    else:
-        theta = 2 * np.math.pi - np.math.acos(y / np.math.sqrt(y2 + z2))
-    phi = np.math.asin(z / d)
-
-    return d, theta, phi
-
-
 def to_spherical(ps):
     """ Transforms a set of points into its spherical representations.
 
@@ -33,10 +20,10 @@ def to_spherical(ps):
     # Distance to point
     result[:, 0] = np.sqrt(x2 + y2 + z2)
     # Theta
-    pos_x = ps[:,0] >= 0
-    neg_x = ps[:,0] < 0
+    pos_x = ps[:, 0] >= 0
+    neg_x = ps[:, 0] < 0
     result[pos_x, 1] = np.arccos(ps[pos_x, 1] / xy[pos_x])
-    result[neg_x, 1] = 2 * np.math.pi - np.arccos(ps[neg_x, 1] / np.sqrt(y2[neg_x] + z2[neg_x]))
+    result[neg_x, 1] = 2 * np.math.pi - np.arccos(ps[neg_x, 1] / xy[neg_x])
     # Rho: elevation angle from XY-plane up
     result[:, 2] = np.arctan2(ps[:, 2], xy)
     return result
@@ -138,20 +125,28 @@ class PointCloud(object):
         # Transform the points to their spherical coordinates
         cartesian_coords = self.points[:, :3]
         spherical_coords = to_spherical(cartesian_coords)
-        for d, t, r in cartesian_coords[spherical_coords[:,0] <= max_dist,:]:
+        # Convert radians to degrees
+        spherical_coords[:, 1:] = np.degrees(spherical_coords[:, 1:])
+        # Convert to the expected resolution
+        spherical_coords[:, 1] = (spherical_coords[:, 1] / h_res)
+        spherical_coords[:, 2] = (spherical_coords[:, 2] / v_res)
+        # Map all the values to each interval
+        spherical_coords[:, 1] -= h_r[0]
+        spherical_coords[:, 2] -= v_r[0]
+
+        for d, t, r in spherical_coords[spherical_coords[:, 0] <= max_dist, :]:
             # Translate the value
-            t, r = np.math.degrees(t), np.math.degrees(r)
-            t, r = int(t / h_res), int(r / v_res)
-            t = max(0, min(dm.shape[1] - 1, t))
-            r = max(0, min(dm.shape[0] - 1, r - v_r[0]))
-            dm[r][t] = max_dist - d
+            t = int(max(0, min(dm.shape[1] - 1, t)))
+            r = int(max(0, min(dm.shape[0] - 1, r)))
+            dm[r][t] = min(dm[r][t], d)
         # Si normalize esta activo, normalizamos todos los valores al intervalo [0, 1] ([min, max] distancia).
         if normalize:
             dm = dm / max_dist
             dm = 1 - dm
         # Ahora recolocamos el array para que sea algo mas realista la imagen
         dm = np.flipud(dm)
-        deep_map_l = dm[:, :len(dm[0]) // 2]
-        deep_map_r = dm[:, len(dm[0]) // 2:]
-        dm = np.concatenate((deep_map_r, deep_map_l), axis=1)
-        return dm
+        fr = dm[:, :len(dm[0]) // 4]
+        br = dm[:, len(dm[0]) // 4:len(dm[0]) // 2]
+        bl = dm[:, len(dm[0]) // 2:3*len(dm[0]) // 4]
+        fl = dm[:, 3*len(dm[0]) // 4:]
+        return np.concatenate((fl, fr, br, bl), axis=1)

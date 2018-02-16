@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     for pointcloud_path in df['pointclouds_path']:
         pc = PointCloud.load(pointcloud_path)
-        deepmap = pc.to_deepmap(h_range=(0, 360), v_range=(-15, 15), h_res=1, v_res=1, max_dist=25, normalize=True)
+        deepmap = pc.to_deepmap(h_range=(0, 360), v_range=(-15, 15), h_res=.1, v_res=.1, max_dist=25, normalize=True)
         img = Image.fromarray(deepmap, 'L')
         img.show()
         # Creo el deepmap
