@@ -8,6 +8,10 @@
 \newcommand{\@tufte@pkgname}{tufte-book}% the name of the package (defaults to tufte-handout)
 
 %%
+% Cambio de nombres
+%\renewcommand{\tableofcontentsname}{Tabla de contenidos}
+
+%%
 % The `xkeyval' package simplifies the user interface for the document class options
 \RequirePackage{xkeyval}
 
@@ -47,14 +51,6 @@
 
 \newboolean{@tufte@sfsidenotes}
 \DeclareOptionX[tufte]<common>{sfsidenotes}{\setboolean{@tufte@sfsidenotes}{true}}
-
-%%
-% `notoc' option -- suppresses the Tufte-style table of contents
-
-\newboolean{@tufte@toc}
-\setboolean{@tufte@toc}{true}
-\DeclareOptionX[tufte]<common>{notoc}{\setboolean{@tufte@toc}{false}}
-\DeclareOptionX[tufte]<common>{toc}{\setboolean{@tufte@toc}{true}}
 
 %%
 % `bidi' option -- loads the bidi package for bi-directional text
@@ -258,7 +254,7 @@
 }
 
 %%
-% The titlesec and titletoc packages are used to change the style of the
+% The titlesec and title packages are used to change the style of the
 % section headings.  These packages should be loaded before the hyperref
 % package.
 
@@ -1652,87 +1648,8 @@
 		related threads on Ask E.T. at http://www.edwardtufte.com/.}
 }
 
-
-% Formatting for main TOC (printed in front matter)
-% {section} [left] {above} {before w/label} {before w/o label} {filler + page} [after]
-\ifthenelse{\boolean{@tufte@toc}}{%
-	\titlecontents{part}% FIXME
-	[0em] % distance from left margin
-	{\vspace{1.5\baselineskip}\begin{fullwidth}\LARGE\rmfamily\itshape} % above (global formatting of entry)
-		{\contentslabel{2em}} % before w/label (label = ``II'')
-		{} % before w/o label
-		{\rmfamily\upshape\qquad\thecontentspage} % filler + page (leaders and page num)
-		[\end{fullwidth}] % after
-	\titlecontents{chapter}%
-	[0em] % distance from left margin
-	{\vspace{1.5\baselineskip}\begin{fullwidth}\LARGE\rmfamily\itshape} % above (global formatting of entry)
-		{\hspace*{0em}\contentslabel{2em}} % before w/label (label = ``2'')
-		{\hspace*{0em}} % before w/o label
-		{\rmfamily\upshape\qquad\thecontentspage} % filler + page (leaders and page num)
-		[\end{fullwidth}] % after
-	\titlecontents{section}% FIXME
-	[0em] % distance from left margin
-	{\vspace{0\baselineskip}\begin{fullwidth}\Large\rmfamily\itshape} % above (global formatting of entry)
-		{\hspace*{2em}\contentslabel{2em}} % before w/label (label = ``2.6'')
-		{\hspace*{2em}} % before w/o label
-		{\rmfamily\upshape\qquad\thecontentspage} % filler + page (leaders and page num)
-		[\end{fullwidth}] % after
-	\titlecontents{subsection}% FIXME
-	[0em] % distance from left margin
-	{\vspace{0\baselineskip}\begin{fullwidth}\large\rmfamily\itshape} % above (global formatting of entry)
-		{\hspace*{4em}\contentslabel{4em}} % before w/label (label = ``2.6.1'')
-		{\hspace*{4em}} % before w/o label
-		{\rmfamily\upshape\qquad\thecontentspage} % filler + page (leaders and page num)
-		[\end{fullwidth}] % after
-	\titlecontents{paragraph}% FIXME
-	[0em] % distance from left margin
-	{\vspace{0\baselineskip}\begin{fullwidth}\normalsize\rmfamily\itshape} % above (global formatting of entry)
-		{\hspace*{6em}\contentslabel{2em}} % before w/label (label = ``2.6.0.0.1'')
-		{\hspace*{6em}} % before w/o label
-		{\rmfamily\upshape\qquad\thecontentspage} % filler + page (leaders and page num)
-		[\end{fullwidth}] % after
-}{}
-
 %%
 % Format lists of figures/tables
-
-\renewcommand\listoffigures{%
-	\ifthenelse{\equal{\@tufte@class}{book}}%
-	{\chapter*{\listfigurename}}%
-	{\section*{\listfigurename}}%
-	%  \begin{fullwidth}%
-	\@starttoc{lof}%
-	%  \end{fullwidth}%
-}
-
-\renewcommand\listoftables{%
-	\ifthenelse{\equal{\@tufte@class}{book}}%
-	{\chapter*{\listtablename}}%
-	{\section*{\listtablename}}%
-	%  \begin{fullwidth}%
-	\@starttoc{lot}%
-	%  \end{fullwidth}%
-}
-
-\newcommand{\@tufte@lof@line}[2]{%
-	% #1 is the figure/table number and its caption text
-	% #2 is the page number on which the figure/table appears
-	\leftskip 0.0em
-	\rightskip 0em
-	\parfillskip 0em plus 1fil
-	\parindent 0.0em
-	\@afterindenttrue
-	\interlinepenalty\@M
-	\leavevmode
-	\@tempdima 2.0em
-	\advance\leftskip\@tempdima
-	\null\nobreak\hskip -\leftskip
-	{#1}\nobreak\qquad\nobreak#2%
-	\par%
-}
-
-\renewcommand*\l@figure{\@tufte@lof@line}
-\let\l@table\l@figure
 
 
 %%
@@ -2029,12 +1946,114 @@
   \@mainmatterfalse%
 }
 
-%\usepackage[acronym,shortcuts]{glossaries}
-\usepackage{glossaries}
+%%
+% Styles for glossaries
+\usepackage[acronym,shortcuts]{glossaries}
+
+\glsaddkey{longsp}
+{}% default value
+{\glsentrylongsp}% new command analogous to \glsentrylong
+{\Glsentrylongsp}% new command analogous to \Glsentrylong
+{\acrlongsp}% new command analogous to \acrlong
+{\Acrlongsp}% new command analogous to \Acrlong
+{\ACRlongsp}% new command analogous to \ACRlong
+
+% Add new key for plural long Spanish form:
+\glsaddkey
+{longplsp}% key
+{}% default value
+{\glsentrylongplsp}% new command analogous to \glsentrylongpl
+{\Glsentrylongplsp}% new command analogous to \Glsentrylongpl
+{\acrlongplsp}% new command analogous to \acrlongpl
+{\Acrlongplsp}% new command analogous to \Acrlongpl
+{\ACRlongplsp}% new command analogous to \ACRlongpl
+
+% Provide conditional to test if longsp/longplsp has been set
+\newcommand*{\glsifhaslongsp}[3]{%
+	\ifcsempty{glo@#1@longsp}{#3}{#2}%
+}
+\newcommand*{\glsifhaslongplsp}[3]{%
+	\ifcsempty{glo@#1@longplsp}{#3}{#2}%
+}
+
+% Define new acronym style:
+
+\newacronymstyle{spanish}
+{% base the display style on 'long-short'
+	\GlsUseAcrEntryDispStyle{long-short}%
+}%
+{% base the definitions on 'long-short'
+	\GlsUseAcrStyleDefs{long-short}%  
+	% Make some custom modifications for the first use display.
+	% Singular, no case change:
+	\renewcommand*{\genacrfullformat}[2]{%
+		\glsifhaslongsp{##1}%
+		{% has Spanish version:
+			\glsentrylongsp{##1}##2\space
+			(\firstacronymfont{\glsentryshort{##1}}, \glsentrylong{##1})%
+		}%
+		{%
+			\glsentrylong{##1}##2\space
+			(\firstacronymfont{\glsentryshort{##1}})%
+		}%
+	}%
+	% Singular, first letter upper case:
+	\renewcommand*{\Genacrfullformat}[2]{%
+		\glsifhaslongsp{##1}%
+		{% has Spanish version:
+			\Glsentrylongsp{##1}##2\space
+			(\firstacronymfont{\glsentryshort{##1}}, \glsentrylong{##1})%
+		}%
+		{%
+			\Glsentrylong{##1}##2\space
+			(\firstacronymfont{\glsentryshort{##1}})%
+		}%
+	}%
+	% Plural, no case change:
+	\renewcommand*{\genplacrfullformat}[2]{%
+		\glsifhaslongplsp{##1}%
+		{% has Spanish version:
+			\glsentrylongplsp{##1}##2\space
+			(\firstacronymfont{\glsentryshortpl{##1}}, \glsentrylongpl{##1})%
+		}%
+		{%
+			\glsentrylongpl{##1}##2\space
+			(\firstacronymfont{\glsentryshortpl{##1}})%
+		}%
+	}%
+	% Plural, first letter upper case:
+	\renewcommand*{\Genplacrfullformat}[2]{%
+		\glsifhaslongplsp{##1}%
+		{% has Spanish version:
+			\Glsentrylongplsp{##1}##2\space
+			(\firstacronymfont{\glsentryshortpl{##1}}, \glsentrylongpl{##1})%
+		}%
+		{%
+			\Glsentrylongpl{##1}##2\space
+			(\firstacronymfont{\glsentryshortpl{##1}})%
+		}%
+	}%
+}
+
+% switch to the new style:
+\setacronymstyle{spanish}
+
+% Define a new glossary style that checks for the existence of
+% the longsp field.
+\newglossarystyle{listsp}{%
+	\setglossarystyle{list}% base style on the list style
+	\renewcommand*{\glossentry}[2]{%
+		\item[\glsentryitem{##1}%
+		\glstarget{##1}{\glossentryname{##1}}]
+		\glossentrydesc{##1}%
+		\glsifhaslongsp{##1}{\space(\glsentrylongsp{##1})}{}%
+		\glspostdescription\space ##2}%
+}
+
 
 %%
 % Only show the chapter titles in the table of contents
-\setcounter{tocdepth}{0}
+%\setcounter{tocdepth}{0}
 
 % Better use utf8 so encoding problemas are less
 \usepackage[utf8]{inputenc}
@@ -2190,6 +2209,8 @@ version={3.0},
 
 \usepackage{multirow}
 \usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{amssymb}
 
 %%
 % End of file

@@ -1,69 +1,139 @@
+\makeglossaries
+
 % Glossary terms
+\newglossaryentry{aorta}{
+	name=AORTA,
+	description={(\textit{Approximately Orchestrated Routing and Transportation Analyzer}). Entorno de microsimulación multiagente de tráfico desarrollado en el departamento de Ciencias de la Computación de la Universidad de Austin (Texas). Url: \url{http://www.aorta-traffic.org/}.}
+}
+\newglossaryentry{car-following}{
+	name=car-following,
+	description={Modelo de control de conductor longitudinal que basa su comportamiento en el del vehículo del mismo carril que le precede.}
+}
 \newglossaryentry{dai}{
 	name={Inteligencia Artificial Distribuida},
 	description={Rama de la \gls{ai} donde se estudian las técnicas de aplicación, coordinación y distribución de conocimiento en un entorno multiagente.},
 }
-
 \newglossaryentry{esys}{
 	name={Sistema Experto},
 	description={Sistema que emula a un humano en la toma de decisiones de un dominio en el que es experto.},
 	plural={Sistemas Expertos}
 }
-
 \newglossaryentry{fcs}
 {
 	name=Sistema de Control Difuso,
 	description={Sistema para realizar tareas que basa su funcionamiento en inferencia difusa. En general es sinónimo de \gls{fis}, sólo que remarcando el objeto de su funcionamiento (tareas de control).}
 }
-
 \newglossaryentry{fis}
 {
 	name=Sistema de Inferencia Difusa,
 	description={Sistema que basa su funcionamiento en la aplicación de reglas lógicas con un motor de inferencia basado en la teoría de la lógica difusa.}
 }
-
 \newglossaryentry{fl}
 {
 	name=Lógica Difusa,
 	description={Extensión de la lógica tradicional donde los valores no son únicamente verdaderos ($1$) o falsos ($0$) sino que pueden tomar un grado de verdad o falsedad en todo el intervalo $[0, 1]$.}
 }
-
-\newglossaryentry{hc}
-{
+\newglossaryentry{gpl}{
+	name=GPL,
+	description={(\textit{General Public License}). Licencia de software que garantiza las libertades del software. Asegura que cualquier versión, extensión o software derivado de éste permanecerá siendo software libre. Su última versión es la 3.0. Url: \url{https://www.gnu.org/licenses/gpl-3.0.html}.}
+}
+\newglossaryentry{hc}{
 	name=Hard Computing,
 	description={Forma de denominar a la computación clasíca en contraposición al término \gls{sc}.}
 }
-
-\newglossaryentry{mas}
-{
+\newglossaryentry{mas}{
 	name=Sistema Multiagente,
 	description={Sistema que emplea al menos dos agentes que interactúan entre sí para solucionar el problema para el que está diseñado.}
 }
-
-\newglossaryentry{mlp}
-{
+\newglossaryentry{matsim}{
+	name=MatSIM,
+	description={(\textit{Multi-Agent Transport Simulation}). Software de microsimulación multiagente desarrollado en la ETH Zürich. Url: \url{http://matsim.org}.}
+}
+\newglossaryentry{mlp}{
 	name=Perceptrón Multicapa,
 	plural=Perceptrones Multicapa,
 	description={Topología de red neuronal \textit{feed-forward} donde las redes están organizadas en capas de tal manera que todas las neuronas de una capa están conectadas con todas las siguientes.}
 }
-
-\newglossaryentry{sc}
-{
+\newglossaryentry{mitsim}{
+	name=MitSIM,
+	description={(\textit{MIcroscopic Traffic SIMulator}). Software de microsimulación desarrollado por el laboratorio de sistemas inteligentes de transporte del MIT. Url: \url{https://its.mit.edu/software/mitsimlab}.}
+}
+\newglossaryentry{movsim}{
+	name=MovSim,
+	description={(\textit{Multi-model Open-source Vehicular-traffic Simulator}). Software de microsimulación que implementa tanto modelo multiagente y como modelo basado en \glsentryshortpl{ca}. Url: \url{http://www.movsim.org/}.}
+}
+\newglossaryentry{python}{
+	name=Python,
+	description={Lenguaje de programación \glsentryshort{oss}. Url: \url{https://www.python.org/}.}
+}
+\newglossaryentry{sc}{
 	name={Soft Computing},
 	description={Paradigma de computación por el que se hace uso de técnicas de resolución de problemas que manejan información incompleta, inexacta o con ruido.}
 }
+\newglossaryentry{sumo}{
+	name=SUMO,
+	description={(\textit{Simulation of Urban MObility}). Entorno de micro y mesosimulaón multiagente desarrollado por el instituto de sistemas de transporte del DLR (Centro Aeroespacial Alemán). Url: \url{http://www.dlr.de}.}
+}
+\newglossaryentry{traas}{
+	name=TraaS,
+	description={(\textit{TraCI as a Service}). \glsentryshortpl{api} basado en \glsentryshortpl{soap} para interactuar con el simulador \gls{sumo} cuando está funcionando en modo servidor. Url: \url{http://traas.sourceforge.net/cms/}.}
+}
+\newglossaryentry{traci}{
+	name=TraCI,
+	description={(\textit{Traffic Control Interface}). Término que sirve tanto para denominar al protocolo de comunicación ofrecido por \gls{sumo} en modo servidor para la interacción remota con la simulación como para denominar a la librería desarrollada para abstraer dicho protocolo cuando se trabaja desde \gls{python}. Url: \url{http://www.sumo.dlr.de/wiki/TraCI}.}
+}
+\newglossaryentry{torcs}{
+	name=TORCS,
+	description={(\textit{The Open Racing Car Simulator}). Software de simulación creado en un principio como videojuego de carreras y que ha evolucionado hacia plataforma de simulación de técnicas de \glsentrylongsp{ai} aplicadas a la conducción. Url: \url{http://torcs.sourceforge.net/}.}
+}
 
 % Acronyms
+\newacronym{aasim}{AASIM}{Autonomous Agent SIMulation Package}
 \newacronym{acl}{ACL}{Agent Communications Language}
-\newacronym{ai}{IA}{Inteligencia Artificial}
-\newacronym[\glslongpluralkey={Redes Neuronales Artificiales}]{ann}{RNA}{Red Neuronal Artificial}
-\newacronym{ci}{IC}{Inteligencia Computacional}
-\newacronym[\glslongpluralkey={Redes neuronales convolucionales}]{cnn}{CNN}{Red neuronal convolucional}
-\newacronym[\glslongpluralkey={Algoritmos Genéticos}]{ga}{AG}{Algoritmo Genético}
+\newacronym[longsp=Sistema Avanzado de Ayuda a la Conducción,longplsp=Sistemas Avanzados de ayuda a la Conducción, longplural=Advanced Driver Assistance Systems]{adas}{ADAS}{Advanced Driver Assistance System}
+\newacronym[longsp=Inteligencia Artificial]{ai}{AI}{Artificial Intelligence}
+\newacronym[longsp=Red Neuronal Artificial,longplsp=Redes Neuronales Artificiales,longplural=Artificial Neural Networks]{ann}{ANN}{Artificial Neural Network}
+\newacronym{api}{API}{Application Programming Interface}
+\newacronym[longsp=Autómata Celular, longplsp=Autómatas Celulares, longplural=Cellular Automata]{ca}{CA}{Cellular Automaton}
+\newacronym[longsp=Procesamiento Complejo de Eventos,longplsp=Procesamientos Complejos de Eventos,longplural=Complex Event Processings]{cep}{CEP}{Complex Event Processing}
+\newacronym[longsp=Computación Evolutiva]{cev}{EC}{Evolutionary Computation}
+\newacronym[longsp=Inteligencia Computacional]{ci}{IC}{Computational Intelligence}
+\newacronym[\glslongpluralkey={Redes neuronales convolucionales}]{cnn}{CNN}{Convolutional Neural Network}
+\newacronym{dlc}{DLC}{Discretional Lane Change}
+\newacronym{dvu}{DVU}{Driver-Vehicle Unit}
+\newacronym{dvo}{DVO}{Driver-Vehicle Object}
+\newacronym{flowsim}{FLOWSIM}{Fuzzy LOgic motorWay SIMulation}
+\newacronym[longsp=Algoritmo Genético,longplsp=Algoritmos Genéticos,longplural=Genetic Algorithms]{ga}{GA}{Genetic Algorithm}
+\newacronym[longsp=Modelo Oculto de Markov,longplsp=Modelos Ocultos de Markov,longplural=Hidden Markov Models]{hmm}{HMM}{Hidden Markov Model}
+\newacronym{idm}{IDM}{Intelligent Driver Model}
+\newacronym{imu}{IMU}{Intertial Measurement Unit}
+\newacronym[longsp=Sistema Inteligente de Transporte,longplsp=Sistemas Inteligentes de Transporte,longplural=Intelligent Transport Systems]{its}{ITS}{Intelligent Transport System}
 \newacronym{kqml}{KQML}{Knowledge Query and Manipulation Language}
+\newacronym{soap}{SOAP}{Simple Object Access Protocol}
+\newacronym{ghr}{GHR}{Gazis-Herman-Rothery}
+\newacronym{gm}{GM}{Generalized Model}
+\newacronym[longsp=Reconocimento del Entorno Intravehicular,longplsp=Reconocimientos del Entorno Intravehiculares,longplural=Intra-vehicular Context Awarenesses]{ivca}{IvCA}{Intra-vehicular Context Awareness}
+\newacronym{lda}{LDA}{Latent Dirichlet Allocation}
+\newacronym{lolimot}{LOLIMOT}{LOcal LInear MOdel Tree}
+\newacronym{lrn}{LRN}{local response normalization}
 \newacronym{lstm}{LSTM}{Long-Short Term Memory}
-\newacronym{ml}{ML}{Machine Learning}
-\newacronym{nlp}{NLP}{Natural Language Programming}
+\newacronym[longsp=Aprendizaje Automático]{ml}{ML}{Machine Learning}
+\newacronym{mlc}{MLC}{Mandatory Lane Change}
+\newacronym[longsp=Estudio Naturalista de Conducción,longplsp=Estudios Naturalistas de Conducción,longplural=Naturalistic Driving Studies]{nds}{NDS}{Naturalistic Driving Study}
+\newacronym[longsp=Procesamiento de Lenguaje Natural]{nlp}{NLP}{Natural Language Processing}
+\newacronym[longsp=Sistema Operativo, longplsp=Sistemas Operativos,longplural=Operative Systems]{os}{OS}{Operative System}
+\newacronym[longsp=Software Abierto]{oss}{OSS}{Open Source Software}
 \newacronym{relu}{ReLU}{Rectified Linear Unit}
-\newacronym{rs}{RS}{Recommender Systems}
+\newacronym[
+	longsp=red neuronal recurrente,
+	longplsp=redes neuronales recurrentes,
+	longplural=recurrent neural networks
+]{rnn}{RNN}{recurrent neural network}
+\newacronym[longsp=Sistema de Recomendación,longplsp=Sistemas de Recomendación,longplural=Recommender Systems]{rs}{RS}{Recommender System}
 \newacronym{som}{SOM}{Mapas Auto-Organizados}
+\newacronym{svm}{SVM}{Support Vector Machine}
+\newacronym{v2i}{V2I}{Vehicle-to-Infraestructure}
+\newacronym{v2v}{V2V}{Vehicle-to-Vehicle}
+
+
+

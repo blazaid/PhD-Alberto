@@ -1,23 +1,23 @@
 \chapter{\acrlong{ci}}
 \label{ch:sota-ci}
 
-Todo elemento dentro de un entorno se ve influenciado por multitud de variables que determinan en mayor o menor grado su comportamiento. Sin embargo, en la mayoría de los casos es muy complicado determinar el grado de efecto de estas variables, identificar las relaciones que existen entre las mismas o incluso determinar cuáles son.
+Todo elemento dentro de un entorno se ve influenciado por multitud de variables que determinan en mayor o menor grado su comportamiento. En la mayoría de los casos es muy complicado determinar el grado de efecto de estas variables, identificar las relaciones que existen entre las mismas o incluso determinar cuáles son.
 
-La definición que esta tesis da de la \acrfull{ci} es la de la rama de la \acrfull{ai} que engloba a todas aquellas técnicas que tratan de \textit{aprender}\sidenote{Veremos más detalles sobre el concepto de aprendizaje en este contexto y sus implicaciones en el área de la \gls{ai} más adelante} soluciones a problemas a través de la observación y el análisis de información, ya sea presente en conjuntos de datos, en el entorno o ambos.
+No existe una definición globalmente aceptada de qué es la \acf{ci}. Dependiendo del autor, se la considera desde un sinónimo de la \acf{ai} hasta un campo completamente diferenciado.
 
-Sin embargo, no existe una definición globalmente aceptada ya que, dependiendo del autor es considerada desde un sinónimo de la \gls{ai} hasta un campo completamente diferenciado.
+En esta tesos hablaremos desde el punto de vista mayoritario, la \ac{ci} como rama de la \ac{ai} que agrupa todas aquellas técnicas que tratan de aprender soluciones a problemas a través del análisis de información presente en conjuntos de datos, en el entorno o ambos.
 
-Por ello, la primera sección del capítulo ofrecerá una visión histórica de la aparición del concepto para justificar el por qué de la definición. El resto del capítulo introducirá las nociones de agente y aprendizaje y ofrecerá una explicación en detalle de las técnicas sobre las que se apoya el trabajo teórico de esta tesis: Las \acrlong{ann} y la \acrlong{fl}.
+Por ello, la primera sección del capítulo ofrecerá una visión histórica de la aparición del concepto para justificar el por qué de esta definición. El resto del capítulo introducirá la importancia que tiene el aprendizaje dentro de este área, describirá las técnicas de \acp{ann} y la \acp{fl} necesarias para sentar las bases del posterior desarrollo de la tesis y dará nociones de qué son los agentes y por qué este punto de vista es útil para nosotros.
 
 \section{De \acrlong{ai} a \acrlong{ci}}
 
-Es difícil precisar el comienzo del interés del ser humano por la emular la inteligencia humana. Los silogismos en la antigua grecia para modelar el conocimiento como reglas o los autómatas mecánicos de los filósofos modernos (siglos XVII al XIX) donde los cuerpos vivos son como un reloj son sólo dos ejemplos de este hecho.
+Es difícil precisar el comienzo del interés del ser humano por la emular la inteligencia humana. Los silogismos en la antigua grecia para modelar el conocimiento como reglas, los autómatas mecánicos de los filósofos modernos (siglos XVII al XIX) donde los cuerpos vivos son como un reloj o la electricidad (siglos XIX y XX), capaz de animar constructos son sólo ejemplos de cómo cada nuevo avance en la ciencia ha ido acompañado de un intento de simular el cuerpo y mente humanos.
 
-Podemos aventurarnos a decir que a principios del siglo XX se comienza a gestar el área de la \gls{ai} con los trabajos relacionados con los principios del \textbf{conexionismo}\sidenote{El enfoque del \textbf{conexionismo} postula que tanto la \textit{mente} como el \textit{conocimiento} son comportamientos complejos que emergen de redes formadas por unidades sencillas (i.e. neuronas) interconectadas. Se puede considerar a Santiago Ramón y Cajal como principal precursor de esta idea por sus trabajos acerca de la estructura de las neuronas y sus conexiónes (e.g. \cite{y1888estructura} y~\cite{ramon1904textura})}.
+Podemos aventurarnos a decir que a principios del siglo XX se comienza a gestar el área de la \gls{ai} con los trabajos relacionados con los principios del \textbf{conexionismo}\sidenote{
+	El enfoque del \textbf{conexionismo} postula que tanto la \textit{mente} como el \textit{conocimiento} son comportamientos complejos que emergen de redes formadas por unidades sencillas (i.e. neuronas) interconectadas. Se puede considerar a Santiago Ramón y Cajal como principal precursor de esta idea por sus trabajos acerca de la estructura de las neuronas y sus conexiónes (e.g. \cite{y1888estructura} y~\cite{ramon1904textura}).
+}. Estas ideas saltaron al mundo de la computación hacia mediados del siglo XX, cuando Warren S. McCulloch y Walter Pitts publicaron su trabajo \textit{\enquote{A logical calculus of the ideas immanent in nervous activity}}~\cite{McCulloch1943}\sidenote{Muchos autores prefieren nombrar este hito, junto con el trabajo \textit{\enquote{The organization of behavior}}\cite{hebb19680} de Donald O. Hebb como el punto de partida del área debido a su connotación computacional}, donde se describe el primer modelo artificial de una neurona.
 
-Hacia mediados del siglo XX, estas ideas del conexionismo saltaron al campo de la computación cuando Warren S. McCulloch y Walter Pitts publicaron su trabajo \textit{\enquote{A logical calculus of the ideas immanent in nervous activity}}~\cite{McCulloch1943}\sidenote{Muchos autores prefieren nombrar este hito, junto con el trabajo \textit{\enquote{The organization of behavior}}\cite{hebb19680} de Donald O. Hebb como el punto de partida del área debido a su connotación computacional} donde se describe el primer modelo artificial de una neurona.
-
-El trabajo suscitó tanta expectación que se comenzó a especular sobre la posibilidad de emular la inteligencia humana en máquinas. Uno de los resultados fue la publicación de un artículo por parte de Alan Turing que comenzaba con la frase \textit{\enquote{Can machines think?}}~\cite{turing1950computing}, introduciendo el famoso Test de Turing\sidenote{
+El trabajo suscitó tanta expectación que se comenzó a especular sobre la posibilidad de emular (una vez más) la inteligencia humana en máquinas. Uno de los resultados fue la publicación de un artículo por parte de Alan Turing que comenzaba con la frase \textit{\enquote{Can machines think?}}~\cite{turing1950computing}, introduciendo el famoso Test de Turing\sidenote{
 	El \textbf{Test de Turing} es una metodología para probar si una máquina es capaz de exhibir comportamiento inteligente \textit{similar} al del ser humano. En ella, dos humanos ($H_1$ y $H_2$) y una máquina ($M$) están separados entre sí pero pudiendo intercambiarse mensajes de texto. $H_2$ envía preguntas a $H_1$ y $M$ y éstos le responden. Si $H_2$ no es capaz de identificar qué participante es la máquina, se puede concluir que ésta es inteligente.
 } por el que el autor pretendía establecer una metodología para determinar si una máquina podía ser considerada inteligente y por tanto podría llegar a pensar\sidenote{
 	El concepto de \enquote{pensar} es un tema controvertido incluso en el propio ser humano: ¿es inherentemente biológico? ¿surge de la mente? Tanto si sí como si no, ¿de qué forma lo hace? Por ello existen detractores de la validez del Test de Turing. Un ejemplo es el experimento de la habitación china (Figura~\ref{fig:chinese-room}), donde se demuestra la invalidez argumentando que la máquina ha aprendido a realizar acciones sin \textit{entender} lo que hace y por qué lo hace. Sin embargo, ¿qué garantías tenemos de que el humano sí es capaz? Si los ordenadores operan sobre símbolos sin comprender el verdadero contenido de éstos, ¿hasta qué punto los humanos lo hacen de forma diferente?.
@@ -25,22 +25,22 @@ El trabajo suscitó tanta expectación que se comenzó a especular sobre la posi
 
 Pocos años después de la publicación del artículo, en el año 1956, se celebró la \textbf{Conferencia Dartmouth}~\cite{mccarthy1956dartmouth}. En ésta, el tema de la conferencia fue la pregunta del artículo de Turing, y el área nació con entidad propia tras acuñarlo John McCarthy como \acrlong{ai}.
 
-A partir de este momento, la investigación en el área recibió mucha atención por parte de investigadores y gobiernos. Después de todo era un área nueva, muy prometedora y con mucho trabajo por delante. Tras su nacimiento el campo comenzó a dar resultados, aunque quizá la expectación y las promesas no permitían ver que los resultados se obtenían en problemas relativamente simples, muy formales y en general estériles, donde en realidad no era necesaria demasiada información para generar un conociminto del entorno en el que los modelos se movían.
+A partir de este momento, la investigación en el área recibió mucha atención por parte de investigadores y gobiernos. Después de todo era un área nueva, muy prometedora y con mucho trabajo por delante. Tras su nacimiento el campo comenzó a dar resultados, pero la expectación y las promesas no permitían ver que los resultados se obtenían en problemas relativamente simples, muy formales y en general estériles, donde en realidad no era necesaria demasiada información para generar un conociminto del entorno en el que los modelos se movían.
 
-\begin{figure*}
+\begin{figure}[t]
 	\centering
 	\includegraphics[width=0.72\textwidth]{chinese-room}
 	\label{fig:chinese-room}
-	\caption{La \textit{Habitación China} de John Searle es un experimento mental por el que se trata de demostrar la invalidez del Test de Turing. Partimeos de un Test de Turing donde la máquina ha aprendido a hablar chino. Reemplazamos la máquina por un humano sin idea de chino pero con un manual de correspondencias de ideogramas. Cuando una persona le manda mensajes en chino, esta otra responde usando el manual, por lo que podemos afirmar que la persona, y por tanto la máquina, no saben chino.}
-\end{figure*}
+	\caption[Experimento mental de la \textit{Habitación China}, por John Searle.]{La \textit{Habitación China} de John Searle es un experimento mental por el que se trata de demostrar la invalidez del Test de Turing. Partimeos de un Test de Turing donde la máquina ha aprendido a hablar chino. Reemplazamos la máquina por un humano sin idea de chino pero con un manual de correspondencias de ideogramas. Cuando una persona le manda mensajes en chino, esta otra responde usando el manual, por lo que podemos afirmar que la persona, y por tanto la máquina, no saben chino.}
+\end{figure}
 
-Dado que los estudios estaban dominados por aquellos relacionados con las ideas del conexionismo, la publicación del libro \textit{\enquote{Perceptrons}}~\cite{minsky1969perceptrons} de Marvin Minsky y Seymour Papert en 1969 supuso un varapalo para las investigaciones. En el se expusieron las limitaciones de los modelos de \gls{ann} desarrollados hasta la fecha, y el impacto fue de tal envergadura que la investigación en el área se abandonó casi por completo. Concretamente el conexionismo prácticamente desapareció de la literatura científica durante dos décadas. Es lo que se conoce como el primer \textit{AI Winter}\sidenote{
-	El \textbf{AI Winter} no sólo se produjo por el efecto gurú del libro \textit{Perceptrons}, aunque éste fue la gota que colmó el vaso. A la emoción inicial por los avances le siguieron muchos años de promesas incumplidas, investigación sin resultados significativos, limitaciones de hardware, aumento de la complejidad del software (los comienzos de la crisis del software \cite{dijkstra1972humble}). Todo ello provocó un desinterés y una disminución de la financiación que se retroalimentaron la una a la otra.
+Dado que los estudios en el área estaban dominados por aquellos relacionados con las ideas del conexionismo, la publicación del libro \textit{\enquote{Perceptrons}}~\cite{minsky1969perceptrons} de Marvin Minsky y Seymour Papert en 1969 supuso un notable varapalo para las investigaciones. En el se expusieron las limitaciones de los modelos de \acp{ann} desarrollados hasta la fecha, y el impacto fue de tal envergadura que la investigación en el área se abandonó casi por completo. Concretamente el conexionismo prácticamente desapareció de la literatura científica durante dos décadas. Es lo que se conoce como el primer \textit{AI Winter}\sidenote{
+	El \textbf{AI Winter} no sólo se produjo por el efecto gurú del libro \textit{Perceptrons}, aunque éste fue la gota que colmó el vaso. A la emoción inicial por los avances le siguieron muchos años de promesas incumplidas, investigación sin resultados significativos, limitaciones de hardware y el aumento de la complejidad del software (los comienzos de la crisis del software \cite{dijkstra1972humble}). Todo ello provocó un desinterés y una disminución de la financiación que se retroalimentaron la una a la otra.
 }.
 
-El interés por el campo volvió de nuevo a principios de los $80$ con la aparición en escena de los primeros \glspl{esys}, los cuales se consideran como el primer caso de éxito en la \gls{ai} (\cite{russell2003artificial}). A finales de la década, sin embargo, empezaron a resurgir de nuevo los enfoques conexionistas, debido en gran parte a la aparición de nuevas técnicas de entrenamiento en perceptrones multicapa y por el concepto de activación no lineal en neuronas \cite{rumelhart1985learning, cybenko1989approximation}). En este momento los sistemas expertos empezaron a perder interés frente al nuevo avance del conexionismo\sidenote{
-	Esto no debió de sentar bien a los autores prolíficos en \glspl{esys}. Mientras que el enfoque en estos sistemas es el clásico en la computación, donde los problemas (en este caso el conocimiento experto) son resueltos mediante operaciones sobre un lenguaje de símbolos, el enfoque del conexionismo postula que la mente, el comportamiento inteligente, emerge de modelos a más bajo nivel. Por ello, algunas voces se alzaran contra lo que se consideraba el \textit{enfoque incorrecto} de la \gls{ai}. Después de todo, los modelos desarrollados en los métodos clásicos son fáciles de interpretar mientas que los del enfoque conexionista no son del todo deducibles, más aún si estos problemas son de naturaleza estocástica.
-}. Esta época se suele identificar como el segundo \textit{AI Winter}, ya que tanto la investigación como las inversiones en el área se vieron disminuídas. Sin embargo, el efecto no fue ni mucho menos equiparable al de el primero.
+El interés por el campo volvió de nuevo a principios de los $80$ con la aparición en escena de los primeros \glspl{esys}, los cuales se consideran como el primer caso de éxito en la \gls{ai} (\cite{russell2003artificial}). A finales de la década, sin embargo, empezaron a resurgir de nuevo los enfoques conexionistas, debido en gran parte a la aparición de nuevas técnicas de entrenamiento en perceptrones multicapa y por el concepto de activación no lineal en neuronas \cite{rumelhart1985learning, cybenko1989approximation}). En este momento los \acl{esys} empezaron a perder interés frente al nuevo avance del conexionismo\sidenote{
+	Esto, evidentemente no sentó bien a los autores prolíficos en \glspl{esys}. Mientras que el enfoque en estos sistemas es el clásico en la computación, donde los problemas (en este caso el conocimiento experto) son resueltos mediante operaciones sobre un lenguaje de símbolos, el enfoque del conexionismo postula que la mente, el comportamiento inteligente, emerge de modelos a más bajo nivel. Por ello, algunas voces se alzaran contra lo que se consideraba el \textit{enfoque incorrecto} de la \gls{ai}. Después de todo, los modelos desarrollados en los métodos clásicos son fáciles de interpretar mientas que los del enfoque conexionista no son del todo deducibles, más aún si estos problemas son de naturaleza estocástica.
+}. Esta época se suele identificar como el segundo \textit{AI Winter}, ya que tanto la investigación como las inversiones en el área de \acp{esys} disminuyeron. Sin embargo, el efecto no fue ni mucho menos equiparable al de el primero.
 
 Junto con el resurgir del conexionismo, otras técnica alineadas como la \gls{fl} o los \glspl{ga} también ganaban popularidad, y entre ellas retroalimentaban los exitos gracias a sus sinergias. Esto provocó una explosión de terminologías para diferenciar las investigaciones en curso de la propia \gls{ai} clásica. Por un lado se evitaba el conflicto, nombrando las áreas de trabajo con un término más acorde con el comportamiento o técnica utilizada. Por otro, se separaba de las connotaciones negativas que fue cosechando la \gls{ai} con el paso de los años (i.e. promesas, pero no resultados).
 
@@ -48,11 +48,11 @@ Lo verdaderamente interesante es ver la evolución de la literatura durante esto
 
 Volviendo al tema de la terminología, muchas de las técnicas se fueron agrupando dentro de diferentes áreas. Una de ellas es la conocida como \acrlong{ci}. Dado que persigue el mismo objetivo a largo plazo y que surje de la propia \gls{ai} parece lógico mantenerla como un subconjunto y no como un nuevo campo del conocimiento humano. Sin embargo, algunos autores abogan por que la \gls{ci} es un campo diferenciado de la \gls{ai}.
 
-Podemos definir la \acrlong{ci} como la \enquote{\textit{rama de la \gls{ai} que aporta soluciones a \textbf{tareas específicas} de forma \textbf{inteligente} a partir del aprendizaje mediante el uso de \textbf{datos experimentales}}}. A diferencia de la aproximación clásica de la \gls{ai}, se buscan aproximaciones a las soluciones y no las soluciones exactas. Esto es debido a que muchos problemas son de naturaleza compleja, ya sea por la erlación entre sus multiplas variables, a la falta de información o a la imposibilidad de traducirlos a lenguaje binario.
+Podemos definir la \acrlong{ci} como la \enquote{\textit{rama de la \gls{ai} que aporta soluciones a \textbf{tareas específicas} de forma \textbf{inteligente} a partir del aprendizaje mediante el uso de \textbf{datos experimentales}}}. A diferencia de la aproximación clásica de la \gls{ai}, se buscan aproximaciones a las soluciones y no las soluciones exactas. Esto es debido a que muchos problemas son de naturaleza compleja, ya sea por la relación entre sus multiples variables, a la falta de información o a la imposibilidad de traducirlos a lenguaje binario.
 
 \begin{figure}
 	\includegraphics{different-povs-ai}
-	\caption[Diferentes objetivos perseguidos por la \acrlong{ai}]{Diferentes objetivos perseguidos por la~\acrlong{ai}. Las filas diferencian entre pensamiento o comportamiento mientras que las columnas separan entre inteligencia humana o el ideal de la inteligencia (racionalidad). Fuente: \textit{Artificial Intelligence: A Modern Approach ($3^{rd}$ Ed.)},~\cite{russell2003artificial}.}
+	\caption[Diferentes objetivos perseguidos por la \acrlong{ai}.]{Diferentes objetivos perseguidos por la~\acrlong{ai}. Las filas diferencian entre pensamiento o comportamiento mientras que las columnas separan entre inteligencia humana o el ideal de la inteligencia (racionalidad). Fuente: \textit{Artificial Intelligence: A Modern Approach ($3^{rd}$ Ed.)},~\cite{russell2003artificial}.}
 	\label{fig:different-povs-ai}
 \end{figure}
 
@@ -60,7 +60,7 @@ Se puede establecer el año $1994$ como en el que la \acrlong{ci} nace formalmen
 	\url{http://cis.ieee.org/}
 }. Poco antes, en $1993$, Bob Marks presentaba las que él consideraba diferencias fundamentales entre la \acrlong{ai} clásica y la \acrlong{ci}, resumiéndolas en la siguiente frase:
 
-\blockquote{Neural networks, genetic algorithms, fuzzy systems, evolutionary programming, and artificial life are the building blocks of CI.}
+\blockquote{Neural networks, genetic algorithms, fuzzy systems, evolutionary programming, and artificial life are the building blocks of \ac{ci}.}
 
 Durante estos años ganaba popularidad también el concepto del \gls{sc} en contraposición con el \gls{hc}. El \gls{sc} engloba las técnicas que buscan resolver problemas con información incompleta o con ruido. Debido a que el conjunto de técnicas definidas como consituyentes del \gls{sc} son las mismas que se usan en la \gls{ci} algunos autores consideran ambos términos equivalentes. Nosotros consideramos que el \gls{sc} es un punto de vista de la computación a diferencia de la \gls{ci}, la cual es un área de específica dentro de la \gls{ai} hace uso de métodos incluídos en el concepto \gls{sc}.
 
@@ -68,7 +68,7 @@ Durante estos años ganaba popularidad también el concepto del \gls{sc} en cont
 	\textbf{\gls{hc} y \gls{sc}} son la forma de referirse a la computación convencional frente al \gls{sc}. El \gls{hc} basa sus técnicas en aquellas basadas en modelos analíticos definidos de forma precisa y que en ocasiones requieren mucho tiempo de cómputo. Están basados en lógica binaria, análisis numérico, algoritmos y respuestas exactas. El \gls{sc} por otro lado es tolerante a la imprecisión y al ruido y tiende a llegar a soluciones aproximadas de manera más rápida. Se basa en modelos aproximados, emergencia de algoritmos y modelos estocásticos.
 }
 
-Hoy en día la \gls{ci} es un área con muchas aplicaciones prácticas en una variedad muy distinta de campos de la ciencia y con muchos temas de investigación por explorar. Por ello, esta tesis pretende la exploración de una parte concreta de este área en el tema del modelado de comportamiento
+Hoy en día la \gls{ci} es un área con muchas aplicaciones prácticas en una variedad muy distinta de campos de la ciencia y con muchos temas de investigación por explorar. Por ello, esta tesis pretende la exploración de una parte concreta de este área en el tema del modelado de comportamiento humano en el problema de la conducción.
 
 \section{El rol del aprendizaje en la \acrlong{ci}}
 \label{s:the-learning-role}
@@ -93,7 +93,7 @@ La terminología general que se usa en la \gls{ci} no es demasiado compleja (con
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Ilustración con los distintos conjuntos de datos}
-	\caption[Los diferentes tipos de conjuntos de datos existentes]{Los diferentes tipos de conjuntos de datos existentes.}
+	\caption[Separación clásica de conjuntos de datos en tareas de \acrlong{ml}.]{Los diferentes tipos de conjuntos de datos existentes.}
 	\label{fig:different-kinds-of-datasets}
 \end{figure}
 
@@ -243,7 +243,7 @@ Las funciones de activación clásicas usadas en redes neuronales han sido la fu
 	\centering
 	\subfloat[]{\includegraphics[width=0.46\linewidth]{sigmoid-function}}\qquad
 	\subfloat[]{\includegraphics[width=0.46\linewidth]{tanh-function}}
-	\caption{Las funciones de activación sigmoidal y tangente hiperbólicas. Ambas se han usado como funciones de activación no lineales gracias a que sus derivadas son continuas a lo largo de todo el dominio y además son fácilmente computables.}
+	\caption[Funciones de activación: sigmoidal y tangente hiperbólica.]{Las funciones de activación sigmoidal y tangente hiperbólicas. Ambas se han usado como funciones de activación no lineales gracias a que sus derivadas son continuas a lo largo de todo el dominio y además son fácilmente computables.}
 	\label{fig:sig-and-tanh}
 \end{figure}
 
@@ -257,7 +257,7 @@ Sin embargo, el principal problema de estas funciones es cuando los valores neto
 	\centering
 	\subfloat[]{\includegraphics[width=0.46\linewidth]{relu-function}}\qquad
 	\subfloat[]{\includegraphics[width=0.46\linewidth]{leaky-relu-function}}
-	\caption{La función de activación (a) \gls{relu} evita el problema del estancamiento cuando la entrada neta de la neurona es muy alta. La función de activación \textit{Leaky} \gls{relu} (en este ejemplo, con $\epsilon = 0.1$) es una de las posibles soluciones cuando se permite que la entrada neta a la red sea menor que 0, ya que en el caso de la función \gls{relu} la derivada es 0 y por tanto el gradiente no nos indica hacia dónde ha de descender el error.}
+	\caption[Funciones de activación: \acrshort{relu} y Leaky-\acrshort{relu}.]{La función de activación (a) \gls{relu} evita el problema del estancamiento cuando la entrada neta de la neurona es muy alta. La función de activación \textit{Leaky} \gls{relu} (en este ejemplo, con $\epsilon = 0.1$) es una de las posibles soluciones cuando se permite que la entrada neta a la red sea menor que 0, ya que en el caso de la función \gls{relu} la derivada es 0 y por tanto el gradiente no nos indica hacia dónde ha de descender el error.}
 	\label{fig:relu-and-leaky-relu}
 \end{figure}
 
@@ -307,13 +307,13 @@ Típicamente, estas redes se componen de neuronas conectadas, por lo que se pued
 	\centering
 	\subfloat[]{\includegraphics[width=0.46\linewidth]{multilayer-perceptron}}\qquad
 	\subfloat[]{\includegraphics[width=0.46\linewidth]{multilayer-perceptron}}
-	\caption{Diferencias entre los grafos que representan una red neuronal de tipo (a) \textit{feed-forward} y una (b) recurrente. Las redes recurrentes presentan ciclos entre sus nodos que permiten la retroalimentación interna entre las neuronas. Suelen ser más útiles a la hora de modelar eventos en el tiempo, aunque su entrenamiento es más complejo.\TODO{CAMBIAR LA FIGURA DE LA RECURRENTE}}
+	\caption[Diferencias entre toppologías de redes \textit{feed-forward} y \textit{recurrentes}]{Diferencias entre los grafos que representan las \acp{ann} de tipos (a) \textit{feed-forward} y (b) recurrentes. Las redes recurrentes presentan ciclos entre sus nodos que permiten la retroalimentación interna entre las neuronas. Suelen ser más útiles a la hora de modelar eventos en el tiempo, aunque su entrenamiento es más complejo.\TODO{CAMBIAR LA FIGURA DE LA RECURRENTE}}
 	\label{fig:ff-vs-rnn}
 \end{figure}
 
 Esta tesis se centra en redes pertenecientes al primer grupo, concretamente en las topologías \gls{mlp} y \gls{cnn}, con las que se cerrará la presente sección. Ambos tipos de redes han probado su efectividad en diferentes dominios, aunque las segundas están demostrando su efectividad con las nuevas ténicas surgidas a partir del \textit{deep learning}
 
-\paragraph{Perceptrones multicapa}
+\subsection{Perceptrones multicapa}
 
 En un perceptrón multicapa, las neuronas se encuentran agrupads en capas de tal manera que todas las salidas de las neuronas de una capa se conectan a todas las entradas de cada una de las neuronas de la capa siguiente. A las primera y últimacapas de la red se las denomina respectivamente capa de entrada y de salida, mientras que las capas intermedias son denominadas capas ocultas. Hemos visto algunasilustraciones a lo largo del presente capítulo, pero en la Figura~\ref{fid:detailed-multilayer-perceptron} se puede ver en detalle este tipo de red.
 
@@ -391,17 +391,121 @@ Esta es la forma original del algoritmo de back propagation. Al valor $\alpha$ q
 	\item \textbf{Adam}~\cite{kingma2014adam}. Este algoritmo combina los funcionamientos del momento junto con los del gradiente adaptativo del algoritmo RMSProp. Es el más utilizado en los últimos años.
 \end{itemize}
 
-\paragraph{Redes de convolución}
+\subsection{Redes de convolución}
 
-As its name suggests, a CNN uses convolutions, i.e. mathematical operations that filter regions of a structure (generally in the form of a matrix or a cube) for pattern identification and/or structure transformations.
-A CNN has also an arrangement of layers, but they work differently. Firstly, this architecture is separated into two groups of layers or phases that can be called pattern identification phase and prediction phase. The pattern recognition phase works with layers dealing with pattern recognitions and input sub-sampling while the prediction phase works with an MLP using the output of the pattern recognition phase as input. Secondly, the inputs are arranged as -dimensional matrices as opposed to the MLP that are always presented as vectors; this fact allows us working more easily with properties and patterns arranged in an n-dimensional space like images (2-dimension matrix) or videos (3-dimension matrix). The layer types in that phase are as follows:
-1. Convolutional Layer. Given a -dimensional input, a convolution or filter is an n-dimensional pattern (composed by neurons) that travels along the -dimensional space to generate a new -dimensional space. A convolutional layer is a layer composed by m filter and generate a set of m new -dimensional spaces which will be the new input for another layer.
-2. Local Response Normalization (LRN) layer [26]. This layer is intended to enhance the difference between the existent values in a space. They are commonly placed after a convolution layer to increase the contrast of the values in the space. In this paper, every convolution layer is followed by an LRN layer.
-3. Pooling layer. Pooling is grouping together elements. A pooling layer is intended to subsample a space to ease its management. Given an -dimensional space, a pooling filter of dimension  travels the space in steps of size  generating one value per step. When placed after convolutions, it is expected to subsample the space without losing the recognized pattern while reducing computation costs and avoiding overfitting. The most common operation used in pooling is the max operation.
+Tal y como su nombre indica, las \acp{cnn} son redes que usan convouciones para su funcionamiento. Aunque también está estructurada en capas, su funcionamiento es diferente. Para comenzar, su estructura se puede dividir en dos regiones bien diferenciadas, una que se dedica a la extracción de características de la entrada (la denominaremos \textit{extracción de patrones}) y otra que se dedica a la clasificación o regresión de la entrada a partir de las características extraídas (que denominaremos \textit{predicción}). En la Figura~\ref{fig:cnn-general-structure} podemos ver una ilustración del esquema general de una \acl{cnn} donde se identifican ambas regiones.
 
-Escribir aquí cómo es el proceso de inferencia
+\begin{figure}
+	\missingfigure[figheight=4cm]{Ilustración con las dos formas de razonamiento}
+	\caption[Estructura general de una \acl{cnn}]{Estructura general de una \acl{cnn}. Se pueden observar sombreadas de distinto color la relación existente entre las regiones de identificación de patrones y la de predicción. La primera actua sobre la entrada extrayendo características consideradas relevantes mientras que la segunda tranaja sobre esas características en lugar de sobre todo el espacio de entrada.}
+	\label{fig:cnn-general-structure}
+\end{figure}
 
-Escribir aquí cómo es el proceso de aprendizaje
+La región de inferencia es en esencia un \ac{mlp}. A éste le llega un conjunto de entradas deducidas en la región anterior y realiza la operación de regresión o de clasificación que le corresponda. El funcionamiento se explica en el apartado anterior dedicado a este tipo de redes. La región de extracción de patrones es más interesante y merece más contenido.
+
+\paragraph{Convoluciones}
+
+Una convolución es una operación matemática que funciona como filtro sobre una estructura espacial (en este contexto, normalmente de matriz o de cubo) para identificar patrones y/o para transformar estructuras identificadas. Para simplificar la explicación en este apartado, supondremos que la entrada se trata de una matriz bidimensional (e.g. una imagen de un sólo canal de color), y que los filtros son también bidimensionales, pero es común tener espacios de entrada de más dimensiones\sidenote{
+	De hecho, para analizar imágenes lo normal es trabajar sobre los diferentes canales de color como capas diferentes, por lo que una imagen es en realidad una matriz tridimensional de dimensiones $(w, h, c)$ donde $w$ es el ancho, $h$ es el alto y $c$ es el número de canales.
+	
+	\centering
+	\includegraphics[width=0.46\linewidth]{three-channels-for-an-image}
+}. La ecuación~\ref{eq:convolution-example} describe el resultado de aplicar una convolución de un filtro sobre una matriz.
+
+\begin{equation*}
+	\begin{pmatrix}
+		8 & 7 & 4 & 7  \\
+		0 & 1 & 1 & 3  \\
+		3 & 4 & 7 & 1  \\
+		5 & 2 & 5 & 0
+	\end{pmatrix}
+	\circledast
+	\begin{pmatrix}
+		1 & 0 &  \\
+		0 & 1
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		9 & 8 & 7  \\
+		4 & 8 & 2  \\
+		5 & 9 & 7
+	\end{pmatrix}
+	\label{eq:convolution-example}
+\end{equation*}
+
+El símbolo $\circledast$ denota la operación de convolución. Esta operación hacer recorrer el filtro por todas las posiciones hasta que recubre todo el espacio inicial\sidenote{
+	La operación básica recorre las posiciones una a una. Existe un parámetro, denominado \textit{stride} que puede modificar este comportamiento. Nosotros nos ceñiremos a un stride de tamaño $1 \times 1$ para simplificar el discurso.
+}. Para cada posición, se realizará el sumatorio del producto elemento a elemento, y el resultado se asignará en dicha posición. Esto implica que el tamaño de la matriz resultante es inversamente proporcional al tamaño del filtro. Concretamente, si $(M_w, M_h)$, $(F_w, F_h)$ y $(R_w, R_h)$ son el ancho y el alto para las matrices origen, filtro y resultado, se cumple que:
+
+\begin{align}
+	R_w = M_w - F_w + 1 \\
+	R_h = M_h - F_h + 1
+	\label{eq:convolve-result-sizes-basic}
+\end{align}
+
+No obstante este funcionamiento de las convoluciones tiene un problema: las matrices tienden a ser cada vez más pequeñas con cada opreación de convolución. En el contexto del \textit{deep-learning}, el número de capas es finito y viene determinado por el tamaño del filtro.
+
+La solución a este problema es la aplicación de una técnica denominada \textit{padding} que aumenta la matriz de origen para que la matriz resultante tras la operación de convolución quede del mismo tamaño\sidenote{
+	En general, el padding genera la cantidad de celdas con 0 alrededor de la imagen para que a la hora de aplicarlo el resultado sea igual. Es una solución válida, pero dependiendo del problema puede interesar usar diferentes formas de padding. Por ejemplo, en nuestro problema, el cálculo de los valores de padding horizontal es diferente. En la parte dedicada al desarrollo de la tesis se explicará el cálculo y el por qué.
+}. El cálculo del tamaño del padding para que la matriz resultado sea del mismo tamaño deberá ser:
+
+\begin{align}
+	P_w = \frac{F_w - 1}{2} \\
+	P_h = \frac{F_h - 1}{2} 
+	\label{eq:convolve-filter-padding-dims}
+\end{align}
+
+Por tanto es necesario que los filtros sean de dimensión impar.
+
+\paragraph{Capas de convolución}
+
+Las capa más importante en una \ac{cnn} son las capas de convolución. Éstas se componen de un número variable de filtros que representan las características que queremos extraer de la matriz de entrada. La entrada a esta capa de convolución será la matriz a la que aplicar los filtros, y la salida será una no linearización sobre el resultado de la convolución, modificándose en el proceso la dimensión de la matriz resultado. La figura~\ref{fig:convolution-layer} ilustra esto.
+
+\begin{figure}
+	\centering
+	\includegraphics{convolution-layer}
+	\caption[Descripción de la capa de convolución]{Descripción de la capa de convolución. Como entrada se recibe una matriz tridimensional con una capa de profundidad. Los filtros han de tener la misma profundidad, mientras que la matriz resultado tiene como profundidad el número de filtros. A las convoluciones (más un bias) se les aplica una función no lineal como en los \ac{mlp}. Por tanto, son los valores del filtro junto con los bias los parámetros que el algoritmo de aprendizaje debe aprender.}
+	\label{fig:cnn-gconvolutional-layer}
+\end{figure}
+
+El proceso de aprendizaje en una red de convolución sin embargo no es trivial. Sigue apoyándose en el cálculo de los gradientes en función de los parámetros, que en este caso son los valores del filtro junto con un bias por cada filtro. Las ecuaciones de este cálculo en una capa bidimensional (para cada uno de los filtros) son las siguientes:
+
+\begin{subequations}
+	\begin{equation}
+		\delta W_f = \sum_{w=0}^{F_h} \sum_{h=0}^{F_w} S^{l*} \times \delta C_{w,h} \label{eq:cnn-error-weights}
+	\end{equation}
+	\begin{equation}
+		\delta b_f = \sum_{w=0}^{F_h} \sum_{h=0}^{F_w} \delta C_{w,h} \label{eq:cnn-error-biases}
+	\end{equation}
+\end{subequations}
+
+En estas ecuaciones, $\delta C_{w,h}$ se refiere al gradiente del coste respecto a la salida de la capa de convolución correspondiente al filtro $f$ en la celda $(w, h)$. Así mismo, $S^{l*}$ se corresponde con la región (slice) de la entrada que se usó para calcular el correspondiente $\delta C_{w,h}$.
+
+Etas ecuaciones son más complejas en función de cómo varía el número de filtros y de dimensiones de los mismos, pero al final usa los mismos principios que los \acp{mlp}.
+
+\paragraph{Pooling y normalización}
+
+Junto con las capa de convolución, normalmente se usan otros dos tipos de capa diferentes: las capas de \textit{pooling} y las de \textit{normalización}.
+
+El \textit{pooling} es una operación de discretización del espacio de entrada. El objetivo es reducir las dimensiones de las entradas para las siguientes capas. Esto mejora el coste computacional y ayuda contra la sobre-especialización, ya que hay menos parámetros sobre los que trabajar para la misma entrada.
+
+
+\begin{figure}
+	\centering
+	\includegraphics{cnn-pooling}
+	\caption[Ejemplo de las operaciónes de \textit{pooling}.]{Ejemplo de las operaciónes de \textit{pooling} sobre una matriz de entrada de dos dimensiones. El filtro de tamaño $2 \times 2$ recorre la matriz en saltos de 2 celdas horizontales y 2 verticales extrayendo de cada región filtrada el mayor valor, el menor o el valor medio dependiendo de si la operación es \textit{max-pooling}, \textit{min-pooling} o \textit{mid-pooling}.}
+	\label{fig:cnn-pooling}
+\end{figure}
+
+Su funcionamiento es similar al de las convoluciones (después de todo se tratan también de filtros), con la diferencia de que se mueven en ventanas no solapables devolviendo un valor para cada ventana y reduciendo por tanto el tamaño de la entrada. Existen tres tipos fundamentales que son el máximo, el mínimo y la media, y su diferencia estriba en el cálculo del valor de salida a partir de los valores de la entrada. En la Figura~\ref{fig:max-pooling} se ilustra un ejemplo de la operación de \textbf{max-pooling}\sidenote{
+	Es curioso que por un lado se inventen mecanismos para mantener los tamaños de entradas-salidas entre convoluciones y luego no se use el comportamiento de las convoluciones con un \textit{stride} del tamaño del filtro para realizar esa reducción. De hecho existen algunos estudios que afirman que el uso del \textit{pooling} conlleva un aumento computacional sobre el uso de convoluciones para reducir el tamaño sin implicar una pérdida de rendimiento a la hora de predecir. Un ejemplo de esto lo tenemos en~\cite{howard2017mobilenets} donde afirman:
+	
+	\blockquote{We find that max-pooling can simply be replaced by a convolutional layer with increased stride without loss in accuracy on several image recognition benchmarks}
+}.
+
+La normalización es otra operación, esta a nivel de capa, que reafirma las diferencias entre los valores existentes en la matriz, similar a un aumento de contraste en una imagen. Permite destacar diferencias y en general los resultados demuestran que acelera el proceso de aprendizaje de una \ac{cnn} drásticamente cuando se incluye como capa oculta.
+
+En los últimos años, los tipos más comunes de normalización son el \gls{lrn}~\cite{robinson2007explaining} y el \textit{batch normalization}~\cite{ioffe2015batch}.
 
 \subsection{Solucionando los problemas de entrenamiento}
 
@@ -424,20 +528,87 @@ En el caso concreto de la regularización, el objetivo de esta técnica es trata
 
 En ésta, la idea es en cada epoch de entrenamiento del modelo, se desactivan una serie de neuronas de manera aleatoria. estas neuronas no participan ni en la predicción ni en el posterior reajuste de pesos. Es muy fácil de implementar, computacionalmente muy eficiente y mejora sustancialmente el proceso de aprendizaje en redes que sufren de una alta especialización. La Figura~\ref{fig:dropout-example} describe un ejemlpo de funcionamiento en tres epochs de un perceptrón multicapa con una tasa de dropout del $0.5$.
 
-\begin{figure}[t]
+\subsection{Grafos computacionales}
+
+En la actualidad el concepto de grafo computacional se relaciona directamente con las redes neuronales, y por ello se introduce el concepto en este apartado. Sin embargo, no se trata de un concepto exclusivo de esta técnica. De hecho, ni siquiera es un concepto perteneciente al área de la \ac{ci}, sino que son simplemente una via para representar las operaciones en forma de grafo, de tal manera que es fácil ver cuál es el flujo de los datos y las operaciones que se realizan sobre ellos.
+
+Formalmente, un \textbf{grafo computacional} es un grafo dirigido donde los vértices representan operaciones sobre datos mientras que las aristas representan el flujo de dichos datos. La figura~\ref{fig:computational-graph} describe un posible grafo computacional para un perceptrón simple.
+
+\begin{figure}
 	\centering
-	\subfloat[]{\includegraphics[width=0.28\textwidth]{dropout-example-a}}\qquad
-	\subfloat[]{\includegraphics[width=0.28\textwidth]{dropout-example-b}}\qquad
-	\subfloat[]{\includegraphics[width=0.28\textwidth]{dropout-example-c}}
-	\caption{Tres epochs del proceso de entrenamiento de un perceptrón multicapa donde las neuronas de la capa oculta tienen una tasa de dropout del 0.5 (un 50\% de probabilidad de ser desactivada durante ese epoch). Las neuronas grises son las elegidas en dicho epoch para ser eliminadas, y por tanto no afectarán ni al resultado de salida ni al reajuste de los pesos de sus conexiones entrantes.}
-	\label{fig:dropout-example}
+	\includegraphics{computational-graph}
+	\caption[Ejemplo de grafo computacional.]{Ejemplo de grafo computacional para un perceptrón simple de dos neuronas de entrada y una de salida.}
+	\label{fig:computational-graph}
 \end{figure}
+
+Una ventaja al representar un modelo como grafo computacional es que ayuda a abstraerse de la formas de las entradas y las salidas, facilitando el trabajo de operaciones en batch. Otra ventaja, todavía mayor, es que, al organizar de entrada a salida (en la figura~\ref{fig:computational-graph} de izquierda a derecha) las operaciones que se necesitan para obtener una salida a partir de una entrada, en los casos donde el objetivo es optimizar la salida permiten fácilmente representar el gradiente al organizarlo del modo contrario (es decir, de las salidas a la entrada o, en el caso de la figura~\ref{fig:computational-graph-derivatives} de derecha a izquierda).
+
+\begin{figure}
+	\centering
+	\includegraphics{computational-graph-derivatives}
+	\caption[Derivadas parciales sobre un grafo computacional.]{Es fácil representar las derivadas parciales sobre un grafo computacional y, a partir de ahí, obtener el efecto de las variaciones de una variable sobre el resto.}
+	\label{fig:computational-graph-derivatives}
+\end{figure}
+
+Com regla general, para conocer el gradiente de una variable $a$ con respecto a otra variable $b$, se aplicaría la \textit{regla de la cadena multivariable}, que es equivalente a sumar todos los posibles caminos que van de $a$ a $b$ del grafo, multiplicando las derivadas parciales de cada arista.
 
 \section{\gls{fl}}
 
-\subsection{Ampliando la teoría de conjuntos}
+La lógica matemática\sidenote{
+	\textbf{La lógica nace} en el siglo IV a.C. dentro de la física Aristotélica, que permaneció inalterada hasta la revolución científica (alrededor del siglo XVI. d.C.), momento en que se separó y permaneció como disciplina paralela perteneciente más al campo de la filosofía que de la física y la matemática. Empezó a relacionarse de nuevo con la matemática a principios del siglo XIX y a principios del siglo XX la lógica y la teoría de conjuntos pasaron a convertirse en partes indispensables la una de la otra. Por ello suelen ir de la mano cada vez que se habla de la una y de la otra. La evolución de la teoría de conjuntos (Cantor, finales del siglo XIX, buscar referencia) y su unión con la lógica es una época bastante convulsa dentro de la historia de la matemática.
+} (y por extensión la teoría de conjuntos) tiene como misión servir de fundamento del razonamiento matemático. Se basa en la definición precisa y con rigor de un razonamiento evitando cualquier tipo de ambigiüedad y de contradicción. Es por ello que la lógica tradicional no suele servir como fundamento de razonamientos del mundo real.
 
-Aquí dentro hay que hablar también de operaciones entre conjuntos. Como aquí hablaremos de sismteas de orden tipo 1, en los bordes igual estaría genial hablar de qué son los de tipo 2, 3, ...
+Los conceptos que se manejan en el mundo real suelen ser vagos, llenos de imprecisiones. Además tienden a ser nombrados cualitativamente, no quantitativamente, y cuando existe una correspondencia, ésta suele estar marcada por la subjetividad de los términos. La lógica difusa se puede considerar como perteneciente al conjunto de lógicas multivaluadas\sidenote{Las lógicas multivaluadas son aquellas donde las premisas pueden tomar más de dos valores.}, donde se trabaja con este tipo de conceptos.
+
+La idea tras este punto de vista es que raramente el ser humano piensa en términos absolutos o completamente definidos. En su lugar, su forma de razonar conlleva una serie de abstracciones que diluyen el caracter de las observaciones que a su vez pueden ser también imprecisas. Ya que en la lógica clasíca es imposible expresar la complejidad que implica la incertidumbre de este proceso de razonamiento, en la \ac{fl} los conceptos de verdad o mentira se relajan, existiendo una transición entre estados no abrupta, sino suave y progresiva.
+
+A lo largo de la sección se describirá el concepto de conjunto difuso, cómo se usan como mecanismo de razonamiento y su utilidad dentro del área de sistemas de control.
+
+\subsection{Ampliando la teoría de conjuntos tradicional}
+
+La teoría de conjuntos difusos nació a mediados del siglo XX de la mano de Lofti A. Zadeh~\cite{lofti1965fuzzy} como solución para la representación de procesos de inferencia conociendo a priori los grados de verdad de las premisas\sidenote{
+	La \ac{fl} es uno de esos casos curiosos en la ciencia donde la aplicación nace antes que la propia teoría.
+}.A diferencia de los conjuntos tradicionales (\textit{crisp} en la terminología de la \ac{fl}), los conjuntos difusos expresan el grado de pertenencia de un elemento a la categoría representada por el conjunto.
+
+\paragraph{Variables lingüísticas}
+
+El primer concepto importante a entender en la teoría de conjuntos difusos es el de \textbf{variable lingüística}, las cuales sirven de base para toda la teoría porque sus posibles valores son, precisamente, conjuntos difusos. Se define como:
+
+\blockquote{[\ldots] variable whose values are words or sentences in a natural or artificial language [\ldots]}~\cite{zadeh1975concept}
+
+El uso de variables ligüísticas permite representar fenómenos del mundo real como variables cualitativas. Por ejemplo, la variable \textit{velocidad}, puede tomar los valores \textit{atrás rápido}, \textit{atrás lento}, \textit{parado}, \textit{adelante lento} y \textit{adelante rápido}. Es cierto que la variable velocidad a su vez está definida sobre $\mathbb{R}$, y que los conjuntos tienen una definición sobre este dominio, pero la imprecisión que nos dan los términos (conjuntos difusos) se hereda a lo largo de todo el proceso de deducción, de manera similar a como lo hacen los humanos.
+
+\paragraph{Conjuntos difusos}
+
+Una posible definición de conjunto difuso podría ser \textit{dada $X$ una colección de elementos. Se define al \textbf{conjunto difuso} $F$ como un conjunto ordenado de pares de la forma $F = {(x, \mu_F(x)) | x \in X}$, siendo $\mu_F(x) \in [0, 1] \forall x \in X$}. A la función $\mu_F(x)$ se la denomina \textbf{función de pertenencia}, y caracteriza unívocamente a un conjunto difuso del dominio de $X$\sidenote{
+	Según Zadeh, la teoría de conjuntos difusos debería servir de ejemplo de lo que él denominó \textit{principio de extensión}~\cite{zadeh1975concept}, esto es, el proceso por el cual generalizar cualquier teoría definida en un dominio discreto hacia su versión continua.
+}.
+
+La teoría de conjuntos clásica también define los conjuntos de acuerdo a una función, en este caso denominada \textit{función característica}. Las ecuaciones~\ref{eq:characteristic-function} y~\ref{eq:membership-function} muestran las diferencias entre los valores de $f$ siendo ésta una función característica de la teoría de conjuntos clásica o una función de pertenencia de la teoría de conjuntos difusos respectivamente.
+
+\begin{subequations}
+	\begin{equation}
+		f(x) = \left\{
+			\begin{array}{lcc}
+				0 & if & x \notin F \\
+				1 & si & x \in F
+			\end{array}
+		\right.
+		\label{eq:characteristic-function}
+	\end{equation}
+	\begin{equation}
+		f(x) = \mu_F(x)
+		\label{eq:membership-function}
+	\end{equation}
+\end{subequations}
+
+Mientras que un conjunto tradicional se basa en si pertenece o no, un conjunto difuso puede\sidenote{
+	Puede porque también se puede definir un conjunto \textit{crisp} desde el punto de vista de la lógica difusa.
+} tomar todos los valores posibles en el intervalo $[0, 1]$.
+
+\paragraph{Funciones de pertenencia}
+
+Esta función de pertenencia $\mu_F$ puede tomar cualquier forma siempre que estén definidas en el dominio $[0, 1] \subset \mathbb{R}$, pero lo habitual es definirlas como funciones triangulares o trapezoidales. Un ejemplo de estas funciones se ilustra en la figura~\ref{fig:membership-functions}.
 
 \subsection{Razonamiento}
 
@@ -449,15 +620,8 @@ Hablar de los tipos de sistemas (Tipos Mandamni y Sugeno diferentes).
 
 -----------------------------------------------------------
 
-\marginnote{
-	\textbf{La lógica nace} en el siglo IV a.C. dentro de la física Aristotélica, que permaneció inalterada hasta la revolución científica (alrededor del siglo XVI. d.C.), momento en que se separó y permaneció como disciplina paralela perteneciente más al campo de la filosofía que de la física y la matemática. Empezó a relacionarse de nuevo con la matemática a principios del siglo XIX y a principios del siglo XX la lógica y la teoría de conjuntos pasaron a convertirse en partes indispensables la una de la otra. Por ello suelen ir de la mano cada vez que se habla de la una y de la otra. La evolución de la teoría de conjuntos (Cantor, finales del siglo XIX, buscar referencia) y su unión con la lógica es una época bastante convulsa dentro de la historia de la matemática.
-}
 
-La lógica matemática (y por extensión la teoría de conjuntos) tiene como misión servir de fundamento del razonamiento matemático. Se basa en la definición precisa y con rigor de un razonamiento evitando cualquier tipo de ambigiüedad y de contradicción. Es por ello que la lógica tradicional no suele servir como fundamento de razonamientos del mundo real.
 
-Los conceptos que se manejan en el mundo real suelen ser vagos, llenos de imprecisiones. Además tienden a ser nombrados cualitativamente, no quantitativamente, y cuando existe una correspondencia, ésta suele estar marcada por la subjetividad de los términos.
-
-Explicar lógica difusa y control difuso. Indicar los controladores difusos de segundo, tercer y sucesivos niveles.
 
 \subsection{Teoría de conjuntos difusos}
 
@@ -500,7 +664,7 @@ Las dos formas de extraer conclusiones a partir de premisas en \gls{fl} son el \
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Ilustración con las dos formas de razonamiento}
-	\caption[\textit{Modus ponendo ponens} vs. \textit{modus tollendo tollens}]{Formas de razonamiento en lógica tradicional: \textit{modus ponendo ponens} y \textit{modus tollendo tollens}.}
+	\caption[\textit{Modus ponendo ponens} vs. \textit{modus tollendo tollens}.]{Formas de razonamiento en lógica tradicional: \textit{modus ponendo ponens} y \textit{modus tollendo tollens}.}
 	\label{fig:modus-ponens-and-modus-tollens}
 \end{figure}
 
@@ -508,7 +672,7 @@ Las dos formas de extraer conclusiones a partir de premisas en \gls{fl} son el \
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Ilustración con el modus ponens y el modus ponens generalizado}
-	\caption[Diferencias entre \textit{modus ponens} tradicional y generalizado]{Proceso de razonamiento según el \textit{modus ponens} tradicional frente al \textit{modus ponens} generalizado. En el primero, si la premisa $A$ es cierta, entonces la conclusión $B$ será cierta. En el segundo, dado que la premisa $A$ no es del todo cierta (es $A'$), entonces la conclusión $B$ será cierta sólo en parte ($B'$).}
+	\caption[Diferencias entre \textit{modus ponens} tradicional y generalizado.]{Proceso de razonamiento según el \textit{modus ponens} tradicional frente al \textit{modus ponens} generalizado. En el primero, si la premisa $A$ es cierta, entonces la conclusión $B$ será cierta. En el segundo, dado que la premisa $A$ no es del todo cierta (es $A'$), entonces la conclusión $B$ será cierta sólo en parte ($B'$).}
 	\label{fig:modus-ponens-traditional-vs-generalized}
 \end{figure}
 
@@ -532,7 +696,7 @@ Los \glspl{fis} (o \glspl{fcs}) son el caso de éxito de la lógica difusa que m
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Ilustración general de un controlador difuso}
-	\caption[Diagrama general de un \gls{fis}]{Diagrama del esquema general de un \gls{fis}.}
+	\caption[Diagrama general de un \gls{fis}.]{Diagrama del esquema general de un \gls{fis}.}
 	\label{fig:fis-general-schema}
 \end{figure}
 
@@ -564,48 +728,6 @@ El consecuente de un \gls{fis} de tipo Mandamni siempre es un conjunto difuso. P
 ------------------------------------------
 
 
-
-
-
-
-
-
-
-
-
-
-\section{Grafos computacionales}
-
-\TODO{Desarrollar un poquito el tema de los grafos computacionales indicando que si bien no se tratan de una técnica dentro de la inteligencia computacional, sí que se usan para representar operaciones.}
-
-En la actualidad el concepto de grafo computacional se relaciona directamente con las redes neuronales, y por ello se introduce el concepto en este apartado. Sin embargo, no se trata de un concepto exclusivo de esta técnica. De hecho, ni siquiera es un concepto perteneciente al área de la inteligencia computacional, sino que es simplemente una forma de representar operaciones sobre datos.
-
-Formalmente, un \textbf{grafo computacional} es un grafo dirigido donde los vértices representan operaciones sobre datos mientras que las aristas representan el flujo de dichos datos. La figura XXX ilustra un ejemplo de un grafo computacional.
-
-Una ventaja al representar un modelo como grafo computacional es que ayuda a abstraerse de la formas de las entradas y las salidas, facilitando el trabajo de operaciones en batch. Otra ventaja, todavía mayor, es que, al organizar de entrada a salida (en la figura XXX de izquierda a derecha) las operaciones que se necesitan para obtener una salida a partir de una entrada, en los casos donde el objetivo es optimizar la salida permiten fácilmente representar el gradiente al organizarlo del modo contrario (es decir, de las salidas a la entrada o, en el caso de la figura XXX de derecha a izquierda).
-
-\TODO{Poner aquí un ejemplo de grafo computacional, por ejemplo una recta o algo así. Algo que tenga al menos dos pasos y explicar cómo se calcula la derivada y por qué esto viene genial. Luego, en el seiguiente capítulo se puede explicar el backpropagation con esto (ver http://colah.github.io/posts/2015-08-Backprop/)}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 \section{El paradigma de los Agentes Inteligentes}
 \label{ch:ci:s:agent-concept}
 
@@ -631,7 +753,7 @@ Nosotros hablaremos de estas entidades desde el punto de vista de la \gls{ai}, y
 
 \begin{figure}[t]
 	\includegraphics{agent-properties}
-	\caption[Esquema de agente y sus propiedades]{Esquema de un agente y sus propiedades. Aunque no existe una definición comúnmente aceptada de agente, sí que existe una serie de propiedades que los que los identifican. Es autónomo, opera realiza acciones sobre un entorno dependiendo de las percepciones que le llegan de éste y tiene la capacidad de comunicarse con el resto de elementos, incluídos otros agentes.\TODO{CAMBIAR LA IMAGEN Y VER CÓMO SE PUEDE INCLUIR EL CONCEPTO DE COLABORACIÓN}}
+	\caption[Esquema de agente y sus propiedades.]{Esquema de un agente y sus propiedades. Aunque no existe una definición comúnmente aceptada de agente, sí que existe una serie de propiedades que los que los identifican. Es autónomo, opera realiza acciones sobre un entorno dependiendo de las percepciones que le llegan de éste y tiene la capacidad de comunicarse con el resto de elementos, incluídos otros agentes.\TODO{CAMBIAR LA IMAGEN Y VER CÓMO SE PUEDE INCLUIR EL CONCEPTO DE COLABORACIÓN}}
 	\label{fig:agent-properties}
 \end{figure}
 
@@ -665,7 +787,7 @@ Existe una serie de arquitecturas básicas o tipos de agentes que dependen princ
 
 \begin{figure}
 	\missingfigure[figheight=3.5cm]{Arquitectura básica de un agente}
-	\caption[Arquitectura básica de un agente]{Arquitectura básica de un agente. Aunque existen múltiples arquitecturas diferentes, todas se basan en la misma estructura. El agente percibe el entorno, lo interpreta y toma la decisión de cómo actuar sobre él.}
+	\caption[Arquitectura básica de un agente.]{Arquitectura básica de un agente. Aunque existen múltiples arquitecturas diferentes, todas se basan en la misma estructura. El agente percibe el entorno, lo interpreta y toma la decisión de cómo actuar sobre él.}
 	\label{fig:agent-basic-architecture}
 \end{figure}
 
@@ -682,7 +804,7 @@ La primera diferencia clave surge en la manera que se ofrece al bloque de infere
 
 \begin{figure}
 	\missingfigure[figheight=3.5cm]{Arquitectura básica de un agente}
-	\caption[Diferencias entre un agente sin y con modelo de entorno]{Ilustración de la diferencia entre un agente sin modelo de entorno y uno con modelo de entorno. Cada acción realizada por el agente con modelo de entorno tiene en cuenta el estado del entorno en momentos pasados. El agente sin modelo de entorno actúa tal y como interpreta el entorno en cada momento, como si sufriese de amnesia.}
+	\caption[Diferencias entre un agente sin y con modelo de entorno.]{Ilustración de la diferencia entre un agente sin modelo de entorno y uno con modelo de entorno. Cada acción realizada por el agente con modelo de entorno tiene en cuenta el estado del entorno en momentos pasados. El agente sin modelo de entorno actúa tal y como interpreta el entorno en cada momento, como si sufriese de amnesia.}
 	\label{fig:memory-vs-amnesia-in-agents}
 \end{figure}
 
@@ -693,7 +815,7 @@ La primera diferencia clave surge en la manera que se ofrece al bloque de infere
 
 \begin{figure}
 	\includegraphics{agent-types}
-	\caption[Arquitecturas de agente según su comportamiento]{Distintas arquitecturas de agentes en función del comportamiento. Dependiendo de las acciones a realizar, se identifican tres tipos, los reactivos que aplican una acción sin proceso deductivo y los basados en modelo y utilidad (en algunos contextos denominados deliberativos) que basan su comportamiento en alguna forma de deducción.}
+	\caption[Arquitecturas de agente según su comportamiento.]{Distintas arquitecturas de agentes en función del comportamiento. Dependiendo de las acciones a realizar, se identifican tres tipos, los reactivos que aplican una acción sin proceso deductivo y los basados en modelo y utilidad (en algunos contextos denominados deliberativos) que basan su comportamiento en alguna forma de deducción.}
 	\label{fig:agent-types}
 \end{figure}
 
@@ -734,6 +856,6 @@ Desde el punto de vista de la \gls{ai} podemos añadirles la ventaja de que perm
 
 \begin{figure}
 	\missingfigure[figheight=3.5cm]{Una ilustración de algún entorno de vida artificial donde los agentes compiten y uno de algo donde cooperen}
-	\caption[Diferencias entre colaboración y competitividad de agentes]{La comunicación entre agentes puede ser de dos tipos: \textit{colaborativa}, donde los agentes tratan de llegar a una solución intercambiándose información y \textit{competitiva}, donde los agentes compiten unos contra otros en un entorno.}
+	\caption[Diferencias entre colaboración y competitividad de agentes.]{La comunicación entre agentes puede ser de dos tipos: \textit{colaborativa}, donde los agentes tratan de llegar a una solución intercambiándose información y \textit{competitiva}, donde los agentes compiten unos contra otros en un entorno.}
 	\label{fig:communication-between-agents-in-mass}
 \end{figure}
