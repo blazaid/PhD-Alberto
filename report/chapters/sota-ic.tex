@@ -582,6 +582,8 @@ El uso de variables ligüísticas permite representar fenómenos del mundo real 
 
 Una posible definición de conjunto difuso podría ser \textit{dada $X$ una colección de elementos. Se define al \textbf{conjunto difuso} $F$ como un conjunto ordenado de pares de la forma $F = {(x, \mu_F(x)) | x \in X}$, siendo $\mu_F(x) \in [0, 1] \forall x \in X$}. A la función $\mu_F(x)$ se la denomina \textbf{función de pertenencia}, y caracteriza unívocamente a un conjunto difuso del dominio de $X$\sidenote{
 	Según Zadeh, la teoría de conjuntos difusos debería servir de ejemplo de lo que él denominó \textit{principio de extensión}~\cite{zadeh1975concept}, esto es, el proceso por el cual generalizar cualquier teoría definida en un dominio discreto hacia su versión continua.
+}\sidenote{
+	Un ejemplo clásico que pone de relieve la utilidad es el de una variación de la paradoja del montón (o paradoja sorites, donde se aplica el método inductivo para demostrar que un montón de arena es y no es un montón de arena) por parte de~\cite{klir1997fuzzy}. En el artículo se argumenta que si tenemos un montón de arena y vamos quitando los granos uno por uno, llegará un momento que no tendremos dicho montón. Está claro que un grano, dos, tres no son un montón de arena, pero un montón menos uno, dos o tres granos tampoco deja de serlo. Desde el punto de vista de la lógica clásica, es imposible determinar el límite de granos donde un montón de arena deja de serlo. Este ejemplo representa una de las muchas situaciones donde es inevitable la incertidumbre.
 }.
 
 La teoría de conjuntos clásica también define los conjuntos de acuerdo a una función, en este caso denominada \textit{función característica}. Las ecuaciones~\ref{eq:characteristic-function} y~\ref{eq:membership-function} muestran las diferencias entre los valores de $f$ siendo ésta una función característica de la teoría de conjuntos clásica o una función de pertenencia de la teoría de conjuntos difusos respectivamente.
@@ -608,7 +610,54 @@ Mientras que un conjunto tradicional se basa en si pertenece o no, un conjunto d
 
 \paragraph{Funciones de pertenencia}
 
-Esta función de pertenencia $\mu_F$ puede tomar cualquier forma siempre que estén definidas en el dominio $[0, 1] \subset \mathbb{R}$, pero lo habitual es definirlas como funciones triangulares o trapezoidales. Un ejemplo de estas funciones se ilustra en la figura~\ref{fig:membership-functions}.
+Esta función de pertenencia $\mu_F$ puede tomar cualquier forma siempre que estén definidas en el dominio $[0, 1] \subset \mathbb{R}$ (independientemente de si son discretas o no), pero lo habitual es definirlas como funciones triangulares o trapezoidales. Un ejemplo de estas funciones se ilustra en la figura~\ref{fig:membership-functions}.
+
+\begin{figure}
+	\centering
+	\includegraphics{trimf-trapmf}
+	\caption[Gráfica de funciones de pertenencia triangular y trapezoidal.]{Las funciones de pertenencia triangular y trapezoidal son las dos funciones más usadas a la hora de definir conjuntos difusos, tanto manualmente como en técnicas de ajuste. La razón es su sencillez, ya que captan la esencia de la imprecisión a la hora de definir un término sobre un dominio.}
+	\label{fig:trimf-trapmf}
+\end{figure}
+
+Las funciones de pertenencia caracterizan a los conjuntos difusos. Su notación habitual es la que se presenta en la ecuación~\ref{eq:fuzzy-set-notation}, donde $F$ es el conjunto definido, $\mu$ su función de pertenencia y $x$ el valor real del dominio sobre el que se define la variable lingüística.
+
+\begin{equation}
+	F = {(x, \mu_F(x)) | x \in U}
+\end{equation}
+
+\paragraph{Operaciones entre conjuntos}
+
+Las mismas nociones de operaciones en teoría de conjuntos son aplicables a la teoría de conjuntos difusos. Una operación entre conjuntos difusos es aquella que genera un nuevo conjunto difuso a partir de uno o más conjuntos difusos de entrada definidos sobre el mismo universo de discurso. Son las operaciones $t$-norma, $t$-conorma y complemento.
+
+\begin{figure*}
+	\centering
+	\missingfigure[figheight=5cm]{Ilustración de 2 t-normas}
+	\caption[$t$-normas del mínimo y del producto algebraico.]{Las $t$-normas de mínimo y de producto algebraico son dos representantes de un conjunto muy amplio de funciones.}
+	\label{fig:t-norms}
+\end{figure*}
+
+La $t$-norma es la generalización del operador conjunción en lógica clásica. Son un conjunto de aplicaciones de la forma $T: [0, 1] \times [0, 1] \rightarrow [0, 1]$ tales que cumplen las propiedades \textit{conmutativa}, asociativa, monótona e identidad\sidenote{
+	Las propiedades son:
+	\begin{itemize}
+		\item Conmutativa: $T(x, y) = T(y, x)$.
+		\item Asociativa: $T(x, T(y, z)) = T(T(x, y), z)$.
+		\item Monótona: $x \leq z, y \leq t \rightarrow T(x, y) \leq T(z, t)$.
+		\item Identidad: $\exists 1 | T(x, 1) = x$.
+	\end{itemize}
+}. Dos de las operaciones más usadas como t-norma se ilustran en la Figura~\ref{fig:t-norms}. Existen muchas más, pero en controladores difusos se suelen usar el mínimo o,en su defecto, el producto.
+
+La $t$-conorma (o $s$-norma), por otro lado, generaliza el concepto de unión. Una $t$-conorma $s$ se define a partir de una $t$-norma $t$ como $S = 1 - T(1-x, 1-y)$, es decir, la función complementaria a la $t$-norma. De esta forma se consigue que las Leyes de Morgan se cumplan de una forma generalista. Dos ejemplos de $t$-conormas se ilustran en la Figura~\ref{fig:t-conorms}
+
+Las propiedades que ha de cumplir una $t$-conorma son las mismas que las de la $t$-norma\sidenote{
+	De hecho, son deducibles a partir de la $t$-norma con una salvedad, la identidad, que se define como $\exists 0 | S(x, 0) = x$.
+}.
+
+\begin{figure*}
+	\centering
+	\missingfigure[figheight=5cm]{Ilustración de 2 t-conormas}
+	\caption[$t$-normas del máximo y de la suma algebraica.]{Las $t$-conormas de máximo y de suma algebraica son las complementarias a $t$-normas mostradas previamente, y como ocurre en estas, existen tantas $t$-conormas como $t$-normas definidas.}
+	\label{fig:t-conorms}
+\end{figure*}
 
 \subsection{Razonamiento}
 
