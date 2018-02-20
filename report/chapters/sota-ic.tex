@@ -625,6 +625,8 @@ Las funciones de pertenencia caracterizan a los conjuntos difusos. Su notación 
 	F = {(x, \mu_F(x)) | x \in U}
 \end{equation}
 
+Dos casos particulares de funciones de pertenencia son las funciones cuadradas (que son qeuivalente a conjuntos \textit{crisp)} y las funciones singleton (que el valor de pertenencia lo tiene un único valor en todo el dominio).
+
 \paragraph{Operaciones entre conjuntos}
 
 Las mismas nociones de operaciones en teoría de conjuntos son aplicables a la teoría de conjuntos difusos. Una operación entre conjuntos difusos es aquella que genera un nuevo conjunto difuso a partir de uno o más conjuntos difusos de entrada definidos sobre el mismo universo de discurso. Son las operaciones $t$-norma, $t$-conorma y complemento.
@@ -659,123 +661,135 @@ Las propiedades que ha de cumplir una $t$-conorma son las mismas que las de la $
 	\label{fig:t-conorms}
 \end{figure*}
 
-\subsection{Razonamiento}
+El complemento de un conjunto vendrá calculado a partir de la función de pertenencia de dicho conjunto. Esto es similar a la teoría de conjuntos clásica donde el complemento de un conjunto contiene todos aquellos elementos que no estaban originariamente en dicho conjunto.
 
-\subsection{Sistemas de inferencia difusa}
+Formalmente, si $F$ es un conjunto definido por la función de pertenencia $\mu_F$, la función de pertenencia que definirá al conjunto complementario $F^\complement$ será $\mu_{F^\complement} = \mu_F(x) \circ f$, siendo $f$ una aplicación de la forma $f : [0,1] \rightarrow [0,1]$ tal que cumple las propiedades de \textbf{equivalencia con teoría de conjuntos clásica}, \textbf{estrictamente decreciente} e \textbf{involucion}\sidenote{
+	Las propiedades son:
+	\begin{itemize}
+		\item Equivalencia con teoría de conjuntos clásica en el caso de usar conjuntos \textit{crisp}, es decir, $f(1) = 0 y f(0) = 1$.
+		\item Estrictamente decreciente: $\forall x, y \in [0, 1], x > y \implies f(x) < f(y)$.
+		\item Involución: $\forall x \in [0,1], f(f(x)) = x$.
+	\end{itemize}
+}.
 
-Hablar de los tipos de sistemas (Tipos Mandamni y Sugeno diferentes).
-
-
-
------------------------------------------------------------
-
-
-
-
-\subsection{Teoría de conjuntos difusos}
-
-A diferencia de los conjuntos tradicionales, los conjuntos difusos expresan el grado de pertenencia de un elemento a la categoría representada por el conjunto. La definición podría escribirse de la siguiente manera:
-
-\TODO{Creo que habría que definir antes qué es un dominio}
-
-\begin{definition}
-	Sea $X$ una colección de elementos. Se define al \textbf{conjunto difuso} $F$ como un conjunto ordenado de pares de la forma $F = {(x, \mu_F(x)) | x \in X}$, siendo $\mu_F(x) \in [0, 1] \forall x \in X$.
-	\label{def:fuzzy-set}
-\end{definition}
-
-La función de la definición~\ref{def:fuzzy-set} se denomina \textbf{función de pertenencia}, y caracteriza unívocamente a un conjunto difuso del dominio de $X$.
-
-\TODO{Quizá aquí habría que decir qué es una partición de nu dominio}
-
-\subsection{Operaciones entre conjuntos}
-
-La unión, intersección y el complemento son operaciones básicas en la teoría de conjuntos. \TODO hablar aquí de tnorm, tconorm y complemento, pero someramente. No hay que enrollarse demasiado.
+El operador más común para el complemento es el probabilístico, denominado también \textit{complemento de Zadeh} en \ac{fl}. Existen sin embargo otros complementos, como el complemento de Yager o el complemento de Sugeno, ambos deducidos de una familia de funciones denominadas negaciones fuertes\sidenote{
+	El \textbf{complemento de Yager} es toda una familia de complementos que obedece a la fórmula $f_\lambda(x) = (1 - x^\lambda)^{1 / \lambda}$ para $\lambda = 0$. El \textbf{complemento de Sugeno} es otra familia cuya función es diferente, $f_\lambda(x) = \frac{1-x}{1 - \lambda \cdot x}$. A partir de ambas se puede definir el complemento de Zadeh variando el valor de $\lambda$.
+}.
 
 \subsection{Razonamiento}
 
-Al igual que en la lógica tradicional, en la \gls{fl} el razonamiento o inferencia es la manera de extraer conclusiones a partir de premisas en función de un conjunto de reglas.
+El razonamiento o inferencia es el proceso de obtener consecuencias a partir de hechos (premisas). En \ac{fl}, el proceso de inferencia lógica se amplía a través de relaciones difusas, trasladando valores de verdad aproximados.
 
-\sidenote{
-	\textbf{La implicación} en lógica se representa como $A \rightarrow B$, donde $A$ es cualquier operación de premisas y $B$ la conclusión que arrojan.
-	
-	En lógica tradicional, el valor de verdad de una implicación es equivalente al de la expresión $\not A \lor B$. Sin embargo, en lógicas multivaluadas (y por tanto en lógica difusa) esta equivalencia da lugar a razonamientos que se pueden considerar contraintuitivos.
-	
-	En el caso concreto de la lógica difusa se han propuesto muchas cantidad de equivalencias. Sólo en los trabajos \cite{Kiszka1985} se analizan $72$ alternativas al operador $\not A \lor B$.
-	
-	El operador más usado no obstante es el definido como $A \land B$ debido a su rendimiento (en la implicación de Mamdani la $T$-norma se implementa como el operador mínimo).
-}
+Toda regla difusa está compuesta por un antecedente y un consecuente. Tanto el uno como el otro están compuestos de sentencias que asignan valores de variables difusas (conjuntos difusos) a éstas. La forma más común de representar las reglas difusas es a través de reglas \texttt{IF \ldots THEN}, donde las relaciones entre elementos (i.e. \texttt{AND}, \texttt{OR} y \texttt{NOT}) se corresponden con las operaciones de $t$-norma, $t$-conorma y complemento. La Figura~\ref{fig:fuzzy-rule} detalla los componentes de estas reglas.
 
-Estas reglas se expresan como implicaciones, definidas típicamente en lógica difusa como $A \rightarrow B \equiv A \land B$.
+La implicación lógica $A \implies B$ es equivalente a $\lnot A \lor B$, pero en lógica difusa esta equivalencia arroja valores contra-intuitivos. Una definición ampliamente extendida es la del uso de una $t$-norma, como es el caso de la \textbf{Implicación de Mamdani}, pero existen muchos tipos diferentes\sidenote{
+	En los trabajos de [The influence of some fuzzy implication operators on the accuracy of a fuzzy model-Part I, The influence of some fuzzy implication operators on the accuracy of a fuzzy model-Part II] se estudian hasta 72 alternativas al operador $A \implies B \equiv \lnot A \lor B$ de implicación en \ac{fl}.
+}.
 
-Las dos formas de extraer conclusiones a partir de premisas en \gls{fl} son el \textit{modus ponens} generalizado (del que hablaremos) y el \textit{modus tollens} generalizado, modificaciones sobre los procesos de inferencia \textit{modus ponens} y \textit{modus tollens}\sidenote{
-	En realidad se llaman \textit{modus ponendo ponens} (\enquote{la forma que al afirmar, afirma}) y \textit{modus tollendo tollens} (\enquote{la forma que al negar, niega}).
-}, dos formas similares de razonamiento (figura~\ref{fig:modus-ponens-and-modus-tollens}). Nosotros centraremos nuestro discurso en la primera.
+\paragraph{Modus Ponens Generalizado}
 
-\begin{figure}
-	\missingfigure[figheight=4cm]{Ilustración con las dos formas de razonamiento}
-	\caption[\textit{Modus ponendo ponens} vs. \textit{modus tollendo tollens}.]{Formas de razonamiento en lógica tradicional: \textit{modus ponendo ponens} y \textit{modus tollendo tollens}.}
-	\label{fig:modus-ponens-and-modus-tollens}
-\end{figure}
+Se trata de la extensión del método del \textbf{modus ponens} para obtener el valor de verdad de un consecuente a partir de un antecedente ambos difusos. En la Figura~\ref{fig:modus-ponens-classic-vs-generalized}
 
-\newthought{El modus ponens generalizado} es una generalización del modus ponens de la lógica tradicional donde, en lugar de expresas las reglas de forma absoluta, se expresan de forma aproximada. En la figura~\ref{fig:modus-ponens-traditional-vs-generalized} se ilustra las diferencias fundamentales entre ambos modos.
+\begin{figure*}
+	\centering
+	\missingfigure[figheight=5cm]{Modus ponens vs modus ponens generalizado}
+	\caption[Diferencias entre \textit{modus ponens} clásico y \textit{modus ponens generalizado}.]{Diferencias entre \textit{modus ponens} clásico y \textit{modus ponens generalizado}. Debido a que los valores de las reglas de inferencia difusa son conjuntos difusos, la conclusión de un silogismo es por tanto un conjunto difuso, no un valor absoluto de verdad o mentira.}
+	\label{fig:modus-ponens-classic-vs-generalized}
+\end{figure*}
 
-\begin{figure}
-	\missingfigure[figheight=4cm]{Ilustración con el modus ponens y el modus ponens generalizado}
-	\caption[Diferencias entre \textit{modus ponens} tradicional y generalizado.]{Proceso de razonamiento según el \textit{modus ponens} tradicional frente al \textit{modus ponens} generalizado. En el primero, si la premisa $A$ es cierta, entonces la conclusión $B$ será cierta. En el segundo, dado que la premisa $A$ no es del todo cierta (es $A'$), entonces la conclusión $B$ será cierta sólo en parte ($B'$).}
-	\label{fig:modus-ponens-traditional-vs-generalized}
-\end{figure}
+La \textit{regla composicional de inferencia} es el método para determinar qué grado de asignamos aun consecuente a partir de las premisas de los antecedentes en un proceso de \textit{modus ponens generalizado}, o dicho de otro modo, cómo obtener la función de pertenencia del conjunto resultado a partir de las funciones de pertenencia de las premisas.
 
-Para determinar qué grado le asignamos a un consecuente a partir de las premisas parciales y las reglas que dirigen el razonamiento se utiliza un método denominado \textbf{regla composicional de inferencia}.
+Sin entrar demasiado en detalle, cada regla de un sistema difuso de la forma \texttt{IF $x$ is $A$ THEN $y$ is $B$} se puede representar como una función $I$ como $I(\mu_A(x), \mu_B(y))$ [La regla composicional de Zadeh]. REVISAR ESTO PORQUE CREO QUE EN LA TESIS DE MASTER ESTÁ MAL O RARO.
 
-Una regla $A' \rightarrow B'$ se puede representar como una implicación caracterizada por una función $I(\mu_A(x), \mu_B(y))$ (\cite{Fuller1993}).
+\subsection{Sistemas de control difuso}
 
-\TODO{Explicar mejor porque es terrorífico.}
+Los \ACRfull{fcs} son el caso de éxito de la lógica difusa que más resultados ha cosechado tanto a nivel académico como a nivel industrial. Se trata sistemas que utilizan el razonamiento difuso para inferir una respuesta a partir de un conjunto de entradas\sidenote{
+	Dado que el control difuso puede extenderse a casi cualquier problema de control tradicional hace que se haya usado en multitud de campos, no sólo en el industrial. Esto hace que el mismo concepto pueda encontrarse con muchos nombres diferentes, como Sistemas de Lógica Difusa, Sistemas de Inferencia Difusa, Sistemas Expertos Difusos, Sistemas Basados en Reglas Difusas o simplemente Sistemas Difusos. [COGER LAS REFERENCIAS DE LA TESIS DE MASTER]
+}. Su uso se aplica tanto a sistemas de control manual como a sistemas donde los elementos a controlar son muy difíciles o incluso imposibles de diseñar (e.g. procesos de control con un alto número de variables relacionadas entre si).
 
-...
-
-Tengo que hablar también del softmax, el por qué usarlo. También de la entropía cruzada y de por qué usamos este loss sobre el resto.
-
-He visto una cosa curiosa que es el "negative sampling". Podría hablar de ello y usarlo porque haría el entrenamiento mucho más rápido. Por lo que me ha parecido ver, se usa en lugar de la capa softmax y de lo que va es transformar la capa softmax (que es coñazo de calcular) en una capa de k+1 clasificadores binarios, donde hay 1 correcto y k incorrectos. Se usa en clasificación.
-
-En \cite{Ma2004} hay un capítulo de razonamiento que parece que está guay. Revisarlo un poco a fondo a ver si merece la pena tirar or ahí.
-
-\subsection{\gls{fis}}
-
-Los \glspl{fis} (o \glspl{fcs}) son el caso de éxito de la lógica difusa que más resultados ha cosechado tanto a nivel académico como a nivel industrial. Se trata sistemas que utilizan el razonamiento difuso para inferir una respuesta a partir de un conjunto de entradas.
+Éste se puede definir como un componente que asigna salidas de dominios no difusos (\textit{crisp}) a entradas de dominios también no difusos (\textit{crisp}) de forma no lineal haciendo uso de lógica difusa. La arquitectura de estos sistemas está compuesta por cuatro bloques: \textit{fuzzificador}, \textit{bloque de reglas}, \textit{razonador} y \textit{defuzzificador}. En la Figura~\ref{fig:fuzzy-control-system} se describe el esquema de un sistema de control difuso general.
 
 \begin{figure}
-	\missingfigure[figheight=4cm]{Ilustración general de un controlador difuso}
-	\caption[Diagrama general de un \gls{fis}.]{Diagrama del esquema general de un \gls{fis}.}
-	\label{fig:fis-general-schema}
+	\centering
+	\missingfigure[figheight=5cm]{Esquema de un sistema de control difuso}
+	\caption[Esquema de un sistema de control difuso]{Un sistema de control difuso es un componente compuesto por cuatro bloques principales:. fuzzificador, bloque de reglas, razonador y defuzzificador.}
+	\label{fig:fuzzy-control-system}
 \end{figure}
 
-Habitualmente son descritos como un componente dividido en tres bloques conceptuales:
+\paragraph{Fuzzificador}
 
-\begin{itemize}
-	\item \textbf{Fuzzificación}. Traducir los valores de entrada en crudo del dominio sobre el que está definida cada variable lingüística a sus respectivos grados de pertenencia a conjuntos difusos a través de sus funciones de pertenencia. \TODO Ojo, algunos controladores toman como valores de entrada conjuntos difusos según \cite{Ma2004}. Habrá que buscar sobre ello.
-	\item \textbf{Inferencia}. Realiza todo el proceso de razonamiento difuso a partir del conjunto de reglas qeu dan significado a este controlador difuso.
-	\item \textbf{Defuzzificación}. Traduce los conjunto difuso resultado del proceso de inferencia a valores del los dominios sobre los que están definidos dichos conjuntos difusos. \TODO En un sugeno, la salida es una función directamente así que se podría especificar que en un tipo Sugeno,se puede ver como que la salida son sólo singletones, manteniendo la generalización del proceso de funcionamiento de un \gls{fis}.
-\end{itemize}
+Este bloque recibe las entradas \textit{crisp} al sistema (los cuales pertenecerán al dominio sobre el que las variables están definidas) y las transforma a valores de pertenencia de sus respectivos conjuntos difusos.
 
-Esta división se ilustra en la figura~\ref{fig:fis-general-schema}.
+\paragraph{Bloque de reglas}
 
-\newthought{Hay varios tipos diferentes de \gls{fis}}, aunque tienden a seguir el esquema básico de un controlador difuso típico (figura~\ref{fig:fis-general-schema}).
+Define el conjunto de reglas que gobiernan el proceso deductivo del sistema de control difuso. A estas reglas se les puede aplicar pesos en caso de que se quiera simbolizar la mayor importancia de una regla frente al resto. Se suele representar como un parámetro $w_i > 0 \in \mathbb{R}$ para la regla $i$-ésima, el cual se multiplica al resultado de la regla para ponderar la importancia de la misma.
 
-\paragraph{Sistemas de tipo Mandamni}
+La forma más común de representación es a través de reglas de la forma \texttt{IF \ldots THEN \ldots} por su facilidad de comprensión.
 
-Son la primera aproximación de \gls{fis} propuestos
+Sin embargo, otra representación muy usada (sobre todo como representación interna) es la de $m$ matriz $n$-dimensionales (una por cada conjunto difuso de salida), donde cada dimensión se corresponde con una variable lingüística, con los conjuntos difusos de éstas como índices y con los valores que toman esas intersecciones como los valores de esa salida. En la Figura~\ref{fig:fuzzy-controller-matrix-representation}\sidenote{En el desarrollo de la tesis veremos un caso en el que esta representación es útil a la hora de inferir un controlador difuso a partir de un conjunto de entrenamiento}.
 
-\paragraph{Sistemas de tipo Takagi-Sugeno}
+\begin{figure}
+	\centering
+	\missingfigure[figheight=5cm]{Figura bonica que represente una matriz de reglas difusas}
+	\caption[Representación de conjuntos de reglas como matriz]{Un ejemplo de representación matricial de un conjunto de reglas difusas. Las reglas activas se simbolizan como un $1$ (o como un valor real en caso de querer aplicar pesos).}
+	\label{fig:fuzzy-controller-matrix-representation}
+\end{figure}
 
-...
+\paragraph{Razonador}
 
-Hablar someramente de los tres tipos clásicos que se usan, e indicar que al final los más usados son el Mandamni y el Sugeno. Añadir también quizá una tabla comparativa enter los tres o al menos entre los dos principales:
+Se encarga de realizar todo el procesamiento de inferencia haciendo uso de las entradas fuzzy (las salidas del bloque fuzzificador) y las reglas del bloque de reglas.
 
-El consecuente de un \gls{fis} de tipo Mandamni siempre es un conjunto difuso. Por tanto, el proceso de sacar un valor crisp es costoso. Lo bueno, se mantiene significado semántico de las salidas. El consecuente en un Sugeno es un valor, y se puede decir que no necesita proceso de defuzzificación. Si embargo, la respuesta pierde significado semántico si la suma de la fuerza de salida no es 1 (no entiendo qué quiero decir con esto).
+A partir de éstos realizará un proceso de deducción (normalmente \textit{modus ponens generalizado}) tras el cual se obtendrán las funciones de pertenencia para cada uno de los conjuntos difusos resultado de las conclusiones del proceso de inferencia.
 
+\paragraph{Defuzzificador}
 
-------------------------------------------
+Realiza el proceso inverso del bloque fuzzificador. Dado que a la salida del razonador sólo contamos con valores de pertenencia al conjunto difuso de salida, es necesario una transformación al dominio de la variable lingüística de salida para convertirlo en un valor interpretable por el sistema a controlar.
 
+\begin{subequations}
+	\begin{equation}
+		f(x) = \frac{\int_{F} x \cdot \mu_F(x) \cdot dx}{\mu_F(x)}
+		\label{eq:centroid-of-area}
+	\end{equation}
+	\begin{equation}
+		f(x) = \frac{\sum_{F} x \cdot \mu_F(x) \cdot dx}{\sum_{F} \mu_F(x)}
+		\label{eq:weighted-sum}
+	\end{equation}
+\end{subequations}
+
+Existen diferentes algoritmos para la transformación de un conjunto difuso (expresado a partir de su función de pertenencia $\mu_F$) a un valor \textit{crisp}. Suelen ser comunes en conjuntos de salida continuos el COA (\textit{centroid of area}, ecuación~\ref{eq:centroid-of-area} y en conjuntos de tipo singleton su versión \textit{media ponderada} (ecuación~\ref{eq:weighted-sum})\sidenote{
+	En el trabajo [Defuzzification: criteria and classification] se realiza una clasificación muy completa de una gran cantidad de algoritmos de defuzzificación.
+}.
+
+\subsection{Tipos de Sistemas de Control Difuso}
+
+Los sistemas de control difuso se han usado en muchos dominios diferentes. Son tantos los autores que han trabajado sobre ello que los sistemas tienden a variar en su funcionamiento. Existen dos tipos de controladores que son los que dominan la literatura, los cuales de describen brevemente a continuación.
+
+\paragraph{Controlador difuso tipo Mamdani}
+
+Este controlador fue el primer intento de control destinado automatizar un motor de vapor y su caldera utilizando para ello un conjunto de reglas difusas del tipo \texttt{$IF \ldots THEN \ldots$} obtenidas directamente de la experiencia de los operarios.
+
+Su estructura es la básica presentada previamente (ver Figura~\ref{fig:fuzzy-control-system}).
+
+Es consecuente de un sistema de tipo \textit{Mamdani} es siempre un conjunto difuso y por tanto requiere de un proceso de defuzzificación que es costoso. De ahí el significado el siguiente tipo de controlador.
+
+\paragraph{Controlador difuso tipo Takagi-Sugeno-Kang}
+
+Este tipo de controlador difuso fue propuesto por Takagi, Sugeno y Kang en los trabajos [Fuzzy identification of systems and its applications to modeling and control, Structure identification of fuzzy model], aunque se suele abreviar a tipo Takagi-Sugeno o, directamente, Sugeno.
+
+En este tipo de controlador, el bloque de defuzzificación desaparece y los consecuentes de las reglas de inferencia son reemplazados por una función (normalmente un polinomio basado en los parámetros del antecedente) la cual nos devuelve directamente un valor \textit{crisp} (ver Figura~\ref{fig:sugeno-type}).
+
+\begin{figure}
+	\centering
+	\missingfigure[figheight=5cm]{Figura bonica que represente una matriz de reglas difusas}
+	\caption[Representación de conjuntos de reglas como matriz]{En un controlador de tipo Takagi-Sugeno-Kang se prescinde del bloque de defuzzificación y los consecuentes de las reglas de inferencia son reemplazados por funciones. Por término general, estas funciones son polinomios.}
+	\label{fig:sugeno-type}
+\end{figure}
+
+En función del orden del polinomio de la función de salida, el controlador recibe también el mismo orden. De esta manera, por ejemplo, si tenemos dos valores de entrada $x$ e $y$, cuando $f(x, y) = c$ ($c$ constante)se dice que el controlador es de orden $0$. Si $f(x, y) = ax + by + c$, se dice que es de orden $1$, y así sucesivamente\sidenote{
+	Los controladores de tipo Takagi-Sugeno-Kang de orden $0$ son equivalentes a controladores de tipo Mamdani cuyos conjuntos difusos de salida son de tipo singleton.
+}.
+
+El consecuente en un controlador de tipo Sugeno es un valor directamente, y por tanto no necesita proceso de defuzzificación. Sin embargo, la respuesta pierde significado semántico, a diferencia de un controlador de tipo Mamdani.
 
 \section{El paradigma de los Agentes Inteligentes}
 \label{ch:ci:s:agent-concept}
