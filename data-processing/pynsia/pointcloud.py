@@ -19,12 +19,12 @@ def to_spherical(ps):
     result = np.zeros(ps.shape)
     # Distance to point
     result[:, 0] = np.sqrt(x2 + y2 + z2)
-    # Theta
+    # Azimuth
     pos_x = ps[:, 0] >= 0
     neg_x = ps[:, 0] < 0
-    result[pos_x, 1] = np.arccos(ps[pos_x, 1] / xy[pos_x])
-    result[neg_x, 1] = 2 * np.math.pi - np.arccos(ps[neg_x, 1] / xy[neg_x])
-    # Rho: elevation angle from XY-plane up
+    result[pos_x, 1] = np.arccos(ps[pos_x, 0] / xy[pos_x])
+    result[neg_x, 1] = 2 * np.math.pi - np.arccos(ps[neg_x, 0] / xy[neg_x])
+    # Elevation angle from XY-plane up
     result[:, 2] = np.arctan2(ps[:, 2], xy)
     return result
 

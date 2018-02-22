@@ -2062,8 +2062,8 @@
 % Theorems, hypothesis and so
 \usepackage{ntheorem}
 \theoremseparator{:}
-\newtheorem{hyp}{Hipótesis}
-\newtheorem{definition}{Definición}
+\newtheorem*{hyp*}{Hipótesis}
+\newtheorem*{definition*}{Definición}
 
 \usepackage{units}
 

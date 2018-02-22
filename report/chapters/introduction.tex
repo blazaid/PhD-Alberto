@@ -25,28 +25,20 @@ Los conceptos introducidos al comienzo del capítulo obedecen a una necesidad de
 
 \begin{itemize}
 	\item En el año 2016, el número de vehículos a nivel mundial superó los $1.350$ millones, con una tendencia creciente \cite{oica2014motrate}. Reducir en un pequeño porcentaje el consumo evita la emisión de toneladas de gases considerados nocivos para el medio ambiente y el ser humano\footnote{Uno puede argumentar que el parque automovilístico se recicla con nuevos vehículos eléctricos categorizados \enquote{de consumo 0}. La triste realidad es que estos vehículos consumen la electricidad generada actualmente de una mayoría de centrales de combustibles fósiles y nucleares. Además, mientras que en países desarrollados el crecimiento ha sido en torno al 4-7\%, en países subdesarrollados, donde no existe aun infraestructura para la recarga de vehículos eléctricos, dicho crecimiento ha superado el 120\%.}.
-	\item Aunque existen diferentes puntos de vista acerca de cuándo se agotarán las reservas de petróleo, los combustibles fósiles son recursos \textbf{finitos}. Lo más probable es que no se llegue a agotar debido a la ley de la oferta y la demanda, pero hay que recordar que el petróleo se usa como base para la producción de otros muchos tipos de productos, como por ejemplo la vaselina, el asfalto o los plásticos.
-	\item La emisión de gases está correlacionada con el aumento de la temperatura del planeta, hecho que se ilustra en la Figura~\ref{fig:co2-global-warm-correlation}. De seguir con el ritmo de consumo actual, se teme llegar a un punto de no retorno con consecuencias catastróficas para la vida en el planeta.
-
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=0.65\textwidth]{co2-global-warm-correlation}
-	\caption[Relación entre la emisión de $CO_2$ a la atmósfera y el aumento de la temperatura en el planeta los últimos $1000$ años]{Desde el comienzo de la revolución industrial, el uso masivo de combustibles fósiles y el crecimiento de la población propició un aumento desproporcionado de $CO_2$ a la atmósfera, tendencia que sigue en aumento aún con la (lenta) adopción del vehículo eléctrico. La gráfica muestra cómo ambos valores parecen estar correlacionados. Fuente: Environmental Defense Fund (\url{edf.org}).\TODO{Buscar una mejor figura o los datos para apañarla yo.}}
-	\label{fig:co2-global-warm-correlation}
-\end{figure}
-
-	\item La conducción eficiente afecta directamente a factores correlacionados con el número de accidentes de tráfico. Un factor de sobra conocido es el de la velocidad, factor relacionado no sólo con el número sino con la gravedad de los accidentes (\cite{imprialou2016re}). Otros indicadores son las aceleraciones, deceleraciones y maniobras de cambio de dirección, cuyas frecuencias son directamente proporcionales a la agresividad, falta de seguridad y accidentes e inversamente proporcionales a la eficiencia (\cite{dingus2006100, lerner2010exploration}).
+	\item Aunque existen diferentes puntos de vista acerca de cuándo se agotarán las reservas de petróleo, los combustibles fósiles son recursos \textbf{finitos}. Lo más probable es que no se lleguen a agotar debido a la ley de la oferta y la demanda, pero hay que recordar que el petróleo se usa como base para la producción de otros muchos tipos de productos, como por ejemplo la vaselina, el asfalto o los plásticos.
+	\item La emisión de gases está correlacionada con el aumento de la temperatura del planeta. Con el ritmo actual, dependiendo de la fuente estamos o bien llegando obien ya hemos sobrepasado un punto de no retorno con consecuencias catastróficas para la vida en el planeta.
+	\item La conducción eficiente afecta directamente a factores correlacionados con el número de accidentes de tráfico. Un factor de sobra conocido es el de la velocidad, relacionado no sólo con el número sino con la gravedad de los accidentes (\cite{imprialou2016re}). Otros indicadores son las aceleraciones, deceleraciones y maniobras de cambio de dirección, cuyas frecuencias son directamente proporcionales a la agresividad, falta de seguridad y accidentes e inversamente proporcionales a la eficiencia (\cite{dingus2006100, lerner2010exploration}).
 \end{itemize}
 
-Estos son sólo algunos hechos que ponen de manifiesto la necesidad de centrarse en el problema de cómo hacer de la conducción una actividad más eficiente y segura. Por ello, la \textbf{conducción eficiente} o \textit{eco-driving} se define como la aplicación de una serie de reglas de conducción con el objetivo de reducir el consumo de combustible, independientemente del tipo (e.g. electricidad, gasolina, gas natural, \ldots).
+Éstos son sólo algunos hechos que ponen de manifiesto la necesidad de centrarse en el problema de cómo hacer de la conducción una actividad más eficiente y segura. Por ello, la \textbf{conducción eficiente} o \textit{eco-driving} se define como la aplicación de una serie de reglas de conducción con el objetivo de reducir el consumo de combustible, independientemente del tipo (e.g. electricidad, gasolina, gas natural, \ldots).
 
 Si es posible discriminar entre conductores eficientes y no eficientes se pueden identificar los hábitos recurrentes en estos últimos y adecuar la formación para eliminar dichos hábitos. Más aún teniendo en cuenta la relación existente entre la peligrosidad y algunas conductas agresivas. Un ejemplo donde la identificación de perfiles no eficientes pueden tener impacto claro económico y social es el de las empresas cuya actividad se basa en el transporte de mercancías o de personas.
 
 Sin embargo, identificar la conducta de un conductor no es fácil, dado que su comportamiento se ve condicionado por numerosos factores como el estado de la ruta, el del tráfico o el estado físico o anímico. Además, la ambigüedad de las situaciones dificulta todavía más la identificación. Por ejemplo, un conductor puede ser clasificado en un momento como agresivo o no eficiente en una situación, únicamente porque su comportamiento ha sido condicionado por las malas reacciones de otros conductores conductores.
 
-El análisis de todos los posibles casos es una tarea prácticamente imposible. Por ello, las simulaciones pueden dar una estimación de los posibles resultados de un estudio en el mundo real. Las simulaciones con \glspl{mas} representan a los conductores como agentes independientes, permitiendo la evaluación del comportamiento tanto individual como general del sistema en base a sus individuos a través de iteraciones discretas de tiempo.
+El análisis de todos los posibles casos es una tarea prácticamente imposible. Por ello, las simulaciones pueden dar una estimación de los posibles resultados de un estudio en el mundo real. Las simulaciones con \acp{mas} representan a los conductores como agentes independientes, permitiendo la evaluación del comportamiento tanto individual como general del sistema en base a sus individuos a través de iteraciones discretas de tiempo.
 
-Si el comportamiento de dichos agentes es extraído a partir de los datos reales de conductres, su comportamiento dentro de la simulación podría ser considerado como fuente de datos para condiciones de tráfico y/o rutas no contempladas en el mundo real. De esta forma, se dispondría de un marco de trabajo para la comparación de diferentes conductores sin necesidad de exponerlos a todos y cada uno de los posibles eventos posibles. También sería factible evaluar sistemas de asistencia evitando los problemas de no comparabilidad de condiciones del entorno entre pruebas.
+Si el comportamiento de dichos agentes es extraído a partir de los datos reales de conductores, su comportamiento dentro de la simulación podría ser considerado como fuente de datos aproximada de comportamiento en situaciones de tráfico del mundo real. De esta forma, se dispondría de un marco de trabajo para la comparación de diferentes conductores sin necesidad de exponerlos a todos y cada uno de los posibles eventos posibles. También sería factible evaluar sistemas de asistencia evitando los problemas de no comparabilidad de condiciones del entorno entre pruebas.
 
 Demostrar que la evaluación de un modelo del conductor en entornos simulados es equivalente a la evaluación de conductores en entornos reales implica que se pueden comparar dos conductores usando un criterio objetivo, es decir, sin depender del estado del resto de factores a la hora de realizar la prueba de campo. Dicho de otro modo, implicaría que es posible comparar la eficiencia de dos conductores independientemente del estado del tráfico e, incluso, sobre rutas diferentes.
 
@@ -55,19 +47,18 @@ Demostrar que la evaluación de un modelo del conductor en entornos simulados es
 
 El objetivo de esta tesis doctoral es la de demostrar la hipótesis~\ref{hyp:hypothesis-1}, quedando dicha demostración dentro de los límites impuestos por los supuestos y restricciones indicados más adelante.
 
-\begin{hyp}[H\ref{hyp:hypothesis-1}] \label{hyp:hypothesis-1}
-	La aplicación de técnicas pertenecientes al campo de la \gls{ci} con datos extraídos de un entorno de microsimulación de espacio continuo y tiempo discreto basado en sistemas multiagentes permitirá modelar, de manera fiel a la realidad, el comportamiento de conductores reales.
-\end{hyp}
+\begin{hyp*}
+	\label{hyp:hypothesis-1}
+	La aplicación de técnicas pertenecientes al campo de la \ac{ci} con datos extraídos de un entorno de microsimulación de espacio continuo y tiempo discreto basado en sistemas multiagentes permitirá modelar, de manera fiel a la realidad, el comportamiento de conductores reales.
+\end{hyp*}
 
-Por tanto, el objetivo de la tesis es el de simular el comportamiento de conductores en entornos de micro-simulación a partir de su comportamiento en entornos reales usando técnicas de \gls{ci}. Para ello se consideran los siguientes objetivos específicos:
-
-\marginnote{
-	Los \gls{nds} basan su funcionamiento en la captura masiva de datos de conducción, normalmente involucrando una gran cantidad de sensores, para analizar el comportamiento del conductor, las características del vehículo, la vía, etcétera. La cantidad de sensores y la velocidad de captura hacen que la tarea de analizar y extraer conclusiones sea una tarea prácticamemte imposible para un humano, por lo que es necesario el uso de técnicas de análisis de datos que suelen recaer en los campos de la estadística y del aprendizaje automático.
-}
+Por tanto, el objetivo de la tesis es el de simular el comportamiento de conductores en entornos de micro-simulación a partir de su comportamiento en entornos reales usando técnicas de \ac{ci}. Para ello se consideran los siguientes objetivos específicos:
 
 \begin{itemize}
-	\item Estudiar y aplicar técnicas de la \gls{ci} sobre el área de la conducción.
-	\item Realizar un \glsentrylongsp{nds} sobre conductores reales para:
+	\item Estudiar y aplicar técnicas de la \ac{ci} sobre el área de la conducción.
+	\item Realizar un estudio naturalista de conducción\sidenote{
+		Un \textbf{estudio naturalista de conducción} basa su funcionamiento en la captura masiva de datos de conducción, normalmente involucrando una gran cantidad de sensores, para analizar el comportamiento del conductor, las características del vehículo, la vía, etcétera. La cantidad de sensores y la velocidad de captura hacen que la tarea de analizar y extraer conclusiones sea una tarea prácticamemte imposible para un humano, por lo que es necesario el uso de técnicas de análisis de datos que suelen recaer en los campos de la estadística y del aprendizaje automático.
+	} sobre conductores reales para:
 	\begin{enumerate}
 		\item Generar modelos personalizados de conductor a partir de los datos de conducción obtenidos.
 		\item Aplicar modelos de conductores a entornos de simulación multiagente.
@@ -82,73 +73,32 @@ Por tanto, el objetivo de la tesis es el de simular el comportamiento de conduct
 	\item La circulación se supone por la derecha de la vía en el sentido de la circulación, siendo los carriles de lento a rápido de derecha a izquierda respectivamente.
 	\item Los datos de los que extraer el comportamiento se corresponderán con lecturas realizadas durante el día, con buena visibilidad y sin lluvia.
 	\item El tipo de vehículo sobre el que modelar el comportamiento será el \textit{utilitario}.
-	\item El conductor a modelar pertenecerá al grupo más representativo de conductores. Esto se corresponde con varón de $35$ a $39$ años (ver figura~\ref{fig:drivers-census}).
+	\item El conductor a modelar pertenecerá al grupo más representativo de conductores. Esto se corresponde con varón de $35$ a $39$ años (ver figura~\ref{fig:drivers-ages-per-genre}).
 \end{itemize}
 
-\begin{marginfigure}
-	\resizebox {\linewidth} {!} {
-	\begin{tikzpicture}
-	\begin{axis}[legend style={anchor=north east},
-	symbolic x coords={15--17,18--20,21--24,25--29,30--34,35--39,40--44,45--49,50--54,55--59,60--64,65--69,70--74,74+}, xtick=data, x tick label style={rotate=90,anchor=east}]
-	\addlegendentry{Hombres}
-	\addplot[mark=*,thick,blue] coordinates {
-		(15--17,39341)
-		(18--20,318037)
-		(21--24,729846)
-		(25--29,1097874)
-		(30--34,1472038)
-		(35--39,1828905)
-		(40--44,1768957)
-		(45--49,1688069)
-		(50--54,1460193)
-		(55--59,1256212)
-		(60--64,1082591)
-		(65--69,974768)
-		(70--74,709285)
-		(74+,1190514)
-	};
-	
-	\addlegendentry{Mujeres}
-	\addplot[mark=diamond*,thick,red] coordinates {
-		(15--17,15697)
-		(18--20,238534)
-		(21--24,651961)
-		(25--29,1054377)
-		(30--34,1337432)
-		(35--39,1568926)
-		(40--44,1445740)
-		(45--49,1321330)
-		(50--54,1055472)
-		(55--59,810168)
-		(60--64,569461)
-		(65--69,387158)
-		(70--74,189829)
-		(74+,1138945)
-	};
-	
-	
-	\end{axis}
-	\end{tikzpicture}
-	}
+\begin{figure}[b]
+	\centering
+	\includegraphics[width=.8\textwidth]{drivers-ages-per-genre}
 	\caption[Censo de conductores según género y edad]{Último censo de conductores según género segmentado por edades. Fuente: Dirección General de Tráfico (\url{dgt.es}).}
-	\label{fig:drivers-census}
-\end{marginfigure}
+	\label{fig:drivers-ages-per-genre}
+\end{figure}
 \subsection{Restricciones}
 
 \begin{itemize}
-	\item Reduciremos el comportamiento del conductor a los de circulación en línea y en cambio de carril\sidenote{Son conocidos en la literatura como models de \textbf{aceleración} y modelos de \textbf{cambio de carril}. Entraremos en detalle sobre ambos conceptos en el capítulo~\nameref{ch:sota-behavior-models}}.
-	\item El \glsentrylongsp{mas} hará uso de \glspl{dvu} como agentes, es decir, usando la tupla (conductor, vehículo) como un todo.
-	\item La resolución máxima del modelo creado será de \unit[1]{Hz}.
-	\item En el caso de los modelos que hacen uso de \glsentrylongsp{ann}, no se pueden explicar las razones del comportamiento inferido.
+	\item Los modelos generados se corresponderán a entornos urbanos.
+	\item Reduciremos el comportamiento del conductor a los de circulación en línea y en cambio de carril\sidenote{
+		Son conocidos en la literatura como modelos de \textbf{aceleración} y modelos de \textbf{cambio de carril}. Entraremos en detalle sobre ambos conceptos en el capítulo~\nameref{ch:sota-behavior-models}.
+	}.
+	\item La resolución máxima del modelo creado será de \unit[10]{Hz}.
+	\item En el caso de los modelos que hacen uso de \acrlong{ann}, no se pueden explicar las razones del comportamiento inferido.
 \end{itemize}
 
 \section{Estructura de la tesis}
 \label{ch:intro:structure}
 
-La tesis está estructurada de la siguiente manera:
 
-En los capítulos \nameref{ch:sota-ci}, \nameref{ch:sota-traffic-simulation} y \nameref{ch:sota-behavior-models} se expone la revisión realizada del estado de la cuestión donde se explica en qué punto se encuentra la literatura de los temas en los que se apoya la presente tesis.
+La tesis se divide en tres partes. La primera se corresponde con el estado de la cuestión, compuesta por los capítulos~\nameref{ch:sota-ci}, \nameref{ch:sota-traffic-simulation} y~\nameref{ch:sota-behavior-models}, explicando en qué punto se encuentra la literatura de los temas en los que se apoya la presente tesis.
 
-En los capítulos \nameref{ch:developed-software} y \nameref{ch:behavior-models-study} se explica el método seguido para la confirmación de la hipótesis describiendo además las instrumentaciones, los conjuntos de datos obtenidos, las técnicas utilizadas y las aplicaciones desarrolladas.
+En la segunda parte se desarrolla el tema del modelado de conductores, donde en los capítulos~\nameref{ch:problem-definition}, \nameref{ch:behavior-model} y~\nameref{ch:simulation-execution} se introduce el problema a resolver propuesto en la hipótesis, se desarrollo del modelo de conducción personalizado y se muestran la configuración de las simulaciones.
 
-Por último en los capítulos \nameref{ch:results} y \nameref{ch:conclusions} se exponen los resultados y las conclusiones respectivamente extraídos de la tesis. Además, tras las conclusiones se indican una serie de posibles líneas futuras de trabajo consideradas interesantes tras la realización de la tesis.
+Por último en los capítulos~\nameref{ch:results} y~\nameref{ch:conclusions} se exponen los resultados y las conclusiones respectivamente extraídos de la tesis. Además, tras las conclusiones se indican una serie de posibles líneas futuras de trabajo consideradas interesantes tras la realización de la tesis.
