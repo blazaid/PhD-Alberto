@@ -1,5 +1,6 @@
 import os
 
+import numpy as np
 import pandas as pd
 
 
@@ -38,6 +39,17 @@ DATASETS_INFO = {
             ],
             'skippable_sequences':None,
             'max_speed':[(0, 50), (1089, 40), (2960, 50), (6536, 40),],
+            'lanes_distances':[
+                #(0, 0, np.inf, 0), (940, np.inf, np.inf, 0), (1129, 0, np.inf, np.inf), (1290, X, np.inf, np.inf),
+                #(1317, 0, np.inf, np.inf), (1425, Y, np.inf, np.inf), (1770, 0, np.inf, np.inf), (1840, 0, Z, np.inf),
+                #(1883, Z, np.inf, np.inf), (1895, 0, Z, np.inf), (1943, Z, np.inf, np.inf), (1950, 0, np.inf, np.inf),
+                #(2080, np.inf, np.inf, 0), (2090, T, np.inf, np.inf), (2099, 0, T, np.inf), (2140, T, np.inf, np.inf),
+                #(2148, 0, U, np.inf), (2255, U, np.inf, 0), (2454, 0, U, np.inf), (2509, U, np.inf, 0),
+                #(2914, U, np.inf, V), (2933, np.inf, V, 0), (3012, 0, np.inf, V), (3250, 0, np.inf, 0),
+                #(3768, W, np.inf, J), (4690, 0, np.inf, J), (5085, 0, np.inf, np.inf), (6100, np.inf, 0, np.inf),
+                #(6406, 0, np.inf, np.inf), (6448, np.inf, np.inf, 0), (6724, np.inf, np.inf), (6776, np.inf, np.inf, 0),
+                #(6850, H, np.inf, np.inf), (6888, np.inf, np.inf, 0), (8477, 0, np.inf, np.inf)
+            ]
         },
         'validation':{
             'starting_frame':61,
