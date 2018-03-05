@@ -1,5 +1,5 @@
 ============================================================
-Modelado de comportamiento de conductores con técnicas de IA
+Modelado de comportamiento de conductores con técnicas de IC
 ============================================================
 
 :Author: Alberto Díaz Álvarez
