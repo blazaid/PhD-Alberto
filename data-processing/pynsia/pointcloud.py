@@ -145,8 +145,9 @@ class PointCloud(object):
             dm = 1 - dm
         # Ahora recolocamos el array para que sea algo mas realista la imagen
         dm = np.flipud(dm)
-        fr = dm[:, :len(dm[0]) // 4]
-        br = dm[:, len(dm[0]) // 4:len(dm[0]) // 2]
-        bl = dm[:, len(dm[0]) // 2:3*len(dm[0]) // 4]
-        fl = dm[:, 3*len(dm[0]) // 4:]
-        return np.concatenate((fl, fr, br, bl), axis=1)
+        #fr = dm[:, :len(dm[0]) // 4]
+        #br = dm[:, len(dm[0]) // 4:len(dm[0]) // 2]
+        #bl = dm[:, len(dm[0]) // 2:3*len(dm[0]) // 4]
+        #fl = dm[:, 3*len(dm[0]) // 4:]
+        #return np.concatenate((fl, fr, br, bl), axis=1)
+        return dm
