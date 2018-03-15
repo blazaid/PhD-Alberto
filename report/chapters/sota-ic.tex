@@ -780,8 +780,8 @@ En este tipo de controlador, el bloque de defuzzificación desaparece y los cons
 
 \begin{figure}
 	\centering
-	\missingfigure[figheight=5cm]{Figura bonica que represente una matriz de reglas difusas}
-	\caption[Representación de conjuntos de reglas como matriz]{En un controlador de tipo Takagi-Sugeno-Kang se prescinde del bloque de defuzzificación y los consecuentes de las reglas de inferencia son reemplazados por funciones. Por término general, estas funciones son polinomios.}
+	\missingfigure[figheight=5cm]{Figura que represente un controlador de tipo Takagi-Sugeno}
+	\caption[Ejemplo de reglas en controlador Takagi-Sugeno]{En un controlador de tipo Takagi-Sugeno-Kang se prescinde del bloque de defuzzificación y los consecuentes de las reglas de inferencia son reemplazados por funciones. Por término general, estas funciones son polinomios.}
 	\label{fig:sugeno-type}
 \end{figure}
 
@@ -794,7 +794,11 @@ El consecuente en un controlador de tipo Sugeno es un valor directamente, y por 
 \section{El paradigma de los Agentes Inteligentes}
 \label{ch:ci:s:agent-concept}
 
-En la figura~\ref{fig:different-povs-ai} se mostraban los cuatro objetivos perseguidos por la \gls{ai}. En uno de ellos en particular se la entiende como el estudio del conseguir que entidades (e.g. sistemas, software, \ldots) actúen de la manera más inteligente posible. El concepto de \textbf{agente} pertenece a todo el área de la computación, y no únicamente a la \gls{ai}.
+En la figura~\ref{fig:different-povs-ai} se mostraban los cuatro objetivos perseguidos por la \gls{ai}. En uno de ellos en particular se la entiende como el estudio del conseguir que entidades (e.g. sistemas, software, \ldots) actúen de la manera más inteligente posible.
+
+Este concepto es una metáfora denominada \textbf{agente}\sidenote{
+	En \cite{russell2003artificial} se define como \textit{\enquote{\ldots just something that acts}} alegando que la palabra \textit{agent} proviene del latín \textit{agere}. Para clarificar esto, \textit{agere} es la forma verbal para \textit{hacer}, pero imprime un significado de movimiento/actividad diferente que no tiene mucho que ver con \textit{hacer} como forma verbal para \textit{crear} o \textit{dar forma} (de lo que se ocupa el verbo \textit{facere}). Por ello, el verbo \textit{actuar} es un verbo que se relaciona con \textit{agere} y de ahí la definición.
+} en el campo de la \ac{ai}, pero que se ha extendido a lo largo de todo el área de la computación, especialmente en las áreas de los sistemas distribuidos o de las simulaciones basadas en sistemas multiagentes.
 
 Es difícil encontrar un consenso en la definición de agente, y más todavía cuando entra en juego el adjetivo \textit{inteligente}. Sin embargo, sí existen una serie de características que coínciden dentro de la literatura que exponemos a continuación (ver Figura~\ref{fig:agent-properties}):
 

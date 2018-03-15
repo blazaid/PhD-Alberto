@@ -3,37 +3,89 @@
 
 \section{Introducción}
 
-\TODO{Hay que dejar claro que este capítulo es el de la metodología. Si al final no queda claro, le cambiamos el nombre a metodología, pero me gusta más como ``odelo de comportamiento de conductor''}
+\TODO{no sé qué poner}
 
-\section{Captura de datos}
+\TODO{Hablar del esquema general (a muy grandes rasgos) del modelo de conducción que se pretende conseguir. Por qué es así, por qué queremos esas salidas y qué limitaciones nos impone el simulador sobre el que trabajamos. Aunque SUMO es continuo en el espacio, vamos sobre raíles.}
 
-\TODO{Lo siguiente son cosas que estoy pensando}
+El modelo será entrenado siguiendo un esquema supervisado, por lo que necesitamos datos reales a partir de los cuales deberá ajustar su funcionamiento.
 
-Comentarios sobre las varaibles que estoy valorando introducir. Cuando se habla del carril $l$, 0 se refiere al carril en el que se encuentra el vehículo, $-1$ al carril de la derecha y $+1$ al carril de la izquierda.
+La información que se considera suficiente para que los modelos desempeñen su función en el entorno de simulación y la razón por la cual se ha tenido en cuenta es la siguiente:
 
 \begin{itemize}
-	\item \textbf{Nube de puntos}. Esta tiene que venir sí o sí porque además ya la usamos en la ejecución de cambio de carril.
-	\item \textbf{Velocidad del vehículo}.
-	\item \textbf{Máxima velocidad del carril l}. Ésta la tengo que añadir yo posteriormente. Para el simulador afortunadamente me viene dada.
-	\item \textbf{Distancia al vehículo delantero}. Creo que esta me la puedo quitar porque tengo la información del lidar.
-	\item \textbf{Diferencia de velocidad con el vehículo delantero}. Lo mismo que con la distancia. Al meter varios frames sucesivos temporalmente como entrada en el modelo, tenemos la diferencia de posición que viene a ser la velocidad.
-	\item \textbf{Dead end $l$}. La máxima distancia que se puede seguir en el carril $l$ antes de que no se pueda circular más. Es 0 si no hay carril, de esta manera nos quitamos de un plumazo el tener una variable para los carriles.
-	\item \textbf{Siguiente salida}. Distancia al siguiente cambio de sentido (esto es, que no se tiene que girar a la derecha).
-	\item \textbf{Siguiente salida}. Sentido de giro en la siguiente salida (1 o -1 dependiendo de si es izquierda o derecha).
-	\item \textbf{Distancia a siguiente semáforo}. Distancia al siguiente semáforo.
-	\item \textbf{Estado del siguiente semáforo}. Pues eso, si está en rojo, amarillo o verde.
-	\item \textbf{Siguiente estado del siguiente semáforo}. El estado que toca después. Lo pongo porque creo que puede influir en el comportamiento del conductor cuando se aproxima a un semáforo en verde que se acaba de poner en amarillo.
+	\item \textbf{Entorno} El conductor, y por tanto el modelo, desarrolla su actividad y basa sus comportamientos, entre otros factores, en el entorno en el que se encuentra inmerso. Se considera por tanto que el ajuste de la velocidad y, sobre todo los cambios de carril, se ven influenciados por éste.
+	\item \textbf{Velocidad actual del vehículo y velocidad máxima del carril}. Tanto la velocidad en la vía como del vehículo en un momento concreto influye en cómo el conductor va a modificar su aceleración en momentos posteriores.
+	\item \textbf{Distancia y diferencia de velocidad con el vehículo delantero}. Al igual que con la velocidad, el vehículo delantero juega un papel esencial en los cambios de aceleración. También se intuye que puede influir en el comportamiento de cambio de carril en casos en los que el vehículo delantero va muy lento
+	\item \textbf{Siguiente salida y carriles cortados}. Se considera que este tipo de información es crucial a la hora de realizar cambios de carril, ya que además de lo obvio, puede influir en otras maniobras tales como un adelantamiento.
+	\item \textbf{Señales}. Es interesante contar con este tipo de señales ya que pueden influir en diferentes patrones de aceleración (e.g. estamos cerca y cambia de color a ámbar) o desaceleración (e.g. aproximación a un ceda el paso, stop o semáforo en rojo).
 \end{itemize}
 
-\subsection{Instrumentación del vehículo}
+\section{Extracción de datos de conducción}
 
-\subsection{Descripción de datos a extraer}
+Se ha hecho uso de un vehículo instrumentado con sensores para capturar la mayor cantidad posible de información especificada en la introducción. El vehículo en cuestión es un Mitsubishi iMiEV (Figura~\ref{fig:instrumented-imiev}) y los dispositivos un LIDAR, un GPS, el Bus CAN y una cámara de los cuales hablamos a continuación.
+
+\begin{figure}
+	\includegraphics{instrumented-imiev}
+	\caption{El vehículo utilizado en los ensayos realizados. Se trata de un Mitsubishi iMiEV instrumentado con un LIDAR anclado en la baca superior, un GPS anclado en el techo, un puerto de acceso directo al Bus CAN y una cámara Microsoft Kinect tras el espejo retrovisor.}
+	\label{fig:instrumented-imiev}
+\end{figure}
+
+\paragraph{LIDAR}
+
+\TODO{Descripción detallada de qué es el lidar. Marca y cositas. Algo del estilo mide la distancia a través la diferencia entre la emisión de pulsos de luz y su reflejo en un sensor. A lo mejor queda bien en un sidenote. El usado es un Velodyne VLP-16, un LiDAR circular de 16 canales verticales separados 2º, dando un FOV (-15, 15) grados de apertura vertical). Este dispositivo se conecta a la máquina a través del puerto ethernet y se usa para la obtención de información del entorno del conductor. El LiDAR está situado en el techo del vehículo orientando los (0, 0) grados en al dirección y sentido de éste y con el plano horizontal paralelo al suelo.}
+
+\TODO{Descripción de los datos que se extraen y cómo se almacenan.}
+
+\paragraph{GPS}
+
+\TODO{Yo creo que se podría decir que se usa para obtener una segunda medida de velocidad y aceleración, así como para la localización espacial de subconjuntos de datos interesantes para su estudio.}
+
+\TODO{Descripción de los datos que se extraen y cómo se almacenan. Indicar los dos tipos de mensaje que se obtienen!}
+
+\paragraph{Bus CAN}
+
+\TODO{Explicar qué es el CAN Bus, y si es necesario, un poquitín su funcionamiento (aunque sea en un sidenote, así queda todo más completito.). El BUS del vehículo se conecta a través del puerto USB al ordenador a lo mejor hay que explicar un poco más la conexión, el tipo de cable y tal. Es usado para la extracción de la interacción del conductor con el vehículo.}
+
+\TODO{Descripción de los datos que se extraen y cómo se almacenan.}
+
+\paragraph{Cámara}
+
+\TODO{Descripción de la cámara}
+
+\TODO{Descripción de los datos que se extraen y cómo se almacenan.}
+
+\subsection{Almacenamiento de datos}
+
+Todos los dispositivos se conectan a un ordenador con sistema operativo Ubuntu GNU/Linux sobre Intel i7-7500U CPU con 16GB de memoria RAM. El esquema del vehículo instrumentado se detalla en la Figura~\ref{fig:instrumented-imiev-schema}.
+
+\begin{figure}
+	\includegraphics{instrumented-imiev-schema}
+	\caption{The instrumented vehicle schema.}
+	\label{fig:instrumented-imiev-schema}
+\end{figure}
+
+\TODO{Descripción del proceso de captura, los nodos de ROS y el nodo principal.
 
 \subsection{Selección de rutas}
 
 \subsection{Selección de sujetos}
 
 \section{Preparación de los datos}
+
+Descripción del proceso de sincronización. Todos los dispositivos han sido, o bien configurados para una captura a 10Hz de frecuencia, o bien remuestreados a ésta.
+
+La tabla~\ref{tbl:data-obtained-from-instrumented-vehicle} resume los datos recogidos y su dominio.
+
+\begin{table*}[t]
+	\caption[Resúmen de información extraída del vehículo instrumentado][1.5em]{Valores capturados por el vehículo instrumentado y sus dominios. Los valores de 0, 1 y 2 se corresponden con los cambios de carril, siendo 0 cambio a la izquierda, 1 no cambio y 2 a la derecha.}
+	\label{tbl:data-obtained-from-instrumented-vehicle}
+	\begin{tabular}{lll}
+		\toprule
+		Variable & Descripción & Dominio \\
+		\midrule
+		LiDAR & Coordenadas de todos los puntos capturados por el dispositivo. & $[-200m, 200m] \subset \mathbb{R}$ \\
+		\bottomrule
+	\end{tabular}
+\end{table*}
 
 \section{Entrenamiento de modelos}
 
@@ -68,44 +120,6 @@ Para entrenar, comparar y validar los diferentes modelos de aceptación de cambi
 
 Las secciones que siguen describen cómo se instrumenta el vehículo, y se obtienen datos, cómo se procesan a una representación adecuada para entrenar a los modelos y, finalmente, cómo se entrena a los modelos.
 
-\section{Instrumentación del vehículo}
-
-El vehiculo usado para el desarrollo de esta tesis es un Mitsubishi iMiEV (Figura~\ref{fig:instrumented-imiev}). Éste ha sido instrumentado con los siguientes dispositivos:
-
-\begin{figure}
-	\includegraphics{instrumented-imiev}
-	\caption{The instrumented Mitsubishi iMiEV.}
-	\label{fig:instrumented-imiev}
-\end{figure}
-
-\begin{itemize}
-	\item \textbf{LiDAR}. \TODO{explicación de qué es un LiDAR. Algo cortito del estilo mide la distancia a través la diferencia entre la emisión de pulsos de luz y su reflejo en un sensor. A lo mejor queda bien en un sidenote}. El usado es un Velodyne VLP-16, un LiDAR circular de 16 canales verticales separados 2º, dando un FOV (-15, 15) grados de apertura vertical). Este dispositivo se conecta a la máquina a través del puerto ethernet y se usa para la obtención de información del entorno del conductor. El LiDAR está situado en el techo del vehículo orientando los (0, 0) grados en al dirección y sentido de éste y con el plano horizontal paralelo al suelo.
-	\item \textbf{Keyboard}. \TODO{No sé si ponerlo, pero al menos habría que mencionarlo, aquí o más adelante en el apartado específico de la ejecución de cambio de carril. A lo mejor se podría disfracar como un "gestionador de eventos" o algo así y poner un mando o unos botones de recreativa, que eso siempre queda bien.} Un teclado común conectado a través del puerto usb para funcionar como detector de eventos.
-	\item \textbf{CAN Bus}. \TODO{Explicar qué es el CAN Bus, y si es necesario, un poquitín su funcionamiento (aunque sea en un sidenote, así queda todo más completito.)}. El BUS del vehículo se conecta a través del puerto USB al ordenador \TODO{a lo mejor hay que explicar un poco más la conexión, el tipo de cable y tal}. Es usado para la extracción de la interacción del conductor con el vehículo.
-	\item \textbf{GPS Receiver}. \TODO{A lo mejor este no es necesario ponerlo. Yo creo que se podría decir que se usa para obtener una segunda medida de velocidad y aceleración, así como para la localización espacial de subconjuntos de datos interesantes para su estudio.}
-\end{itemize}
-
-Todos los dispositivos se conectan a un ordenador con sistema operativo Ubuntu GNU/Linux sobre Intel i7-6400U CPU con 8GB de memoria RAM. El esquema del vehículo instrumentado se detalla en la Figura~\ref{fig:instrumented-imiev-schema}.
-
-\begin{figure}
-	\includegraphics{instrumented-imiev-schema}
-	\caption{The instrumented vehicle schema.}
-	\label{fig:instrumented-imiev-schema}
-\end{figure}
-
-Todos los dispositivos han sido, o bien configurados para una captura a 10Hz de frecuencia, o bien remuestreados a ésta. La tabla~\ref{tbl:data-obtained-from-instrumented-vehicle} resume los datos recogidos y su dominio.
-
-\begin{table}[t]
-	\caption[Resúmen de información extraída del vehículo instrumentado][1.5em]{Valores capturados por el vehículo instrumentado y sus dominios. Los valores de 0, 1 y 2 se corresponden con los cambios de carril, siendo 0 cambio a la izquierda, 1 no cambio y 2 a la derecha.}
-	\label{tbl:data-obtained-from-instrumented-vehicle}
-	\begin{tabular}{lll}
-		\toprule
-		Variable & Descripción & Dominio \\
-		\midrule
-		LiDAR & Coordenadas de todos los puntos capturados por el dispositivo. & $[-200m, 200m] \subset \mathbb{R}$ \\
-		\bottomrule
-	\end{tabular}
-\end{table}
 
 \section{Perfiles de conducción}
 
