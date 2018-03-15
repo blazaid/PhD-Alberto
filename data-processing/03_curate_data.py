@@ -22,7 +22,7 @@ from utils import load_subject_df, DATASETS_INFO, load_master_df
 
 BASE_PATH = '/home/blazaid/Projects/data-phd/sync'
 OUTPUT_PATH = '/home/blazaid/Projects/data-phd/curated'
-SUBJECTS = 'edgar', 'jj', 'miguel'
+SUBJECTS = 'edgar', # 'edgar', 'jj', 'miguel'
 DATASETS = 'validation', 'training'
 
 MAX_LEADER_DISTANCE = 50
@@ -228,13 +228,12 @@ def extract_lc_sequences(df):
 
 
 if __name__ == '__main__':
-    for dataset in DATASETS:
-        print('Dataset: {}'.format(dataset))
-        master_tls_df = load_master_df(BASE_PATH, dataset, 'tls')
-        master_tls_df = master_tls_df.set_index('tls')
-
-        for subject in SUBJECTS:
-            print('\tSubject: {}'.format(subject))
+    for subject in SUBJECTS:
+        print('Subject: {}'.format(subject))
+        for dataset in DATASETS:
+            print('\tDataset: {}'.format(dataset))
+            master_tls_df = load_master_df(BASE_PATH, dataset, 'tls')
+            master_tls_df = master_tls_df.set_index('tls')
             print('\t\tLoading subject\'s dataframe... ')
             # Load the subject's data
             master_df = load_subject_df(BASE_PATH, subject, dataset, 'dataset')
@@ -325,7 +324,6 @@ if __name__ == '__main__':
             deepmap_index = 0
             master_path = os.path.join(deepmaps_path, deepmap_prefix + '_{:0>10}.dat')
             for num, master_sequence in enumerate(lc_sequences):
-                print('\t\t\t\t\t\t{}: '.format(num), end='')
                 sequences = [[] for _ in range(num_generated_sequences)]
 
                 for index, row in master_sequence.iterrows():
@@ -334,7 +332,6 @@ if __name__ == '__main__':
                     orig_pc = orig_pc.transform(**calibration_data)
                     orig_shaken_pcs = [orig_pc.shake(**SHAKEN_SHIFTS) for _ in
                                        range(NUM_SHAKEN_DEEPMAPS)]
-                    print('.', end='')
                     for i, pc in enumerate([orig_pc] + orig_shaken_pcs):
                         # Save the deepmap
                         dm = pc.to_deepmap(h_range=(0, 360), v_range=(-15, 15),
@@ -357,7 +354,6 @@ if __name__ == '__main__':
                         ])
 
                     if MIRRORED_DEEPMAP:
-                        print('.', end='')
                         mirrored_pc = orig_pc.mirror(fix_x=True, fix_z=True)
                         mirrored_shaken_pcs = [
                             mirrored_pc.shake(**SHAKEN_SHIFTS) for _ in
@@ -385,9 +381,7 @@ if __name__ == '__main__':
                                 path.replace(OUTPUT_PATH, '.'),
                                 row['Relative speed'],
                             ])
-                print(' salvando ', end='')
                 for sequence in sequences:
-                    print('.', end='')
                     filename = os.path.join(OUTPUT_PATH,
                                             deepmap_prefix + '_{:0>5}.csv')
                     sequence_df = pd.DataFrame(sequence, columns=[
@@ -400,4 +394,3 @@ if __name__ == '__main__':
                     sequence_df.to_csv(filename.format(sequence_index),
                                        index=False)
                     sequence_index += 1
-                print()
