@@ -2066,7 +2066,7 @@
 \newtheorem*{definition}{Definición}
 
 \usepackage{siunitx}
-
+\DeclareSIUnit\px{px}
 %%
 % Source code highlighting and formatting
 \usepackage{listingsutf8}
@@ -2148,6 +2148,9 @@
 %%
 % Just in case we need inster TODO tasks
 \newcommand{\TODO}{\textcolor{red}{\bf TODO!}\xspace}
+
+
+\usepackage{algorithm}
 
 \usepackage{marginfix}
 \usepackage{mparhack}
