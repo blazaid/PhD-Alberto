@@ -22,7 +22,7 @@ from utils import load_subject_df, DATASETS_INFO, load_master_df
 
 BASE_PATH = '/home/blazaid/Projects/data-phd/sync'
 OUTPUT_PATH = '/home/blazaid/Projects/data-phd/curated'
-SUBJECTS = 'edgar', # 'edgar', 'jj', 'miguel'
+SUBJECTS = 'miguel', # 'edgar', 'jj', 'miguel'
 DATASETS = 'validation', 'training'
 
 MAX_LEADER_DISTANCE = 50
