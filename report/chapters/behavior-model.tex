@@ -21,13 +21,15 @@ La información que se considera suficiente para que los modelos desempeñen su 
 
 \section{Extracción de datos de conducción}
 
-Se ha hecho uso de un vehículo instrumentado con sensores para capturar la mayor cantidad posible de información especificada en la introducción. El vehículo en cuestión es un Mitsubishi iMiEV (Figura~\ref{fig:instrumented-imiev}) y los dispositivos un LIDAR, un GPS, el Bus CAN y una cámara de los cuales hablamos a continuación.
+Se ha hecho uso de un vehículo instrumentado con sensores para capturar la mayor cantidad posible de información especificada en la introducción. El vehículo en cuestión es un Mitsubishi iMiEV (Figura~\ref{fig:instrumented-imiev}) y los dispositivos un LIDAR, un GPS, el Bus CAN y una cámara.
 
 \begin{figure}
 	\includegraphics{instrumented-imiev}
 	\caption{El vehículo utilizado en los ensayos realizados. Se trata de un Mitsubishi iMiEV instrumentado con un LIDAR anclado en la baca superior, un GPS anclado en el techo, un puerto de acceso directo al Bus CAN y una cámara Microsoft Kinect tras el espejo retrovisor.}
 	\label{fig:instrumented-imiev}
 \end{figure}
+
+Todos los dispositivos se conectan a un ordenador con sistema operativo GNU/Linux sobre Intel i7-7500U CPU con 16GB de memoria RAM siguiendo el esquema que se muestra en la Figura~\ref{fig:instrumented-imiev-schema}. Al ser éstos dispositivos con capacidades diferentes, se ha optaco por la creación de una aplicación basada en el framework ROS del cual se da una breve visión general en el apéndice~\ref{ch:ros-overview}. A continuación se describen los dispositivos usados y su información generada.
 
 \paragraph{LIDAR}
 
@@ -41,35 +43,247 @@ Se ha hecho uso de un vehículo instrumentado con sensores para capturar la mayo
 
 \TODO{Descripción de los datos que se extraen y cómo se almacenan. Indicar los dos tipos de mensaje que se obtienen!}
 
+\TODO{Descripción a través de qué puerto se conectan.}
+
 \paragraph{Bus CAN}
 
 \TODO{Explicar qué es el CAN Bus, y si es necesario, un poquitín su funcionamiento (aunque sea en un sidenote, así queda todo más completito.). El BUS del vehículo se conecta a través del puerto USB al ordenador a lo mejor hay que explicar un poco más la conexión, el tipo de cable y tal. Es usado para la extracción de la interacción del conductor con el vehículo.}
 
 \TODO{Descripción de los datos que se extraen y cómo se almacenan.}
 
+\TODO{Descripción a través de qué puerto se conectan.}
+
+\TODO{Indicar que se ha desarrollado un NODO propio para la captura y que se encuentra incluido en el apéndice de ``software desarrollado''}
+
 \paragraph{Cámara}
 
-\TODO{Descripción de la cámara}
+\TODO{Descripción de la cámara. Es el Kinect, pero hay que pillar versión, capacidades y demás. A lo mejor alguna ilustración con el rviz puede estar bien}
 
 \TODO{Descripción de los datos que se extraen y cómo se almacenan.}
 
-\subsection{Almacenamiento de datos}
-
-Todos los dispositivos se conectan a un ordenador con sistema operativo Ubuntu GNU/Linux sobre Intel i7-7500U CPU con 16GB de memoria RAM. El esquema del vehículo instrumentado se detalla en la Figura~\ref{fig:instrumented-imiev-schema}.
-
-\begin{figure}
-	\includegraphics{instrumented-imiev-schema}
-	\caption{The instrumented vehicle schema.}
-	\label{fig:instrumented-imiev-schema}
-\end{figure}
-
-\TODO{Descripción del proceso de captura, los nodos de ROS y el nodo principal.
+\TODO{Descripción a través de qué puerto se conectan.}
 
 \subsection{Selección de rutas}
 
+Para la captura de datos se han propuesto dos rutas, en adelante $R_1$ y $R_2$, consideradas equivalentes. Se tratan de vías en entorno urbano con tramos de entre uno y tres carriles a lo largo de su recorrido y con velocidades máximas de vía que oscilan entre los \SI{30}{\km\per\hour} y los \SI{50}{\km\per\hour}. La figura~\ref{fig:the-two-routes}
+
+\begin{figure}
+	\centering
+	\subfloat[]{\missingfigure[figwidth=.43\textwidth]{Recorrido número 1 (el de la albufera)}}\qquad	\subfloat[]{\missingfigure[figwidth=.43\textwidth]{Recorrido número 2 (el del pueblo de vallecas)}}
+	\caption[Dos recorridos para la captura de datos de conducción]{Los dos recorridos realizados para la captura de datos de conducción, ambos en entorno urbano. (a) $R_1$ tiene una duración estimada de \SI{30}{\minute} y sirve para la captura de los datos de entrenamiento. (b) $R_2$ tiene una duración estimada de \SI{15}{\minute} y sus datos serán utilizdos para los conjuntos de test.}
+	\label{fig:the-two-routes}
+\end{figure}
+
+$R_1$ tiene una duración de recorrido estimada de \SI{30}{\minute} y se utilizará como fuente de datos destinada al entrenamiento del modelo (conjuntos de entrenamiento y de validación). $R_2$ por su lado tiene un tiempo estimado de recorrido de  \SI{15}{\minute} y sus datos tienen el propósito de servir de conjunto de test.
+
 \subsection{Selección de sujetos}
 
+Se han elegido un total de tres sujetos para los experimentos. Los tres pertenencen al grupo especificado en los supuestos del capítulo~\nameref{ch:intro}, es decir varones dentro del rango de $35$ a $39$ años.
+
+Los sujetos tienen experiencia de conducción y han realizado el recorrido anteriormente a fin de basar sus comportamientos lo más posible al nivel táctico de conducción\sidenote{
+	Dado que los comportamientos de \textit{car-following} y \textit{lane-change} se asocian con el nivel cognitivo táctico, se ha querido reducir el impacto del operador decidiendo durante el experimento hacia dónde o no ir. De esta manera los conductores son librese de realizar el movimiento que deseen y de anticipar maniobras con más libertad.
+}.
+
+\TODO{Quizá debería decir algo más?}
+
 \section{Preparación de los datos}
+
+Tras la captura se ha realizado una secuencia de pasos para dejar los datos preparados para el proceso de entrenamiento de los modelos. El resto de la sección detalla cada uno de éstos.
+
+\subsection{Fusión de sensores}
+
+Como hemos visto anteriormente, cada uno de los dispositivos ofrece sus datos a una tasa de frecuencia diferente (con excepción del bus CAN, en el cual los datos van a frecuencias diferentes).
+
+El primer paso en la preparación de los datos ha sido el de la fusión de estos. Afortunadamente cada uno de los mensajes almacenados que llegan desde nodos de ROS vienen con una marca temporal que podemos suponer sincronizada entre nodos de la misma aplicación. Por ello, la fusión se ha realizado en dos pasos:
+
+\begin{enumerate}
+	\item Cálculo del primer elemento a fusionar de cada uno de los conjuntos de datos. Para ello, se han desechado todos los primeros valores hasta encontrar la primera tupla de valores (uno por cada conjunto de datos) donde éstos están más próximos entre si.
+	\item Extracción iterativa de las tuplas más aproximadas. Iterativamente, se han ido extrayendo las tuplas más próximas a cada uno de los incrementos de la tasa deseada de sincronización $f$, siempre y cuando se encuentren dentro del intervalo $f \pm \frac{f}{2}$.
+\end{enumerate}
+
+Este proceso se ha repetido con cada uno de los conductores para cada uno de los recorridos, dando como resultado seis conjuntos sincronizados con los datos en bruto sincronizados.
+
+\subsection{Extracción de variables no observables directamente}
+
+Existen una serie de variables cuya extracción directa del entorno no es trivial. Ésta es una de las razones por las que se ha capturado con la cámara la visión del conductor en el recorrido.
+
+El proceso de obtenición ha sido manual, obteniendo las marcas temporales de las variables a capturar tras el visionado de las imágenes capturadas por la cámara. Estas variables son las siguientes:
+
+\paragraph{Cambio de carril}
+
+Se han identificado los cambios de carril, siendo estos marcados como $+1$ si es un cambio hacia la izquierda o $-1$ si es un cambio a la derecha, y por tanto, todos aquellos momentos en los que no hay cambio de carril se marcan tendrán un valor de $0$. Las marcas temporales de los cambios son aquellas desde el comienzo de la maniobra del cambio de carril hasta que el vehículo ha llegado a la mitad del cambio.
+
+\paragraph{Velocidad máxima de la vía}
+
+Se han añadido las velocidades máximas de las vías indicando las marcas temporales en las que el conductor entra o sale de cada uno de los tramos.
+
+\paragraph{Distancia y estado de semáforos}
+
+La distancia al semáforo ha sido obtenida a partir de la distancia euclídea entre la geoposición del origen de coordenadas y la geoposición del semáforo, por lo que es esperable cierto márgen de error. Los estados se han extraído directamente del visionado de las imágenes, tomando este los valores $g$, $y$ y $r$ dependiendo de si el semáforo se encuentra en verde, ámbar o rojo.
+
+\paragraph{Distancia a recorrer en carriles}
+
+Al igual que con la distancia a los semáforos, ésta se ha calculado a partir de la distancia euclídea de la geoposición del origen de coordenadas a los puntos a partir de los cuales no se puede continuar por el recorrido especificado.
+
+Las distancias obtenidas se corresponden al carril izquiero, al actual y al derecho.
+
+\paragraph{Distancia al obstáculo más cercano}
+
+Para el cálculo de esta variable, se ha procedido a capturar una región de interés de cada una de las nubes de puntos dentro de la cual identificar los posibles obstáculos existentes. Por la posición del lidar se ha decidido que ésta está acotada entre los intervalos $(0.35, 35)$, $(-1, 1)$ y $(-1.5, 0.5)$ para los ejex X, Y y Z respectivamente.
+
+Posteriormente, para la nube de puntos resultante se ha realizado un proceso de clusterización aplicando el algoritmo DBSCAN\sidenote{
+	DBSCAN~\cite{ester1996density} es un algoritmo de clusterización que identifica un número variable de conjuntos en un espació $n$-dimensional.
+	
+	Funciona a partir de la agregación de puntos en función de sus parámetros $\epsilon$ y $\mu$. $\epsilon$ es la distancia mínima a la que se deben encontrar dos puntos para considerarse pertenecientes al mismo clúster mientras que $\mu$ determina el número mínimo de puntos que debe tener un clúster para ser considerado como tal.
+} con parámetros $\epsilon = 0.5$ y $\mu = 3$. Este proceso identifica un número variable de clústers, tras el cual nos hemos quedado con el más cercando al vehículo.
+
+Posteriormente y de forma manual, se ha realizado el recorrido mostrando las nubes de puntos correspondientes a las capturas superponiendo el centroide para eliminar los de aquellos frames que se corresponden con errores. De los restantes se ha calculado una distancia euclídea al origen de coordenadas.
+
+\subsection{Curación de datos}
+
+Tras obtener todas las variables principales, ya sean obtenidas directamente de los sensores del coche o a través de un proceso manual vamos a generar los conjuntos de datos para los comportamientos longitudinal y de cambio de carril. La tabla~\ref{tbl:main-variables} describe qué variables son usadas en qué conjunto de datos.
+
+\begin{table}[t]
+	\caption[Resúmen de información extraída del vehículo instrumentado][1.5em]{Valores capturados por el vehículo instrumentado y sus dominios. Los valores de 0, 1 y 2 se corresponden con los cambios de carril, siendo 0 cambio a la izquierda, 1 no cambio y 2 a la derecha.}
+	\label{tbl:main-variables}
+	\begin{tabular}{lll}
+		\toprule
+		Variable & Longitudinal & Cambio de carril \\
+		\midrule
+		Acceleration      & \yep & \yep \\
+		Distance +1       & \nop & \yep \\
+		Distance 0        & \nop & \yep \\
+		Distance -1       & \nop & \yep \\
+		Lane change       & \nop & \yep \\
+		Leader distance   & \yep & \nop \\
+		Next TLS distance & \yep & \yep \\
+		Next TLS status   & \yep & \yep \\
+		Nube de puntos    & \nop & \yep \\
+		Relative speed    & \yep & \yep \\
+		Speed to leader   & \yep & \nop \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\subsection{Data augmentation}
+
+Una de las características del nuestro conjunto de datos para el modelo de cambio decarril es la nube de puntos. Los problemas con alta variabilidad de sus entradas suelen ser complejos y requerir de conjuntos de datos de tamaños bastante grandes para poder identificar patrones, como lo son por ejemplo los problemas de reconocimiento de imágenes.
+
+En nuestro caso, el modelo de cambio de carril tiene como entrada una nube de puntos, la cual representa en un espacio de 3 dimensiones un conjunto muy limitado de puntos, con la dificultad añadida de que el LIDAR tiene de base un error de \SI{3}{\cm}. Como el espacio sobre el que trabajar es tan complejo, se requerirían modelos con muchos parámetros, pero al disponer de pocos ejemplos, podríamos caer muy fácilmente en problemas de \textit{over-fitting}.
+
+Por ello, se ha optado por realizar un proceso de generación de datos artificiales a partir de los datos existentes. De esta manera, ayudaremos al modelo a entrenar con casos similares y así ayudarla a que generalice mejor. Concretamente hemos hecho uso de dos técnicas, \textit{mirroring} y \textit{shaking}.
+
+En el proceso de mirroring, para cada fila generamos una nueva nube de puntos a partir de una simetría respecto al plano YZ
+In the process of mirroring, we assume that the cognitive mechanisms that drive the lane change execution towards one side in a situation are the same that drives the execution to the opposite side in a mirrored situation (with respect to the YZ plane). An example of this concept is illustrated in Figure 7.
+
+
+(a)
+(b)
+Figure 7. An example of the mirroring technique: (a) A regular frame captured from the LIDAR; (b) The same frame after the mirroring process.
+By augmenting data with mirroring, the number of examples is doubled with the advantage of not losing any precision in the data.
+In the technique we have called shaking, we take advantage of the imprecise nature of the LIDAR data in three-dimensional space. Considering an accuracy of ±3cm, we have a sphere of imprecision of 3cm of radius for each point in which we can situate it randomly. The name shaking refers as if we shake all the points of a frame (Figure 8).
+The process is as follows: for each sequence we get all the frames and, for each of them, we go through each point and apply it a new random shift of (∆x, ∆y, ∆z). After this process, a new sequence is created with the same lane-change intention and action, and similar but slightly different environment to the original one.
+
+
+(a)
+(b)
+Figure 8. An example of two frames after a shaking process over the frame displayed in Figure 7: (a) Shaking of ∆x=∆y=∆z=0.03; (b) Shaking of ∆x=∆y=∆z=0.5.
+The intuition that this solution can help reducing the variance of the problem is that we assume that high precision is not required and that, therefore, two similar point clouds will produce similar effects. Due to the LIDAR imprecision, we can play with all the 3cm spaces around each point without, in theory, lose any precision.
+In our case, new sequences are generated for each original and mirrored frame. For each point of the frame, its position is shifted (∆x, ∆y, ∆z) being ∆x, ∆y and ∆z a uniform value belonging to the open interval (-0.03, 0.03, 0.03) ⊂ R or (-0.05, 0.05, 0.05) ⊂ R, depending on the stage of the training process.
+4.4.2. Data representation
+These sequences contain, apart from the intention and execution of lane changes of the driver, the surroundings of the vehicle as a point cloud. The problem here lies in the requirement of the ANNs that need the input as a fixed set of elements, and the number of points in a point cloud varies depending on the number of elements in the surrounding where the laser impacts. For this solution a representation as a 2D deepness map is used.
+In this sense, the data acquired by our laser scanner is transformed into the image domain. Thus, the distance information of each point is projected into a 2D matrix where the vertical axis corresponds to the elevation angles and the horizontal axis is the azimuth angles. The former is discretized between −7 and 3 degrees with a step of 2 degrees; values lower than -7 degrees lead to collisions with the ego car, whilst the ones higher than 3 degrees tend to collide with obstacles very far away, thus they’re not considered relevant. The latter values (azimuth) corresponds to a 360 degrees wide field of view, discretized with a step of 1 degree. This configuration allows the transformation of all the point clouds into images with the same resolution of 6 × 360 pixels (Figure 9).
+
+One problem that occurs using LIDAR sensors is that the divergence between points grows with the distance to them. Due this divergence in the data, the interval for the vertical field of view has been selected considering the sparse data acquired with high values of the elevation angles.
+All the values in the deepness map are normalized to [0, 1]. Therefore, a minimum distance of 0m and a maximum of 25m are specified, being converted all values greater than the upper limit to it.
+4.5. Datasets description
+The datasets are built upon the sequences described above, but we need a way to feed up our models with a sense of time. For this purpose, the inputs in the datasets will be created with one or more previous rows of the sequences they include to add this temporary sense to the model in the form of a sliding temporal window.
+Throughout the document we will talk about the concept moment. We will say that the moment ti is the row of data that occurred i/10 seconds ago, and therefore t0 is the data corresponding to the present moment. Figure 10 shows a simplified schematic outlining this concept.
+
+We will define four datasets implementing different moments. All the datasets will have the same three outputs (i.e. change left, no change and change right) but a different number of inputs according to the temporal window. Table 5 describes the datasets used during the first stage of the experiment. The datasets are named dsit and dsiv, correspond to the i-th dataset for the training and validation partition respectively, and all of them correspond to the profile Sm. The dataset named dsEv is a single validation dataset and corresponds to a random selection of sequences among the ones in profile Se. The reason of having only one validation dataset for profile Se is due to the results obtained in stage 1 (see below in results section 5).
+
+Name
+No. of ←
+No change
+No. of →
+Inputs
+Moments
+Size
+Profile
+ds1t
+9804
+44376
+9804
+4322
+t5
+63984
+Sm
+ds1v
+410
+1016
+410
+4322
+t5
+1836
+Sm
+ds2t
+8544
+42408
+8544
+4322
+t5
+59496
+Sm
+ds2v
+312
+976
+312
+4322
+t5
+1600
+Sm
+ds3t
+8544
+42408
+8544
+6483
+t5, t10
+59496
+Sm
+ds3v
+312
+976
+312
+6483
+t5, t10
+1600
+Sm
+ds4t
+6504
+38800
+6504
+8644
+t5, t10, t20
+51808
+Sm
+ds4v
+144
+896
+144
+8644
+t5, t10, t20
+1184
+Sm
+dsEv
+151
+725
+151
+8644
+t5, t10, t20
+1184
+Se
+Table 5. Datasets used for the experiments.
+The choice of 5 and 10 frames (500ms and 1s according with the frequency of 10Hz) as key time points in the temporal windows is not arbitrary. Here we assume that the process of lane-change execution is a task that involves the visual cortex and the prefrontal cortex in the brain. Thus, we could assume that the response time is between 0.2s to 1.2s ([28]). 
 
 Descripción del proceso de sincronización. Todos los dispositivos han sido, o bien configurados para una captura a 10Hz de frecuencia, o bien remuestreados a ésta.
 
@@ -156,8 +370,8 @@ Los valores brutos se representan en la Tabla~\ref{tbl:raw-indicators-from-drive
 
 \begin{figure}
 	\centering
-	\subfloat[]{\includegraphics[width=.47\textwidth]{raw-indicators-from-drivers-profiles-a}}\qquad
-	\subfloat[]{\includegraphics[width=.47\textwidth]{raw-indicators-from-drivers-profiles-b}}
+	\subfloat[]{\includegraphics[width=.45\textwidth]{raw-indicators-from-drivers-profiles-a}}\qquad
+	\subfloat[]{\includegraphics[width=.45\textwidth]{raw-indicators-from-drivers-profiles-b}}
 	\caption{Comparación de indicadores entre los diferentes perfiles de conducción.}
 	\label{fig:raw-indicators-from-drivers-profiles}
 \end{figure}

@@ -89,7 +89,7 @@ Esta tesis se dedica al modelado de comportamiento entrenando a partir de datos 
 
 \subsection{Epochs, conjuntos de entrenamiento, test y validación}
 
-La terminología general que se usa en la \gls{ci} no es demasiado compleja (con la salvedad de los nombres de técnicas y algoritmos). A continuación se resumen los más importantes:
+La terminología general que se usa en la \gls{ci} no es demasiado compleja (con la salvedad de los nombres de técnicas y algoritmos). La Figura~\ref{fig:different-kinds-of-datasets} muestra un esquema de esta terminología.
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Ilustración con los distintos conjuntos de datos}
@@ -97,33 +97,25 @@ La terminología general que se usa en la \gls{ci} no es demasiado compleja (con
 	\label{fig:different-kinds-of-datasets}
 \end{figure}
 
-\paragraph{Conjunto de datos o \textit{dataset}}
-
-Se refiere al conjunto total de ejemplos o datos del que disponemos. Se presupone que el dataset mantiene una distribución de datos similar al entorno real sobre el que pretendemos trabajar, lo cual puede no ser posible por multitud de factores.
-
-\paragraph{Conjunto de entrenamiento}
-
-El conjunto de entrenamiento (\textit{training set} en inglés) se refiere al conjunto de datos que se usará para entrenar al modelo. Se corresponde un un subconjunto del dataset, y es necesario que mantenga una distribución de datos lo más similar posible al dataset original para poder garantizar que el modelo entrenado represente a todos los sus datos.
-
-\paragraph{Epoch}
-
-Un epoch se suele referir a una iteración sobre todo el conjunto de ejemplos del conjunto de entrenamiento. Sin embargo, en la actualidad estos conjuntos pueden llegar a ocupar demasiado por lo que, dependiendo del contexto, un \textit{epoch} se puede referir a una iteración sobre una porción del conjunto total de entrenamiento.
-
-En otros contextos la definición de \textit{epoch} se mantiene y a cada porciones se las denomina \textit{batch} o \textit{mini-batch}.
-
-\paragraph{Conjunto de validación}
-
-Es el subconjunto de datos del dataset principal destinado a probar la efectividad del modelo. Al comienzo del entrenamiento, se reserva este conjunto y a lo largo del entrenamiento se valida contra él para comprobar la efectividad del modelo entrenado.
-
-Para una correcta validación es muy importante que, como el conjunto de entrenamiento, éste mantenga una distribución de ejemplos lo más similar posible al conjunto de datos original para evitar sesgos.
-
-\paragraph{Conjunto de test}
-
-Durante el proceso de entrenamiento, es una práctica habitual separar el conjunto de entrenamiento en dos partes, una más grande que se usará para el entrenamiento en el actual \textit{epoch} y otra más pequeña que se usará para validar el modelo \textbf{durante el proceso de entrenamiento}\sidenote{
-	Para evitar sesgos, un buen conjunto de test debe ir cambiando constantemente entre epochs. Debido a esto, el modelo acabará aprendiendo también el conjunto de test y por tanto sus resultados no nos sirven para validar la efectividad del modelo entrenado.
+Un \textbf{dataset} es todo el conjunto de datos que disponemos para nuestro experimento. Cuando el dataset es el resultado de una observación directa, también se le denomina \textit{ground truth}. La calidad del conjunto de datos es esencial, ya que de éste depende la efectividad de las soluciones que lo han usado. Sin entrar demasiado en detalle, es recomendable que la distribución de datos del dataset sea aproximadamente la misma que la distribución del sistema en el mundo real\sidenote{
+	Desgraciadamente este es un dato a proiori desconocido en muchos problemas. Por eso la máxima de ``cuantos más datos, mejor'' suele funcionar ya que, cuantos más datos diferentes contiene el dataset, más se aproxima su función de distribución a la del sistema a modelar.
 }.
 
-Existen autores que prescinden de este conjunto y trabajan directamente con conjuntos de entrenamiento y validación.
+Para problemas que requieren soluciones del área del \ac{ml}, este conjunto se suele partir en varios subconjuntos\sidenote{Evidentemente disjuntos.}, cada uno para un cometido específico. Éstos comparten la característica de que, para ser lo más útiles posibles, han de mantener en la medida de lo posible la misma distribución que la del dataset del que provienen.
+
+El primero de ellos es el \textbf{conjunto de entrenamiento} o \textit{training set}. Éste es usado para entrenar los modelos y suele ser el mayor de los subconjuntos.
+
+El conjunto de validación o \textbf{validation set} tiene como objetivo validar el modelo \textbf{durante} el entrenamiento. Durante el entrenamiento, dependiendo del modelo o modelos que se están explorado, lo más común es realizar una serie de modificaciones en metavariables para ajustarlo. Al usar un conjunto distinto que el de entrenamiento, ajustamos el modelo para unos datos que no ha visto durante el proceso de entrenamiento.
+
+Sin embargo, al realizar estos ajuste sí estamos incurriendo en un sesgo hacia el conjunto de validación. Esto es, el modelo se está entrenando de acuerdo a los datos que se le presentan en el conjunto de entrenamiento, y las metavariables a lo que le dicta el conjunto de validación. En este punto surge el conjunto de test o \textbf{test set}\sidenote{
+	En la literatura existe cierta confusión entre estos dos terminos. Históricamente el conjunto de dato se solía dividir entre los conjuntos de entrenamiento y test. Posteriormente se vio la utilidad de separar el conjunto de test en dos diferentes para evaluar el modelo durante y después del proceso de entrenamiento.
+	
+	Muchos autores prefieren la definición aquí expuesta, pero otros invierten los significados de validación y test indicando que el test se usa para el ajuste del modelo \textbf{durante} el proceso de entrenamiento mientras que la validación se realiza \textbf{al final} del proceso.
+}. Su objetivo es el de, precisamente, evaluar todo el proceso de entrenamiento \textbf{al final} de éste para comprobar que el modelo entrenado es lo sufientemente bueno para realizar la tarea para la que ha sido entrenado.
+
+El último concepto es el de \textbf{epoch}. Se suele referir a una iteración sobre todo el conjunto de ejemplos del conjunto de entrenamiento. Sin embargo, en la actualidad estos conjuntos pueden llegar a ocupar demasiado por lo que, dependiendo del contexto, un \textit{epoch} se puede referir a una iteración sobre una porción del conjunto total de entrenamiento.
+
+En otros contextos la definición de \textit{epoch} se mantiene y a cada una de las porciones se las denomina \textit{batch} o \textit{mini-batch}.
 
 \subsection{Problemas del aprendizaje en la \acrlong{ci}}
 

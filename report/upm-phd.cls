@@ -2065,7 +2065,7 @@
 \newtheorem{hyp}{Hipótesis}
 \newtheorem*{definition}{Definición}
 
-\usepackage{units}
+\usepackage{siunitx}
 
 %%
 % Source code highlighting and formatting
