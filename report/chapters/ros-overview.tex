@@ -1,2 +1,38 @@
 \chapter{Visión general de ROS}
 \label{ch:ros-overview}
+
+\ac{ros} es un \ac{framework} para el desarrollo de aplicaciones relacionadas con automática y robótica. Abstrae una serie de servicios normalmente provistos por el \ac{os} además de ofrecer librerías y herramientas para facilitar el desarrollo de aplicaciones.
+
+Está desarrollado desde el año 2007 y licenciado bajo la licencia \ac{bsd}\sidenote{
+	Se trata de una licencia de software libre permisivo, lo que entre otras cosas permite que el desarrollo de software enlazado al framework sin forzar a que éste también requiera una licencia libre.
+}. Entre sus múltiples colaboradores destacan la Universidad de Stanford\sidenote{
+	El nombre original del proyecto fue \textit{switchyard}, pero desde que tomó el relevo Willow Garage su nombre pasó a ser \ac{ros}.
+} como desarrolladores originales, el instituto de investigación Willow Garage como desarrolladores principales desde el año 2008 y la \ac{osrf}\sidenote{
+	La \ac{osrf} fue una iniciativa lanzada desde el instituo de investigación Willow Garage en el año 2012.
+} como actuales mantenedores y responsables de \ac{ros}. 
+
+El \ac{framework} de \ac{ros} se compone en realidad de dos partes:
+
+\begin{itemize}
+	\item El núcleo, el cual entre otras cosas incluye todas las bibliotecas de utilidades y \acp{api} para crear los nodos y las librerías del sistema a desarrollar, herramientas para gestionar el funcionamiento de éste y el nodo principal que se encarga de las comunicaciones entre los diferentes nodos.
+	\item La paquetería \TODO{buscar otro nombre mejor porque esto es un chufo}, compuesta por toda la base de datos de nodos y herramientas desarrolladas para \ac{ros}. Toda esta paquetería está desarrollada siguiendo el estándar que propone \ac{ros} para el desarrollo de utilidades, y está compuesto por paquetes de tipos de mensaje, controladores y drivers de dispositivos, codificación y decodificación de datos, etcétera.
+\end{itemize}
+
+El verdadero potencial de \ac{ros} es su infraestructura de comunicación, basada en el protocolo de comunicación \ac{tcpip}. Al estar basada en un patrón de comunicación \textit{publish-subscribe} se logra no sólo mantener a los diferentes componentes del sistema muy débilmente desacoplados, sino que además permite su uso en un sistema distribuido a lo largo de varias máquinas independientes sin necesidad de modificar la implementación de los paquetes especificaos del sistema deasrrollado.
+
+Hay una serie de conceptos dentro de \ac{ros} que es necesario conocer para poder comprender de qué manera un sistema está construido. Estos son:
+
+\begin{figure*}[t]
+	\centering
+	\missingfigure[figheight=3cm]{Dibujito con cajitas y flechitas comunicando cositas con más cositas}
+	\caption{Descripción de los componentes de un sistema desarrollado para \ac{ros}.}
+	\label{fig:ros-architecture}
+\end{figure*}
+
+\begin{itemize}
+	\item \textbf{Nodo}. Es el componente principal de un sistema desarrollado sobre \ac{ros}. Los nodos tienen un funcionamiento en principio independiente de los demás, realizan las tareas para las que han sido programados, se comunican con componentes externos al sistema (e.g. hardware) y entre si a través de los mecanismos de comunicación ofrecidos por el \ac{framework}. \ac{ros} Proporciona un \ac{api} para facilitar el desarrollo de nodos en los lenguajes C/C++ y Python.
+	\item \textbf{Mensaje}. Es cada uno de los paquetes de información enviado entre nodos. Es una estructura de datos definida como tuplas de la forma (nombre, tipo) donde los tipos pueden ser o bien los básicos definidos por ros (e.g. valores enteros, de coma flotante, cadenas o timestamps) o bien valores compuestos como listas de tipos básicos u otros mensajes, permitiendo así la creación de mensajes complejos a partir de otros más simples.
+	\item \textbf{Topic}. Un topic es el \enquote{tipo de mensaje} que la infraestructura de comunicación basado en publish-subscripe de \ac{ros} usa para el envío y recepción de información entre nodos. Un nodo puede publicar mensajes en uno o más topics y suscribirse también a uno o más topics. De esta manera, todos los mensajes de un topic que envía un nodo serán recibidos por todos los nodos suscritos a dicho topic.
+	\item \textbf{Service}. El mecaniscom de comunicación basado en \textit{publish-subscribe} es asíncrono y basado únicamente en el envío de información. Cuando la comunicación requiere ser síncrona o en modo \textit{request-response} se hace uso de servicios. Un mismo servicio sólo puede ser ofrecido por un único nodo, ofreciendo un \ac{api} de acceso al que se accederá de forma síncrona.
+	\item \textbf{Master}. Este componente se lanza en cualquier sistema desarrollado en \ac{ros}. Se trata de un nodo que se ocupa de establecer y gestionar la infraestructura de comunicaciones, ofrecer parámetros globales y en general de mantener coherente el sistema en funcionamiento.
+\end{itemize}
