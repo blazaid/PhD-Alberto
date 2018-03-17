@@ -49,7 +49,18 @@ El acceso a la información se realiza a través del puerto Ethernet. Para la ca
 
 El \ac{lidar} se encuentra anclado en la baca del vehículo con el eje X dispuesto en el sentido de conducción y el Z en sentido ascendente. Su posición es centrada en el vehículo y a una altura de \SI{1.75}{\meter}.
 
-\paragraph{GPS}
+\paragraph{\ac{gps}}
+
+El \ac{gps} es una tecnología usada para sincronización de tiempo y posicionamiento 3d (latitud, longitud y altitud) de objetos en el globo terráqueo. Es un dispositivo que funciona en un único sentido, es decir, el receptor recibe la información de los satélites, pero no envía ninguna.
+
+El dispositivo \ac{gps} utilizado para los experimentos ha sido desarrollado en el 
+
+\begin{marginfigure}
+	\centering
+	\includegraphics[width=\textwidth]{gps}
+	\caption{El \ac{gps} permite el posicionamiento 3d sobre en la tierra gracias a la comunicación unidireccional de satélites situados en órbita. Fuente: Wikimedia Commons.}
+	\label{fig:gps}
+\end{marginfigure}
 
 \TODO{Yo creo que se podría decir que se usa para obtener una segunda medida de velocidad y aceleración, así como para la localización espacial de subconjuntos de datos interesantes para su estudio.}
 
@@ -59,13 +70,22 @@ El \ac{lidar} se encuentra anclado en la baca del vehículo con el eje X dispues
 
 \paragraph{Bus CAN}
 
-\TODO{Explicar qué es el CAN Bus, y si es necesario, un poquitín su funcionamiento (aunque sea en un sidenote, así queda todo más completito.). El BUS del vehículo se conecta a través del puerto USB al ordenador a lo mejor hay que explicar un poco más la conexión, el tipo de cable y tal. Es usado para la extracción de la interacción del conductor con el vehículo.}
+Un bus es una topología caracterizada por tener un único canal de comunicaciones donde los dispositivos se conectan, vierten la información y la reciben. El bus \acf{can}, o simplemente \ac{can}, es un protocolo de comunicaciones basado en esta topología utilizado, entre otras muchas áreas, la comunicación entre los diferentes dispositivos que componen un vehículo.
 
-\TODO{Descripción de los datos que se extraen y cómo se almacenan.}
+El estándar \ac{can} cubre únicamente las dos primeras capas del modelo \ac{osi}\sidenote{
+	Las dos primeras capas son la capa física (la conexión el hardware a la red y la transmisión/recepción física de los datos) y la de enlace de datos (direccionamiento físico, detección de errores y control de flujo). Sobre el resto de niveles no existen un estándar definido y por tanto existen multiples protocolos de estas dependiendo del fabricante u organismo que lo implemente.
+}, lo cual es suficiente para el acceso a la información del vehículo. Sin embargo, dependiendo del fabricante, los vehículo pueden contar con uno o más buses independientes, con acceso más o menos restringido y con identificadores de mensajes diferentes. Además, el acceso a esta información no suele ser accesible para el público general, por lo que lo normal es realizar una tarea previa de ingeniería inversa para identificar los mensajes correspondientes a los datos que se desean almacenar y su frecuencia.
 
-\TODO{Descripción a través de qué puerto se conectan.}
+Del bus se ha recogido numerosa información, tanto para esta tesis como para más proyectos relacionados con ella. Para este experimento, no obstante, se ha utilizados únicamente la velocidad, y no directamente. La razón es que el \ac{can} ofrece ésta como un número entero, por lo que los cambios de velocidad durante los recorridos ocurren de \SI{\pm1}{\km\per\hour}. Esta resolución es insuficiente para los cálculos de la aceleración, por lo que se ha usado para validar la velocidad capturada por el \ac{gps}
 
-\TODO{Indicar que se ha desarrollado un NODO propio para la captura y que se encuentra incluido en el apéndice de ``software desarrollado''}
+\begin{marginfigure}
+	\centering
+	\includegraphics[width=.35\textwidth]{laciwel-canusb}
+	\caption{El dispositivo CANBUS de LACIWEL AB permite el acceso a través del protocolo RS 232 por el puerto USB al bus \ac{can}. Fuente: \url{http://www.can232.com/}.}
+	\label{fig:laciwel-canusb}
+\end{marginfigure}
+
+El acceso a la información del bus se ha realizado a través del puerto USB. Para ello se ha utilizado el dispositivo CANUSB de la empresa LAWICEL AB, el cual se encarga de la traducción del protocolo CAN a una conexión estándar RS232. La captura de los paquetes se ha realizado a través de un nodo de \ac{ros} desarrollado para esta tesis y descrito brevemente en el apéndice~\nameref{ch:developed-software}.
 
 \paragraph{Cámara}
 
