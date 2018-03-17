@@ -31,11 +31,23 @@ Se ha hecho uso de un vehículo instrumentado con sensores para capturar la mayo
 
 Todos los dispositivos se conectan a un ordenador con sistema operativo GNU/Linux sobre Intel i7-7500U CPU con 16GB de memoria RAM siguiendo el esquema que se muestra en la Figura~\ref{fig:instrumented-imiev-schema}. Al ser éstos dispositivos con capacidades diferentes, se ha optaco por la creación de una aplicación basada en el framework ROS del cual se da una breve visión general en el apéndice~\ref{ch:ros-overview}. A continuación se describen los dispositivos usados y su información generada.
 
-\paragraph{LIDAR}
+\paragraph{\ac{lidar}}
 
-\TODO{Descripción detallada de qué es el lidar. Marca y cositas. Algo del estilo mide la distancia a través la diferencia entre la emisión de pulsos de luz y su reflejo en un sensor. A lo mejor queda bien en un sidenote. El usado es un Velodyne VLP-16, un LiDAR circular de 16 canales verticales separados 2º, dando un FOV (-15, 15) grados de apertura vertical). Este dispositivo se conecta a la máquina a través del puerto ethernet y se usa para la obtención de información del entorno del conductor. El LiDAR está situado en el techo del vehículo orientando los (0, 0) grados en al dirección y sentido de éste y con el plano horizontal paralelo al suelo.}
+Un \ac{lidar} es un dispositivo que usa uno o más haces de luz pulsada para el cálculo de la distancia a losobjetos donde éstos impactan.
 
-\TODO{Descripción de los datos que se extraen y cómo se almacenan.}
+Nuestro dispositivo en concreto es el modelo VLP-16 de la empresa Velodyne.
+
+Está compuesto por un único haz láser con un movimiento continuo vertical y horizontal capturando información con un vertical de \SI{\pm15}{\degree} distribuído a lo largo de 16 planos (una resolución fija de \SI{2}{\degree}), y un campo horizontal de visión de \SI{360}{\degree} con una resolución dependiente de la velocidad de giro del láser, de \SI{0.1}{\degree} a \SI{0.4}{\degree} para \SI{5}{\Hz} a \SI{20}{\Hz} respectivamente. Estas medidas permiten una captura de 75000 a 300000 puntos del entorno en función de la velocidad de giro a una distancia de hasta \SI{100}{\meter}.
+
+\begin{marginfigure}
+	\includegraphics[width=\textwidth]{vlp-16}
+	\caption{El \ac{lidar} VLP-16 de Velodyne tiene un FOV horizontal de \SI{360}{\degree} y vertical de \SI{\pm15}{\degree}, permitiendo una captura de todo el entorno circundante a una frecuencia de hasta \SI{20}{\Hz}. Fuente: \url{http://velodynelidar.com/vlp-16.html}.}
+	\label{fig:vlp-16}
+\end{marginfigure}
+
+El acceso a la información se realiza a través del puerto Ethernet. Para la captura de datos se ha hecho uso de un nodo de \ac{ros} para este tipo de dispositivos. Este nodo publica en un topic específico la nube de puntos en coordenadas cartesianas con el eje X definido en el sentido de los \SI{0}{\degree} y el eje Z en sentido ascendente.
+
+El \ac{lidar} se encuentra anclado en la baca del vehículo con el eje X dispuesto en el sentido de conducción y el Z en sentido ascendente. Su posición es centrada en el vehículo y a una altura de \SI{1.75}{\meter}.
 
 \paragraph{GPS}
 
