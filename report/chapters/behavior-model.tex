@@ -45,7 +45,7 @@ Está compuesto por un único haz láser con un movimiento continuo vertical y h
 	\label{fig:vlp-16}
 \end{marginfigure}
 
-El acceso a la información se realiza a través del puerto Ethernet. Para la captura de datos se ha hecho uso de un nodo de \ac{ros} para este tipo de dispositivos. Este nodo publica en un topic específico la nube de puntos en coordenadas cartesianas con el eje X definido en el sentido de los \SI{0}{\degree} y el eje Z en sentido ascendente.
+El acceso a la información se realiza a través del puerto Ethernet. Para la captura de datos se ha hecho uso de un nodo de \ac{ros} para este tipo de dispositivos \TODO{Explicarlo mejor e indicar el nombre del paquete y su dirección}. Este nodo publica en un topic específico la nube de puntos en coordenadas cartesianas con el eje X definido en el sentido de los \SI{0}{\degree} y el eje Z en sentido ascendente.
 
 El \ac{lidar} se encuentra anclado en la baca del vehículo con el eje X dispuesto en el sentido de conducción y el Z en sentido ascendente. Su posición es centrada en el vehículo y a una altura de \SI{1.75}{\meter}.
 
@@ -53,7 +53,7 @@ El \ac{lidar} se encuentra anclado en la baca del vehículo con el eje X dispues
 
 El \ac{gps} es una tecnología usada para sincronización de tiempo y posicionamiento 3d (latitud, longitud y altitud) de objetos en el globo terráqueo. Es un dispositivo que funciona en un único sentido, es decir, el receptor recibe la información de los satélites, pero no envía ninguna.
 
-El dispositivo \ac{gps} utilizado para los experimentos ha sido desarrollado en el 
+El dispositivo \ac{gps} utilizado para los experimentos ha sido desarrollado en el Laboratorio de Electrónica e Instrumentación del \ac{insia}. Se trata de un dispositivo \ac{gps} con corrección diferencial que genera mensajes \ac{nmea} a una frecuencia de hasta \SI{20}{\Hz}. La posición de la antena receptora estará localizada en el centro del vehículo, justo debajo del \ac{lidar}, situándose de esta forma en el origen de coordenadas del entorno capturado con éste.
 
 \begin{marginfigure}
 	\centering
@@ -62,11 +62,14 @@ El dispositivo \ac{gps} utilizado para los experimentos ha sido desarrollado en 
 	\label{fig:gps}
 \end{marginfigure}
 
-\TODO{Yo creo que se podría decir que se usa para obtener una segunda medida de velocidad y aceleración, así como para la localización espacial de subconjuntos de datos interesantes para su estudio.}
+De todos los mensajes disponibles, los recuperados son lo de los siguientes tipos:
 
-\TODO{Descripción de los datos que se extraen y cómo se almacenan. Indicar los dos tipos de mensaje que se obtienen!}
+\begin{itemize}
+	\item GGA. Geoposicionamiento del vehículo, el cual será usado para deducir valores no medibles directamente como, por ejemplo, la distancia al siguiente semáforo.
+	\item VTG. Velocidad del vehículo, que se usará como el valor real de la velocidad tomada por el vehículo.
+\end{itemize}
 
-\TODO{Descripción a través de qué puerto se conectan.}
+De la captura de datos se encargará un nodo de ROS \TODO{Explicarlo mejor e indicar el nombre del paquete y su dirección} el cual leerá por el puerto USB la información originada en el \ac{gps}.
 
 \paragraph{Bus CAN}
 
@@ -76,8 +79,6 @@ El estándar \ac{can} cubre únicamente las dos primeras capas del modelo \ac{os
 	Las dos primeras capas son la capa física (la conexión el hardware a la red y la transmisión/recepción física de los datos) y la de enlace de datos (direccionamiento físico, detección de errores y control de flujo). Sobre el resto de niveles no existen un estándar definido y por tanto existen multiples protocolos de estas dependiendo del fabricante u organismo que lo implemente.
 }, lo cual es suficiente para el acceso a la información del vehículo. Sin embargo, dependiendo del fabricante, los vehículo pueden contar con uno o más buses independientes, con acceso más o menos restringido y con identificadores de mensajes diferentes. Además, el acceso a esta información no suele ser accesible para el público general, por lo que lo normal es realizar una tarea previa de ingeniería inversa para identificar los mensajes correspondientes a los datos que se desean almacenar y su frecuencia.
 
-Del bus se ha recogido numerosa información, tanto para esta tesis como para más proyectos relacionados con ella. Para este experimento, no obstante, se ha utilizados únicamente la velocidad, y no directamente. La razón es que el \ac{can} ofrece ésta como un número entero, por lo que los cambios de velocidad durante los recorridos ocurren de \SI{\pm1}{\km\per\hour}. Esta resolución es insuficiente para los cálculos de la aceleración, por lo que se ha usado para validar la velocidad capturada por el \ac{gps}
-
 \begin{marginfigure}
 	\centering
 	\includegraphics[width=.35\textwidth]{laciwel-canusb}
@@ -85,15 +86,24 @@ Del bus se ha recogido numerosa información, tanto para esta tesis como para m�
 	\label{fig:laciwel-canusb}
 \end{marginfigure}
 
+Del bus se ha recogido numerosa información, tanto para esta tesis como para más proyectos relacionados con ella. Para este experimento, no obstante, se ha utilizados únicamente la velocidad, y no directamente. La razón es que el \ac{can} ofrece ésta como un número entero, por lo que los cambios de velocidad durante los recorridos ocurren de \SI{\pm1}{\km\per\hour}. Esta resolución es insuficiente para los cálculos de la aceleración, por lo que se ha usado para validar la velocidad capturada por el \ac{gps}
+
 El acceso a la información del bus se ha realizado a través del puerto USB. Para ello se ha utilizado el dispositivo CANUSB de la empresa LAWICEL AB, el cual se encarga de la traducción del protocolo CAN a una conexión estándar RS232. La captura de los paquetes se ha realizado a través de un nodo de \ac{ros} desarrollado para esta tesis y descrito brevemente en el apéndice~\nameref{ch:developed-software}.
 
 \paragraph{Cámara}
 
-\TODO{Descripción de la cámara. Es el Kinect, pero hay que pillar versión, capacidades y demás. A lo mejor alguna ilustración con el rviz puede estar bien}
+Para la obtención de algunos valores de indicadores no existentes necesitamos un proceso posterior de análisis sobre el recorrido, asociando las imágenes a los valores recogidos del resto de dispositivos, como posiciones o nube de puntos del entorno. Para ello se ha hecho uso de una cámara para la visualización del recorrido desde el punto de vista del conductor.
 
-\TODO{Descripción de los datos que se extraen y cómo se almacenan.}
+La cámara utilizada es un Microsoft Kinect localizada tras el retrovisor interior del vehículo. Dicha cámara está orientada de tal manera que ofrece una visualización de la vía por la que circula el vehículo.
 
-\TODO{Descripción a través de qué puerto se conectan.}
+\begin{marginfigure}
+	\centering
+	\includegraphics[width=\textwidth]{kinect}
+	\caption{La cámara Kinect desarrollada por Microsoft ofrece imágenes a color a una velocidad de \SI{30}{\fps} con una resolución de \SI{640x480}{\px}.}
+	\label{fig:kinect}
+\end{marginfigure}
+
+Entre otras capacidades, la cámara ofrece captura de imágenes VGA de \SI{640x480}{\px} de resolución y a una frecuencia de \SI{30}{\Hz}. El dispositivo se conecta vía USB y de la captura se encarga un nodo de ROS denominado \textit{freenect}\sidenote{\url{http://wiki.ros.org/freenect\_stack}.} publicando en un topic las imágenes generadas.
 
 \subsection{Selección de rutas}
 

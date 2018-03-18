@@ -2067,6 +2067,7 @@
 
 \usepackage{siunitx}
 \DeclareSIUnit\px{px}
+\DeclareSIUnit\fps{fps}
 %%
 % Source code highlighting and formatting
 \usepackage{listingsutf8}
