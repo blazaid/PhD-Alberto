@@ -131,6 +131,8 @@ Los sujetos tienen experiencia de conducción y han realizado el recorrido anter
 
 \section{Preparación de los datos}
 
+\TODO{Revisar las variables porque han cambiado. Están en el paso 03 de los scripts.}
+
 Tras la captura se ha realizado una secuencia de pasos para dejar los datos preparados para el proceso de entrenamiento de los modelos. El resto de la sección detalla cada uno de éstos.
 
 \subsection{Fusión de sensores}
@@ -359,23 +361,63 @@ Tras este ajuste, los conjuntos de datos están finalizados. Sus propiedades que
 
 \section{Entrenamiento de modelos}
 
-\TODO{Ni idea de qué poner aquí}
+Para cada uno de los submodelos se han probado dos aproximaciones diferentes para comparar sus desempeños en las tareas por separado. Concretamente se han utilizado \acp{fcs} y \acp{mlp} para modelar el comportamiento longitudinal y \acp{mlp} y \acp{cnn} para modelar el comportamiento en cambio de carril.
+
+El resto de la sección describe el modelo que componen estos dos modelos de comportamiento y el proceso de entrenamiento de los mismos.
 
 \subsection{Perspectiva general}
 
-\TODO{escribir la máquina donde realizamos los entrenamientos}
+Para el diseño y ajuste del modelo de conductor se ha decidido separar los dos comportamientos principales que componen el nivel cognitivo táctico, estos son, el modelo longitudinal y el modelo de cambio de carril.
 
-\TODO{Poner aquí el esquema bonito de lo que queremos lograr, y describir por qué las decisiones de mínimo en la aceleración y esas mierdas.}
+La idea es diseñar el \ac{dvu} como un agente con un modelo de comportamiento que actúe sobre (i) la aceleración/deceleración, y (b) la decisión y ejecución del cambio de carril, ambos a partir de los estímulos recibidos del exterior. Estos estímulos serán replicados en el simulador para que los agentes con los modelos entrenados con estímulos del mundo real reciban estímulos similares en estos entornos.
+
+Internamente, el modelo estará separado en los dos modelos básicos, el modelo longitudinal y el de cambio de carril. En la Figura~\ref{fig:overall-driver-model-schema} se describe el modelo, las entradas y salidas y el flujo de datos entre componentes.
+
+\begin{figure*}
+	\centering
+	\missingfigure[figwidth=5cm]{Esquema general del modelo de conductor}
+	\caption[Esquema general del modelo de conductor planteado]{Esquema general del modelo de conductor planteado en la tesis. En éste se puede ver cómo se distribuyen los estímulos de entrada entre los diferentes componentes del modelo y las salidas del sistema, que irán conectadas a los actuadores pertinentes.}
+	\label{fig:overall-driver-model-schema}
+\end{figure*}
+
+\TODO{No se me ocurre qué más añadir aquí.}
+
+Para los entrenamientos de los modelos se ha utilizado una máquina con procesador Intel\textregistered Core\texttrademark i7-6700K a \SI{4.00}{\giga\Hz} y \SI{16}{\gibi\byte} de memoria. El sistema operativo utilizado ha sido un Debian GNU/Linux versión 9.4.
 
 \subsection{Comportamiento longitudinal}
 
-\TODO{Por hacer. Intuyo que habrá que separarlo en free-flow y car-following.}
+El comportamiento longitudinal es un problema de regresión sobre cómo ha de comportarse la aceleración del \ac{dvu} en función de la información existente alrededor.
 
-\TODO{Describir el proceso de entrenamiento del controlador difuso. Compararlo con el perceptrón multicapa.}
+Como este problema en concreto no parece excesivamente complejo, se han seleccionado un subconjunto de las variables capturadas para determinar el comportamiento de la aceleración, y ésta se inferirá a través de dos modelos:
+
+\begin{enumerate}
+	\item \ac{mlp}. \TODO{No se me ocurre qué escribir para justificarlo.}
+	\item \ac{fcs}. La formulación de este problema se ajusta muy bien al funcionamiento de estos modelos, donde en función de las entradas y de acuerdo a una serie de reglas, el controlador toma una decisión para la salida. Además, los \ac{fcs} tienen la ventaja de que se puede explicar cómo funcionan, cosa que no es posible para un \ac{mlp} con una o más capas ocultas.
+\end{enumerate}
+
+Ambos modelos se entrenaran ajustando sus parámetros con un procedimiento basado en el descenso del gradiente denominado ADAM~\cite{kingma2014adam}. Su aplicación a los \ac{mlp} es directa, pero para \acp{fcs} es necesaria una representación que permita el uso de este método para su optimización. Esta representación es una de las aportaciones de esta tesis y se se explicará a lo largo de la sección.
+
+\paragraph{Modelo \ac{fcs}}
+
+\TODO{Describir cómo se realiza la representación para el descenso del gradiente. Poner cosas con el ``algorithms'' si hace falta o queda guay, pero creo que mola más poner productos de matrices, tensores, etcétera. Poner también los dibujitos de los grafos, que molan mil.}
+
+\TODO{Describir las decisiones durante el proceso de entrenamiento. Comparar diferentes aproximaciones de conjuntos difusos, poner las gráficas comparándolos y poner las reglas y las particiones difusas.}
 
 \TODO{Describir epochs, tiempos de entrenamiento y de inferencia.}
 
 \TODO{Separar los entrenamientos para todos los conductores y para los conductores en concreto. En estos últimos, si la red es muy grande, entrenar los modelos tanto desde 0 como desde una red preentrenada.}
+
+\paragraph{Modelo \ac{mlp}}
+
+\TODO{Describir el proceso de entrenamiento del controlador. Poner las grafiquitas de las diferentes arquitecturas usadas y selección de la mejor}
+
+\TODO{Describir epochs, tiempos de entrenamiento y de inferencia.}
+
+\TODO{Separar los entrenamientos para todos los conductores y para los conductores en concreto. En estos últimos, si la red es muy grande, entrenar los modelos tanto desde 0 como desde una red preentrenada.}
+
+\paragraph{Comparación entre modelos}
+
+\TODO{Sacar las gráficas para comparar sus RMS, decir cuál es el mejor e indicar que se usará ese.}
 
 \subsection{Comportamiento en cambio de carril}
 
