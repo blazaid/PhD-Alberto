@@ -144,9 +144,15 @@ def inference_graph(fuzzy_inputs, num_fuzzy_inputs, num_fuzzy_outputs):
     # fuzzy inputs, where the rows are the examples and the columns each
     # combination of fuzzy inputs.
     inference = None
-    m = tf.shape(fuzzy_inputs[0])[0]  # The number of examples
-    for fuzzy_input in fuzzy_inputs[1:]:
-        inference = tf.minimum(fuzzy_inputs[0][:, None], fuzzy_input[:, :, None])
+#    m = tf.shape(fuzzy_inputs[0])[0]  # The number of examples
+#    for fuzzy_input in fuzzy_inputs[1:]:
+#        inference = tf.minimum(fuzzy_inputs[0][:, None], fuzzy_input[:, :, None])
+#        inference = tf.reshape(inference, (m, -1))
+
+    m = tf.shape(fuzzy_inputs[0])[0]
+    inference = fuzzy_inputs[0]
+    for g in fuzzy_inputs[1:]:
+        inference = tf.minimum(inference[:, None], g[:, :, None])
         inference = tf.reshape(inference, (m, -1))
 
     # Then, we create a set of weights of the size of the inference times the
@@ -159,7 +165,7 @@ def inference_graph(fuzzy_inputs, num_fuzzy_inputs, num_fuzzy_outputs):
         shape=[num_fuzzy_outputs, 1, num_combinations],
         initializer=tf.contrib.layers.xavier_initializer(),
     )
-    inference = tf.multiply(inference, tf.sigmoid(fuzzy_output_weights))
+    inference = tf.multiply(inference, tf.tanh(fuzzy_output_weights))
 
     # Now we reduce to the max the values of each of the outputs
     return tf.transpose(tf.reduce_max(inference, axis=2))

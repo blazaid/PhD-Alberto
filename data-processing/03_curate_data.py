@@ -22,10 +22,11 @@ from utils import load_subject_df, DATASETS_INFO, load_master_df
 
 BASE_PATH = '/home/blazaid/Projects/data-phd/sync'
 OUTPUT_PATH = '/home/blazaid/Projects/data-phd/curated'
-SUBJECTS = 'miguel', # 'edgar', 'jj', 'miguel'
+SUBJECTS = 'edgar',  # 'edgar', 'jj', 'miguel'
 DATASETS = 'validation', 'training'
 
 MAX_LEADER_DISTANCE = 50
+MAX_RELATIVE_SPEED = 27.7  # +-100km/h -> +-1m/s
 MAX_TLS_DISTANCE = 100
 MAX_DRIVABLE_DISTANCE = 100
 NUM_SHAKEN_DEEPMAPS = 10
@@ -129,11 +130,7 @@ def generate_cf_dist(df, cf_dist):
                                                                          centroid_dist)
 
                 df.loc[frame, 'Leader distance'] = dist
-        df.loc[
-        frame_ini:frame_end, 'Leader distance'
-        ] = df.loc[
-            frame_ini:frame_end, 'Leader distance'
-            ].interpolate()
+        df.loc[frame_ini:frame_end, 'Leader distance'] = df.loc[frame_ini:frame_end, 'Leader distance'].interpolate()
     return df
 
 
@@ -153,27 +150,18 @@ def extract_cf_sequences(df):
 
         max_speed = sequence['Max speed']
 
-        leader_distance = sequence['Leader distance'].apply(
-            lambda x: relative_bounded(x, MAX_LEADER_DISTANCE)
-        )
-        next_tls_distance = sequence['Next TLS distance'].apply(
-            lambda x: relative_bounded(x, MAX_TLS_DISTANCE)
-        )
+        leader_distance = sequence['Leader distance'].apply(lambda x: relative_bounded(x, MAX_LEADER_DISTANCE))
+        next_tls_distance = sequence['Next TLS distance'].apply(lambda x: relative_bounded(x, MAX_TLS_DISTANCE))
         next_tls_status = sequence['Next TLS status'].apply(status_to_number)
-        relative_speed = sequence['gps_speeds_speed'].rolling(
-            5, center=True
-        ).mean() / max_speed
-        speed_to_leader = (
-                sequence['Leader distance'] - sequence['Leader distance'].shift(
-            1
-        ))
-        acceleration = relative_speed.shift(-1) - relative_speed
+        speed = sequence['gps_speeds_speed'].rolling(10, center=True).mean() / (max_speed * MAX_RELATIVE_SPEED)
+        speed_to_leader = (sequence['Leader distance'] - sequence['Leader distance'].shift(1))
+        acceleration = speed.shift(-1) - speed
 
         car_following_df = pd.DataFrame({
             'Leader distance': leader_distance,
             'Next TLS distance': next_tls_distance,
             'Next TLS status': next_tls_status,
-            'Relative speed': relative_speed,
+            'Speed': speed,
             'Speed to leader': speed_to_leader,
             'Acceleration': acceleration
         })[2:-3].reset_index(drop=True)
@@ -195,21 +183,15 @@ def extract_lc_sequences(df):
     for sequence in temp_lc_sequences:
         max_speed = sequence['Max speed'] * 10 / 36  # km/h a m/s
 
-        relative_speed = sequence['gps_speeds_speed'].rolling(5,
-                                                              center=True).mean() / max_speed
-        distance_l_lane = sequence['Distance +1'].apply(
-            lambda x: relative_bounded(x, MAX_DRIVABLE_DISTANCE))
-        distance_c_lane = sequence['Distance 0'].apply(
-            lambda x: relative_bounded(x, MAX_DRIVABLE_DISTANCE))
-        distance_r_lane = sequence['Distance -1'].apply(
-            lambda x: relative_bounded(x, MAX_DRIVABLE_DISTANCE))
-        acceleration = relative_speed.shift(-1) - relative_speed
+        speed = sequence['gps_speeds_speed'].rolling(10, center=True).mean() / max_speed
+        distance_l_lane = sequence['Distance +1'].apply(lambda x: relative_bounded(x, MAX_DRIVABLE_DISTANCE))
+        distance_c_lane = sequence['Distance 0'].apply(lambda x: relative_bounded(x, MAX_DRIVABLE_DISTANCE))
+        distance_r_lane = sequence['Distance -1'].apply(lambda x: relative_bounded(x, MAX_DRIVABLE_DISTANCE))
+        acceleration = speed.shift(-1) - speed
         pointcloud_path = sequence['pointclouds_path']
         lane_change = sequence['Lane change'] + 1
-        next_tls_distance = sequence['Next TLS distance'].apply(
-            lambda x: relative_bounded(x, MAX_TLS_DISTANCE))
-        next_tls_status = sequence['Next TLS status'].apply(
-            status_to_number)
+        next_tls_distance = sequence['Next TLS distance'].apply(lambda x: relative_bounded(x, MAX_TLS_DISTANCE))
+        next_tls_status = sequence['Next TLS status'].apply(status_to_number)
 
         lane_change_df = pd.DataFrame({
             'Acceleration': acceleration,
@@ -217,7 +199,7 @@ def extract_lc_sequences(df):
             'Distance 0': distance_c_lane,
             'Distance -1': distance_r_lane,
             'Lane change': lane_change,
-            'Relative speed': relative_speed,
+            'Speed': speed,
             'Pointcloud': pointcloud_path,
             'Next TLS distance': next_tls_distance,
             'Next TLS status': next_tls_status,
@@ -256,8 +238,7 @@ if __name__ == '__main__':
                 ending_frame + 1 - starting_frame))
 
             print('\t\t\tGenerating lane change data')
-            master_df = generate_lane_changes(master_df,
-                                              dataset_info['lane_changes'])
+            master_df = generate_lane_changes(master_df, dataset_info['lane_changes'])
 
             print('\t\t\tGenerating max speed data')
             master_df = generate_max_speed(master_df, dataset_info['max_speed'])
@@ -266,8 +247,7 @@ if __name__ == '__main__':
             master_df = generate_tls(master_df, tls_df, master_tls_df)
 
             print('\t\t\tGenerating drivable distance data')
-            master_df = generate_lanes(master_df,
-                                       dataset_info['lanes_distances'])
+            master_df = generate_lanes(master_df, dataset_info['lanes_distances'])
 
             print('\t\t\tGenerating distance to next obstacles')
             master_df = generate_cf_dist(master_df, dataset_info['cf_dist'])
@@ -277,8 +257,7 @@ if __name__ == '__main__':
             if not os.path.isdir(OUTPUT_PATH):
                 os.makedirs(OUTPUT_PATH)
             filename_prefix = 'cf_{}_{}'.format(subject, dataset)
-            for filename in glob.glob(
-                    os.path.join(OUTPUT_PATH, filename_prefix + '*')):
+            for filename in glob.glob(os.path.join(OUTPUT_PATH, filename_prefix + '*')):
                 print('.', end='')
                 os.remove(filename)
             print('')
@@ -313,11 +292,12 @@ if __name__ == '__main__':
             lc_sequences = extract_lc_sequences(master_df)
             print('{} sequences'.format(len(lc_sequences)))
 
+            mirrored_deepmap = MIRRORED_DEEPMAP if dataset != 'validation' else False
+            num_shaken_deepmaps = NUM_SHAKEN_DEEPMAPS if dataset != 'validation' else 0
             print('\t\t\t\tAugmenting sequences')
-            print('\t\t\t\t\tMirroring: {}'.format(MIRRORED_DEEPMAP))
-            print('\t\t\t\t\tShaking: {}'.format(NUM_SHAKEN_DEEPMAPS))
-            num_generated_sequences = (1 + NUM_SHAKEN_DEEPMAPS) * (
-                2 if MIRRORED_DEEPMAP else 1)
+            print('\t\t\t\t\tMirroring: {}'.format(mirrored_deepmap))
+            print('\t\t\t\t\tShaking: {}'.format(num_shaken_deepmaps))
+            num_generated_sequences = (1 + num_shaken_deepmaps) * (2 if mirrored_deepmap else 1)
             print('\t\t\t\t\tTotal sequences: {}'.format(num_generated_sequences * len(lc_sequences)))
 
             sequence_index = 0
@@ -330,8 +310,7 @@ if __name__ == '__main__':
                     # Save the original and the shaken sequences
                     orig_pc = PointCloud.load(os.path.join(BASE_PATH, row['Pointcloud']))
                     orig_pc = orig_pc.transform(**calibration_data)
-                    orig_shaken_pcs = [orig_pc.shake(**SHAKEN_SHIFTS) for _ in
-                                       range(NUM_SHAKEN_DEEPMAPS)]
+                    orig_shaken_pcs = [orig_pc.shake(**SHAKEN_SHIFTS) for _ in range(num_shaken_deepmaps)]
                     for i, pc in enumerate([orig_pc] + orig_shaken_pcs):
                         # Save the deepmap
                         dm = pc.to_deepmap(h_range=(0, 360), v_range=(-15, 15),
@@ -353,18 +332,13 @@ if __name__ == '__main__':
                             row['Relative speed'],
                         ])
 
-                    if MIRRORED_DEEPMAP:
+                    if mirrored_deepmap:
                         mirrored_pc = orig_pc.mirror(fix_x=True, fix_z=True)
                         mirrored_shaken_pcs = [
-                            mirrored_pc.shake(**SHAKEN_SHIFTS) for _ in
-                            range(NUM_SHAKEN_DEEPMAPS)]
-                        for i, pc in enumerate(
-                                [mirrored_pc] + mirrored_shaken_pcs,
-                                start=NUM_SHAKEN_DEEPMAPS + 1):
+                            mirrored_pc.shake(**SHAKEN_SHIFTS) for _ in range(num_shaken_deepmaps)]
+                        for i, pc in enumerate([mirrored_pc] + mirrored_shaken_pcs, start=num_shaken_deepmaps + 1):
                             # Save the deepmap
-                            dm = pc.to_deepmap(h_range=(0, 360),
-                                               v_range=(-15, 15), h_res=1,
-                                               v_res=2.5)
+                            dm = pc.to_deepmap(h_range=(0, 360), v_range=(-15, 3), h_res=1, v_res=2)
                             dm = dm.normalize(orig=[-25, 25], dest=[1, 0])
                             path = master_path.format(deepmap_index)
                             dm.save(path)
@@ -382,8 +356,7 @@ if __name__ == '__main__':
                                 row['Relative speed'],
                             ])
                 for sequence in sequences:
-                    filename = os.path.join(OUTPUT_PATH,
-                                            deepmap_prefix + '_{:0>5}.csv')
+                    filename = os.path.join(OUTPUT_PATH, deepmap_prefix + '_{:0>5}.csv')
                     sequence_df = pd.DataFrame(sequence, columns=[
                         'Acceleration', 'Distance +1', 'Distance -1',
                         'Distance 0',
@@ -391,6 +364,5 @@ if __name__ == '__main__':
                         'Deepmap',
                         'Relative speed'
                     ])
-                    sequence_df.to_csv(filename.format(sequence_index),
-                                       index=False)
+                    sequence_df.to_csv(filename.format(sequence_index), index=False)
                     sequence_index += 1
