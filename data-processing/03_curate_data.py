@@ -24,6 +24,7 @@ BASE_PATH = '/home/blazaid/Projects/data-phd/sync'
 OUTPUT_PATH = '/home/blazaid/Projects/data-phd/curated'
 SUBJECTS = 'edgar',  # 'edgar', 'jj', 'miguel'
 DATASETS = 'validation', 'training'
+SPEED_ROLLING_WINDOW = 10
 
 MAX_LEADER_DISTANCE = 50
 MAX_RELATIVE_SPEED = 27.7  # +-100km/h -> +-1m/s
@@ -39,9 +40,11 @@ def narrow(df, starting_frame, ending_frame):
 
 
 def generate_lane_changes(df, lc_frames):
-    df['Lane change'] = 0
+    lane_change = pd.Series(0, index=range(len(df)))
     for ini_frame, end_frame, change in lc_frames:
-        df.loc[ini_frame:end_frame, 'Lane change'] = change
+        lane_change[ini_frame:end_frame] = change
+    one_hot = pd.get_dummies(lane_change)
+    df[['Lane change left', 'Lane change none', 'Lane change right']] = one_hot[[1, 0, -1]]
     return df
 
 
@@ -52,22 +55,39 @@ def generate_max_speed(df, ms_frames):
     return df
 
 
+def adjust_vehicle_speed(df):
+    limits = SPEED_ROLLING_WINDOW // 2, -SPEED_ROLLING_WINDOW // 2 - 1
+
+    df['Speed'] = df['gps_speeds_speed'].rolling(SPEED_ROLLING_WINDOW, center=True).mean()
+    df.drop(['canbus_Speed (km/h)', 'gps_speeds_speed'], axis=1, inplace=True)
+
+    return df[limits[0]:limits[1]]
+
+
+def generate_acceleration(df):
+    df['Acceleration'] = df['Speed'].shift(-1) - df['Speed']
+
+    return df[:-1]
+
+
 def generate_tls(df, tls_data, master_tls_data):
     df['Next TLS distance'] = 0.0
-    df['Next TLS status'] = 'g'
-    for i, row in tls_data.iterrows():
-        next_tls = row['next_tls']
+    status = pd.Series(index=range(len(df)))
 
-        lat, lon = master_tls_data.loc[next_tls, ['lat', 'lon']]
-        df.loc[row['frame']:, 'Next TLS status'] = row['status']
-        df.loc[
-        row['frame']:, 'Next TLS distance'
-        ] = df.loc[row['frame']:,
-            ['gps_positions_latitude', 'gps_positions_longitude']
-            ].apply(lambda r: latlon.distance(
+    for i, row in tls_data.iterrows():
+        status[row['frame']:] = row['status']
+
+        lat, lon = master_tls_data.loc[row['next_tls'], ['lat', 'lon']]
+        df.loc[row['frame']:, 'Next TLS distance'] = df.loc[row['frame']:,
+                                                     ['gps_positions_latitude', 'gps_positions_longitude']
+                                                     ].apply(lambda r: latlon.distance(
             (r['gps_positions_latitude'], r['gps_positions_longitude']),
             (lat, lon)
         ), axis=1)
+
+    one_hot = pd.get_dummies(status)
+    df[['Next TLS green', 'Next TLS yellow', 'Next TLS red']] = one_hot[['g', 'y', 'r']]
+
     return df
 
 
@@ -134,10 +154,6 @@ def generate_cf_dist(df, cf_dist):
     return df
 
 
-def status_to_number(status):
-    return {'g': 0, 'y': 0.5, 'r': 1}[status.lower()]
-
-
 def relative_bounded(value, maximum):
     return min(1, value / maximum)
 
@@ -148,30 +164,30 @@ def extract_cf_sequences(df):
     for frame_ini, frame_end, _, _ in dataset_info['cf_dist']:
         sequence = df[frame_ini:frame_end].copy().reset_index(drop=True)
 
-        max_speed = sequence['Max speed']
-
         leader_distance = sequence['Leader distance'].apply(lambda x: relative_bounded(x, MAX_LEADER_DISTANCE))
         next_tls_distance = sequence['Next TLS distance'].apply(lambda x: relative_bounded(x, MAX_TLS_DISTANCE))
-        next_tls_status = sequence['Next TLS status'].apply(status_to_number)
-        speed = sequence['gps_speeds_speed'].rolling(10, center=True).mean() / (max_speed * MAX_RELATIVE_SPEED)
         speed_to_leader = (sequence['Leader distance'] - sequence['Leader distance'].shift(1))
-        acceleration = speed.shift(-1) - speed
 
         car_following_df = pd.DataFrame({
             'Leader distance': leader_distance,
             'Next TLS distance': next_tls_distance,
-            'Next TLS status': next_tls_status,
-            'Speed': speed,
+            'Next TLS green': sequence['Next TLS green'],
+            'Next TLS yellow': sequence['Next TLS yellow'],
+            'Next TLS red': sequence['Next TLS red'],
+            'Speed': sequence['Speed'],
             'Speed to leader': speed_to_leader,
-            'Acceleration': acceleration
-        })[2:-3].reset_index(drop=True)
+            'Acceleration': sequence['Acceleration']
+        }).reset_index(drop=True)
 
         cf_sequences.append(car_following_df)
     return cf_sequences
 
 
 def extract_lc_sequences(df):
+    limits = SPEED_ROLLING_WINDOW // 2, -SPEED_ROLLING_WINDOW // 2
+
     temp_lc_sequences = []
+
     frame_ini = 0
     for frame_end in pd.isnull(df['pointclouds_path']).nonzero()[0]:
         sequence = df[frame_ini:frame_end]
@@ -181,29 +197,26 @@ def extract_lc_sequences(df):
 
     lc_sequences = []
     for sequence in temp_lc_sequences:
-        max_speed = sequence['Max speed'] * 10 / 36  # km/h a m/s
-
-        speed = sequence['gps_speeds_speed'].rolling(10, center=True).mean() / max_speed
         distance_l_lane = sequence['Distance +1'].apply(lambda x: relative_bounded(x, MAX_DRIVABLE_DISTANCE))
         distance_c_lane = sequence['Distance 0'].apply(lambda x: relative_bounded(x, MAX_DRIVABLE_DISTANCE))
         distance_r_lane = sequence['Distance -1'].apply(lambda x: relative_bounded(x, MAX_DRIVABLE_DISTANCE))
-        acceleration = speed.shift(-1) - speed
-        pointcloud_path = sequence['pointclouds_path']
-        lane_change = sequence['Lane change'] + 1
         next_tls_distance = sequence['Next TLS distance'].apply(lambda x: relative_bounded(x, MAX_TLS_DISTANCE))
-        next_tls_status = sequence['Next TLS status'].apply(status_to_number)
 
         lane_change_df = pd.DataFrame({
-            'Acceleration': acceleration,
+            'Acceleration': sequence['Acceleration'],
             'Distance +1': distance_l_lane,
             'Distance 0': distance_c_lane,
             'Distance -1': distance_r_lane,
-            'Lane change': lane_change,
-            'Speed': speed,
-            'Pointcloud': pointcloud_path,
+            'Lane change left': sequence['Lane change left'],
+            'Lane change none': sequence['Lane change none'],
+            'Lane change right': sequence['Lane change right'],
+            'Speed': sequence['Speed'],
+            'Pointcloud': sequence['pointclouds_path'],
             'Next TLS distance': next_tls_distance,
-            'Next TLS status': next_tls_status,
-        })[2:-3].reset_index(drop=True)
+            'Next TLS green': sequence['Next TLS green'],
+            'Next TLS yellow': sequence['Next TLS yellow'],
+            'Next TLS red': sequence['Next TLS red'],
+        })[limits[0]:limits[1]].reset_index(drop=True)
 
         lc_sequences.append(lane_change_df)
     return lc_sequences
@@ -234,14 +247,19 @@ if __name__ == '__main__':
             master_df = narrow(master_df, starting_frame, ending_frame)
             print('\t\t\tStarting frame:\t{}'.format(starting_frame))
             print('\t\t\tEnding frame:\t{}'.format(ending_frame))
-            print('\t\t\tNew route len:\t{}'.format(
-                ending_frame + 1 - starting_frame))
+            print('\t\t\tNew route len:\t{}'.format(ending_frame + 1 - starting_frame))
 
             print('\t\t\tGenerating lane change data')
             master_df = generate_lane_changes(master_df, dataset_info['lane_changes'])
 
             print('\t\t\tGenerating max speed data')
             master_df = generate_max_speed(master_df, dataset_info['max_speed'])
+
+            print('\t\t\tAdjusting speed')
+            master_df = adjust_vehicle_speed(master_df)
+
+            print('\t\t\tGenerating acceleration')
+            master_df = generate_acceleration(master_df)
 
             print('\t\t\tGenerating dists. and status of incomming nearest TLS')
             master_df = generate_tls(master_df, tls_df, master_tls_df)
@@ -313,8 +331,7 @@ if __name__ == '__main__':
                     orig_shaken_pcs = [orig_pc.shake(**SHAKEN_SHIFTS) for _ in range(num_shaken_deepmaps)]
                     for i, pc in enumerate([orig_pc] + orig_shaken_pcs):
                         # Save the deepmap
-                        dm = pc.to_deepmap(h_range=(0, 360), v_range=(-15, 15),
-                                           h_res=1, v_res=2.5)
+                        dm = pc.to_deepmap(h_range=(0, 360), v_range=(-15, 3), h_res=1, v_res=2)
                         dm = dm.normalize(orig=[-25, 25], dest=[1, 0])
                         path = master_path.format(deepmap_index)
                         dm.save(path)
@@ -325,11 +342,15 @@ if __name__ == '__main__':
                             row['Distance +1'],
                             row['Distance -1'],
                             row['Distance 0'],
-                            row['Lane change'],
+                            row['Lane change left'],
+                            row['Lane change none'],
+                            row['Lane change right'],
                             row['Next TLS distance'],
-                            row['Next TLS status'],
+                            row['Next TLS green'],
+                            row['Next TLS yellow'],
+                            row['Next TLS red'],
                             path.replace(OUTPUT_PATH, '.'),
-                            row['Relative speed'],
+                            row['Speed'],
                         ])
 
                     if mirrored_deepmap:
@@ -344,25 +365,29 @@ if __name__ == '__main__':
                             dm.save(path)
                             deepmap_index += 1
                             # Add a row to the sequence
+
                             sequences[i].append([
                                 row['Acceleration'],
-                                row['Distance -1'],
-                                row['Distance +1'],
+                                row['Distance -1'],  # Mirror
+                                row['Distance +1'],  # Mirror
                                 row['Distance 0'],
-                                -1 * row['Lane change'],
+                                row['Lane change right'],  # Mirror
+                                row['Lane change none'],
+                                row['Lane change left'],  # Mirror
                                 row['Next TLS distance'],
-                                row['Next TLS status'],
+                                row['Next TLS green'],
+                                row['Next TLS yellow'],
+                                row['Next TLS red'],
                                 path.replace(OUTPUT_PATH, '.'),
-                                row['Relative speed'],
+                                row['Speed'],
                             ])
                 for sequence in sequences:
                     filename = os.path.join(OUTPUT_PATH, deepmap_prefix + '_{:0>5}.csv')
                     sequence_df = pd.DataFrame(sequence, columns=[
-                        'Acceleration', 'Distance +1', 'Distance -1',
-                        'Distance 0',
-                        'Lane change', 'Next TLS distance', 'Next TLS status',
-                        'Deepmap',
-                        'Relative speed'
+                        'Acceleration', 'Distance +1', 'Distance -1', 'Distance 0',
+                        'Lane change left', 'Lane change none', 'Lane change right',
+                        'Next TLS distance', 'Next TLS green', 'Next TLS yellow', 'Next TLS red',
+                        'Deepmap', 'Relative speed'
                     ])
                     sequence_df.to_csv(filename.format(sequence_index), index=False)
                     sequence_index += 1
