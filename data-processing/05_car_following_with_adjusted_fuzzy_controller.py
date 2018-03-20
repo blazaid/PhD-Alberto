@@ -10,15 +10,15 @@ from sklearn.model_selection import train_test_split
 from tfz import IVar, OVar, fuzzy_controller
 
 SUBJECT = 'edgar'
-DATASETS_PATH = '/media/blazaid/Saca/Phd/data/datasets'
+DATASETS_PATH = '/home/blazaid/Projects/data-phd/datasets'
 LEARNING_RATE = 0.01
 TRAIN_STEPS = 1000
 LOGS_STEPS = 10
 NUM_FS = [3, 4, 2, 2, 2, 4, 5]
 
-input_cols = (
+input_cols = [
     'Leader distance', 'Next TLS distance', 'Next TLS green', 'Next TLS yellow',
-    'Next TLS red', 'Speed', 'Speed to leader')
+    'Next TLS red', 'Speed', 'Speed to leader']
 output_col = 'Acceleration'
 
 train_file = os.path.join(DATASETS_PATH, 'cf-{}-training.csv'.format(SUBJECT))
@@ -45,7 +45,7 @@ def launch_tensorboard(tb_trn_path, tb_val_path, tb_tst_path):
 
 
 if __name__ == '__main__':
-    tb_process = Process(target=launch_tensorboard, args=(summary_trn_path, summary_val_path))
+    tb_process = Process(target=launch_tensorboard, args=(summary_trn_path, summary_val_path, summary_tst_path))
 
     # Fuzzy controller graph
     x, y_hat = fuzzy_controller(
