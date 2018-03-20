@@ -1,24 +1,28 @@
 import os
 import shutil
 from multiprocessing import Process
+from pprint import pprint
 
 import numpy as np
 import pandas as pd
+import tensorboard.program
+import tensorboard.default
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 
 from tfz import IVar, OVar, fuzzy_controller
 
-SUBJECT = 'edgar'
-DATASETS_PATH = '/media/blazaid/Saca/Phd/data/datasets'
+SUBJECT = 'miguel'
+DATASETS_PATH = './data'
 LEARNING_RATE = 0.01
-TRAIN_STEPS = 1000
-LOGS_STEPS = 10
-NUM_FS = [3, 4, 2, 2, 2, 4, 5]
+TRAIN_STEPS = 10000
+LOGS_STEPS = 100
+NUM_FS = [5, 5, 2, 2, 2, 4, 4]
 
-input_cols = (
+input_cols = [
     'Leader distance', 'Next TLS distance', 'Next TLS green', 'Next TLS yellow',
-    'Next TLS red', 'Speed', 'Speed to leader')
+    'Next TLS red', 'Speed', 'Speed to leader'
+]
 output_col = 'Acceleration'
 
 train_file = os.path.join(DATASETS_PATH, 'cf-{}-training.csv'.format(SUBJECT))
@@ -39,13 +43,14 @@ if os.path.exists(summary_tst_path):
 
 
 def launch_tensorboard(tb_trn_path, tb_val_path, tb_tst_path):
-    os.system('tensorboard --logdir=training:{},validation:{},test:{}'.format(tb_trn_path, tb_val_path, tb_tst_path))
+    tensorboard.program.FLAGS.logdir = 'training:{},validation:{},test:{}'.format(tb_trn_path, tb_val_path, tb_tst_path)
+    tensorboard.program.main(tensorboard.default.get_plugins(), tensorboard.default.get_assets_zip_provider())
 
     print('Tensorboard started on http://localhost:6006/'.format())
 
 
 if __name__ == '__main__':
-    tb_process = Process(target=launch_tensorboard, args=(summary_trn_path, summary_val_path))
+    tb_process = Process(target=launch_tensorboard, args=(summary_trn_path, summary_val_path, summary_tst_path))
 
     # Fuzzy controller graph
     x, y_hat = fuzzy_controller(
@@ -68,7 +73,9 @@ if __name__ == '__main__':
     cost = tf.reduce_mean(tf.squared_difference(y, y_hat))
     train = tf.train.AdamOptimizer(LEARNING_RATE).minimize(cost)
 
-    tf.summary.scalar('cost', cost)
+    pprint([n.name for n in tf.get_default_graph().as_graph_def().node])
+
+    tf.summary.scalar('RMSE', cost)
     merged_summary = tf.summary.merge_all()
     writer_trn = tf.summary.FileWriter(summary_trn_path)
     writer_val = tf.summary.FileWriter(summary_val_path)
@@ -85,12 +92,6 @@ if __name__ == '__main__':
         for step in range(TRAIN_STEPS):
             # Create a partition of the training dataset
             train_partition, validation_partition = train_test_split(train_df, test_size=0.2)
-
-            # Train with the training partition
-            session.run(train, feed_dict={
-                x: train_partition[input_cols].values,
-                y: train_partition[[output_col]].values
-            })
 
             # When logging, evaluate also with the validation partition and the test
             if TRAIN_STEPS % LOGS_STEPS == 0:
@@ -113,6 +114,12 @@ if __name__ == '__main__':
                 writer_tst.add_summary(summary, step)
                 writer_tst.flush()
 
+            # Train with the training partition
+            session.run(train, feed_dict={
+                x: train_partition[input_cols].values,
+                y: train_partition[[output_col]].values
+            })
+
         # Write results to a file so we can later make graphs
         pd.DataFrame({
             'expected': test_df[[output_col]].values,
@@ -121,5 +128,6 @@ if __name__ == '__main__':
                 y: test_df[[output_col]].values
             }),
         }).to_csv('fcs-{}-{}.csv'.format(SUBJECT, num_fs_string), index=None)
+        print('Finished training')
 
     tb_process.join()
