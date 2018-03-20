@@ -1,18 +1,20 @@
 from __future__ import print_function
 
 import glob
+import multiprocessing
 import os
 import shutil
 
 import pandas as pd
 
-ORIG_PATH = '/media/blazaid/Saca/Phd/data/curated'
-DEST_PATH = '/media/blazaid/Saca/Phd/data/datasets'
+ORIG_PATH = '/home/blazaid/Projects/data-phd/curated'
+DEST_PATH = '/home/blazaid/Projects/data-phd/datasets'
 DMS_DIR = 'deepmaps'
 SUBJECTS = 'edgar', 'jj', 'miguel'
 MOMENTS_BEFORE = [5, 10, 20]
 
-DM_DIR = os.path.join(ORIG_PATH, 'deepmaps')
+DMS_ORIG_DIR = os.path.join(ORIG_PATH, 'deepmaps')
+DMS_DEST_DIR = os.path.join(DEST_PATH, 'deepmaps')
 CF = 'cf'
 LC = 'lc'
 MOMENTS_BEFORE.sort()
@@ -51,11 +53,14 @@ def load_sequences(path, subjects):
     return sequences
 
 
+def copy_file(orig_path, dest_path):
+    if not os.path.exists(dest_path):
+        shutil.copy(os.path.join(orig_path, filename), dest_path)
+
+
 if __name__ == '__main__':
-    if not os.path.isdir(DEST_PATH):
-        os.makedirs(DEST_PATH)
-    if not os.path.isdir(os.path.join(DEST_PATH, DMS_DIR)):
-        os.makedirs(os.path.join(DEST_PATH, DMS_DIR))
+    if not os.path.isdir(DMS_DEST_DIR):
+        os.makedirs(DMS_DEST_DIR)
 
     for filename in glob.glob(os.path.join(DEST_PATH, '*')):
         if not os.path.isdir(filename):
@@ -65,29 +70,22 @@ if __name__ == '__main__':
 
     base_sequences = load_sequences(ORIG_PATH, SUBJECTS)
 
+    files_pool = multiprocessing.Pool(processes=8)
+
     for dataset in base_sequences:
         for submodel in base_sequences[dataset]:
             for subject in base_sequences[dataset][submodel]:
                 print('Building datasets')
                 dfs = base_sequences[dataset][submodel][subject]
                 # And now, construct the dataset
-                print(
-                    '\tBuilding {} {} dataset for moments {} ...'.format(
-                        submodel,
-                        dataset,
-                        subject),
-                    end='')
-                moments_suffix = 't-' + '-'.join(
-                    [] + ['t{}'.format(x) for x in MOMENTS_BEFORE])
-                filename = '{}-{}-{}-{}.csv'.format(submodel, subject, dataset,
-                                                    moments_suffix)
+                print('\tBuilding {} {} dataset for moments {} ...'.format(submodel, dataset, subject), end='')
+                filename = '{}-{}-{}.csv'.format(submodel, subject, dataset)
 
                 if submodel == CF:
                     datasets = pd.concat(dfs, ignore_index=True)
                 else:
                     datasets = []
-                    temporal_columns = ['Acceleration', 'Next TLS status',
-                                        'Deepmap', 'Relative speed']
+                    temporal_columns = ['Acceleration', 'Next TLS green', 'Next TLS yellow', 'Next TLS red', 'Deepmap', 'Relative speed']
                     for df in dfs:
                         # Generate the dataframes with the shifted times
                         subset = df
@@ -108,14 +106,10 @@ if __name__ == '__main__':
                 print('done')
                 if submodel == LC:
                     print('\tSaving deepmaps ... ', end='')
-                    dm_columns = [c for c in datasets.columns if
-                                  c.startswith('Deepmap')]
+                    dm_columns = [c for c in datasets.columns if c.startswith('Deepmap')]
                     for index, row in datasets.iterrows():
                         for column in dm_columns:
-                            deepmap_path = os.path.join(DEST_PATH, row[column])
-                            if not os.path.exists(deepmap_path):
-                                shutil.copy(
-                                    os.path.join(ORIG_PATH, row[column]),
-                                    os.path.join(DEST_PATH, DMS_DIR),
-                                )
+                            orig_path = os.path.join(ORIG_PATH, row[column])
+                            dest_path = os.path.join(DEST_PATH, row[column])
+                            files_pool.apply_async(copy_file, (orig_path, dest_path,))
                     print('done')
