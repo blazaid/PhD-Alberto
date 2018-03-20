@@ -23,7 +23,7 @@ from utils import load_subject_df, DATASETS_INFO, load_master_df
 
 BASE_PATH = '/media/blazaid/Saca/Phd/data/sync'
 OUTPUT_PATH = '/media/blazaid/Saca/Phd/data/curated'
-SUBJECTS = 'jj',  # 'edgar', 'jj', 'miguel'
+SUBJECTS = 'miguel',  # 'edgar', 'jj', 'miguel'
 DATASETS = 'validation', 'training'
 SPEED_ROLLING_WINDOW = 10
 
@@ -230,7 +230,7 @@ def save_deepmap(dm, path):
 
 
 if __name__ == '__main__':
-    files_pool = multiprocessing.Pool(processes=8)
+    files_pool = multiprocessing.Pool(processes=128)
 
     for subject in SUBJECTS:
         print('Subject: {}'.format(subject))
@@ -281,14 +281,12 @@ if __name__ == '__main__':
             master_df = generate_cf_dist(master_df, dataset_info['cf_dist'])
 
             print('\t\t\tCar following sequences')
-            print('\t\t\t\tDeleting previous sequences', end='')
+            print('\t\t\t\tDeleting previous sequences')
             if not os.path.isdir(OUTPUT_PATH):
                 os.makedirs(OUTPUT_PATH)
             filename_prefix = 'cf_{}_{}'.format(subject, dataset)
             for filename in glob.glob(os.path.join(OUTPUT_PATH, filename_prefix + '*')):
-                print('.', end='')
                 os.remove(filename)
-            print('')
 
             print('\t\t\t\tExtracting new data: ', end='')
             cf_sequences = extract_cf_sequences(master_df)
@@ -307,14 +305,11 @@ if __name__ == '__main__':
             if not os.path.isdir(deepmaps_path):
                 os.makedirs(deepmaps_path)
             deepmap_prefix = 'lc_{}_{}'.format(subject, dataset)
-            print('\t\t\t\tDeleting previous sequences', end='')
+            print('\t\t\t\tDeleting previous sequences')
             for filename in glob.glob(os.path.join(deepmaps_path, deepmap_prefix + '*')):
-                print('.', end='')
                 os.remove(filename)
             for filename in glob.glob(os.path.join(OUTPUT_PATH, deepmap_prefix + '*')):
-                print('.', end='')
                 os.remove(filename)
-            print('')
 
             print('\t\t\t\tExtracting new data: ', end='')
             lc_sequences = extract_lc_sequences(master_df)
@@ -326,7 +321,8 @@ if __name__ == '__main__':
             print('\t\t\t\t\tMirroring: {}'.format(mirrored_deepmap))
             print('\t\t\t\t\tShaking: {}'.format(num_shaken_deepmaps))
             num_generated_sequences = (1 + num_shaken_deepmaps) * (2 if mirrored_deepmap else 1)
-            print('\t\t\t\t\tTotal sequences: {}'.format(num_generated_sequences * len(lc_sequences)))
+            total_sequences = num_generated_sequences * len(lc_sequences)
+            print('\t\t\t\t\tTotal sequences: {}'.format(total_sequences))
 
             sequence_index = 0
             deepmap_index = 0
@@ -390,6 +386,7 @@ if __name__ == '__main__':
                                 row['Speed'],
                             ])
                 for sequence in sequences:
+                    print('\t\t\t\t\t\tSequence: {} / {}'.format(sequence_index, total_sequences))
                     filename = os.path.join(OUTPUT_PATH, deepmap_prefix + '_{:0>5}.csv')
                     sequence_df = pd.DataFrame(sequence, columns=[
                         'Acceleration', 'Distance +1', 'Distance -1', 'Distance 0',
