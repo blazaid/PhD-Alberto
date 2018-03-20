@@ -2053,7 +2053,7 @@
 
 %%
 % Only show the chapter titles in the table of contents
-%\setcounter{tocdepth}{0}
+\setcounter{tocdepth}{1}
 
 % Better use utf8 so encoding problemas are less
 \usepackage[utf8]{inputenc}
@@ -2065,7 +2065,7 @@
 \newtheorem{hyp}{Hipótesis}
 \newtheorem*{definition}{Definición}
 
-\usepackage{siunitx}
+\usepackage[binary-units]{siunitx}
 \DeclareSIUnit\px{px}
 \DeclareSIUnit\fps{fps}
 %%
@@ -2215,6 +2215,7 @@ version={3.0},
 \usepackage{siunitx}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{textcomp}
 
 %%
 % End of file
