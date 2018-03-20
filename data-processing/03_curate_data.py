@@ -10,6 +10,7 @@ Usage: python2 02_sync_sensors.py subject validation 10 data/raw_csvs data/sync_
 from __future__ import print_function
 
 import glob
+import multiprocessing
 import os
 
 import numpy as np
@@ -20,9 +21,9 @@ from pynsia import latlon
 from pynsia.pointcloud import PointCloud
 from utils import load_subject_df, DATASETS_INFO, load_master_df
 
-BASE_PATH = '/home/blazaid/Projects/data-phd/sync'
-OUTPUT_PATH = '/home/blazaid/Projects/data-phd/curated'
-SUBJECTS = 'miguel',  # 'edgar', 'jj', 'miguel'
+BASE_PATH = '/media/blazaid/Saca/Phd/data/sync'
+OUTPUT_PATH = '/media/blazaid/Saca/Phd/data/curated'
+SUBJECTS = 'jj',  # 'edgar', 'jj', 'miguel'
 DATASETS = 'validation', 'training'
 SPEED_ROLLING_WINDOW = 10
 
@@ -58,6 +59,7 @@ def generate_max_speed(df, ms_frames):
 def adjust_vehicle_speed(df):
     limits = SPEED_ROLLING_WINDOW // 2, -SPEED_ROLLING_WINDOW // 2 - 1
 
+    df['gps_speeds_speed'].fillna(df['canbus_Speed (km/h)'], inplace=True)
     df['Speed'] = df['gps_speeds_speed'].rolling(SPEED_ROLLING_WINDOW, center=True).mean()
     df.drop(['canbus_Speed (km/h)', 'gps_speeds_speed'], axis=1, inplace=True)
 
@@ -222,7 +224,14 @@ def extract_lc_sequences(df):
     return lc_sequences
 
 
+def save_deepmap(dm, path):
+    dm = dm.normalize(orig=[-25, 25], dest=[1, 0])
+    dm.save(path)
+
+
 if __name__ == '__main__':
+    files_pool = multiprocessing.Pool(processes=8)
+
     for subject in SUBJECTS:
         print('Subject: {}'.format(subject))
         for dataset in DATASETS:
@@ -252,8 +261,9 @@ if __name__ == '__main__':
             print('\t\t\tGenerating lane change data')
             master_df = generate_lane_changes(master_df, dataset_info['lane_changes'])
 
-            print('\t\t\tGenerating max speed data')
-            master_df = generate_max_speed(master_df, dataset_info['max_speed'])
+            # Not used anymore
+            # print('\t\t\tGenerating max speed data')
+            # master_df = generate_max_speed(master_df, dataset_info['max_speed'])
 
             print('\t\t\tAdjusting speed')
             master_df = adjust_vehicle_speed(master_df)
@@ -331,10 +341,9 @@ if __name__ == '__main__':
                     orig_shaken_pcs = [orig_pc.shake(**SHAKEN_SHIFTS) for _ in range(num_shaken_deepmaps)]
                     for i, pc in enumerate([orig_pc] + orig_shaken_pcs):
                         # Save the deepmap
-                        dm = pc.to_deepmap(h_range=(0, 360), v_range=(-15, 3), h_res=1, v_res=2)
-                        dm = dm.normalize(orig=[-25, 25], dest=[1, 0])
                         path = master_path.format(deepmap_index)
-                        dm.save(path)
+                        dm = pc.to_deepmap(h_range=(0, 360), v_range=(-15, 3), h_res=1, v_res=2)
+                        files_pool.apply_async(save_deepmap, (dm, path,))
                         deepmap_index += 1
                         # Add a row to the sequence
                         sequences[i].append([
@@ -359,10 +368,9 @@ if __name__ == '__main__':
                             mirrored_pc.shake(**SHAKEN_SHIFTS) for _ in range(num_shaken_deepmaps)]
                         for i, pc in enumerate([mirrored_pc] + mirrored_shaken_pcs, start=num_shaken_deepmaps + 1):
                             # Save the deepmap
-                            dm = pc.to_deepmap(h_range=(0, 360), v_range=(-15, 3), h_res=1, v_res=2)
-                            dm = dm.normalize(orig=[-25, 25], dest=[1, 0])
                             path = master_path.format(deepmap_index)
-                            dm.save(path)
+                            dm = pc.to_deepmap(h_range=(0, 360), v_range=(-15, 3), h_res=1, v_res=2)
+                            files_pool.apply_async(save_deepmap, (dm, path,))
                             deepmap_index += 1
                             # Add a row to the sequence
 
