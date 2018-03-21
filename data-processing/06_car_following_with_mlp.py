@@ -1,6 +1,4 @@
-import collections
 import os
-import re
 import shutil
 from multiprocessing import Process
 
@@ -11,14 +9,13 @@ import tensorboard.program
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 
-from tfz import IVar, OVar, fuzzy_controller
-
 SUBJECT = 'miguel'
 DATASETS_PATH = './data'
 LEARNING_RATE = 0.001
-TRAIN_STEPS = 1000
+TRAIN_STEPS = 10000
 LOGS_STEPS = 1
-NUM_FS = [3, 3, 2, 2, 2, 3, 5]
+HIDDEN_UNITS = []
+ACTIVATION_FUNCTION = tf.nn.tanh
 
 input_cols = [
     'Leader distance', 'Next TLS distance', 'Next TLS green', 'Next TLS yellow',
@@ -29,11 +26,10 @@ output_col = 'Acceleration'
 train_file = os.path.join(DATASETS_PATH, 'cf-{}-training.csv'.format(SUBJECT))
 test_file = os.path.join(DATASETS_PATH, 'cf-{}-validation.csv'.format(SUBJECT))
 
-num_fs_string = '-'.join(str(x) for x in NUM_FS)
-
-summary_trn_path = 'tensorboard/{}/{}/training'.format(SUBJECT, num_fs_string)
-summary_val_path = 'tensorboard/{}/{}/validation'.format(SUBJECT, num_fs_string)
-summary_tst_path = 'tensorboard/{}/{}/test'.format(SUBJECT, num_fs_string)
+hidden_units_str = '-'.format(str(x) for x in HIDDEN_UNITS)
+summary_trn_path = 'tensorboard/{}/{}/training'.format(SUBJECT, hidden_units_str)
+summary_val_path = 'tensorboard/{}/{}/validation'.format(SUBJECT, hidden_units_str)
+summary_tst_path = 'tensorboard/{}/{}/test'.format(SUBJECT, hidden_units_str)
 
 if os.path.exists(summary_trn_path):
     shutil.rmtree(summary_trn_path)
@@ -50,49 +46,30 @@ def launch_tensorboard(tb_trn_path, tb_val_path, tb_tst_path):
     print('Tensorboard started on http://localhost:6006/'.format())
 
 
-def extract_fuzzy_controller_data(session, fc_data, input_vars):
-    all_variables = [n.name for n in tf.get_default_graph().as_graph_def().node]
-    patterns = ['^{}/b$'.format(var) for var in input_vars]
-    patterns.extend(['^{}/sf\d+$'.format(var) for var in input_vars])
-    patterns.extend(['^{}/sl\d+$'.format(var) for var in input_vars])
-    patterns.append('^{}$'.format('fuzzy_output_weights'))
-    for pattern in patterns:
-        for var in all_variables:
-            if re.match(pattern, var) is not None:
-                tensor = tf.get_default_graph().get_tensor_by_name(var + ':0')
-                values = session.run(tensor)
-                if var == 'fuzzy_output_weights':
-                    values = values.flatten()
-                    values = ';'.join([str(x) for x in values])
-                fc_data[var].append(values)
+def multilayer_perceptron(layers, activation_fn=None):
+    activation_fn = activation_fn or tf.nn.relu
+    x = tf.placeholder(tf.float32, name='input', shape=[None, layers[0]])
+    output = x
+    for layer_id, num_neurons in enumerate(layers[1:], start=1):
+        output = tf.layers.dense(inputs=output, units=num_neurons, activation=activation_fn)
+    return x, output
 
 
 if __name__ == '__main__':
     tb_process = Process(target=launch_tensorboard, args=(summary_trn_path, summary_val_path, summary_tst_path))
 
-    input_var_names = [' '.join(s[:1].upper() + s[1:] for s in i.split(' ')).replace(' ', '') for i in input_cols]
-    output_var_name = output_col.lower().capitalize()
+    architecture = [len(input_cols)] + HIDDEN_UNITS + [1]
+    architecture_str = '-'.join(str(x) for x in architecture)
+    print('Architecture: {}'.format(architecture_str))
 
     # Fuzzy controller graph
-    x, y_hat = fuzzy_controller(
-        i_vars=[
-            IVar(name=input_var_names[0], fuzzy_sets=NUM_FS[0], domain=(0., 1.)),
-            IVar(name=input_var_names[1], fuzzy_sets=NUM_FS[1], domain=(0., 1.)),
-            IVar(name=input_var_names[2], fuzzy_sets=NUM_FS[2], domain=(0., 1.)),
-            IVar(name=input_var_names[3], fuzzy_sets=NUM_FS[3], domain=(0., 1.)),
-            IVar(name=input_var_names[4], fuzzy_sets=NUM_FS[4], domain=(0., 1.)),
-            IVar(name=input_var_names[5], fuzzy_sets=NUM_FS[5], domain=(0., 20.)),
-            IVar(name=input_var_names[6], fuzzy_sets=NUM_FS[6], domain=(-20., 20.)),
-        ],
-        o_var=OVar(name=output_var_name, values=(-1, 1))
-    )
+    x, y_hat = multilayer_perceptron(architecture, activation_fn=ACTIVATION_FUNCTION)
 
     # Expected output
     y = tf.placeholder(tf.float32)
 
     # Training graph
     cost = tf.reduce_mean(tf.squared_difference(y, y_hat))
-
     train = tf.train.AdamOptimizer(LEARNING_RATE).minimize(cost)
 
     tf.summary.scalar('RMSE', cost)
@@ -104,7 +81,6 @@ if __name__ == '__main__':
     train_df = pd.read_csv(train_file, index_col=False).astype(np.float32)
     test_df = pd.read_csv(test_file, index_col=False).astype(np.float32)
 
-    fc_data = collections.defaultdict(list)
     tb_process.start()
     with tf.Session() as session:
         session.run(tf.global_variables_initializer())
@@ -113,8 +89,6 @@ if __name__ == '__main__':
         for step in range(TRAIN_STEPS):
             # Create a partition of the training dataset
             train_partition, validation_partition = train_test_split(train_df, test_size=0.2)
-
-            extract_fuzzy_controller_data(session, fc_data, input_var_names)
 
             # When logging, evaluate also with the validation partition and the test
             if TRAIN_STEPS % LOGS_STEPS == 0:
@@ -150,8 +124,7 @@ if __name__ == '__main__':
                 x: test_df[input_cols].values,
                 y: test_df[[output_col]].values
             }).flatten(),
-        }).to_csv('fcs-outputs-{}-{}.csv'.format(SUBJECT, num_fs_string), index=None)
-        pd.DataFrame(fc_data).to_csv('fcs-description-{}-{}.csv'.format(SUBJECT, num_fs_string), index=None)
+        }).to_csv('fcs-outputs-{}-{}.csv'.format(SUBJECT, architecture_str), index=None)
         print('Finished training')
 
     tb_process.join()

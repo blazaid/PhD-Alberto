@@ -81,6 +81,8 @@ def log_desc(x, s, d):
 
 def async_bell(x, s1, d1, s2, d2):
     """ TBD """
+    # Se podría hacer con el mínimo, pero de esta forma es derivable en
+    # el intervalo que está definida.
     return log_asc(x, s1, d1) * log_desc(x, s2, d2)
 
 
