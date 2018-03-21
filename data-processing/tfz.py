@@ -17,6 +17,8 @@ def slope_asc(x, a, db):
     :return: A tensor of the same shape with the values of applying this
         function to the x tensor.
     """
+    db = tf.abs(db)
+
     return tf.minimum(tf.maximum((x - a) / db, 0), 1)
 
 
@@ -30,6 +32,8 @@ def slope_desc(x, a, db):
     :return: A tensor of the same shape with the values of applying this
         function to the x tensor.
     """
+    db = tf.abs(db)
+
     return tf.minimum(tf.maximum((a - x) / db + 1, 0), 1)
 
 
@@ -55,30 +59,85 @@ def trapezoid(x, a, db, dc, dd):
     :return: A tensor of the same shape with the values of applying this
         function to the x tensor.
     """
+    db = tf.abs(db)
+    dc = tf.abs(dc)
+    dd = tf.abs(dd)
+
     line_asc = (x - a) / db
     line_des = (a + db + dc - x) / dd + 1
     union = tf.minimum(line_asc, line_des)
     return tf.minimum(tf.maximum(union, 0), 1)
 
 
-def log_asc(x, a, b, c):
+def log_asc(x, s, d):
     """ TBD """
-    return 1 / (1 + tf.abs(a) * tf.exp(-b * (x - c)))
+    return 1 / (1 + tf.exp(-s * (x - d)))
 
 
-def log_desc(x, a, b, c):
+def log_desc(x, s, d):
     """ TBD """
-    return 1 - log_asc(x, a, b, c)
+    return 1 - log_asc(x, s, d)
 
 
-def async_bell(x, a1, b1, c1, a2, b2, c2):
+def async_bell(x, s1, d1, s2, d2):
     """ TBD """
-    return log_asc(x, a1, b1, c1) * log_desc(x, a2, b2, c2)
+    return log_asc(x, s1, d1) * log_desc(x, s2, d2)
 
 
-def fuzzification_graph(x, var_desc):
+def fuzzification_graph_1(x, var_desc):
     """ TBD
-    
+
+    Same as fuzzification_graph_2 but with logistic functions.
+    """
+    with tf.variable_scope(var_desc.name):
+        # Determine the number of shifts between midpoints and the number
+        # of slopes that the variables will share.
+        lo, hi = min(var_desc.domain), max(var_desc.domain)
+        num_shifts = num_slopes = var_desc.fuzzy_sets - 1
+        shift_size = (hi - lo) / (num_shifts + 1)
+        shifts = [
+            tf.Variable(shift_size, name='sf{}'.format(i))
+            for i in range(num_shifts)
+        ]
+        slopes = [tf.Variable(1.0, name='sl{}'.format(i)) for i in range(num_slopes)]
+
+        # We define where the domain starts to define the rest of mid points
+        # via shifts
+        base = tf.constant(name='b', value=lo, dtype=tf.float32)
+
+        # Now, we create all the sets
+        next_midpoint = base + shifts[0]
+        fuzzy_sets = []
+        for i in range(var_desc.fuzzy_sets):
+            # Depending on the index, create either desc, asc or trap fs.
+            if i == 0:
+                # First fuzzy set should be a descendent line
+                fs = log_desc(x, slopes[0], next_midpoint)
+            elif i == var_desc.fuzzy_sets - 1:
+                # Last fuzzy set should be an ascendent line
+                fs = log_asc(x, slopes[-1], next_midpoint)
+            else:
+                # Inner fuzzy sets should be a trapezoids
+                s1, d1 = slopes[i-1], next_midpoint
+                s2, d2 = slopes[i], next_midpoint + shifts[i]
+                fs = async_bell(x, s1, d1, s2, d2)
+
+                next_midpoint = d2
+
+            # Add this fs to the list of fuzzy_sets
+            fuzzy_sets.append(fs)
+
+        # Now concat all the fuzzy sets
+        all_fuzzy_sets = tf.concat(fuzzy_sets, 0)
+
+        # Return the created variable and the tensor with the fuzzifications
+        # of the inputs
+        return tf.transpose(tf.reshape(all_fuzzy_sets, (var_desc.fuzzy_sets, -1)))
+
+
+def fuzzification_graph_2(x, var_desc):
+    """ TBD
+
     :param x: A tensor of shape (m, 1) wher m is each of the example values.
     :param var_desc: The description of this variable as a `IVar` tuple.
     :return: A tensor of shape (m, n) where m is the number of examples and n
@@ -143,12 +202,6 @@ def inference_graph(fuzzy_inputs, num_fuzzy_inputs, num_fuzzy_outputs):
     # In the end inference will be the minimum of each combination between
     # fuzzy inputs, where the rows are the examples and the columns each
     # combination of fuzzy inputs.
-    inference = None
-#    m = tf.shape(fuzzy_inputs[0])[0]  # The number of examples
-#    for fuzzy_input in fuzzy_inputs[1:]:
-#        inference = tf.minimum(fuzzy_inputs[0][:, None], fuzzy_input[:, :, None])
-#        inference = tf.reshape(inference, (m, -1))
-
     m = tf.shape(fuzzy_inputs[0])[0]
     inference = fuzzy_inputs[0]
     for g in fuzzy_inputs[1:]:
@@ -186,7 +239,7 @@ def fuzzy_controller(i_vars, o_var):
     xs = tf.split(ph_input, num_or_size_splits=len(i_vars), axis=1)
 
     # Generate each input variable fuzzification graph
-    inputs = [fuzzification_graph(x, i_var) for x, i_var in zip(xs, i_vars)]
+    inputs = [fuzzification_graph_1(x, i_var) for x, i_var in zip(xs, i_vars)]
 
     # Generate the inference graph
     fuzzy_outputs = inference_graph(

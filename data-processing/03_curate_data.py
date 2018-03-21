@@ -21,8 +21,10 @@ from pynsia import latlon
 from pynsia.pointcloud import PointCloud
 from utils import load_subject_df, DATASETS_INFO, load_master_df
 
-BASE_PATH = '/media/blazaid/Saca/Phd/data/sync'
-OUTPUT_PATH = '/media/blazaid/Saca/Phd/data/curated'
+BASE_PATH = '/home/blazaid/Projects/data-phd/sync'
+#BASE_PATH = '/media/blazaid/Saca/Phd/data/sync'
+OUTPUT_PATH = '/home/blazaid/Projects/data-phd/curated'
+#OUTPUT_PATH = '/media/blazaid/Saca/Phd/data/curated'
 SUBJECTS = 'miguel',  # 'edgar', 'jj', 'miguel'
 DATASETS = 'validation', 'training'
 SPEED_ROLLING_WINDOW = 10
