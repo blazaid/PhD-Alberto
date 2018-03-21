@@ -139,4 +139,4 @@ Session.vim
 .ipynb_checkpoints
 *.pyc
 *.pyo
-
+tensorboard

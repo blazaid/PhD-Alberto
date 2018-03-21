@@ -10,7 +10,7 @@ import pandas as pd
 ORIG_PATH = '/home/blazaid/Projects/data-phd/curated'
 DEST_PATH = '/home/blazaid/Projects/data-phd/datasets'
 DMS_DIR = 'deepmaps'
-SUBJECTS = 'edgar', 'jj', 'miguel'
+SUBJECTS = 'miguel', # 'edgar', 'jj', 'miguel'
 MOMENTS_BEFORE = [5, 10, 20]
 
 DMS_ORIG_DIR = os.path.join(ORIG_PATH, 'deepmaps')

@@ -183,7 +183,7 @@ def extract_cf_sequences(df):
             'Acceleration': sequence['Acceleration']
         }).reset_index(drop=True)
 
-        cf_sequences.append(car_following_df)
+        cf_sequences.append(car_following_df[1:])
     return cf_sequences
 
 
@@ -262,10 +262,6 @@ if __name__ == '__main__':
 
             print('\t\t\tGenerating lane change data')
             master_df = generate_lane_changes(master_df, dataset_info['lane_changes'])
-
-            # Not used anymore
-            # print('\t\t\tGenerating max speed data')
-            # master_df = generate_max_speed(master_df, dataset_info['max_speed'])
 
             print('\t\t\tAdjusting speed')
             master_df = adjust_vehicle_speed(master_df)
