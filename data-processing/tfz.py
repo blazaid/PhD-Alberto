@@ -34,7 +34,7 @@ def slope_desc(x, a, db):
     """
     db = tf.abs(db)
 
-    return tf.minimum(tf.maximum((a - x) / db + 1, 0), 1)
+    return tf.minimum(tf.maximum((a - x) / db + np.float32(1.0), np.float32(0.0)), np.float32(1.0))
 
 
 def trapezoid(x, a, db, dc, dd):
@@ -220,7 +220,7 @@ def inference_graph(fuzzy_inputs, num_fuzzy_inputs, num_fuzzy_outputs):
         shape=[num_fuzzy_outputs, 1, num_combinations],
         initializer=tf.contrib.layers.xavier_initializer(),
     )
-    inference = tf.multiply(inference, tf.tanh(fuzzy_output_weights))
+    inference = tf.multiply(inference, tf.sigmoid(fuzzy_output_weights))
 
     # Now we reduce to the max the values of each of the outputs
     return tf.transpose(tf.reduce_max(inference, axis=2))
@@ -241,7 +241,7 @@ def fuzzy_controller(i_vars, o_var):
     xs = tf.split(ph_input, num_or_size_splits=len(i_vars), axis=1)
 
     # Generate each input variable fuzzification graph
-    inputs = [fuzzification_graph_1(x, i_var) for x, i_var in zip(xs, i_vars)]
+    inputs = [fuzzification_graph_2(x, i_var) for x, i_var in zip(xs, i_vars)]
 
     # Generate the inference graph
     fuzzy_outputs = inference_graph(

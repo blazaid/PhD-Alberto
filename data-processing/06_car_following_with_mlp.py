@@ -13,8 +13,8 @@ SUBJECT = 'miguel'
 DATASETS_PATH = './data'
 LEARNING_RATE = 0.001
 TRAIN_STEPS = 10000
-LOGS_STEPS = 1
-HIDDEN_UNITS = [10, 5]
+LOGS_STEPS = 10
+HIDDEN_UNITS = []
 ACTIVATION_FUNCTION = tf.nn.tanh
 
 input_cols = [
@@ -26,7 +26,9 @@ output_col = 'Acceleration'
 train_file = os.path.join(DATASETS_PATH, 'cf-{}-training.csv'.format(SUBJECT))
 test_file = os.path.join(DATASETS_PATH, 'cf-{}-validation.csv'.format(SUBJECT))
 
-hidden_units_str = '-'.format(str(x) for x in HIDDEN_UNITS)
+hidden_units_str = '-'.join(str(x) for x in HIDDEN_UNITS)
+if not hidden_units_str:
+    hidden_units_str = 'none'
 summary_trn_path = 'tensorboard/{}/{}/training'.format(SUBJECT, hidden_units_str)
 summary_val_path = 'tensorboard/{}/{}/validation'.format(SUBJECT, hidden_units_str)
 summary_tst_path = 'tensorboard/{}/{}/test'.format(SUBJECT, hidden_units_str)

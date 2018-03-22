@@ -51,6 +51,7 @@ def launch_tensorboard(tb_trn_path, tb_val_path, tb_tst_path):
 def extract_fuzzy_controller_data(session, fc_data, input_vars):
     all_variables = [n.name for n in tf.get_default_graph().as_graph_def().node]
     patterns = ['^{}/b$'.format(var) for var in input_vars]
+    patterns.extend(['^{}/s\d+$'.format(var) for var in input_vars])
     patterns.extend(['^{}/sf\d+$'.format(var) for var in input_vars])
     patterns.extend(['^{}/sl\d+$'.format(var) for var in input_vars])
     patterns.append('^{}$'.format('fuzzy_output_weights'))
@@ -66,7 +67,7 @@ def extract_fuzzy_controller_data(session, fc_data, input_vars):
 
 
 if __name__ == '__main__':
-    input_var_names = [' '.join(s[:1].upper() + s[1:] for s in i.split(' ')).replace(' ', '') for i in input_cols]
+    input_var_names = [''.join(s[:1].upper() + s[1:] for s in i.split(' ')) for i in input_cols]
     output_var_name = output_col.lower().capitalize()
 
     # Fuzzy controller graph
@@ -95,6 +96,7 @@ if __name__ == '__main__':
     tf.summary.scalar('RMSE', cost)
     all_variables = [n.name for n in tf.get_default_graph().as_graph_def().node]
     patterns = ['^{}/b$'.format(var) for var in input_var_names]
+    patterns.extend(['^{}/s\d+$'.format(var) for var in input_var_names])
     patterns.extend(['^{}/sf\d+$'.format(var) for var in input_var_names])
     patterns.extend(['^{}/sl\d+$'.format(var) for var in input_var_names])
     for pattern in patterns:
