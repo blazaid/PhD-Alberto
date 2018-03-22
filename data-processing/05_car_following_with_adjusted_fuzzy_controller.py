@@ -16,9 +16,9 @@ from tfz import IVar, OVar, fuzzy_controller
 SUBJECT = 'all'
 DATASETS_PATH = './data'
 LEARNING_RATE = 0.01
-TRAIN_STEPS = 100000
-LOGS_STEPS = 1000
-NUM_FS = [9, 9, 2, 2, 2, 9, 9]
+TRAIN_STEPS = 1000
+LOGS_STEPS = 1
+NUM_FS = [3, 3, 2, 2, 2, 3, 3]
 
 input_cols = [
     'Leader distance', 'Next TLS distance', 'Next TLS green', 'Next TLS yellow',
@@ -66,8 +66,6 @@ def extract_fuzzy_controller_data(session, fc_data, input_vars):
 
 
 if __name__ == '__main__':
-    tb_process = Process(target=launch_tensorboard, args=(summary_trn_path, summary_val_path, summary_tst_path))
-
     input_var_names = [' '.join(s[:1].upper() + s[1:] for s in i.split(' ')).replace(' ', '') for i in input_cols]
     output_var_name = output_col.lower().capitalize()
 
@@ -93,7 +91,24 @@ if __name__ == '__main__':
 
     train = tf.train.AdamOptimizer(LEARNING_RATE).minimize(cost)
 
+    # Tensorboard outputs
     tf.summary.scalar('RMSE', cost)
+    all_variables = [n.name for n in tf.get_default_graph().as_graph_def().node]
+    patterns = ['^{}/b$'.format(var) for var in input_var_names]
+    patterns.extend(['^{}/sf\d+$'.format(var) for var in input_var_names])
+    patterns.extend(['^{}/sl\d+$'.format(var) for var in input_var_names])
+    for pattern in patterns:
+        for var in all_variables:
+            if re.match(pattern, var) is not None:
+                tensor = tf.get_default_graph().get_tensor_by_name(var + ':0')
+                tf.summary.scalar(var, tensor)
+    patterns = ['^{}$'.format('fuzzy_output_weights')]
+    for pattern in patterns:
+        for var in all_variables:
+            if re.match(pattern, var) is not None:
+                tensor = tf.get_default_graph().get_tensor_by_name(var + ':0')
+                tf.summary.histogram(var, tensor)
+
     merged_summary = tf.summary.merge_all()
     writer_trn = tf.summary.FileWriter(summary_trn_path)
     writer_val = tf.summary.FileWriter(summary_val_path)
@@ -102,8 +117,11 @@ if __name__ == '__main__':
     train_df = pd.read_csv(train_file, index_col=False).astype(np.float32)
     test_df = pd.read_csv(test_file, index_col=False).astype(np.float32)
 
-    fc_data = collections.defaultdict(list)
+    # Launching tensorboard
+    tb_process = Process(target=launch_tensorboard, args=(summary_trn_path, summary_val_path, summary_tst_path))
     tb_process.start()
+
+    fc_data = collections.defaultdict(list)
     with tf.Session() as session:
         session.run(tf.global_variables_initializer())
         writer_trn.add_graph(session.graph)
