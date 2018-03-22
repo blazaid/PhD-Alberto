@@ -13,12 +13,12 @@ from sklearn.model_selection import train_test_split
 
 from tfz import IVar, OVar, fuzzy_controller
 
-SUBJECT = 'miguel'
+SUBJECT = 'all'
 DATASETS_PATH = './data'
-LEARNING_RATE = 0.001
-TRAIN_STEPS = 1000
-LOGS_STEPS = 1
-NUM_FS = [3, 3, 2, 2, 2, 3, 5]
+LEARNING_RATE = 0.01
+TRAIN_STEPS = 100000
+LOGS_STEPS = 1000
+NUM_FS = [9, 9, 2, 2, 2, 9, 9]
 
 input_cols = [
     'Leader distance', 'Next TLS distance', 'Next TLS green', 'Next TLS yellow',
@@ -30,15 +30,13 @@ train_file = os.path.join(DATASETS_PATH, 'cf-{}-training.csv'.format(SUBJECT))
 test_file = os.path.join(DATASETS_PATH, 'cf-{}-validation.csv'.format(SUBJECT))
 
 num_fs_string = '-'.join(str(x) for x in NUM_FS)
-
 summary_trn_path = 'tensorboard/{}/{}/training'.format(SUBJECT, num_fs_string)
-summary_val_path = 'tensorboard/{}/{}/validation'.format(SUBJECT, num_fs_string)
-summary_tst_path = 'tensorboard/{}/{}/test'.format(SUBJECT, num_fs_string)
-
 if os.path.exists(summary_trn_path):
     shutil.rmtree(summary_trn_path)
+summary_val_path = 'tensorboard/{}/{}/validation'.format(SUBJECT, num_fs_string)
 if os.path.exists(summary_val_path):
     shutil.rmtree(summary_val_path)
+summary_tst_path = 'tensorboard/{}/{}/test'.format(SUBJECT, num_fs_string)
 if os.path.exists(summary_tst_path):
     shutil.rmtree(summary_tst_path)
 
@@ -112,12 +110,13 @@ if __name__ == '__main__':
 
         for step in range(TRAIN_STEPS):
             # Create a partition of the training dataset
+            #train_partition, validation_partition = train_test_split(train_df, test_size=0.2, random_state=1)
             train_partition, validation_partition = train_test_split(train_df, test_size=0.2)
-
-            extract_fuzzy_controller_data(session, fc_data, input_var_names)
 
             # When logging, evaluate also with the validation partition and the test
             if TRAIN_STEPS % LOGS_STEPS == 0:
+                extract_fuzzy_controller_data(session, fc_data, input_var_names)
+
                 summary = session.run(merged_summary, feed_dict={
                     x: train_partition[input_cols].values,
                     y: train_partition[[output_col]].values

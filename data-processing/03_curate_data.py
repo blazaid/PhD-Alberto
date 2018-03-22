@@ -22,9 +22,9 @@ from pynsia.pointcloud import PointCloud
 from utils import load_subject_df, DATASETS_INFO, load_master_df
 
 BASE_PATH = '/home/blazaid/Projects/data-phd/sync'
-#BASE_PATH = '/media/blazaid/Saca/Phd/data/sync'
+# BASE_PATH = '/media/blazaid/Saca/Phd/data/sync'
 OUTPUT_PATH = '/home/blazaid/Projects/data-phd/curated'
-#OUTPUT_PATH = '/media/blazaid/Saca/Phd/data/curated'
+# OUTPUT_PATH = '/media/blazaid/Saca/Phd/data/curated'
 SUBJECTS = 'miguel',  # 'edgar', 'jj', 'miguel'
 DATASETS = 'validation', 'training'
 SPEED_ROLLING_WINDOW = 10
@@ -38,8 +38,8 @@ MIRRORED_DEEPMAP = True
 SHAKEN_SHIFTS = {'shift_x': 0.05, 'shift_y': 0.05, 'shift_z': 0.05}
 
 
-def narrow(df, starting_frame, ending_frame):
-    return df[starting_frame:ending_frame + 1].reset_index(drop=True)
+def narrow(df, ini_frame, end_frame):
+    return df[ini_frame:end_frame + 1].reset_index(drop=True)
 
 
 def generate_lane_changes(df, lc_frames):
@@ -181,22 +181,20 @@ def extract_cf_sequences(df):
             'Speed': sequence['Speed'],
             'Speed to leader': speed_to_leader,
             'Acceleration': sequence['Acceleration']
-        }).reset_index(drop=True)
+        })
 
-        cf_sequences.append(car_following_df[1:])
+        cf_sequences.append(car_following_df)
     return cf_sequences
 
 
 def extract_lc_sequences(df):
-    limits = SPEED_ROLLING_WINDOW // 2, -SPEED_ROLLING_WINDOW // 2
-
     temp_lc_sequences = []
 
     frame_ini = 0
     for frame_end in pd.isnull(df['pointclouds_path']).nonzero()[0]:
         sequence = df[frame_ini:frame_end]
         if len(sequence) > 20:
-            temp_lc_sequences.append(sequence)
+            temp_lc_sequences.append(sequence.dropna(how='any').reset_index(drop=True))
         frame_ini = frame_end + 1
 
     lc_sequences = []
@@ -220,7 +218,7 @@ def extract_lc_sequences(df):
             'Next TLS green': sequence['Next TLS green'],
             'Next TLS yellow': sequence['Next TLS yellow'],
             'Next TLS red': sequence['Next TLS red'],
-        })[limits[0]:limits[1]].reset_index(drop=True)
+        })
 
         lc_sequences.append(lane_change_df)
     return lc_sequences
@@ -295,7 +293,7 @@ if __name__ == '__main__':
                 filename = '{}_{:0>5}.csv'.format(filename_prefix, i)
                 output_path = os.path.join(OUTPUT_PATH, filename)
                 print('.', end='')
-                sequence.to_csv(output_path, index=False)
+                sequence.dropna(how='any').to_csv(output_path, index=False)
             print('')
 
             print('\t\t\tLane change sequences')
@@ -384,7 +382,7 @@ if __name__ == '__main__':
                                 row['Speed'],
                             ])
                 for sequence in sequences:
-                    print('\t\t\t\t\t\tSequence: {} / {}'.format(sequence_index, total_sequences))
+                    print('\t\t\t\t\t\tSequence: {} / {}'.format(sequence_index + 1, total_sequences))
                     filename = os.path.join(OUTPUT_PATH, deepmap_prefix + '_{:0>5}.csv')
                     sequence_df = pd.DataFrame(sequence, columns=[
                         'Acceleration', 'Distance +1', 'Distance -1', 'Distance 0',
