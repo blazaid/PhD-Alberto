@@ -9,12 +9,12 @@ import tensorboard.program
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 
-SUBJECT = 'miguel'
+SUBJECT = 'all'
 DATASETS_PATH = './data'
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.01
 TRAIN_STEPS = 10000
-LOGS_STEPS = 10
-HIDDEN_UNITS = []
+LOGS_STEPS = 100
+HIDDEN_UNITS = [5, 5, 5]
 ACTIVATION_FUNCTION = tf.nn.tanh
 
 input_cols = [
@@ -88,30 +88,50 @@ if __name__ == '__main__':
         session.run(tf.global_variables_initializer())
         writer_trn.add_graph(session.graph)
 
+        mlp_rms = {
+            'training': [],
+            'validation': [],
+            'test': [],
+        }
         for step in range(TRAIN_STEPS):
             # Create a partition of the training dataset
-            train_partition, validation_partition = train_test_split(train_df, test_size=0.2)
+            train_partition, validation_partition = train_test_split(train_df, test_size=0.1)
 
             # When logging, evaluate also with the validation partition and the test
-            if TRAIN_STEPS % LOGS_STEPS == 0:
+            if step % LOGS_STEPS == 0:
+                print('Step: {}'.format(step))
                 summary = session.run(merged_summary, feed_dict={
                     x: train_partition[input_cols].values,
                     y: train_partition[[output_col]].values
                 })
                 writer_trn.add_summary(summary, step)
                 writer_trn.flush()
+                mlp_rms['training'].append(session.run(cost, feed_dict={
+                    x: train_df[input_cols].values,
+                    y: train_df[[output_col]].values
+                }))
+
                 summary = session.run(merged_summary, feed_dict={
                     x: validation_partition[input_cols].values,
                     y: validation_partition[[output_col]].values
                 })
                 writer_val.add_summary(summary, step)
                 writer_val.flush()
+                mlp_rms['validation'].append(session.run(cost, feed_dict={
+                    x: validation_partition[input_cols].values,
+                    y: validation_partition[[output_col]].values
+                }))
+
                 summary = session.run(merged_summary, feed_dict={
                     x: test_df[input_cols].values,
                     y: test_df[[output_col]].values
                 })
                 writer_tst.add_summary(summary, step)
                 writer_tst.flush()
+                mlp_rms['test'].append(session.run(cost, feed_dict={
+                    x: test_df[input_cols].values,
+                    y: test_df[[output_col]].values
+                }))
 
             # Train with the training partition
             session.run(train, feed_dict={
@@ -126,7 +146,8 @@ if __name__ == '__main__':
                 x: test_df[input_cols].values,
                 y: test_df[[output_col]].values
             }).flatten(),
-        }).to_csv('fcs-outputs-{}-{}.csv'.format(SUBJECT, architecture_str), index=None)
+        }).to_csv('mlp-outputs-{}-{}.csv'.format(SUBJECT, architecture_str), index=None)
+        pd.DataFrame(mlp_rms).to_csv('mlp-rms-{}-{}.csv'.format(SUBJECT, architecture_str), index=None)
         print('Finished training')
 
     tb_process.join()

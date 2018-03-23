@@ -15,9 +15,9 @@ from tfz import IVar, OVar, fuzzy_controller
 
 SUBJECT = 'all'
 DATASETS_PATH = './data'
-LEARNING_RATE = 0.01
-TRAIN_STEPS = 1000
-LOGS_STEPS = 1
+LEARNING_RATE = 10 ** -2
+TRAIN_STEPS = 100000
+LOGS_STEPS  = 10000
 NUM_FS = [3, 3, 2, 2, 2, 3, 3]
 
 input_cols = [
@@ -110,6 +110,7 @@ if __name__ == '__main__':
             if re.match(pattern, var) is not None:
                 tensor = tf.get_default_graph().get_tensor_by_name(var + ':0')
                 tf.summary.histogram(var, tensor)
+                tf.summary.histogram(var + ' _sigmoid', tf.sigmoid(tensor))
 
     merged_summary = tf.summary.merge_all()
     writer_trn = tf.summary.FileWriter(summary_trn_path)
@@ -130,11 +131,11 @@ if __name__ == '__main__':
 
         for step in range(TRAIN_STEPS):
             # Create a partition of the training dataset
-            #train_partition, validation_partition = train_test_split(train_df, test_size=0.2, random_state=1)
             train_partition, validation_partition = train_test_split(train_df, test_size=0.2)
 
             # When logging, evaluate also with the validation partition and the test
-            if TRAIN_STEPS % LOGS_STEPS == 0:
+            if step % LOGS_STEPS == 0:
+                print('Step: {}'.format(step))
                 extract_fuzzy_controller_data(session, fc_data, input_var_names)
 
                 summary = session.run(merged_summary, feed_dict={
