@@ -140,3 +140,4 @@ Session.vim
 *.pyc
 *.pyo
 tensorboard
+.idea
