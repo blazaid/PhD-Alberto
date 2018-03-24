@@ -9,12 +9,12 @@ import tensorboard.program
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 
-SUBJECT = 'edgar'
+SUBJECT = 'all'
 DATASETS_PATH = './data'
 LEARNING_RATE = 0.01
 TRAIN_STEPS = 1000
 LOGS_STEPS = 1
-HIDDEN_UNITS = []  # [], [10], [10, 5], [10, 5, 3]
+HIDDEN_UNITS = [10, 5, 3]  # [], [10], [10, 5], [10, 5, 3]
 ACTIVATION_FUNCTION = tf.nn.tanh
 
 input_cols = [
@@ -147,13 +147,13 @@ if __name__ == '__main__':
                 x: test_df[input_cols].values,
                 y: test_df[output_col].values
             }).flatten(),
-        }).to_csv('outputs/lc-mlp-outputs-{}-{}.csv'.format(SUBJECT, architecture_str), index=None)
-        pd.DataFrame(mlp_rms).to_csv('outputs/lc-mlp-rms-{}-{}.csv'.format(SUBJECT, architecture_str), index=None)
+        }).to_csv('outputs/mlp-outputs-{}-{}.csv'.format(SUBJECT, architecture_str), index=None)
+        pd.DataFrame(mlp_rms).to_csv('outputs/mlp-rms-{}-{}.csv'.format(SUBJECT, architecture_str), index=None)
         print('Finished training')
         print('Saving model ...')
         saver = tf.train.Saver()
-        saver.save(session, 'models/lc-mlp-{}-{}'.format(SUBJECT, architecture_str))
-        saver.export_meta_graph('models/lc-mlp-{}-{}.meta'.format(SUBJECT, architecture_str))
+        saver.save(session, 'models/mlp-{}-{}'.format(SUBJECT, architecture_str))
+        saver.export_meta_graph('models/mlp-{}-{}.meta'.format(SUBJECT, architecture_str))
         print('Saved')
         # with tf.Session() as session:
         # saver = tf.train.import_meta_graph('tmp/model.meta')
