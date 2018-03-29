@@ -1,170 +1,125 @@
+import argparse
 import os
 import shutil
-from multiprocessing import Process
+import time
 
 import numpy as np
-import pandas as pd
-import tensorboard.default
-import tensorboard.program
 import tensorflow as tf
-from sklearn.model_selection import train_test_split
+from tensorflow.python.estimator.canned.dnn import DNNClassifier
+from tensorflow.python.training.adam import AdamOptimizer
 
-SUBJECT = 'all'
-DATASETS_PATH = './data'
 LEARNING_RATE = 0.01
-TRAIN_STEPS = 1000
-LOGS_STEPS = 1
-HIDDEN_UNITS = [10, 5, 3]  # [], [10], [10, 5], [10, 5, 3]
-ACTIVATION_FUNCTION = tf.nn.tanh
-
-input_cols = [
-    'Leader distance', 'Next TLS distance', 'Next TLS green', 'Next TLS yellow',
-    'Next TLS red', 'Speed', 'Speed to leader'
-]
-output_col = 'Acceleration'
-
-train_file = os.path.join(DATASETS_PATH, 'cf-{}-training.csv'.format(SUBJECT))
-test_file = os.path.join(DATASETS_PATH, 'cf-{}-validation.csv'.format(SUBJECT))
-
-hidden_units_str = '-'.join(str(x) for x in HIDDEN_UNITS)
-if not hidden_units_str:
-    hidden_units_str = 'none'
-summary_trn_path = 'tensorboard/{}/{}/training'.format(SUBJECT, hidden_units_str)
-summary_val_path = 'tensorboard/{}/{}/validation'.format(SUBJECT, hidden_units_str)
-summary_tst_path = 'tensorboard/{}/{}/test'.format(SUBJECT, hidden_units_str)
-
-if os.path.exists(summary_trn_path):
-    shutil.rmtree(summary_trn_path)
-if os.path.exists(summary_val_path):
-    shutil.rmtree(summary_val_path)
-if os.path.exists(summary_tst_path):
-    shutil.rmtree(summary_tst_path)
-
-
-def launch_tensorboard(tb_trn_path, tb_val_path, tb_tst_path):
-    tensorboard.program.FLAGS.logdir = 'training:{},validation:{},test:{}'.format(tb_trn_path, tb_val_path, tb_tst_path)
-    tensorboard.program.main(tensorboard.default.get_plugins(), tensorboard.default.get_assets_zip_provider())
-
-    print('Tensorboard started on http://localhost:6006/'.format())
-
-
-def multilayer_perceptron(layers, activation_fn=None):
-    activation_fn = activation_fn or tf.nn.relu
-    x = tf.placeholder(tf.float32, name='input', shape=[None, layers[0]])
-    output = x
-    for layer_id, num_neurons in enumerate(layers[1:], start=1):
-        output = tf.layers.dense(inputs=output, units=num_neurons, activation=activation_fn)
-    return x, output
-
+MODEL_DIR = '/tmp/tf-model/'
+OVERWRITE_PREVIOUS_MODEL = True
 
 if __name__ == '__main__':
-    tb_process = Process(target=launch_tensorboard, args=(summary_trn_path, summary_val_path, summary_tst_path))
+    parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
+    parser.add_argument('subject', type=str)
+    parser.add_argument('path', type=str)
+    parser.add_argument('steps', type=int)
+    parser.add_argument('layers', type=int, nargs='+')
+    parser.add_argument('--dropout', type=float, default=0.0, help='dropout rate for the network')
+    args = parser.parse_args()
 
-    architecture = [len(input_cols)] + HIDDEN_UNITS + [1]
-    architecture_str = '-'.join(str(x) for x in architecture)
-    print('Architecture: {}'.format(architecture_str))
+    print('Starting training process.')
+    print('\tTraining set:\t{}'.format(args.training_file))
+    print('\tTraining set size:\t{}'.format(len(training_set.data)))
+    print('\tValidation set:\t{}'.format(args.validation_file))
+    print('\tValidation set size:\t{}'.format(len(validation_set.data)))
+    print('\tTraining steps:\t{}'.format(args.steps))
+    print('\tDropout rate:\t{}'.format(args.dropout))
+    print('\tTopology:\t{}'.format([num_inputs] + args.layers + [num_classes]))
 
-    # Fuzzy controller graph
-    x, y_hat = multilayer_perceptron(architecture, activation_fn=ACTIVATION_FUNCTION)
-    tf.add_to_collection('output', y_hat)
+    # Input columns
+    feature_columns = [
+        tf.feature_column.numeric_column('features', shape=[num_inputs])
+    ]
 
-    # Expected output
-    y = tf.placeholder(tf.float32)
+    # We create the classifier
+    if os.path.exists(MODEL_DIR) and OVERWRITE_PREVIOUS_MODEL:
+        shutil.rmtree(MODEL_DIR)
+    classifier = DNNClassifier(
+        hidden_units=args.layers,
+        feature_columns=feature_columns,
+        model_dir=MODEL_DIR,
+        n_classes=3,
+        dropout=args.dropout or None,
+        optimizer=AdamOptimizer(
+            learning_rate=0.001
+        ),
 
-    # Training graph
-    cost = tf.reduce_mean(tf.squared_difference(y, y_hat))
-    train = tf.train.AdamOptimizer(LEARNING_RATE).minimize(cost)
+    )
 
-    tf.summary.scalar('RMSE', cost)
-    merged_summary = tf.summary.merge_all()
-    writer_trn = tf.summary.FileWriter(summary_trn_path)
-    writer_val = tf.summary.FileWriter(summary_val_path)
-    writer_tst = tf.summary.FileWriter(summary_tst_path)
+    # Now we train it
+    train_input_fn = tf.estimator.inputs.numpy_input_fn(
+        x={'features': np.array(training_set.data)},
+        y=np.array(training_set.target),
+        batch_size=1000,
+        num_epochs=None,
+        shuffle=True,
+    )
+    training_time = time.time()
+    classifier.train(
+        input_fn=train_input_fn,
+        steps=args.steps,
+    )
+    training_time = time.time() - training_time
 
-    train_df = pd.read_csv(train_file, index_col=False).astype(np.float32)
-    test_df = pd.read_csv(test_file, index_col=False).astype(np.float32)
+    # ... and evaluate it in both training set and validation set
+    training_for_evaluation_input_fn = tf.estimator.inputs.numpy_input_fn(
+        x={'features': np.array(training_set.data)},
+        y=np.array(training_set.target),
+        shuffle=False,
+    )
+    evaluations = classifier.evaluate(input_fn=training_for_evaluation_input_fn)
+    trn_accuracy = evaluations['accuracy']
+    validation_input_fn = tf.estimator.inputs.numpy_input_fn(
+        x={'features': np.array(validation_set.data)},
+        y=np.array(validation_set.target),
+        shuffle=False,
+    )
+    evaluations = classifier.evaluate(input_fn=validation_input_fn)
+    val_accuracy = evaluations['accuracy']
 
-    tb_process.start()
-    with tf.Session() as session:
-        session.run(tf.global_variables_initializer())
-        writer_trn.add_graph(session.graph)
+    # Generate the prediction results
+    filename_prefix = os.path.join(
+        results_dir,
+        'dm_mlp_m{}_i{}_c{}_h{}_s{}_d{}'.format(
+            get_moments_before(args.training_file),
+            num_inputs,
+            num_classes,
+            ','.join(str(x) for x in args.layers),
+            args.steps,
+            args.dropout,
+        )
+    )
 
-        mlp_rms = {
-            'training': [],
-            'validation': [],
-            'test': [],
-        }
-        for step in range(TRAIN_STEPS):
-            # Create a partition of the training dataset
-            train_partition, validation_partition = train_test_split(train_df, test_size=0.1)
+    print('Network results for training set: ' + filename_prefix + '-trn.csv')
 
-            # When logging, evaluate also with the validation partition and the test
-            if step % LOGS_STEPS == 0:
-                print('Step: {}'.format(step))
-                summary = session.run(merged_summary, feed_dict={
-                    x: train_partition[input_cols].values,
-                    y: train_partition[[output_col]].values
-                })
-                writer_trn.add_summary(summary, step)
-                writer_trn.flush()
-                mlp_rms['training'].append(session.run(cost, feed_dict={
-                    x: train_df[input_cols].values,
-                    y: train_df[[output_col]].values
-                }))
+    with open(filename_prefix + '-trn.csv', 'w') as f:
+        f.write('expected_output,network_output\n')
+        o_expected = training_set.target.tolist()
+        predicting_time = time.time()
+        o_real = classifier.predict(input_fn=training_for_evaluation_input_fn)
+        predicting_time = time.time() - predicting_time
+        o_real = list(o_real)
+        predicting_time = predicting_time / len(o_real)
+        for expected, network in zip(o_expected, o_real):
+            f.write('{},{}\n'.format(expected, int(network['classes'][0])))
 
-                summary = session.run(merged_summary, feed_dict={
-                    x: validation_partition[input_cols].values,
-                    y: validation_partition[[output_col]].values
-                })
-                writer_val.add_summary(summary, step)
-                writer_val.flush()
-                mlp_rms['validation'].append(session.run(cost, feed_dict={
-                    x: validation_partition[input_cols].values,
-                    y: validation_partition[[output_col]].values
-                }))
+    print('Network results for validation set: ' + filename_prefix + '-val.csv')
+    with open(filename_prefix + '-val.csv', 'w') as f:
+        f.write('expected_output,network_output\n')
+        o_expected = validation_set.target.tolist()
+        o_real = list(classifier.predict(input_fn=validation_input_fn))
+        for expected, network in zip(o_expected, o_real):
+            f.write('{},{}\n'.format(expected, int(network['classes'][0])))
 
-                summary = session.run(merged_summary, feed_dict={
-                    x: test_df[input_cols].values,
-                    y: test_df[[output_col]].values
-                })
-                writer_tst.add_summary(summary, step)
-                writer_tst.flush()
-                mlp_rms['test'].append(session.run(cost, feed_dict={
-                    x: test_df[input_cols].values,
-                    y: test_df[[output_col]].values
-                }))
-
-            # Train with the training partition
-            session.run(train, feed_dict={
-                x: train_partition[input_cols].values,
-                y: train_partition[[output_col]].values
-            })
-
-        # Write results to a file so we can later make graphs
-        pd.DataFrame({
-            'expected': test_df[[output_col]].values.flatten(),
-            'real': session.run(y_hat, feed_dict={
-                x: test_df[input_cols].values,
-                y: test_df[output_col].values
-            }).flatten(),
-        }).to_csv('outputs/mlp-outputs-{}-{}.csv'.format(SUBJECT, architecture_str), index=None)
-        pd.DataFrame(mlp_rms).to_csv('outputs/mlp-rms-{}-{}.csv'.format(SUBJECT, architecture_str), index=None)
-        print('Finished training')
-        print('Saving model ...')
-        saver = tf.train.Saver()
-        saver.save(session, 'models/mlp-{}-{}'.format(SUBJECT, architecture_str))
-        saver.export_meta_graph('models/mlp-{}-{}.meta'.format(SUBJECT, architecture_str))
-        print('Saved')
-        # with tf.Session() as session:
-        # saver = tf.train.import_meta_graph('tmp/model.meta')
-        # saver.restore(session, 'tmp/model')
-
-        # output = tf.get_collection('output')[0]
-        # print(session.run(output, feed_dict={
-        #    x: test_df[input_cols].values[:2],
-        # }))
-        # output = tf.get_collection('output')[1]
-        # print(session.run(output, feed_dict={
-        #    x: test_df[input_cols].values[:2],
-        # }))
-    tb_process.join()
+    print('Accuracy results: ' + filename_prefix + '-kpi.csv')
+    with open(filename_prefix + '-kpi.csv', 'w') as f:
+        f.write('training_accuracy,validation_accuracy, training_time, predicting_time\n')
+        f.write('{},{},{},{}\n'.format(trn_accuracy, val_accuracy, training_time, predicting_time))
+        print('\tTraining:\t{}'.format(trn_accuracy))
+        print('\tValidation:\t{}'.format(val_accuracy))
+        print('\tTraining time:\t{}'.format(training_time))
+        print('\tPrediction time:\t{}'.format(predicting_time))

@@ -1,13 +1,12 @@
 import os
 import shutil
-from multiprocessing import Process
 
 import numpy as np
 import pandas as pd
-import tensorboard.default
-import tensorboard.program
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
+
+from utils import launch_tensorboard
 
 SUBJECT = 'edgar'
 DATASETS_PATH = './data'
@@ -41,13 +40,6 @@ if os.path.exists(summary_tst_path):
     shutil.rmtree(summary_tst_path)
 
 
-def launch_tensorboard(tb_trn_path, tb_val_path, tb_tst_path):
-    tensorboard.program.FLAGS.logdir = 'training:{},validation:{},test:{}'.format(tb_trn_path, tb_val_path, tb_tst_path)
-    tensorboard.program.main(tensorboard.default.get_plugins(), tensorboard.default.get_assets_zip_provider())
-
-    print('Tensorboard started on http://localhost:6006/'.format())
-
-
 def multilayer_perceptron(layers, activation_fn=None):
     activation_fn = activation_fn or tf.nn.relu
     x = tf.placeholder(tf.float32, name='input', shape=[None, layers[0]])
@@ -58,8 +50,6 @@ def multilayer_perceptron(layers, activation_fn=None):
 
 
 if __name__ == '__main__':
-    tb_process = Process(target=launch_tensorboard, args=(summary_trn_path, summary_val_path, summary_tst_path))
-
     architecture = [len(input_cols)] + HIDDEN_UNITS + [1]
     architecture_str = '-'.join(str(x) for x in architecture)
     print('Architecture: {}'.format(architecture_str))
@@ -84,7 +74,7 @@ if __name__ == '__main__':
     train_df = pd.read_csv(train_file, index_col=False).astype(np.float32)
     test_df = pd.read_csv(test_file, index_col=False).astype(np.float32)
 
-    tb_process.start()
+    tb_process = launch_tensorboard(summary_trn_path, summary_val_path, summary_tst_path)
     with tf.Session() as session:
         session.run(tf.global_variables_initializer())
         writer_trn.add_graph(session.graph)

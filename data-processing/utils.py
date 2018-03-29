@@ -1,9 +1,13 @@
 import os
+from multiprocessing import Process
 
 import fuzzle.mfs
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import tensorboard.default
+import tensorboard.program
+import tensorflow as tf
 
 
 def load_master_df(base_path, dataset, kind):
@@ -460,3 +464,27 @@ original_plot_params = {'linewidth': 10, 'alpha': 0.4, 'c': 'b'}
 original_train_params = {'linewidth': 0.2, 'alpha': 0.9, 'c': 'r'}
 first_result_params = {'linewidth': 10, 'alpha': 0.4, 'c': 'r'}
 final_result_params = {'linewidth': 2, 'c': 'b'}
+
+
+def launch_tensorboard(tb_trn_path, tb_val_path, tb_tst_path):
+    def process(path_trn, path_val, path_tst):
+        tensorboard.program.FLAGS.logdir = 'training:{},validation:{},test:{}'.format(path_trn, path_val, path_tst)
+        tensorboard.program.main(tensorboard.default.get_plugins(), tensorboard.default.get_assets_zip_provider())
+        print('Tensorboard started on http://localhost:6006/'.format())
+
+    tb_process = Process(target=process, args=(tb_trn_path, tb_val_path, tb_tst_path))
+    tb_process.start()
+    return tb_process
+
+
+def multilayer_perceptron(layers, activation_fn=None):
+    # The placeholder to activate or deactivate the dropout. Defaults to inactive"
+    dropout_active = tf.placeholder_with_default(False, shape=())
+
+    activation_fn = activation_fn or tf.nn.relu
+    x = tf.placeholder(tf.float32, name='input', shape=[None, layers[0]])
+    output = x
+    for layer_id, num_neurons in enumerate(layers[1:], start=1):
+        output = tf.layers.dense(inputs=output, units=num_neurons, activation=activation_fn)
+        output = tf.layers.dropout(output, training=dropout_active)
+    return x, output, dropout_active

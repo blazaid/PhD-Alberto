@@ -1,2 +1,2 @@
-model_checkpoint_path: "lc-mlp-edgar-7-1"
-all_model_checkpoint_paths: "lc-mlp-edgar-7-1"
+model_checkpoint_path: "lc-mlp-edgar-7-1000-1"
+all_model_checkpoint_paths: "lc-mlp-edgar-7-1000-1"
