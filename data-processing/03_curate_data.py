@@ -9,9 +9,10 @@ Usage: python2 02_sync_sensors.py subject validation 10 data/raw_csvs data/sync_
 """
 from __future__ import print_function
 
+import copy
 import glob
-import multiprocessing
 import os
+from concurrent.futures import ThreadPoolExecutor
 
 import numpy as np
 import pandas as pd
@@ -21,10 +22,10 @@ from pynsia import latlon
 from pynsia.pointcloud import PointCloud
 from utils import load_subject_df, DATASETS_INFO, load_master_df
 
-BASE_PATH = '/home/blazaid/Projects/data-phd/sync'
-# BASE_PATH = '/media/blazaid/Saca/Phd/data/sync'
-OUTPUT_PATH = '/home/blazaid/Projects/data-phd/curated'
-# OUTPUT_PATH = '/media/blazaid/Saca/Phd/data/curated'
+# BASE_PATH = '/home/blazaid/Projects/data-phd/sync'
+BASE_PATH = '/media/blazaid/Saca/Phd/data/sync'
+# OUTPUT_PATH = '/home/blazaid/Projects/data-phd/curated'
+OUTPUT_PATH = '/media/blazaid/Saca/Phd/data/curated'
 SUBJECTS = 'miguel',  # 'edgar', 'jj', 'miguel'
 DATASETS = 'validation', 'training'
 SPEED_ROLLING_WINDOW = 10
@@ -127,31 +128,23 @@ def generate_cf_dist(df, cf_dist):
             pointcloud_path = row['pointclouds_path']
             if not pd.isnull(pointcloud_path):
                 pc = PointCloud.load(os.path.join(BASE_PATH, pointcloud_path))
-                ps = pc.transform(**calibration_data).points
-
-                # Extract the points in the specified bounding box
-                masked_points = ps[
-                                (ps[:, 0] < 35) &
-                                (ps[:, 0] > 0.35) &
-                                (ps[:, 2] > -1.5) &
-                                (ps[:, 2] < 0.5) &
-                                (ps[:, 1] < 1) &
-                                (ps[:, 1] > -1), :
-                                ]
+                pc = pc.transform(**calibration_data)
+                pc = pc.roi(
+                    x_max_limit=35, x_min_limit=-0.35,
+                    y_max_limit=1, y_min_limit=-1,
+                    z_max_limit=0.5, z_min_limit=-1.5
+                )
 
                 # Look for clusters and extract the distance to them
                 dist = np.nan
-                if len(masked_points) > 0:
-                    db = DBSCAN(eps=epsilon, min_samples=min_samples).fit(
-                        masked_points)
+                if len(pc.points) > 0:
+                    db = DBSCAN(eps=epsilon, min_samples=min_samples).fit(pc.points)
                     labels = db.labels_
                     n_clusters = len(set(labels)) - (1 if -1 in labels else 0)
                     for cluster in range(n_clusters):
-                        obs = masked_points[labels == cluster]
-                        centroid_dist = np.sqrt(
-                            np.mean(obs[:, 0]) ** 2 + np.mean(obs[:, 1]) ** 2)
-                        dist = centroid_dist if pd.isnull(dist) else min(dist,
-                                                                         centroid_dist)
+                        obs = pc.points[labels == cluster]
+                        centroid_dist = np.sqrt(np.mean(obs[:, 0]) ** 2 + np.mean(obs[:, 1]) ** 2)
+                        dist = centroid_dist if pd.isnull(dist) else min(dist, centroid_dist)
 
                 df.loc[frame, 'Leader distance'] = dist
         df.loc[frame_ini:frame_end, 'Leader distance'] = df.loc[frame_ini:frame_end, 'Leader distance'].interpolate()
@@ -194,7 +187,7 @@ def extract_lc_sequences(df):
     for frame_end in pd.isnull(df['pointclouds_path']).nonzero()[0]:
         sequence = df[frame_ini:frame_end]
         if len(sequence) > 20:
-            temp_lc_sequences.append(sequence.dropna(how='any').reset_index(drop=True))
+            temp_lc_sequences.append(sequence)
         frame_ini = frame_end + 1
 
     lc_sequences = []
@@ -224,13 +217,144 @@ def extract_lc_sequences(df):
     return lc_sequences
 
 
-def save_deepmap(dm, path):
-    dm = dm.normalize(orig=[-25, 25], dest=[1, 0])
-    dm.save(path)
+def generate_master_sequence(master_sequence, path):
+    print('Generating master sequence for {}'.format(path))
+    lc_data = copy.deepcopy(master_lc_data)
+    for index, row in master_sequence.iterrows():
+        # Base data
+        lc_data['Acceleration'].append(row['Acceleration'])
+        lc_data['Distance +1'].append(row['Distance +1'])
+        lc_data['Distance -1'].append(row['Distance -1'])
+        lc_data['Distance 0'].append(row['Distance 0'])
+        lc_data['Lane change left'].append(row['Lane change left'])
+        lc_data['Lane change none'].append(row['Lane change none'])
+        lc_data['Lane change right'].append(row['Lane change right'])
+        lc_data['Next TLS distance'].append(row['Next TLS distance'])
+        lc_data['Next TLS green'].append(row['Next TLS green'])
+        lc_data['Next TLS yellow'].append(row['Next TLS yellow'])
+        lc_data['Next TLS red'].append(row['Next TLS red'])
+        lc_data['Speed'].append(row['Speed'])
+
+        # Deepmap data
+        pointcloud = PointCloud.load(os.path.join(BASE_PATH, row['Pointcloud']))
+        pointcloud = pointcloud.transform(**calibration_data)
+        pointcloud = pointcloud.roi(25, -25, 25, -25, 25, -25)
+        deepmap = pointcloud.to_deepmap(h_range=(0, 360), v_range=(-15, 3), h_res=1, v_res=2)
+        deepmap = deepmap.normalize(orig=[-25, 25], dest=[1, 0])
+        distances = deepmap.matrix.flatten()
+        for i, value in enumerate(distances):
+            lc_data['Dm {}'.format(i)].append(value)
+    # Save it to disk
+    df = pd.DataFrame(lc_data)
+    df.to_csv(path, index=False)
+    print('Done generating master sequence for {}'.format(path))
+
+
+def generate_mirrored_sequence(master_sequence, path):
+    print('Generating mirrored sequence for {}'.format(path))
+    lc_data = copy.deepcopy(master_lc_data)
+    for index, row in master_sequence.iterrows():
+        # Base data
+        lc_data['Acceleration'].append(row['Acceleration'])
+        lc_data['Distance +1'].append(row['Distance -1'])  # Mirror
+        lc_data['Distance -1'].append(row['Distance +1'])  # Mirror
+        lc_data['Distance 0'].append(row['Distance 0'])
+        lc_data['Lane change left'].append(row['Lane change right'])  # Mirror
+        lc_data['Lane change none'].append(row['Lane change none'])
+        lc_data['Lane change right'].append(row['Lane change left'])  # Mirror
+        lc_data['Next TLS distance'].append(row['Next TLS distance'])
+        lc_data['Next TLS green'].append(row['Next TLS green'])
+        lc_data['Next TLS yellow'].append(row['Next TLS yellow'])
+        lc_data['Next TLS red'].append(row['Next TLS red'])
+        lc_data['Speed'].append(row['Speed'])
+
+        # Deepmap data
+        pointcloud = PointCloud.load(os.path.join(BASE_PATH, row['Pointcloud']))
+        pointcloud = pointcloud.transform(**calibration_data)
+        pointcloud = pointcloud.roi(25, -25, 25, -25, 25, -25)
+        pointcloud = pointcloud.mirror(fix_x=True, fix_z=True)
+        deepmap = pointcloud.to_deepmap(h_range=(0, 360), v_range=(-15, 3), h_res=1, v_res=2)
+        deepmap = deepmap.normalize(orig=[-25, 25], dest=[1, 0])
+        distances = deepmap.matrix.flatten()
+        for i, value in enumerate(distances):
+            lc_data['Dm {}'.format(i)].append(value)
+    # Save it to disk
+    df = pd.DataFrame(lc_data)
+    df.to_csv(path, index=False)
+    print('Done generating mirrored sequence for {}'.format(path))
+
+
+def generate_shaken_master_sequence(master_sequence, path):
+    print('Generating shaken sequence for {}'.format(path))
+    lc_data = copy.deepcopy(master_lc_data)
+    for index, row in master_sequence.iterrows():
+        # Base data
+        lc_data['Acceleration'].append(row['Acceleration'])
+        lc_data['Distance +1'].append(row['Distance +1'])
+        lc_data['Distance -1'].append(row['Distance -1'])
+        lc_data['Distance 0'].append(row['Distance 0'])
+        lc_data['Lane change left'].append(row['Lane change left'])
+        lc_data['Lane change none'].append(row['Lane change none'])
+        lc_data['Lane change right'].append(row['Lane change right'])
+        lc_data['Next TLS distance'].append(row['Next TLS distance'])
+        lc_data['Next TLS green'].append(row['Next TLS green'])
+        lc_data['Next TLS yellow'].append(row['Next TLS yellow'])
+        lc_data['Next TLS red'].append(row['Next TLS red'])
+        lc_data['Speed'].append(row['Speed'])
+
+        # Deepmap data
+        pointcloud = PointCloud.load(os.path.join(BASE_PATH, row['Pointcloud']))
+        pointcloud = pointcloud.transform(**calibration_data)
+        pointcloud = pointcloud.shake(**SHAKEN_SHIFTS)
+        pointcloud = pointcloud.roi(25, -25, 25, -25, 25, -25)
+        deepmap = pointcloud.to_deepmap(h_range=(0, 360), v_range=(-15, 3), h_res=1, v_res=2)
+        deepmap = deepmap.normalize(orig=[-25, 25], dest=[1, 0])
+        distances = deepmap.matrix.flatten()
+        for i, value in enumerate(distances):
+            lc_data['Dm {}'.format(i)].append(value)
+    # Save it to disk
+    df = pd.DataFrame(lc_data)
+    df.to_csv(path, index=False)
+    print('Done shaken mirrored sequence for {}'.format(path))
+
+
+def generate_shaken_mirrored_sequence(master_sequence, path):
+    print('Generating shaken mirrored sequence for {}'.format(path))
+    lc_data = copy.deepcopy(master_lc_data)
+    for index, row in master_sequence.iterrows():
+        # Base data
+        lc_data['Acceleration'].append(row['Acceleration'])
+        lc_data['Distance +1'].append(row['Distance -1'])  # Mirror
+        lc_data['Distance -1'].append(row['Distance +1'])  # Mirror
+        lc_data['Distance 0'].append(row['Distance 0'])
+        lc_data['Lane change left'].append(row['Lane change right'])  # Mirror
+        lc_data['Lane change none'].append(row['Lane change none'])
+        lc_data['Lane change right'].append(row['Lane change left'])  # Mirror
+        lc_data['Next TLS distance'].append(row['Next TLS distance'])
+        lc_data['Next TLS green'].append(row['Next TLS green'])
+        lc_data['Next TLS yellow'].append(row['Next TLS yellow'])
+        lc_data['Next TLS red'].append(row['Next TLS red'])
+        lc_data['Speed'].append(row['Speed'])
+
+        # Deepmap data
+        pointcloud = PointCloud.load(os.path.join(BASE_PATH, row['Pointcloud']))
+        pointcloud = pointcloud.transform(**calibration_data)
+        pointcloud = pointcloud.shake(**SHAKEN_SHIFTS)
+        pointcloud = pointcloud.roi(25, -25, 25, -25, 25, -25)
+        pointcloud = pointcloud.mirror(fix_x=True, fix_z=True)
+        deepmap = pointcloud.to_deepmap(h_range=(0, 360), v_range=(-15, 3), h_res=1, v_res=2)
+        deepmap = deepmap.normalize(orig=[-25, 25], dest=[1, 0])
+        distances = deepmap.matrix.flatten()
+        for i, value in enumerate(distances):
+            lc_data['Dm {}'.format(i)].append(value)
+    # Save it to disk
+    df = pd.DataFrame(lc_data)
+    df.to_csv(path, index=False)
+    print('Done generating shaken mirrored sequence for {}'.format(path))
 
 
 if __name__ == '__main__':
-    files_pool = multiprocessing.Pool(processes=128)
+    pool = ThreadPoolExecutor(max_workers=4)
 
     for subject in SUBJECTS:
         print('Subject: {}'.format(subject))
@@ -276,35 +400,9 @@ if __name__ == '__main__':
             print('\t\t\tGenerating distance to next obstacles')
             master_df = generate_cf_dist(master_df, dataset_info['cf_dist'])
 
-            print('\t\t\tCar following sequences')
-            print('\t\t\t\tDeleting previous sequences')
-            if not os.path.isdir(OUTPUT_PATH):
-                os.makedirs(OUTPUT_PATH)
-            filename_prefix = 'cf_{}_{}'.format(subject, dataset)
-            for filename in glob.glob(os.path.join(OUTPUT_PATH, filename_prefix + '*')):
-                os.remove(filename)
-
-            print('\t\t\t\tExtracting new data: ', end='')
-            cf_sequences = extract_cf_sequences(master_df)
-            print('{} sequences'.format(len(cf_sequences)))
-
-            print('\t\t\t\tSaving', end='')
-            for i, sequence in enumerate(cf_sequences):
-                filename = '{}_{:0>5}.csv'.format(filename_prefix, i)
-                output_path = os.path.join(OUTPUT_PATH, filename)
-                print('.', end='')
-                sequence.dropna(how='any').to_csv(output_path, index=False)
-            print('')
-
             print('\t\t\tLane change sequences')
-            deepmaps_path = os.path.join(OUTPUT_PATH, 'deepmaps')
-            if not os.path.isdir(deepmaps_path):
-                os.makedirs(deepmaps_path)
-            deepmap_prefix = 'lc_{}_{}'.format(subject, dataset)
-            print('\t\t\t\tDeleting previous sequences')
-            for filename in glob.glob(os.path.join(deepmaps_path, deepmap_prefix + '*')):
-                os.remove(filename)
-            for filename in glob.glob(os.path.join(OUTPUT_PATH, deepmap_prefix + '*')):
+            sequence_filename_prefix = 'lc_{}_{}'.format(subject, dataset)
+            for filename in glob.glob(os.path.join(OUTPUT_PATH, sequence_filename_prefix + '*')):
                 os.remove(filename)
 
             print('\t\t\t\tExtracting new data: ', end='')
@@ -320,75 +418,75 @@ if __name__ == '__main__':
             total_sequences = num_generated_sequences * len(lc_sequences)
             print('\t\t\t\t\tTotal sequences: {}'.format(total_sequences))
 
+            # Master dictionary for lane change data
+            master_lc_data = {
+                'Acceleration': [],
+                'Distance +1': [],
+                'Distance -1': [],
+                'Distance 0': [],
+                'Lane change left': [],
+                'Lane change none': [],
+                'Lane change right': [],
+                'Next TLS distance': [],
+                'Next TLS green': [],
+                'Next TLS yellow': [],
+                'Next TLS red': [],
+                'Speed': [],
+            }
+            for i in range(360 * 8):
+                master_lc_data['Dm {}'.format(i)] = []
+
+            sequence_filename_pattern = os.path.join(OUTPUT_PATH, sequence_filename_prefix + '_{:0>6}.csv')
             sequence_index = 0
-            deepmap_index = 0
-            master_path = os.path.join(deepmaps_path, deepmap_prefix + '_{:0>10}.dat')
             for num, master_sequence in enumerate(lc_sequences):
-                sequences = [[] for _ in range(num_generated_sequences)]
+                # For each base sequence we'll generate a bunch of other derived sequences as specified.
 
-                for index, row in master_sequence.iterrows():
-                    # Save the original and the shaken sequences
-                    orig_pc = PointCloud.load(os.path.join(BASE_PATH, row['Pointcloud']))
-                    orig_pc = orig_pc.transform(**calibration_data)
-                    orig_shaken_pcs = [orig_pc.shake(**SHAKEN_SHIFTS) for _ in range(num_shaken_deepmaps)]
-                    for i, pc in enumerate([orig_pc] + orig_shaken_pcs):
-                        # Save the deepmap
-                        path = master_path.format(deepmap_index)
-                        dm = pc.to_deepmap(h_range=(0, 360), v_range=(-15, 3), h_res=1, v_res=2)
-                        files_pool.apply_async(save_deepmap, (dm, path,))
-                        deepmap_index += 1
-                        # Add a row to the sequence
-                        sequences[i].append([
-                            row['Acceleration'],
-                            row['Distance +1'],
-                            row['Distance -1'],
-                            row['Distance 0'],
-                            row['Lane change left'],
-                            row['Lane change none'],
-                            row['Lane change right'],
-                            row['Next TLS distance'],
-                            row['Next TLS green'],
-                            row['Next TLS yellow'],
-                            row['Next TLS red'],
-                            path.replace(OUTPUT_PATH, '.'),
-                            row['Speed'],
-                        ])
-
-                    if mirrored_deepmap:
-                        mirrored_pc = orig_pc.mirror(fix_x=True, fix_z=True)
-                        mirrored_shaken_pcs = [
-                            mirrored_pc.shake(**SHAKEN_SHIFTS) for _ in range(num_shaken_deepmaps)]
-                        for i, pc in enumerate([mirrored_pc] + mirrored_shaken_pcs, start=num_shaken_deepmaps + 1):
-                            # Save the deepmap
-                            path = master_path.format(deepmap_index)
-                            dm = pc.to_deepmap(h_range=(0, 360), v_range=(-15, 3), h_res=1, v_res=2)
-                            files_pool.apply_async(save_deepmap, (dm, path,))
-                            deepmap_index += 1
-                            # Add a row to the sequence
-
-                            sequences[i].append([
-                                row['Acceleration'],
-                                row['Distance -1'],  # Mirror
-                                row['Distance +1'],  # Mirror
-                                row['Distance 0'],
-                                row['Lane change right'],  # Mirror
-                                row['Lane change none'],
-                                row['Lane change left'],  # Mirror
-                                row['Next TLS distance'],
-                                row['Next TLS green'],
-                                row['Next TLS yellow'],
-                                row['Next TLS red'],
-                                path.replace(OUTPUT_PATH, '.'),
-                                row['Speed'],
-                            ])
-                for sequence in sequences:
-                    print('\t\t\t\t\t\tSequence: {} / {}'.format(sequence_index + 1, total_sequences))
-                    filename = os.path.join(OUTPUT_PATH, deepmap_prefix + '_{:0>5}.csv')
-                    sequence_df = pd.DataFrame(sequence, columns=[
-                        'Acceleration', 'Distance +1', 'Distance -1', 'Distance 0',
-                        'Lane change left', 'Lane change none', 'Lane change right',
-                        'Next TLS distance', 'Next TLS green', 'Next TLS yellow', 'Next TLS red',
-                        'Deepmap', 'Relative speed'
-                    ])
-                    sequence_df.to_csv(filename.format(sequence_index), index=False)
+                # Generate master sequence
+                filename = sequence_filename_pattern.format(sequence_index)
+                sequence_index += 1
+                # generate_master_sequence(master_sequence, filename)
+                pool.submit(generate_master_sequence, master_sequence, filename)
+                # Generate master shaken sequences
+                for _ in range(num_shaken_deepmaps):
+                    filename = sequence_filename_pattern.format(sequence_index)
                     sequence_index += 1
+                    # generate_shaken_master_sequence(master_sequence, filename)
+                    pool.submit(generate_shaken_master_sequence, master_sequence, filename)
+
+                if mirrored_deepmap:
+                    # Generate mirrored sequence
+                    filename = sequence_filename_pattern.format(sequence_index)
+                    sequence_index += 1
+                    # generate_mirrored_sequence(master_sequence, filename)
+                    pool.submit(generate_mirrored_sequence, master_sequence, filename)
+
+                    # Generate mirrored shaken sequences
+                    for _ in range(num_shaken_deepmaps):
+                        filename = sequence_filename_pattern.format(sequence_index)
+                        sequence_index += 1
+                        # generate_shaken_mirrored_sequence(master_sequence, filename)
+                        pool.submit(generate_shaken_mirrored_sequence, master_sequence, filename)
+
+            print('\t\t\tCar following sequences')
+            print('\t\t\t\tDeleting previous sequences')
+            if not os.path.isdir(OUTPUT_PATH):
+                os.makedirs(OUTPUT_PATH)
+            filename_prefix = 'cf_{}_{}'.format(subject, dataset)
+            for filename in glob.glob(os.path.join(OUTPUT_PATH, filename_prefix + '*')):
+                os.remove(filename)
+
+            print('\t\t\t\tExtracting new data: ', end='', flush=True)
+            cf_sequences = extract_cf_sequences(master_df)
+            print('{} sequences'.format(len(cf_sequences)))
+
+            print('\t\t\t\tSaving', end='', flush=True)
+            for i, sequence in enumerate(cf_sequences):
+                filename = '{}_{:0>5}.csv'.format(filename_prefix, i)
+                output_path = os.path.join(OUTPUT_PATH, filename)
+                print('.', end='')
+                sequence.dropna(how='any').to_csv(output_path, index=False)
+            print('')
+
+    print('Finishing pending threads ...')
+    pool.shutdown()
+    print('... done')

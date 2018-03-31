@@ -477,14 +477,32 @@ def launch_tensorboard(tb_trn_path, tb_val_path, tb_tst_path):
     return tb_process
 
 
-def multilayer_perceptron(layers, activation_fn=None):
-    # The placeholder to activate or deactivate the dropout. Defaults to inactive"
-    dropout_active = tf.placeholder_with_default(False, shape=())
+def multilayer_perceptron(layers, activation_fn=None, output_fn=None):
+    """
 
+    :param layers:
+    :param activation_fn:
+    :param output_fn:
+    :param dropout_rate: Rate of dropped units, between 0 and 1. E.g. 0.1 will drop out 10% of input units
+    :return:
+    """
+    # Defaults for the activation functions
     activation_fn = activation_fn or tf.nn.relu
+    output_fn = output_fn or tf.nn.tanh
+
+    # The placeholder to activate or deactivate the dropout. Defaults to inactive"
+    dropout_rate = tf.placeholder_with_default(0.0, shape=())
+
+    # The inputs placeholder
     x = tf.placeholder(tf.float32, name='input', shape=[None, layers[0]])
+
+    # All the layers 'till the output one
     output = x
     for layer_id, num_neurons in enumerate(layers[1:], start=1):
-        output = tf.layers.dense(inputs=output, units=num_neurons, activation=activation_fn)
-        output = tf.layers.dropout(output, training=dropout_active)
-    return x, output, dropout_active
+        fn = output_fn if layer_id == len(layers) - 1 else activation_fn
+        output = tf.layers.dense(inputs=output, units=num_neurons, activation=fn)
+        # Dropout in all the layers except the final one
+        if layer_id < len(layers) - 1:
+            output = tf.layers.dropout(output, rate=dropout_rate, training=(dropout_rate > 0.0))
+
+    return x, output, dropout_rate

@@ -436,19 +436,37 @@ Cada uno de los controladores se ha entrenado durante XXX epochs. En la Figura~\
 
 \begin{figure}
 	\centering
-	\subfloat[]{\includegraphics[width=.45\textwidth]{fcs-test-evolution}}\qquad
-	\subfloat[]{\includegraphics[width=.45\textwidth]{fcs-test-evolution-detail}}
+	\subfloat[]{\includegraphics[width=.45\textwidth]{fcs-all-test}}\qquad
+	\subfloat[]{\includegraphics[width=.45\textwidth]{fcs-all-test-detail}}
 	\caption[Evolución del error en test de los controladores difusos ajustados]{Visión general y detalle de la evolución del error en test de los diferentes controladores difusos ajustados.}
 	\label{fig:adjusted-fcs}
 \end{figure}
-
-
 
 \TODO{Describir epochs, tiempos de entrenamiento y de inferencia}
 
 \TODO{Separar los entrenamientos para todos los conductores y para los conductores en concreto. En estos últimos, si la red es muy grande, entrenar los modelos tanto desde 0 como desde una red preentrenada.}
 
 \paragraph{Modelo \ac{mlp}}
+
+Para determinar el modelo óptimo de \ac{mlp} en comportamiento longitudinal, se han realizado entrenamientos sobre arquitecturas con diferente cantidad de neuronas y capas ocultas. El resumen de estas arquitecturas se detalla en la tabla~\ref{tbl:cf-mlp-architectures}.
+
+\begin{table}[t]
+	\caption[Arquitecturas de \ac{mlp} para el modelo longitudinal]{Resumen de las arquitecturas de \ac{mlp} para el modelo longitudinal. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa.}
+	\label{tbl:cf-mlp-architectures}
+	\begin{tabular}{ll}
+		\toprule
+		Nombre & Topología \\
+		\midrule
+		$MLP_1$ & $7, 1$ \\
+		$MLP_2$ & $7, 10, 1$ \\
+		$MLP_3$ & $7, 10, 5, 1$ \\
+		$MLP_4$ & $7, 10, 5, 3, 1$ \\
+		$MLP_5$ & $7, 10, 5, 5, 3, 1$ \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+Las arquitecturas han sido entrenadas usando con función de activación \ac{relu} y tangente hiperbólica. 
 
 \TODO{Describir el proceso de entrenamiento del controlador. Poner las grafiquitas de las diferentes arquitecturas usadas y selección de la mejor}
 

@@ -1,0 +1,181 @@
+import os
+import re
+import shutil
+from multiprocessing import Process
+
+import collections
+import numpy as np
+import pandas as pd
+import tensorboard.default
+import tensorboard.program
+import tensorflow as tf
+from sklearn.model_selection import train_test_split
+
+import pynsia.tensorflow.fuzzy as tfz
+
+SUBJECT = 'all'
+DATASETS_PATH = './data'
+LEARNING_RATE = 0.01
+TRAIN_VARS_STEPS = 1000
+TRAIN_RULES_STEPS = 10000
+TRAIN_STEPS = 10
+LOGS_STEPS = 1000
+NUM_FS = [3, 3, 2, 2, 2, 3, 3]
+
+input_cols = [
+    'Leader distance', 'Next TLS distance', 'Next TLS green', 'Next TLS yellow',
+    'Next TLS red', 'Speed', 'Speed to leader'
+]
+output_col = 'Acceleration'
+
+train_file = os.path.join(DATASETS_PATH, 'cf-{}-training.csv'.format(SUBJECT))
+test_file = os.path.join(DATASETS_PATH, 'cf-{}-validation.csv'.format(SUBJECT))
+
+num_fs_string = '-'.join(str(x) for x in NUM_FS)
+summary_trn_path = 'tensorboard/{}/{}/training'.format(SUBJECT, num_fs_string)
+if os.path.exists(summary_trn_path):
+    shutil.rmtree(summary_trn_path)
+summary_val_path = 'tensorboard/{}/{}/validation'.format(SUBJECT, num_fs_string)
+if os.path.exists(summary_val_path):
+    shutil.rmtree(summary_val_path)
+summary_tst_path = 'tensorboard/{}/{}/test'.format(SUBJECT, num_fs_string)
+if os.path.exists(summary_tst_path):
+    shutil.rmtree(summary_tst_path)
+
+
+def launch_tensorboard(tb_trn_path, tb_val_path, tb_tst_path):
+    tensorboard.program.FLAGS.logdir = 'training:{},validation:{},test:{}'.format(tb_trn_path, tb_val_path, tb_tst_path)
+    tensorboard.program.main(tensorboard.default.get_plugins(), tensorboard.default.get_assets_zip_provider())
+
+    print('Tensorboard started on http://localhost:6006/'.format())
+
+
+def extract_fuzzy_controller_data(session, fc_data, input_vars):
+    all_variables = [n.name for n in tf.get_default_graph().as_graph_def().node]
+    patterns = ['^tfz/var/{}/b$'.format(var) for var in input_vars]
+    patterns.extend(['^tfz/var/{}/s\d+$'.format(var) for var in input_vars])
+    patterns.extend(['^tfz/var/{}/sf\d+$'.format(var) for var in input_vars])
+    patterns.extend(['^tfz/var/{}/sl\d+$'.format(var) for var in input_vars])
+    patterns.append('^tfz/rules/weights$')
+    for pattern in patterns:
+        for var in all_variables:
+            if re.match(pattern, var) is not None:
+                tensor = tf.get_default_graph().get_tensor_by_name(var + ':0')
+                values = session.run(tensor)
+                if var == 'weights':
+                    values = values.flatten()
+                    values = ';'.join([str(x) for x in values])
+                fc_data[var].append(values)
+
+
+if __name__ == '__main__':
+    input_var_names = [''.join(s[:1].upper() + s[1:] for s in i.split(' ')) for i in input_cols]
+    output_var_name = output_col.lower().capitalize()
+
+    # Fuzzy controller graph
+    x, y_hat = tfz.fuzzy_controller(
+        i_vars=[
+            tfz.IVar(name=input_var_names[0], fuzzy_sets=NUM_FS[0], domain=(0., 1.)),
+            tfz.IVar(name=input_var_names[1], fuzzy_sets=NUM_FS[1], domain=(0., 1.)),
+            tfz.IVar(name=input_var_names[2], fuzzy_sets=NUM_FS[2], domain=(0., 1.)),
+            tfz.IVar(name=input_var_names[3], fuzzy_sets=NUM_FS[3], domain=(0., 1.)),
+            tfz.IVar(name=input_var_names[4], fuzzy_sets=NUM_FS[4], domain=(0., 1.)),
+            tfz.IVar(name=input_var_names[5], fuzzy_sets=NUM_FS[5], domain=(0., 20.)),
+            tfz.IVar(name=input_var_names[6], fuzzy_sets=NUM_FS[6], domain=(-20., 20.)),
+        ],
+        o_var=tfz.OVar(name=output_var_name, values=(-1, 1))
+    )
+
+    # Expected output
+    y = tf.placeholder(tf.float32)
+
+    # Cost
+    cost = tf.reduce_mean(tf.squared_difference(y, y_hat))
+
+    # Training graphs
+    vars_vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'tfz/var/')
+    rules_vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'tfz/rules/')
+    optimizer = tf.train.AdamOptimizer(LEARNING_RATE)
+    vars_train = optimizer.minimize(cost, var_list=vars_vars)
+    rules_train = optimizer.minimize(cost, var_list=rules_vars)
+
+    # Tensorboard outputs
+    tf.summary.scalar('RMSE', cost)
+    for var in vars_vars:
+        tf.summary.scalar(var.name, var)
+    for var in rules_vars:
+        tf.summary.histogram(var.name + '_sigm', tf.sigmoid(var))
+    merged_summary = tf.summary.merge_all()
+    writer_trn = tf.summary.FileWriter(summary_trn_path)
+    writer_val = tf.summary.FileWriter(summary_val_path)
+    writer_tst = tf.summary.FileWriter(summary_tst_path)
+
+    train_df = pd.read_csv(train_file, index_col=False).astype(np.float32)
+    test_df = pd.read_csv(test_file, index_col=False).astype(np.float32)
+
+    # Launching tensorboard
+    tb_process = Process(target=launch_tensorboard, args=(summary_trn_path, summary_val_path, summary_tst_path))
+    tb_process.start()
+
+    fc_data = collections.defaultdict(list)
+    with tf.Session() as session:
+        session.run(tf.global_variables_initializer())
+        writer_trn.add_graph(session.graph)
+
+        step = 0
+        for main_step in range(TRAIN_STEPS):
+            print('Main step: {}'.format(main_step))
+            # Create a partition of the training dataset
+            train_partition, validation_partition = train_test_split(train_df, test_size=0.2)
+
+            for nm, train, steps in (('rules', rules_train, TRAIN_RULES_STEPS), ('vars', vars_train, TRAIN_VARS_STEPS)):
+                print('Training {}: {} steps'.format(nm, steps))
+                for _ in range(steps):
+                    # When logging, evaluate also with the validation partition and the test
+                    if step % LOGS_STEPS == 0:
+                        print('Step: {}'.format(step))
+                        extract_fuzzy_controller_data(session, fc_data, input_var_names)
+
+                        summary = session.run(merged_summary, feed_dict={
+                            x: train_partition[input_cols].values,
+                            y: train_partition[[output_col]].values
+                        })
+                        writer_trn.add_summary(summary, step)
+                        writer_trn.flush()
+                        summary = session.run(merged_summary, feed_dict={
+                            x: validation_partition[input_cols].values,
+                            y: validation_partition[[output_col]].values
+                        })
+                        writer_val.add_summary(summary, step)
+                        writer_val.flush()
+                        summary = session.run(merged_summary, feed_dict={
+                            x: test_df[input_cols].values,
+                            y: test_df[[output_col]].values
+                        })
+                        writer_tst.add_summary(summary, step)
+                        writer_tst.flush()
+
+                    # Train with the training partition
+                    session.run(train, feed_dict={
+                        x: train_partition[input_cols].values,
+                        y: train_partition[[output_col]].values
+                    })
+                    step += 1
+
+        # Write results to a file so we can later make graphs
+        pd.DataFrame({
+            'expected': test_df[[output_col]].values.flatten(),
+            'real': session.run(y_hat, feed_dict={
+                x: test_df[input_cols].values,
+                y: test_df[[output_col]].values
+            }).flatten(),
+        }).to_csv('fcs-outputs-{}-{}.csv'.format(SUBJECT, num_fs_string), index=None)
+        pd.DataFrame(fc_data).to_csv('fcs-description-{}-{}.csv'.format(SUBJECT, num_fs_string), index=None)
+        print('Finished training')
+        print('Saving model ...')
+        saver = tf.train.Saver()
+        saver.save(session, 'models/lc-fcs-{}-{}'.format(SUBJECT, num_fs_string))
+        saver.export_meta_graph('models/lc-fcs-{}-{}.meta'.format(SUBJECT, num_fs_string))
+        print('Saved')
+
+    tb_process.join()
