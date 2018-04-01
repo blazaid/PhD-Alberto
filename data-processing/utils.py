@@ -538,7 +538,6 @@ def convolutional(layers, num_inputs, num_outputs, img_start, image_shape):
     # Extract and resize the images from the inputs. Leave the rest as is.
     img_size = np.prod(image_shape)
     x_values_1, x_images, x_values_2 = tf.split(x, [img_start, img_size, num_inputs - img_start - img_size], axis=1)
-    # TODO Aquí hay que montar la imágen en tres capas con images_start, images_end y images_num
     layer = tf.reshape(x_images, [-1] + image_shape)
 
     # Patterns layer
