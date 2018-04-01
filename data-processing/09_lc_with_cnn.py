@@ -13,7 +13,7 @@ ACTIVATION_FN = tf.nn.relu
 OUTPUT_FN = None
 LOGS_STEPS = 10
 DROPOUT = 0.1
-MINIBATCH_SIZE = 1000
+MINIBATCH_SIZE = 25000
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
