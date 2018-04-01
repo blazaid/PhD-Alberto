@@ -169,13 +169,13 @@ if __name__ == '__main__':
                 x: test_df[input_cols].values,
                 y: test_df[[output_col]].values
             }).flatten(),
-        }).to_csv('fcs-outputs-{}-{}.csv'.format(SUBJECT, num_fs_string), index=None)
-        pd.DataFrame(fc_data).to_csv('fcs-description-{}-{}.csv'.format(SUBJECT, num_fs_string), index=None)
+        }).to_csv('outputs/cf-fcs-outputs-{}-{}.csv'.format(SUBJECT, num_fs_string), index=None)
+        pd.DataFrame(fc_data).to_csv('outputs/cf-fcs-description-{}-{}.csv'.format(SUBJECT, num_fs_string), index=None)
         print('Finished training')
         print('Saving model ...')
         saver = tf.train.Saver()
-        saver.save(session, 'models/lc-fcs-{}-{}'.format(SUBJECT, num_fs_string))
-        saver.export_meta_graph('models/lc-fcs-{}-{}.meta'.format(SUBJECT, num_fs_string))
+        saver.save(session, 'models/cf-fcs-{}-{}'.format(SUBJECT, num_fs_string))
+        saver.export_meta_graph('models/cf-fcs-{}-{}.meta'.format(SUBJECT, num_fs_string))
         print('Saved')
 
     tb_process.join()

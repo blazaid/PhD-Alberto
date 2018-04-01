@@ -15,8 +15,8 @@ DMS_DIR = 'deepmaps'
 SUBJECTS = 'edgar', 'jj', 'miguel'
 MOMENTS_BEFORE = list(sorted([10, 20]))
 
-temporal_columns = ['Acceleration', 'Next TLS green', 'Next TLS yellow', 'Next TLS red', 'Speed']
-temporal_columns += ['Dm {}'.format(i) for i in range(360 * 8)]
+temporal_columns = ['Next TLS green', 'Next TLS yellow', 'Next TLS red']
+temporal_columns += ['Dm {:0>4}'.format(i) for i in range(360 * 8)]
 
 if __name__ == '__main__':
     # Remove previous datasets for car following

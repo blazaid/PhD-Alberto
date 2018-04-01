@@ -1,14 +1,3 @@
-#!/usr/bin/python2
-#
-
-""" sync_sensors.py
-
-Get's all the sensors csv's and creates a new dataframe with all the transformed data.
-
-Usage: python2 02_sync_sensors.py subject validation 10 data/raw_csvs data/sync_csv
-"""
-from __future__ import print_function
-
 import copy
 import glob
 import os
@@ -27,14 +16,14 @@ BASE_PATH = '/media/blazaid/Saca/Phd/data/sync'
 # OUTPUT_PATH = '/home/blazaid/Projects/data-phd/curated'
 OUTPUT_PATH = '/media/blazaid/Saca/Phd/data/curated'
 SUBJECTS = 'miguel',  # 'edgar', 'jj', 'miguel'
-DATASETS = 'validation', 'training'
+DATASETS = 'training', 'validation'
 SPEED_ROLLING_WINDOW = 10
 
 MAX_LEADER_DISTANCE = 50
 MAX_RELATIVE_SPEED = 27.7  # +-100km/h -> +-1m/s
 MAX_TLS_DISTANCE = 100
 MAX_DRIVABLE_DISTANCE = 100
-NUM_SHAKEN_DEEPMAPS = 10
+NUM_SHAKEN_DEEPMAPS = 4
 MIRRORED_DEEPMAP = True
 SHAKEN_SHIFTS = {'shift_x': 0.05, 'shift_y': 0.05, 'shift_z': 0.05}
 
@@ -198,14 +187,12 @@ def extract_lc_sequences(df):
         next_tls_distance = sequence['Next TLS distance'].apply(lambda x: relative_bounded(x, MAX_TLS_DISTANCE))
 
         lane_change_df = pd.DataFrame({
-            'Acceleration': sequence['Acceleration'],
             'Distance +1': distance_l_lane,
             'Distance 0': distance_c_lane,
             'Distance -1': distance_r_lane,
             'Lane change left': sequence['Lane change left'],
             'Lane change none': sequence['Lane change none'],
             'Lane change right': sequence['Lane change right'],
-            'Speed': sequence['Speed'],
             'Pointcloud': sequence['pointclouds_path'],
             'Next TLS distance': next_tls_distance,
             'Next TLS green': sequence['Next TLS green'],
@@ -222,7 +209,6 @@ def generate_master_sequence(master_sequence, path):
     lc_data = copy.deepcopy(master_lc_data)
     for index, row in master_sequence.iterrows():
         # Base data
-        lc_data['Acceleration'].append(row['Acceleration'])
         lc_data['Distance +1'].append(row['Distance +1'])
         lc_data['Distance -1'].append(row['Distance -1'])
         lc_data['Distance 0'].append(row['Distance 0'])
@@ -233,7 +219,6 @@ def generate_master_sequence(master_sequence, path):
         lc_data['Next TLS green'].append(row['Next TLS green'])
         lc_data['Next TLS yellow'].append(row['Next TLS yellow'])
         lc_data['Next TLS red'].append(row['Next TLS red'])
-        lc_data['Speed'].append(row['Speed'])
 
         # Deepmap data
         pointcloud = PointCloud.load(os.path.join(BASE_PATH, row['Pointcloud']))
@@ -243,7 +228,7 @@ def generate_master_sequence(master_sequence, path):
         deepmap = deepmap.normalize(orig=[-25, 25], dest=[1, 0])
         distances = deepmap.matrix.flatten()
         for i, value in enumerate(distances):
-            lc_data['Dm {}'.format(i)].append(value)
+            lc_data['Dm {:0>4}'.format(i)].append(value)
     # Save it to disk
     df = pd.DataFrame(lc_data)
     df.to_csv(path, index=False)
@@ -255,7 +240,6 @@ def generate_mirrored_sequence(master_sequence, path):
     lc_data = copy.deepcopy(master_lc_data)
     for index, row in master_sequence.iterrows():
         # Base data
-        lc_data['Acceleration'].append(row['Acceleration'])
         lc_data['Distance +1'].append(row['Distance -1'])  # Mirror
         lc_data['Distance -1'].append(row['Distance +1'])  # Mirror
         lc_data['Distance 0'].append(row['Distance 0'])
@@ -266,7 +250,6 @@ def generate_mirrored_sequence(master_sequence, path):
         lc_data['Next TLS green'].append(row['Next TLS green'])
         lc_data['Next TLS yellow'].append(row['Next TLS yellow'])
         lc_data['Next TLS red'].append(row['Next TLS red'])
-        lc_data['Speed'].append(row['Speed'])
 
         # Deepmap data
         pointcloud = PointCloud.load(os.path.join(BASE_PATH, row['Pointcloud']))
@@ -277,7 +260,7 @@ def generate_mirrored_sequence(master_sequence, path):
         deepmap = deepmap.normalize(orig=[-25, 25], dest=[1, 0])
         distances = deepmap.matrix.flatten()
         for i, value in enumerate(distances):
-            lc_data['Dm {}'.format(i)].append(value)
+            lc_data['Dm {:0>4}'.format(i)].append(value)
     # Save it to disk
     df = pd.DataFrame(lc_data)
     df.to_csv(path, index=False)
@@ -289,7 +272,6 @@ def generate_shaken_master_sequence(master_sequence, path):
     lc_data = copy.deepcopy(master_lc_data)
     for index, row in master_sequence.iterrows():
         # Base data
-        lc_data['Acceleration'].append(row['Acceleration'])
         lc_data['Distance +1'].append(row['Distance +1'])
         lc_data['Distance -1'].append(row['Distance -1'])
         lc_data['Distance 0'].append(row['Distance 0'])
@@ -300,7 +282,6 @@ def generate_shaken_master_sequence(master_sequence, path):
         lc_data['Next TLS green'].append(row['Next TLS green'])
         lc_data['Next TLS yellow'].append(row['Next TLS yellow'])
         lc_data['Next TLS red'].append(row['Next TLS red'])
-        lc_data['Speed'].append(row['Speed'])
 
         # Deepmap data
         pointcloud = PointCloud.load(os.path.join(BASE_PATH, row['Pointcloud']))
@@ -311,7 +292,7 @@ def generate_shaken_master_sequence(master_sequence, path):
         deepmap = deepmap.normalize(orig=[-25, 25], dest=[1, 0])
         distances = deepmap.matrix.flatten()
         for i, value in enumerate(distances):
-            lc_data['Dm {}'.format(i)].append(value)
+            lc_data['Dm {:0>4}'.format(i)].append(value)
     # Save it to disk
     df = pd.DataFrame(lc_data)
     df.to_csv(path, index=False)
@@ -323,7 +304,6 @@ def generate_shaken_mirrored_sequence(master_sequence, path):
     lc_data = copy.deepcopy(master_lc_data)
     for index, row in master_sequence.iterrows():
         # Base data
-        lc_data['Acceleration'].append(row['Acceleration'])
         lc_data['Distance +1'].append(row['Distance -1'])  # Mirror
         lc_data['Distance -1'].append(row['Distance +1'])  # Mirror
         lc_data['Distance 0'].append(row['Distance 0'])
@@ -334,7 +314,6 @@ def generate_shaken_mirrored_sequence(master_sequence, path):
         lc_data['Next TLS green'].append(row['Next TLS green'])
         lc_data['Next TLS yellow'].append(row['Next TLS yellow'])
         lc_data['Next TLS red'].append(row['Next TLS red'])
-        lc_data['Speed'].append(row['Speed'])
 
         # Deepmap data
         pointcloud = PointCloud.load(os.path.join(BASE_PATH, row['Pointcloud']))
@@ -346,7 +325,7 @@ def generate_shaken_mirrored_sequence(master_sequence, path):
         deepmap = deepmap.normalize(orig=[-25, 25], dest=[1, 0])
         distances = deepmap.matrix.flatten()
         for i, value in enumerate(distances):
-            lc_data['Dm {}'.format(i)].append(value)
+            lc_data['Dm {:0>4}'.format(i)].append(value)
     # Save it to disk
     df = pd.DataFrame(lc_data)
     df.to_csv(path, index=False)
@@ -420,7 +399,6 @@ if __name__ == '__main__':
 
             # Master dictionary for lane change data
             master_lc_data = {
-                'Acceleration': [],
                 'Distance +1': [],
                 'Distance -1': [],
                 'Distance 0': [],
@@ -431,10 +409,9 @@ if __name__ == '__main__':
                 'Next TLS green': [],
                 'Next TLS yellow': [],
                 'Next TLS red': [],
-                'Speed': [],
             }
             for i in range(360 * 8):
-                master_lc_data['Dm {}'.format(i)] = []
+                master_lc_data['Dm {:0>4}'.format(i)] = []
 
             sequence_filename_pattern = os.path.join(OUTPUT_PATH, sequence_filename_prefix + '_{:0>6}.csv')
             sequence_index = 0

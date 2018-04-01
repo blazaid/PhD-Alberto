@@ -26,26 +26,24 @@ output_col = 'Acceleration'
 train_file = os.path.join(DATASETS_PATH, 'cf-{}-training.csv'.format(SUBJECT))
 test_file = os.path.join(DATASETS_PATH, 'cf-{}-validation.csv'.format(SUBJECT))
 
-hidden_units_str = '-'.join(str(x) for x in HIDDEN_UNITS)
-if not hidden_units_str:
-    hidden_units_str = 'none'
-summary_trn_path = 'tensorboard/{}/{}/training'.format(SUBJECT, hidden_units_str)
-summary_val_path = 'tensorboard/{}/{}/validation'.format(SUBJECT, hidden_units_str)
-summary_tst_path = 'tensorboard/{}/{}/test'.format(SUBJECT, hidden_units_str)
-
-if os.path.exists(summary_trn_path):
-    shutil.rmtree(summary_trn_path)
-if os.path.exists(summary_val_path):
-    shutil.rmtree(summary_val_path)
-if os.path.exists(summary_tst_path):
-    shutil.rmtree(summary_tst_path)
 
 if __name__ == '__main__':
     architecture = [len(input_cols)] + HIDDEN_UNITS + [1]
     architecture_str = '-'.join(str(x) for x in architecture)
     print('Architecture: {}'.format(architecture_str))
 
-    # Fuzzy controller graph
+    # Create the tensorboard directories associated to this training configuration
+    summary_trn_path = 'tensorboard/{}/{}/training'.format(SUBJECT, architecture_str)
+    summary_val_path = 'tensorboard/{}/{}/validation'.format(SUBJECT, architecture_str)
+    summary_tst_path = 'tensorboard/{}/{}/test'.format(SUBJECT, architecture_str)
+    if os.path.exists(summary_trn_path):
+        shutil.rmtree(summary_trn_path)
+    if os.path.exists(summary_val_path):
+        shutil.rmtree(summary_val_path)
+    if os.path.exists(summary_tst_path):
+        shutil.rmtree(summary_tst_path)
+
+    # Network
     x, y_hat, dropout = multilayer_perceptron(architecture, activation_fn=ACTIVATION_FUNCTION, output_fn=tf.nn.tanh)
     tf.add_to_collection('output', y_hat)
 
@@ -89,8 +87,8 @@ if __name__ == '__main__':
                 writer_trn.add_summary(summary, step)
                 writer_trn.flush()
                 mlp_rms['training'].append(session.run(cost, feed_dict={
-                    x: train_df[input_cols].values,
-                    y: train_df[[output_col]].values
+                    x: train_partition[input_cols].values,
+                    y: train_partition[[output_col]].values
                 }))
 
                 summary = session.run(merged_summary, feed_dict={
@@ -130,13 +128,13 @@ if __name__ == '__main__':
                 x: test_df[input_cols].values,
                 y: test_df[output_col].values
             }).flatten(),
-        }).to_csv('outputs/lc-mlp-outputs-{}-{}.csv'.format(SUBJECT, architecture_str), index=None)
-        pd.DataFrame(mlp_rms).to_csv('outputs/lc-mlp-rms-{}-{}.csv'.format(SUBJECT, architecture_str), index=None)
+        }).to_csv('outputs/cf-mlp-outputs-{}-{}.csv'.format(SUBJECT, architecture_str), index=None)
+        pd.DataFrame(mlp_rms).to_csv('outputs/cf-mlp-rms-{}-{}.csv'.format(SUBJECT, architecture_str), index=None)
         print('Finished training')
         print('Saving model ...')
         saver = tf.train.Saver()
-        saver.save(session, 'models/lc-mlp-{}-{}'.format(SUBJECT, architecture_str))
-        saver.export_meta_graph('models/lc-mlp-{}-{}.meta'.format(SUBJECT, architecture_str))
+        saver.save(session, 'models/cf-mlp-{}-{}'.format(SUBJECT, architecture_str))
+        saver.export_meta_graph('models/cf-mlp-{}-{}.meta'.format(SUBJECT, architecture_str))
         print('Saved')
         # with tf.Session() as session:
         # saver = tf.train.import_meta_graph('tmp/model.meta')

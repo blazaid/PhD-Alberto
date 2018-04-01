@@ -1,6 +1,8 @@
 import os
+import random
 from multiprocessing import Process
 
+import collections
 import fuzzle.mfs
 import matplotlib.pyplot as plt
 import numpy as np
@@ -366,50 +368,6 @@ DATASETS_INFO = {
 }
 
 
-class Dataset:
-    def __init__(self, path=None, values=None, outputs_num=None):
-        values = values or []
-        if path:
-            with open(path, 'r') as f:
-                for line in f.readlines():
-                    values.append([float(v) for v in line.split(',') if v])
-        self.values = np.array(values)
-        self.i = None
-        self.o = None
-        self.outputs_num = outputs_num or 1
-
-    def split(self, ratio, shuffle=False):
-        values = self.values.copy()
-        if shuffle:
-            np.random.shuffle(values)
-        idx = int(len(values) * ratio)
-        return (
-            self.__class__(
-                values=values.tolist()[:idx],
-                outputs_num=self.outputs_num
-            ),
-            self.__class__(
-                values=values.tolist()[idx:],
-                outputs_num=self.outputs_num
-            ),
-        )
-
-    @property
-    def inputs(self):
-        if self.i is None:
-            self.i = self.values[:, :-self.outputs_num].astype(np.float32)
-        return self.i
-
-    @property
-    def outputs(self):
-        if self.o is None:
-            self.o = np.reshape(
-                self.values[:, -self.outputs_num:],
-                (-1, self.outputs_num)
-            ).astype(np.float32)
-        return self.o
-
-
 def plot_mfs(ax, X, Y, stage='first', **kwargs):
     """
     
@@ -483,12 +441,10 @@ def multilayer_perceptron(layers, activation_fn=None, output_fn=None):
     :param layers:
     :param activation_fn:
     :param output_fn:
-    :param dropout_rate: Rate of dropped units, between 0 and 1. E.g. 0.1 will drop out 10% of input units
     :return:
     """
     # Defaults for the activation functions
     activation_fn = activation_fn or tf.nn.relu
-    output_fn = output_fn or tf.nn.tanh
 
     # The placeholder to activate or deactivate the dropout. Defaults to inactive"
     dropout_rate = tf.placeholder_with_default(0.0, shape=())
@@ -504,5 +460,99 @@ def multilayer_perceptron(layers, activation_fn=None, output_fn=None):
         # Dropout in all the layers except the final one
         if layer_id < len(layers) - 1:
             output = tf.layers.dropout(output, rate=dropout_rate, training=(dropout_rate > 0.0))
+
+    return x, output, dropout_rate
+
+
+Dataset = collections.namedtuple('Dataset', ['data', 'data_columns', 'target', 'target_columns'])
+Datasets = collections.namedtuple('Datasets', ['train', 'validation', 'test'])
+
+LC_TARGET_COLS = ['Lane change left', 'Lane change none', 'Lane change right']
+
+
+def load_datasets_for_subject(datasets_path, subject):
+    path = os.path.join(datasets_path, 'lc-{}-{}.csv')
+    # Load the training set and split it into training and validation sets
+    train_df = pd.read_csv(path.format(subject, 'training'), dtype=np.float32, index_col=None, nrows=1000)
+    rows = random.sample(list(train_df.index), int(len(train_df.index) / 10))
+    validation_df = train_df.iloc[rows]
+    train_df = train_df.drop(rows)
+    # Load the test set
+    test_df = pd.read_csv(path.format(subject, 'validation'), dtype=np.float32, index_col=None, nrows=1000)
+
+    datasets = {}
+    for dataset, df in (('train', train_df), ('validation', validation_df), ('test', test_df)):
+        # Separate between data and target columns
+        data_df = df.drop(LC_TARGET_COLS, axis=1)
+        data_df = data_df.reindex(sorted(data_df.columns), axis=1)
+        target_df = df[LC_TARGET_COLS]
+        target_df = target_df.reindex(sorted(target_df.columns), axis=1)
+        # Create the dataset
+        datasets[dataset] = Dataset(
+            data=data_df.values,
+            data_columns=data_df.columns,
+            target=target_df.values.astype(np.int8),
+            target_columns=target_df.columns,
+        )
+
+    return Datasets(**datasets)
+
+
+def convolutional(layers, num_inputs, num_outputs, img_start, image_shape):
+    def build_convolution_layer(inputs, desc, dropout):
+        filters, rows, cols = desc[1:].split('-')
+        filters, rows, cols = int(filters), int(rows), int(cols)
+        return tf.layers.conv2d(
+            inputs=inputs,
+            filters=filters,
+            kernel_size=[rows, cols],
+            padding="same",
+            activation=tf.nn.relu
+        )
+
+    def build_pooling_layer(inputs, desc, dropout):
+        rows, cols, stride = desc[1:].split('-')
+        rows, cols, stride = int(rows), int(cols), int(stride)
+
+        return tf.layers.max_pooling2d(inputs=inputs, pool_size=[rows, cols], strides=stride)
+
+    def build_dense_layer(inputs, desc, dropout):
+        units = int(desc[1:])
+        output = tf.layers.dense(inputs=inputs, units=units, activation=tf.nn.relu)
+        output = tf.layers.dropout(output, rate=dropout, training=(dropout > 0.0))
+        return output
+
+    image_shape = list(image_shape)
+    build_layer_functions = {
+        'd': build_dense_layer,
+        'c': build_convolution_layer,
+        'p': build_pooling_layer,
+    }
+
+    patterns_layers = [layer for layer in layers if layer[0] != 'd']
+    dense_layers = [layer for layer in layers if layer[0] == 'd']
+
+    x = tf.placeholder(tf.float32, name='input', shape=[None, num_inputs])
+    dropout_rate = tf.placeholder_with_default(0.0, shape=())
+
+    # Extract and resize the images from the inputs. Leave the rest as is.
+    img_size = np.prod(image_shape)
+    x_values_1, x_images, x_values_2 = tf.split(x, [img_start, img_size, num_inputs - img_start - img_size], axis=1)
+    # TODO Aquí hay que montar la imágen en tres capas con images_start, images_end y images_num
+    layer = tf.reshape(x_images, [-1] + image_shape)
+
+    # Patterns layer
+    for layer_description in patterns_layers:
+        layer = build_layer_functions[layer_description[0]](layer, layer_description, dropout_rate)
+
+    # Flatten
+    layer = tf.reshape(layer, [-1, int(np.prod(layer.shape[1:]))])
+    layer = tf.concat([layer, x_values_1, x_values_2], 1)
+
+    # Dense Layers
+    for layer_description in dense_layers:
+        layer = build_layer_functions[layer_description[0]](layer, layer_description, dropout_rate)
+
+    output = tf.layers.dense(inputs=layer, units=num_outputs)
 
     return x, output, dropout_rate
