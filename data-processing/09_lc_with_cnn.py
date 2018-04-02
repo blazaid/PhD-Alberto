@@ -6,9 +6,11 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 
-from utils import load_datasets_for_subject, launch_tensorboard, convolutional
+from utils import load_datasets_for_subject, convolutional, extract_minibatch_data
 
-LEARNING_RATE = 0.001
+MAX_LEARN_RATE = 0.1
+MIN_LEARN_RATE = 0.001
+DECAY_SPEED = 2000.0
 LOGS_STEPS = 1
 DROPOUT = 0.1
 MINIBATCH_SIZE = 10000
@@ -63,23 +65,40 @@ if __name__ == '__main__':
     y = tf.placeholder(tf.int32)
 
     # Training graph
+    learning_rate = tf.placeholder(tf.float32)
     cost = tf.losses.softmax_cross_entropy(onehot_labels=y, logits=y_hat)
-    train = tf.train.AdamOptimizer(LEARNING_RATE).minimize(cost)
+    train = tf.train.AdamOptimizer(learning_rate).minimize(cost)
 
     tf.summary.scalar('loss', cost)
     equal_values = tf.equal(
         tf.argmax(y_hat, 1, output_type=np.int32),
         tf.argmax(y, 1, output_type=np.int32)
     )
+    # Data for tensorboard
+    tf.summary.scalar('learning_rate', learning_rate)
     accuracy = tf.reduce_mean(tf.cast(equal_values, tf.float32))
     tf.summary.scalar('accuracy', accuracy)
+    for var in tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'convolution'):
+        var_name, var_type = var.name.replace(':0', '').split('/')
+        if 'bias' == var_type:
+            tf.summary.scalar(var_type, var, family=var_name)
+        elif 'kernel' == var_type:
+            for filter_num in range(var.shape[3]):
+                filter = var[:, :, :, filter_num]
+                # Sum along all the channels
+                filter = tf.reduce_sum(filter, 2)
+                # Normalize being the highest weight the lowest (i.e. darkest) value
+                filter = 1 - filter / tf.reduce_max(filter)
+                # Display as image
+                tf.summary.image('{}_filter_{}'.format(var_name, filter_num), filter)
+
     merged_summary = tf.summary.merge_all()
 
     writer_trn = tf.summary.FileWriter(summary_trn_path)
     writer_val = tf.summary.FileWriter(summary_val_path)
     writer_tst = tf.summary.FileWriter(summary_tst_path)
 
-    tb_process = launch_tensorboard(summary_trn_path, summary_val_path, summary_tst_path)
+    # tb_process = launch_tensorboard(summary_trn_path, summary_val_path, summary_tst_path)
     with tf.Session() as session:
         session.run(tf.global_variables_initializer())
         writer_trn.add_graph(session.graph)
@@ -90,60 +109,55 @@ if __name__ == '__main__':
             'test': [],
         }
         for step in range(args.steps):
-            # Extract the training minibatch
-            values_per_class = MINIBATCH_SIZE // num_outputs
-            minibatch_train_data = []
-            minibatch_train_target = []
-            for col in range(datasets.train.target.shape[1]):
-                available_idx = np.where(datasets.train.target[:, col] == 1)[0]
-                if len(available_idx) > 0:
-                    idx = np.random.choice(available_idx, size=values_per_class)
-                    minibatch_train_data.append(datasets.train.data[idx, :])
-                    minibatch_train_target.append(datasets.train.target[idx, :])
-            minibatch_train_data = np.concatenate(minibatch_train_data, axis=0)
-            minibatch_train_target = np.concatenate(minibatch_train_target, axis=0)
+            # Extract the minibatches
+            train_data, train_target = extract_minibatch_data(datasets.train, MINIBATCH_SIZE, num_outputs)
+            validation_data, validation_target = extract_minibatch_data(datasets.validation, MINIBATCH_SIZE,
+                                                                        num_outputs)
+            test_data, test_target = extract_minibatch_data(datasets.validation, MINIBATCH_SIZE, num_outputs)
 
             # When logging, evaluate also with the validation partition and the test
             if step % LOGS_STEPS == 0:
                 print('.', end='', flush=True)
                 summary = session.run(merged_summary, feed_dict={
-                    x: minibatch_train_data,
-                    y: minibatch_train_target,
+                    x: train_data,
+                    y: train_target,
                 })
                 writer_trn.add_summary(summary, step)
                 writer_trn.flush()
                 mlp_rms['training'].append(session.run(cost, feed_dict={
-                    x: minibatch_train_data,
-                    y: minibatch_train_target,
+                    x: train_data,
+                    y: train_target,
                 }))
 
                 summary = session.run(merged_summary, feed_dict={
-                    x: datasets.validation.data,
-                    y: datasets.validation.target,
+                    x: validation_data,
+                    y: validation_target,
                 })
                 writer_val.add_summary(summary, step)
                 writer_val.flush()
                 mlp_rms['validation'].append(session.run(cost, feed_dict={
-                    x: datasets.validation.data,
-                    y: datasets.validation.target,
+                    x: validation_data,
+                    y: validation_target,
                 }))
 
                 summary = session.run(merged_summary, feed_dict={
-                    x: datasets.test.data,
-                    y: datasets.test.target,
+                    x: test_data,
+                    y: test_target,
                 })
                 writer_tst.add_summary(summary, step)
                 writer_tst.flush()
                 mlp_rms['test'].append(session.run(cost, feed_dict={
-                    x: datasets.test.data,
-                    y: datasets.test.target,
+                    x: test_data,
+                    y: test_target,
                 }))
 
             # Train with the training partition
             session.run(train, feed_dict={
-                x: minibatch_train_data,
-                y: minibatch_train_target,
-                dropout: DROPOUT
+                x: train_data,
+                y: train_target,
+                dropout: DROPOUT,
+                learning_rate: MIN_LEARN_RATE + (MAX_LEARN_RATE - MIN_LEARN_RATE) * np.math.exp(-step / DECAY_SPEED)
+
             })
         print()
 
@@ -151,8 +165,8 @@ if __name__ == '__main__':
         pd.DataFrame({
             'expected': datasets.test.target.flatten(),
             'real': session.run(y_hat, feed_dict={
-                x: datasets.test.data,
-                y: datasets.test.target,
+                x: test_data,
+                y: test_target,
             }).flatten(),
         }).to_csv('outputs/lc-cnn-outputs-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT), index=None)
         pd.DataFrame(mlp_rms).to_csv('outputs/lc-cnn-rms-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT),
@@ -163,4 +177,4 @@ if __name__ == '__main__':
         saver.save(session, 'models/lc-cnn-{}-{}-d{}'.format(args.subject, architecture_str, DROPOUT))
         saver.export_meta_graph('models/lc-cnn-{}-{}-d{}.meta'.format(args.subject, architecture_str, DROPOUT))
         print('Saved')
-    tb_process.join()
+    # tb_process.join()

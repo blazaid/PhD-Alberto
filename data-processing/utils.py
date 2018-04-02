@@ -561,3 +561,18 @@ def convolutional(layers, num_inputs, num_outputs, img_start, image_shape):
     output = tf.layers.dense(inputs=layer, units=num_outputs)
 
     return x, output, dropout_rate
+
+
+def extract_minibatch_data(dataset, minibatch_size, num_outputs):
+    values_per_class = minibatch_size // num_outputs
+    data, target = [], []
+    for col in range(dataset.target.shape[1]):
+        available_idx = np.where(dataset.target[:, col] == 1)[0]
+        if len(available_idx) > 0:
+            idx = np.random.choice(available_idx, size=values_per_class)
+            data.append(dataset.data[idx, :])
+            target.append(dataset.target[idx, :])
+
+    data = np.concatenate(data, axis=0)
+    target = np.concatenate(target, axis=0)
+    return data, target
