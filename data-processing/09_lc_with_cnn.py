@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 
-from utils import load_datasets_for_subject, convolutional, extract_minibatch_data
+from utils import load_datasets_for_subject, convolutional, extract_minibatch_data, launch_tensorboard
 
 MAX_LEARN_RATE = 0.1
 MIN_LEARN_RATE = 0.001
@@ -65,7 +65,7 @@ if __name__ == '__main__':
     y = tf.placeholder(tf.int32)
 
     # Training graph
-    learning_rate = tf.placeholder(tf.float32)
+    learning_rate = tf.placeholder_with_default(0.0, shape=())
     cost = tf.losses.softmax_cross_entropy(onehot_labels=y, logits=y_hat)
     train = tf.train.AdamOptimizer(learning_rate).minimize(cost)
 
@@ -81,16 +81,18 @@ if __name__ == '__main__':
     for var in tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'convolution'):
         var_name, var_type = var.name.replace(':0', '').split('/')
         if 'bias' == var_type:
-            tf.summary.scalar(var_type, var, family=var_name)
+            tf.summary.histogram(var_type, var, family=var_name)
         elif 'kernel' == var_type:
             for filter_num in range(var.shape[3]):
-                filter = var[:, :, :, filter_num]
+                filter = tf.transpose(var, [3, 0, 1, 2])[filter_num:filter_num+1, :, :, :]
                 # Sum along all the channels
-                filter = tf.reduce_sum(filter, 2)
+                filter = tf.reduce_sum(filter, 3, keepdims=True)
                 # Normalize being the highest weight the lowest (i.e. darkest) value
                 filter = 1 - filter / tf.reduce_max(filter)
                 # Display as image
-                tf.summary.image('{}_filter_{}'.format(var_name, filter_num), filter)
+                tf.summary.image('{}_filter_{}'.format(var_name, filter_num), filter, family=var_name)
+
+    # for var in tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'convolution'):
 
     merged_summary = tf.summary.merge_all()
 
@@ -98,7 +100,7 @@ if __name__ == '__main__':
     writer_val = tf.summary.FileWriter(summary_val_path)
     writer_tst = tf.summary.FileWriter(summary_tst_path)
 
-    # tb_process = launch_tensorboard(summary_trn_path, summary_val_path, summary_tst_path)
+    tb_process = launch_tensorboard(summary_trn_path, summary_val_path, summary_tst_path)
     with tf.Session() as session:
         session.run(tf.global_variables_initializer())
         writer_trn.add_graph(session.graph)
@@ -115,49 +117,58 @@ if __name__ == '__main__':
                                                                         num_outputs)
             test_data, test_target = extract_minibatch_data(datasets.validation, MINIBATCH_SIZE, num_outputs)
 
+            # Compute the decaying learning rate
+            lr = MIN_LEARN_RATE + (MAX_LEARN_RATE - MIN_LEARN_RATE) * np.math.exp(-step / DECAY_SPEED)
+
             # When logging, evaluate also with the validation partition and the test
             if step % LOGS_STEPS == 0:
-                print('.', end='', flush=True)
+                print('l', end='', flush=True)
                 summary = session.run(merged_summary, feed_dict={
                     x: train_data,
                     y: train_target,
+                    learning_rate: lr,
                 })
                 writer_trn.add_summary(summary, step)
                 writer_trn.flush()
                 mlp_rms['training'].append(session.run(cost, feed_dict={
                     x: train_data,
                     y: train_target,
+                    learning_rate: lr,
                 }))
 
                 summary = session.run(merged_summary, feed_dict={
                     x: validation_data,
                     y: validation_target,
+                    learning_rate: lr,
                 })
                 writer_val.add_summary(summary, step)
                 writer_val.flush()
                 mlp_rms['validation'].append(session.run(cost, feed_dict={
                     x: validation_data,
                     y: validation_target,
+                    learning_rate: lr,
                 }))
 
                 summary = session.run(merged_summary, feed_dict={
                     x: test_data,
                     y: test_target,
+                    learning_rate: lr,
                 })
                 writer_tst.add_summary(summary, step)
                 writer_tst.flush()
                 mlp_rms['test'].append(session.run(cost, feed_dict={
                     x: test_data,
                     y: test_target,
+                    learning_rate: lr,
                 }))
 
+            print('t', end='', flush=True)
             # Train with the training partition
             session.run(train, feed_dict={
                 x: train_data,
                 y: train_target,
                 dropout: DROPOUT,
-                learning_rate: MIN_LEARN_RATE + (MAX_LEARN_RATE - MIN_LEARN_RATE) * np.math.exp(-step / DECAY_SPEED)
-
+                learning_rate: lr,
             })
         print()
 
@@ -177,4 +188,4 @@ if __name__ == '__main__':
         saver.save(session, 'models/lc-cnn-{}-{}-d{}'.format(args.subject, architecture_str, DROPOUT))
         saver.export_meta_graph('models/lc-cnn-{}-{}-d{}.meta'.format(args.subject, architecture_str, DROPOUT))
         print('Saved')
-    # tb_process.join()
+    tb_process.join()

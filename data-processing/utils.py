@@ -472,12 +472,12 @@ LC_TARGET_COLS = ['Lane change left', 'Lane change none', 'Lane change right']
 def load_datasets_for_subject(datasets_path, subject):
     path = os.path.join(datasets_path, 'lc-{}-{}.csv')
     # Load the training set and split it into training and validation sets
-    train_df = pd.read_csv(path.format(subject, 'training'), dtype=np.float32, index_col=None) #, nrows=10)
+    train_df = pd.read_csv(path.format(subject, 'training'), dtype=np.float32, index_col=None)
     rows = random.sample(list(train_df.index), int(len(train_df.index) / 10))
     validation_df = train_df.iloc[rows]
     train_df = train_df.drop(rows)
     # Load the test set
-    test_df = pd.read_csv(path.format(subject, 'validation'), dtype=np.float32, index_col=None)# , nrows=10)
+    test_df = pd.read_csv(path.format(subject, 'validation'), dtype=np.float32, index_col=None)
 
     datasets = {}
     for dataset, df in (('train', train_df), ('validation', validation_df), ('test', test_df)):
@@ -547,7 +547,8 @@ def convolutional(layers, num_inputs, num_outputs, img_start, image_shape):
     }
     for layer_description in patterns_layers:
         layer_name, layer_num = layers_num[layer_description[0]]
-        layer = build_layer_functions[layer_description[0]]('{}{}'.format(layer_name, layer_num), layer, layer_description, dropout_rate)
+        layer = build_layer_functions[layer_description[0]]('{}{}'.format(layer_name, layer_num), layer,
+                                                            layer_description, dropout_rate)
         layers_num[layer_description[0]] = [layer_name, layer_num + 1]
 
     # Flatten
@@ -558,7 +559,7 @@ def convolutional(layers, num_inputs, num_outputs, img_start, image_shape):
     for i, layer_description in enumerate(dense_layers):
         layer = build_layer_functions[layer_description[0]]('dense{}'.format(i), layer, layer_description, dropout_rate)
 
-    output = tf.layers.dense(inputs=layer, units=num_outputs)
+    output = tf.layers.dense(inputs=layer, units=num_outputs, name='dense{}'.format(i + 1))
 
     return x, output, dropout_rate
 
