@@ -13,7 +13,7 @@ ACTIVATION_FN = tf.nn.relu
 OUTPUT_FN = None
 LOGS_STEPS = 10
 DROPOUT = 0.1
-MINIBATCH_SIZE = 25000
+MINIBATCH_SIZE = 10000
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
@@ -115,8 +115,8 @@ if __name__ == '__main__':
                 writer_trn.add_summary(summary, step)
                 writer_trn.flush()
                 mlp_rms['training'].append(session.run(cost, feed_dict={
-                    x: datasets.train.data,
-                    y: datasets.train.target,
+                    x: minibatch_training_data,
+                    y: minibatch_training_target,
                 }))
 
                 summary = session.run(merged_summary, feed_dict={

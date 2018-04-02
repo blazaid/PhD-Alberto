@@ -141,3 +141,4 @@ Session.vim
 *.pyo
 tensorboard
 .idea
+/data-processing/output
