@@ -472,12 +472,12 @@ LC_TARGET_COLS = ['Lane change left', 'Lane change none', 'Lane change right']
 def load_datasets_for_subject(datasets_path, subject):
     path = os.path.join(datasets_path, 'lc-{}-{}.csv')
     # Load the training set and split it into training and validation sets
-    train_df = pd.read_csv(path.format(subject, 'training'), dtype=np.float32, index_col=None, nrows=10)
+    train_df = pd.read_csv(path.format(subject, 'training'), dtype=np.float32, index_col=None)
     rows = random.sample(list(train_df.index), int(len(train_df.index) / 10))
     validation_df = train_df.iloc[rows]
     train_df = train_df.drop(rows)
     # Load the test set
-    test_df = pd.read_csv(path.format(subject, 'validation'), dtype=np.float32, index_col=None, nrows=10)
+    test_df = pd.read_csv(path.format(subject, 'validation'), dtype=np.float32, index_col=None)
 
     datasets = {}
     for dataset, df in (('train', train_df), ('validation', validation_df), ('test', test_df)):
