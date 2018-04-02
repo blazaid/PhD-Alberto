@@ -472,12 +472,12 @@ LC_TARGET_COLS = ['Lane change left', 'Lane change none', 'Lane change right']
 def load_datasets_for_subject(datasets_path, subject):
     path = os.path.join(datasets_path, 'lc-{}-{}.csv')
     # Load the training set and split it into training and validation sets
-    train_df = pd.read_csv(path.format(subject, 'training'), dtype=np.float32, index_col=None)
+    train_df = pd.read_csv(path.format(subject, 'training'), dtype=np.float32, index_col=None, nrows=10)
     rows = random.sample(list(train_df.index), int(len(train_df.index) / 10))
     validation_df = train_df.iloc[rows]
     train_df = train_df.drop(rows)
     # Load the test set
-    test_df = pd.read_csv(path.format(subject, 'validation'), dtype=np.float32, index_col=None)
+    test_df = pd.read_csv(path.format(subject, 'validation'), dtype=np.float32, index_col=None, nrows=10)
 
     datasets = {}
     for dataset, df in (('train', train_df), ('validation', validation_df), ('test', test_df)):
@@ -498,7 +498,7 @@ def load_datasets_for_subject(datasets_path, subject):
 
 
 def convolutional(layers, num_inputs, num_outputs, img_start, image_shape):
-    def build_convolution_layer(inputs, desc, dropout):
+    def build_convolution_layer(name, inputs, desc, dropout):
         filters, rows, cols = desc[1:].split('-')
         filters, rows, cols = int(filters), int(rows), int(cols)
         return tf.layers.conv2d(
@@ -506,19 +506,20 @@ def convolutional(layers, num_inputs, num_outputs, img_start, image_shape):
             filters=filters,
             kernel_size=[rows, cols],
             padding="same",
-            activation=tf.nn.relu
+            activation=tf.nn.relu,
+            name=name
         )
 
-    def build_pooling_layer(inputs, desc, dropout):
+    def build_pooling_layer(name, inputs, desc, dropout):
         rows, cols, stride = desc[1:].split('-')
         rows, cols, stride = int(rows), int(cols), int(stride)
 
-        return tf.layers.max_pooling2d(inputs=inputs, pool_size=[rows, cols], strides=stride)
+        return tf.layers.max_pooling2d(inputs=inputs, pool_size=[rows, cols], strides=stride, name=name)
 
-    def build_dense_layer(inputs, desc, dropout):
+    def build_dense_layer(name, inputs, desc, dropout):
         units = int(desc[1:])
-        output = tf.layers.dense(inputs=inputs, units=units, activation=tf.nn.relu)
-        output = tf.layers.dropout(output, rate=dropout, training=(dropout > 0.0))
+        output = tf.layers.dense(inputs=inputs, units=units, activation=tf.nn.relu, name=name)
+        output = tf.layers.dropout(output, rate=dropout, training=(dropout > 0.0), name=name + '_dropout')
         return output
 
     image_shape = list(image_shape)
@@ -540,16 +541,22 @@ def convolutional(layers, num_inputs, num_outputs, img_start, image_shape):
     layer = tf.reshape(x_images, [-1] + image_shape)
 
     # Patterns layer
+    layers_num = {
+        'c': ['convolution', 0],
+        'p': ['pooling', 0],
+    }
     for layer_description in patterns_layers:
-        layer = build_layer_functions[layer_description[0]](layer, layer_description, dropout_rate)
+        layer_name, layer_num = layers_num[layer_description[0]]
+        layer = build_layer_functions[layer_description[0]]('{}{}'.format(layer_name, layer_num), layer, layer_description, dropout_rate)
+        layers_num[layer_description[0]] = [layer_name, layer_num + 1]
 
     # Flatten
     layer = tf.reshape(layer, [-1, int(np.prod(layer.shape[1:]))])
     layer = tf.concat([layer, x_values_1, x_values_2], 1)
 
     # Dense Layers
-    for layer_description in dense_layers:
-        layer = build_layer_functions[layer_description[0]](layer, layer_description, dropout_rate)
+    for i, layer_description in enumerate(dense_layers):
+        layer = build_layer_functions[layer_description[0]]('dense{}'.format(i), layer, layer_description, dropout_rate)
 
     output = tf.layers.dense(inputs=layer, units=num_outputs)
 

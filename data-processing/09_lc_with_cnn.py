@@ -9,9 +9,7 @@ import tensorflow as tf
 from utils import load_datasets_for_subject, launch_tensorboard, convolutional
 
 LEARNING_RATE = 0.001
-ACTIVATION_FN = tf.nn.relu
-OUTPUT_FN = None
-LOGS_STEPS = 10
+LOGS_STEPS = 1
 DROPOUT = 0.1
 MINIBATCH_SIZE = 10000
 
@@ -115,8 +113,8 @@ if __name__ == '__main__':
                 writer_trn.add_summary(summary, step)
                 writer_trn.flush()
                 mlp_rms['training'].append(session.run(cost, feed_dict={
-                    x: minibatch_training_data,
-                    y: minibatch_training_target,
+                    x: minibatch_train_data,
+                    y: minibatch_train_target,
                 }))
 
                 summary = session.run(merged_summary, feed_dict={

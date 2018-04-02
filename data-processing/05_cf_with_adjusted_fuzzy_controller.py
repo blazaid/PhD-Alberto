@@ -13,13 +13,14 @@ from sklearn.model_selection import train_test_split
 
 import pynsia.tensorflow.fuzzy as tfz
 
-SUBJECT = 'all'
+SUBJECT = 'edgar'
 DATASETS_PATH = './data'
-LEARNING_RATE = 0.01
-TRAIN_VARS_STEPS = 1000
+RULES_LEARNING_RATE = 1
+VARS_LEARNING_RATE = 0.01
+TRAIN_VARS_STEPS = 100
 TRAIN_RULES_STEPS = 10000
-TRAIN_STEPS = 10
-LOGS_STEPS = 1000
+TRAIN_STEPS = 1000
+LOGS_STEPS = 100
 NUM_FS = [3, 3, 2, 2, 2, 3, 3]
 
 input_cols = [
@@ -94,17 +95,18 @@ if __name__ == '__main__':
 
     # Training graphs
     vars_vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'tfz/var/')
+    vars_optimizer = tf.train.AdamOptimizer(VARS_LEARNING_RATE)
+    vars_train = vars_optimizer.minimize(cost, var_list=vars_vars)
     rules_vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'tfz/rules/')
-    optimizer = tf.train.AdamOptimizer(LEARNING_RATE)
-    vars_train = optimizer.minimize(cost, var_list=vars_vars)
-    rules_train = optimizer.minimize(cost, var_list=rules_vars)
+    rules_optimizer = tf.train.AdamOptimizer(RULES_LEARNING_RATE)
+    rules_train = rules_optimizer.minimize(cost, var_list=rules_vars)
 
     # Tensorboard outputs
     tf.summary.scalar('RMSE', cost)
     for var in vars_vars:
         tf.summary.scalar(var.name, var)
     for var in rules_vars:
-        tf.summary.histogram(var.name + '_sigm', tf.sigmoid(var))
+        tf.summary.histogram(var.name, var)
     merged_summary = tf.summary.merge_all()
     writer_trn = tf.summary.FileWriter(summary_trn_path)
     writer_val = tf.summary.FileWriter(summary_val_path)
