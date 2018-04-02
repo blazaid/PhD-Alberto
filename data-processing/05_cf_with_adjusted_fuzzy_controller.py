@@ -13,13 +13,13 @@ from sklearn.model_selection import train_test_split
 
 import pynsia.tensorflow.fuzzy as tfz
 
-SUBJECT = 'edgar'
+SUBJECT = 'all'
 DATASETS_PATH = './data'
-RULES_LEARNING_RATE = 1
+RULES_LEARNING_RATE = 0.5
 VARS_LEARNING_RATE = 0.01
-TRAIN_VARS_STEPS = 100
+TRAIN_VARS_STEPS = 1000
 TRAIN_RULES_STEPS = 10000
-TRAIN_STEPS = 1000
+TRAIN_STEPS = 10
 LOGS_STEPS = 100
 NUM_FS = [3, 3, 2, 2, 2, 3, 3]
 
