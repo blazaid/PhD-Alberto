@@ -11,10 +11,10 @@ from utils import launch_tensorboard, multilayer_perceptron
 SUBJECT = 'all'
 DATASETS_PATH = './data'
 LEARNING_RATE = 0.01
-TRAIN_STEPS = 10000
-DROPOUT_RATE = 0.0
-LOGS_STEPS = 1
-HIDDEN_UNITS = []  # [], [10], [10, 5], [10, 5, 3], [10, 5, 5, 3]
+TRAIN_STEPS = 50000
+DROPOUT_RATE = 0.2
+LOGS_STEPS = 10
+HIDDEN_UNITS = [1024, 128, 16]  # [], [10], [10, 5], [10, 5, 3], [10, 5, 5, 3]
 ACTIVATION_FUNCTION = tf.nn.tanh
 
 input_cols = [
@@ -51,7 +51,7 @@ if __name__ == '__main__':
     y = tf.placeholder(tf.float32)
 
     # Training graph
-    cost = tf.reduce_mean(tf.squared_difference(y, y_hat))
+    cost = tf.sqrt(tf.losses.mean_squared_error(y, y_hat))
     train = tf.train.AdamOptimizer(LEARNING_RATE).minimize(cost)
 
     tf.summary.scalar('RMSE', cost)
