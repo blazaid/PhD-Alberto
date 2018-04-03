@@ -4,3 +4,7 @@
 Mínimo de resultados, los datasets, porque además en materia de cambio de carril hay poco.
 
 Frase para poner en los resultados a raíz de los que estoy obteniendo. Quizá si hablo un poco más de este caso relleno más y parece más consistente: La configuración de la salida en el caso de los cambios de carril es cuanto menos curiosa. Cuando la salida se realiza de forma que el no-cambio de carril se encuentra en un extremo (e.g. 0, 1, 2 siendo 0 el no cambio y 2 el cambio), el entrenamiento devuelve modelos peores que en el caso en el que el no-cambio de carril se encuentra en el medio (e.g. -1, 0, 1). Me aventuro a predecir que en los casos en los que la salida al problema a modelar son los estados con transiciones entre ellos dentro del problema, mantener la relación de cercanía entre transiciones de estado mejora los resultados del entrenamiento y del modelo aprendido (en nuestro caso, -1, 0, 1 mantiene una distancia de 1 transición, mientras que en el caso 0, 1, 2 hay una distancia que no se corresponde con la distancia en transiciones). Esta predicción es una generalización de la experiencia obtenida en estos experimentos y requiere de más estudio.
+
+Hablar también de las funciones de activación en el mlp del car following. Las relu se comportan como el culo, seguramente por el tema de que sólo se activan cuando los valores son positivos.
+
+Hablar de que da la impresión que el problema del car following sufre de planicies o de mínimos locales, porque a la hora de entrenar, en bastantes casos con una arquitectura los valores se estancaban.
