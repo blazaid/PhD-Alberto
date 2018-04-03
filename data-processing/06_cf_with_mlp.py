@@ -11,12 +11,12 @@ from utils import launch_tensorboard, multilayer_perceptron
 SUBJECT = 'all'
 DATASETS_PATH = './data'
 MAX_LEARN_RATE = 0.01
-MIN_LEARN_RATE = 0.0001
-DECAY_SPEED = 5000
-TRAIN_STEPS = 100000
+MIN_LEARN_RATE = 0.0001 / 2
+DECAY_SPEED = 5000 * 2
+TRAIN_STEPS = 100000 * 2
 DROPOUT_RATE = 0.1
-LOGS_STEPS = 1000
-HIDDEN_UNITS = [16, 16, 8]  # [16], [8, 2], [16, 8], [16, 16, 8]
+LOGS_STEPS = 1000 * 2
+HIDDEN_UNITS = [16]  # [16], [8, 2], [16, 8], [16, 16, 8]
 
 ACTIVATION_FUNCTION = tf.nn.tanh
 

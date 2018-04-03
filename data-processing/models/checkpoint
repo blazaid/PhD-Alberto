@@ -1,2 +1,2 @@
-model_checkpoint_path: "cf-mlp-all-7-16-16-8-1"
-all_model_checkpoint_paths: "cf-mlp-all-7-16-16-8-1"
+model_checkpoint_path: "cf-mlp-all-7-16-1"
+all_model_checkpoint_paths: "cf-mlp-all-7-16-1"
