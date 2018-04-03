@@ -22,38 +22,33 @@ Ambos modelos se entrenaran ajustando sus parámetros con un procedimiento basad
 
 \paragraph{Modelo \ac{fcs}}
 
-Se han tomado las siguientes decisiones de diseño para facilitar el desarrorrollo del controlador. Aún así, éstas son fácilmente modificables:
+Se han realizado entrenamientos sobre arquitecturas con diferente número de particiones difusas en las variables. Se han tomado las siguientes decisiones de diseño para facilitar el desarrorrollo del controlador.:
 
 \begin{itemize}
 	\item Las funciones de pertenencia serán, o bien una línea descendente en el caso del primer conjunto difuso de una partición, una línea ascendente en el caso del último o trapecios en el caso del resto.
 	\item Las $t$-norma y $t$-conorma serán el máximo y el mínimo respectivamente. La $t$-norma se usará como operador asociado al AND lógico y a la implicación, mientras que la $t$-conorma se usará como operador asociado al OR lógico y a la acumulación.
-	\item El controlador será de tipo Sugeno, representando las funciones de salida como conjuntos difusos de tipo singletón y con función de defuzzificación CoGS\sidenote{
-		$CoGS = \sum_{i=1}^n w_i \cdot o_i$
-	}.
+	\item El controlador será de tipo Sugeno, representando las funciones de salida como conjuntos difusos de tipo singletón y con función de defuzzificación CoGS ($CoGS = \sum_{i=1}^n w_i \cdot o_i$).
 	\item El tamaño de las particiones difusas será dado de antemano.
 	\item El controlador tendrá una única variable de salida.
 \end{itemize}
 
-\begin{table}[t]
-	\caption[Descripción de los conjuntos de datos]{Descripción de los conjuntos de datos para el entrenamiento de los modelos.}
-	\label{tbl:adjusted-fcs}
-	\begin{tabular}{lllll}
-		\toprule
-		Nombre & Entradas & Salidas & Tamaño (training) & Tamaño (test) \\
-		\midrule
-		$LT_{S_1}$ & \yep & \yep & \yep & \\
-		$LT_{S_2}$ & \nop & \yep & \yep & \\
-		$LT_{S_3}$ & \nop & \yep & \yep & \\
-		$LT_{S_A}$ & \nop & \yep & \yep & \\
-		$CT_{S_1}$ & \nop & \yep & \yep & \\
-		$CT_{S_2}$ & \yep & \nop & \yep & \\
-		$CT_{S_3}$ & \yep & \yep & \yep & \\
-		$CT_{S_A}$ & \yep & \yep & \yep & \\
-		\bottomrule
+Las arquitecturas que se han considerado más relevantes (tras un proceso de ensayo y error con diferente número de particiones difusas) se describen en la tabla~\ref{tbl:cf-mlp-architectures}. 
+
+\begin{table}
+	\caption[Resumen de las arquitecturas \ac{fcs} para el modelo longitudinal]{Resumen de las arquitecturas de \ac{fcs} para el modelo longitudinal. La posición de cada número de la topología indica a qué variable lingüísticav se refiere (\textit{Distancia al líder}, Distancia a siguiente semáforo, Semáforo en verde, Semáforo en amarillo, Semáforo en rojo, Velocidad y velocidad de aproximación al líder respectivamente), siendo su valor el número de conjuntos difusos que configuran la partición difusa de la variable. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
+	\label{tbl:cf-fcs-architectures}
+	\begin{tabular}{cccccc}
+		\hline
+		\multirow{2}{*}{Nombre} & \multirow{2}{*}{Arquitectura} & \multirow{2}{*}{Epochs} & \multicolumn{3}{c}{RMS}      \\ 
+		&                            &                                          & Training & Validation & Test \\ \hline
+		$FCS_1$ & $X, X, X$                 & $10^5$                  & $0.XXXXX$      & $0.XXXXX$        & $0.XXXXX$  \\
+		$FCS_2$ & $X, X, X$               & $10^5$                  & $0.XXXXX$      & $0.XXXXX$        & $0.XXXXX$  \\
+		$FCS_3$ & $X, X, X$              & $10^5$                  & $0.XXXXX$      & $0.XXXXX$        & $0.XXXXX$  \\
+		$FCS_4$ & $X, X, X$          & $10^5$                  & $0.XXXXX$      & $0.XXXXX$        & $0.XXXXX$  \\ \hline
 	\end{tabular}
 \end{table}
 
-Cada uno de los controladores se ha entrenado durante XXX epochs. En la Figura~\ref{fig:adjusted-fcs} se puede observar la evolución en general y un detalle de la disminución del error en test de los controladores.
+Cada uno de los controladores se ha entrenado durante $250.000$ epochs. En la Figura~\ref{fig:adjusted-fcs} se puede observar la evolución en general y un detalle de la disminución del error en test de los controladores.
 
 \begin{figure}
 	\centering
@@ -63,9 +58,19 @@ Cada uno de los controladores se ha entrenado durante XXX epochs. En la Figura~\
 	\label{fig:adjusted-fcs}
 \end{figure}
 
-\TODO{Describir epochs, tiempos de entrenamiento y de inferencia}
+Tras el entrenamiento
 
-\TODO{Separar los entrenamientos para todos los conductores y para los conductores en concreto. En estos últimos, si la red es muy grande, entrenar los modelos tanto desde 0 como desde una red preentrenada.}
+\marginnote{
+	\includegraphics{fcs-best-architecture-leader-distance-variable-partition}
+	%\includegraphics{fcs-best-architecture-next-tls-distance-variable-partition}
+	%\includegraphics{fcs-best-architecture-next-tls-green-variable-partition}
+	%\includegraphics{fcs-best-architecture-next-tls-yellow-variable-partition}
+	%\includegraphics{fcs-best-architecture-next-tls-red-variable-partition}
+	%\includegraphics{fcs-best-architecture-speed-variable-partition}
+	%\includegraphics{fcs-best-architecture-speed-to-leader-variable-partition}
+}
+
+\TODO{Describir epochs, tiempos de entrenamiento y de inferencia}
 
 \paragraph{Modelo \ac{mlp}}
 
@@ -76,7 +81,7 @@ Para determinar el modelo óptimo de \ac{mlp} en comportamiento longitudinal, se
 	\label{tbl:cf-mlp-architectures}
 	\begin{tabular}{ccccccc}
 		\hline
-		\multirow{2}{*}{Nombre} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multirow{2}{*}{Dropout} & \multicolumn{3}{c}{RMS}      \\ \cline{5-7} 
+		\multirow{2}{*}{Nombre} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multirow{2}{*}{Dropout} & \multicolumn{3}{c}{RMS}      \\
 		&                            &                         &                          & Training & Validation & Test \\ \hline
 		$MLP_1$ & $7, 16, 1$                 & $10^5$                  & $0.1$                    & $0.052741$      & $0.057301$        & $0.059253$  \\
 		$MLP_2$ & $7, 8, 4, 1$               & $10^5$                  & $0.1$                    & $0.056341$      & $0.061951$        & $0.056607$  \\
@@ -121,4 +126,16 @@ A la vista de los resultados, y dado que las arquitecturas se ajustan razonablem
 
 \paragraph{Comparación entre modelos}
 
-\TODO{Sacar las gráficas para comparar sus RMS, decir cuál es el mejor e indicar que se usará ese.}
+Las mejores arquitecturas de ambos modelos han sido la $MLP_2$ para los \acp{mlp} y $FCS_x$ para los \acp{fcs}. Los errores y el perfil de aceleración para ambos modelos se muestran en la figura~\ref{fig:comparison-between-best-mlp-and-fcs-architecture}.
+
+\begin{figure}
+	\centering
+	\subfloat[]{\includegraphics[width=.46\textwidth]{comparison-between-best-mlp-and-fcs-architecture-rms}}\qquad
+	\subfloat[]{\includegraphics[width=.46\textwidth]{comparison-between-best-mlp-and-fcs-architecture-acceleration-profile}}
+	\caption[Comparación entre los dos tipos de modelo longitudinal]{Comparación de la mejor arquitectura \ac{mlp} frente a la mejor arquitectura \ac{fcs}: (a) diferencia entre los errores cuadráticos medios de ambas arquitecturas y (b) perfiles de aceleración en el conjunto de test.}
+	\label{fig:comparison-between-best-mlp-and-fcs-architecture}
+\end{figure}
+
+Aunque el modelo basado en \ac{fcs} arroja un error bajo en test y parece que tiende a ajustarse al perfil de aceleración, parece que el problema es suficientemente complejo como para no poder representarse como un simple controlador difuso.
+
+Además, el error arrojado por el \ac{mlp} es sustancialmente menor y, por tanto, la arquitectura elegida para el modelo longitudinal será el \ac{mlp} $MLP_2$.

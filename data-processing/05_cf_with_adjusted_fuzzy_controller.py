@@ -6,22 +6,22 @@ from multiprocessing import Process
 import collections
 import numpy as np
 import pandas as pd
-import tensorboard.default
-import tensorboard.program
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 
 import pynsia.tensorflow.fuzzy as tfz
+from utils import launch_tensorboard
 
 SUBJECT = 'all'
 DATASETS_PATH = './data'
-RULES_LEARNING_RATE = 0.01
-VARS_LEARNING_RATE = 0.01
-TRAIN_VARS_STEPS = 10
-TRAIN_RULES_STEPS = 90
-TRAIN_STEPS = 250
-LOGS_STEPS = 5
-NUM_FS = [3, 3, 2, 2, 2, 3, 3]
+RULES_LEARNING_RATE = 0.1
+VARS_LEARNING_RATE = 0.001
+TRAIN_VARS_STEPS = 200
+TRAIN_RULES_STEPS = 800
+TRAIN_STEPS = 500
+LOGS_STEPS = 5000
+# NUM_FS = [3, 3, 2, 2, 2, 3, 3]
+NUM_FS = [5, 5, 2, 2, 2, 5, 5]
 
 input_cols = [
     'Leader distance', 'Next TLS distance', 'Next TLS green', 'Next TLS yellow',
@@ -42,13 +42,6 @@ if os.path.exists(summary_val_path):
 summary_tst_path = 'tensorboard/{}/{}/test'.format(SUBJECT, num_fs_string)
 if os.path.exists(summary_tst_path):
     shutil.rmtree(summary_tst_path)
-
-
-def launch_tensorboard(tb_trn_path, tb_val_path, tb_tst_path):
-    tensorboard.program.FLAGS.logdir = 'training:{},validation:{},test:{}'.format(tb_trn_path, tb_val_path, tb_tst_path)
-    tensorboard.program.main(tensorboard.default.get_plugins(), tensorboard.default.get_assets_zip_provider())
-
-    print('Tensorboard started on http://localhost:6006/'.format())
 
 
 def extract_fuzzy_controller_data(session, fc_data, input_vars):
@@ -129,11 +122,11 @@ if __name__ == '__main__':
             'validation': [],
             'test': [],
         }
+        train_partition, validation_partition = train_test_split(train_df, test_size=0.1, random_state=0)
         step = 0
         for main_step in range(TRAIN_STEPS):
             print('Main step: {}'.format(main_step))
             # Create a partition of the training dataset
-            train_partition, validation_partition = train_test_split(train_df, test_size=0.2)
 
             for nm, train, steps in (('rules', rules_train, TRAIN_RULES_STEPS), ('vars', vars_train, TRAIN_VARS_STEPS)):
                 print('Training {}: {} steps'.format(nm, steps))
