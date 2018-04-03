@@ -15,12 +15,12 @@ import pynsia.tensorflow.fuzzy as tfz
 
 SUBJECT = 'all'
 DATASETS_PATH = './data'
-RULES_LEARNING_RATE = 0.5
+RULES_LEARNING_RATE = 0.01
 VARS_LEARNING_RATE = 0.01
-TRAIN_VARS_STEPS = 1000
-TRAIN_RULES_STEPS = 10000
-TRAIN_STEPS = 10
-LOGS_STEPS = 100
+TRAIN_VARS_STEPS = 10
+TRAIN_RULES_STEPS = 90
+TRAIN_STEPS = 250
+LOGS_STEPS = 5
 NUM_FS = [3, 3, 2, 2, 2, 3, 3]
 
 input_cols = [
@@ -82,7 +82,7 @@ if __name__ == '__main__':
             tfz.IVar(name=input_var_names[3], fuzzy_sets=NUM_FS[3], domain=(0., 1.)),
             tfz.IVar(name=input_var_names[4], fuzzy_sets=NUM_FS[4], domain=(0., 1.)),
             tfz.IVar(name=input_var_names[5], fuzzy_sets=NUM_FS[5], domain=(0., 20.)),
-            tfz.IVar(name=input_var_names[6], fuzzy_sets=NUM_FS[6], domain=(-20., 20.)),
+            tfz.IVar(name=input_var_names[6], fuzzy_sets=NUM_FS[6], domain=(-40., 40.)),
         ],
         o_var=tfz.OVar(name=output_var_name, values=(-1, 1))
     )
@@ -91,7 +91,7 @@ if __name__ == '__main__':
     y = tf.placeholder(tf.float32)
 
     # Cost
-    cost = tf.reduce_mean(tf.squared_difference(y, y_hat))
+    cost = tf.sqrt(tf.losses.mean_squared_error(y, y_hat))
 
     # Training graphs
     vars_vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'tfz/var/')
@@ -124,6 +124,11 @@ if __name__ == '__main__':
         session.run(tf.global_variables_initializer())
         writer_trn.add_graph(session.graph)
 
+        fcs_rms = {
+            'training': [],
+            'validation': [],
+            'test': [],
+        }
         step = 0
         for main_step in range(TRAIN_STEPS):
             print('Main step: {}'.format(main_step))
@@ -144,18 +149,30 @@ if __name__ == '__main__':
                         })
                         writer_trn.add_summary(summary, step)
                         writer_trn.flush()
+                        fcs_rms['training'].append(session.run(cost, feed_dict={
+                            x: train_partition[input_cols].values,
+                            y: train_partition[[output_col]].values
+                        }))
                         summary = session.run(merged_summary, feed_dict={
                             x: validation_partition[input_cols].values,
                             y: validation_partition[[output_col]].values
                         })
                         writer_val.add_summary(summary, step)
                         writer_val.flush()
+                        fcs_rms['validation'].append(session.run(cost, feed_dict={
+                            x: validation_partition[input_cols].values,
+                            y: validation_partition[[output_col]].values
+                        }))
                         summary = session.run(merged_summary, feed_dict={
                             x: test_df[input_cols].values,
                             y: test_df[[output_col]].values
                         })
                         writer_tst.add_summary(summary, step)
                         writer_tst.flush()
+                        fcs_rms['test'].append(session.run(cost, feed_dict={
+                            x: test_df[input_cols].values,
+                            y: test_df[[output_col]].values
+                        }))
 
                     # Train with the training partition
                     session.run(train, feed_dict={
@@ -173,6 +190,7 @@ if __name__ == '__main__':
             }).flatten(),
         }).to_csv('outputs/cf-fcs-outputs-{}-{}.csv'.format(SUBJECT, num_fs_string), index=None)
         pd.DataFrame(fc_data).to_csv('outputs/cf-fcs-description-{}-{}.csv'.format(SUBJECT, num_fs_string), index=None)
+        pd.DataFrame(fcs_rms).to_csv('outputs/cf-fcs-rms-{}-{}.csv'.format(SUBJECT, num_fs_string), index=None)
         print('Finished training')
         print('Saving model ...')
         saver = tf.train.Saver()
