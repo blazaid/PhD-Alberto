@@ -11,19 +11,23 @@ from utils import load_datasets_for_subject, convolutional, extract_minibatch_da
 
 MAX_LEARN_RATE = 0.1
 MIN_LEARN_RATE = 0.001
-DECAY_SPEED = 2000.0
-LOGS_STEPS = 1
+DECAY_SPEED = 20000
+ACTIVATION_FN = tf.nn.relu
+OUTPUT_FN = None
 DROPOUT = 0.1
-MINIBATCH_SIZE = 100
+EPOCHS = 1000000
+LOGS_STEPS = EPOCHS / 100
+MINIBATCH_SIZE = 25000
+
 
 if __name__ == '__main__':
     args = type('test', (object,), {})()
     args.subject = 'all'
     args.path = './data'
-    args.steps = 100
-    # args.layers = ['c16-4-18-v', 'd128']
+    args.steps = EPOCHS
+    args.layers = ['c16-4-18-v', 'd128']
     # args.layers = ['c16-4-18-v', 'c32-3-18-v', 'd128']
-    args.layers = ['c16-3-18-v', 'c32-3-18-v', 'c64-2-18-v', 'd128']
+    # args.layers = ['c16-3-18-v', 'c32-3-18-v', 'c64-2-18-v', 'd128']
     #parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
     #parser.add_argument('subject', type=str)
     #parser.add_argument('path', type=str)
