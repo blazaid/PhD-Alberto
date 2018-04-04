@@ -35,9 +35,9 @@ if __name__ == '__main__':
     print('Architecture: {}'.format(architecture_str))
 
     # Create the tensorboard directories associated to this training configuration
-    summary_trn_path = 'tensorboard/{}/{}/training'.format(SUBJECT, architecture_str)
-    summary_val_path = 'tensorboard/{}/{}/validation'.format(SUBJECT, architecture_str)
-    summary_tst_path = 'tensorboard/{}/{}/test'.format(SUBJECT, architecture_str)
+    summary_trn_path = 'tensorboard/{}/cf-mlp-{}/training'.format(SUBJECT, architecture_str)
+    summary_val_path = 'tensorboard/{}/cf-mlp-{}/validation'.format(SUBJECT, architecture_str)
+    summary_tst_path = 'tensorboard/{}/cf-mlp-{}/test'.format(SUBJECT, architecture_str)
     if os.path.exists(summary_trn_path):
         shutil.rmtree(summary_trn_path)
     if os.path.exists(summary_val_path):

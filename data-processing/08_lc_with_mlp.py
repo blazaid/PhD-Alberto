@@ -6,24 +6,32 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 
-from utils import load_datasets_for_subject, multilayer_perceptron, launch_tensorboard
+from utils import load_datasets_for_subject, multilayer_perceptron, launch_tensorboard, extract_minibatch_data
 
-LEARNING_RATE = 0.001
+MAX_LEARN_RATE = 0.1
+MIN_LEARN_RATE = 0.001
+DECAY_SPEED = 2000.0
 ACTIVATION_FN = tf.nn.relu
 OUTPUT_FN = None
-LOGS_STEPS = 10
+LOGS_STEPS = 1
 DROPOUT = 0.1
-MINIBATCH_SIZE = 10000
+MINIBATCH_SIZE = 100
+
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
-    parser.add_argument('subject', type=str)
-    parser.add_argument('path', type=str)
-    parser.add_argument('steps', type=int)
-    parser.add_argument('layers', type=int, nargs='*')
-    args = parser.parse_args()
-
+    args = type('test', (object,), {})()
+    args.subject = 'all'
+    args.path = './data'
+    args.steps = 100
+    args.layers = [128]  # [128], [64, 64], [128, 64, 16]
+    #parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
+    #parser.add_argument('subject', type=str)
+    #parser.add_argument('path', type=str)
+    #parser.add_argument('steps', type=int)
+    #parser.add_argument('layers', type=int, nargs='*')
+    #args = parser.parse_args()
     # Load datasets
+
     datasets = load_datasets_for_subject(args.path, args.subject)
     num_inputs = len(datasets.train.data_columns)
     num_outputs = len(datasets.train.target_columns)
@@ -33,9 +41,9 @@ if __name__ == '__main__':
     architecture_str = '-'.join(str(x) for x in architecture)
 
     # Create the tensorboard directories associated to this training configuration
-    summary_trn_path = 'tensorboard/{}/{}/training'.format(args.subject, architecture_str)
-    summary_val_path = 'tensorboard/{}/{}/validation'.format(args.subject, architecture_str)
-    summary_tst_path = 'tensorboard/{}/{}/test'.format(args.subject, architecture_str)
+    summary_trn_path = 'tensorboard/{}/lc-mlp-{}/training'.format(args.subject, architecture_str)
+    summary_val_path = 'tensorboard/{}/lc-mlp-{}/validation'.format(args.subject, architecture_str)
+    summary_tst_path = 'tensorboard/{}/lc-mlp-{}/test'.format(args.subject, architecture_str)
     if os.path.exists(summary_trn_path):
         shutil.rmtree(summary_trn_path)
     if os.path.exists(summary_val_path):
@@ -60,8 +68,9 @@ if __name__ == '__main__':
     y = tf.placeholder(tf.int32)
 
     # Training graph
+    learning_rate = tf.placeholder_with_default(0.0, shape=())
     cost = tf.losses.softmax_cross_entropy(onehot_labels=y, logits=y_hat)
-    train = tf.train.AdamOptimizer(LEARNING_RATE).minimize(cost)
+    train = tf.train.AdamOptimizer(learning_rate).minimize(cost)
 
     tf.summary.scalar('loss', cost)
     equal_values = tf.equal(
@@ -87,60 +96,64 @@ if __name__ == '__main__':
             'test': [],
         }
         for step in range(args.steps):
-            # Extract the training minibatch
-            values_per_class = MINIBATCH_SIZE // num_outputs
-            minibatch_train_data = []
-            minibatch_train_target = []
-            for col in range(datasets.train.target.shape[1]):
-                available_idx = np.where(datasets.train.target[:, col] == 1)[0]
-                if len(available_idx) > 0:
-                    idx = np.random.choice(available_idx, size=values_per_class)
-                    minibatch_train_data.append(datasets.train.data[idx, :])
-                    minibatch_train_target.append(datasets.train.target[idx, :])
-            minibatch_train_data = np.concatenate(minibatch_train_data, axis=0)
-            minibatch_train_target = np.concatenate(minibatch_train_target, axis=0)
+            # Extract the minibatches
+            train_data, train_target = extract_minibatch_data(datasets.train, MINIBATCH_SIZE, num_outputs)
+            validation_data, validation_target = extract_minibatch_data(datasets.validation, MINIBATCH_SIZE,
+                                                                        num_outputs)
+            test_data, test_target = extract_minibatch_data(datasets.validation, MINIBATCH_SIZE, num_outputs)
+
+            # Compute the decaying learning rate
+            lr = MIN_LEARN_RATE + (MAX_LEARN_RATE - MIN_LEARN_RATE) * np.math.exp(-step / DECAY_SPEED)
 
             # When logging, evaluate also with the validation partition and the test
             if step % LOGS_STEPS == 0:
-                print('.', end='', flush=True)
+                print('l', end='', flush=True)
                 summary = session.run(merged_summary, feed_dict={
-                    x: minibatch_train_data,
-                    y: minibatch_train_target,
+                    x: train_data,
+                    y: train_target,
+                    learning_rate: lr,
                 })
                 writer_trn.add_summary(summary, step)
                 writer_trn.flush()
                 mlp_rms['training'].append(session.run(cost, feed_dict={
-                    x: datasets.train.data,
-                    y: datasets.train.target,
+                    x: train_data,
+                    y: train_target,
+                    learning_rate: lr,
                 }))
 
                 summary = session.run(merged_summary, feed_dict={
-                    x: datasets.validation.data,
-                    y: datasets.validation.target,
+                    x: validation_data,
+                    y: validation_target,
+                    learning_rate: lr,
                 })
                 writer_val.add_summary(summary, step)
                 writer_val.flush()
                 mlp_rms['validation'].append(session.run(cost, feed_dict={
-                    x: datasets.validation.data,
-                    y: datasets.validation.target,
+                    x: validation_data,
+                    y: validation_target,
+                    learning_rate: lr,
                 }))
 
                 summary = session.run(merged_summary, feed_dict={
-                    x: datasets.test.data,
-                    y: datasets.test.target,
+                    x: test_data,
+                    y: test_target,
+                    learning_rate: lr,
                 })
                 writer_tst.add_summary(summary, step)
                 writer_tst.flush()
                 mlp_rms['test'].append(session.run(cost, feed_dict={
-                    x: datasets.test.data,
-                    y: datasets.test.target,
+                    x: test_data,
+                    y: test_target,
+                    learning_rate: lr,
                 }))
 
+            print('t', end='', flush=True)
             # Train with the training partition
             session.run(train, feed_dict={
-                x: minibatch_train_data,
-                y: minibatch_train_target,
-                dropout: DROPOUT
+                x: train_data,
+                y: train_target,
+                dropout: DROPOUT,
+                learning_rate: lr,
             })
         print()
 
@@ -148,8 +161,8 @@ if __name__ == '__main__':
         pd.DataFrame({
             'expected': datasets.test.target.flatten(),
             'real': session.run(y_hat, feed_dict={
-                x: datasets.test.data,
-                y: datasets.test.target,
+                x: test_data,
+                y: test_target,
             }).flatten(),
         }).to_csv('outputs/lc-mlp-outputs-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT), index=None)
         pd.DataFrame(mlp_rms).to_csv('outputs/lc-mlp-rms-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT),

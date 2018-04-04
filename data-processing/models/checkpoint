@@ -1,2 +1,2 @@
-model_checkpoint_path: "cf-fcs-all-5-5-2-2-2-5-5"
-all_model_checkpoint_paths: "cf-fcs-all-5-5-2-2-2-5-5"
+model_checkpoint_path: "lc-mlp-all-8653-128-3-d0.1"
+all_model_checkpoint_paths: "lc-mlp-all-8653-128-3-d0.1"

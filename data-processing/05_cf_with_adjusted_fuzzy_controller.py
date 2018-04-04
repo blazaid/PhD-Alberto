@@ -33,13 +33,13 @@ train_file = os.path.join(DATASETS_PATH, 'cf-{}-training.csv'.format(SUBJECT))
 test_file = os.path.join(DATASETS_PATH, 'cf-{}-validation.csv'.format(SUBJECT))
 
 num_fs_string = '-'.join(str(x) for x in NUM_FS)
-summary_trn_path = 'tensorboard/{}/{}/training'.format(SUBJECT, num_fs_string)
+summary_trn_path = 'tensorboard/{}/cf-fcs-{}/training'.format(SUBJECT, num_fs_string)
 if os.path.exists(summary_trn_path):
     shutil.rmtree(summary_trn_path)
-summary_val_path = 'tensorboard/{}/{}/validation'.format(SUBJECT, num_fs_string)
+summary_val_path = 'tensorboard/{}/cf-fcs-{}/validation'.format(SUBJECT, num_fs_string)
 if os.path.exists(summary_val_path):
     shutil.rmtree(summary_val_path)
-summary_tst_path = 'tensorboard/{}/{}/test'.format(SUBJECT, num_fs_string)
+summary_tst_path = 'tensorboard/{}/cf-fcs-{}/test'.format(SUBJECT, num_fs_string)
 if os.path.exists(summary_tst_path):
     shutil.rmtree(summary_tst_path)
 

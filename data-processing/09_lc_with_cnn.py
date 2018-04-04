@@ -33,9 +33,9 @@ if __name__ == '__main__':
     architecture_str = '-'.join(args.layers)
 
     # Create the tensorboard directories associated to this training configuration
-    summary_trn_path = 'tensorboard/{}/{}/training'.format(args.subject, architecture_str)
-    summary_val_path = 'tensorboard/{}/{}/validation'.format(args.subject, architecture_str)
-    summary_tst_path = 'tensorboard/{}/{}/test'.format(args.subject, architecture_str)
+    summary_trn_path = 'tensorboard/{}/lc-cnn-{}/training'.format(args.subject, architecture_str)
+    summary_val_path = 'tensorboard/{}/lc-cnn-{}/validation'.format(args.subject, architecture_str)
+    summary_tst_path = 'tensorboard/{}/lc-cnn-{}/test'.format(args.subject, architecture_str)
     if os.path.exists(summary_trn_path):
         shutil.rmtree(summary_trn_path)
     if os.path.exists(summary_val_path):
@@ -105,7 +105,7 @@ if __name__ == '__main__':
         session.run(tf.global_variables_initializer())
         writer_trn.add_graph(session.graph)
 
-        mlp_rms = {
+        cnn_rms = {
             'training': [],
             'validation': [],
             'test': [],
@@ -130,7 +130,7 @@ if __name__ == '__main__':
                 })
                 writer_trn.add_summary(summary, step)
                 writer_trn.flush()
-                mlp_rms['training'].append(session.run(cost, feed_dict={
+                cnn_rms['training'].append(session.run(cost, feed_dict={
                     x: train_data,
                     y: train_target,
                     learning_rate: lr,
@@ -143,7 +143,7 @@ if __name__ == '__main__':
                 })
                 writer_val.add_summary(summary, step)
                 writer_val.flush()
-                mlp_rms['validation'].append(session.run(cost, feed_dict={
+                cnn_rms['validation'].append(session.run(cost, feed_dict={
                     x: validation_data,
                     y: validation_target,
                     learning_rate: lr,
@@ -156,7 +156,7 @@ if __name__ == '__main__':
                 })
                 writer_tst.add_summary(summary, step)
                 writer_tst.flush()
-                mlp_rms['test'].append(session.run(cost, feed_dict={
+                cnn_rms['test'].append(session.run(cost, feed_dict={
                     x: test_data,
                     y: test_target,
                     learning_rate: lr,
@@ -180,7 +180,7 @@ if __name__ == '__main__':
                 y: test_target,
             }).flatten(),
         }).to_csv('outputs/lc-cnn-outputs-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT), index=None)
-        pd.DataFrame(mlp_rms).to_csv('outputs/lc-cnn-rms-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT),
+        pd.DataFrame(cnn_rms).to_csv('outputs/lc-cnn-rms-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT),
                                      index=None)
         print('Finished training')
         print('Saving model ...')
