@@ -10,20 +10,21 @@ from utils import load_datasets_for_subject, multilayer_perceptron, launch_tenso
 
 MAX_LEARN_RATE = 0.1
 MIN_LEARN_RATE = 0.001
-DECAY_SPEED = 2000.0
+DECAY_SPEED = 20000
 ACTIVATION_FN = tf.nn.relu
 OUTPUT_FN = None
-LOGS_STEPS = 1
 DROPOUT = 0.1
-MINIBATCH_SIZE = 100
+EPOCHS = 1000000
+LOGS_STEPS = EPOCHS / 100
+MINIBATCH_SIZE = 25000
 
 
 if __name__ == '__main__':
     args = type('test', (object,), {})()
     args.subject = 'all'
     args.path = './data'
-    args.steps = 100
-    args.layers = [128, 64, 32, 16]  # [128], [64, 64], [128, 64, 16]
+    args.steps = EPOCHS
+    args.layers = [128]  # [128], [64, 64], [128, 64, 16]
     #parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
     #parser.add_argument('subject', type=str)
     #parser.add_argument('path', type=str)
