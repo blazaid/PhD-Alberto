@@ -142,3 +142,4 @@ Session.vim
 tensorboard
 .idea
 /data-processing/output
+/data-processing/models
