@@ -23,7 +23,7 @@ if __name__ == '__main__':
     args.subject = 'all'
     args.path = './data'
     args.steps = 100
-    args.layers = [128]  # [128], [64, 64], [128, 64, 16]
+    args.layers = [128, 64, 32, 16]  # [128], [64, 64], [128, 64, 16]
     #parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
     #parser.add_argument('subject', type=str)
     #parser.add_argument('path', type=str)
@@ -79,6 +79,7 @@ if __name__ == '__main__':
     )
     accuracy = tf.reduce_mean(tf.cast(equal_values, tf.float32))
     tf.summary.scalar('accuracy', accuracy)
+    tf.summary.scalar('learning_rate', learning_rate)
     merged_summary = tf.summary.merge_all()
 
     writer_trn = tf.summary.FileWriter(summary_trn_path)
@@ -158,8 +159,9 @@ if __name__ == '__main__':
         print()
 
         # Write results to a file so we can later make graphs
+        print(test_data.shape, test_target.shape, y_hat.shape)
         pd.DataFrame({
-            'expected': datasets.test.target.flatten(),
+            'expected': test_target.flatten(),
             'real': session.run(y_hat, feed_dict={
                 x: test_data,
                 y: test_target,

@@ -5,6 +5,7 @@ import shutil
 import numpy as np
 import pandas as pd
 import tensorflow as tf
+from tensorflow.contrib import layers
 
 from utils import load_datasets_for_subject, convolutional, extract_minibatch_data, launch_tensorboard
 
@@ -13,15 +14,22 @@ MIN_LEARN_RATE = 0.001
 DECAY_SPEED = 2000.0
 LOGS_STEPS = 1
 DROPOUT = 0.1
-MINIBATCH_SIZE = 10000
+MINIBATCH_SIZE = 100
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
-    parser.add_argument('subject', type=str)
-    parser.add_argument('path', type=str)
-    parser.add_argument('steps', type=int)
-    parser.add_argument('layers', nargs='*')
-    args = parser.parse_args()
+    args = type('test', (object,), {})()
+    args.subject = 'all'
+    args.path = './data'
+    args.steps = 100
+    # args.layers = ['c16-4-18-v', 'd128']
+    # args.layers = ['c16-4-18-v', 'c32-3-18-v', 'd128']
+    args.layers = ['c16-3-18-v', 'c32-3-18-v', 'c64-2-18-v', 'd128']
+    #parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
+    #parser.add_argument('subject', type=str)
+    #parser.add_argument('path', type=str)
+    #parser.add_argument('steps', type=int)
+    #parser.add_argument('layers', nargs='*')
+    #args = parser.parse_args()
 
     # Load datasets
     datasets = load_datasets_for_subject(args.path, args.subject)
@@ -58,7 +66,7 @@ if __name__ == '__main__':
         if images_start is None and val.startswith('Dm'):
             images_start = i
             break
-    x, y_hat, dropout = convolutional(args.layers, num_inputs, num_outputs, images_start, (360, 8, 3))
+    x, y_hat, dropout = convolutional(args.layers, num_inputs, num_outputs, images_start, (8, 360, 3))
     tf.add_to_collection('output', y_hat)
 
     # Expected output
@@ -84,15 +92,21 @@ if __name__ == '__main__':
             tf.summary.histogram(var_type, var, family=var_name)
         elif 'kernel' == var_type:
             for filter_num in range(var.shape[3]):
+                channels = var.shape[2]
+                # Grayscale or color
                 filter = tf.transpose(var, [3, 0, 1, 2])[filter_num:filter_num+1, :, :, :]
-                # Sum along all the channels
-                filter = tf.reduce_sum(filter, 3, keepdims=True)
-                # Normalize being the highest weight the lowest (i.e. darkest) value
-                filter = 1 - filter / tf.reduce_max(filter)
-                # Display as image
+                if channels not in (1, 3):
+                    # Whatever it is
+                    filter = tf.transpose(var, [3, 0, 1, 2])[filter_num:filter_num+1, :, :, :]
+                    # Sum along all the channels
+                    filter = tf.reduce_sum(filter, 3, keepdims=True)
+                    # Normalize being the highest weight the lowest (i.e. darkest) value
+                    filter = 1 - filter / tf.reduce_max(filter)
+                    # Display as image
                 tf.summary.image('{}_filter_{}'.format(var_name, filter_num), filter, family=var_name)
-
-    # for var in tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'convolution'):
+    for var in tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, 'dense'):
+        var_name, var_type = var.name.replace(':0', '').split('/')
+        tf.summary.histogram('{}_{}'.format(var_name, var_type), var, family=var_name)
 
     merged_summary = tf.summary.merge_all()
 
@@ -174,7 +188,7 @@ if __name__ == '__main__':
 
         # Write results to a file so we can later make graphs
         pd.DataFrame({
-            'expected': datasets.test.target.flatten(),
+            'expected': test_target.flatten(),
             'real': session.run(y_hat, feed_dict={
                 x: test_data,
                 y: test_target,

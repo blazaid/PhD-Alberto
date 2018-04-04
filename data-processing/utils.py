@@ -472,12 +472,12 @@ LC_TARGET_COLS = ['Lane change left', 'Lane change none', 'Lane change right']
 def load_datasets_for_subject(datasets_path, subject):
     path = os.path.join(datasets_path, 'lc-{}-{}.csv')
     # Load the training set and split it into training and validation sets
-    train_df = pd.read_csv(path.format(subject, 'training'), dtype=np.float32, index_col=None)
+    train_df = pd.read_csv(path.format(subject, 'training'), dtype=np.float32, index_col=None, nrows=1000)
     rows = random.sample(list(train_df.index), int(len(train_df.index) / 10))
     validation_df = train_df.iloc[rows]
     train_df = train_df.drop(rows)
     # Load the test set
-    test_df = pd.read_csv(path.format(subject, 'validation'), dtype=np.float32, index_col=None)
+    test_df = pd.read_csv(path.format(subject, 'validation'), dtype=np.float32, index_col=None, nrows=1000)
 
     datasets = {}
     for dataset, df in (('train', train_df), ('validation', validation_df), ('test', test_df)):
@@ -499,13 +499,14 @@ def load_datasets_for_subject(datasets_path, subject):
 
 def convolutional(layers, num_inputs, num_outputs, img_start, image_shape):
     def build_convolution_layer(name, inputs, desc, dropout):
-        filters, rows, cols = desc[1:].split('-')
-        filters, rows, cols = int(filters), int(rows), int(cols)
+        padding_mapping = {'s': 'same', 'v': 'valid'}
+        filters, rows, cols, padding = desc[1:].split('-')
+        filters, rows, cols, padding = int(filters), int(rows), int(cols), padding_mapping[padding]
         return tf.layers.conv2d(
             inputs=inputs,
             filters=filters,
             kernel_size=[rows, cols],
-            padding="same",
+            padding=padding,
             activation=tf.nn.relu,
             name=name
         )
