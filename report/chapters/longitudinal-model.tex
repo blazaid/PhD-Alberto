@@ -20,14 +20,18 @@ Por la naturaleza del problema se han seleccionado dos técnicas diferentes para
 
 Ambos modelos se entrenaran ajustando sus parámetros con un procedimiento basado en el descenso del gradiente denominado ADAM~\cite{kingma2014adam}. Su aplicación a los \ac{mlp} es directa, pero para \acp{fcs} es necesaria una representación que permita el uso de este método para su optimización. Esta representación es una de las aportaciones de esta tesis y se se explica en el apéndice \nameref{ch:fuzzy-controller-adjustment}.
 
-\paragraph{Modelo \ac{fcs}}
+\section{Modelo \ac{fcs}}
 
-Se han realizado entrenamientos sobre arquitecturas con diferente número de particiones difusas en las variables. Se han tomado las siguientes decisiones de diseño para facilitar el desarrorrollo del controlador.:
+Se han realizado entrenamientos sobre arquitecturas con diferente número de particiones difusas en las variables. Se han tomado las siguientes decisiones de diseño para facilitar el desarrollo del controlador.:
 
 \begin{itemize}
 	\item Las funciones de pertenencia serán, o bien una línea descendente en el caso del primer conjunto difuso de una partición, una línea ascendente en el caso del último o trapecios en el caso del resto.
 	\item Las $t$-norma y $t$-conorma serán el máximo y el mínimo respectivamente. La $t$-norma se usará como operador asociado al AND lógico y a la implicación, mientras que la $t$-conorma se usará como operador asociado al OR lógico y a la acumulación.
-	\item El controlador será de tipo Sugeno, representando las funciones de salida como conjuntos difusos de tipo singletón y con función de defuzzificación CoGS ($CoGS = \sum_{i=1}^n w_i \cdot o_i$).
+	\item El controlador será de tipo Sugeno, representando las funciones de salida como conjuntos difusos de tipo singletón y con función de defuzzificación CoGS (\ref{eq:cogs})
+	\begin{equation}
+		CoGS = \sum_{i=1}^n w_i \cdot o_i
+		\label{eq:cogs}
+	\end{equation}
 	\item El tamaño de las particiones difusas será dado de antemano.
 	\item El controlador tendrá una única variable de salida.
 \end{itemize}
@@ -58,21 +62,27 @@ Cada uno de los controladores se ha entrenado durante $250.000$ epochs. En la Fi
 	\label{fig:adjusted-fcs}
 \end{figure}
 
-Tras el entrenamiento
+El proceso de entrenamiento seguido no ha sido el del ajuste de todas las variables en su conjunto. La razón principal de esto es que el ajuste de las variables que determinan las particiones difusas parece suceder órdenes de magnitud más rápido que el ajuste de los pesos asociados a las reglas.
 
-\marginnote{
+Por tanto, y para este problema en concreto, El entrenamiento se realiza iterativamente alternando conjuntos de epochs dedicados a las reglas y conjuntos de epochs dedicados a las variables de las reglas difusas.
+
+En lugar de eso se ha particionado el entrenamiento en secuencias sucesivas de entrenamiento de reglas y entrenamiento de particiones difusas. Concretamente, los $250.000$ epochs de entrenamiento se corresponden a $250$ iteraciones de $800$ epochs ajustando sólo las reglas seguidos de $200$ epochs ajustando las variables de las particiones difusas.
+
+Empíricamente (y en este problema en concreto) se ha podido observar que el entrenamiento realizado de esta manera hace que el \ac{rmse} descienda más rápido en el mismo número de iteraciones.
+
+Tras el entrenamiento, el controlador difuso que menor error en test arroja es el $FCS_2$\sidenote{
+	Para el controlador $FCS_2$, la forma de sus particiones difusas queda, para las variables binarias sin apenas ajuste:
+	\includegraphics{fcs-best-architecture-next-tls-green-yellow-and-red-variable-partition}
+	El resto de particiones sí se han visto modificadas:
 	\includegraphics{fcs-best-architecture-leader-distance-variable-partition}
-	%\includegraphics{fcs-best-architecture-next-tls-distance-variable-partition}
-	%\includegraphics{fcs-best-architecture-next-tls-green-variable-partition}
-	%\includegraphics{fcs-best-architecture-next-tls-yellow-variable-partition}
-	%\includegraphics{fcs-best-architecture-next-tls-red-variable-partition}
-	%\includegraphics{fcs-best-architecture-speed-variable-partition}
-	%\includegraphics{fcs-best-architecture-speed-to-leader-variable-partition}
-}
+	\includegraphics{fcs-best-architecture-next-tls-distance-variable-partition}
+	\includegraphics{fcs-best-architecture-speed-variable-partition}
+	\includegraphics{fcs-best-architecture-speed-to-leader-variable-partition}
+	En transparente se puede ver el estado inicial de la partición, y en opaco la forma de ésta tras el proceso de entrenamiento.
+}. Por tanto, éste será el modelo seleccionado para la comparativa final.
 
-\TODO{Describir epochs, tiempos de entrenamiento y de inferencia}
 
-\paragraph{Modelo \ac{mlp}}
+\section{Modelo \ac{mlp}}
 
 Para determinar el modelo óptimo de \ac{mlp} en comportamiento longitudinal, se han realizado entrenamientos sobre arquitecturas con diferente cantidad de neuronas y capas ocultas. Las arquitecturas más ilustrativas de todas las probadas se resumen en la tabla~\ref{tbl:cf-mlp-architectures}.
 
@@ -124,7 +134,7 @@ Una visión de detalle del ajuste de estas arquitecturas al conjunto de test se 
 
 A la vista de los resultados, y dado que las arquitecturas se ajustan razonablemente bien, es razonable elegir el modelo $MLP_2$ debido a que es el que aparentemente mejor generaliza los comportamientos del conjunto de conductores.
 
-\paragraph{Comparación entre modelos}
+\section{Comparación entre modelos}
 
 Las mejores arquitecturas de ambos modelos han sido la $MLP_2$ para los \acp{mlp} y $FCS_x$ para los \acp{fcs}. Los errores y el perfil de aceleración para ambos modelos se muestran en la figura~\ref{fig:comparison-between-best-mlp-and-fcs-architecture}.
 

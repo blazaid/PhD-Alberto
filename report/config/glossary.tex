@@ -85,6 +85,16 @@
 	name=Python,
 	description={Lenguaje de programación \glsentryshort{oss}. Url: \url{https://www.python.org/}.}
 }
+\newglossaryentry{rmse}{
+	name=RMSE,
+	description={
+		\textit{Root Mean Squared Error}, una métrica para el cálculo del error entre dos conjuntos de medidas sobre los mismos elementos y definida como.
+		$$
+		\sqrt{\frac{\sum_{i=1}^{n}(y_i - \hat{y_i})}{n}}
+		$$
+		Siendo $y_i$ e $\hat{y_i}$ cada una de las $n$ medidas tomadas sobre el mismo conjunto.
+	}
+}
 \newglossaryentry{sc}{
 	name={Soft Computing},
 	description={Paradigma de computación por el que se hace uso de técnicas de resolución de problemas que manejan información incompleta, inexacta o con ruido.}
@@ -159,7 +169,9 @@
 \newacronym[longsp=Sistema de Recomendación,longplsp=Sistemas de Recomendación,longplural=Recommender Systems]{rs}{RS}{Recommender System}
 \newacronym{ros}{ROS}{Robot Operating System}
 \newacronym{som}{SOM}{Mapas Auto-Organizados}
-\newacronym{svm}{SVM}{Support Vector Machine}
+\newacronym[
+	longplural=Support Vector Machines
+]{svm}{SVM}{Support Vector Machine}
 \newacronym{v2i}{V2I}{Vehicle-to-Infraestructure}
 \newacronym{v2v}{V2V}{Vehicle-to-Vehicle}
 
