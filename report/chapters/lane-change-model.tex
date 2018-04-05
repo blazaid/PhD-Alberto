@@ -95,6 +95,10 @@ Tras el entrenamiento, el controlador difuso que menor error en test arroja es e
 
 \section{Modelo \ac{cnn}}
 
+\TODO{Indicar que, en este modelo concreto, las imágenes de los deepmap se han modificado dinámicamente en el proceso de alimentación de la red de tal manera que los extremos derecho e izquierdo de éstas se corresponden con los bordes izquierdo y derecho respectivamente para mantener la coherencia espacial en la horizontal.}
+
+\TODO{Indicar que a la red de convolucion se la alimenta con todos los datos, pero que las convoluciones se realizan únicamente con imágenes, y el resto de arámetros se introducen en la fase de inferencia}
+
 Para determinar el modelo óptimo de \ac{mlp} en comportamiento longitudinal, se han realizado entrenamientos sobre arquitecturas con diferente cantidad de neuronas y capas ocultas. Las arquitecturas más ilustrativas de todas las probadas se resumen en la tabla~\ref{tbl:cf-mlp-architectures}.
 
 \begin{table*}

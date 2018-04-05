@@ -16,13 +16,13 @@ SUBJECT = 'all'
 DATASETS_PATH = './data'
 RULES_LEARNING_RATE = 0.01
 VARS_LEARNING_RATE = 0.001
-TRAIN_VARS_STEPS = 1600
-TRAIN_RULES_STEPS = 400
-TRAIN_STEPS = 500
+TRAIN_VARS_STEPS = 1
+TRAIN_RULES_STEPS = 1
+TRAIN_STEPS = 500000
 LOGS_STEPS = (TRAIN_VARS_STEPS + TRAIN_RULES_STEPS) * TRAIN_STEPS / 100 
-NUM_FS = [3, 3, 2, 2, 2, 3, 3]
+# NUM_FS = [3, 3, 2, 2, 2, 3, 3]
 # NUM_FS = [4, 3, 2, 2, 2, 3, 3]
-# NUM_FS = [5, 5, 2, 2, 2, 5, 5]
+NUM_FS = [5, 5, 2, 2, 2, 5, 5]
 
 input_cols = [
     'Leader distance', 'Next TLS distance', 'Next TLS green', 'Next TLS yellow',

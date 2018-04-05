@@ -1,7 +1,6 @@
 \chapter{Ajuste de controlador difuso basado en descenso del gradiente}
 \label{ch:fuzzy-controller-adjustment}
 
-
 Como vimos en la sección~\ref{ss:fcs} del capítulo~\nameref{ch:sota-ci}, un \ac{fcs} se compone de cuatro bloques diferenciados: la fuzzificación, el bloque de reglas, la inferencia y la defuzzificación. De éstos bloques, el proceso manual de ajuste se resume siempre\sidenote{
 	Por supuesto implica más ajustes como la elección de las funciones de fuzzificación, las $t$-normas y $t$-conormas, de la función de defuzzificación, pero estas operaciones no tienen tanto impacto en el desempeño del controlador como las particiones difusas y las reglas.
 } en dos pasos:
@@ -15,25 +14,70 @@ Las soluciones de ajuste que existen en la literatura suelen funcionar ajustando
 	Como veremos más adelante, el tiempo de ajuste con esta representación es muy rápido, lo que abre la posibilidad de desarrollar un algoritmo que incluya este para el ajuste de los metaparámetrosdel controlador, como por ejemplo los tamaños de las particiones.
 }.
 
-\newthought{El bloque de fuzzificación} está compuesto por variables lingüísticas, compuestas por conjuntos difusos definidos por funciones de pertenencia. Estas funciones de pertenencia son las que definen las particiones y son las que contienen los parámetros ajustables. Nosotros usaremos la línea ascendente, la línea descendente y el trapecio.
+Se han tomado una serie de decisiones de diseño para facilitar el desarrollo del controlador, aunque son fácilmente modificables. Éstas son:
 
-\begin{marginfigure}
-	\missingfigure[figwidth=\textwidth]{Line desc}
-	\caption{Función de pertenencia linea descendente definida por $(a, \delta b)$.}
-	\label{fig:line-asc}
-\end{marginfigure}
+\begin{itemize}
+	\item Para cada partición difusa se limitarán las funciones de pertenencia a: una línea descendente para caracterizar al primer conjunto difuso, una línea ascendente para caracterizar el último y trapezoides para caracterizar al resto.
+	\item Las $t$-norma y $t$-conorma serán el máximo y el mínimo respectivamente. La $t$-norma se usará como operador asociado al \texttt{AND} lógico y a la operación de implicación, mientras que la $t$-conorma se usará como operador asociado al \texttt{OR} lógico y a la acumulación.
+	\item El controlador será de tipo \textit{Takagi-Sugeno} de orden $0$, y por tanto se representarán las funciones de salida como conjuntos difusos de tipo singletón. La función de defuzzificación será la la operación CoGS\sidenote{
+		La operación CoGS (\textit{Center of Gravity for Singletons}) se define como:
+		\begin{equation}
+			CoGS = \sum_{i=1}^n w_i \cdot o_i
+			\label{eq:cogs}
+		\end{equation}
+		Es decir, la suma ponderada de los valores de salida.
+	}.
+	\item El tamaño de las particiones difusas no variará dinámicamente a lo largo del entrenamiento, siendo este un meta-parámetro de configuración del controlador.
+	\item El controlador tendrá una única variable de salida.
+\end{itemize}
 
-\begin{marginfigure}
-	\missingfigure[figwidth=\textwidth]{Line asc}
-	\caption{Función de pertenencia linea descendente definida por $(a, \delta b)$.}
-	\label{fig:line-desc}
-\end{marginfigure}
+\section{\ac{fcs} como grafo computacional}
 
-\begin{marginfigure}
-	\missingfigure[figwidth=\textwidth]{Trapz}
-	\caption{Función de pertenencia linea descendente definida por $(a, \delta b, \delta c, \delta d)$.}
-	\label{fig:trapz}
-\end{marginfigure}
+Sea $\mathcal{V} = {V_1, V_2, \ldots, V_n}$ el conjunto ordenado de variables lingüísticas de nuestro controlador, y sea $O$ la variable lingüística de salida. Cada una de estas variables tendrá un número prefijado de conjuntos $\mathcal{N} = {N_{V_1}, N_{V_2}, \ldots, N_{V_n}}$ para las variables de entrada y $N_O$ para la variable de salida.
+
+El controlador recibirá una matriz bidimensional de rango $(m, n)$ y devolverá un vector de rango $(m)$, siendo $m$ el número de ejemplos que queremos calcular a la vez.
+
+Representaremos el \ac{fcs} como grafo computacional. De esta manera, podremos (i) aplicar la función de manera más eficiente y (ii) calcular fácilmente los gradientes de las funciones parciales para aplicar la técnica del descenso del gradiente propagando el error de la salida.
+
+El proceso de desarrollo será el siguiente: primero, construiremos cada uno de los bloques fundamentales del \ac{fcs} como un grafos computacionales; después construiremos el controlador conectando entre sí estos grafos.
+
+\subsection{Bloque de fuzzificación}
+
+El grafo computacional asociado a este bloque tomará una matrix bidimensional de rango $(m, n)$ (la matriz de entrada) que contendrá para cada ejemplo una lista de los valores que toma cada una de las variables de entrada. La salida de este grafo será una matriz bidimensional de rango $(m, \sum_{i=1}^n N_i)$, donde se almacenarán los grados de pertenencia de esos valores acada conjunto difuso de la variable que les corresponda (Figura~\ref{fig:input-to-fuzzy-input}).
+
+\begin{figure*}[t]
+	\centering
+	\begin{equation*}
+		\left(\begin{array}{>{\columncolor{red!20}}c>{\columncolor{blue!20}}cc}
+		x^1_{V_1} & x^1_{V_2} & \ldots \\
+		x^2_{V_1} & x^2_{V_2} & \ldots \\
+		x^3_{V_1} & x^3_{V_2} & \ldots \\
+		x^4_{V_1} & x^4_{V_2} & \ldots \\
+		\end{array}\right)
+		\quad \rightarrow \quad 
+		\left(\begin{array}{>{\columncolor{red!20}}c>{\columncolor{red!20}}c>{\columncolor{blue!20}}c>{\columncolor{blue!20}}cc}
+		\mu^1_{V_1}(x^1_{V_1}) & \mu^2_{V_1}(x^1_{V_1}) & \mu^1_{V_2}(x^1_{V_2}) & \mu^2_{V_2}(x^1_{V_2}) & \ldots \\
+		\mu^1_{V_1}(x^2_{V_1}) & \mu^2_{V_1}(x^2_{V_1}) & \mu^1_{V_2}(x^2_{V_2}) & \mu^2_{V_2}(x^2_{V_2}) & \ldots \\
+		\mu^1_{V_1}(x^3_{V_1}) & \mu^2_{V_1}(x^3_{V_1}) & \mu^1_{V_2}(x^3_{V_2}) & \mu^2_{V_2}(x^3_{V_2}) & \ldots \\
+		\mu^1_{V_1}(x^4_{V_1}) & \mu^2_{V_1}(x^4_{V_1}) & \mu^1_{V_2}(x^4_{V_2}) & \mu^2_{V_2}(x^4_{V_2}) & \ldots \\
+		\end{array}\right)
+	\end{equation*}
+	\caption[Ejemplo de operación en el bloque de fuzzificación]{El bloque de fuzzificación transformará los valores de sus respectivos dominios al dominio de pertenencia a cada conjunto difuso. La matriz generada tendrá tantas columnas como conjuntos difusos posea cada variable.}
+	\label{fig:input-to-fuzzy-input}
+\end{figure*}
+
+Para ello, se le aplicará a cada columna de la matriz de entrada tantas operaciones (funciones de pertenencia) como conjuntos difusos posea. Concretamente se aplicarán operaciones de línea descendente, trapezoidal y ascendente. En la Figura~\ref{fig:membership-functions} se ilustran las tres funciones de pertenencia junto con las variables que determinan su funcionamiento
+
+\begin{figure*}
+	\centering
+	\subfloat[]{\missingfigure[figwidth=0.29\linewidth]{Line desc}}\qquad
+	\subfloat[]{\missingfigure[figwidth=0.29\linewidth]{Trapz}}\qquad
+	\subfloat[]{\missingfigure[figwidth=0.29\linewidth]{Line asc}}
+	\caption[Funciones de pertenencia definidas como posición y desplazamientos.]{Las funciones de pertenencia (a) línea descendente, (b) trapezoidal y (c) línea ascendente. Éstas se definen como un punto de inicio seguido de tantos desplazamientos como sea necesario.}
+	\label{fig:membership-functions}
+\end{figure*}
+
+Las líneas \textbf{ascendente} y \textbf{descendente} tienen una forma parecida. El grafo asociado a la fórmula de la línea descendente se muestra en la figura~\ref{fig:slope-asc-grap}, que es la que se correspondería con el último conjunto de una partición difusa. Como se puede ver, las variables ajustables son $a$ y $\delta a$. Estas definen el intervalo $(a, a + \delta b) \in \mathbb{R}$ donde los valores $f(X)$ ascienden de $0$ a $1$ (o descienden de $1$ a $0$ en el caso de la recta ascendente).
 
 \begin{figure}
 	\centering
@@ -42,22 +86,20 @@ Las soluciones de ajuste que existen en la literatura suelen funcionar ajustando
 	\label{fig:slope-asc-grap}
 \end{figure}
 
-Las líneas \textbf{ascendente} y \textbf{descendente} tienen una forma parecida. El grafo asociado a la fórmula de la línea descendente se muestra en la figura~\ref{fig:slope-asc-grap}, que es la que se correspondería con el último conjunto de una partición difusa. Como se puede ver, las variables ajustables son $a$ y $\delta a$. Estas definen el intervalo $(a, a + \delta b) \in \mathbb{R}$ donde los valores $f(X)$ ascienden de $0$ a $1$ (o descienden de $1$ a $0$ en el caso de la recta ascendente).
-
 El \textbf{trapecio} se define a partir de los parámetros $(a, \delta b, \delta c, \delta d) \in \mathbb{R}$, que definen los intervalos $I_1 = (a, a + \delta b)$, $I_1 = (a + \delta b, a + \delta b + \delta c)$ y $I_3 = (a + \delta b + \delta c, a + \delta b + \delta c + \delta d)$. $I_1$ es el intervalo donde la función de pertenencia aumenta su valor de $0$ a $1$, $I_2$ el intervalo superior del trapecio donde la función vale $1$ e $I_3$ donde la función comienza a descender su valor de $1$ a $0$. El grafo asociado a esta función se ilustra en la figura~\ref{fig:trap-graph}
 
 \begin{figure}
 	\centering
 	\includegraphics{trap-graph}
 	\caption[Grafo computacional de la función de pertenencia para el trapecio]{Ilustración del grafo computacional para la función de pertenencia trapezoidal. La fórmula que describe es $\mu(x) = \min(\max(\min(\mu_{L_{asc}}, \mu_{L_{desc}}), 0), 1)$, esto es, una línea ascendente y otra descendente, estando ambas acotadas en el intervalo $[0, 1] \in \mathbb{R}$.}
-	\label{fig:trap-grap}
+	\label{fig:trap-graph}
 \end{figure}
 
-Sabiendo los grafos computacionales de cada una de las funciones de pertenencia, ya podemos definir el grafo asociado a la partición difusa de una variable lingüística. Suponiento que la variable $V$ está dividida en $n$ conjuntos difusos, la partición de ésta estará compuesta de:
+Sabiendo los grafos computacionales de cada una de las funciones de pertenencia, ya podemos definir el grafo asociado a la partición difusa de una variable lingüística. Suponiendo que la variable $V_i$ está dividida en $N_{V_i}$ conjuntos difusos, la partición de ésta estará compuesta de:
 
 \begin{itemize}
 	\item Un primer conjunto definido como una pendiente descendente.
-	\item $n - 2$ conjuntos definidos por una función de pertenencia de tipo trapezoidal.
+	\item $N_{V_i} - 2$ conjuntos definidos por una función de pertenencia de tipo trapezoidal.
 	\item Un último conjunto definido como una pendiente ascendente.
 \end{itemize}
 
@@ -81,11 +123,13 @@ Por último, un controlador difuso define un número de variables de entrada. Nu
 	\label{fig:fuzzification-graph}
 \end{figure}
 
-\newthought{La inferencia}, tomará esos valores difusos y generará los valores difusos de salida. Para ello, hará uso de un bloque de reglas en las que basará su inferencia.
+\subsection{Bloque de inferencia}
+
+Este bloque tomará una matriz bidimensional de rango $(m, \sum_{i=1}^n N_i)$, es decir, la matriz de salida del bloque de fuzzificación, y generará una matriz bidimensional de rango $(m, N_O)$ que contendrá los valores difusos de salida (un valor difuso por cada conjunto difuso de salida). Para ello, hará uso de un bloque de reglas en las que basará su inferencia.
 
 Este bloque de reglas es el que se tratará de ajustar. La representación será la de una matriz $(v_i + 1)$-dimensional, siendo $v_i = \sum_{i=1}^l \left\vert{l_i}\right\vert$ (el número total de entradas difusas que llegan al bloque). La dimensión adicional se corresponde a la variable lingüística de salida.
 
-Se puede pensar de esta manera. Para cada posible conjunto difuso de salida (es decir, para cada valor dentro del eje correspondiente a la salida), tenemos una matriz $v_i$-dimensional que se corresponde al producto cartesiano de las cariables de entradas. Esto es, cada una de las posibles combinaciones de reglas, a la que podemos asociar un valor. En la Figura~\ref{fig:inference-graph} se muestra un ejemplo con las variables obtenidas en el ejemplo de la Figura~\ref{fig:fuzzification-graph} tras aplicarles la $t$-norma.
+Dicho de otro modo, cada posible conjunto difuso de salida (es decir, para cada valor dentro del eje correspondiente a la salida) se corresponderá con una matriz $v_i$-dimensional resultado del producto cartesiano de las cariables de entradas. Esto es, cada una de las posibles combinaciones de reglas, a la que podemos asociar un valor. En la Figura~\ref{fig:inference-graph} se muestra un ejemplo con las variables obtenidas en el ejemplo de la Figura~\ref{fig:fuzzification-graph} tras aplicarles la $t$-norma.
 
 \begin{figure}
 	\centering
@@ -96,10 +140,16 @@ Se puede pensar de esta manera. Para cada posible conjunto difuso de salida (es 
 
 Al estar definida la $t$-conorma y la acumulación con el mismo operador (i.e. el máximo), una regla de tipo OR es equivalente a dos reglas de tipo AND, ya que la acumulación de sus resultados es equivalente. Por tanto, al aplicar la $t$-norma a estas combinaciones tenemos todas las posibles combinaciones de reglas. Pero hasta aquí no tenemos ningún ajuste.
 
-Si aplicamos el producto de hadamard contra una matriz de pesos con la misma dimensión y acotamos sus valores a $[0, 1] \in \mathbb{N}$, tenemos una manera de ajustar qué reglas son las más relevantes y cuáles no. Esta representación tiene un problema: las regiones definen meseta en la función de error, y por tanto en el momento que el gradiente cae en alguna de estas mesetas, la evolución de la variable se estanca. Sin embargo, si en lugar de un valor natural, el peso toma un valor real y le aplicamos una sigmoidal, el valor se mantendrá entre $(0, 1) \in \mathbb{R}$ con la ventaja de que el gradiente no se estanca, y en un proceso posterior se pueden descartar las reglas cuyos valores están próximos a $0$.
+Si aplicamos el producto de Hadamard a una matriz de pesos con la misma dimensión y acotamos sus valores a $[0, 1] \in \mathbb{N}$, tenemos una manera de ajustar qué reglas son las más relevantes y cuáles no. Esta representación tiene un problema: estos dos valores definen una función escalón donde el error no se propaga al ser su gradiente $0$. Sin embargo, si en lugar de un valor natural, el peso toma un valor real y le aplicamos una operación sigmoidal, el valor se mantendrá entre $(0, 1) \in \mathbb{R}$ con la ventaja de que el gradiente no se estanca, y en un proceso posterior se pueden descartar las reglas cuyos valores superen ciertos rangos establecidos.
 
 A la salida de la inferencia, tras aplicar la acumulación, disponemos de tantos valores difusos como conjuntos difusos tiene la salida.
 
-\newthought{El último paso, la defuzzificación}, es una aplicación similar a las funciones de pertenencia, pero aquí no cabe lugar a ningún ajuste de variables.
+\subsection{Bloque de defuzzificación}
 
-De los valores difusos se obtiene un valor que será el correspondiente a la salida de nuestro \ac{fcs}.
+Este bloque tiene la particularidad de que no posee ninguna variable que ajustar. Se trata simplemente de una operación que toma una matriz bidimensional de rango $(m, N_O)$ con los valores difusos de salida y devuelve un vector de rango $(m)$ con los valores en el dominio de la variable lingüística de salida.
+
+\section{Ejemplo de ajustede un controlador difuso}
+
+Para probar su funcionamiento, se realizará el ajuste de un controlador difuso a partir de un conjunto de entrenamiento con unos valores determinados. Estos valores se habrán obtenido a su vez de un \ac{fcs} de ejemplo para comprobar lo correcto de la implementación.
+
+\TODO{Terminar la parte del paper y poner las grafiquitas.}

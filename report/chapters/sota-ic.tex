@@ -518,6 +518,15 @@ El caso de la sobreespecialización es quizá algo más complejo. Cuando un mode
 
 En el caso concreto de la regularización, el objetivo de esta técnica es tratar de penalizar o limitar el entrenamiento a través de la inhibición de los parámetros. Existen diferntes ténicas para la regularización de parámetros, como las $l_1$ y $l_2$ (explicadas en detalle en~\cite{ng2004feature}). En esta tésis se ha escogido una técnica de regularización denominada dropout~\cite{srivastava2014dropout}.
 
+\begin{figure*}
+	\centering
+	\subfloat[]{\includegraphics[width=0.29\linewidth]{dropout-example-a}}\qquad
+	\subfloat[]{\includegraphics[width=0.29\linewidth]{dropout-example-b}}\qquad
+	\subfloat[]{\includegraphics[width=0.29\linewidth]{dropout-example-c}}
+	\caption[Ejemplo de la operación de dropout en tres epochs sucesivos.]{Ejemplo del funcionamiento del dropout en tres epochs sucesivos. Suponiendo una tasa de dropout de $0.5$, en cada epoch cada neurona tiene una probabilidad del $50\%$ de ser desactivada, y por tanto el error no se propagará hacia sus pesos de entrada.}
+	\label{fig:dropout-example}
+\end{figure*}
+
 En ésta, la idea es en cada epoch de entrenamiento del modelo, se desactivan una serie de neuronas de manera aleatoria. estas neuronas no participan ni en la predicción ni en el posterior reajuste de pesos. Es muy fácil de implementar, computacionalmente muy eficiente y mejora sustancialmente el proceso de aprendizaje en redes que sufren de una alta especialización. La Figura~\ref{fig:dropout-example} describe un ejemlpo de funcionamiento en tres epochs de un perceptrón multicapa con una tasa de dropout del $0.5$.
 
 \subsection{Grafos computacionales}

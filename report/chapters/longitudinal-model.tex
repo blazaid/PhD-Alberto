@@ -22,21 +22,7 @@ Ambos modelos se entrenaran ajustando sus parámetros con un procedimiento basad
 
 \section{Modelo \ac{fcs}}
 
-Se han realizado entrenamientos sobre arquitecturas con diferente número de particiones difusas en las variables. Se han tomado las siguientes decisiones de diseño para facilitar el desarrollo del controlador.:
-
-\begin{itemize}
-	\item Las funciones de pertenencia serán, o bien una línea descendente en el caso del primer conjunto difuso de una partición, una línea ascendente en el caso del último o trapecios en el caso del resto.
-	\item Las $t$-norma y $t$-conorma serán el máximo y el mínimo respectivamente. La $t$-norma se usará como operador asociado al AND lógico y a la implicación, mientras que la $t$-conorma se usará como operador asociado al OR lógico y a la acumulación.
-	\item El controlador será de tipo Sugeno, representando las funciones de salida como conjuntos difusos de tipo singletón y con función de defuzzificación CoGS (\ref{eq:cogs})
-	\begin{equation}
-		CoGS = \sum_{i=1}^n w_i \cdot o_i
-		\label{eq:cogs}
-	\end{equation}
-	\item El tamaño de las particiones difusas será dado de antemano.
-	\item El controlador tendrá una única variable de salida.
-\end{itemize}
-
-Las arquitecturas que se han considerado más relevantes (tras un proceso de ensayo y error con diferente número de particiones difusas) se describen en la tabla~\ref{tbl:cf-mlp-architectures}. 
+Se han realizado entrenamientos sobre arquitecturas con diferente número de particiones difusas en las variables. Las arquitecturas que se han considerado más relevantes (tras un proceso de ensayo y error con diferente número de particiones difusas) se describen en la tabla~\ref{tbl:cf-mlp-architectures}. 
 
 \begin{table}
 	\caption[Resumen de las arquitecturas \ac{fcs} para el modelo longitudinal]{Resumen de las arquitecturas de \ac{fcs} para el modelo longitudinal. La posición de cada número de la topología indica a qué variable lingüísticav se refiere (\textit{Distancia al líder}, Distancia a siguiente semáforo, Semáforo en verde, Semáforo en amarillo, Semáforo en rojo, Velocidad y velocidad de aproximación al líder respectivamente), siendo su valor el número de conjuntos difusos que configuran la partición difusa de la variable. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
