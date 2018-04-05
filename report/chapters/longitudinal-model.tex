@@ -20,9 +20,30 @@ Por la naturaleza del problema se han seleccionado dos técnicas diferentes para
 
 Ambos modelos se entrenaran ajustando sus parámetros con un procedimiento basado en el descenso del gradiente denominado ADAM~\cite{kingma2014adam}. Su aplicación a los \ac{mlp} es directa, pero para \acp{fcs} es necesaria una representación que permita el uso de este método para su optimización. Esta representación es una de las aportaciones de esta tesis y se se explica en el apéndice \nameref{ch:fuzzy-controller-adjustment}.
 
+\subsection{Descripción de los datasets}
+
+Del conjunto de datos~\ref{tbl:main-variables} descrito en el capítulo~\nameref{ch:methodology} seleccionaremos aquellos indicadores de interés y generaremos un conjunto de entrenamiento y test para cada uno de los sujetos y un conjunto de entrenamiento y test para el total de conductores.
+
+Dado que nuestros modelos se basan en un esquema \textit{feed-forward}, existe el inconveniente de que para ellos es imposible mantener una memoria del orden en el que se están sucediendo las entradas. Sin embargo, contamos con las derivadas de la posición respecto al líder y la velocidad (la aceleración y la velocidad al líder respectivamente), por lo consideramos que disponemos de información temporal suficiente para este problema en concreto.
+
+\begin{table}
+	\caption[Descripción de los conjuntos de datos]{Descripción de los conjuntos de datos para el entrenamiento de los modelos.}
+	\label{tbl:cf-datasets-description}
+	\begin{tabular}{ccccc}
+		\toprule
+		Nombre & Entradas & Salidas & Tamaño (training) & Tamaño (test) \\
+		\midrule
+		$CF_{S_1}$ & $7$ & $1$ & $1089$ & $543$ \\
+		$CF_{S_2}$ & $7$ & $1$ & $1313$ & $560$ \\
+		$CF_{S_3}$ & $7$ & $1$ & $2067$ & $668$ \\
+		$CF_{S_A}$ & $7$ & $1$ & $4469$ & $1771$ \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
 \section{Modelo \ac{fcs}}
 
-Se han realizado entrenamientos sobre arquitecturas con diferente número de particiones difusas en las variables. Las arquitecturas que se han considerado más relevantes (tras un proceso de ensayo y error con diferente número de particiones difusas) se describen en la tabla~\ref{tbl:cf-mlp-architectures}. 
+Se han realizado entrenamientos sobre arquitecturas con diferente número de particiones difusas en las variables. Las arquitecturas que se han considerado más relevantes (tras un proceso de ensayo y error con diferente número de particiones difusas) se describen en la tabla~\ref{tbl:cf-fcs-architectures}. 
 
 \begin{table}
 	\caption[Resumen de las arquitecturas \ac{fcs} para el modelo longitudinal]{Resumen de las arquitecturas de \ac{fcs} para el modelo longitudinal. La posición de cada número de la topología indica a qué variable lingüísticav se refiere (\textit{Distancia al líder}, Distancia a siguiente semáforo, Semáforo en verde, Semáforo en amarillo, Semáforo en rojo, Velocidad y velocidad de aproximación al líder respectivamente), siendo su valor el número de conjuntos difusos que configuran la partición difusa de la variable. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
