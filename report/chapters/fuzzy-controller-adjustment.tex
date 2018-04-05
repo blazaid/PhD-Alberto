@@ -148,8 +148,52 @@ A la salida de la inferencia, tras aplicar la acumulación, disponemos de tantos
 
 Este bloque tiene la particularidad de que no posee ninguna variable que ajustar. Se trata simplemente de una operación que toma una matriz bidimensional de rango $(m, N_O)$ con los valores difusos de salida y devuelve un vector de rango $(m)$ con los valores en el dominio de la variable lingüística de salida.
 
-\section{Ejemplo de ajustede un controlador difuso}
+\section{Ejemplo de ajuste de un controlador difuso}
 
 Para probar su funcionamiento, se realizará el ajuste de un controlador difuso a partir de un conjunto de entrenamiento con unos valores determinados. Estos valores se habrán obtenido a su vez de un \ac{fcs} de ejemplo para comprobar lo correcto de la implementación.
 
-\TODO{Terminar la parte del paper y poner las grafiquitas.}
+\begin{figure}
+	\centering
+	\subfloat[]{\includegraphics[width=.45\textwidth]{real-tip-controller-var-food}}\qquad
+	\subfloat[]{\includegraphics[width=.45\textwidth]{real-tip-controller-var-service}}
+	\caption[Particiones difusas del controlador de ejemplo]{Particiones difusas del controlador de ejemplo. Estas particiones junto con las reglas definirán la superficie de la función que modela nuestro controlador de ejemplo.}
+	\label{fig:real-tip-controller-vars}
+\end{figure}
+
+
+El ejemplo en concreto se trata del problema clásico de la asignación de propinas, donde la propina viene determinada en función de las variables calidad de la comida y calidad del servicio. Las particiones de las variables lingüísticas del controlador (denominadas \textit{food} y \textit{service}) se muestran en la Figura~\ref{fig:real-tip-controller-vars}. Las reglas que determinan su comportamiento son las siguientes:
+
+\begin{align}
+	\text{service IS good}                              &\rightarrow \text{tip IS high}\nonumber\\
+	\text{food IS good}                                 &\rightarrow \text{tip IS high}\nonumber\\
+	\text{service IS good} \land \text{food IS average} &\rightarrow \text{tip IS low}\nonumber\\
+	\text{service IS average} \land \text{food IS good} &\rightarrow \text{tip IS high}\nonumber\\
+	\text{service IS bad}                               &\rightarrow \text{tip IS low}\nonumber\\
+	\text{food IS bad}                                  &\rightarrow \text{tip IS low}
+\end{align}
+
+El controlador es una función con dos variables que describen la superficie mostrada en la Figura~\ref{fig:real-tip-controller-surface}.
+
+\begin{figure}
+	\centering
+	\includegraphics{real-tip-controller-surface}
+	\caption[Superficie de la función que modela el controlador difuso de ejemplo]{Las reglas y las particiones definen esta función. De ella obtendremos un conjunto de puntos aleatorio para comprobar si nuestra representación de \ac{fcs} como grafo computacional es capaz de ajustarse a ésta con la técnica del descenso del gradiente.}
+	\label{fig:real-tip-controller-surface}
+\end{figure}
+
+Recogeremos una muestra aleatoria uniforme de $2500$ de entre los $62500$ que conforman la representación de la superficie del controlador de ejemplo. Posteriormente se crea un controlador difuso y se itera el algoritmo de descenso del gradiente ADAM~\cite{kingma2014adam}.
+
+El proceso de entrenamiento consistirá en la ejecución del algoritmo de propagación del error durante $2500$ epochs con una tasa de aprendizaje de $0.01$, la cual se ha considerado suficiente para el ejemplo en cuestión. La evolución del error durante este entrenamiento se puede ver en la Figura~\ref{fig:fcs-ajustment-rms-during-training}.
+
+Durante el entrenamiento, las superficies evolucionan hacia una representación aproximada de lo que es el controlador original. En la figura~\ref{fig:adjusted-tip-controller-training} podemos observar cómo evoluciona la superficie que representa el controlador ajustado.
+
+\begin{figure}
+	\centering
+	\subfloat[]{\includegraphics[width=.28\textwidth]{ajusted-tip-controller-at-start-training}}\qquad
+	\subfloat[]{\includegraphics[width=.28\textwidth]{ajusted-tip-controller-at-half-training}}\qquad
+	\subfloat[]{\includegraphics[width=.28\textwidth]{ajusted-tip-controller-at-end-training}}
+	\caption[Evolución del controlador difuso de acuerdo al conjunto de datos extraido del ]{Particiones difusas del controlador de ajustado. Estas figuras muestran la superficie del controlador ajustado (a) al comienzo del proceso de entrenamiento, (b) tras $250$ iteraciones sobre el conjunto de entrenamiento y (c) al final del proceso del entrenamiento.}
+	\label{fig:adjusted-tip-controller-training}
+\end{figure}
+
+Este proceso demuestra que es posible obtener controladores difusos ajustados a un patrón de datos con un grado alto de precisión. La ventaja de este método radica en que es posible por tanto explicar mediante reglas el por qué de las predicciones que hace el modelo, a diferencia de otras técnicas como las \ac{ann}\sidenote{Aunque no se han extraído en este ejemplo, el proceso de extracción de particiones difusas y reglas se muestra en el capítulo~\nameref{ch:lane-change-model}.}.

@@ -469,6 +469,24 @@ Datasets = collections.namedtuple('Datasets', ['train', 'validation', 'test'])
 LC_TARGET_COLS = ['Lane change left', 'Lane change none', 'Lane change right']
 
 
+def extract_fuzzy_controller_data(session, fc_data, input_vars):
+    all_variables = [n.name for n in tf.get_default_graph().as_graph_def().node]
+    patterns = ['^tfz/var/{}/b$'.format(var) for var in input_vars]
+    patterns.extend(['^tfz/var/{}/s\d+$'.format(var) for var in input_vars])
+    patterns.extend(['^tfz/var/{}/sf\d+$'.format(var) for var in input_vars])
+    patterns.extend(['^tfz/var/{}/sl\d+$'.format(var) for var in input_vars])
+    patterns.append('^tfz/rules/weights$')
+    for pattern in patterns:
+        for var in all_variables:
+            if re.match(pattern, var) is not None:
+                tensor = tf.get_default_graph().get_tensor_by_name(var + ':0')
+                values = session.run(tensor)
+                if var == 'weights':
+                    values = values.flatten()
+                    values = ';'.join([str(x) for x in values])
+                fc_data[var].append(values)
+
+
 def load_datasets_for_subject(datasets_path, subject):
     path = os.path.join(datasets_path, 'lc-{}-{}.csv')
     # Load the training set and split it into training and validation sets

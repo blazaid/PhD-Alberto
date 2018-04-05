@@ -10,7 +10,7 @@ import tensorflow as tf
 from sklearn.model_selection import train_test_split
 
 import pynsia.tensorflow.fuzzy as tfz
-from utils import launch_tensorboard
+from utils import launch_tensorboard, extract_fuzzy_controller_data
 
 SUBJECT = 'all'
 DATASETS_PATH = './data'
@@ -43,25 +43,6 @@ if os.path.exists(summary_val_path):
 summary_tst_path = 'tensorboard/{}/cf-fcs-{}/test'.format(SUBJECT, num_fs_string)
 if os.path.exists(summary_tst_path):
     shutil.rmtree(summary_tst_path)
-
-
-def extract_fuzzy_controller_data(session, fc_data, input_vars):
-    all_variables = [n.name for n in tf.get_default_graph().as_graph_def().node]
-    patterns = ['^tfz/var/{}/b$'.format(var) for var in input_vars]
-    patterns.extend(['^tfz/var/{}/s\d+$'.format(var) for var in input_vars])
-    patterns.extend(['^tfz/var/{}/sf\d+$'.format(var) for var in input_vars])
-    patterns.extend(['^tfz/var/{}/sl\d+$'.format(var) for var in input_vars])
-    patterns.append('^tfz/rules/weights$')
-    for pattern in patterns:
-        for var in all_variables:
-            if re.match(pattern, var) is not None:
-                tensor = tf.get_default_graph().get_tensor_by_name(var + ':0')
-                values = session.run(tensor)
-                if var == 'weights':
-                    values = values.flatten()
-                    values = ';'.join([str(x) for x in values])
-                fc_data[var].append(values)
-
 
 if __name__ == '__main__':
     input_var_names = [''.join(s[:1].upper() + s[1:] for s in i.split(' ')) for i in input_cols]
