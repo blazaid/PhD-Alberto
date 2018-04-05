@@ -3,21 +3,11 @@
 
 El problema del cambio de carril determina cuándo y cómo realiza los cambios de carril un conductor en un momento determinado. A priori la intuición sobre el problema es que muchos de los factores determinantes no son medibles en el mundo real y/o en el entorno simulado (e.g. estados de humor, condición física, eventos fortuitos, etcétera).
 
-En un trabajo anterior\cite{CITA DEL ARTÍCULO DE LANE EXECUTION CUANDO NOS LO PUBLIQUEN} se trataron de controlar muchos de estos factores dividiendo el problema en dos partes, la intención de cambio y la ejecución del cambio, fijando el primero de manera que los conductores sólo cambiaban de carril cuando se les ordenaba y permitiendo estudiar, de esta manera, cómo diferentes perfiles de conductores ejecutan de diferente forma el cambio de carril y cómo este fenómenos es modelable.
+En un trabajo anterior~\cite{CITA DEL ARTÍCULO DE LANE EXECUTION CUANDO NOS LO PUBLIQUEN} los autores tratamos de controlar muchos de estos factores dividiendo el problema en dos partes, la intención de cambio y la ejecución del cambio, fijando el primero de manera que los conductores sólo cambiaban de carril cuando se les ordenaba y permitiendo estudiar, de esta manera, cómo diferentes perfiles de conductores ejecutan de diferente forma el cambio de carril y cómo este fenómenos es modelable.
 
 En este trabajo se tratará de modelar sin embargo el proceso de cambio de carril como un todo, esto es, decidir en cada momento si cambiar a un caril (i.e. izquierda o derecha) o no hacerlo, a partir de las variables medibles del entorno real y simulado.
 
-El problema de ajuste será por tanto un problema de clasificación donde se tratará de maximizar el número de aciertos entre los cambios de carril realizados y el modelo a ajustar. La figura~\ref{fig:lc-lane-change-profiles}.
-
-\begin{figure}
-	\centering
-	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-lane-change-hist-training}}\qquad
-	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-lane-change-hist-test}}
-	\caption[Perfiles de cambios de carril en los conjuntos de entrenamiento y test]{Perfiles de cambio de carril en los conjuntos de entrenamiento y de cambios de carril en el conjunto de test. }
-	\label{fig:lc-lane-change-profiles}
-\end{figure}
-
-Las técnicas que se han seleccionado para tratar el cambio de carril son las siguientes:
+El problema de ajuste será por tanto un problema de clasificación donde se tratará de maximizar el número de aciertos entre los cambios de carril realizados y el modelo a ajustar. Las técnicas que se han seleccionado para tratar el cambio de carril son las siguientes:
 
 \begin{enumerate}
 	\item \ac{mlp}. Los \acp{mlp}, más ahora en la época del \textit{deep-learning} son una de las técnicas más usadas para problemas de clasificación. En esta época del \textit{deep-learning} han aumentado su eficiencia varios ordenes de magnitud en capacidad de aprendizaje y, por tanto, en rendimiento a la hora de clasificar.
@@ -71,9 +61,7 @@ Dado que el LIDAR describe el entorno de manera discreta con valores constantes 
 	\item La apertura vertical del LIDAR genera puntos en planos que no son relevantes para el problema. Esto es, planos muy bajos que impactan en el vehículo o muy altos que no impactan con el entorno considerado de interés.
 \end{itemize}
 
-Por estas razones, los mapas de profundidad se generarán de una manera más compacta, usando una resolución horizontal de \SI{1}{\degree} y los seis canales que van desde los \SI{-7}{\degree} hasta los \SI{3}{\degree}, lo que nos da un mapa de profundidad con una resolución de $6 \times 360$ con un canal representando la distancia al punto de impacto más cercano contenido en el sector esférico que representa cada posición del mapa\sidenote{
-	\TODO{Determinar si tiene sentido explicar aquí el proceso de generación del mapa de profundidad (el algoritmo).}
-}.
+Por estas razones, los mapas de profundidad se generarán de una manera más compacta, usando una resolución horizontal de \SI{1}{\degree} y los seis canales que van desde los \SI{-7}{\degree} hasta los \SI{3}{\degree}, lo que nos da un mapa de profundidad con una resolución de $6 \times 360$ con un canal representando la distancia al punto de impacto más cercano contenido en el sector esférico que representa cada posición del mapa.
 
 Para el segundo caso, se ha definido un radio de interés de \SI{25}{\meter}, ya que se ha considerado para el proceso de cambio de carril como un entorno lo suficientemente amplio para determinad un cambio de carril.
 
@@ -139,12 +127,12 @@ Comenzaremos definiendo el \textit{momento} $t_i$ como aquel ejemplo situado a $
 	Dichos experimentos se corresponden con el proceso de ejecución de cambio de carril, donde se asume que la maniobra involucra al córtex visual y al córtex prefrontal. Estos procesos cognitivos tienen un tiempo de respuesta de entre \SI{0.2}{\second}, \SI{1.2}{\second}~\cite{buzsaki2012temporal}, por lo que es comprensible que la ventana temporal elegida sea aceptable. Además, al incluir tres momentos temporales, es posible que el modelo reconozca una intuición de la velocidad, la aceleración e incluso el \textit{jerk} a partir de imágenes estáticas. 
 }.
 
-\begin{figure*}
+\begin{figure}
 	\centering
 	\includegraphics{explanation-of-data-frequency}
 	\caption[Momento $t_i$en el conjunto de datos]{Un momento $t_i$ se define como el estado en el que se encontraba el vehículo en $t - \frac{i}{10}s$. Por tanto, $t_0$ es el momeno actual.}
 	\label{fig:moments-illustration}
-\end{figure*}
+\end{figure}
 
 Tras este ajuste, los conjuntos de datos están finalizados. Sus propiedades quedan descritas en la Tabla~\ref{tbl:lc-datasets-description}.
 
@@ -169,7 +157,7 @@ Los entrenamientos han sido realizados sobre diferentes topologías, siendo las 
 
 \begin{table}
 	\caption[Resumen de las arquitecturas \ac{mlp} para el modelo de cambio de carril]{Resumen de las arquitecturas de \ac{mlp} para el modelo de cambio de carril. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
-	\label{tbl:cf-mlp-architectures}
+	\label{tbl:lc-mlp-architectures}
 	\begin{tabular}{cccccccccc}
 		\hline
 		\multirow{2}{*}{Nombre} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multirow{2}{*}{Dropout} & \multicolumn{3}{c}{Precisión} & \multicolumn{3}{c}{Loss}      \\
@@ -181,108 +169,94 @@ Los entrenamientos han sido realizados sobre diferentes topologías, siendo las 
 	\end{tabular}
 \end{table}
 
-Se han entrenado más redes, pero no se han incluido al no aportar información relevante en la descripción del proceso de entrenamiento.
+En lugar de intentar maximizar la cantidad de aciertos o minimizar el número de falsos positivos o negativos, el error que se ha tratado de minimizar es la entropía cruzada, concepto del cual hablamos anteriormente en el capítulo~\nameref{ch:sota-ci}. Este indicador es mucho más eficiente a la hora de trabajar con problemas de clasificación. Sin embargo, de cara a mostrar resultados en la tesis, el valor de ésta no ofrece información relevante más allá de \enquote{si decrece es bueno}. Por ellos se ofrecerán los valores de precisión y matrices de confusión que son más acordes con el problema en cuestión.
 
-Cada una de las redes se ha entrenado durante $XXX$ epochs. Debido a las limitaciones de memoria RAM en la máquina de entrenamiento, los epochs no incluyen todo el conjunto de entrenamiento en cada pasada, sino que se limitan a \textit{batches} de $YYY$ elementos seleccionados aleatoriamente del conjunto total de datos.
-
-. En la Figura~\ref{fig:adjusted-fcs} se puede observar la evolución en general y un detalle de la disminución del error en test de los controladores.
+La figura~\ref{fig:lc-mlp-accuracy-comparison} nos muestra la evolución de la precisión alcanzada por los modelos a lo largo del entrenamiento, tanto en entrenamiento como en el posterior test.
 
 \begin{figure}
 	\centering
-	\subfloat[]{\includegraphics[width=.45\textwidth]{fcs-all-test}}\qquad
-	\subfloat[]{\includegraphics[width=.45\textwidth]{fcs-all-test-detail}}
-	\caption[Evolución del error en test de los controladores difusos ajustados]{Visión general y detalle de la evolución del error en test de los diferentes controladores difusos ajustados.}
-	\label{fig:adjusted-fcs}
+	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-mlp-training-accuracy-comparison}}\qquad
+	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-mlp-test-accuracy-comparison}}
+	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \ac{mlp}]{Comparación de las precisiones alcanzadas por los modelos de tipo \ac{mlp}.}
+	\label{fig:lc-mlp-accuracy-comparison}
 \end{figure}
 
-El proceso de entrenamiento seguido no ha sido el del ajuste de todas las variables en su conjunto. La razón principal de esto es que el ajuste de las variables que determinan las particiones difusas parece suceder órdenes de magnitud más rápido que el ajuste de los pesos asociados a las reglas.
+\TODO{}
 
-Por tanto, y para este problema en concreto, El entrenamiento se realiza iterativamente alternando conjuntos de epochs dedicados a las reglas y conjuntos de epochs dedicados a las variables de las reglas difusas.
-
-En lugar de eso se ha particionado el entrenamiento en secuencias sucesivas de entrenamiento de reglas y entrenamiento de particiones difusas. Concretamente, los $250.000$ epochs de entrenamiento se corresponden a $250$ iteraciones de $800$ epochs ajustando sólo las reglas seguidos de $200$ epochs ajustando las variables de las particiones difusas.
-
-Empíricamente (y en este problema en concreto) se ha podido observar que el entrenamiento realizado de esta manera hace que el \ac{rmse} descienda más rápido en el mismo número de iteraciones.
-
-Tras el entrenamiento, el controlador difuso que menor error en test arroja es el $FCS_2$\sidenote{
-	Para el controlador $FCS_2$, la forma de sus particiones difusas queda, para las variables binarias sin apenas ajuste:
-	\includegraphics{fcs-best-architecture-next-tls-green-yellow-and-red-variable-partition}
-	El resto de particiones sí se han visto modificadas:
-	\includegraphics{fcs-best-architecture-leader-distance-variable-partition}
-	\includegraphics{fcs-best-architecture-next-tls-distance-variable-partition}
-	\includegraphics{fcs-best-architecture-speed-variable-partition}
-	\includegraphics{fcs-best-architecture-speed-to-leader-variable-partition}
-	En transparente se puede ver el estado inicial de la partición, y en opaco la forma de ésta tras el proceso de entrenamiento.
-}. Por tanto, éste será el modelo seleccionado para la comparativa final.
-
+Cada una de las redes se ha entrenado durante $XXX$ epochs. Debido a las limitaciones de memoria RAM en la máquina de entrenamiento, los epochs no incluyen todo el conjunto de entrenamiento en cada pasada, sino que se limitan a \textit{batches} de $YYY$ elementos seleccionados aleatoriamente del conjunto total de datos.
 
 \section{Modelo \ac{cnn}}
 
-\TODO{Indicar que, en este modelo concreto, las imágenes de los deepmap se han modificado dinámicamente en el proceso de alimentación de la red de tal manera que los extremos derecho e izquierdo de éstas se corresponden con los bordes izquierdo y derecho respectivamente para mantener la coherencia espacial en la horizontal.}
+Las arquitecturas de los modelos que mejores resultado han arrojado tras las pruebas se describen en la tabla~\ref{tbl:lc-cnn-architectures}. La descripción de los parámetros de las arquitecturas es la siguiente:
 
-\TODO{Indicar que a la red de convolucion se la alimenta con todos los datos, pero que las convoluciones se realizan únicamente con imágenes, y el resto de arámetros se introducen en la fase de inferencia}
-
-Para determinar el modelo óptimo de \ac{mlp} en comportamiento longitudinal, se han realizado entrenamientos sobre arquitecturas con diferente cantidad de neuronas y capas ocultas. Las arquitecturas más ilustrativas de todas las probadas se resumen en la tabla~\ref{tbl:cf-mlp-architectures}.
+\begin{itemize}
+	\item \TODO{Describir las de tipo c32-W-H-v}
+	\item \TODO{Describir las de tipo d123-0.1}
+\end{itemize}
 
 \begin{table*}
 	\caption[Resumen de las arquitecturas \ac{mlp} para el modelo longitudinal]{Resumen de las arquitecturas de \ac{mlp} para el modelo longitudinal. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
-	\label{tbl:cf-mlp-architectures}
+	\label{tbl:lc-cnn-architectures}
 	\begin{tabular}{ccccccc}
 		\hline
 		\multirow{2}{*}{Nombre} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multirow{2}{*}{Dropout} & \multicolumn{3}{c}{RMS}      \\
 		&                            &                         &                          & Training & Validation & Test \\ \hline
-		$MLP_1$ & $7, 16, 1$                 & $10^5$                  & $0.1$                    & $0.052741$      & $0.057301$        & $0.059253$  \\
-		$MLP_2$ & $7, 8, 4, 1$               & $10^5$                  & $0.1$                    & $0.056341$      & $0.061951$        & $0.056607$  \\
-		$MLP_3$ & $7, 16, 8, 1$              & $10^5$                  & $0.1$                    & $0.046404$      & $0.051878$        & $0.059681$  \\
-		$MLP_4$ & $7, 16, 16, 8, 1$          & $10^5$                  & $0.1$                    & $0.042789$      & $0.046876$        & $0.060971$  \\ \hline
+		$CNN_1$ & $7, 16, 1$                 & $10^5$                  & $0.1$                    & $0.052741$      & $0.057301$        & $0.059253$  \\
+		$CNN_2$ & $7, 8, 4, 1$               & $10^5$                  & $0.1$                    & $0.056341$      & $0.061951$        & $0.056607$  \\
+		$CNN_3$ & $7, 16, 8, 1$              & $10^5$                  & $0.1$                    & $0.046404$      & $0.051878$        & $0.059681$  \\
 	\end{tabular}
 \end{table*}
 
-El modelo de neuronas de activación que se ha utilizado es de tipo tangente hiperbólica en todas las neuronas salvo en la última, que se ha utilizado una activación lineal en todas las neuronas salvo en la neurona de salida que se ha utilizado una activación lineal\sidenote{Se han utilizado también funciones de activación de tipo \ac{relu}, pero las tasas de error tras el entrenamiento eran notablemente más altas por lo que se ha optado al final por el uso de activación basada en tangente hiperbólica.}. Los pesos de la red han sido inicializados con una muestra aleatoria uniforme de valores reales en el intervalo $(-0.25, 0.25)$.
+Existen una serie de particularidades del proceso de entrenamiento que hay que destacar. La primera y principal es la modificación de la arquitectura básica de una \ac{cnn} para atender a variables que no obedecen al esquema de mapa $n$-dimensional. Una \ac{cnn} basa su funcionamiento en una fase de extracción de características seguida de una fase de inferencia sobre las características extraídas de la imagen. En nuestro caso, sin embargo, necesitamos alimentar a la red con más información.
 
-El error que se trata de minimizar es el error cuadrático medio entre los valores de aceleración del conjunto reales y los ajustados por el modelo. La Figura~\ref{fig:rms-all-in-training-and-validation-mlp-detail} muestra la evolución de este error durante el proceso de entrenamiento.
+La decisión tomada ha sido entender estas variables (distancia circulable, distancia a siguiente semáforo y estado de siguiente semáforo) como características del modelo ya extraídas. Para ello, al alimentar el modelo, los mapas de profundidad y estas variables son separados al comenzar el entrenamiento. Los mapas de profundidades se pasan por el flujo normal de funcionamiento y una vez se han extraído las características de estos mapas se combinan con las variables para continuar con el flujo normal (ver Figura~\ref{fig:modification-of-cnn-to-work-with-variables})
 
 \begin{figure}
 	\centering
-	\includegraphics{rms-all-in-training-and-validation-mlp-detail}
-	\caption[Evolución del error en entrenamiento en los \ac{mlp} para las arquitecturas seleccionadas]{Visión en detalle de la evolución del error en los conjuntos de entrenamiento y validación. Para cada arquitectura, el color más transparente se corresponde al error en el conjunto de validación..}
-	\label{fig:rms-all-in-training-and-validation-mlp-detail}
+	\missingfigure[figheight=3cm]{Esquema donde se ve el flujo que siguen el deepmap y las variables dentro de la modificación de la red de convolución.}
+	\caption[Esquema de modificación de \ac{cnn} para incluír características no espaciales]{Esquema de modificación de \ac{cnn} para incluír características no espaciales. Las variables se separan al principio de la convolución para que éstas trabajen con las imágenes. Una vez este proceso se ha completado, las características de las imágenes y las variables de entrada separada se vuelven a continuar para continuar el flujo normal de funcionamiento.}
+	\label{fig:modification-of-cnn-to-work-with-variables}
 \end{figure}
 
-Estos errores se encuentran entre los \SI{0.05}{\metre\per\square\second} y los \SI{0.07}{\metre\per\square\second}, lo cual consideramos que es una aproximación aceptable. Una particularidad del problema ha sido la inestabilidad de los entrenamientos, esto es, la alta sensibilidad a los valores de inicialización de los parámetros. La intuición tras ver la evolución de los entrenamientos es que la función de error del problema tiene muchos mínimos locales o mesetas.
-
-Al contrastar los errores de test, podemos determinar que la arquitectura que parece que mejor generaliza es la $MLP_2$ (arquitectura $7, 8, 2, 1$), como podemos ver en la figura~\ref{fig:rms-all-test-mlp-detail}.
+La siguiente modificación ha sido la alteración del mapa de profundidad justo al comienzo de la alimentación. Al ser los mapas de profundidad una reprsentación colíndrica de las distancias, el extremo izquiero y el derecho de la imagen son, en realidad, un punto de corte donde las convoluciones perderán información. Para evitar esta limitación,las imagenes con las que se alimenta la red son aumentadas artificialmente en sus bordes con el extremo contrario de la imagen, para que la convolución opere sobre la información que de otro modo se perdería. Una ilustración de esto se puede ver en la Figura~\ref{}
 
 \begin{figure}
 	\centering
-	\includegraphics{rms-all-test-mlp-detail}
-	\caption[Evolución del error en el conjunto de test durante el entrenamiento]{Visión en detalle de la evolución del error en el conjunto de test. Aunque no se ha considerado para determinar las arquitecturas, sí se ha recogido la información de la evolución del error en el conjunto de test debido a que nos ofrece puede ofrecer intuición de qué forma aprende la red. Por lo que podemos observar, para el problema en cuestión las redes más potentes tienden a sobre-entrenarse.}
-	\label{fig:rms-all-test-mlp-detail}
+	\missingfigure[figheight=3cm]{Esquema donde se vea o que hago con la imagen al alimentar de poner parte de la izquierda en la derecha y viceversa..}
+	\caption[Aumentación artificial de los extremos del mapa de profundidad]{Aumentación artificial de los extremos del mapa de profundidad. Para no perder información que puede ser relevante, los mapas se aumentan artificialmente al alimentar a la red, de tal manera que a los extremos izquierdo y derecho se les aumenta con parte de los extremos derecho e izquierdo con un número de píxeles igual a la mitad del tamaño horizontal del los filtros que los recorrerán.}
+	\label{fig:deepmap-augmentation-in-cnn}
 \end{figure}
 
-Una visión de detalle del ajuste de estas arquitecturas al conjunto de test se puede ver en la figura~\ref{fig:mlp-test-comparisons}, donde se muestra el perfil de aceleración del conjunto de test y los perfiles de aceleración de las redes entrenadas.
+La última modificación es la de la aplicación de una tasa de aprendizaje adaptativa al proceso de entrenamiento. Esta adaptación puede basarse en muchos factores, pero en nuestro caso la tasa se basa en una disminución suave de un valor máximo a un valor mínimo de manera que en los primeros estadios del entrenamiento la tasa sea suficientemente alta como para converger rápidamente a zonas de interés, pero que a la vez, según el entrenamiento avanza, se eviten los problemas de saltos alrededor de mínimos. La tasa de aprendizaje en cada \textit{epoch} quedará determinada por la siguiente ecuación:
+
+\begin{equation}
+    \alpha_i = \alpha_{min} + (\alpha_{max} - \alpha_{min}) \cdot e^\frac{i}{\alpha_d}  np.math.exp(-step / DECAY_SPEED)
+	\label{eq:learning-rate-decay}
+\end{equation}
+
+Donde $\alpha_i$ será la tasa de aprendizaje a aplicar en el \textit{epoch} $i$, $\alpha_{min}$ y $\alpha_{max}$ la cota inferior y superior que tomará la tasa de aprendizaje y $\alpha_d$ la tasa de decrecimiento. En la Figura~\ref{fig:learning-rate-decay} se ilustra la gráfica de la función usada para entrenar las arquitecturas de esta sección.
+
+\begin{marginfigure}
+	\centering
+	\missingfigure[figheight=2cm]{Dibujo de la learning rate decay con la ecuación que se especifica en el texto.}
+	\caption[Gráfica de la tasa de aprendizaje adaptativo por epoch usada para entrenar \ac{cnn}]{Gráfica de la tasa de aprendizaje adaptativo por epoch usada para entrenar \ac{cnn}. En nuestros entrenamientos, los valores de los parámetros son $\alpha_{min} = 0.1$ y $\alpha_{max} = 0.001$ y $\alpha_d = 20000$.}
+	\label{fig:learning-rate-decay}
+\end{marginfigure}
+
+La evolución de la precisión a lo largo del entrenamiento para las diferentes arquitecturas se muestra en la Figura~\ref{fig:lc-cnn-training-validation-test-comparison}.
 
 \begin{figure}
 	\centering
-	\subfloat[]{\includegraphics[width=.45\textwidth]{mlp-test-comparison}}\qquad
-	\subfloat[]{\includegraphics[width=.45\textwidth]{mlp-test-comparison-detail}}
+	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-cnn-training-comparison}}\qquad
+	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-cnn-test-comparison}}
 	\caption[Comparación del perfil de aceleración real y el inferido por los modelos entrenados]{Comparación del perfil de aceleración real y el inferido por los modelos entrenados. En la visión general se puede observar, en transparente, el perfil real. A la derecha se amplía una pequeña sección del perfil para mostrar los diferentes ajustes de los modelos entrenados y cómo difieren del valor real.}
-	\label{fig:mlp-test-comparisons}
+	\label{fig:lc-cnn-training-validation-test-comparison}
 \end{figure}
 
-A la vista de los resultados, y dado que las arquitecturas se ajustan razonablemente bien, es razonable elegir el modelo $MLP_2$ debido a que es el que aparentemente mejor generaliza los comportamientos del conjunto de conductores.
+\TODO{Cambiar esta frase a la vista de los resultados}La precisión que se obtiene en todos los modelos supera el $0.\wideparen{3}$, tanto en entrenamiento como en test. Este valor es la probabilidad de que un valor sea acertado al azar, ya que los valores son equiprobables. Por lo tanto todos los modelos superan el acierto aleatorio.
+
+\TODO{Cambiar esta frase cuando salgan los resultados}No obstante, se puede seleccionar la arquitectura $CNN_X$ como la idónea por su capacidad de predicción, la cual se confirma en los resultados de precisión en test. La Figura~\ref{fig:lc-model-confussion-matrix} muestra las matrices de confusión para las clases en el conjunto de entrenamiento y el conjunto de test.
 
 \section{Comparación entre modelos}
 
-Las mejores arquitecturas de ambos modelos han sido la $MLP_2$ para los \acp{mlp} y $FCS_x$ para los \acp{fcs}. Los errores y el perfil de aceleración para ambos modelos se muestran en la figura~\ref{fig:comparison-between-best-mlp-and-fcs-architecture}.
-
-\begin{figure}
-	\centering
-	\subfloat[]{\includegraphics[width=.46\textwidth]{comparison-between-best-mlp-and-fcs-architecture-rms}}\qquad
-	\subfloat[]{\includegraphics[width=.46\textwidth]{comparison-between-best-mlp-and-fcs-architecture-acceleration-profile}}
-	\caption[Comparación entre los dos tipos de modelo longitudinal]{Comparación de la mejor arquitectura \ac{mlp} frente a la mejor arquitectura \ac{fcs}: (a) diferencia entre los errores cuadráticos medios de ambas arquitecturas y (b) perfiles de aceleración en el conjunto de test.}
-	\label{fig:comparison-between-best-mlp-and-fcs-architecture}
-\end{figure}
-
-Aunque el modelo basado en \ac{fcs} arroja un error bajo en test y parece que tiende a ajustarse al perfil de aceleración, parece que el problema es suficientemente complejo como para no poder representarse como un simple controlador difuso.
-
-Además, el error arrojado por el \ac{mlp} es sustancialmente menor y, por tanto, la arquitectura elegida para el modelo longitudinal será el \ac{mlp} $MLP_2$.
+Las mejores arquitecturas de ambos modelos han sido la $MLP_X$ para los \acp{mlp} y $CNN_Y$ para las \ac{cnn}. Sin embargo, la arquitectura $CNN_X$ mejora notablemente las demás arquitecturas, por lo que parece razonable seleccionarla como la candidata para el modelo de comportamiento de conductor.

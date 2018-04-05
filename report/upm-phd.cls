@@ -2216,6 +2216,7 @@ version={3.0},
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{textcomp}
+\usepackage{yhmath}
 
 %%
 % End of file
