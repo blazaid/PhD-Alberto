@@ -25,9 +25,9 @@ if __name__ == '__main__':
     args.subject = 'all'
     args.path = './data'
     args.steps = EPOCHS
-    args.layers = ['c16-4-18-v', 'd128']
+    # args.layers = ['c16-4-18-v', 'd128']
     # args.layers = ['c16-4-18-v', 'c32-3-18-v', 'd128']
-    # args.layers = ['c16-3-18-v', 'c32-3-18-v', 'c64-2-18-v', 'd128']
+    args.layers = ['c16-3-18-v', 'c32-3-18-v', 'c64-2-18-v', 'd128']
     #parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
     #parser.add_argument('subject', type=str)
     #parser.add_argument('path', type=str)
@@ -123,7 +123,7 @@ if __name__ == '__main__':
         session.run(tf.global_variables_initializer())
         writer_trn.add_graph(session.graph)
 
-        cnn_rms = {
+        cnn_accuracy = {
             'training': [],
             'validation': [],
             'test': [],
@@ -148,7 +148,7 @@ if __name__ == '__main__':
                 })
                 writer_trn.add_summary(summary, step)
                 writer_trn.flush()
-                cnn_rms['training'].append(session.run(cost, feed_dict={
+                cnn_accuracy['training'].append(session.run(accuracy, feed_dict={
                     x: train_data,
                     y: train_target,
                     learning_rate: lr,
@@ -161,7 +161,7 @@ if __name__ == '__main__':
                 })
                 writer_val.add_summary(summary, step)
                 writer_val.flush()
-                cnn_rms['validation'].append(session.run(cost, feed_dict={
+                cnn_accuracy['validation'].append(session.run(accuracy, feed_dict={
                     x: validation_data,
                     y: validation_target,
                     learning_rate: lr,
@@ -174,7 +174,7 @@ if __name__ == '__main__':
                 })
                 writer_tst.add_summary(summary, step)
                 writer_tst.flush()
-                cnn_rms['test'].append(session.run(cost, feed_dict={
+                cnn_accuracy['test'].append(session.run(accuracy, feed_dict={
                     x: test_data,
                     y: test_target,
                     learning_rate: lr,
@@ -191,15 +191,20 @@ if __name__ == '__main__':
         print()
 
         # Write results to a file so we can later make graphs
-        pd.DataFrame({
-            'expected': test_target.flatten(),
-            'real': session.run(y_hat, feed_dict={
-                x: test_data,
-                y: test_target,
-            }).flatten(),
-        }).to_csv('outputs/lc-cnn-outputs-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT), index=None)
-        pd.DataFrame(cnn_rms).to_csv('outputs/lc-cnn-rms-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT),
-                                     index=None)
+        real_classes = np.argmax(datasets.test.target, axis=1)
+        predicted_classes = session.run(
+            tf.argmax(input=y_hat, axis=1),
+            feed_dict={
+                x: datasets.test.data,
+                y: datasets.test.target,
+            })
+        pd.DataFrame(
+            data=np.column_stack([real_classes, predicted_classes]),
+            columns=['Real classes', 'Predicted']
+        ).astype(np.int32).to_csv('outputs/lc-cnn-outputs-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT), index=None)
+        pd.DataFrame(cnn_accuracy).to_csv(
+            'outputs/lc-cnn-accuracy-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT),
+            index=None)
         print('Finished training')
         print('Saving model ...')
         saver = tf.train.Saver()

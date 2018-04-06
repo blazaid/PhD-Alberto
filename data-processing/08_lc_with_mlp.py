@@ -1,4 +1,3 @@
-import argparse
 import os
 import shutil
 
@@ -18,19 +17,18 @@ EPOCHS = 500000
 LOGS_STEPS = EPOCHS / 100
 MINIBATCH_SIZE = 25000
 
-
 if __name__ == '__main__':
     args = type('test', (object,), {})()
     args.subject = 'all'
     args.path = './data'
     args.steps = EPOCHS
-    args.layers = [128]  # [128], [64, 64], [128, 64, 16]
-    #parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
-    #parser.add_argument('subject', type=str)
-    #parser.add_argument('path', type=str)
-    #parser.add_argument('steps', type=int)
-    #parser.add_argument('layers', type=int, nargs='*')
-    #args = parser.parse_args()
+    args.layers = [128, 64, 16]  # [128], [64, 64], [128, 64, 16]
+    # parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
+    # parser.add_argument('subject', type=str)
+    # parser.add_argument('path', type=str)
+    # parser.add_argument('steps', type=int)
+    # parser.add_argument('layers', type=int, nargs='*')
+    # args = parser.parse_args()
     # Load datasets
 
     datasets = load_datasets_for_subject(args.path, args.subject)
@@ -92,7 +90,7 @@ if __name__ == '__main__':
         session.run(tf.global_variables_initializer())
         writer_trn.add_graph(session.graph)
 
-        mlp_rms = {
+        mlp_accuracy = {
             'training': [],
             'validation': [],
             'test': [],
@@ -102,7 +100,7 @@ if __name__ == '__main__':
             train_data, train_target = extract_minibatch_data(datasets.train, MINIBATCH_SIZE, num_outputs)
             validation_data, validation_target = extract_minibatch_data(datasets.validation, MINIBATCH_SIZE,
                                                                         num_outputs)
-            test_data, test_target = extract_minibatch_data(datasets.validation, MINIBATCH_SIZE, num_outputs)
+            test_data, test_target = extract_minibatch_data(datasets.test, MINIBATCH_SIZE, num_outputs)
 
             # Compute the decaying learning rate
             lr = MIN_LEARN_RATE + (MAX_LEARN_RATE - MIN_LEARN_RATE) * np.math.exp(-step / DECAY_SPEED)
@@ -117,7 +115,7 @@ if __name__ == '__main__':
                 })
                 writer_trn.add_summary(summary, step)
                 writer_trn.flush()
-                mlp_rms['training'].append(session.run(cost, feed_dict={
+                mlp_accuracy['training'].append(session.run(accuracy, feed_dict={
                     x: train_data,
                     y: train_target,
                     learning_rate: lr,
@@ -130,7 +128,7 @@ if __name__ == '__main__':
                 })
                 writer_val.add_summary(summary, step)
                 writer_val.flush()
-                mlp_rms['validation'].append(session.run(cost, feed_dict={
+                mlp_accuracy['validation'].append(session.run(accuracy, feed_dict={
                     x: validation_data,
                     y: validation_target,
                     learning_rate: lr,
@@ -143,7 +141,7 @@ if __name__ == '__main__':
                 })
                 writer_tst.add_summary(summary, step)
                 writer_tst.flush()
-                mlp_rms['test'].append(session.run(cost, feed_dict={
+                mlp_accuracy['test'].append(session.run(accuracy, feed_dict={
                     x: test_data,
                     y: test_target,
                     learning_rate: lr,
@@ -160,16 +158,20 @@ if __name__ == '__main__':
         print()
 
         # Write results to a file so we can later make graphs
-        print(test_data.shape, test_target.shape, y_hat.shape)
-        pd.DataFrame({
-            'expected': test_target.flatten(),
-            'real': session.run(y_hat, feed_dict={
-                x: test_data,
-                y: test_target,
-            }).flatten(),
-        }).to_csv('outputs/lc-mlp-outputs-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT), index=None)
-        pd.DataFrame(mlp_rms).to_csv('outputs/lc-mlp-rms-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT),
-                                     index=None)
+        real_classes = np.argmax(datasets.test.target, axis=1)
+        predicted_classes = session.run(
+            tf.argmax(input=y_hat, axis=1),
+            feed_dict={
+                x: datasets.test.data,
+                y: datasets.test.target,
+            })
+        pd.DataFrame(
+            data=np.column_stack([real_classes, predicted_classes]),
+            columns=['Real classes', 'Predicted']
+        ).astype(np.int32).to_csv('outputs/lc-mlp-outputs-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT), index=None)
+        pd.DataFrame(mlp_accuracy).to_csv(
+            'outputs/lc-mlp-accuracy-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT),
+            index=None)
         print('Finished training')
         print('Saving model ...')
         saver = tf.train.Saver()

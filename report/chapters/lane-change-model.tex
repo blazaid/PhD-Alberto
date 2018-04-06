@@ -181,9 +181,20 @@ La figura~\ref{fig:lc-mlp-accuracy-comparison} nos muestra la evolución de la p
 	\label{fig:lc-mlp-accuracy-comparison}
 \end{figure}
 
-\TODO{}
-
 Cada una de las redes se ha entrenado durante $XXX$ epochs. Debido a las limitaciones de memoria RAM en la máquina de entrenamiento, los epochs no incluyen todo el conjunto de entrenamiento en cada pasada, sino que se limitan a \textit{batches} de $YYY$ elementos seleccionados aleatoriamente del conjunto total de datos.
+
+\TODO{Cambiar esta frase a la vista de los resultados}La precisión que se obtiene en todos los modelos supera el $0.\wideparen{3}$, tanto en entrenamiento como en test. Este valor es la probabilidad de que un valor sea acertado al azar, ya que los valores son equiprobables. Por lo tanto todos los modelos superan el acierto aleatorio.
+
+\TODO{Poner las tablas de precisiones}
+
+\TODO{Cambiar esta frase cuando salgan los resultados}No obstante, se puede seleccionar la arquitectura $CNN_X$ como la idónea por su capacidad de predicción, la cual se confirma en los resultados de precisión en test. La Figura~\ref{fig:lc-mlp-model-confussion-matrix} muestra las matrices de confusión para las clases en el conjunto de entrenamiento y el conjunto de test.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.6\linewidth]{lc-mlp-model-confussion-matrix}
+	\caption[Matriz de confusión del conjunto de test para \ac{cnn}]{Matriz de confusión del conjunto de test para \ac{cnn}.}
+	\label{fig:lc-mlp-model-confussion-matrix}
+\end{figure}
 
 \section{Modelo \ac{cnn}}
 
@@ -218,7 +229,7 @@ La decisión tomada ha sido entender estas variables (distancia circulable, dist
 	\label{fig:modification-of-cnn-to-work-with-variables}
 \end{figure}
 
-La siguiente modificación ha sido la alteración del mapa de profundidad justo al comienzo de la alimentación. Al ser los mapas de profundidad una reprsentación colíndrica de las distancias, el extremo izquiero y el derecho de la imagen son, en realidad, un punto de corte donde las convoluciones perderán información. Para evitar esta limitación,las imagenes con las que se alimenta la red son aumentadas artificialmente en sus bordes con el extremo contrario de la imagen, para que la convolución opere sobre la información que de otro modo se perdería. Una ilustración de esto se puede ver en la Figura~\ref{}
+La siguiente modificación ha sido la alteración del mapa de profundidad justo al comienzo de la alimentación. Al ser los mapas de profundidad una representación cilíndrica de las distancias, el extremo izquierdo y el derecho de la imagen son, en realidad, un punto de corte donde las convoluciones perderán información. Para evitar esta limitación,las imágenes con las que se alimenta la red son aumentadas artificialmente en sus bordes con el extremo contrario de la imagen, para que la convolución opere sobre la información que de otro modo se perdería. Una ilustración de esto se puede ver en la Figura~\ref{}
 
 \begin{figure}
 	\centering
@@ -230,7 +241,7 @@ La siguiente modificación ha sido la alteración del mapa de profundidad justo 
 La última modificación es la de la aplicación de una tasa de aprendizaje adaptativa al proceso de entrenamiento. Esta adaptación puede basarse en muchos factores, pero en nuestro caso la tasa se basa en una disminución suave de un valor máximo a un valor mínimo de manera que en los primeros estadios del entrenamiento la tasa sea suficientemente alta como para converger rápidamente a zonas de interés, pero que a la vez, según el entrenamiento avanza, se eviten los problemas de saltos alrededor de mínimos. La tasa de aprendizaje en cada \textit{epoch} quedará determinada por la siguiente ecuación:
 
 \begin{equation}
-    \alpha_i = \alpha_{min} + (\alpha_{max} - \alpha_{min}) \cdot e^\frac{i}{\alpha_d}  np.math.exp(-step / DECAY_SPEED)
+    \alpha_i = \alpha_{min} + (\alpha_{max} - \alpha_{min}) \cdot e^\frac{i}{\alpha_d}
 	\label{eq:learning-rate-decay}
 \end{equation}
 
@@ -238,7 +249,7 @@ Donde $\alpha_i$ será la tasa de aprendizaje a aplicar en el \textit{epoch} $i$
 
 \begin{marginfigure}
 	\centering
-	\missingfigure[figheight=2cm]{Dibujo de la learning rate decay con la ecuación que se especifica en el texto.}
+	\includegraphics[width=\linewidth]{lc-learning-rate-decay}
 	\caption[Gráfica de la tasa de aprendizaje adaptativo por epoch usada para entrenar \ac{cnn}]{Gráfica de la tasa de aprendizaje adaptativo por epoch usada para entrenar \ac{cnn}. En nuestros entrenamientos, los valores de los parámetros son $\alpha_{min} = 0.1$ y $\alpha_{max} = 0.001$ y $\alpha_d = 20000$.}
 	\label{fig:learning-rate-decay}
 \end{marginfigure}
@@ -247,15 +258,24 @@ La evolución de la precisión a lo largo del entrenamiento para las diferentes 
 
 \begin{figure}
 	\centering
-	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-cnn-training-comparison}}\qquad
-	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-cnn-test-comparison}}
-	\caption[Comparación del perfil de aceleración real y el inferido por los modelos entrenados]{Comparación del perfil de aceleración real y el inferido por los modelos entrenados. En la visión general se puede observar, en transparente, el perfil real. A la derecha se amplía una pequeña sección del perfil para mostrar los diferentes ajustes de los modelos entrenados y cómo difieren del valor real.}
+	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-cnn-training-accuracy-comparison}}\qquad
+	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-cnn-test-accuracy-comparison}}
+	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \ac{mlp}]{Comparación de las precisiones alcanzadas por los modelos de tipo \ac{mlp}.}
 	\label{fig:lc-cnn-training-validation-test-comparison}
 \end{figure}
 
 \TODO{Cambiar esta frase a la vista de los resultados}La precisión que se obtiene en todos los modelos supera el $0.\wideparen{3}$, tanto en entrenamiento como en test. Este valor es la probabilidad de que un valor sea acertado al azar, ya que los valores son equiprobables. Por lo tanto todos los modelos superan el acierto aleatorio.
 
-\TODO{Cambiar esta frase cuando salgan los resultados}No obstante, se puede seleccionar la arquitectura $CNN_X$ como la idónea por su capacidad de predicción, la cual se confirma en los resultados de precisión en test. La Figura~\ref{fig:lc-model-confussion-matrix} muestra las matrices de confusión para las clases en el conjunto de entrenamiento y el conjunto de test.
+\TODO{Poner las tablas de precisiones}
+
+\TODO{Cambiar esta frase cuando salgan los resultados}No obstante, se puede seleccionar la arquitectura $CNN_X$ como la idónea por su capacidad de predicción, la cual se confirma en los resultados de precisión en test. La Figura~\ref{fig:lc-cnn-model-confussion-matrix} muestra las matrices de confusión para las clases en el conjunto de entrenamiento y el conjunto de test.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.6\linewidth]{lc-cnn-model-confussion-matrix}
+	\caption[Matriz de confusión del conjunto de test para \ac{cnn}]{Matriz de confusión del conjunto de test para \ac{cnn}.}
+	\label{fig:lc-cnn-model-confussion-matrix}
+\end{figure}
 
 \section{Comparación entre modelos}
 
