@@ -1,6 +1,7 @@
 import argparse
 import os
 import shutil
+import time
 
 import numpy as np
 import pandas as pd
@@ -11,13 +12,13 @@ from utils import load_datasets_for_subject, convolutional, extract_minibatch_da
 
 MAX_LEARN_RATE = 0.1
 MIN_LEARN_RATE = 0.001
-DECAY_SPEED = 20000
+DECAY_SPEED = 2000
 ACTIVATION_FN = tf.nn.relu
 OUTPUT_FN = None
 DROPOUT = 0.1
-EPOCHS = 500000
+EPOCHS = 10000
 LOGS_STEPS = EPOCHS / 100
-MINIBATCH_SIZE = 25000
+MINIBATCH_SIZE = 3000
 
 
 if __name__ == '__main__':
@@ -140,7 +141,6 @@ if __name__ == '__main__':
 
             # When logging, evaluate also with the validation partition and the test
             if step % LOGS_STEPS == 0:
-                print('l', end='', flush=True)
                 summary = session.run(merged_summary, feed_dict={
                     x: train_data,
                     y: train_target,
@@ -180,7 +180,8 @@ if __name__ == '__main__':
                     learning_rate: lr,
                 }))
 
-            print('t', end='', flush=True)
+            print('training step ... ', end='', flush=True)
+            start = time.process_time()
             # Train with the training partition
             session.run(train, feed_dict={
                 x: train_data,
@@ -188,7 +189,9 @@ if __name__ == '__main__':
                 dropout: DROPOUT,
                 learning_rate: lr,
             })
-        print()
+            elapsed = time.process_time() - start
+            remaining_time = (EPOCHS - step) * elapsed / 3600
+            print('{:.2f} s. ({:.2f} hours remaining)'.format(elapsed, remaining_time))
 
         # Write results to a file so we can later make graphs
         real_classes = np.argmax(datasets.test.target, axis=1)
