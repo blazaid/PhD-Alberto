@@ -2,8 +2,10 @@ import os
 import re
 import random
 from multiprocessing import Process
+from threading import Thread
 
 import collections
+import fuzzle.mfs
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -430,7 +432,7 @@ def launch_tensorboard(tb_trn_path, tb_val_path, tb_tst_path):
         tensorboard.program.main(tensorboard.default.get_plugins(), tensorboard.default.get_assets_zip_provider())
         print('Tensorboard started on http://localhost:6006/'.format())
 
-    tb_process = Process(target=process, args=(tb_trn_path, tb_val_path, tb_tst_path))
+    tb_process = Thread(target=process, args=(tb_trn_path, tb_val_path, tb_tst_path))
     tb_process.start()
     return tb_process
 

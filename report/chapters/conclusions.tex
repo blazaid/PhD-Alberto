@@ -1,21 +1,39 @@
 \chapter{Conclusiones}
 \label{ch:conclusions}
 
-¿Pierde rendimiento el sistema cuando se aplican los modelos a escenarios significativamente diferentes de los escenarios de test? Si sí, un trabajo futuro y algo para escribbir en conclusiones sería hablar de este defecto y de cómo subsanarlo.
+
+
+\TODO{De aquí para abajo ideas}
+
+
+At first glance, the obtained outputs of the final stage of the experiments verify that:
+1. It is possible to adjust the problem of lane-change execution to a specific driving profile on a different circuit after enough training with a high certainty.
+5. As could be expected, a model trained for a profile performs worse when validated against data from a different one, even while driving in the same route with the same driving conditions (due to its different driving styles). So, the developed models intrinsically distinguish driving profiles.
+6. The comparison realized between CNN and MLP show that the former ones can generalize much better than the latter in this problem, although they require more training. In fact, by the results obtained in Table , it can be observed that, whereas the training accuracy has slightly decreased in all the architectures, in the case of CNN2-- the network has experienced a remarkable increase in the validation accuracy. This fact reinforces the belief that the problem required a network of this size with a moderately-to-high regularization factor to ensure the reduction of overspecialization.
+Beyond these results, another result has been obtained that is worth highlighting: the difference on how CNNs and MLPs differentiate between subjects. A new training process was run after the one in the paper to see if the resulting values coincide, and the results were similar. It seems that our models based on CNNs differentiate better between profiles than the ones based on MLPs. The reasons for this behaviour may have to do with the way in which CNNs recognize patterns as opposed with MLPs, but further research is required.
+Wrapping up, the use of CNNs for tasks where the input topology is space-dependent (meaning that the position of the required patterns in the space are relevant) is extremely effective to model temporal events when their windows are narrow and surpasses the precision of the MLPs without loss of time.
+The last result obtained is the adequacy of the proposed shaking technique to the problem. It has proven to be extremely useful in artificially augmenting the size of the dataset and therefore helps lowering the overfitting problem. We think that, for situations like this one, where the point clouds have errors or where a degree of error or inaccuracy is allowed, this technique can help improving dramatically the size of the datasets to increase the quality of the results.
+
+
+
+
+¿Pierde rendimiento el sistema cuando se aplican los modelos a escenarios significativamente diferentes de los escenarios de test? Si sí, un trabajo futuro y algo para escribir en conclusiones sería hablar de este defecto y de cómo subsanarlo.
+
+La optimización de controladores difusos basado en el descenso del gradiente parece modelar correctamente algunos sistemas, pero en el caso del car following no lo hace demasiado bien. Quizá tenga que ver con las variables seleccionadas para modelar el comportamiento, pero lo mismo también tiene que ver con que el problema, directamente, no se puede modelar así.
 
 \section{Aportaciones}
 \label{ch:conclusions:contributions}
 
-\section{Fururas líneas de investigación}
+\TODO{De aquí para abajo ideas}
+
+Las implicaciones de estos resultados son variadas. Aun con las limitaciones que nos imponen los micro-simuladores, es posible modelar estos dos comportamientos a partir de datos reales con precisión suficiente como para decir que los agentes se comportan de manera más humana. Además, estos comportamientos son dependientes del perfil del que fueron obtenidos los datos, por lo que es posible su uso no sólo para modelar comportamiento más humanos, sino para evaluar determinados perfiles dentro de escenarios.
+
+\section{Futuras líneas de investigación}
 \label{ch:conclusions:future-work}
 
-¿A lo mejor se podría tirar por el campo de las V2X desde esta tesis?
+\TODO{De aquí para abajo ideas}
 
-¿Entrar en el tema de la mesosimulación?
-
-Intersection model (lo he visto nombrar por primera vez en http://elib.dlr.de/89233/1/SUMO\_Lane\_change\_model\_Template\_SUMO2014.pdf. Habrán creado también un concepto así rotondas?
-
-No sé, pero me parece lógico tratar de realizar una disocuiación entre vehículo y conductor en lugar de contemplar el binomio vehículo/conductor como uno sólo. Es más, creo que resultaría interesante evaluar comportamientos de conductores sobre diferentes tipologías de vehículos. La librería de todas formas debería soportar esta disociación (y se debería indicar).
+Tras la investigación, se proponen tres líneas de trabajo futuras: (i) la aplicación de las técnicas estudiadas a simuladores que modelen escenarios más realistas para evaluar más aspectos de comportamiento, tanto para agentes modelados como para conductores reales inmersos en estos entornos, (ii) el modelado no sólo de comportamientos de conductor sino de otros agentes (e.g. peatones), o de aspectos como las emisiones de vehículos para diferenciarlos de modelos de consumo genéricos, y (iii) la aplicación de arquitecturas temporales de \ac{ann} para contrastar si éstas son capaces de aprender de una manera más humana situaciones tales como velocidad de aproximación de objetos o factores de impaciencia  a partir de los datos reales de conducción.
 
 Hemos dejado fuera comportamientos interesantes de estudiar: cruces, rotondas (Driving behavior at a roundabout: Av hierarchical Bayesian regression analysis), ...
 

@@ -1,6 +1,7 @@
 import argparse
 import os
 import shutil
+import time
 
 import numpy as np
 import pandas as pd
@@ -10,14 +11,14 @@ from tensorflow.contrib import layers
 from utils import load_datasets_for_subject, convolutional, extract_minibatch_data, launch_tensorboard
 
 MAX_LEARN_RATE = 0.1
-MIN_LEARN_RATE = 0.001
-DECAY_SPEED = 20000
+MIN_LEARN_RATE = 0.0001
+DECAY_SPEED = 2000
 ACTIVATION_FN = tf.nn.relu
 OUTPUT_FN = None
 DROPOUT = 0.1
-EPOCHS = 500000
+EPOCHS = 10000
 LOGS_STEPS = EPOCHS / 100
-MINIBATCH_SIZE = 25000
+MINIBATCH_SIZE = 3000
 
 
 if __name__ == '__main__':
@@ -25,9 +26,9 @@ if __name__ == '__main__':
     args.subject = 'all'
     args.path = './data'
     args.steps = EPOCHS
-    # args.layers = ['c16-4-18-v', 'd128']
-    # args.layers = ['c16-4-18-v', 'c32-3-18-v', 'd128']
-    args.layers = ['c16-3-18-v', 'c32-3-18-v', 'c64-2-18-v', 'd128']
+    # args.layers = ['c16-3-18-v', 'c32-3-18-v', 'c64-2-18-v', 'd128']
+    # args.layers = ['c32-4-18-v', 'c64-3-18-v', 'c128-2-18-v', 'd128']
+    args.layers = ['c128-4-4-v', 'c192-3-8-v', 'c256-2-4-v', 'd128']
     #parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
     #parser.add_argument('subject', type=str)
     #parser.add_argument('path', type=str)
@@ -129,6 +130,8 @@ if __name__ == '__main__':
             'test': [],
         }
         for step in range(args.steps):
+            start_time = time.process_time()
+
             # Extract the minibatches
             train_data, train_target = extract_minibatch_data(datasets.train, MINIBATCH_SIZE, num_outputs)
             validation_data, validation_target = extract_minibatch_data(datasets.validation, MINIBATCH_SIZE,
@@ -140,7 +143,6 @@ if __name__ == '__main__':
 
             # When logging, evaluate also with the validation partition and the test
             if step % LOGS_STEPS == 0:
-                print('l', end='', flush=True)
                 summary = session.run(merged_summary, feed_dict={
                     x: train_data,
                     y: train_target,
@@ -180,7 +182,7 @@ if __name__ == '__main__':
                     learning_rate: lr,
                 }))
 
-            print('t', end='', flush=True)
+            print('training step ... ', end='', flush=True)
             # Train with the training partition
             session.run(train, feed_dict={
                 x: train_data,
@@ -188,7 +190,9 @@ if __name__ == '__main__':
                 dropout: DROPOUT,
                 learning_rate: lr,
             })
-        print()
+            elapsed = time.process_time() - start_time
+            remaining_time = (EPOCHS - step) * elapsed / 3600
+            print('{} - {:.2f} s. ({:.2f} hours remaining)'.format(step, elapsed, remaining_time))
 
         # Write results to a file so we can later make graphs
         real_classes = np.argmax(datasets.test.target, axis=1)

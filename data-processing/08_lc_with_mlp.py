@@ -1,5 +1,6 @@
 import os
 import shutil
+import time
 
 import numpy as np
 import pandas as pd
@@ -9,20 +10,20 @@ from utils import load_datasets_for_subject, multilayer_perceptron, launch_tenso
 
 MAX_LEARN_RATE = 0.1
 MIN_LEARN_RATE = 0.001
-DECAY_SPEED = 20000
+DECAY_SPEED = 2000
 ACTIVATION_FN = tf.nn.relu
 OUTPUT_FN = None
 DROPOUT = 0.1
-EPOCHS = 500000
+EPOCHS = 10000
 LOGS_STEPS = EPOCHS / 100
-MINIBATCH_SIZE = 25000
+MINIBATCH_SIZE = 1000
 
 if __name__ == '__main__':
     args = type('test', (object,), {})()
     args.subject = 'all'
     args.path = './data'
     args.steps = EPOCHS
-    args.layers = [128, 64, 16]  # [128], [64, 64], [128, 64, 16]
+    args.layers = [8192, 8192, 128]  # [64, 64], [128, 64, 16], [256, 128, 64, 16]
     # parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
     # parser.add_argument('subject', type=str)
     # parser.add_argument('path', type=str)
@@ -96,6 +97,7 @@ if __name__ == '__main__':
             'test': [],
         }
         for step in range(args.steps):
+            start_time = time.process_time()
             # Extract the minibatches
             train_data, train_target = extract_minibatch_data(datasets.train, MINIBATCH_SIZE, num_outputs)
             validation_data, validation_target = extract_minibatch_data(datasets.validation, MINIBATCH_SIZE,
@@ -147,7 +149,8 @@ if __name__ == '__main__':
                     learning_rate: lr,
                 }))
 
-            print('t', end='', flush=True)
+            # Train with the training partition
+            print('training step ... ', end='', flush=True)
             # Train with the training partition
             session.run(train, feed_dict={
                 x: train_data,
@@ -155,7 +158,9 @@ if __name__ == '__main__':
                 dropout: DROPOUT,
                 learning_rate: lr,
             })
-        print()
+            elapsed_time = time.process_time() - start_time
+            remaining_time = (EPOCHS - step) * elapsed_time / 3600
+            print('{} - {:.2f} s. ({:.2f} hours remaining)'.format(step, elapsed_time, remaining_time))
 
         # Write results to a file so we can later make graphs
         real_classes = np.argmax(datasets.test.target, axis=1)
@@ -168,7 +173,8 @@ if __name__ == '__main__':
         pd.DataFrame(
             data=np.column_stack([real_classes, predicted_classes]),
             columns=['Real classes', 'Predicted']
-        ).astype(np.int32).to_csv('outputs/lc-mlp-outputs-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT), index=None)
+        ).astype(np.int32).to_csv(
+            'outputs/lc-mlp-outputs-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT), index=None)
         pd.DataFrame(mlp_accuracy).to_csv(
             'outputs/lc-mlp-accuracy-{}-{}-d{}.csv'.format(args.subject, architecture_str, DROPOUT),
             index=None)

@@ -113,7 +113,7 @@ Esta técnica, a diferencia del \textit{mirroring} sí puede llegar a tener impa
 	\label{fig:shaking-example}
 \end{figure}
 
-Las especificaciones técnicas del LIDAR usado en los experimentos garantizan un error por debajo de los \SI{3}{\cm} de radio, por lo que un desplazamiento aleatorio para cada punto menor o igual que este valor no añadiría más ruido del existente. Sin embargo, en el experimento se ha optado sin embargo por aplicar un desplazamiento de $\delta x = \delta y = \delta z = 0.05m$ en cada eje, ligeramente superior al proporcionado por el lidar. De esta forma se pretende la incorporación de ruido sobre el entorno original para aumentar la capacidad de generalización del modelo\sidenote{
+Las especificaciones técnicas del \ac{lidar} usado en los experimentos garantizan un error por debajo de los \SI{3}{\cm} de radio, por lo que un desplazamiento aleatorio para cada punto menor o igual que este valor no añadiría más ruido del existente. Sin embargo, en el experimento se ha optado sin embargo por aplicar un desplazamiento de $\delta x = \delta y = \delta z = 0.05m$ en cada eje, ligeramente superior al proporcionado por el lidar. De esta forma se pretende la incorporación de ruido sobre el entorno original para aumentar la capacidad de generalización del modelo\sidenote{
 	La intuición de este proceso
 }.
 
@@ -123,16 +123,16 @@ Las \ac{cnn} son también redes que funcionan con un esquema \textit{feed-forwar
 
 En cada una de las filas poseemos una representación del entorno en forma de mapa de profundidad que describe el entorno, por lo que al modelo le alimentaríamos únicamente con la situación en un instante $t$ de tiempo. Esto no ayuda al modelo a descubrir patrones temporales como la velocidad o la aceleración puesto que no tiene información de eventos anteriores. Para solventar esta limitación, los conjuntos de datos serán transformados para que se alimenten con una ventana temporal de parámetros de entrada.
 
-Comenzaremos definiendo el \textit{momento} $t_i$ como aquel ejemplo situado a $t - \frac{i}{10}s$ en el pasado (ver Figura~\ref{fig:moments-illustration}). Los momentos que se tendrán en cuenta en los datasets finales serán $t_0$, $t_10$, correspondientes al momento actual, \SI{1}{\second} anterior y \SI{2}{\second} anteriores respectivamente. Estos valores no son arbitrarios, sino que se han elegido de acuerdo a los experimentos realizados en~\cite{EL PAPER CUANDO NOS LO PUBLIQUEN}\sidenote{
-	Dichos experimentos se corresponden con el proceso de ejecución de cambio de carril, donde se asume que la maniobra involucra al córtex visual y al córtex prefrontal. Estos procesos cognitivos tienen un tiempo de respuesta de entre \SI{0.2}{\second}, \SI{1.2}{\second}~\cite{buzsaki2012temporal}, por lo que es comprensible que la ventana temporal elegida sea aceptable. Además, al incluir tres momentos temporales, es posible que el modelo reconozca una intuición de la velocidad, la aceleración e incluso el \textit{jerk} a partir de imágenes estáticas. 
-}.
-
 \begin{figure}
 	\centering
 	\includegraphics{explanation-of-data-frequency}
-	\caption[Momento $t_i$en el conjunto de datos]{Un momento $t_i$ se define como el estado en el que se encontraba el vehículo en $t - \frac{i}{10}s$. Por tanto, $t_0$ es el momeno actual.}
+	\caption[Momento $t_i$en el conjunto de datos]{Un momento $t_i$ se define como el estado en el que se encontraba el vehículo en $t - \frac{i}{10}s$. Por tanto, $t_0$ es el momento actual.}
 	\label{fig:moments-illustration}
 \end{figure}
+
+Comenzaremos definiendo el \textit{momento} $t_i$ como aquel ejemplo situado a $t - \frac{i}{10}s$ en el pasado (ver Figura~\ref{fig:moments-illustration}). Los momentos que se tendrán en cuenta en los datasets finales serán $t_0$, $t_10$, $t_20$, correspondientes al momento actual, \SI{1}{\second} anterior y \SI{2}{\second} anteriores respectivamente. Estos valores no son arbitrarios, sino que se han elegido de acuerdo a los experimentos realizados en~\cite{EL PAPER CUANDO NOS LO PUBLIQUEN}\sidenote{
+	Dichos experimentos se corresponden con el proceso de ejecución de cambio de carril, donde se asume que la maniobra involucra al córtex visual y al córtex prefrontal. Estos procesos cognitivos tienen un tiempo de respuesta de entre \SI{0.2}{\second}, \SI{1.2}{\second}~\cite{buzsaki2012temporal}, por lo que es comprensible que la ventana temporal elegida sea aceptable. Además, al incluir tres momentos temporales, es posible que el modelo reconozca una intuición de la velocidad, la aceleración e incluso el \textit{jerk} a partir de imágenes estáticas. 
+}.
 
 Tras este ajuste, los conjuntos de datos están finalizados. Sus propiedades quedan descritas en la Tabla~\ref{tbl:lc-datasets-description}.
 
@@ -253,6 +253,8 @@ Donde $\alpha_i$ será la tasa de aprendizaje a aplicar en el \textit{epoch} $i$
 	\caption[Gráfica de la tasa de aprendizaje adaptativo por epoch usada para entrenar \ac{cnn}]{Gráfica de la tasa de aprendizaje adaptativo por epoch usada para entrenar \ac{cnn}. En nuestros entrenamientos, los valores de los parámetros son $\alpha_{min} = 0.1$ y $\alpha_{max} = 0.001$ y $\alpha_d = 20000$.}
 	\label{fig:learning-rate-decay}
 \end{marginfigure}
+
+Un último apunte antes de pasar a mostrar las gráficas de los entrenamientos. No se ha incluido ninguna capa de \textit{pooling} en las arquitecturas, sino que se ha preferido usar las capas de convolución sin añadir padding para ese efecto, tal y como proponen en~\cite{howard2017mobilenets}.
 
 La evolución de la precisión a lo largo del entrenamiento para las diferentes arquitecturas se muestra en la Figura~\ref{fig:lc-cnn-training-validation-test-comparison}.
 
