@@ -11,7 +11,7 @@ from tensorflow.contrib import layers
 from utils import load_datasets_for_subject, convolutional, extract_minibatch_data, launch_tensorboard
 
 MAX_LEARN_RATE = 0.1
-MIN_LEARN_RATE = 0.001
+MIN_LEARN_RATE = 0.0001
 DECAY_SPEED = 2000
 ACTIVATION_FN = tf.nn.relu
 OUTPUT_FN = None
@@ -130,6 +130,8 @@ if __name__ == '__main__':
             'test': [],
         }
         for step in range(args.steps):
+            start_time = time.process_time()
+
             # Extract the minibatches
             train_data, train_target = extract_minibatch_data(datasets.train, MINIBATCH_SIZE, num_outputs)
             validation_data, validation_target = extract_minibatch_data(datasets.validation, MINIBATCH_SIZE,
@@ -181,7 +183,6 @@ if __name__ == '__main__':
                 }))
 
             print('training step ... ', end='', flush=True)
-            start = time.process_time()
             # Train with the training partition
             session.run(train, feed_dict={
                 x: train_data,
@@ -189,9 +190,9 @@ if __name__ == '__main__':
                 dropout: DROPOUT,
                 learning_rate: lr,
             })
-            elapsed = time.process_time() - start
+            elapsed = time.process_time() - start_time
             remaining_time = (EPOCHS - step) * elapsed / 3600
-            print('{:.2f} s. ({:.2f} hours remaining)'.format(elapsed, remaining_time))
+            print('{} - {:.2f} s. ({:.2f} hours remaining)'.format(step, elapsed, remaining_time))
 
         # Write results to a file so we can later make graphs
         real_classes = np.argmax(datasets.test.target, axis=1)
