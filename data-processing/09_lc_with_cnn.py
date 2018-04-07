@@ -26,9 +26,9 @@ if __name__ == '__main__':
     args.subject = 'all'
     args.path = './data'
     args.steps = EPOCHS
-    # args.layers = ['c16-4-18-v', 'd128']
-    # args.layers = ['c16-4-18-v', 'c32-3-18-v', 'd128']
-    args.layers = ['c16-3-18-v', 'c32-3-18-v', 'c64-2-18-v', 'd128']
+    # args.layers = ['c16-3-18-v', 'c32-3-18-v', 'c64-2-18-v', 'd128']
+    # args.layers = ['c32-4-18-v', 'c64-3-18-v', 'c128-2-18-v', 'd128']
+    args.layers = ['c128-4-4-v', 'c192-3-8-v', 'c256-2-4-v', 'd128']
     #parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
     #parser.add_argument('subject', type=str)
     #parser.add_argument('path', type=str)

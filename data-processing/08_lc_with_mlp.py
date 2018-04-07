@@ -23,7 +23,7 @@ if __name__ == '__main__':
     args.subject = 'all'
     args.path = './data'
     args.steps = EPOCHS
-    args.layers = [256, 128, 64, 16]  # [64, 64], [128, 64, 16], [256, 128, 64, 16]
+    args.layers = [8192, 8192, 128]  # [64, 64], [128, 64, 16], [256, 128, 64, 16]
     # parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
     # parser.add_argument('subject', type=str)
     # parser.add_argument('path', type=str)
