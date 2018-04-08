@@ -3,20 +3,22 @@
 
 El problema del cambio de carril determina cuándo y cómo realiza los cambios de carril un conductor en un momento determinado. A priori la intuición sobre el problema es que muchos de los factores determinantes no son medibles en el mundo real y/o en el entorno simulado (e.g. estados de humor, condición física, eventos fortuitos, etcétera).
 
-En un trabajo anterior~\cite{CITA DEL ARTÍCULO DE LANE EXECUTION CUANDO NOS LO PUBLIQUEN} los autores tratamos de controlar muchos de estos factores dividiendo el problema en dos partes, la intención de cambio y la ejecución del cambio, fijando el primero de manera que los conductores sólo cambiaban de carril cuando se les ordenaba y permitiendo estudiar, de esta manera, cómo diferentes perfiles de conductores ejecutan de diferente forma el cambio de carril y cómo este fenómenos es modelable.
+En un trabajo anterior~\cite{CITA DEL ARTÍCULO DE LANE EXECUTION CUANDO NOS LO PUBLIQUEN} los autores tratamos de controlar muchos de estos factores dividiendo el problema en dos partes, la intención de cambio y la ejecución del cambio, fijando el primero de manera que los conductores sólo cambiaban de carril cuando se les ordenaba y permitiendo estudiar, de esta manera, cómo diferentes perfiles de conductores ejecutaban de diferente forma el cambio de carril y cómo este fenómeno es modelable.
 
-En este trabajo se tratará de modelar sin embargo el proceso de cambio de carril como un todo, esto es, decidir en cada momento si cambiar a un caril (i.e. izquierda o derecha) o no hacerlo, a partir de las variables medibles del entorno real y simulado.
-
-El problema de ajuste será por tanto un problema de clasificación donde se tratará de maximizar el número de aciertos entre los cambios de carril realizados y el modelo a ajustar. Las técnicas que se han seleccionado para tratar el cambio de carril son las siguientes:
+En este trabajo se tratará de modelar, sin embargo, el proceso de cambio de carril como un todo, esto es, decidir en cada momento si cambiar a un caril (i.e. izquierda o derecha) o no hacerlo, a partir de las variables medibles del entorno real y simulado. El problema de ajuste será por tanto un problema de clasificación donde se tratará de maximizar el número de aciertos entre los cambios de carril realizados y el modelo a ajustar. Las técnicas que se han seleccionado para tratar el cambio de carril son las siguientes:
 
 \begin{enumerate}
 	\item \ac{mlp}. Los \acp{mlp}, más ahora en la época del \textit{deep-learning} son una de las técnicas más usadas para problemas de clasificación. En esta época del \textit{deep-learning} han aumentado su eficiencia varios ordenes de magnitud en capacidad de aprendizaje y, por tanto, en rendimiento a la hora de clasificar.
 	\item \ac{cnn}. Otro de los grandes exponentes a la hora de clasificar, sobre todo trabajando con mapas de características $n$-dimensionales con las \acp{cnn}. Al representar la evolución temporal del entorno circundante como un espacio tridimensional, podemos aplicar esta técnica para la identificación de características de manera, supuestamente, más eficiente.
 \end{enumerate}
 
-Ambos modelos, al igual que ocurría con el modelo longitudinal, han sido entrenados ajustando sus parámetros con el algoritmo ADAM~\cite{kingma2014adam}. Las funciones de activación, sin embargo, varían, y por tanto la inicialización de las variables también\sidenote{La inicialización clásica, de valores uniformes en un intervalo pequeño alrededor de 0 haría que la mitad de los valores cayesen por debajo de 0. Si la neurona tiene una función de activación de tipo \ac{relu}, el peso no se vería modificado, ya que su derivada será siempre 0}.
+Ambos modelos, al igual que ocurría con el modelo longitudinal, han sido entrenados ajustando sus parámetros con el algoritmo ADAM~\cite{kingma2014adam}. Las funciones de activación, sin embargo, varían, y por tanto la inicialización de las variables también\sidenote{
+	La inicialización clásica, de valores uniformes en un intervalo pequeño alrededor de $0$ haría que la mitad de los valores cayesen por debajo de 0. Si la neurona tiene una función de activación de tipo \ac{relu}, el peso no se vería modificado, ya que su derivada será siempre $0$.
+}.
 
-En este caso, ambos modelos hacen uso de neuronas de activación de tipo \ac{relu}, salvo en la última capa que la activación es lineal. Para inicializar los pesos de las variables se hace uso del algoritmo Glorot~\cite{glorot2010understanding} (también denominado Xavier) debido a su mejor desempeño, sobre todo en redes con funciones de activación tipo \ac{relu}~\cite{glorot2011deep}\sidenote{Esta inicialización se basa en intentar mantener la misma desviación típica de gradientes en cada capa de la red. En~\cite{glorot2010understanding} determinan que ésta debe ser $\sigma^l = \frac{2}{\mathbf{card}(W^l_{in}) + \mathbf{card}(W^l_{out})}$, siendo $\mathbf{card}(W^l_{in})$ y $\mathbf{card}(W^l_{out})$ el número de entradas y de salidas de la capa, extrayendo posteriormente sus valores de una distribución aleatoria de la forma $X^l \sim \mathcal{N}(\mu=0,\sigma=\sigma^l)$}.
+En este caso, ambos modelos hacen uso de neuronas de activación de tipo \ac{relu}, salvo en la última capa que la activación es lineal. Para inicializar los pesos de las variables se hace uso del algoritmo Glorot~\cite{glorot2010understanding} (también denominado Xavier) debido a su mejor desempeño, sobre todo en redes con funciones de activación tipo \ac{relu}~\cite{glorot2011deep}\sidenote{
+	Esta inicialización se basa en intentar mantener la misma desviación típica de gradientes en cada capa de la red. En~\cite{glorot2010understanding} determinan que ésta debe ser $\sigma^l = \frac{2}{\mathbf{card}(W^l_{in}) + \mathbf{card}(W^l_{out})}$, siendo $\mathbf{card}(W^l_{in})$ y $\mathbf{card}(W^l_{out})$ el número de entradas y de salidas de la capa, extrayendo posteriormente sus valores de una distribución aleatoria de la forma $X^l \sim \mathcal{N}(\mu=0,\sigma=\sigma^l)$
+}.
 
 Al tratarse además de un problema de clasificación donde las clases son mutuamente excluyentes, a la capa de salida de las redes se le ha aplicado una normalización\sidenote{
 	La normalización usada ha sido la operación denominada softmax, definida como:
@@ -28,11 +30,11 @@ Al tratarse además de un problema de clasificación donde las clases son mutuam
 
 Antes de pasar a la descripción de los modelos, queda hablar del sesgo existente en los datos de entrenamiento. Debido a la naturaleza el problema, el número de ejemplos existentes de cambios de carril es significativamente menor al existente de no cambios de carril. Este sesgo hace que los modelos se entrenen rápidamente para marcar todos los ejemplos como \enquote{no cambio}, dificultando el ajuste posterior hacia cambios a izquierda o derecha.
 
-Por tanto, debido a que (i) las limitaciones de la máquina no nos permiten operar con los conjuntos completos en cada epoch y (ii) existe un sesgo hacia predicciones de \enquote{no cambio}, en cada uno de los epochs, se usará un batch para entrenar de tamaño $m$ compuesto por una selección aleatoria de todos los ejemplos equidistribuida entre las clases de los ejemplos (esto es, aproximadamente $\frac{m}{3}$ para cada clase \enquote{cambio izda.}, \enquote{no cambio} y \enquote{cambio dcha.}).
+Por tanto, debido a que (i) las limitaciones de la máquina no nos permiten operar con los conjuntos completos en cada epoch y (ii) existe un sesgo hacia predicciones de \enquote{no cambio}, en cada uno de los epochs, se usará un batch para entrenar de tamaño $m = 6.000$ compuesto por una selección aleatoria de todos los ejemplos equidistribuida entre las clases de los ejemplos (esto es, aproximadamente $\frac{m}{3}$ para cada clase \enquote{cambio izda.}, \enquote{no cambio} y \enquote{cambio dcha.}).
 
 \section{Descripción de los datasets}
 
-Del conjunto de datos~\ref{tbl:data-of-datasets} descrito en el capítulo~\nameref{ch:methodology} seleccionaremos aquellos indicadores de interés y generaremos un conjunto de entrenamiento y test para cada uno de los sujetos y un conjunto de entrenamiento y test para el total de conductores.
+Del conjunto de datos~\ref{tbl:main-variables} descrito en el capítulo~\nameref{ch:methodology} seleccionaremos aquellos indicadores de interés y generaremos un conjunto de entrenamiento y test para cada uno de los sujetos y un conjunto de entrenamiento y test para el total de conductores.
 
 \subsection{Representación de los datos}
 
@@ -47,12 +49,12 @@ Las secuencias de las que se compone el conjunto de datos están compuestas, apa
 
 Para el primer caso, se ha optado por representar el entorno como un mapa de profundidad, ilustrado en la Figura~\ref{fig:deepmap-example}. Un mapa de profundidad representa el entorno como una imagen de un sólo canal donde cada píxel representa la distancia a un sector esférico del espacio original.
 
-\begin{figure*}
+\begin{figure}
 	\centering
 	\includegraphics{deepness-map}
-	\caption[Ejemplo de un mapa de profundidad]{Un ejemplo del mapa de profundidad asociado a la nube de puntos original\TODO{sacar un mapa de profundidad de los nuevos, porque se veían mejor}.}
+	\caption[Ejemplo de un mapa de profundidad]{Un ejemplo del mapa de profundidad asociado a la nube de puntos original\TODO{sacar un mapa de profundidad de los nuevos, porque se ven mejor}.}
 	\label{fig:deepmap-example}
-\end{figure*}
+\end{figure}
 
 Dado que el LIDAR describe el entorno de manera discreta con valores constantes de elevación y azimuth, se puede definir una biyección entre el conjunto de puntos original y los píxeles del mapa de profundidad, por lo que la información disponible en ambas es equivalente. Sin embargo, en nuestro caso no necesitamos una representación tan fiel del entorno porque:
 
@@ -89,15 +91,15 @@ Por tanto, para cada fila generaremos una nueva nube de puntos a partir de una s
 	Es decir, invirtiendo los cambios de carril y la distancia recorrible en carriles izquierdo y derecho.
 }, de cada ejemplo obtenemos uno nuevo. En la figura~\ref{fig:mirroring-example} se ilustra un ejemplo de este proceso sobre una nube de puntos arbitraria dentro del conjunto de ejemplos.
 
-\begin{figure}
+La principal ventaja de esta aproximación es que es posible doblar el tamaño del conjunto de datos sin afectar añadir más ruido al existente en los mismos.
+
+\begin{figure}[t]
 	\centering
-	\subfloat[]{\missingfigure[figwidth=.43\textwidth]{Nube de puntos}}\qquad
-	\subfloat[]{\missingfigure[figwidth=.43\textwidth]{Nube de puntos tras mirroring}}
+	\subfloat[]{\includegraphics[width=.45\textwidth]{base-pointcloud}}\qquad
+	\subfloat[]{\includegraphics[width=.45\textwidth]{mirrored-pointcloud}}
 	\caption[Ejemplo de la técnica de \textit{mirroring}]{Un ejemplo de una nube de puntos (a) original, y (b) tras aplicarle el proceso de mirroring. Para cada fila, tras un proceso de mirroring y una inversión de las variables simétricas en función de la conducción (cambio de carril y distancia recorrible) se genera una nueva fila válida para el conjunto de datos.}
 	\label{fig:mirroring-example}
 \end{figure}
-
-La principal ventaja de esta aproximación es que es posible doblar el tamaño del conjunto de datos sin afectar añadir más ruido al existente en los mismos.
 
 \paragraph{shaking}
 
@@ -105,10 +107,10 @@ Esta técnica, a diferencia del \textit{mirroring} sí puede llegar a tener impa
 	Debido a que la aplicación iterativa de este proceso sobre la misma nube de puntos acumula los errores entre iteraciones haciéndola ininteligible.
 }, se aplica un desplazamiento aleatorio $(\delta x, \delta y, \delta z)$ sobre cada punto tal y como se describe en~\cite{EL PAPER CUANDO NOS LO PUBLIQUEN}. La figura~\ref{fig:shaking-example} ilustra dos procesos de shaking con diferentes desplazamientos sobre la nube original mostrada en la figura~\ref{fig:mirroring-example}
 
-\begin{figure}
+\begin{figure}[b]
 	\centering
-	\subfloat[]{\missingfigure[figwidth=.43\textwidth]{Nube de puntos con shaking de 0.05}}\qquad
-	\subfloat[]{\missingfigure[figwidth=.43\textwidth]{Nube de puntos con shaking de 0.1}}
+	\subfloat[]{\includegraphics[width=.45\textwidth]{shaken-pointcloud-05}}\qquad
+	\subfloat[]{\includegraphics[width=.45\textwidth]{shaken-pointcloud-2}}
 	\caption[Ejemplo de la técnica de \textit{shaking}]{Un ejemplo de dos nubes de puntos tras pasar el proceso de shaking con un desplazamiento $(\delta x, \delta y, \delta z)$ de (a) $(0.05, 0.05, 0.05)$ y de (b) $(0.2, 0.2, 0.2)$ sobre la nube de puntos original. Para cada fila, tras un proceso de shaking disponemos de una nueva fila ligeramente diferente de la original, añadiendo ruido y, presumiblemente, generalización al modelo tras el entrenamiento.}
 	\label{fig:shaking-example}
 \end{figure}
@@ -123,7 +125,7 @@ Las \ac{cnn} son también redes que funcionan con un esquema \textit{feed-forwar
 
 En cada una de las filas poseemos una representación del entorno en forma de mapa de profundidad que describe el entorno, por lo que al modelo le alimentaríamos únicamente con la situación en un instante $t$ de tiempo. Esto no ayuda al modelo a descubrir patrones temporales como la velocidad o la aceleración puesto que no tiene información de eventos anteriores. Para solventar esta limitación, los conjuntos de datos serán transformados para que se alimenten con una ventana temporal de parámetros de entrada.
 
-\begin{figure}
+\begin{figure}[t]
 	\centering
 	\includegraphics{explanation-of-data-frequency}
 	\caption[Momento $t_i$en el conjunto de datos]{Un momento $t_i$ se define como el estado en el que se encontraba el vehículo en $t - \frac{i}{10}s$. Por tanto, $t_0$ es el momento actual.}
@@ -153,59 +155,40 @@ Tras este ajuste, los conjuntos de datos están finalizados. Sus propiedades que
 
 \section{Modelo \ac{mlp}}
 
-Los entrenamientos han sido realizados sobre diferentes topologías, siendo las más representativas las descritas en la tabla~~\ref{tbl:lc-mlp-architectures}.
-
-\begin{table}
-	\caption[Resumen de las arquitecturas \ac{mlp} para el modelo de cambio de carril]{Resumen de las arquitecturas de \ac{mlp} para el modelo de cambio de carril. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
-	\label{tbl:lc-mlp-architectures}
-	\begin{tabular}{cccccccccc}
-		\hline
-		\multirow{2}{*}{Nombre} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multirow{2}{*}{Dropout} & \multicolumn{3}{c}{Precisión} & \multicolumn{3}{c}{Loss}      \\
-		& & & & Training & Validation & Test & Training & Validation & Test \\ \hline
-		$MLP_1$ & $X, X, X$ & $10^5$ & $0.1$ & $0.XXX$ & $0.XXX$ & $0.XXX$ & $0.XXX$ & $0.XXX$ & $0.XXX$ \\
-		$MLP_2$ & $X, X, X$ & $10^5$ & $0.1$ & $0.XXX$ & $0.XXX$ & $0.XXX$ & $0.XXX$ & $0.XXX$ & $0.XXX$ \\
-		$MLP_3$ & $X, X, X$ & $10^5$ & $0.1$ & $0.XXX$ & $0.XXX$ & $0.XXX$ & $0.XXX$ & $0.XXX$ & $0.XXX$ \\
-		$MLP_4$ & $X, X, X$ & $10^5$ & $0.1$ & $0.XXX$ & $0.XXX$ & $0.XXX$ & $0.XXX$ & $0.XXX$ & $0.XXX$ \\ \hline
-	\end{tabular}
-\end{table}
+Los entrenamientos han sido realizados sobre diferentes topologías, siendo las más representativas las descritas en la tabla~\ref{tbl:lc-mlp-architectures}.
 
 En lugar de intentar maximizar la cantidad de aciertos o minimizar el número de falsos positivos o negativos, el error que se ha tratado de minimizar es la entropía cruzada, concepto del cual hablamos anteriormente en el capítulo~\nameref{ch:sota-ci}. Este indicador es mucho más eficiente a la hora de trabajar con problemas de clasificación. Sin embargo, de cara a mostrar resultados en la tesis, el valor de ésta no ofrece información relevante más allá de \enquote{si decrece es bueno}. Por ellos se ofrecerán los valores de precisión y matrices de confusión que son más acordes con el problema en cuestión.
+
+\begin{table}[t]
+	\caption[Resumen de las arquitecturas \ac{mlp} para el modelo de cambio de carril]{Resumen de las arquitecturas de \ac{mlp} para el modelo de cambio de carril. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
+	\label{tbl:lc-mlp-architectures}
+	\begin{tabular}{ccccccc}
+		\hline
+		\multirow{2}{*}{Nombre} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multirow{2}{*}{Dropout} & \multicolumn{3}{c}{Precisión}  \\
+		& & & & Training & Validation & Test \\ \hline
+		$MLP_1$ & $64, 64$              & $10^5$ & $0.1$ & $0.33$ & $0.33$ & $0.33$ \\
+		$MLP_2$ & $1024, 512, 128$      & $10^5$ & $0.1$ & $0.33$ & $0.33$ & $0.33$ \\
+		$MLP_3$ & $1024, 512, 256, 128$ & $10^5$ & $0.1$ & $0.33$ & $0.33$ & $0.33$ \\ \hline
+	\end{tabular}
+\end{table}
 
 La figura~\ref{fig:lc-mlp-accuracy-comparison} nos muestra la evolución de la precisión alcanzada por los modelos a lo largo del entrenamiento, tanto en entrenamiento como en el posterior test.
 
 \begin{figure}
 	\centering
-	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-mlp-training-accuracy-comparison}}\qquad
-	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-mlp-test-accuracy-comparison}}
+	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-mlp-acc-all-training-and-validation-detail}}\qquad
+	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-mlp-acc-all-test-detail}}
 	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \ac{mlp}]{Comparación de las precisiones alcanzadas por los modelos de tipo \ac{mlp}.}
 	\label{fig:lc-mlp-accuracy-comparison}
 \end{figure}
 
-Cada una de las redes se ha entrenado durante $XXX$ epochs. Debido a las limitaciones de memoria RAM en la máquina de entrenamiento, los epochs no incluyen todo el conjunto de entrenamiento en cada pasada, sino que se limitan a \textit{batches} de $YYY$ elementos seleccionados aleatoriamente del conjunto total de datos.
-
-\TODO{Cambiar esta frase a la vista de los resultados}La precisión que se obtiene en todos los modelos supera el $0.\wideparen{3}$, tanto en entrenamiento como en test. Este valor es la probabilidad de que un valor sea acertado al azar, ya que los valores son equiprobables. Por lo tanto todos los modelos superan el acierto aleatorio.
-
-\TODO{Poner las tablas de precisiones}
-
-\TODO{Cambiar esta frase cuando salgan los resultados}No obstante, se puede seleccionar la arquitectura $CNN_X$ como la idónea por su capacidad de predicción, la cual se confirma en los resultados de precisión en test. La Figura~\ref{fig:lc-mlp-model-confussion-matrix} muestra las matrices de confusión para las clases en el conjunto de entrenamiento y el conjunto de test.
-
-\begin{figure}
-	\centering
-	\includegraphics[width=.6\linewidth]{lc-mlp-model-confussion-matrix}
-	\caption[Matriz de confusión del conjunto de test para \ac{cnn}]{Matriz de confusión del conjunto de test para \ac{cnn}.}
-	\label{fig:lc-mlp-model-confussion-matrix}
-\end{figure}
+Cada una de las redes se ha entrenado durante $10^5$ epochs. A la vista de los resultados, la capacidad de predicción de este tipo de redes con el conjunto de datos propuesto no supera el valor de predecir de forma aleatoria\sidenote{Los ejemplos le son propuestos de forma equiprobable, por lo que al ser $3$ clases, la probabilidad de acerta de manera aleatoria es de $\frac{1}{3}$.}, por lo que el uso de~\ac{mlp} aquí es descartado completamente.
 
 \section{Modelo \ac{cnn}}
 
-Las arquitecturas de los modelos que mejores resultado han arrojado tras las pruebas se describen en la tabla~\ref{tbl:lc-cnn-architectures}. La descripción de los parámetros de las arquitecturas es la siguiente:
+Las arquitecturas de los modelos que mejores resultado han arrojado tras las pruebas se describen en la tabla~\ref{tbl:lc-cnn-architectures}.
 
-\begin{itemize}
-	\item \TODO{Describir las de tipo c32-W-H-v}
-	\item \TODO{Describir las de tipo d123-0.1}
-\end{itemize}
-
-\begin{table*}
+\begin{table}[b]
 	\caption[Resumen de las arquitecturas \ac{mlp} para el modelo longitudinal]{Resumen de las arquitecturas de \ac{mlp} para el modelo longitudinal. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:lc-cnn-architectures}
 	\begin{tabular}{ccccccc}
@@ -214,9 +197,16 @@ Las arquitecturas de los modelos que mejores resultado han arrojado tras las pru
 		&                            &                         &                          & Training & Validation & Test \\ \hline
 		$CNN_1$ & $7, 16, 1$                 & $10^5$                  & $0.1$                    & $0.052741$      & $0.057301$        & $0.059253$  \\
 		$CNN_2$ & $7, 8, 4, 1$               & $10^5$                  & $0.1$                    & $0.056341$      & $0.061951$        & $0.056607$  \\
-		$CNN_3$ & $7, 16, 8, 1$              & $10^5$                  & $0.1$                    & $0.046404$      & $0.051878$        & $0.059681$  \\
+		$CNN_3$ & $7, 16, 8, 1$              & $10^5$                  & $0.1$                    & $0.046404$      & $0.051878$        & $0.059681$  \\ \hline
 	\end{tabular}
-\end{table*}
+\end{table}
+
+La descripción de los parámetros de las arquitecturas es la siguiente:
+
+\begin{itemize}
+	\item \textbf{$cF$-$W$-$H$-$x$}. Esta nomenclatura se corresponde con una capa de convolución de $F$ filtros donde cada uno es tiene un tamaño de $W \times H$. $x$ puede tomar el valor $v$ (de \textit{valid}) o $s$ (de \textit{same}), dependiendo de si se desea que el filtro se limite a las dimensiones de la entrada o si por el contrario se prefiere que sobrepase los límites para que las convoluciones den como resultado una salida del mismo tamaño que la entrada original, respectivamente.
+	\item \textbf{$dN$-$r$}. Esta capa se corresponde a las capas \textit{fully-connected} que realizan trabajan sobre el espacio de las características extraídas tras la extracción realizada en las convoluciones. En esta nomenclatura, $N$ se corresponde con el número de neuronas que tiene la capa y $r$ con la tasa de dropout aplicada a sus neuronas.
+\end{itemize}
 
 Existen una serie de particularidades del proceso de entrenamiento que hay que destacar. La primera y principal es la modificación de la arquitectura básica de una \ac{cnn} para atender a variables que no obedecen al esquema de mapa $n$-dimensional. Una \ac{cnn} basa su funcionamiento en una fase de extracción de características seguida de una fase de inferencia sobre las características extraídas de la imagen. En nuestro caso, sin embargo, necesitamos alimentar a la red con más información.
 
@@ -229,16 +219,16 @@ La decisión tomada ha sido entender estas variables (distancia circulable, dist
 	\label{fig:modification-of-cnn-to-work-with-variables}
 \end{figure}
 
-La siguiente modificación ha sido la alteración del mapa de profundidad justo al comienzo de la alimentación. Al ser los mapas de profundidad una representación cilíndrica de las distancias, el extremo izquierdo y el derecho de la imagen son, en realidad, un punto de corte donde las convoluciones perderán información. Para evitar esta limitación,las imágenes con las que se alimenta la red son aumentadas artificialmente en sus bordes con el extremo contrario de la imagen, para que la convolución opere sobre la información que de otro modo se perdería. Una ilustración de esto se puede ver en la Figura~\ref{}
+La siguiente modificación ha sido la alteración del mapa de profundidad justo al comienzo de la alimentación. Al ser los mapas de profundidad una representación cilíndrica de las distancias, el extremo izquierdo y el derecho de la imagen son, en realidad, un punto de corte donde las convoluciones perderán información. Para evitar esta limitación, las imágenes con las que se alimenta la red son aumentadas artificialmente en sus bordes con el extremo contrario de la imagen (ver Figura~\ref{fig:deepmap-augmentation-in-cnn}), para que la convolución opere sobre la información que de otro modo se perdería.
 
-\begin{figure}
+La última modificación es la de la aplicación de una tasa de aprendizaje adaptativa al proceso de entrenamiento. Esta adaptación puede basarse en muchos factores, pero en nuestro caso la tasa se basa en una disminución suave de un valor máximo a un valor mínimo de manera que en los primeros estadios del entrenamiento la tasa sea suficientemente alta como para converger rápidamente a zonas de interés, pero que a la vez, según el entrenamiento avanza, se eviten los problemas de saltos alrededor de mínimos. La tasa de aprendizaje en cada \textit{epoch} quedará determinada por la siguiente ecuación:
+
+\begin{figure}[t]
 	\centering
 	\missingfigure[figheight=3cm]{Esquema donde se vea o que hago con la imagen al alimentar de poner parte de la izquierda en la derecha y viceversa..}
 	\caption[Aumentación artificial de los extremos del mapa de profundidad]{Aumentación artificial de los extremos del mapa de profundidad. Para no perder información que puede ser relevante, los mapas se aumentan artificialmente al alimentar a la red, de tal manera que a los extremos izquierdo y derecho se les aumenta con parte de los extremos derecho e izquierdo con un número de píxeles igual a la mitad del tamaño horizontal del los filtros que los recorrerán.}
 	\label{fig:deepmap-augmentation-in-cnn}
 \end{figure}
-
-La última modificación es la de la aplicación de una tasa de aprendizaje adaptativa al proceso de entrenamiento. Esta adaptación puede basarse en muchos factores, pero en nuestro caso la tasa se basa en una disminución suave de un valor máximo a un valor mínimo de manera que en los primeros estadios del entrenamiento la tasa sea suficientemente alta como para converger rápidamente a zonas de interés, pero que a la vez, según el entrenamiento avanza, se eviten los problemas de saltos alrededor de mínimos. La tasa de aprendizaje en cada \textit{epoch} quedará determinada por la siguiente ecuación:
 
 \begin{equation}
     \alpha_i = \alpha_{min} + (\alpha_{max} - \alpha_{min}) \cdot e^\frac{i}{\alpha_d}
@@ -249,7 +239,7 @@ Donde $\alpha_i$ será la tasa de aprendizaje a aplicar en el \textit{epoch} $i$
 
 \begin{marginfigure}
 	\centering
-	\includegraphics[width=\linewidth]{lc-learning-rate-decay}
+	\includegraphics[width=\textwidth]{lc-learning-rate-decay}
 	\caption[Gráfica de la tasa de aprendizaje adaptativo por epoch usada para entrenar \ac{cnn}]{Gráfica de la tasa de aprendizaje adaptativo por epoch usada para entrenar \ac{cnn}. En nuestros entrenamientos, los valores de los parámetros son $\alpha_{min} = 0.1$ y $\alpha_{max} = 0.001$ y $\alpha_d = 20000$.}
 	\label{fig:learning-rate-decay}
 \end{marginfigure}
@@ -258,19 +248,23 @@ Un último apunte antes de pasar a mostrar las gráficas de los entrenamientos. 
 
 La evolución de la precisión a lo largo del entrenamiento para las diferentes arquitecturas se muestra en la Figura~\ref{fig:lc-cnn-training-validation-test-comparison}.
 
-\begin{figure}
+\begin{figure}[b]
 	\centering
-	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-cnn-training-accuracy-comparison}}\qquad
-	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-cnn-test-accuracy-comparison}}
-	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \ac{mlp}]{Comparación de las precisiones alcanzadas por los modelos de tipo \ac{mlp}.}
+	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-cnn-acc-all-training-and-validation-detail}}\qquad
+	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-cnn-acc-all-test-detail}}
+	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \ac{mlp}]{Comparación de las precisiones alcanzadas por los modelos de tipo \ac{cnn}.}
 	\label{fig:lc-cnn-training-validation-test-comparison}
 \end{figure}
 
-\TODO{Cambiar esta frase a la vista de los resultados}La precisión que se obtiene en todos los modelos supera el $0.\wideparen{3}$, tanto en entrenamiento como en test. Este valor es la probabilidad de que un valor sea acertado al azar, ya que los valores son equiprobables. Por lo tanto todos los modelos superan el acierto aleatorio.
+Se puede observar que se ha necesitado una red relativamente grande para superar el límite impuesto por la clasificación aleatoria. Esto contrasta con los resultados obtenidos en~\cite{EL PAPER PARA CUANDO NOS LO PUBLIQUEN}, donde los valores de clasificación eran mucho más altos. La razón por la que se intuye esta disparidad de datos es que es precisamente la operación de \textbf{decisión de cambio de carril} la que es más compleja de modelar, a diferencia de la de \textbf{ejecución de cambio de carril}, en la que esta decisión está ya tomada.
 
-\TODO{Poner las tablas de precisiones}
+Probablemente con otra serie de variables se pueda aumentar la precisión de estos modelos, pero en este experimento estamos limitados al conjunto de variables observables en los entornos real y de simulación.
 
-\TODO{Cambiar esta frase cuando salgan los resultados}No obstante, se puede seleccionar la arquitectura $CNN_X$ como la idónea por su capacidad de predicción, la cual se confirma en los resultados de precisión en test. La Figura~\ref{fig:lc-cnn-model-confussion-matrix} muestra las matrices de confusión para las clases en el conjunto de entrenamiento y el conjunto de test.
+\section{Comparación entre modelos}
+
+En este caso, las de las dos técnicas propuestas, la de \acp{mlp} ha sido descartada completamente al ser sus clasificación iguales a la de la selección aleatoria. Por tanto, el modelo que usaremos será el $CNN_2$, ya que es la única arquitectura que supera este límite.
+
+En la figura~\ref{fig:lc-cnn-model-confussion-matrix} se expone la matriz de confusión asociada a esta arquitectura para los valores existentes en el conjunto de test.
 
 \begin{figure}
 	\centering
@@ -278,7 +272,3 @@ La evolución de la precisión a lo largo del entrenamiento para las diferentes 
 	\caption[Matriz de confusión del conjunto de test para \ac{cnn}]{Matriz de confusión del conjunto de test para \ac{cnn}.}
 	\label{fig:lc-cnn-model-confussion-matrix}
 \end{figure}
-
-\section{Comparación entre modelos}
-
-Las mejores arquitecturas de ambos modelos han sido la $MLP_X$ para los \acp{mlp} y $CNN_Y$ para las \ac{cnn}. Sin embargo, la arquitectura $CNN_X$ mejora notablemente las demás arquitecturas, por lo que parece razonable seleccionarla como la candidata para el modelo de comportamiento de conductor.

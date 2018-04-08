@@ -20,12 +20,12 @@ Por ello, para el diseño y ajuste del modelo de conductor se ha decidido separa
 
 Internamente, el modelo estará separado en los dos modelos básicos, el modelo longitudinal y el de cambio de carril. En la Figura~\ref{fig:overall-driver-model-schema} se describe el modelo, las entradas y salidas y el flujo de datos entre componentes.
 
-\begin{figure*}
+\begin{figure}
 	\centering
 	\missingfigure[figwidth=5cm]{Esquema general del modelo de conductor}
 	\caption[Esquema general del modelo de conductor planteado]{Esquema general del modelo de conductor planteado en la tesis. En éste se puede ver cómo se distribuyen los estímulos de entrada entre los diferentes componentes del modelo y las salidas del sistema, que irán conectadas a los actuadores pertinentes.}
 	\label{fig:overall-driver-model-schema}
-\end{figure*}
+\end{figure}
 
 Estos modelos serán entrenados siguiendo un esquema supervisado, por lo que necesitamos datos reales a partir de los cuales deberá ajustar su funcionamiento. La información que se considera suficiente para que los modelos desempeñen su función en el entorno de simulación y la razón por la cual se ha tenido en cuenta es la siguiente:
 
@@ -127,29 +127,25 @@ Entre otras capacidades, la cámara ofrece captura de imágenes VGA de \SI{640x4
 
 Para la captura de datos se han propuesto dos rutas, en adelante $R_1$ y $R_2$, consideradas equivalentes. Se tratan de vías en entorno urbano con tramos de entre uno y tres carriles a lo largo de su recorrido y con velocidades máximas establecidas entre los \SI{30}{\km\per\hour} y los \SI{50}{\km\per\hour}. La figura~\ref{fig:proposed-routes} muestra los recorridos en el mapa.
 
-\begin{figure}
+$R_1$ tiene una duración de recorrido estimada de \SI{30}{\minute} y se utilizará como fuente de datos destinada al entrenamiento del modelo (conjuntos de entrenamiento y de validación). $R_2$ por su lado tiene un tiempo estimado de recorrido de \SI{15}{\minute} y sus datos tienen el propósito de servir de conjunto de test. Ambas fueron realizadas entre las 11:00am y las 12:00pm en días laborables, permitiendo una circulación con suficientes vehículos para requerir maniobras dependientes del entorno, pero sin demasiados como para impedir la circulación.
+
+\begin{figure}[t]
 	\centering
 	\subfloat[]{\includegraphics[width=.45\textwidth]{route-1}}\qquad
 	\subfloat[]{\includegraphics[width=.45\textwidth]{route-2}}
-	\caption[Dos recorridos para la captura de datos de conducción]{Los dos recorridos realizados para la captura de datos de conducción, ambos en entorno urbano. (a) $R_1$ tiene una duración estimada de \SI{30}{\minute} y sirve para la captura de los datos de entrenamiento. (b) $R_2$ tiene una duración estimada de \SI{15}{\minute} y sus datos serán utilizdos para los conjuntos de test.}
+	\caption[Dos recorridos para la captura de datos de conducción]{Los dos recorridos realizados para la captura de datos de conducción, ambos en entorno urbano. (a) $R_1$ tiene una duración estimada de \SI{30}{\minute} y sirve para la captura de los datos de entrenamiento. (b) $R_2$ tiene una duración estimada de \SI{15}{\minute} y sus datos serán utilizdos para los conjuntos de test.\TODO{Poner la ruta de verdad}}
 	\label{fig:proposed-routes}
 \end{figure}
-
-$R_1$ tiene una duración de recorrido estimada de \SI{30}{\minute} y se utilizará como fuente de datos destinada al entrenamiento del modelo (conjuntos de entrenamiento y de validación). $R_2$ por su lado tiene un tiempo estimado de recorrido de \SI{15}{\minute} y sus datos tienen el propósito de servir de conjunto de test. Ambas fueron realizadas entre las 11:00am y las 12:00pm en días laborables, permitiendo una circulación con suficientes vehículos para requerir maniobras dependientes del entorno, pero sin demasiados como para impedir la circulación.
 
 \subsection{Selección de sujetos}
 
 Se han elegido un total de tres sujetos para los experimentos. Los tres pertenencen al grupo especificado en los supuestos del capítulo~\nameref{ch:intro}, es decir varones dentro del rango de $35$ a $39$ años.
 
 Los sujetos tienen experiencia de conducción y han realizado el recorrido anteriormente a fin de basar sus comportamientos lo más posible al nivel táctico de conducción\sidenote{
-	Dado que los comportamientos de \textit{car-following} y \textit{lane-change} se asocian con el nivel cognitivo táctico, se ha querido reducir el impacto del operador decidiendo durante el experimento hacia dónde o no ir. De esta manera los conductores son librese de realizar el movimiento que deseen y de anticipar maniobras con más libertad.
+	Dado que los comportamientos de \textit{car-following} y \textit{lane-change} se asocian con el nivel cognitivo táctico, se ha querido reducir el impacto del operador decidiendo durante el experimento hacia dónde o no ir. De esta manera los conductores son libres de realizar el movimiento que deseen y de anticipar maniobras con más libertad.
 }.
 
-\TODO{Quizá debería decir algo más?}
-
 \section{Preparación de los datos}
-
-\TODO{Revisar las variables porque han cambiado. Están en el paso 03 de los scripts.}
 
 Tras la captura se ha realizado una secuencia de pasos para dejar los datos preparados para el proceso de entrenamiento de los modelos. El resto de la sección detalla cada uno de éstos.
 

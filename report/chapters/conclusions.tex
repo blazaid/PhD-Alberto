@@ -1,52 +1,83 @@
 \chapter{Conclusiones}
 \label{ch:conclusions}
 
+La aplicación de técnicas de la \ac{ci} sobre el área de la conducción y, concretamente, al área del comportamiento es una línea de investigación muy prometedora. Es posible la extracción de comportamientos específicos a partir de datos reales de conducción, y, aunque no se ha conseguido emular con un cierto grado de satisfacción conductores en concreto, sí que se ha conseguido incorporar el factor indeterminado de la conducción en modelos basados en redes neuronales.
 
+Las implicaciones de estos resultados son variadas. Aun con las limitaciones que nos imponen los micro-simuladores, es posible modelar estos dos comportamientos a partir de datos reales con precisión suficiente como para decir que los agentes se comportan de manera más humana.
 
-\TODO{De aquí para abajo ideas}
+El resto del capítulo entra en detalle acerca de los objetivos planteados y su consecución, una discusión sobre los resultados obtenidos y un planteamiento acerca de algunas posibles líneas futuras de trabajo a partir de la presente tesis.
 
+\section{Hipótesis planteadas}
 
-At first glance, the obtained outputs of the final stage of the experiments verify that:
-1. It is possible to adjust the problem of lane-change execution to a specific driving profile on a different circuit after enough training with a high certainty.
-5. As could be expected, a model trained for a profile performs worse when validated against data from a different one, even while driving in the same route with the same driving conditions (due to its different driving styles). So, the developed models intrinsically distinguish driving profiles.
-6. The comparison realized between CNN and MLP show that the former ones can generalize much better than the latter in this problem, although they require more training. In fact, by the results obtained in Table , it can be observed that, whereas the training accuracy has slightly decreased in all the architectures, in the case of CNN2-- the network has experienced a remarkable increase in the validation accuracy. This fact reinforces the belief that the problem required a network of this size with a moderately-to-high regularization factor to ensure the reduction of overspecialization.
-Beyond these results, another result has been obtained that is worth highlighting: the difference on how CNNs and MLPs differentiate between subjects. A new training process was run after the one in the paper to see if the resulting values coincide, and the results were similar. It seems that our models based on CNNs differentiate better between profiles than the ones based on MLPs. The reasons for this behaviour may have to do with the way in which CNNs recognize patterns as opposed with MLPs, but further research is required.
-Wrapping up, the use of CNNs for tasks where the input topology is space-dependent (meaning that the position of the required patterns in the space are relevant) is extremely effective to model temporal events when their windows are narrow and surpasses the precision of the MLPs without loss of time.
-The last result obtained is the adequacy of the proposed shaking technique to the problem. It has proven to be extremely useful in artificially augmenting the size of the dataset and therefore helps lowering the overfitting problem. We think that, for situations like this one, where the point clouds have errors or where a degree of error or inaccuracy is allowed, this technique can help improving dramatically the size of the datasets to increase the quality of the results.
+Al comienzo de la tesis se plantearon una serie de objetivos materializados en dos hipótesis que se han tratado de demostrar a lo largo de esta tesis.
 
+La hipótesis H\ref{hyp:first} planteaba que la aplicación de técnicas pertenecientes al campo de la \ac{ci} con datos de conductores reales sí permite la creación de modelos de conducción con características humanas. De esta manera se concluye que se pueden desarrollar modelos con la técnica propuesta para incorporar conductores en simulaciones que incorporen comportamientos no deducibles directamente con un modelo lineal.
 
+Sin embargo, la hipótesis~\ref{hyp:second} proponía que estas técnicas eran suficientes para modelar un conductores en concreto dentro de entornos simulados, lo cual no se ha podido demostrar. Si bien es cierto que los resultados indican que los modelos generados para conductores diferentes son diferentes entre sí, no se ha podido contrastar con suficiente confianza que los comportamientos modelos simulados son suficientemente fieles al comportamiento de los conductores en el mundo real.
 
+\section{Sobre los datos. Sensores y su utilidad}
 
-¿Pierde rendimiento el sistema cuando se aplican los modelos a escenarios significativamente diferentes de los escenarios de test? Si sí, un trabajo futuro y algo para escribir en conclusiones sería hablar de este defecto y de cómo subsanarlo.
+Para minimizar la variación de las variables de entrada, los recorridos fueron planteados con ciertos factores (e.g. mismas horas, día de la semana, clima, velocidades máximas de vía, etcétera) para mantener un conjunto de datos lo más parecido posible entre sujetos de tal manera que se mantuviera al mínimo posible la incorporación de imprecisiones o sesgos. Los dispositivos además fueron configurados de la forma más precisa y su sincronización establecida a tasas de refresco más bajas para acercar lo máximo posible sus valores entre sí, a fin de minimizar el desplazamiento temporal entre medidas.
 
-La optimización de controladores difusos basado en el descenso del gradiente parece modelar correctamente algunos sistemas, pero en el caso del car following no lo hace demasiado bien. Quizá tenga que ver con las variables seleccionadas para modelar el comportamiento, pero lo mismo también tiene que ver con que el problema, directamente, no se puede modelar así.
+Con todo y con eso, la captura en entornos es una tarea compleja, y más tratándose de tráfico. Los recorridos no están exentos de situaciones fortuitas no predecibles\sidenote{
+	Los recorridos fueron repetidos para todos los sujetos en dos ocasiones debido entre otras cosas al tiempo y a accidentes en las rutas planteadas.
+} y los dispositivos no son lo suficientemente precisos para capturar los datos de interés. En nuestro caso concreto, consideramos que:
 
-\section{Aportaciones}
-\label{ch:conclusions:contributions}
+\begin{itemize}
+	\item La precisión de un único \ac{lidar} de 16 capas no es el dispositivo más adecuado para capturar las características del entorno necesarias para modelar un comportamiento humano. Una separación de \SI{2}{\degree} por capa hace que a \SI{15}{\meter} las capas estén separadas algo más de \SI{0.5}{\meter}, lo cual es insuficiente para muchos usos\sidenote{
+		Por ejemplo, sobre una persona de \SI{1.80}{\meter} a una distancia de \SI{20}{\meter} alcanzarían únicamente $2$ haces a lo sumo. Quizá la incorporación de más dispositivos de este tipo en configuraciones con haces cruzados podrían ayudar a esta tarea.
+	}
+	\item En el caso del \ac{gps}, aun con alta precisión y corrección diferencial implementada, es arriesgado su uso como único dispositivo de localización y para determinar velocidades.
+\end{itemize}
 
-\TODO{De aquí para abajo ideas}
+Acerca de los datos, nos centraremos en los obtenidos con el \ac{lidar}. Los mapas de profundidad obtenidos han demostrado ser una herramienta válida para la representación de un entorno a pesar de su baja resolución. Además, la técnica propueta del \textit{shaking} ha sido extremadamente útil en la generación artificial de datos. Consideramos que esta técnica, en conjuntos de datos donde existe un cierto grado de error o imprecisión, es capaz de incrementar su tamaño ayudando a mejorar la generalización y, por tanto, a la calidad de los resultados obtenidos.
 
-Las implicaciones de estos resultados son variadas. Aun con las limitaciones que nos imponen los micro-simuladores, es posible modelar estos dos comportamientos a partir de datos reales con precisión suficiente como para decir que los agentes se comportan de manera más humana. Además, estos comportamientos son dependientes del perfil del que fueron obtenidos los datos, por lo que es posible su uso no sólo para modelar comportamiento más humanos, sino para evaluar determinados perfiles dentro de escenarios.
+\section{Sobre las técnicas de \ac{ci}}
 
-\section{Futuras líneas de investigación}
-\label{ch:conclusions:future-work}
+Las técnicas utilizadas (\ac{cnn}, \ac{fcs} y \ac{mlp}) dependen mucho de las variables de los datos, y no sólo de la cantidad de éstos. De nada sirve ofrecer datos de una variable que no tiene impacto sobre el resultado que se quiere alcanzar. La selección de variables realizada en esta tesis se ha basado en la disponibilidad de éstos en ambos entornos (real y simulación), tratando de obtener de formas alternativas los más críticos (e.g. implementando un \ac{lidar} dentro de un simulador, calculando la distancia que se puede recorrer en los carriles).
 
-\TODO{De aquí para abajo ideas}
+La aplicación del descenso del gradiente para el ajuste de un controlador difuso permite de forma rápida encontrar un controlador óptimo para un problema. Sin embargo el problema del modelo longitudinal no es directamente tratable con un controlador, al menos no con las variables planteadas y el conjunto de datos. Sin embargo, creemos que aumentando la precisión de los datos obtenidos y con un nuevo conjunto de variables ás cercando al entorno real, el desempeño de éstos aumentaría notablemente.
 
-Tras la investigación, se proponen tres líneas de trabajo futuras: (i) la aplicación de las técnicas estudiadas a simuladores que modelen escenarios más realistas para evaluar más aspectos de comportamiento, tanto para agentes modelados como para conductores reales inmersos en estos entornos, (ii) el modelado no sólo de comportamientos de conductor sino de otros agentes (e.g. peatones), o de aspectos como las emisiones de vehículos para diferenciarlos de modelos de consumo genéricos, y (iii) la aplicación de arquitecturas temporales de \ac{ann} para contrastar si éstas son capaces de aprender de una manera más humana situaciones tales como velocidad de aproximación de objetos o factores de impaciencia  a partir de los datos reales de conducción.
+Para el trabajo con datos del entorno, se ha podido comprobar que las \acp{cnn} han generalizado mejor los resultados que los \acp{mlp}. Después de todo el entorno se ha representado con una imagen, dominio en las que estas redes destacan por su capacidad de clasificación. Además, al incorporar la ventana temporal como canales de la imagen, toda información está localizada topológicamente cerca con sus momentos anteriores, por lo que es de esperar que esta representación sea capaz de converger más rápidamente hacia una solución. Esto, junto con la modificación de inyección de datos de entrada en capas posteriores a la extracción de características, hace que las \ac{cnn} se hayan comportado mejor en su tarea de clasificación.
 
-Hemos dejado fuera comportamientos interesantes de estudiar: cruces, rotondas (Driving behavior at a roundabout: Av hierarchical Bayesian regression analysis), ...
+Concluimos por tanto que el uso de \acp{cnn} en tareas donde la topología espacial de las variables de entrada es relevante (es decir, donde es altamente probable que la posición de los patrones sea relevante) es extremadamente eficiente a la hora de modelar eventos donde sus ventanas temporales están localizadas lo suficientemente cerca en el tiempo como para que sus patrones se desplacen ligeramente, sobrepasando en precisión a los \acp{mlp}.
 
-Parece que se presta poca atencińo sobre el tema de vehículos pesados (creo que he encontrado en total un par derefeerncias), y su forma de funcionar es diferente. Puede ser intereasnte de cara a perfeccionar los simuladores con esta tipología de vehículos y de cara a ser de utilidad a empresas de transporte.
+Somos optimistas en que la implementación de estas técnicas en simuladores más potentes y realistas mejorarían los resultados obtenidos, y por ello es una de las líneas futuras de investigación propuestas.
 
-Los cambios de carril no son inmediatos, toman en torno a los 3 segundos, y no he vuisto que setenga en cuenta. Todo se centra en la decisión del cambio de carril, pero a la hora de ejecutar van a saco. Quizá habría que prestarle un poco más de atencińo aeste comportamiento.
+\section{Sobre el entorno de simulación}
 
-Para evaluar la efectividad de determinadas técnicas se mira el comoprtamiento en nivel macro tanto del modelo real como del modelo simulado. De hecho es lo que haré en esta tesis. Sin embargo, no parece que sea el modo más correcto de evaluar la precisión de los modelos. Quizá habría que rebuscar más po este lado para ver cómo se comportan en nivel micro modelos reales y modelos simulados.
+\ac{sumo}, como entorno de simulación de tráfico es un sistema extremadamente potente a la hora de simular escenarios de tráfico complejo. Sin embargo, para comportarse de esta manera, tiene que simplificar otros aspectos. El realismo se queda en la faceta de tráfico, ya que en la faceta de conductor no existe apenas complejidad. El entorno en el que circulan los vehículo no realista (e.g. no hay edificios o suelo), los carriles son vías por las que circulan los vehículo, los cambios de carril son desaparecer de un carril y aparecer en el contiguo, y así un largo etcétera.
 
-At first glance, the obtained outputs of the final stage of the experiments verify that:
-1. It is possible to adjust the problem of lane-change execution to a specific driving profile on a different circuit after enough training with a high certainty.
-5. As could be expected, a model trained for a profile performs worse when validated against data from a different one, even while driving in the same route with the same driving conditions (due to its different driving styles). So, the developed models intrinsically distinguish driving profiles.
-6. The comparison realized between CNN and MLP show that the former ones can generalize much better than the latter in this problem, although they require more training. In fact, by the results obtained in Table , it can be observed that, whereas the training accuracy has slightly decreased in all the architectures, in the case of CNN2-- the network has experienced a remarkable increase in the validation accuracy. This fact reinforces the belief that the problem required a network of this size with a moderately-to-high regularization factor to ensure the reduction of overspecialization.
-Beyond these results, another result has been obtained that is worth highlighting: the difference on how CNNs and MLPs differentiate between subjects. A new training process was run after the one in the paper to see if the resulting values coincide, and the results were similar. It seems that our models based on CNNs differentiate better between profiles than the ones based on MLPs. The reasons for this behaviour may have to do with the way in which CNNs recognize patterns as opposed with MLPs, but further research is required.
-Wrapping up, the use of CNNs for tasks where the input topology is space-dependent (meaning that the position of the required patterns in the space are relevant) is extremely effective to model temporal events when their windows are narrow and surpasses the precision of the MLPs without loss of time.
-The last result obtained is the adequacy of the proposed shaking technique to the problem. It has proven to be extremely useful in artificially augmenting the size of the dataset and therefore helps lowering the overfitting problem. We think that, for situations like this one, where the point clouds have errors or where a degree of error or inaccuracy is allowed, this technique can help improving dramatically the size of the datasets to increase the quality of the results.
+En la captura de datos ha sido necesaria el preproceso de muchos de esos datos para hacer lo más parecido posible el conjunto de datos a lo que sería recuperable bajo el entorno simulado, y esas concesiones son las que hacen que se pierda fidelidad en el conjunto de datos capturado.
+
+La conclusión a la que hemos llegado tras trabajar intensivamente es que el entorno es muy adecuado para trabajar otros aspectos de las \ac{its} tales como comportamientos colaborativos, comunicaciones, planificación vial, cálculo de rutas óptimas, etcétera. Para trabajar el comportamiento de un conductor, sin embargo, para trabajar el comportamiento de conductor en tráfico necesitamos otras aproximaciones, como por ejemplo el simulador 3DCoAutoSim~\cite{olaverri2018implementation}, desarrollado por el \textit{Intelligent Technologies in Smart Cities} de la \textit{Fachhochschule Technikum Wien} y con el que se ha tenido la oportunidad de trabajar en la estancia realizada durante el doctorado.
+
+\section{Lineas de investigación futuras}
+
+El trabajo realizado hasta el momento y el grado de consecución de objetivos han dejado abiertas algunas líneas de trabajo futuras de las cuales se nombrarán las que pensamos que pueden ser de más interés.
+
+\subsection{Entornos de simulación más realistas}
+
+Para simular conductores en entornos de simulación es necesario que estos sean lo suficientemente potentes como para presentar un escenario realista al agente que va a modelar al conductor.
+
+Sera muy interesante evaluar las mismas técnicas en otros entornos de simulación. Algunas opciones sería entornos de conducción de tipo \ac{torcs} adaptados a la simulación de tráfico, simuladores de conducción que funcionasen conectándose a simuladores de tráfico (como por ejemplo el anteriormente citaco 3DCoAutoSim~\cite{olaverri2018implementation}) o, más reciente, el uso de videojuegos con entornos de tráfico\sidenote{
+	Está habiendo una tendencia en los últimos años de hacer aprender a agentes a jugar a todo tipo de videojuegos a partir de la lectura en crudo de la pantalla y actuando sobre los controles del juego. Uno de éstos juegos titulado Grand Theft Auto V incorpora una simulación de una ciudad entera con peatones, señales de tráfico, vehículo y un punto de vista de cámara desde el interior del vehículo. Dos lecturas interesantes sobre este fenómeno son~\cite{richter2016playing} y~\ref{johnson2017driving} donde ahondan en la recuperación de datos a partir de videojuegos y de hasta qué punto pueden llegar a reemplazar daos reales.
+}.
+
+La aplicación de estas técnicas en el modelado de agentes en estos entornos propiciaría la investigación en otras áreas más orientadas a factores humanos, ya que el comportamiento de los conductores sería más realista.
+
+\subsection{Modelado de diferentes actores y escenarios}
+
+En esta tesis se trabaja sobre todo con el comportamiento global de comportamiento de conductores. Existen casos específicos de comportamiento que merecería la pena explorar por separado, como pueden ser intersecciones más o menos complejas, rotondas, incorporaciones a vías, etcétera.
+
+Además, los conductores de vehículos utilitarios no son los únicos agentes existentes en el sistema que es el tráfico. En general se tiende a prestar poca atención a los vehículos pesados, pero su conducción y comportamiento es muy diferente a la de un vehículo utilitario. Existen también motos, bicicletas, pero también peatones.
+
+Otro objetivo de modelado sería los sistemas de generación de emisiones de los vehículos. Actualmente, los simuladores incorporan modelos de emisión\sidenote{
+	Normalmente, las emisiones incluyen también el consumo de gasolina, diésel y electricidad, así como el ruido que emiten.
+} para simular de qué manera los vehículos producen emisiones. Los sistemas más completos (como \ac{sumo}) implementan las tipologías descritas en el \ac{hbefa}~\cite{de2004modelling}, pero no dejan de ser modelos que generalizan tipologías de vehículos y se alejan de la realidad. Creemos que las emisiones de los vehículos en particular son fácilmente modelables a partir de sus datos reales con técnicas de \ac{ci}.
+
+\subsection{Redes recurrentes}
+
+El estudio se ha limitado a redes de tipo \textit{feed-forward}, representando la evolución del tiempo como ventanas de datos temporales. Este tipo de redes no ven más allá de su ventana temporal, y puede no ser suficiente para determinados modelos.
+
+Se propone el uso de arquitecturas de redes recurrentes para incorporar capacidad de comprender la continuidad temporal en el flujo de datos que percibe el agente. Quizá de esta manera se podrían captar características tales como la percepción temporal de velocidades de aproximación a obstáculos o impaciencia en función de otros factores.

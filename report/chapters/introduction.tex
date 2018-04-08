@@ -45,15 +45,13 @@ Demostrar que la evaluación de un modelo del conductor en entornos simulados es
 \section{Objetivos}
 \label{ch:intro:objectives}
 
-El objetivo de esta tesis doctoral es la de demostrar las hipótesis~\ref{hyp:hypothesis-1} y~~\ref{hyp:hypothesis-2}, quedando dicha demostración dentro de los límites impuestos por los supuestos y restricciones indicados más adelante.
+El objetivo de esta tesis doctoral es la de demostrar las hipótesis~\ref{hyp:first} y~~\ref{hyp:second}, quedando dicha demostración dentro de los límites impuestos por los supuestos y restricciones indicados más adelante.
 
 \begin{hyp}[H\ref{hyp:first}] \label{hyp:first}
-	\label{hyp:hypothesis-1}
 	La aplicación de técnicas pertenecientes al campo de la \ac{ci} sobre datosde conductores reales para la obtención de modelo de conducción permitirá incorporar características humanas no reproducibles por los modelos lineales existentes, mejorando la calidad de dichas simulaciones.
 \end{hyp}
 
-\begin{hyp}[H\ref{hyp:first}] \label{hyp:first}
-	\label{hyp:hypothesis-2}
+\begin{hyp}[H\ref{hyp:second}] \label{hyp:second}
 	La aplicación de técnicas pertenecientes al campo de la \ac{ci} con datos extraídos de un entorno de microsimulación de espacio continuo y tiempo discreto basado en sistemas multiagentes permitirá modelar, de manera fiel a la realidad, el comportamiento de conductores reales.
 \end{hyp}
 
@@ -104,6 +102,6 @@ Por tanto, el objetivo de la tesis es el de simular el comportamiento de conduct
 
 La tesis se divide en tres partes. La primera se corresponde con el estado de la cuestión, compuesta por los capítulos~\nameref{ch:sota-ci}, \nameref{ch:sota-traffic-simulation} y~\nameref{ch:sota-behavior-models}, explicando en qué punto se encuentra la literatura de los temas en los que se apoya la presente tesis.
 
-En la segunda parte se desarrolla el tema del modelado de conductores, donde en los capítulos~\nameref{ch:problem-definition}, \nameref{ch:behavior-model} y~\nameref{ch:simulation-execution} se introduce el problema a resolver propuesto en la hipótesis, se desarrollo del modelo de conducción personalizado y se muestran la configuración de las simulaciones.
+En la segunda parte se desarrolla el tema del modelado de conductores: En ~\nameref{ch:methodology} se describe la adquisición y tratamiento de datos, junto con algunas de las decisiones tomadas durante el proceso; después, en ~\nameref{ch:longitudinal-model} y ~\nameref{ch:lane-change-model} se desarrollan los procesos de obtención de los modelos longitudinal y de cambio de carril respectivamente. En ~\nameref{ch:specific-models} se extiende el proceso entrenamiento a conductores en particular y en ~\nameref{ch:simulation-implementation}, se introducen los comportamientos de los modelos de conductor implementados en un simulador.
 
-Por último en los capítulos~\nameref{ch:results} y~\nameref{ch:conclusions} se exponen los resultados y las conclusiones respectivamente extraídos de la tesis. Además, tras las conclusiones se indican una serie de posibles líneas futuras de trabajo consideradas interesantes tras la realización de la tesis.
+Por último, se expondrán las \nameref{ch:conclusions} junto con una serie de posibles líneas futuras de trabajo consideradas interesantes tras la realización de la tesis.
