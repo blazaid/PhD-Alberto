@@ -16,7 +16,7 @@ DECAY_SPEED = 2000
 ACTIVATION_FN = tf.nn.relu
 OUTPUT_FN = None
 DROPOUT = 0.1
-EPOCHS = 10000
+EPOCHS = 1200
 LOGS_STEPS = EPOCHS / 100
 MINIBATCH_SIZE = 3000
 
@@ -26,9 +26,9 @@ if __name__ == '__main__':
     args.subject = 'all'
     args.path = './data'
     args.steps = EPOCHS
-    # args.layers = ['c16-3-18-v', 'c32-3-18-v', 'c64-2-18-v', 'd128']
+    args.layers = ['c16-3-18-v', 'c32-3-18-v', 'c64-2-18-v', 'd128']
     # args.layers = ['c32-4-18-v', 'c64-3-18-v', 'c128-2-18-v', 'd128']
-    args.layers = ['c64-5-36-v', 'c32-3-5-v', 'd128', 'd16']
+    # args.layers = ['c64-5-36-v', 'c32-3-5-v', 'd128', 'd16']
     #parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
     #parser.add_argument('subject', type=str)
     #parser.add_argument('path', type=str)
