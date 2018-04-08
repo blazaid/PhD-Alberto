@@ -28,7 +28,7 @@ if __name__ == '__main__':
     args.steps = EPOCHS
     # args.layers = ['c16-3-18-v', 'c32-3-18-v', 'c64-2-18-v', 'd128']
     # args.layers = ['c32-4-18-v', 'c64-3-18-v', 'c128-2-18-v', 'd128']
-    args.layers = ['c128-4-4-v', 'c192-3-8-v', 'c256-2-4-v', 'd128']
+    args.layers = ['c64-5-36-v', 'c32-3-5-v', 'd128', 'd16']
     #parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
     #parser.add_argument('subject', type=str)
     #parser.add_argument('path', type=str)
@@ -193,6 +193,8 @@ if __name__ == '__main__':
             elapsed = time.process_time() - start_time
             remaining_time = (EPOCHS - step) * elapsed / 3600
             print('{} - {:.2f} s. ({:.2f} hours remaining)'.format(step, elapsed, remaining_time))
+            print('Training: {}\tValidation:{}\tTest: {}'.format(cnn_accuracy['training'][-1], cnn_accuracy['validation'][-1], cnn_accuracy['test'][-1]))
+
 
         # Write results to a file so we can later make graphs
         real_classes = np.argmax(datasets.test.target, axis=1)
