@@ -23,10 +23,10 @@ MINIBATCH_SIZE = 3000
 
 if __name__ == '__main__':
     args = type('test', (object,), {})()
-    args.subject = 'all'
+    args.subject = 'edgar'
     args.path = './data'
     args.steps = EPOCHS
-    args.layers = ['c16-3-18-v', 'c32-3-18-v', 'c64-2-18-v', 'd128']
+    args.layers = ['c16-4-18-v', 'd128']
     # args.layers = ['c32-4-18-v', 'c64-3-18-v', 'c128-2-18-v', 'd128']
     # args.layers = ['c64-5-36-v', 'c32-3-5-v', 'd128', 'd16']
     #parser = argparse.ArgumentParser(description='Trains MLP with the set and the layers specified.')
