@@ -53,10 +53,10 @@ Se han realizado entrenamientos sobre arquitecturas con diferente número de par
 		\hline
 		\multirow{2}{*}{Nombre} & \multirow{2}{*}{Arquitectura} & \multirow{2}{*}{Epochs} & \multicolumn{3}{c}{RMS}      \\ 
 		&                            &                                          & Training & Validation & Test \\ \hline
-		$FCS_1$ & $2, 2, 2, 2, 2, 2, 2$ & $10^5$ & $0.XXXXX$ & $0.XXXXX$ & $0.XXXXX$  \\
-		$FCS_2$ & $3, 3, 2, 2, 2, 3, 3$ & $10^5$ & $0.XXXXX$ & $0.XXXXX$ & $0.XXXXX$  \\
-		$FCS_3$ & $4, 3, 2, 2, 2, 3, 3$ & $10^5$ & $0.XXXXX$ & $0.XXXXX$ & $0.XXXXX$  \\
-		$FCS_4$ & $5, 5, 2, 2, 2, 5, 5$ & $10^5$ & $0.XXXXX$ & $0.XXXXX$ & $0.XXXXX$  \\ \hline
+		$FCS_1$ & $2, 2, 2, 2, 2, 2, 2$ & $10^5$ & $0.052$ & $0.057$ & $0.059$  \\
+		$FCS_2$ & $3, 3, 2, 2, 2, 3, 3$ & $10^5$ & $0.056$ & $0.061$ & $0.056$  \\
+		$FCS_3$ & $4, 3, 2, 2, 2, 3, 3$ & $10^5$ & $0.046$ & $0.051$ & $0.059$  \\
+		$FCS_4$ & $5, 5, 2, 2, 2, 5, 5$ & $10^5$ & $0.042$ & $0.046$ & $0.060$  \\ \hline
 	\end{tabular}
 \end{table}
 
@@ -119,10 +119,10 @@ El modelo de neuronas de activación que se ha utilizado es de tipo tangente hip
 		\hline
 		\multirow{2}{*}{Nombre} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multirow{2}{*}{Dropout} & \multicolumn{3}{c}{RMS}      \\
 		&                            &                         &                          & Training & Validation & Test \\ \hline
-		$MLP_1$ & $7, 16, 1$                 & $10^5$                  & $0.1$                    & $0.052741$      & $0.057301$        & $0.059253$  \\
-		$MLP_2$ & $7, 8, 4, 1$               & $10^5$                  & $0.1$                    & $0.056341$      & $0.061951$        & $0.056607$  \\
-		$MLP_3$ & $7, 16, 8, 1$              & $10^5$                  & $0.1$                    & $0.046404$      & $0.051878$        & $0.059681$  \\
-		$MLP_4$ & $7, 16, 16, 8, 1$          & $10^5$                  & $0.1$                    & $0.042789$      & $0.046876$        & $0.060971$  \\ \hline
+		$MLP_1$ & $2, 2, 2, 2, 2, 2, 2$ & $10^5$ & $0.1$ & $0.052$ & $0.057$ & $0.059$  \\
+		$MLP_2$ & $3, 3, 2, 2, 2, 3, 3$ & $10^5$ & $0.1$ & $0.056$ & $0.061$ & $0.056$  \\
+		$MLP_3$ & $4, 3, 2, 2, 2, 3, 3$ & $10^5$ & $0.1$ & $0.046$ & $0.051$ & $0.059$  \\
+		$MLP_4$ & $5, 5, 2, 2, 2, 5, 5$ & $10^5$ & $0.1$ & $0.042$ & $0.046$ & $0.060$  \\ \hline
 	\end{tabular}
 \end{table}
 
@@ -156,7 +156,7 @@ A la vista de los resultados, y dado que las arquitecturas se ajustan razonablem
 
 Las mejores arquitecturas de ambos modelos han sido la $MLP_2$ para los \acp{mlp} y $FCS_x$ para los \acp{fcs}. Los errores y el perfil de aceleración para ambos modelos se muestran en la figura~\ref{fig:cf-comparison-between-best-mlp-and-fcs-architecture}.
 
-\begin{figure}[]
+\begin{figure}[b]
 	\centering
 	\subfloat[]{\includegraphics[width=.46\textwidth]{comparison-between-best-mlp-and-fcs-architecture-rms}}\qquad
 	\subfloat[]{\includegraphics[width=.46\textwidth]{comparison-between-best-mlp-and-fcs-architecture-acceleration-profile}}
