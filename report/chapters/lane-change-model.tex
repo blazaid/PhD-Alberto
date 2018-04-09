@@ -138,17 +138,17 @@ Comenzaremos definiendo el \textit{momento} $t_i$ como aquel ejemplo situado a $
 
 Tras este ajuste, los conjuntos de datos están finalizados. Sus propiedades quedan descritas en la Tabla~\ref{tbl:lc-datasets-description}.
 
-\begin{table}
+\begin{table}[!b]
 	\caption[Descripción de los conjuntos de datos]{Descripción de los conjuntos de datos para el entrenamiento de los modelos.}
 	\label{tbl:lc-datasets-description}
-	\begin{tabular}{ccccc}
+	\begin{tabular}{ccccccccc}
 		\toprule
-		Nombre & Entradas & Salidas & Tamaño (training) & Tamaño (test) \\
+		Nombre & Entradas & Salidas & Tamaño (training) & Tamaño (test) & Num. izda. (training) & Num dcha. (training) & Num. izda. (test) & Num. dcha. (test) \\
 		\midrule
-		$LC_{S_1}$ & $8653$ & $3$ & $68991$ & $2058$ \\
-		$LC_{S_2}$ & $8653$ & $3$ & $84811$ & $2887$ \\
-		$LC_{S_3}$ & $8653$ & $3$ & $82061$ & $2891$ \\
-		$LC_{S_A}$ & $8653$ & $3$ & $248933$ & $7836$ \\
+		$LC_{S_1}$ & $8653$ & $3$ & $68990$  & $2057$ & $820$ & $820$  & $43$  & $3$   \\
+		$LC_{S_2}$ & $8653$ & $3$ & $84810$  & $2886$ & $925$ & $925$  & $27$  & $7$   \\
+		$LC_{S_3}$ & $8653$ & $3$ & $82060$  & $2890$ & $995$ & $995$  & $51$  & $13$  \\
+		$LC_{S_A}$ & $8653$ & $3$ & $248930$ & $7833$ & $2740$ & $2740$ & $121$ & $23$ \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -189,15 +189,17 @@ Cada una de las redes se ha entrenado durante $10^5$ epochs. A la vista de los r
 Las arquitecturas de los modelos que mejores resultado han arrojado tras las pruebas se describen en la tabla~\ref{tbl:lc-cnn-architectures}.
 
 \begin{table}[b]
+	\centering
+	\small
 	\caption[Resumen de las arquitecturas \ac{mlp} para el modelo longitudinal]{Resumen de las arquitecturas de \ac{mlp} para el modelo longitudinal. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:lc-cnn-architectures}
 	\begin{tabular}{ccccccc}
 		\hline
 		\multirow{2}{*}{Nombre} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multirow{2}{*}{Dropout} & \multicolumn{3}{c}{RMS}      \\
 		&                            &                         &                          & Training & Validation & Test \\ \hline
-		$CNN_1$ & c16-4-18-v-d128-d0.1 & $10^5$ & $0.1$ & $0.995$ & $0.833$ & $0.823$ \\
-		$CNN_2$ & c64-5-36-v-c256-3-5-v-d256-d128-d16-d0.1 & $10^6$ & $0.1$ & $0.506$ & $0.531$  & $0.518$ \\
-		$CNN_3$ & c16-3-18-v-c32-3-18-v-c64-2-18-v-d128-d0.1 & $10^6$ & $0.1$ & $0.561$ & $0.569$ & $0.554$ \\ \hline
+		$CNN_1$ & c16-4-18-v, d128                        & $10^5$ & $0.1$ & $0.589$ & $0.576$ & $0.573$ \\
+		$CNN_2$ & c64-5-36-v, c256-3-5-v, d256-d128-d16   & $10^6$ & $0.1$ & $0.506$ & $0.531$ & $0.518$ \\
+		$CNN_3$ & c16-3-18-v, c32-3-18-v, c64-2-18-v-d128 & $10^6$ & $0.1$ & $0.561$ & $0.569$ & $0.554$ \\ \hline
 	\end{tabular}
 \end{table}
 

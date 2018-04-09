@@ -341,7 +341,7 @@
 % Paragraph indentation and separation for normal text
 \newcommand{\@tufte@reset@par}{%
 	\setlength{\RaggedRightParindent}{1.0pc}%
-	\setlength{\JustifyingParindent}{1.0pc}%
+	\setlength{\JustifyingParindent}{0.0pc}%
 	\setlength{\parindent}{1pc}%
 	\setlength{\parskip}{0pt}%
 }

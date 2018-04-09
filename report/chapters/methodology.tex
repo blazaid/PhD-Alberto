@@ -22,7 +22,7 @@ Internamente, el modelo estará separado en los dos modelos básicos, el modelo 
 
 \begin{figure}
 	\centering
-	\missingfigure[figwidth=5cm]{Esquema general del modelo de conductor}
+	\missingfigure[figheight=5cm]{Esquema general del modelo de conductor}
 	\caption[Esquema general del modelo de conductor planteado]{Esquema general del modelo de conductor planteado en la tesis. En éste se puede ver cómo se distribuyen los estímulos de entrada entre los diferentes componentes del modelo y las salidas del sistema, que irán conectadas a los actuadores pertinentes.}
 	\label{fig:overall-driver-model-schema}
 \end{figure}
@@ -203,9 +203,10 @@ Posteriormente y de forma manual, se ha realizado el recorrido mostrando las nub
 Tras obtener todas las variables principales, ya sean directamente de los sensores del coche o a través de un proceso manual generamos los conjuntos de datos para los comportamientos longitudinal y de cambio de carril. La tabla~\ref{tbl:main-variables} describe qué variables son usadas en qué conjunto de datos.
 
 \begin{table}
+	\centering
 	\caption[Resumen de los indicadores obtenidos tras los recorridos]{Resumen de los indicadores obtenidos tras los recorridos. Éstos incluyen tanto la información extraída directamente como aquella que ha requerido proceso manual. La parte inferior de la tabla describe las variables a predecir en los problemas de modelo longitudinal y de cambio de carril. Las variables \enquote{Distancia circulable} en realidad es una tupla que indica las distancias circulables en los carriles izquierdo, actual y derecho.}
 	\label{tbl:main-variables}
-	\begin{tabular}{lll}
+	\begin{tabular}{lcc}
 		\toprule
 		Variable & Longitudinal & Cambio de carril \\
 		\midrule

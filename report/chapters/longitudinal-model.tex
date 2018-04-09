@@ -53,10 +53,10 @@ Se han realizado entrenamientos sobre arquitecturas con diferente número de par
 		\hline
 		\multirow{2}{*}{Nombre} & \multirow{2}{*}{Arquitectura} & \multirow{2}{*}{Epochs} & \multicolumn{3}{c}{RMS}      \\ 
 		&                            &                                          & Training & Validation & Test \\ \hline
-		$FCS_1$ & $2, 2, 2, 2, 2, 2, 2$ & $10^5$ & $0.052$ & $0.057$ & $0.059$  \\
-		$FCS_2$ & $3, 3, 2, 2, 2, 3, 3$ & $10^5$ & $0.056$ & $0.061$ & $0.056$  \\
-		$FCS_3$ & $4, 3, 2, 2, 2, 3, 3$ & $10^5$ & $0.046$ & $0.051$ & $0.059$  \\
-		$FCS_4$ & $5, 5, 2, 2, 2, 5, 5$ & $10^5$ & $0.042$ & $0.046$ & $0.060$  \\ \hline
+		$FCS_1$ & $2, 2, 2, 2, 2, 2, 2$ & $10^5$ & $0.059$ & $0.064$ & $0.062$  \\
+		$FCS_2$ & $3, 3, 2, 2, 2, 3, 3$ & $10^5$ & $0.073$ & $0.079$ & $0.080$  \\
+		$FCS_3$ & $4, 3, 2, 2, 2, 3, 3$ & $10^5$ & $0.072$ & $0.078$ & $0.088$  \\
+		$FCS_4$ & $5, 5, 2, 2, 2, 5, 5$ & $10^5$ & $0.063$ & $0.068$ & $0.109$  \\ \hline
 	\end{tabular}
 \end{table}
 
@@ -113,16 +113,17 @@ Para determinar el modelo óptimo de \ac{mlp} en comportamiento longitudinal, se
 El modelo de neuronas de activación que se ha utilizado es de tipo tangente hiperbólica en todas las neuronas salvo en la última, que se ha utilizado una activación lineal en todas las neuronas salvo en la neurona de salida que se ha utilizado una activación lineal\sidenote{Se han utilizado también funciones de activación de tipo \ac{relu}, pero las tasas de error tras el entrenamiento eran notablemente más altas por lo que se ha optado al final por el uso de activación basada en tangente hiperbólica.}. Los pesos de la red han sido inicializados con una muestra aleatoria uniforme de valores reales en el intervalo $(-0.25, 0.25)$.
 
 \begin{table}[t]
+	\centering
 	\caption[Resumen de las arquitecturas \ac{mlp} para el modelo longitudinal]{Resumen de las arquitecturas de \ac{mlp} para el modelo longitudinal. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:cf-mlp-architectures}
 	\begin{tabular}{ccccccc}
 		\hline
 		\multirow{2}{*}{Nombre} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multirow{2}{*}{Dropout} & \multicolumn{3}{c}{RMS}      \\
 		&                            &                         &                          & Training & Validation & Test \\ \hline
-		$MLP_1$ & $2, 2, 2, 2, 2, 2, 2$ & $10^5$ & $0.1$ & $0.052$ & $0.057$ & $0.059$  \\
-		$MLP_2$ & $3, 3, 2, 2, 2, 3, 3$ & $10^5$ & $0.1$ & $0.056$ & $0.061$ & $0.056$  \\
-		$MLP_3$ & $4, 3, 2, 2, 2, 3, 3$ & $10^5$ & $0.1$ & $0.046$ & $0.051$ & $0.059$  \\
-		$MLP_4$ & $5, 5, 2, 2, 2, 5, 5$ & $10^5$ & $0.1$ & $0.042$ & $0.046$ & $0.060$  \\ \hline
+		$MLP_1$ & $7, 16, 1$        & $10^5$ & $0.1$ & $0.057$ & $0.057$ & $0.069$  \\
+		$MLP_2$ & $7, 8, 2, 1$      & $10^5$ & $0.1$ & $0.061$ & $0.061$ & $0.056$  \\
+		$MLP_3$ & $7, 16, 8, 1$     & $10^5$ & $0.1$ & $0.051$ & $0.051$ & $0.060$  \\
+		$MLP_4$ & $7, 16, 16, 8, 1$ & $10^5$ & $0.1$ & $0.046$ & $0.046$ & $0.061$  \\ \hline
 	\end{tabular}
 \end{table}
 

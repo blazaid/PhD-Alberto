@@ -19,33 +19,59 @@ La arquitectura que se ha entrenado para cada uno de los sujetos ha sido la $MLP
 \begin{figure}
 	\centering
 	\includegraphics[width=\textwidth]{lm-specific-rmse-all-test-detail}
-	\caption[Comparativa de la evolución del error de test entre los sujetos de la arquitectura seleccionada para el modelo longitudinal. durante el entrenamiento del modelo longitudinal para los sujetos]{Comparativa de la evolución del error durante el entrenamiento del modelo longitudinal para los sujetos.}
+	\caption[Comparativa de la evolución del error de test entre los sujetos de la arquitectura seleccionada para el modelo longitudinal]{Comparativa de la evolución del error durante el entrenamiento del modelo longitudinal para los sujetos.}
 	\label{fig:lm-specific-training-validation-and-test-comparison}
 \end{figure}
 
-Se puede observar que aunque el error en test de los sujetos es ligeramente más mayor que el del conjunto global. Esto puede ser debido a la mayor capacidad de generalización de éste último al disponer de un conjunto de datos mayor. Los datos del \ac{rmse} se detallan en la tabla~\ref{tbl:lm-specific-rmse}
+Se puede observar que el error en test de los sujetos es ligeramente mayor que el del conjunto global. Sin embargo, esto puede ser debido a la mayor capacidad de generalización de éste último al disponer de un conjunto de datos mayor. Los datos del \ac{rmse} se detallan en la tabla~\ref{tbl:lm-specific-rmse}
 
 \begin{table}
 	\centering
-	\caption[Resumen de las arquitecturas \ac{fcs} para el modelo longitudinal]{Resumen de las arquitecturas seleccionadas. La posición de cada número de la arquitectura indica a qué variable lingüística se refiere (\textit{Distancia al líder}, \textit{Distancia a siguiente TLS}, \textit{TLS en verde}, \textit{TLS en amarillo}, \textit{TLS en rojo}, \textit{Velocidad} y \textit{Velocidad de aproximación al líder} respectivamente). Su valor se corresponde al número de conjuntos difusos de la partición de cada una de ellas.}
+	\caption[Resumen de los valores de \ac{rmse} para los modelos específicos de comportamiento longitudinal]{Resumen de los valores de \ac{rmse} para los modelos específicos de comportamiento longitudinal.}
 	\label{tbl:lm-specific-rmse}
 	\begin{tabular}{cccccc}
 		\hline
 		\multirow{2}{*}{Nombre} & \multicolumn{3}{c}{\ac{rmse}}      \\ 
 		& Training & Validation & Test \\ \hline
-		$S_A$ & $0.056$ & $0.061$ & $0.056$  \\
-		$S_2$ & $0.048$ & $0.043$ & $0.069$  \\
-		$S_3$ & $0.038$ & $0.036$ & $0.056$  \\
-		$S_4$ & $0.054$ & $0.054$ & $0.058$  \\ \hline
+		$S_A$ & $0.056$ & $0.062$ & $0.057$  \\
+		$S_2$ & $0.045$ & $0.039$ & $0.060$  \\
+		$S_3$ & $0.039$ & $0.037$ & $0.208$  \\
+		$S_4$ & $0.055$ & $0.054$ & $0.058$  \\ \hline
+	\end{tabular}
+\end{table}
+
+\section{Cambio de carril}
+
+En el caso del modelo de cambio de carril, la arquitectura con la que se han entrenado los modelos específicos es al $CNN_1$ (topología $c16$-$4$-$18$-$v$, $d128$). En la Figura~\ref{fig:lc-specific-rmse-all-test-detail} 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{lc-specific-rmse-all-test-detail}
+	\caption[Comparativa de la evolución del error de test entre los sujetos de la arquitectura seleccionada para el modelo de cambio de carril]{Comparativa de la evolución del error de test entre los sujetos de la arquitectura seleccionada para el modelo de cambio de carril.}
+	\label{fig:lc-specific-rmse-all-test-detail}
+\end{figure}
+
+La precisión alcanzada en los modelos específicos entrenados con esta arquitectura es mayor que la alcanzada por el modelo global. Tiene sentido ya que el modelo global se ha entrenado con el conjunto de datos global y por tanto no obedece exactamente al comportamiento de ningún perfil en concreto, mientras que en los modelos específicos sí. En la tabla~\ref{tbl:lc-specific-accuracy} se exponen los valores de la precisión de este modelo.
+
+\begin{table}
+	\centering
+	\caption[Resumen de los valores de precisión para los modelos específicos de cambio de carril]{Resumen de los valores de precisión para los modelos específicos de cambio de carril.}
+	\label{tbl:lc-specific-accuracy}
+	\begin{tabular}{cccccc}
+		\hline
+		\multirow{2}{*}{Nombre} & \multicolumn{3}{c}{\ac{rmse}}      \\ 
+		& Training & Validation & Test \\ \hline
+		$S_A$ & $0.056$ & $0.062$ & $0.057$  \\
+		$S_2$ & $0.045$ & $0.039$ & $0.060$  \\
+		$S_3$ & $0.039$ & $0.037$ & $0.208$  \\
+		$S_4$ & $0.056$ & $0.054$ & $0.058$  \\ \hline
 	\end{tabular}
 \end{table}
 
 
-\section{Cambio de carril}
-
 \section{Comprobación de personalización de los modelos de conducción específicos}
 
-Las anteriores secciones han mostrado cómo las topologías selecionadas en los capítulos \nameref{ch:longitudinal-model} y \nameref{ch:lane-change-model} son adecuadas para modelar los comportamientos específicos de cada conductor, además de el conjunto global.
+Las anteriores secciones han mostrado cómo las topologías seleccionadas en los capítulos \nameref{ch:longitudinal-model} y \nameref{ch:lane-change-model} son adecuadas para modelar los comportamientos específicos de cada conductor, además de el conjunto global.
 
 Lo interesante es comprobar si estas topologías son capaces de capturar las diferencias entre conductores. Para ello, comprobaremos cómo se comportan cada uno de los conductores en todos los conjuntos de test.
 
@@ -56,10 +82,10 @@ En el caso del modelo longitudinal, los valores de error cruzados entre sujetos 
 	\caption[Comparación de los errores de aceleración en los diferentes modelos longitudinales]{Comparación de los errores de aceleración en los diferentes modelos longitudinales. }
 	\label{tbl:lm-subjects-comparison}
 	\begin{tabular}{c|ccc}
-		& \textbf{$S_1$} & \textbf{$S_2$} & \textbf{$S_3$} \\ \hline
-		\textbf{$S_1$} & $0.059$ & $0.072$ & $0.070$ \\
-		\textbf{$S_2$} & $0.209$ & $0.208$ & $0.213$ \\
-		\textbf{$S_3$} & $0.065$ & $0.066$ & $0.057$ \\ \hline
+		               & \textbf{$S_1$} & \textbf{$S_2$} & \textbf{$S_3$} \\ \hline
+		\textbf{$S_1$} & $0.059$        & $0.072$        & $0.070$ \\
+		\textbf{$S_2$} & $0.209$        & $0.208$        & $0.213$ \\
+		\textbf{$S_3$} & $0.065$        & $0.066$        & $0.057$ \\ \hline
 	\end{tabular}
 \end{table}
 
@@ -76,7 +102,7 @@ El \ac{rmse} de cada uno de los conductores se mantiene más bajo que el del res
 
 En el caso del modelo de cambio de carril, la comparativa la deberíamos hacer con respecto a las tasas de acierto en sus respectivos conjuntos de test. La tabla~\ref{fig:lc-subjects-comparison} muestra los índices de precisión de los sujetos sobre cada uno de los conjntos de test de los demás.
 
-\begin{table}[]
+\begin{table}
 	\centering
 	\caption[Comparación de la precisión para los diferentes modelos de cambio de carril]{Comparación de la precisión para los diferentes modelos de cambio de carril.}
 	\label{tbl:lc-subjects-comparison}
@@ -87,5 +113,3 @@ En el caso del modelo de cambio de carril, la comparativa la deberíamos hacer c
 		\textbf{$S_3$} & $0.XXX$ & $0.XXX$ & $0.XXX$ \\ \hline
 	\end{tabular}
 \end{table}
-
-
