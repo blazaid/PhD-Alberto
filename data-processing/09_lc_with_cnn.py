@@ -16,14 +16,14 @@ DECAY_SPEED = 2000
 ACTIVATION_FN = tf.nn.relu
 OUTPUT_FN = None
 DROPOUT = 0.1
-EPOCHS = 1200
+EPOCHS = 100
 LOGS_STEPS = EPOCHS / 100
-MINIBATCH_SIZE = 3000
+MINIBATCH_SIZE = 4000
 
 
 if __name__ == '__main__':
     args = type('test', (object,), {})()
-    args.subject = 'edgar'
+    args.subject = 'miguel'
     args.path = './data'
     args.steps = EPOCHS
     args.layers = ['c16-4-18-v', 'd128']
