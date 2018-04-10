@@ -166,7 +166,7 @@ Existe un tercer punto de vista a la hora de implementar este tipo de modelos, q
 \begin{figure}[t]
 	\centering
 	\includegraphics{nagel-schreck}
-	\caption[Ejemplo de efecto de ondas de choque en simulación de tipo Nagel-Scherckenberg]{Aparición de retenciones en una autopista de $250$ celdas usando el modelo Nagel-Scherckenberg. La densidad de ocupación es de $50$ coches en la vía, la velocidad máxima es de $5 c/\Delta t$ y la probabilidad de frenada es de $p = 0.5$. Se puede observar en la figura cómo se desplazan las olas del atasco a lo largo de las $100$ iteraciones.}
+	\caption[Ejemplo de efecto de ondas de choque en simulación de tipo Nagel-Scherckenberg]{Aparición de retenciones en una autopista de $250$ celdas usando el modelo Nagel-Scherckenberg. La densidad de ocupación es de $50$ coches en la vía, la velocidad máxima es de $5 c/\Delta t$ y la probabilidad de frenada es de $p = 0.5$. Se puede observar en la figura cómo se desplazan las \enquote{olas} del atasco a lo largo de las $100$ iteraciones.}
 	\label{fig:nagel-schreck}
 \end{figure}
 
@@ -292,36 +292,31 @@ Posteriormente se ha desarrollado un listado de características deseables. No s
 
 \subsection{Entornos de simulación a estudiar}
 
-El primer listado de características deja atrás la mayoría de simuladores (una gran cantidad de ellos son o bien de propósito específico, están desarrollados para sistemas operativos Windows o no permiten extender su modelo). Tras la selección, nos quedamos con los siguientes simuladores: \gls{aorta}, \gls{matsim}, \gls{mitsim}, \gls{movsim} y \gls{sumo}.
-
-Dichos entornos están prácticamente igualados en las características presentadas, tal y como se puede observar en el cuadro~\ref{tbl:simulators-comparison}. Sin embargo, en matería de extensibilidad, \ac{sumo} es el único que permite el desarrollo de \acp{dvu} de manera externa. El resto requiere la modificación del código fuente del simulador para varias los comportamientos de los conductores. \ac{aorta} además no es un proyecto que se mantenga activo en la actualidad (las últimas modificaciones del repositorio datan de principios del año $2014$).
-
-\begin{table*}[t]
+\begin{table}[!b]
+	\centering
+	\small
 	\caption[Tabla comparativa de los simuladores seleccionados][1.5em]{Tabla comparativa donde se contrastan las características de los simuladores seleccionados. El simulador \gls{sumo} es el que más características cumple de las originalmente planteadas.}
 	\label{tbl:simulators-comparison}
-	\begin{tabular}{llllll}
+	\begin{tabular}{lccccc}
 		\toprule
 		& \gls{aorta} & \gls{matsim} & \gls{mitsim} & \gls{movsim} & \gls{sumo} \\
 		\midrule
-		Activo & \nop & \yep & \nop & \yep & \yep \\
-		\addlinespace
-		Lenguajes de programación & Scala & Java & C++ & Java & C++ y Python \\
-		\addlinespace
-		Licencia & & & & & \\
-		\quad Propietaria & \nop & \nop & \nop & \nop & \nop \\
-		\quad \glsentryshort{oss} & \yep & \yep & \yep & \yep & \yep \\
-		\quad GPL & \yep & \yep & \nop & \yep & \yep \\
-		\addlinespace
-		Extensibilidad & & & & & \\
-		\quad Código fuente & \yep & \yep & \yep & \yep & \yep \\
-		\quad API & \nop & \nop & \nop & \nop & \yep \\
-		\glsentrylongplsp{os} & & & & & \\
-		\quad GNU/Linux & \yep & \yep & \yep & \yep & \yep \\
-		\quad OS X & \yep & \yep & \nop & \yep & \yep \\
-		\quad Windows & \yep & \yep & \nop & \yep & \yep \\
+		\rowcolor{black!20} Activo & \nop & \yep & \nop & \yep & \yep \\
+		Lenguaje & Scala & Java & C++ & Java & C++/Python \\		
+		\rowcolor{black!20} Lic. Prop. & \nop & \nop & \nop & \nop & \nop \\
+		Lic. \glsentryshort{oss} & \yep & \yep & \yep & \yep & \yep \\
+		\rowcolor{black!20} GPL & \yep & \yep & \nop & \yep & \yep \\
+		\acrshort{api} & \nop & \nop & \nop & \nop & \yep \\
+		\rowcolor{black!20} GNU/Linux & \yep & \yep & \yep & \yep & \yep \\
+		OS X & \yep & \yep & \nop & \yep & \yep \\
+		\rowcolor{black!20} Windows & \yep & \yep & \nop & \yep & \yep \\
 		\bottomrule
 	\end{tabular}
-\end{table*}
+\end{table}
+
+El primer listado de características deja atrás la mayoría de simuladores (una gran cantidad de ellos son o bien de propósito específico, están desarrollados para sistemas operativos Windows o no permiten extender su modelo). Tras la selección, nos quedamos con los siguientes simuladores: \gls{aorta}, \gls{matsim}, \gls{mitsim}, \gls{movsim} y \gls{sumo}.
+
+Dichos entornos están prácticamente igualados en las características presentadas, tal y como se puede observar en el cuadro~\ref{tbl:simulators-comparison}. Sin embargo, en matería de extensibilidad, \ac{sumo} es el único que permite el desarrollo de \acp{dvu} de manera externa. El resto requiere la modificación del código fuente del simulador para varias los comportamientos de los conductores. \ac{aorta} además no es un proyecto que se mantenga activo en la actualidad (las últimas modificaciones del repositorio datan de principios del año $2014$).
 
 No obstante se ha tratado de modificar los comportamientos de los conductores en los cuatro simuladores para validar este hecho y ha quedado patente que es mucho más eficaz usar \gls{sumo} como simulador para nuestro estudio.
 
@@ -329,7 +324,7 @@ No obstante se ha tratado de modificar los comportamientos de los conductores en
 
 En definitiva, el simulador que más se adapta a nuestras necesidades y el que se usará como simulador base en el desarrollo de esta tesis será \gls{sumo} \cite{krajzewicz2002sumo, behrisch2011sumo, krajzewicz2012recent}.
 
-\begin{figure}[t]
+\begin{figure}[!b]
 	\includegraphics{sumo-simulator}
 	\caption[Captura de pantalla del simulador \gls{sumo}]{Captura de pantalla del simulador \gls{sumo}. Además de software de simulación propiamente dicho, \gls{sumo} provee de una interfaz gráfica que permite una visualización general, de zonas y de elementos en concreto a la vez que permite la variación de configuración de la simulación durante el desarrollo de la misma.\TODO{Meter una imagen de nuestras simulaciones cuando estén, a poder ser sin color. Hacer el alto más pequeño}}
 	\label{fig:sumo-simulator}
@@ -354,7 +349,7 @@ Al estar licenciado bajo la licencia \gls{gpl}, su distribución implica a su ve
 
 \gls{traci} \cite{Wegener2008} es tanto el nombre del protocolo de comunicación expuesto por \gls{sumo} en su versión servidor como el nombre de la librería escrita en Python para interactuar con el mismo.
 
-\begin{figure}
+\begin{figure}[!b]
 	\centering
 	\subfloat[Conexión.\label{fig:traci-messages-a}]{
 		\includegraphics[width=0.31\linewidth]{sequence-diagram-traci-sumo-connect}

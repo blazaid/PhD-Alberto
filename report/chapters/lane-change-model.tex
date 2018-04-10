@@ -133,54 +133,59 @@ En cada una de las filas poseemos una representación del entorno en forma de ma
 \end{figure}
 
 Comenzaremos definiendo el \textit{momento} $t_i$ como aquel ejemplo situado a $t - \frac{i}{10}s$ en el pasado (ver Figura~\ref{fig:moments-illustration}). Los momentos que se tendrán en cuenta en los datasets finales serán $t_0$, $t_10$, $t_20$, correspondientes al momento actual, \SI{1}{\second} anterior y \SI{2}{\second} anteriores respectivamente. Estos valores no son arbitrarios, sino que se han elegido de acuerdo a los experimentos realizados en~\cite{EL PAPER CUANDO NOS LO PUBLIQUEN}\sidenote{
-	Dichos experimentos se corresponden con el proceso de ejecución de cambio de carril, donde se asume que la maniobra involucra al córtex visual y al córtex prefrontal. Estos procesos cognitivos tienen un tiempo de respuesta de entre \SI{0.2}{\second}, \SI{1.2}{\second}~\cite{buzsaki2012temporal}, por lo que es comprensible que la ventana temporal elegida sea aceptable. Además, al incluir tres momentos temporales, es posible que el modelo reconozca una intuición de la velocidad, la aceleración e incluso el \textit{jerk} a partir de imágenes estáticas. 
-}.
+	Dichos experimentos trabajan sobre el proceso de ejecución de cambio de carril, donde se asume que la maniobra involucra al córtex visual y al córtex prefrontal. Estos procesos cognitivos tienen un tiempo de respuesta de entre \SI{0.2}{\second}, \SI{1.2}{\second}~\cite{buzsaki2012temporal}.
+}. Además, al incluir tres momentos temporales, ayudamos a los modelos a reconocer patrones en los que es involucran la velocidad y la aceleración.
 
 Tras este ajuste, los conjuntos de datos están finalizados. Sus propiedades quedan descritas en la Tabla~\ref{tbl:lc-datasets-description}.
 
-\begin{table}[!b]
+\begin{table}
+	\centering
+	\small
 	\caption[Descripción de los conjuntos de datos]{Descripción de los conjuntos de datos para el entrenamiento de los modelos.}
 	\label{tbl:lc-datasets-description}
 	\begin{tabular}{ccccccccc}
 		\toprule
-		Nombre & Entradas & Salidas & Tamaño (training) & Tamaño (test) & Num. izda. (training) & Num dcha. (training) & Num. izda. (test) & Num. dcha. (test) \\
+		&          &         & \multicolumn{2}{c}{Tamaño}  & \multicolumn{2}{c}{Izquierda}  & \multicolumn{2}{c}{Derecha}  \\
+		& Entradas & Salidas & Train    &    Test       & Train & Test & Train & Test \\
 		\midrule
-		$LC_{S_1}$ & $8653$ & $3$ & $68990$  & $2057$ & $820$ & $820$  & $43$  & $3$   \\
-		$LC_{S_2}$ & $8653$ & $3$ & $84810$  & $2886$ & $925$ & $925$  & $27$  & $7$   \\
-		$LC_{S_3}$ & $8653$ & $3$ & $82060$  & $2890$ & $995$ & $995$  & $51$  & $13$  \\
-		$LC_{S_A}$ & $8653$ & $3$ & $248930$ & $7833$ & $2740$ & $2740$ & $121$ & $23$ \\
+		\rowcolor{black!20} $LC_{S_1}$ & $8653$ & $3$ & $68990$  & $2057$ & $820$  & $43$  & $820$  & $3$  \\
+		$LC_{S_2}$ & $8653$ & $3$ & $84810$  & $2886$ & $925$  & $27$  & $925$  & $7$  \\
+		\rowcolor{black!20} $LC_{S_3}$ & $8653$ & $3$ & $82060$  & $2890$ & $995$  & $51$  & $995$  & $13$ \\
+		$LC_{S_A}$ & $8653$ & $3$ & $248930$ & $7833$ & $2740$ & $121$ & $2740$ & $23$ \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
 \section{Modelo \ac{mlp}}
 
-Los entrenamientos han sido realizados sobre diferentes topologías, siendo las más representativas las descritas en la tabla~\ref{tbl:lc-mlp-architectures}.
+Los entrenamientos han sido realizados sobre diferentes topologías, siendo las más representativas las descritas en la tabla~\ref{tbl:lc-mlp-architectures}. La tasa de dropout utilizada en los entrenamientos ha sido de $0.1$.
 
-En lugar de intentar maximizar la cantidad de aciertos o minimizar el número de falsos positivos o negativos, el error que se ha tratado de minimizar es la entropía cruzada, concepto del cual hablamos anteriormente en el capítulo~\nameref{ch:sota-ci}. Este indicador es mucho más eficiente a la hora de trabajar con problemas de clasificación. Sin embargo, de cara a mostrar resultados en la tesis, el valor de ésta no ofrece información relevante más allá de \enquote{si decrece es bueno}. Por ellos se ofrecerán los valores de precisión y matrices de confusión que son más acordes con el problema en cuestión.
-
-\begin{table}[t]
+\begin{table}[!b]
 	\centering
 	\small
 	\caption[Resumen de las arquitecturas \ac{mlp} para el modelo de cambio de carril]{Resumen de las arquitecturas de \ac{mlp} para el modelo de cambio de carril. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:lc-mlp-architectures}
-	\begin{tabular}{ccccccc}
-		\hline
-		\multirow{2}{*}{Nombre} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multirow{2}{*}{Dropout} & \multicolumn{3}{c}{Precisión}  \\
-		& & & & Training & Validation & Test \\ \hline
-		$MLP_1$ & $64, 64$              & $10^5$ & $0.1$ & $0.33$ & $0.33$ & $0.33$ \\
-		$MLP_2$ & $1024, 512, 128$      & $10^5$ & $0.1$ & $0.33$ & $0.33$ & $0.33$ \\
-		$MLP_3$ & $1024, 512, 256, 128$ & $10^5$ & $0.1$ & $0.33$ & $0.33$ & $0.33$ \\ \hline
+	\begin{tabular}{cccccc}
+		\toprule
+		\multirow{2}{*}{} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multicolumn{3}{c}{Precisión} \\
+		& & & Train & Validation & Test \\
+		\midrule
+		\rowcolor{black!20} $MLP_1$ & $64, 64$ & $10^5$ & $0.33$ & $0.33$ & $0.33$ \\
+		$MLP_2$ & $1024, 512, 128$  & $10^5$ & $0.33$ & $0.33$ & $0.33$ \\
+		\rowcolor{black!20} $MLP_3$ & $1024, 512, 256, 128$ & $10^5$ & $0.33$ & $0.33$ & $0.33$ \\
+		\bottomrule
 	\end{tabular}
 \end{table}
+
+En lugar de intentar maximizar la cantidad de aciertos o minimizar el número de falsos positivos o negativos, el error que se ha tratado de minimizar es la entropía cruzada, concepto del cual hablamos anteriormente en el capítulo~\nameref{ch:sota-ci}. Este indicador es mucho más eficiente a la hora de trabajar con problemas de clasificación. Sin embargo, de cara a mostrar resultados en la tesis, el valor de ésta no ofrece información relevante más allá de \enquote{si decrece es bueno}. Por ellos se ofrecerán los valores de precisión y matrices de confusión que son más acordes con el problema en cuestión.
 
 La figura~\ref{fig:lc-mlp-accuracy-comparison} nos muestra la evolución de la precisión alcanzada por los modelos a lo largo del entrenamiento, tanto en entrenamiento como en el posterior test.
 
 \begin{figure}
 	\centering
 	\small
-	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-mlp-acc-all-training-and-validation-detail}}\qquad
-	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-mlp-acc-all-test-detail}}
+	\subfloat[Training y validación]{\includegraphics[width=.45\textwidth]{lc-mlp-acc-all-training-and-validation-detail}}\qquad
+	\subfloat[Test]{\includegraphics[width=.45\textwidth]{lc-mlp-acc-all-test-detail}}
 	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \ac{mlp}]{Comparación de las precisiones alcanzadas por los modelos de tipo \ac{mlp}.}
 	\label{fig:lc-mlp-accuracy-comparison}
 \end{figure}
@@ -189,20 +194,22 @@ Cada una de las redes se ha entrenado durante $10^5$ epochs. A la vista de los r
 
 \section{Modelo \ac{cnn}}
 
-Las arquitecturas de los modelos que mejores resultado han arrojado tras las pruebas se describen en la tabla~\ref{tbl:lc-cnn-architectures}.
+Las arquitecturas de los modelos que mejores resultado han arrojado tras las pruebas se describen en la tabla~\ref{tbl:lc-cnn-architectures}. La tasa de dropout utilizada en los entrenamientos ha sido de $0.1$.
 
-\begin{table}[b]
+\begin{table}
 	\centering
 	\small
-	\caption[Resumen de las arquitecturas \ac{mlp} para el modelo longitudinal]{Resumen de las arquitecturas de \ac{mlp} para el modelo longitudinal. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
+	\caption[Resumen de las arquitecturas \ac{cnn} para el modelo longitudinal]{Resumen de las arquitecturas \ac{cnn} para el modelo longitudinal. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:lc-cnn-architectures}
-	\begin{tabular}{ccccccc}
-		\hline
-		\multirow{2}{*}{Nombre} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multirow{2}{*}{Dropout} & \multicolumn{3}{c}{RMS}      \\
-		&                            &                         &                          & Training & Validation & Test \\ \hline
-		$CNN_1$ & c16-4-18-v, d128                        & $10^5$ & $0.1$ & $0.589$ & $0.576$ & $0.573$ \\
-		$CNN_2$ & c64-5-36-v, c256-3-5-v, d256-d128-d16   & $10^6$ & $0.1$ & $0.506$ & $0.531$ & $0.518$ \\
-		$CNN_3$ & c16-3-18-v, c32-3-18-v, c64-2-18-v-d128 & $10^6$ & $0.1$ & $0.561$ & $0.569$ & $0.554$ \\ \hline
+	\begin{tabular}{cccccc}
+		\toprule
+		\multirow{2}{*}{} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multicolumn{3}{c}{Precisión} \\
+		& & & Train & Validation & Test \\
+		\midrule
+		\rowcolor{black!20} $CNN_1$ & c16-4-18-v d128 & $10^5$ & $0.589$ & $0.576$ & $0.573$ \\
+		$CNN_2$ & c64-5-36-v, c256-3-5-v, d256-d128-d16                       & $10^6$ & $0.506$ & $0.531$ & $0.518$ \\
+		\rowcolor{black!20} $CNN_3$ & c16-3-18-v, c32-3-18-v, c64-2-18-v, d128 & $10^6$ & $0.561$ & $0.569$ & $0.554$ \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 

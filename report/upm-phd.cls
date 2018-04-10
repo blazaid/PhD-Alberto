@@ -1362,7 +1362,6 @@
 	\fi%
 	\@tufte@caption@font\@tufte@caption@justification%
 	\noindent\csname fnum@#1\endcsname: \ignorespaces#3\par%
-	%\@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}\par
 	\endgroup}
 
 %%
@@ -2123,7 +2122,24 @@
 % Small typography corrections
 %\usepackage{microtype}
 \usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,stretch=10,shrink=10]{microtype}
+%%
+% makecell: To have multiline text in table cells.
+\usepackage{makecell}
+
+%%
+% booktabs: For extra table commands to see the tables nicer
 \usepackage{booktabs}
+
+%%
+% colortbl: Allow the colour of the table
+\usepackage{colortbl}
+
+%%
+% xfrac: Nicer fractions that look better in tables
+\usepackage{xfrac}
+
+%%
+% graphicx:
 \usepackage{graphicx}
 
 %%

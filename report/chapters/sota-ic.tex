@@ -1,4 +1,4 @@
-\chapter{\Acrlong{ci}}
+\chapter{\Acrlongsp{ci}}
 \label{ch:sota-ci}
 
 Todo elemento dentro de un entorno se ve influenciado por multitud de variables que determinan en mayor o menor grado su comportamiento. En la mayoría de los casos es muy complicado determinar el grado de efecto de estas variables, identificar las relaciones que existen entre las mismas o incluso determinar cuáles son.
@@ -9,7 +9,7 @@ En esta tesis hablaremos desde el punto de vista mayoritario, la \ac{ci} como ra
 
 El resto del capítulo ofrecerá una visión histórica para explicar el por qué de esta definición, justificará la importancia que tiene el aprendizaje dentro de este área, describirá las técnicas de \ac{ann} y la \ac{fl} necesarias para sentar las bases del posterior desarrollo de la tesis y por último, dará nociones de qué son los agentes y por qué este punto de vista es útil para nuestro cometido.
 
-\section{De \acrlong{ai} a \acrlong{ci}}
+\section{De \acrlongsp{ai} a \acrlongsp{ci}}
 
 Es difícil datar el comienzo del interés del ser humano por la emular la inteligencia humana. Los silogismos en la antigua grecia para modelar el conocimiento como reglas, los autómatas mecánicos de los filósofos modernos (siglos XVII al XIX) donde los cuerpos vivos son como un reloj, o la electricidad (siglos XIX y XX), capaz de animar constructos, son sólo ejemplos de cómo cada nuevo avance en la ciencia ha ido acompañado de un intento de simular el cuerpo y mente humanos.
 
@@ -52,13 +52,13 @@ Podemos definir la \acrlong{ci} como la \enquote{\textit{rama de la \gls{ai} que
 
 \begin{figure}
 	\includegraphics{different-povs-ai}
-	\caption[Diferentes objetivos perseguidos por la \acrlong{ai}.]{Diferentes objetivos perseguidos por la~\acrlong{ai}. Las filas diferencian entre pensamiento o comportamiento mientras que las columnas separan entre inteligencia humana o el ideal de la inteligencia (racionalidad). Fuente: \textit{Artificial Intelligence: A Modern Approach ($3^{rd}$ Ed.)},~\cite{russell2003artificial}.}
+	\caption[Diferentes objetivos perseguidos por la \acrlongsp{ai}.]{Diferentes objetivos perseguidos por la~\acrlongsp{ai}. Las filas diferencian entre pensamiento o comportamiento mientras que las columnas separan entre inteligencia humana o el ideal de la inteligencia (racionalidad). Fuente: \textit{Artificial Intelligence: A Modern Approach ($3^{rd}$ Ed.)},~\cite{russell2003artificial}.}
 	\label{fig:different-povs-ai}
 \end{figure}
 
-Se puede establecer el año $1994$ como en el que la \acrlong{ci} nace formalmente como área, coincidiendo con el cambio de nombre del \textit{IEEE Neural Networks Council} a \textit{IEEE Computational Intelligence Society}\sidenote{
+Se puede establecer el año $1994$ como en el que la \acrlongsp{ci} nace formalmente como área, coincidiendo con el cambio de nombre del \textit{IEEE Neural Networks Council} a \textit{IEEE Computational Intelligence Society}\sidenote{
 	\url{http://cis.ieee.org/}
-}. Poco antes, en $1993$, Bob Marks presentaba las que él consideraba diferencias fundamentales entre la \acrlong{ai} clásica y la \acrlong{ci}, resumiéndolas en la siguiente frase:
+}. Poco antes, en $1993$, Bob Marks presentaba las que él consideraba diferencias fundamentales entre la \acrlongsp{ai} clásica y la \acrlongsp{ci}, resumiéndolas en la siguiente frase:
 
 \blockquote{Neural networks, genetic algorithms, fuzzy systems, evolutionary programming, and artificial life are the building blocks of \ac{ci}.}
 
@@ -117,7 +117,7 @@ El último concepto es el de \textbf{epoch}. Se suele referir a una iteración s
 
 En otros contextos la definición de \textit{epoch} se mantiene y a cada una de las porciones se las denomina \textit{batch} o \textit{mini-batch}.
 
-\subsection{Problemas del aprendizaje en la \acrlong{ci}}
+\subsection{Problemas del aprendizaje en la \acrlongsp{ci}}
 
 El entrenamiento de modelos en la \gls{ci} adolece de dos principales problemas que, además, no tienen una solución general (\textit{non free-lunch theorem}~\cite{wolpert1997no}) ya que dependen tanto de la estructura de los datos sobre los que vamos a trabar como de los hiperparámetros\sidenote{
 	En general, hablaremos de \textit{parámetros} cuando nos referimos a valores que son inherentes al modelo (e.g. en una \gls{ann}, los valores de los pesos) y de \textit{hiperparámetros} cuando nos referimos a aquellos parámetros que modifican los elementos que modifican los parámetros (e.g. en una \gls{ann}, el factor de aprendizaje).
@@ -172,6 +172,8 @@ Una \gls{ann} es independiente del problema a solucionar. Se la puede considerar
 
 El primer trabajo en la disciplina se le atribuye a  los investigadores McCulloch-Pitts por su modelo de neurona artificial ilustrado en la figura~\ref{fig:mccullocs-pitts-neuron-model} (\cite{McCulloch1943}). Existen diferentes tipologías y formas de operar con redes, pero todas funcionan de la misma manera: unidades (e.g. neuronas) interconectados mediante enlaces por los que fluye la información de manera unidireccional, donde algunas de dichas unidades sirven de entrada al sistema (i.e. entradas o sensores), otras sirven de salida del sistema (i.e. salidas y actuadores) y otras como elementos internos (i.e. ocultas), y donde los pesos de sus conexiones se ajustan mediante un proceso denominado \textit{entrenamiento}, imitando los principios de la teoría hebbiana~\cite{hebb19680}.
 
+Este primer modelo de neurona proponía una función escalón para determinar si la neurona se activaba o no, como analogía del funcionamiento de la neurona artificial. Sin embargo, este modelo es muy limitado. La verdadera potencia de las redes surge del tanto del uso de funciones de activación no lineales como de la agrupación de estas neuronas en estructuras más complejas.
+
 \begin{figure}[t]
 	\centering
 	\includegraphics{neocortex}
@@ -185,8 +187,6 @@ El primer trabajo en la disciplina se le atribuye a  los investigadores McCulloc
 	\caption[Modelo de neurona artificial de McCulloch y Pitts]{Variación de la representación del modelo de neurona artificial propuesto por McCulloch y Pitts. En éste, cada una de las entradas $x_i$ es incrementada o inhibida aplicando el producto con su peso asociado $w_i$. La activación vendrá determinada por la aplicación de una función (denominada \enquote{de activación}) a la suma de los valores. Esta variación en concreto incluye una entrada $x_0$ y un peso $w_0$ como bias de la neurona para la variación dinámica del umbral de activación.}
 	\label{fig:mccullocs-pitts-neuron-model}
 \end{figure}
-
-Este primer modelo de neurona proponía una función escalón para determinar si la neurona se activaba o no, como analogía del funcionamiento de la neurona artificial. Sin embargo, este modelo es muy limitado. La verdadera potencia de las redes surge del tanto del uso de funciones de activación no lineales como de la agrupación de estas neuronas en estructuras más complejas.
 
 \subsection{Funciones de activación}
 
@@ -386,7 +386,7 @@ Esta es la forma original del algoritmo de back propagation. Al valor $\alpha$ q
 
 \begin{figure}[!b]
 	\missingfigure[figheight=4cm]{Ilustración con las dos formas de razonamiento}
-	\caption[Estructura general de una \acl{cnn}]{Estructura general de una \acl{cnn}. Se pueden observar sombreadas de distinto color la relación existente entre las regiones de identificación de patrones y la de predicción. La primera actua sobre la entrada extrayendo características consideradas relevantes mientras que la segunda tranaja sobre esas características en lugar de sobre todo el espacio de entrada.}
+	\caption[Estructura general de una \acrlongsp{cnn}]{Estructura general de una \acrlongsp{cnn}. Se pueden observar sombreada de un color la región de identificación de patrones y de otro la de predicción. La primera actua sobre la entrada extrayendo características consideradas relevantes mientras que la segunda trabaja sobre esas características en lugar de sobre todo el espacio de entrada.}
 	\label{fig:cnn-general-structure}
 \end{figure}
 
@@ -698,12 +698,12 @@ Se trata de la extensión del método del \textbf{modus ponens} para obtener el 
 
 La \textit{regla composicional de inferencia} es el método para determinar qué grado de asignamos aun consecuente a partir de las premisas de los antecedentes en un proceso de \textit{modus ponens generalizado}, o dicho de otro modo, cómo obtener la función de pertenencia del conjunto resultado a partir de las funciones de pertenencia de las premisas.
 
-Sin entrar demasiado en detalle, cada regla de un sistema difuso de la forma \texttt{IF $x$ is $A$ THEN $y$ is $B$} se puede representar como una función $I$ como $I(\mu_A(x), \mu_B(y))$ [La regla composicional de Zadeh]. REVISAR ESTO PORQUE CREO QUE EN LA TESIS DE MASTER ESTÁ MAL O RARO.
+Cada regla de un sistema difuso de la forma \texttt{IF $x$ is $A$ THEN $y$ is $B$} se puede representar como una función $I$ tal que $I(\mu_A(x), \mu_B(y))$ (\textit{Regla Composicional de Zadeh}).
 
 \subsection{Sistemas de control difuso}
 \label{ss:fcs}
 
-Los \ACRfull{fcs} son el caso de éxito de la lógica difusa que más resultados ha cosechado tanto a nivel académico como a nivel industrial. Se trata sistemas que utilizan el razonamiento difuso para inferir una respuesta a partir de un conjunto de entradas\sidenote{
+Los \acrfull{fcs} son el caso de éxito de la lógica difusa que más resultados ha cosechado tanto a nivel académico como a nivel industrial. Se trata sistemas que utilizan el razonamiento difuso para inferir una respuesta a partir de un conjunto de entradas\sidenote{
 	Dado que el control difuso puede extenderse a casi cualquier problema de control tradicional hace que se haya usado en multitud de campos, no sólo en el industrial. Esto hace que el mismo concepto pueda encontrarse con muchos nombres diferentes, como Sistemas de Lógica Difusa, Sistemas de Inferencia Difusa, Sistemas Expertos Difusos, Sistemas Basados en Reglas Difusas o simplemente Sistemas Difusos. [COGER LAS REFERENCIAS DE LA TESIS DE MASTER]
 }. Su uso se aplica tanto a sistemas de control manual como a sistemas donde los elementos a controlar son muy difíciles o incluso imposibles de diseñar (e.g. procesos de control con un alto número de variables relacionadas entre si).
 

@@ -27,16 +27,19 @@ Se puede observar que el error en test de los sujetos es ligeramente mayor que e
 
 \begin{table}
 	\centering
+	\small
 	\caption[Resumen de los valores de \ac{rmse} para los modelos específicos de comportamiento longitudinal]{Resumen de los valores de \ac{rmse} para los modelos específicos de comportamiento longitudinal.}
 	\label{tbl:lm-specific-rmse}
 	\begin{tabular}{cccccc}
-		\hline
-		\multirow{2}{*}{Nombre} & \multicolumn{3}{c}{\ac{rmse}}      \\ 
-		& Training & Validation & Test \\ \hline
-		$S_A$ & $0.056$ & $0.062$ & $0.057$  \\
+		\toprule
+		\multirow{2}{*}{} & \multicolumn{3}{c}{\ac{rmse}}      \\ 
+		& Train & Validation & Test \\
+		\midrule
+		\rowcolor{black!20} $S_A$ & $0.056$ & $0.062$ & $0.057$  \\
 		$S_1$ & $0.045$ & $0.039$ & $0.060$  \\
-		$S_2$ & $0.048$ & $0.047$ & $0.058$  \\
-		$S_3$ & $0.055$ & $0.054$ & $0.058$  \\ \hline
+		\rowcolor{black!20} $S_2$ & $0.048$ & $0.047$ & $0.058$  \\
+		$S_3$ & $0.055$ & $0.054$ & $0.058$  \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -55,16 +58,19 @@ La precisión alcanzada en los modelos específicos entrenados con esta arquitec
 
 \begin{table}
 	\centering
+	\small
 	\caption[Resumen de los valores de precisión para los modelos específicos de cambio de carril]{Resumen de los valores de precisión para los modelos específicos de cambio de carril.}
 	\label{tbl:lc-specific-accuracy}
 	\begin{tabular}{cccccc}
-		\hline
-		\multirow{2}{*}{Nombre} & \multicolumn{3}{c}{\ac{rmse}}      \\ 
-		& Training & Validation & Test \\ \hline
-		$S_A$ & $0.588$ & $0.576$ & $0.573$  \\
+		\toprule
+		\multirow{2}{*}{} & \multicolumn{3}{c}{\ac{rmse}}      \\ 
+		& Training & Validation & Test \\
+		\midrule
+		\rowcolor{black!20} $S_A$ & $0.588$ & $0.576$ & $0.573$  \\
 		$S_1$ & $0.805$ & $0.763$ & $0.768$  \\
-		$S_2$ & $0.683$ & $0.708$ & $0.706$  \\
-		$S_3$ & $0.727$ & $0.706$ & $0.710$  \\ \hline
+		\rowcolor{black!20} $S_2$ & $0.683$ & $0.708$ & $0.706$  \\
+		$S_3$ & $0.727$ & $0.706$ & $0.710$  \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -79,13 +85,17 @@ En el caso del modelo longitudinal, los valores de error cruzados entre sujetos 
 
 \begin{table}
 	\centering
+	\small
 	\caption[Comparación de los errores de aceleración en los diferentes modelos longitudinales]{Comparación de los errores de aceleración en los diferentes modelos longitudinales. Las filas se corresponden con los recorridos mientras que las columnas se corresponden con los modelos que se han intentado ajustar a ellas.}
 	\label{tbl:lm-subjects-comparison}
-	\begin{tabular}{c|ccc}
-		               & \textbf{$S_1$} & \textbf{$S_2$} & \textbf{$S_3$} \\ \hline
-		\textbf{$S_1$} & $0.059$        & $0.074$        & $0.070$ \\
-		\textbf{$S_2$} & $0.064$        & $0.058$        & $0.067$ \\
-		\textbf{$S_3$} & $0.065$        & $0.065$        & $0.057$ \\ \hline
+	\begin{tabular}{cccc}
+		\toprule
+		& $S_1$ & $S_2$ & $S_3$ \\
+		\midrule
+		\rowcolor{black!20} $S_1$ & $0.059$        & $0.074$        & $0.070$ \\
+		$S_2$ & $0.064$        & $0.058$        & $0.067$ \\
+		\rowcolor{black!20} $S_3$ & $0.065$        & $0.065$        & $0.057$ \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
@@ -106,10 +116,13 @@ En el caso del modelo de cambio de carril, la comparativa la deberíamos hacer c
 	\centering
 	\caption[Comparación de la precisión para los diferentes modelos de cambio de carril]{Comparación de la precisión para los diferentes modelos de cambio de carril Las filas se corresponden con los recorridos mientras que las columnas se corresponden con los modelos que se han intentado ajustar a ellas.}
 	\label{tbl:lc-subjects-comparison}
-	\begin{tabular}{c|ccc}
-		& \textbf{$S_1$} & \textbf{$S_2$} & \textbf{$S_3$} \\ \hline
-		\textbf{$S_1$} & $0.768$ & $0.314$ & $0.601$ \\
-		\textbf{$S_2$} & $0.601$ & $0.706$ & $0.511$ \\
-		\textbf{$S_3$} & $0.648$ & $0.666$ & $0.710$ \\ \hline
+	\begin{tabular}{cccc}
+		\toprule
+		& $S_1$ & $S_2$ & $S_3$ \\
+		\midrule
+		\rowcolor{black!20} $S_1$ & $0.768$ & $0.314$ & $0.601$ \\
+		$S_2$ & $0.601$ & $0.706$ & $0.511$ \\
+		\rowcolor{black!20} $S_3$ & $0.648$ & $0.666$ & $0.710$ \\
+		\bottomrule
 	\end{tabular}
 \end{table}

@@ -206,22 +206,23 @@ Tras obtener todas las variables principales, ya sean directamente de los sensor
 
 \begin{table}
 	\centering
+	\small
 	\caption[Resumen de los indicadores obtenidos tras los recorridos]{Resumen de los indicadores obtenidos tras los recorridos. Éstos incluyen tanto la información extraída directamente como aquella que ha requerido proceso manual. La parte inferior de la tabla describe las variables a predecir en los problemas de modelo longitudinal y de cambio de carril. Las variables \enquote{Distancia circulable} en realidad es una tupla que indica las distancias circulables en los carriles izquierdo, actual y derecho.}
 	\label{tbl:main-variables}
 	\begin{tabular}{lcc}
 		\toprule
 		Variable & Longitudinal & Cambio de carril \\
 		\midrule
-		Distancia circulable      & \nop & \yep \\
+		\rowcolor{black!20} Distancia circulable      & \nop & \yep \\
 		Distancia al líder        & \yep & \nop \\
-		Distancia a siguiente TLS & \yep & \yep \\
+		\rowcolor{black!20} Distancia a siguiente TLS & \yep & \yep \\
 		Estado de siguiente TLS   & \yep & \yep \\
-		Nube de puntos            & \nop & \yep \\
+		\rowcolor{black!20} Nube de puntos            & \nop & \yep \\
 		Velocidad                 & \yep & \nop \\
-		Velocidad al líder        & \yep & \nop \\
+		\rowcolor{black!20} Velocidad al líder        & \yep & \nop \\
 		\midrule
 		\textbf{Aceleración}      & \yep & \nop \\
-		\textbf{Cambio de carril} & \nop & \yep \\
+		\rowcolor{black!20} \textbf{Cambio de carril} & \nop & \yep \\
 		\bottomrule
 	\end{tabular}
 \end{table}
