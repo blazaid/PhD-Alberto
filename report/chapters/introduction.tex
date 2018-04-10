@@ -1,11 +1,11 @@
 \chapter{Introducción}
 \label{ch:intro}
 
-La \ac{ai} como área de conocimiento ha experimentado un creciente interés en los últimos años. Esto no siempre ha sido así; desde su nacimiento ha ido alternando épocas de mucha actividad y de muy poca, debido a las altas expectativas que generan los nuevos avances en el área. Sin embargo, en la actualidad es muy difícil encontrar un campo que no se beneficie directamente de sus técnicas.
+La \acrfull{ai} como área de conocimiento ha experimentado un creciente interés en los últimos años. Esto no siempre ha sido así; desde su nacimiento ha ido alternando épocas de mucha actividad y de muy poca, debido a las altas expectativas que generan los nuevos avances en el área. Sin embargo, en la actualidad es muy difícil encontrar un campo que no se beneficie directamente de sus técnicas.
 
 Una de las razones es su carácter multidisciplinar ya que, aunque pertenece al campo de la computación, es transversal a muchos otros campos de naturaleza muy diferente como, por ejemplo, la biología, la neurología o la psicología.
 
-Dentro del área de la \ac{ai} es común diferenciar dos tipos de aproximaciones a la hora de representar el conocimiento: el enfoque \textbf{clásico}, que postula que el conocimiento como tal se puede reducir a un conjunto de símbolos con operadores para su manipulación, y el enfoque de la \textbf{\gls{ci}}, que defiende que el conocimiento se alcanza a través del aprendizaje, y que basa sus esfuerzos en la simulación de elementos de bajo nivel esperando que el conocimiento \enquote{emerja} de la interacción de éstos.
+Dentro del área de la \ac{ai} es común diferenciar dos tipos de aproximaciones a la hora de representar el conocimiento: el enfoque \textbf{clásico}, que postula que el conocimiento como tal se puede reducir a un conjunto de símbolos con operadores para su manipulación, y el enfoque de la \acrfull{ci}, que defiende que el conocimiento se alcanza a través del aprendizaje, y que basa sus esfuerzos en la simulación de elementos de bajo nivel esperando que el conocimiento \enquote{emerja} de la interacción de éstos.
 
 El límite entre ambos conjuntos no está perfectamente definido, más aún si tenemos en cuenta las diferentes terminologías existentes, las sinergias entre distintas técnicas dentro del área y los diferentes puntos de vista sobre éstas por parte de los autores. Sin embargo, una de las principales diferencias de ambos paradigmas es el punto de vista a la hora de solucionar problemas, siendo la aproximación \textbf{top-down} la usada en problemas de \acrshort{ai} clásica y la \textbf{bottom-up} la típica usada en la \acrshort{ci}. Revisaremos las diferencias entre conceptos de diferentes autores en el capítulo \nameref{ch:sota-ci}.
 
@@ -17,7 +17,7 @@ La \textit{conducción} es una tarea muy compleja que involucra la ejecución de
 
 Los simuladores de tráfico son una solución para muchas de estas limitaciones, pero suelen basar su funcionamiento en modelos de conductor que responden a funciones más o menos complejas, alejadas de la realidad, además con pocas o ningunas opciones de personalización. Esto provoca que dichos modelos se adapten poco al comportamiento de un conductor en concreto.
 
-Esta tesis pretende explotar la generación de modelos de conductor para simuladores que respondan al comportamiento de conductores reales usando, para ello, técnicas pertenecientes al campo de la \ac{ci}. Estos perfiles extraídos se aplicarán a un entorno de simulación basado en \acp{mas}. Así, una vez configurado el entorno, se podrán estudiar aspectos generales como la evolución del tráfico con determinados perfiles o particulares como el estilo de conducción o el impacto de los sistemas de asistencia.
+Esta tesis pretende explotar la generación de modelos de conductor para simuladores que respondan al comportamiento de conductores reales usando, para ello, técnicas pertenecientes al campo de la \ac{ci}. Estos perfiles extraídos se aplicarán a un entorno de simulación basado en \acrfull{mas}. Así, una vez configurado el entorno, se podrán estudiar aspectos generales como la evolución del tráfico con determinados perfiles o particulares como el estilo de conducción o el impacto de los sistemas de asistencia.
 
 \section{Motivación}
 
@@ -30,13 +30,13 @@ Los conceptos introducidos al comienzo del capítulo obedecen a una necesidad de
 	\item La conducción eficiente afecta directamente a factores correlacionados con el número de accidentes de tráfico. Un factor de sobra conocido es el de la velocidad, relacionado no sólo con el número sino con la gravedad de los accidentes (\cite{imprialou2016re}). Otros indicadores son las aceleraciones, deceleraciones y maniobras de cambio de dirección, cuyas frecuencias son directamente proporcionales a la agresividad, falta de seguridad y accidentes e inversamente proporcionales a la eficiencia (\cite{dingus2006100, lerner2010exploration}).
 \end{itemize}
 
-Éstos son sólo algunos hechos que ponen de manifiesto la necesidad de centrarse en el problema de cómo hacer de la conducción una actividad más eficiente y segura. Por ello, la \textbf{conducción eficiente} o \textit{eco-driving} se define como la aplicación de una serie de reglas de conducción con el objetivo de reducir el consumo de combustible, independientemente del tipo (e.g. electricidad, gasolina, gas natural, \ldots).
+Éstos son sólo algunos hechos que ponen de manifiesto la necesidad de centrarse en el problema de cómo hacer de la conducción una actividad más eficiente y segura. Por ello, la \textbf{conducción eficiente} o \textit{eco-driving} se define como la aplicación de una serie de reglas de conducción con el objetivo de reducir el consumo de combustible, independientemente del tipo (e.g. electricidad, gasolina, \ldots).
 
 Si es posible discriminar entre conductores eficientes y no eficientes se pueden identificar los hábitos recurrentes en estos últimos y adecuar la formación para eliminar dichos hábitos. Más aún teniendo en cuenta la relación existente entre la peligrosidad y algunas conductas agresivas. Un ejemplo donde la identificación de perfiles no eficientes pueden tener impacto claro económico y social es el de las empresas cuya actividad se basa en el transporte de mercancías o de personas.
 
 Sin embargo, identificar la conducta de un conductor no es fácil, dado que su comportamiento se ve condicionado por numerosos factores como el estado de la ruta, el del tráfico o el estado físico o anímico. Además, la ambigüedad de las situaciones dificulta todavía más la identificación. Por ejemplo, un conductor puede ser clasificado en un momento como agresivo o no eficiente en una situación, únicamente porque su comportamiento ha sido condicionado por las malas reacciones de otros conductores conductores.
 
-El análisis de todos los posibles casos es una tarea prácticamente imposible. Por ello, las simulaciones pueden dar una estimación de los posibles resultados de un estudio en el mundo real. Las simulaciones con \acp{mas} representan a los conductores como agentes independientes, permitiendo la evaluación del comportamiento tanto individual como general del sistema en base a sus individuos a través de iteraciones discretas de tiempo.
+El análisis de todos los posibles casos es una tarea prácticamente imposible. Por ello, las simulaciones pueden dar una estimación de los posibles resultados de un estudio en el mundo real. Las simulaciones con \acrlongplsp{mas} representan a los conductores como agentes independientes, permitiendo la evaluación del comportamiento tanto individual como general del sistema en base a sus individuos a través de iteraciones discretas de tiempo.
 
 Si el comportamiento de dichos agentes es extraído a partir de los datos reales de conductores, su comportamiento dentro de la simulación podría ser considerado como fuente de datos aproximada de comportamiento en situaciones de tráfico del mundo real. De esta forma, se dispondría de un marco de trabajo para la comparación de diferentes conductores sin necesidad de exponerlos a todos y cada uno de los posibles eventos posibles. También sería factible evaluar sistemas de asistencia evitando los problemas de no comparabilidad de condiciones del entorno entre pruebas.
 
@@ -45,7 +45,7 @@ Demostrar que la evaluación de un modelo del conductor en entornos simulados es
 \section{Objetivos}
 \label{ch:intro:objectives}
 
-El objetivo de esta tesis doctoral es la de demostrar las hipótesis~\ref{hyp:first} y~~\ref{hyp:second}, quedando dicha demostración dentro de los límites impuestos por los supuestos y restricciones indicados más adelante.
+El objetivo de esta tesis doctoral es la de demostrar las hipótesis~H\ref{hyp:first} y~H\ref{hyp:second}, quedando dicha demostración dentro de los límites impuestos por los supuestos y restricciones indicados más adelante.
 
 \begin{hyp}[H\ref{hyp:first}] \label{hyp:first}
 	La aplicación de técnicas pertenecientes al campo de la \ac{ci} sobre datosde conductores reales para la obtención de modelo de conducción permitirá incorporar características humanas no reproducibles por los modelos lineales existentes, mejorando la calidad de dichas simulaciones.
@@ -93,15 +93,15 @@ Por tanto, el objetivo de la tesis es el de simular el comportamiento de conduct
 		Son conocidos en la literatura como modelos de \textbf{aceleración} y modelos de \textbf{cambio de carril}. Entraremos en detalle sobre ambos conceptos en el capítulo~\nameref{ch:sota-behavior-models}.
 	}.
 	\item La resolución máxima del modelo creado será de \SI{10}{\hertz}.
-	\item En el caso de los modelos que hacen uso de \acrlong{ann}, no se pueden explicar las razones del comportamiento inferido.
+	\item En el caso de los modelos que hacen uso de \acrlongplsp{ann}, no se pueden explicar las razones del comportamiento inferido.
 \end{itemize}
 
 \section{Estructura de la tesis}
 \label{ch:intro:structure}
 
 
-La tesis se divide en tres partes. La primera se corresponde con el estado de la cuestión, compuesta por los capítulos~\nameref{ch:sota-ci}, \nameref{ch:sota-traffic-simulation} y~\nameref{ch:sota-behavior-models}, explicando en qué punto se encuentra la literatura de los temas en los que se apoya la presente tesis.
+La tesis se divide en tres partes. La primera se corresponde con el estado de la cuestión, compuesta por los capítulos \nameref{ch:sota-ci}, \nameref{ch:sota-traffic-simulation} y \nameref{ch:sota-behavior-models}, explicando en qué punto se encuentra la literatura de los temas en los que se apoya la presente tesis.
 
-En la segunda parte se desarrolla el tema del modelado de conductores: En ~\nameref{ch:methodology} se describe la adquisición y tratamiento de datos, junto con algunas de las decisiones tomadas durante el proceso; después, en ~\nameref{ch:longitudinal-model} y ~\nameref{ch:lane-change-model} se desarrollan los procesos de obtención de los modelos longitudinal y de cambio de carril respectivamente. En ~\nameref{ch:specific-models} se extiende el proceso entrenamiento a conductores en particular y en ~\nameref{ch:simulation-implementation}, se introducen los comportamientos de los modelos de conductor implementados en un simulador.
+En la segunda parte se desarrolla el tema del modelado de conductores: En \nameref{ch:methodology} se describe la adquisición y tratamiento de datos, junto con algunas de las decisiones tomadas durante el proceso; después, en \nameref{ch:longitudinal-model} y \nameref{ch:lane-change-model} se desarrollan los procesos de obtención de los modelos longitudinal y de cambio de carril respectivamente. En \nameref{ch:specific-models} se extiende el proceso entrenamiento a conductores en particular y en \nameref{ch:simulation-implementation}, se introducen los comportamientos de los modelos de conductor implementados en un simulador.
 
-Por último, se expondrán las \nameref{ch:conclusions} junto con una serie de posibles líneas futuras de trabajo consideradas interesantes tras la realización de la tesis.
+Por último, se expondrán las \nameref{ch:conclusions} junto con una serie de posibles \nameref{ch:future-work} consideradas interesantes tras la realización de la tesis.

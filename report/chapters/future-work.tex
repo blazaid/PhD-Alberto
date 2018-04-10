@@ -1,0 +1,30 @@
+\chapter{Lineas de investigación futuras}
+\label{ch:future-work}
+
+El trabajo realizado hasta el momento y el grado de consecución de objetivos han dejado abiertas algunas líneas de trabajo futuras de las cuales se nombrarán las que pensamos que pueden ser de más interés.
+
+\section{Entornos de simulación más realistas}
+
+Para simular conductores en entornos de simulación es necesario que estos sean lo suficientemente potentes como para presentar un escenario realista al agente que va a modelar al conductor.
+
+Sera muy interesante evaluar las mismas técnicas en otros entornos de simulación. Algunas opciones sería entornos de conducción de tipo \ac{torcs} adaptados a la simulación de tráfico, simuladores de conducción que funcionasen conectándose a simuladores de tráfico (como por ejemplo el anteriormente citaco 3DCoAutoSim~\cite{olaverri2018implementation}) o, más reciente, el uso de videojuegos con entornos de tráfico\sidenote{
+	Está habiendo una tendencia en los últimos años de hacer aprender a agentes a jugar a todo tipo de videojuegos a partir de la lectura en crudo de la pantalla y actuando sobre los controles del juego. Uno de éstos juegos titulado Grand Theft Auto V incorpora una simulación de una ciudad entera con peatones, señales de tráfico, vehículo y un punto de vista de cámara desde el interior del vehículo. Dos lecturas interesantes sobre este fenómeno son~\cite{richter2016playing} y~\ref{johnson2017driving} donde ahondan en la recuperación de datos a partir de videojuegos y de hasta qué punto pueden llegar a reemplazar daos reales.
+}.
+
+La aplicación de estas técnicas en el modelado de agentes en estos entornos propiciaría la investigación en otras áreas más orientadas a factores humanos, ya que el comportamiento de los conductores sería más realista.
+
+\section{Modelado de diferentes actores y escenarios}
+
+En esta tesis se trabaja sobre todo con el comportamiento global de comportamiento de conductores. Existen casos específicos de comportamiento que merecería la pena explorar por separado, como pueden ser intersecciones más o menos complejas, rotondas, incorporaciones a vías, etcétera.
+
+Además, los conductores de vehículos utilitarios no son los únicos agentes existentes en el sistema que es el tráfico. En general se tiende a prestar poca atención a los vehículos pesados, pero su conducción y comportamiento es muy diferente a la de un vehículo utilitario. Existen también motos, bicicletas, pero también peatones.
+
+Otro objetivo de modelado sería los sistemas de generación de emisiones de los vehículos. Actualmente, los simuladores incorporan modelos de emisión\sidenote{
+	Normalmente, las emisiones incluyen también el consumo de gasolina, diésel y electricidad, así como el ruido que emiten.
+} para simular de qué manera los vehículos producen emisiones. Los sistemas más completos (como \ac{sumo}) implementan las tipologías descritas en el \ac{hbefa}~\cite{de2004modelling}, pero no dejan de ser modelos que generalizan tipologías de vehículos y se alejan de la realidad. Creemos que las emisiones de los vehículos en particular son fácilmente modelables a partir de sus datos reales con técnicas de \ac{ci}.
+
+\section{Redes recurrentes}
+
+El estudio se ha limitado a redes de tipo \textit{feed-forward}, representando la evolución del tiempo como ventanas de datos temporales. Este tipo de redes no ven más allá de su ventana temporal, y puede no ser suficiente para determinados modelos.
+
+Se propone el uso de arquitecturas de redes recurrentes para incorporar capacidad de comprender la continuidad temporal en el flujo de datos que percibe el agente. Quizá de esta manera se podrían captar características tales como la percepción temporal de velocidades de aproximación a obstáculos o impaciencia en función de otros factores.

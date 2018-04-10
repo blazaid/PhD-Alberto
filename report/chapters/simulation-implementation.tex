@@ -1,22 +1,28 @@
 \chapter{Implementación en simulador}
 \label{ch:simulation-implementation}
 
-El entorno de simulación que nos ofrece \ac{sumo} nos permite recoger la práctica totalidad de información propuesta en el capítulo \nameref{ch:methodology} (ver tabla~\ref{tbl:main-variables}) con la excepción del entorno.
+El entorno de simulación que nos ofrece \ac{sumo} nos permite recoger la práctica totalidad de información propuesta en la tabla~\ref{tbl:main-variables} del capítulo \nameref{ch:methodology} con la excepción del entorno.
 
-El problema es que la representación del entorno que nos ofrece \ac{sumo} está preprocesada, de tal manera que podemos acceder a toda esta información pero de una manera simple. Dicho de otro modo, en un entorno real no podemos saber, por ejemplo, que existe un coche en la posición $(x, y, z)$ de unas determinadas dimensiones\sidenote{
-	En realidad sí que podríamos conseguir esa información con cierto grado de certeza, pero existe un porcentaje en el que no, y por tanto necesitamos que ambos entornos sean lo más parecidos posible.
+El problema es que la representación que nos ofrece \ac{sumo} de éste es un conjunto posiciones y tipologías de elementos, de tal manera que podemos acceder a información rápidamente pero de forma muy limitada. Dicho de otro modo, en un entorno real no podemos saber, por ejemplo, que existe un coche en la posición $(x, y, z)$ de unas determinadas dimensiones\sidenote{
+	En realidad sí sería posible conseguir esa información con cierto grado de certeza aplicando técnicas de reconocimiento de patrones a las las nubes de puntos. Dichas técnicas son propensas a errores, más aun con la escasa resolución a largas distancias del \ac{lidar} usado en los experimentos, por lo que no han sido consideradas para este trabajo.
 }.
 
-Por lo tanto, la solución por la que se ha optado es por la implementación de un \ac{lidar} en el vehículo simulado de tal manera que ofrece una nube de puntos de las mismas características que las capturadas por el \ac{lidar} físico y situado en la misma posición del vehículo.
+Por lo tanto, la solución por la que se ha optado es por la implementación de un \ac{lidar} en el vehículo simulado de tal manera que ofrece una nube de puntos de las mismas características que las capturadas por el \ac{lidar} físico y situado en la misma posición del vehículo. Este \ac{lidar}, a una tasa de \SI{10}{\hertz}, realizará las siguientes operaciones:
+
+\begin{enumerate}
+	\item Captura de posición de todos los semáforos situados a un radio $r$ del centro del \ac{lidar} y transformación de éstos a prisma con base cuadrada sitiada a altura \SI{0}{\meter} y con altura de \SI{3}{\meter}.
+	\item Captura de posición de todos los vehículos situados a un radio $r$ del centro del \ac{lidar} y transformación de éstos a prismas con las dimensiones que especifiquen sus propiedades.
+	\item Cálculo de la nube de puntos colisionando contra los prismas generados.
+\end{enumerate}
+
+En el vehículo se han implantado los modelos longitudinales y de cambio de carril dentro de un conductor virtual tanto para el sujeto global como para cada uno de los sujetos del experimento y se ha realizado un recorridos de características similares al recorrido del que se obtuvieron los datos del conjunto de test (ver Figura~\ref{fig:sumo-route}).
 
 \begin{marginfigure}
 	\centering
 	\includegraphics[width=\textwidth]{sumo-route}
 	\caption[Dos recorridos de prueba en el entorno virtual]{Los dos recorridos generados para recoger los datos de los vehículos circulando con los modelos longitudinal y de cambio de carril implantados.}
-	\label{fig:sumo-routes}
+	\label{fig:sumo-route}
 \end{marginfigure}
-
-Una vez implementado el vehículo, dentro de la librería desarrollada se han implantado los modelos longitudinales y de cambio de carril dentro de un conductor virtual para el sujeto global y para cada uno de los sujetos del experimento y se han realizado dos recorridos de características similares a los recorridos de los que se han obtenido los conjuntos de test (ver Figura~\ref{fig:sumo-routes}).
 
 La forma por la que se comprobará si los comportamientos son similares es la propuesta en \cite{DiazAlvarez2014} para el comportamiento longitudinal. En la tabla~\ref{tbl:global-comparison-indicators} se resumen estos valores para el modelo de conducción global y los conductores específicos. La leyenda de indicadores es la siguiente:
 
@@ -34,9 +40,10 @@ Por otro lado, para el el comportamiento del modelo de cambio de carril se usar�
 \begin{table}
 	\centering
 	\small
-	\caption[Indicadores reales frente a indicadores capturados en simulación]{Resumen de los indicadores provenientes de los datos de los conductores en los recorridos frente a los valores. En el caso del conjunto global, se ha elegido la media truncada por entre el número de cambios que existen entre los tres sujetos como estimador del número de cambios de carril que haría el conductor medio en ese recorrido.}
+	\caption[Indicadores reales frente a indicadores capturados en simulación]{Resumen de los indicadores provenientes de los datos de los conductores en los recorridos frente a los valores. En el caso del conjunto global, se ha elegido la media (redondeada a entero en el caso de cambio de carril) de los tres sujetos como estimador de los valores que correspondan para un supuesto conductor medio en ese recorrido.}
 	\label{tbl:global-comparison-indicators}
 	\begin{tabular}{cccccccccc}
+		\small
 		\centering
 		&                   & \multicolumn{2}{c}{$S_A$}    & \multicolumn{2}{c}{$S_1$}          & \multicolumn{2}{c}{$S_2$}        & \multicolumn{2}{c}{\textbf{$S_3$}}        \\
 		\multicolumn{2}{l}{}                  & $\mu$     & $\sigma$ & $\mu$    & $\sigma$ & $\mu$     & $\sigma$  & $\mu$    & $\sigma$ \\
@@ -46,15 +53,15 @@ Por otro lado, para el el comportamiento del modelo de cambio de carril se usar�
 		\multirow{2}{*}{\textbf{$AP$}}  & R. & $0.082$  & $0.201$  & $0.039$  & $0.029$  & $0.086$  & $0.260$  & $0.084$  & $0.040$  \\
 		                                & S. & $0.042$  & $0.019$  & $0.058$  & $0.029$  & $0.039$  & $0.021$  & $0.060$  & $0.035$  \\
 		\multirow{2}{*}{\textbf{$AN$}}  & R. & $-0.088$ & $0.144$  & $-0.087$ & $0.048$  & $-0.080$ & $0.173$  & $-0.110$ & $0.041$  \\
-		                                & S. & $-0.050$ & $0.034$  & $-0.053$ & $0.043$  & $0.039$  & $0.024$  & $0.065$  & $0.038$  \\
+		                                & S. & $-0.050$ & $0.034$  & $-0.053$ & $0.043$  & $-0.039$ & $0.024$  & $-0.065$ & $0.038$  \\
 		\multirow{2}{*}{\textbf{$JIM$}} & R. & $0.019$  & $0.084$  & $0.011$  & $0.011$  & $0.023$  & $0.112$  & $0.015$  & $0.013$  \\
 		                                & S. & $0.007$  & $0.009$  & $0.009$  & $0.020$  & $0.008$  & $0.011$  & $0.007$  & $0.011$  \\
 		\multirow{2}{*}{\textbf{$JLC$}} & R. & $0.032$  & $0.127$  & $0.019$  & $0.015$  & $0.039$  & $0.157$  & $0.016$  & $0.016$  \\
 		                                & S. & $0.009$  & $0.018$  & $0.012$  & $0.024$  & $0.010$  & $0.019$  & $0.010$  & $0.017$  \\
 		\multirow{2}{*}{\textbf{$JIF$}} & R. & $-0.023$ & $0.060$  & $-0.022$ & $0.019$  & $-0.026$ & $0.074$  & $-0.016$ & $0.014$  \\
-		                                & S. & $-0.005$ & $0.010$  & $-0.003$ & $0.010$  & $-0.005$ & $0.008$  & $0.005$  & $0.013$  \\
+		                                & S. & $-0.005$ & $0.010$  & $-0.003$ & $0.010$  & $-0.005$ & $0.008$  & $-0.005$ & $0.013$  \\
 		\multirow{2}{*}{\textbf{$JFF$}} & R. & $-0.035$ & $0.151$  & $-0.021$ & $0.022$  & $-0.045$ & $0.191$  & $-0.018$ & $0.027$  \\
-		                                & S. & $-0.012$ & $0.023$  & $0.034$  & $0.047$  & $-0.011$ & $0.188$  & $-0.013$ & $0.027$  \\
+		                                & S. & $-0.012$ & $0.023$  & $-0.034$ & $0.047$  & $-0.011$ & $0.188$  & $-0.013$ & $0.027$  \\
 		\multirow{2}{*}{\textbf{$LC$}}  & R. & $87$     &    -     & $43$     &    -     & $27$     &    -     & $51$     &    -     \\
 		                                & S. & $63$     &    -     & $39$     &    -     & $21$     &    -     & $45$     &    -     \\
 		\multirow{2}{*}{\textbf{$RC$}}  & R. & $7$      &    -     & $3$      &    -     & $7$      &    -     & $13$     &    -     \\
@@ -71,9 +78,17 @@ En el caso de los modelos longitudinales, se puede observar que los valores de l
 
 Para los datos de aceleración y \textit{jerk} hemos preferido mostrarlos de manera visual en la Figura~\ref{fig:lc-global-comparison-indicators}.
 
-\TODO{Aquí figura}.
+En el caso de las medias, todos los valores de los sujetos con sus respectivos modelos están muy próximos entre si salvo, quizá, los valores de la aceleración negativa. Lo mismo ocurre con las desviaciones típicas salvo por dos de ellos, el sujeto $S_2$ y el sujeto genérico $S_A$.
 
-Podemos ver \TODO{Aquí pequeño discurso dependiendo de si se parecen o no}
+Del sujeto genérico es lógico si contamos con que su modelo fue entrenado con los datos del sujeto $S_2$. Si volvemos atrás, al capítulo \nameref{ch:specific-models}, en la Figura~\ref{fig:lm-subjects-comparison} se puede observar que el perfil de aceleración del sujeto $S_2$ es muy irregular, y por tanto esprobagble que el modelo falle al generalizar esos casos tan específicos. Los valores del resto de modelos, sin embargo, se mantienen en un nivel similar al del resto de variables.
+
+\begin{figure}[t]
+	\centering
+	\subfloat[Medias]{\includegraphics[width=\textwidth]{lc-global-comparison-indicators-means}}\qquad
+	\subfloat[Desviaciones típicas]{\includegraphics[width=\textwidth]{lc-global-comparison-indicators-stds}}\qquad
+	\caption[Medias y desviaciones típicas de los indicadores del modelo longitudinal]{Media y desviación típica de cada uno de los indicadores planteados para el modelo longitudinal. Arriba, las medias y abajo las desviaciones típicas.}
+	\label{fig:lc-global-comparison-indicators}
+\end{figure}
 
 \section{Comportamiento en el modelo de cambio de carril}
 

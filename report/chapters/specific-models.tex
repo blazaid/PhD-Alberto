@@ -16,14 +16,14 @@ Para ello, compararemos primero el modelo longitudinal global con los modelos en
 
 La arquitectura que se ha entrenado para cada uno de los sujetos ha sido la $MLP_2$ (topología $7, 8, 4, 1$). En la Figura~\ref{fig:lm-specific-training-validation-and-test-comparison} 
 
-\begin{figure}
+\begin{figure}[!b]
 	\centering
 	\includegraphics[width=\textwidth]{lm-specific-rmse-all-test-detail}
-	\caption[Comparativa de la evolución del error de test entre los sujetos de la arquitectura seleccionada para el modelo longitudinal]{Comparativa de la evolución del error durante el entrenamiento del modelo longitudinal para los sujetos.}
+	\caption[Comparativa de la evolución del error de test entre los sujetos de la arquitectura seleccionada para el modelo longitudinal]{Comparativa de la evolución del error de test entre los sujetos de la arquitectura seleccionada para el modelo longitudinal. El error de test en el caso del sujet $S_2$ es muy alto (mayor que $0.2$) comparado con ell error en el resto de sujetos y en el global.}
 	\label{fig:lm-specific-training-validation-and-test-comparison}
 \end{figure}
 
-Se puede observar que el error en test de los sujetos es ligeramente mayor que el del conjunto global. Sin embargo, esto puede ser debido a la mayor capacidad de generalización de éste último al disponer de un conjunto de datos mayor. Los datos del \ac{rmse} se detallan en la tabla~\ref{tbl:lm-specific-rmse}
+Se puede observar que el error en test de los sujetos es ligeramente mayor que el del conjunto global. Esto se puede explicar por la mayor capacidad de generalización de $S_A$ al haber sido entrenado con un conjunto de datos mayor.
 
 \begin{table}
 	\centering
@@ -34,9 +34,9 @@ Se puede observar que el error en test de los sujetos es ligeramente mayor que e
 		\multirow{2}{*}{Nombre} & \multicolumn{3}{c}{\ac{rmse}}      \\ 
 		& Training & Validation & Test \\ \hline
 		$S_A$ & $0.056$ & $0.062$ & $0.057$  \\
-		$S_2$ & $0.045$ & $0.039$ & $0.060$  \\
-		$S_3$ & $0.039$ & $0.037$ & $0.208$  \\
-		$S_4$ & $0.055$ & $0.054$ & $0.058$  \\ \hline
+		$S_1$ & $0.045$ & $0.039$ & $0.060$  \\
+		$S_2$ & $0.048$ & $0.047$ & $0.058$  \\
+		$S_3$ & $0.055$ & $0.054$ & $0.058$  \\ \hline
 	\end{tabular}
 \end{table}
 
@@ -61,10 +61,10 @@ La precisión alcanzada en los modelos específicos entrenados con esta arquitec
 		\hline
 		\multirow{2}{*}{Nombre} & \multicolumn{3}{c}{\ac{rmse}}      \\ 
 		& Training & Validation & Test \\ \hline
-		$S_A$ & $0.056$ & $0.062$ & $0.057$  \\
-		$S_2$ & $0.045$ & $0.039$ & $0.060$  \\
-		$S_3$ & $0.039$ & $0.037$ & $0.208$  \\
-		$S_4$ & $0.056$ & $0.054$ & $0.058$  \\ \hline
+		$S_A$ & $0.588$ & $0.576$ & $0.573$  \\
+		$S_1$ & $0.805$ & $0.763$ & $0.768$  \\
+		$S_2$ & $0.683$ & $0.708$ & $0.706$  \\
+		$S_3$ & $0.727$ & $0.706$ & $0.710$  \\ \hline
 	\end{tabular}
 \end{table}
 
@@ -77,19 +77,19 @@ Lo interesante es comprobar si estas topologías son capaces de capturar las dif
 
 En el caso del modelo longitudinal, los valores de error cruzados entre sujetos se muestran en la tabla~\ref{tbl:lm-subjects-comparison}.
 
-\begin{table}[]
+\begin{table}
 	\centering
-	\caption[Comparación de los errores de aceleración en los diferentes modelos longitudinales]{Comparación de los errores de aceleración en los diferentes modelos longitudinales. }
+	\caption[Comparación de los errores de aceleración en los diferentes modelos longitudinales]{Comparación de los errores de aceleración en los diferentes modelos longitudinales. Las filas se corresponden con los recorridos mientras que las columnas se corresponden con los modelos que se han intentado ajustar a ellas.}
 	\label{tbl:lm-subjects-comparison}
 	\begin{tabular}{c|ccc}
 		               & \textbf{$S_1$} & \textbf{$S_2$} & \textbf{$S_3$} \\ \hline
-		\textbf{$S_1$} & $0.059$        & $0.072$        & $0.070$ \\
-		\textbf{$S_2$} & $0.209$        & $0.208$        & $0.213$ \\
-		\textbf{$S_3$} & $0.065$        & $0.066$        & $0.057$ \\ \hline
+		\textbf{$S_1$} & $0.059$        & $0.074$        & $0.070$ \\
+		\textbf{$S_2$} & $0.064$        & $0.058$        & $0.067$ \\
+		\textbf{$S_3$} & $0.065$        & $0.065$        & $0.057$ \\ \hline
 	\end{tabular}
 \end{table}
 
-El \ac{rmse} de cada uno de los conductores se mantiene más bajo que el del resto de los sujetos en su propio conjunto de test, aunque no son todo lo bajos que cabría esperar. En la Figura~\ref{fig:lm-subjects-comparison} se muestra gráficamente el perfil de aceleración de cada uno de los conductores sobre cada uno de los perfiles reales.
+El \ac{rmse} de cada uno de los conductores se mantiene más bajo que el del resto de los sujetos en su propio conjunto de test. En la Figura~\ref{fig:lm-subjects-comparison} se muestra gráficamente el perfil de aceleración de cada uno de los conductores sobre cada uno de los perfiles reales.
 
 \begin{figure}[t]
 	\centering
@@ -100,16 +100,16 @@ El \ac{rmse} de cada uno de los conductores se mantiene más bajo que el del res
 	\label{fig:lm-subjects-comparison}
 \end{figure}
 
-En el caso del modelo de cambio de carril, la comparativa la deberíamos hacer con respecto a las tasas de acierto en sus respectivos conjuntos de test. La tabla~\ref{fig:lc-subjects-comparison} muestra los índices de precisión de los sujetos sobre cada uno de los conjntos de test de los demás.
+En el caso del modelo de cambio de carril, la comparativa la deberíamos hacer con respecto a las tasas de acierto en sus respectivos conjuntos de test. La tabla~\ref{tbl:lc-subjects-comparison} muestra los índices de precisión de los sujetos sobre cada uno de los conjuntos de test de los demás.
 
 \begin{table}
 	\centering
-	\caption[Comparación de la precisión para los diferentes modelos de cambio de carril]{Comparación de la precisión para los diferentes modelos de cambio de carril.}
+	\caption[Comparación de la precisión para los diferentes modelos de cambio de carril]{Comparación de la precisión para los diferentes modelos de cambio de carril Las filas se corresponden con los recorridos mientras que las columnas se corresponden con los modelos que se han intentado ajustar a ellas.}
 	\label{tbl:lc-subjects-comparison}
 	\begin{tabular}{c|ccc}
 		& \textbf{$S_1$} & \textbf{$S_2$} & \textbf{$S_3$} \\ \hline
-		\textbf{$S_1$} & $0.XXX$ & $0.XXX$ & $0.XXX$ \\
-		\textbf{$S_2$} & $0.XXX$ & $0.XXX$ & $0.XXX$ \\
-		\textbf{$S_3$} & $0.XXX$ & $0.XXX$ & $0.XXX$ \\ \hline
+		\textbf{$S_1$} & $0.768$ & $0.314$ & $0.601$ \\
+		\textbf{$S_2$} & $0.601$ & $0.706$ & $0.511$ \\
+		\textbf{$S_3$} & $0.648$ & $0.666$ & $0.710$ \\ \hline
 	\end{tabular}
 \end{table}

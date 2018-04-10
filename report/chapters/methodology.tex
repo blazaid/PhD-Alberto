@@ -8,9 +8,9 @@ Los modelos de conducción propuestos se basarán en datos extraídos de entorno
 	\item Los parámetros a ajustar dependen completamente del entorno de simulación, que son, en esencia, variación de aceleración y cambio de carril.
 \end{itemize}
 
-Por tanto, los parámetros de entrada y de salida han de ser procesados para el entrenamiento de los modelos de tal manera que el modelo funcione correctamente en el entorno de simulación.
+Por tanto, los datos de entrada y de salida capturados del entorno real han de ser procesados para el entrenamiento de los modelos de tal manera que el modelo lo perciba lo más parecido posible a como los percibirá en el entorno de simulación.
 
-En este capítulo se describe el esquema general del modelo a desarrollar, los entornos de obtención de datos, su posterior curación y transformación y los entornos de entrenamiento utilizados para la generación de los modelos.
+En este capítulo se describe el esquema general del modelo a desarrollar, los entornos de obtención de datos, su posterior curación y los entornos de entrenamiento utilizados para la generación de los modelos.
 
 \section{Perspectiva general del modelo de conducción}
 
@@ -31,7 +31,7 @@ Estos modelos serán entrenados siguiendo un esquema supervisado, por lo que nec
 
 \begin{itemize}
 	\item \textbf{Entorno} El conductor, y por tanto el modelo, desarrolla su actividad y basa sus comportamientos, entre otros factores, en el entorno en el que se encuentra inmerso. Se considera por tanto que el ajuste de la velocidad y, sobre todo los cambios de carril, se ven influenciados por éste.
-	\item \textbf{Velocidad actual del vehículo y velocidad máxima del carril}. Tanto la velocidad en la vía como del vehículo en un momento concreto influye en cómo el conductor va a modificar su aceleración en momentos posteriores.
+	\item \textbf{Velocidad actual del vehículo}. La velocidad del conductor influye en cómo va a modificar su aceleración en momentos posteriores. La velocidad máxima de la vía también influye, pero esta se mantiene constante en el intervalo \SI{40}{\kilo\meter\per\hour} a \SI{50}{\kilo\meter\per\hour}, por lo que no se tiene en cuenta al considerarse una constante.
 	\item \textbf{Distancia y diferencia de velocidad con el vehículo delantero}. Al igual que con la velocidad, el vehículo delantero juega un papel esencial en los cambios de aceleración. También se intuye que puede influir en el comportamiento de cambio de carril en casos en los que el vehículo delantero va muy lento
 	\item \textbf{Siguiente salida y carriles cortados}. Se considera que este tipo de información es crucial a la hora de realizar cambios de carril, ya que además de lo obvio, puede influir en otras maniobras tales como un adelantamiento.
 	\item \textbf{Señales luminosas}. Es interesante contar con este tipo de señales ya que pueden influir en diferentes patrones de aceleración (e.g. estamos cerca y cambia de color a ámbar) o desaceleración (e.g. semáforo en rojo). Otras señales también serían interesantes, pero el simulador en el momento del desarrollo de los modelos sólo ofrece el acceso a este tipo de señales.
@@ -39,23 +39,27 @@ Estos modelos serán entrenados siguiendo un esquema supervisado, por lo que nec
 
 \section{Extracción de datos de conducción}
 
-Se ha hecho uso de un vehículo instrumentado con sensores para capturar la mayor cantidad posible de información especificada en la introducción. El vehículo en cuestión es un Mitsubishi iMiEV (Figura~\ref{fig:instrumented-imiev}) y los dispositivos un LIDAR, un GPS, el Bus CAN y una cámara.
+Se ha hecho uso de un vehículo instrumentado con sensores para capturar la mayor cantidad posible de la información especificada. El vehículo en cuestión es un Mitsubishi iMiEV (Figura~\ref{fig:instrumented-imiev}) y los dispositivos un LIDAR, un GPS, el Bus CAN y una cámara.
 
-\begin{figure}
+Todos los dispositivos se conectan a un ordenador con sistema operativo GNU/Linux sobre Intel i7-7500U CPU con 16GB de memoria RAM. Al ser éstos dispositivos con capacidades diferentes, se ha optado por la creación de una aplicación basada en el framework ROS del cual se da una breve visión general en el apéndice~\ref{ch:ros-overview}.
+
+\begin{figure}[t]
 	\includegraphics{instrumented-imiev}
 	\caption{El vehículo utilizado en los ensayos realizados. Se trata de un Mitsubishi iMiEV instrumentado con un LIDAR anclado en la baca superior, un GPS anclado en el techo, un puerto de acceso directo al Bus CAN y una cámara Microsoft Kinect tras el espejo retrovisor.}
-	\label{fig:instrumented-imiev}
+	\label{fig:instrumented-imievschema}
 \end{figure}
 
-Todos los dispositivos se conectan a un ordenador con sistema operativo GNU/Linux sobre Intel i7-7500U CPU con 16GB de memoria RAM siguiendo el esquema que se muestra en la Figura~\ref{fig:instrumented-imiev-schema}. Al ser éstos dispositivos con capacidades diferentes, se ha optado por la creación de una aplicación basada en el framework ROS del cual se da una breve visión general en el apéndice~\ref{ch:ros-overview}. A continuación se describen los dispositivos usados y su información generada.
+\subsection{Dispositivos usados para la captura de datos}
 
-\paragraph{\ac{lidar}}
+A continuación se describen los dispositivos usados y su información generada.
 
-Un \ac{lidar} es un dispositivo que usa uno o más haces de luz pulsada para el cálculo de la distancia a losobjetos donde éstos impactan.
+\paragraph{\acrfull{lidar}}
 
-Nuestro dispositivo en concreto es el modelo VLP-16 de la empresa Velodyne.
+Se trata de un dispositivo que usa uno o más haces de luz pulsada para el cálculo de la distancia a los objetos donde éstos impactan. Nuestro \ac{lidar} en concreto modelo VLP-16 de la empresa Velodyne.
 
-Está compuesto por un único haz láser con un movimiento continuo vertical y horizontal capturando información con un vertical de \SI{\pm15}{\degree} distribuído a lo largo de 16 planos (una resolución fija de \SI{2}{\degree}), y un campo horizontal de visión de \SI{360}{\degree} con una resolución dependiente de la velocidad de giro del láser, de \SI{0.1}{\degree} a \SI{0.4}{\degree} para \SI{5}{\Hz} a \SI{20}{\Hz} respectivamente. Estas medidas permiten una captura de 75000 a 300000 puntos del entorno en función de la velocidad de giro a una distancia de hasta \SI{100}{\meter}.
+Está compuesto por un único haz láser con un movimiento continuo vertical y horizontal capturando información con una apertura de campo vertical de \SI{\pm15}{\degree} distribuído a lo largo de 16 planos (dando como resultado una resolución fija de \SI{2}{\degree}), y un campo horizontal de visión de \SI{360}{\degree} con una resolución dependiente de la velocidad de giro del láser, de \SI{0.1}{\degree} a \SI{0.4}{\degree} para \SI{5}{\Hz} a \SI{20}{\Hz} respectivamente. Estas medidas permiten una captura desde $75000$ hasta $300000$ puntos del entorno en función de la velocidad de giro a una distancia de hasta \SI{100}{\meter}.
+
+El acceso a la información se realiza a través del puerto Ethernet. Para la captura de datos se ha hecho uso del paquete de \ac{ros} destinado para el trabajo con estos dispositivos denominado \texttt{velodyne\_pointcloud}\sidenote{\url{http://wiki.ros.org/velodyne\_pointcloud}.}. Este nodo publica la nube de puntos en coordenadas cartesianas con el eje $X$ definido en el sentido de los \SI{0}{\degree} y el eje $Z$ en sentido ascendente.
 
 \begin{marginfigure}
 	\includegraphics[width=\textwidth]{vlp-16}
@@ -63,15 +67,13 @@ Está compuesto por un único haz láser con un movimiento continuo vertical y h
 	\label{fig:vlp-16}
 \end{marginfigure}
 
-El acceso a la información se realiza a través del puerto Ethernet. Para la captura de datos se ha hecho uso de un nodo de \ac{ros} para este tipo de dispositivos \TODO{Explicarlo mejor e indicar el nombre del paquete y su dirección}. Este nodo publica en un topic específico la nube de puntos en coordenadas cartesianas con el eje X definido en el sentido de los \SI{0}{\degree} y el eje Z en sentido ascendente.
-
-El \ac{lidar} se encuentra anclado en la baca del vehículo con el eje X dispuesto en el sentido de conducción y el Z en sentido ascendente. Su posición es centrada en el vehículo y a una altura de \SI{1.75}{\meter}.
+El \ac{lidar} instrumentado se encuentra anclado en la baca del vehículo con el eje $X$ dispuesto en el sentido de conducción y el eje $Z$ en sentido ascendente. Su posición es centrada en el vehículo y a una altura de \SI{1.75}{\meter}.
 
 \paragraph{\ac{gps}}
 
-El \ac{gps} es una tecnología usada para sincronización de tiempo y posicionamiento 3d (latitud, longitud y altitud) de objetos en el globo terráqueo. Es un dispositivo que funciona en un único sentido, es decir, el receptor recibe la información de los satélites, pero no envía ninguna.
+El \ac{gps} es una tecnología usada para sincronización de tiempo y posicionamiento $3d$ (i.e. latitud, longitud y altitud) de objetos en el globo terráqueo. Es un dispositivo que funciona en un único sentido, es decir, el receptor recibe la información de los satélites, pero no envía ninguna.
 
-El dispositivo \ac{gps} utilizado para los experimentos ha sido desarrollado en el Laboratorio de Electrónica e Instrumentación del \ac{insia}. Se trata de un dispositivo \ac{gps} con corrección diferencial que genera mensajes \ac{nmea} a una frecuencia de hasta \SI{20}{\Hz}. La posición de la antena receptora estará localizada en el centro del vehículo, justo debajo del \ac{lidar}, situándose de esta forma en el origen de coordenadas del entorno capturado con éste.
+El dispositivo \ac{gps} utilizado para los experimentos ha sido desarrollado en el Laboratorio de Electrónica e Instrumentación del \ac{insia}. Se trata de un dispositivo \ac{gps} con corrección diferencial que genera mensajes \ac{nmea} a una frecuencia de hasta \SI{20}{\Hz}. La posición de la antena receptora estará localizada en el centro del vehículo, justo debajo del \ac{lidar}, situándose de esta forma en el origen de coordenadas del entorno capturado con éste último.
 
 \begin{marginfigure}
 	\centering
@@ -87,11 +89,11 @@ De todos los mensajes disponibles, los recuperados son lo de los siguientes tipo
 	\item VTG. Velocidad del vehículo, que se usará como el valor real de la velocidad tomada por el vehículo.
 \end{itemize}
 
-De la captura de datos se encargará un nodo de ROS \TODO{Explicarlo mejor e indicar el nombre del paquete y su dirección} el cual leerá por el puerto USB la información originada en el \ac{gps}.
+De la captura de datos se encargará el paquete de \ac{ros} denominado \texttt{nmea\_navsat\_driver} \sidenote{\url{http://wiki.ros.org/nmea\_navsat\_driver}.} el cual leerá por el puerto USB la información originada en el \ac{gps}.
 
-\paragraph{Bus CAN}
+\paragraph{Bus \acrfull{can}}
 
-Un bus es una topología caracterizada por tener un único canal de comunicaciones donde los dispositivos se conectan, vierten la información y la reciben. El bus \acf{can}, o simplemente \ac{can}, es un protocolo de comunicaciones basado en esta topología utilizado, entre otras muchas áreas, la comunicación entre los diferentes dispositivos que componen un vehículo.
+Un bus es una topología caracterizada por tener un único canal de comunicaciones donde los dispositivos se conectan, vierten la información y la reciben. El Bus \ac{can}, o simplemente \ac{can}, es un protocolo de comunicaciones basado en esta topología utilizado, entre otras muchas áreas, para la comunicación entre los diferentes dispositivos que componen un vehículo.
 
 El estándar \ac{can} cubre únicamente las dos primeras capas del modelo \ac{osi}\sidenote{
 	Las dos primeras capas son la capa física (la conexión el hardware a la red y la transmisión/recepción física de los datos) y la de enlace de datos (direccionamiento físico, detección de errores y control de flujo). Sobre el resto de niveles no existen un estándar definido y por tanto existen multiples protocolos de estas dependiendo del fabricante u organismo que lo implemente.
@@ -104,9 +106,9 @@ El estándar \ac{can} cubre únicamente las dos primeras capas del modelo \ac{os
 	\label{fig:laciwel-canusb}
 \end{marginfigure}
 
-Del bus se ha recogido numerosa información, tanto para esta tesis como para más proyectos relacionados con ella. Para este experimento, no obstante, se ha utilizados únicamente la velocidad, y no directamente. La razón es que el \ac{can} ofrece ésta como un número entero, por lo que los cambios de velocidad durante los recorridos ocurren de \SI{\pm1}{\km\per\hour}. Esta resolución es insuficiente para los cálculos de la aceleración, por lo que se ha usado para validar la velocidad capturada por el \ac{gps}
+Del bus se ha recogido numerosa información, tanto para esta tesis como para más proyectos relacionados con ella. Para este experimento, no obstante, se ha utilizado únicamente la velocidad, y no directamente. La razón es que el \ac{can} ofrece ésta como un número entero, por lo que los cambios de velocidad durante los recorridos ocurren de \SI{\pm1}{\km\per\hour}. Esta resolución es insuficiente para los cálculos de la aceleración, por lo que se ha usado para validar la velocidad capturada por el \ac{gps}
 
-El acceso a la información del bus se ha realizado a través del puerto USB. Para ello se ha utilizado el dispositivo CANUSB de la empresa LAWICEL AB, el cual se encarga de la traducción del protocolo CAN a una conexión estándar RS232. La captura de los paquetes se ha realizado a través de un nodo de \ac{ros} desarrollado para esta tesis y descrito brevemente en el apéndice~\nameref{ch:developed-software}.
+El acceso a la información del bus se ha realizado a través del puerto USB. Para ello se ha utilizado el dispositivo CANUSB de la empresa LAWICEL AB, el cual se encarga de la traducción del protocolo CAN a una conexión estándar RS232. La captura de los paquetes se ha realizado a través de un nodo de \ac{ros} desarrollado para esta tesis.
 
 \paragraph{Cámara}
 
@@ -121,11 +123,11 @@ La cámara utilizada es un Microsoft Kinect localizada tras el retrovisor interi
 	\label{fig:kinect}
 \end{marginfigure}
 
-Entre otras capacidades, la cámara ofrece captura de imágenes VGA de \SI{640x480}{\px} de resolución y a una frecuencia de \SI{30}{\Hz}. El dispositivo se conecta vía USB y de la captura se encarga un nodo de ROS denominado \textit{freenect}\sidenote{\url{http://wiki.ros.org/freenect\_stack}.} publicando en un topic las imágenes generadas.
+Entre otras capacidades, la cámara ofrece captura de imágenes VGA de \SI{640x480}{\px} de resolución y a una frecuencia de \SI{30}{\Hz}. El dispositivo se conecta vía USB y de la captura se encarga un nodo de ROS denominado \textit{freenect}\sidenote{\url{http://wiki.ros.org/freenect\_stack}.} 	que, entre otras cosas, public las imágenes tomadas a icha frecuencia.
 
 \subsection{Selección de rutas}
 
-Para la captura de datos se han propuesto dos rutas, en adelante $R_1$ y $R_2$, consideradas equivalentes. Se tratan de vías en entorno urbano con tramos de entre uno y tres carriles a lo largo de su recorrido y con velocidades máximas establecidas entre los \SI{30}{\km\per\hour} y los \SI{50}{\km\per\hour}. La figura~\ref{fig:proposed-routes} muestra los recorridos en el mapa.
+Para la captura de datos se han propuesto dos rutas, en adelante $R_1$ y $R_2$, consideradas equivalentes al tratarse de vías en entorno urbano, con tramos de entre uno y tres carriles a lo largo de su recorrido y con velocidades máximas establecidas entre los \SI{30}{\km\per\hour} y los \SI{50}{\km\per\hour}. La figura~\ref{fig:proposed-routes} muestra los recorridos en el mapa.
 
 $R_1$ tiene una duración de recorrido estimada de \SI{30}{\minute} y se utilizará como fuente de datos destinada al entrenamiento del modelo (conjuntos de entrenamiento y de validación). $R_2$ por su lado tiene un tiempo estimado de recorrido de \SI{15}{\minute} y sus datos tienen el propósito de servir de conjunto de test. Ambas fueron realizadas entre las 11:00am y las 12:00pm en días laborables, permitiendo una circulación con suficientes vehículos para requerir maniobras dependientes del entorno, pero sin demasiados como para impedir la circulación.
 

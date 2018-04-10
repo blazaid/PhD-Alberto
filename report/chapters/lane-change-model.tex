@@ -160,6 +160,8 @@ Los entrenamientos han sido realizados sobre diferentes topologías, siendo las 
 En lugar de intentar maximizar la cantidad de aciertos o minimizar el número de falsos positivos o negativos, el error que se ha tratado de minimizar es la entropía cruzada, concepto del cual hablamos anteriormente en el capítulo~\nameref{ch:sota-ci}. Este indicador es mucho más eficiente a la hora de trabajar con problemas de clasificación. Sin embargo, de cara a mostrar resultados en la tesis, el valor de ésta no ofrece información relevante más allá de \enquote{si decrece es bueno}. Por ellos se ofrecerán los valores de precisión y matrices de confusión que son más acordes con el problema en cuestión.
 
 \begin{table}[t]
+	\centering
+	\small
 	\caption[Resumen de las arquitecturas \ac{mlp} para el modelo de cambio de carril]{Resumen de las arquitecturas de \ac{mlp} para el modelo de cambio de carril. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:lc-mlp-architectures}
 	\begin{tabular}{ccccccc}
@@ -176,6 +178,7 @@ La figura~\ref{fig:lc-mlp-accuracy-comparison} nos muestra la evolución de la p
 
 \begin{figure}
 	\centering
+	\small
 	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-mlp-acc-all-training-and-validation-detail}}\qquad
 	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-mlp-acc-all-test-detail}}
 	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \ac{mlp}]{Comparación de las precisiones alcanzadas por los modelos de tipo \ac{mlp}.}

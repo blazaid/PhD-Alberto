@@ -8,12 +8,12 @@ from sklearn.model_selection import train_test_split
 
 from utils import launch_tensorboard, multilayer_perceptron
 
-SUBJECT = 'all'
+SUBJECT = 'jj'
 DATASETS_PATH = './data'
 MAX_LEARN_RATE = 0.1
 MIN_LEARN_RATE = 0.0001
-DECAY_SPEED = 2000
-TRAIN_STEPS = 100000
+DECAY_SPEED = 200
+TRAIN_STEPS = 1000
 DROPOUT_RATE = 0.1
 LOGS_STEPS = TRAIN_STEPS / 100
 HIDDEN_UNITS = [8, 2]  # [16], [8, 2], [16, 8], [16, 16, 8]
