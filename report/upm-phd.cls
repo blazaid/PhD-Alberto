@@ -2224,8 +2224,12 @@ version={3.0},
 }
 
 %%
+% Add a little space after floats
+\setlength{\intextsep}{1.5em}%
+
+%%
 % To penalize more the use of hyphenation
-\hyphenpenalty=25
+\hyphenpenalty=30
 
 \usepackage{multirow}
 \usepackage{siunitx}

@@ -23,7 +23,7 @@
             \node (h4)[hidden-node] at (3,-3) {$h_1$};
 
             \node (o1)[output-node] at (6,1) {$o_1$};
-            \node (o2)[output-node] at (6,-1) {$o_2$} ;
+            \node (o2)[output-node] at (6,-1) {$o_2$};
         \end{scope}
         
         \begin{scope}[>={Stealth[black]}, every edge/.style=black-line]
@@ -39,6 +39,12 @@
             \path [->] (i3) edge node {} (h2);
             \path [->] (i3) edge node {} (h3);
             \path [->] (i3) edge node {} (h4);
+
+            \path [->] (h1) edge[out=60,in=120,loop,looseness=6] (h1);
+            \path [->] (h2) edge[out=60,in=120,loop,looseness=6] (h2);
+            \path [->] (h3) edge[out=60,in=120,loop,looseness=6] (h3);
+            \path [->] (h4) edge[out=60,in=120,loop,looseness=6] (h4);
+
             \path [->] (h1) edge node {} (o1);
             \path [->] (h1) edge node {} (o2);
             \path [->] (h2) edge node {} (o1);

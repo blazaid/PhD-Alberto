@@ -196,10 +196,9 @@ Cada una de las redes se ha entrenado durante $10^5$ epochs. A la vista de los r
 
 Las arquitecturas de los modelos que mejores resultado han arrojado tras las pruebas se describen en la tabla~\ref{tbl:lc-cnn-architectures}. La tasa de dropout utilizada en los entrenamientos ha sido de $0.1$.
 
-\begin{table}
+\begin{table*}
 	\centering
-	\small
-	\caption[Resumen de las arquitecturas \ac{cnn} para el modelo longitudinal]{Resumen de las arquitecturas \ac{cnn} para el modelo longitudinal. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
+	\caption[Resumen de las arquitecturas \ac{cnn} para el modelo longitudinal][15pt]{Resumen de las arquitecturas \ac{cnn} para el modelo longitudinal. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:lc-cnn-architectures}
 	\begin{tabular}{cccccc}
 		\toprule
@@ -211,7 +210,7 @@ Las arquitecturas de los modelos que mejores resultado han arrojado tras las pru
 		\rowcolor{black!20} $CNN_3$ & c16-3-18-v, c32-3-18-v, c64-2-18-v, d128 & $10^6$ & $0.561$ & $0.569$ & $0.554$ \\
 		\bottomrule
 	\end{tabular}
-\end{table}
+\end{table*}
 
 La descripción de los parámetros de las arquitecturas es la siguiente:
 

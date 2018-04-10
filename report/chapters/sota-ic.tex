@@ -128,6 +128,7 @@ El entrenamiento de modelos en la \gls{ci} adolece de dos principales problemas 
 El objetivo de un entrenamiento es conseguir modelos lo suficientemente buenos para que aprendan a generalizar sobre datos no conocidos, pero sin fallar demasiado. Cuando un modelo sufre de \textbf{sobreespecialización}, es porque aunque ha aprendido los ejemplos, falla a la hora de generalizar (podemos decir que ha aprendido los ejemplos \textit{de memoria}). El caso contrario, la \textbf{subespecialización}, pasa cuando el modelo no es lo suficientemente complejo como para aprender el problema y por lo tanto generaliza demasiado. Hablaremos de casos concretos y soluciones más adelante.
 
 \subsection{Deep learning}
+\label{ss:deep-learning}
 
 La tónica general en la ciencia es que cada pocos años algún término se escape del mundo de la investigación y se convierta en la palabra de moda que inunde la prensa especializada y no especializada. Palabras con fuerza como Big Data, Cloud Computing, Web Services o SaaS que lo más normal es que sean conceptos ya existentes como proceso de datos masivos, computación distribuida o ejecución remota.
 
@@ -232,19 +233,19 @@ Las funciones de activación clásicas usadas en redes neuronales han sido la fu
 
 \begin{figure}[!b]
 	\centering
-	\subfloat[]{\includegraphics[width=0.46\linewidth]{sigmoid-function}}\qquad
-	\subfloat[]{\includegraphics[width=0.46\linewidth]{tanh-function}}
+	\subfloat[Sigmoide]{\includegraphics[width=0.46\linewidth]{sigmoid-function}}\qquad
+	\subfloat[Tangente hiperbólica]{\includegraphics[width=0.46\linewidth]{tanh-function}}
 	\caption[Funciones de activación: sigmoidal y tangente hiperbólica.]{Las funciones de activación sigmoidal y tangente hiperbólicas. Ambas se han usado como funciones de activación no lineales gracias a que sus derivadas son continuas a lo largo de todo el dominio y además son fácilmente computables.}
 	\label{fig:sig-and-tanh}
 \end{figure}
 
 En general, la tangente hiperbólica es superior a la sigmoidal en todos sus aspectos. Computacionalmente es menos costoso el cálculo de una función sigmoidal, pero con la potencia de cómputo actual esta diferencia puede considerarse despreciable. Además de tener una forma similar a la sigmoidal, latangente hiperbólica permite enviar señales de activación negativas. Además, tiende a centrar los datos de una capa a otra en lugar de mantener un sesgo hacia el $0.5$ (recordemos que mientras que la sigmoidal está definida en el intervalo $(0, 1)$, la tangente hiperbólica se encuentra definida entre los intervalos $(-1, 1)$. Por tanto, en un caso general, la tengente hiperbólica suele ser preferible a la sigmoidal.
 
-Aún así, en algunas situaciones sí podría tener sentido el uso de funciones sigmoidales en lugar de tangentes hiperbólicas. Por ejemplo, en un problema de clasificación, mantener en la capa de salida funciones de activación sigmoidales permite ajustar la salida en el intervalo $(0, 1)$, sin necesidad de realizar una posterior normalización.
+Aún así, en algunas situaciones sí podría tener sentido el uso de funciones sigmoide en lugar de tangentes hiperbólicas. Por ejemplo, en un problema de clasificación, mantener en la capa de salida funciones de activación sigmoide permite ajustar la salida en el intervalo $(0, 1)$, sin necesidad de realizar una posterior normalización.
 
 Sin embargo, el principal problema de estas funciones es cuando los valores netos de las entradas son muy grandes. En ese caso, las funciones se acercan a los extremos, aproximándose sus gradientes a 0, y por tanto frenando el aprendizaje. Este error es denominado frecuentemente como \textit{vanishing gradient} en la literatura. Es una de las razones por las que en la fase de inicialización de una red neuronal se tendía a valores en torno al 0 en los pesos. Unos valores altos hacían que las entradas netas fuesen muy grandes ralentizando el aprendizaje.
 
-Uno de los avances dentro del Deep Learning (ver~\ref{ss:deep-learning}) fue el uso de un tipo de función de activación denominada \acrfull{relu} (eq.~\ref{eq:relu}). Ésta posee una forma muy simple pero es increíblemente efectiva. Por un lado, evita el problema del \textit{vanishing gradient} dado que su derivada es constante en el intervalo $(0, \infty)$. Por otro, su cálculo es tremendamente simple comparado con el resto de funciones (no deja de ser un máximo).
+Uno de los avances dentro del \ref{ss:deep-learning} fue el uso de un tipo de función de activación denominada \acrfull{relu} (eq.~\ref{eq:relu}). Ésta posee una forma muy simple pero es increíblemente efectiva. Por un lado, evita el problema del \textit{vanishing gradient} dado que su derivada es constante en el intervalo $(0, \infty)$. Por otro, su cálculo es tremendamente simple comparado con el resto de funciones (no deja de ser un máximo).
 
 \begin{equation}
 ReLU(x) = max(0, x) \qquad
@@ -275,13 +276,13 @@ Este tipo de neurona tiene una serie de características que merece la pena come
 
 \begin{figure}[t]
 	\centering
-	\subfloat[]{\includegraphics[width=0.46\linewidth]{relu-function}}\qquad
-	\subfloat[]{\includegraphics[width=0.46\linewidth]{leaky-relu-function}}
+	\subfloat[\acrshort{relu}]{\includegraphics[width=0.46\linewidth]{relu-function}}\qquad
+	\subfloat[Leaky \acrshort{relu}]{\includegraphics[width=0.46\linewidth]{leaky-relu-function}}
 	\caption[Funciones de activación: \acrshort{relu} y Leaky-\acrshort{relu}.]{La función de activación (a) \gls{relu} evita el problema del estancamiento cuando la entrada neta de la neurona es muy alta. La función de activación \textit{Leaky} \gls{relu} (en este ejemplo, con $\epsilon = 0.1$) es una de las posibles soluciones cuando se permite que la entrada neta a la red sea menor que 0, ya que en el caso de la función \gls{relu} la derivada es 0 y por tanto el gradiente no nos indica hacia dónde ha de descender el error.}
 	\label{fig:relu-and-leaky-relu}
 \end{figure}
 
-Por último, la función de activación \textit{Leaky} \gls{relu} (eq.~\ref{eq:leaky-relu}) es una evolución de la \gls{relu} para el uso en problemas donde es ventajoso que una neurona no llegue a tener nunca un gradiente de 0. Van acompañadas de un parámetro $\epsilon \approx 0$ que determina la pendiente para todos aquellos valores menores de 0. Un ejemplo de esta neurona se ilustra en la figura~\ref{fig:relu-and-leaky-relu}. Su uso no está muy extendido, pero existen casos en los que su uso está justificado.
+Por último, la función de activación \textit{Leaky} \gls{relu} (eq.~\ref{eq:leaky-relu}) es una evolución de la \gls{relu} para el uso en problemas donde es ventajoso que una neurona no llegue a tener nunca un gradiente de 0. Van acompañadas de un parámetro $\epsilon \approx 0$ que determina la pendiente para todos aquellos valores menores de $0$. Un ejemplo de esta neurona se ilustra en la figura~\ref{fig:relu-and-leaky-relu}. Su uso no está muy extendido, pero existen casos en los que su uso está justificado.
 
 \subsection{Estructura y clasificación de redes neuronales}
 
@@ -291,9 +292,9 @@ Típicamente, estas redes se componen de neuronas conectadas, por lo que se pued
 
 \begin{figure}[t]
 	\centering
-	\subfloat[]{\includegraphics[width=0.46\linewidth]{multilayer-perceptron}}\qquad
-	\subfloat[]{\includegraphics[width=0.46\linewidth]{multilayer-perceptron}}
-	\caption[Diferencias entre toppologías de redes \textit{feed-forward} y \textit{recurrentes}]{Diferencias entre los grafos que representan las \acp{ann} de tipos (a) \textit{feed-forward} y (b) recurrentes. Las redes recurrentes presentan ciclos entre sus nodos que permiten la retroalimentación interna entre las neuronas. Suelen ser más útiles a la hora de modelar eventos en el tiempo, aunque su entrenamiento es más complejo.\TODO{CAMBIAR LA FIGURA DE LA RECURRENTE}}
+	\subfloat[\textit{Feed-forward}]{\includegraphics[width=0.46\linewidth]{multilayer-perceptron}}\qquad
+	\subfloat[Recurrente]{\includegraphics[width=0.46\linewidth]{recurrent-neural-network}}
+	\caption[Diferencias entre toppologías de redes \textit{feed-forward} y \textit{recurrentes}]{Diferencias entre los grafos que representan las \acp{ann} de tipos (a) \textit{feed-forward} y (b) recurrentes. Las redes recurrentes presentan ciclos entre sus nodos que permiten la retroalimentación interna entre las neuronas. Suelen ser más útiles a la hora de modelar eventos en el tiempo, aunque su entrenamiento es más complejo.}
 	\label{fig:ff-vs-rnn}
 \end{figure}
 

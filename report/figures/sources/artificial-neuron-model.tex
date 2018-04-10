@@ -1,35 +1,41 @@
 \documentclass{standalone}
-\usepackage[utf8]{inputenc}
 \usepackage{tikz}
-\usetikzlibrary{matrix,chains,positioning,decorations.pathreplacing,arrows}
-\usepackage{amsfonts}
+\usetikzlibrary{arrows.meta}
+
+
+\tikzstyle{empty-node}=[]
+\tikzstyle{weight-node}=[fill=white,circle,thick,draw]
+\tikzstyle{op-node}=[fill=white,circle,thick,draw]
+
+\tikzstyle{black-line}=[draw=black,very thick]
+\tikzstyle{red-line}=[draw=red,very thick]
 
 \begin{document}
+    \begin{tikzpicture}
+        \begin{scope}
+            \node (i1)[empty-node] at (0,2) {$i_1$};
+            \node (i2)[empty-node] at (0,0) {$i_2$};
+            \node (i3)[empty-node] at (0,-2) {$i_3$};
+            \node (b)[empty-node] at (6,4) {$b$ ($i_0$)};
+            \node (w0)[weight-node] at (6,2) {$w_0$};
+            \node (w1)[weight-node] at (3,2) {$w_1$};
+            \node (w2)[weight-node] at (3,0) {$w_2$};
+            \node (w3)[weight-node] at (3,-2) {$w_3$};
+            \node (y)[empty-node] at (9,0) {$\hat{y}$};
+            \node (f)[op-node] at (6,0) {$\sigma(b + \sum x_iw_i)$} ;
+        \end{scope}
 
-\begin{tikzpicture}[
-    init/.style={draw, circle, inner sep=2pt, font=\tiny, join = by -latex},
-    squa/.style={draw, inner sep=2pt, font=\small, join = by -latex},
-    start chain=2,node distance=13mm
-]
-\node[on chain=2] (x2) {$x_2$};
-\node[on chain=2,join=by o-latex] {$w_2$};
-\node[on chain=2,squa] (sigma) {$\sigma(b + \sum_{i=1}^n x_i w_i)$};
-\node[on chain=2,join=by -latex] {$y$};
+        \begin{scope}[>={Stealth[black]}, every edge/.style=black-line]
+            \path [->] (b) edge node {} (w0);
+            \path [->] (i1) edge node {} (w1);
+            \path [->] (i2) edge node {} (w2);
+            \path [->] (i3) edge node {} (w3);
+            \path [->] (w0) edge node {} (f);
+            \path [->] (w1) edge node {} (f);
+            \path [->] (w2) edge node {} (f);
+            \path [->] (w3) edge node {} (f);
+            \path [->] (f) edge node {} (y);
+        \end{scope}
 
-\begin{scope}[start chain=1]
-    \node[on chain=1] at (0,1.5cm) (x1) {$x_1$};
-    \node[on chain=1, join=by o-latex] (w1) {$w_1$};
-\end{scope}
-\begin{scope}[start chain=3]
-    \node[on chain=3] at (0,-1.5cm) (x3) {$x_3$};
-    \node[on chain=3, join=by o-latex] (w3) {$w_3$};
-\end{scope}
-\node[label=above:{\centering $b$}] at (sigma|-w1) (b) {};
-
-\draw[-latex] (w1) -- (sigma);
-\draw[-latex] (w3) -- (sigma);
-\draw[o-latex] (b) -- (sigma);
-
-\end{tikzpicture}
-
+    \end{tikzpicture}
 \end{document}
