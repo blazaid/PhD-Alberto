@@ -2231,6 +2231,11 @@ version={3.0},
 % To penalize more the use of hyphenation
 \hyphenpenalty=30
 
+%%
+% To specify wich letters are capitalizaed in an acronym
+\newrobustcmd{\LU}[2]{\if@in@acrolist#1\else#2\fi}
+
+
 \usepackage{multirow}
 \usepackage{siunitx}
 \usepackage{amsmath}
