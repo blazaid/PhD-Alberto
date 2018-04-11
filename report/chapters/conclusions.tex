@@ -15,7 +15,7 @@ La hipótesis H\ref{hyp:first} planteaba que la aplicación de técnicas pertene
 
 Sin embargo, la hipótesis~H\ref{hyp:second} proponía que estas técnicas eran suficientes para modelar un conductores en concreto dentro de entornos simulados. Si bien es cierto que los resultados indican que los modelos generados para conductores diferentes son diferentes entre sí, no creemos que exista suficientes indicios para afirmar que los comportamientos modelos simulados son suficientemente fieles al comportamiento de los conductores en el mundo real.
 
-\section{Sobre los datos. Sensores y su utilidad}
+\section{Sobre los datos, los sensores y su utilidad}
 
 Para minimizar la variación de las variables de entrada, los recorridos fueron planteados con ciertos factores a tener en cuenta (e.g. mismos horas, día de la semana, clima, velocidades máximas de vía, etcétera) para mantener un conjunto de datos lo más parecido posible entre sujetos, y así minimizar en la medida de lo posible la incorporación de imprecisiones o sesgos a los conjuntos de datos. Los dispositivos además fueron configurados de la forma más precisa y su sincronización establecida a tasas de refresco más bajas para acercar lo máximo posible sus valores entre sí, a fin de minimizar el desplazamiento temporal entre medidas.
 
@@ -32,7 +32,7 @@ Con todo, la captura en este tipo de entornos es una tarea compleja, y más trat
 
 Acerca de los datos, los mapas de profundidad obtenidos han demostrado ser una herramienta válida para la representación de un entorno a pesar de su baja resolución. Además, la técnica propueta del \textit{shaking} ha sido extremadamente útil en la generación artificial de datos. Consideramos que esta técnica, en conjuntos de datos donde existe un cierto grado de error o imprecisión, es capaz de incrementar su tamaño ayudando a mejorar la generalización y, por tanto, a la calidad de los resultados obtenidos.
 
-\section{Sobre las técnicas de \ac{ci}}
+\section{Sobre las técnicas de \acrlongsp{ci}}
 
 Las técnicas utilizadas (\ac{cnn}, \ac{fcs} y \ac{mlp}) dependen mucho de las variables de los datos, y no sólo de la cantidad de éstos. De nada sirve ofrecer datos de una variable que no tiene impacto sobre el resultado que se quiere alcanzar. La selección de variables realizada en esta tesis se ha basado en la disponibilidad de éstos en ambos entornos (real y simulación), tratando de obtener de formas alternativas los más críticos (e.g. implementando un \ac{lidar} dentro de un simulador, calculando la distancia que se puede recorrer en los carriles).
 

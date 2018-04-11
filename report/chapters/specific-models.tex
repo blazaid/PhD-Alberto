@@ -19,7 +19,7 @@ La arquitectura que se ha entrenado para cada uno de los sujetos ha sido la $MLP
 \begin{figure}[!b]
 	\centering
 	\includegraphics[width=\textwidth]{lm-specific-rmse-all-test-detail}
-	\caption[Comparativa de la evolución del error de test entre los sujetos de la arquitectura seleccionada para el modelo longitudinal]{Comparativa de la evolución del error de test entre los sujetos de la arquitectura seleccionada para el modelo longitudinal. El error de test en el caso del sujet $S_2$ es muy alto (mayor que $0.2$) comparado con ell error en el resto de sujetos y en el global.}
+	\caption[Comparativa de la evolución del \gls{rmse} error de test entre los sujetos de la arquitectura seleccionada para el modelo longitudinal]{Comparativa de la evolución del error de test entre los sujetos de la arquitectura seleccionada para el modelo longitudinal. El \gls{rmse} en test en el caso del sujeto $S_2$ es muy alto (mayor que $0.2$) comparado con el error en el resto de sujetos y en el global.}
 	\label{fig:lm-specific-training-validation-and-test-comparison}
 \end{figure}
 
@@ -27,13 +27,12 @@ Se puede observar que el error en test de los sujetos es ligeramente mayor que e
 
 \begin{table}
 	\centering
-	\small
-	\caption[Resumen de los valores de \ac{rmse} para los modelos específicos de comportamiento longitudinal]{Resumen de los valores de \ac{rmse} para los modelos específicos de comportamiento longitudinal.}
+	\caption[Resumen de los valores de \gls{rmse} para los modelos específicos de comportamiento longitudinal]{Resumen de los valores de \gls{rmse} para los modelos específicos de comportamiento longitudinal.}
 	\label{tbl:lm-specific-rmse}
 	\begin{tabular}{cccccc}
 		\toprule
 		\multirow{2}{*}{} & \multicolumn{3}{c}{\ac{rmse}}      \\ 
-		& Train & Validation & Test \\
+		& Entrenamiento & Validación & Test \\
 		\midrule
 		\rowcolor{black!20} $S_A$ & $0.056$ & $0.062$ & $0.057$  \\
 		$S_1$ & $0.045$ & $0.039$ & $0.060$  \\
@@ -50,7 +49,7 @@ En el caso del modelo de cambio de carril, la arquitectura con la que se han ent
 \begin{figure}
 	\centering
 	\includegraphics[width=\textwidth]{lc-specific-rmse-all-test-detail}
-	\caption[Comparativa de la evolución del error de test entre los sujetos de la arquitectura seleccionada para el modelo de cambio de carril]{Comparativa de la evolución del error de test entre los sujetos de la arquitectura seleccionada para el modelo de cambio de carril.}
+	\caption[Comparativa de la evolución del \gls{rmse} en test entre los sujetos de la arquitectura seleccionada para el modelo de cambio de carril]{Comparativa de la evolución del error de test entre los sujetos de la arquitectura seleccionada para el modelo de cambio de carril.}
 	\label{fig:lc-specific-rmse-all-test-detail}
 \end{figure}
 
@@ -58,13 +57,12 @@ La precisión alcanzada en los modelos específicos entrenados con esta arquitec
 
 \begin{table}
 	\centering
-	\small
 	\caption[Resumen de los valores de precisión para los modelos específicos de cambio de carril]{Resumen de los valores de precisión para los modelos específicos de cambio de carril.}
 	\label{tbl:lc-specific-accuracy}
 	\begin{tabular}{cccccc}
 		\toprule
 		\multirow{2}{*}{} & \multicolumn{3}{c}{\ac{rmse}}      \\ 
-		& Training & Validation & Test \\
+		& Entrenamiento & Validación & Test \\
 		\midrule
 		\rowcolor{black!20} $S_A$ & $0.588$ & $0.576$ & $0.573$  \\
 		$S_1$ & $0.805$ & $0.763$ & $0.768$  \\
@@ -75,7 +73,7 @@ La precisión alcanzada en los modelos específicos entrenados con esta arquitec
 \end{table}
 
 
-\section{Comprobación de personalización de los modelos de conducción específicos}
+\section{Personalización en modelos de conducción específicos}
 
 Las anteriores secciones han mostrado cómo las topologías seleccionadas en los capítulos \nameref{ch:longitudinal-model} y \nameref{ch:lane-change-model} son adecuadas para modelar los comportamientos específicos de cada conductor, además de el conjunto global.
 
@@ -85,7 +83,6 @@ En el caso del modelo longitudinal, los valores de error cruzados entre sujetos 
 
 \begin{table}
 	\centering
-	\small
 	\caption[Comparación de los errores de aceleración en los diferentes modelos longitudinales]{Comparación de los errores de aceleración en los diferentes modelos longitudinales. Las filas se corresponden con los recorridos mientras que las columnas se corresponden con los modelos que se han intentado ajustar a ellas.}
 	\label{tbl:lm-subjects-comparison}
 	\begin{tabular}{cccc}

@@ -45,7 +45,7 @@ Todos los dispositivos se conectan a un ordenador con sistema operativo GNU/Linu
 
 \begin{figure}[t]
 	\includegraphics{instrumented-imiev}
-	\caption{El vehículo utilizado en los ensayos realizados. Se trata de un Mitsubishi iMiEV instrumentado con un LIDAR anclado en la baca superior, un GPS anclado en el techo, un puerto de acceso directo al Bus CAN y una cámara Microsoft Kinect tras el espejo retrovisor.}
+	\caption[Vehículo instrumentado utilizado en los ensayos]{El vehículo utilizado en los ensayos realizados. Se trata de un Mitsubishi iMiEV instrumentado con un \acrshort{lidar} anclado en la baca superior, un GPS anclado en el techo, un puerto de acceso directo al Bus CAN y una cámara Microsoft Kinect tras el espejo retrovisor.}
 	\label{fig:instrumented-imievschema}
 \end{figure}
 
@@ -63,7 +63,7 @@ El acceso a la información se realiza a través del puerto Ethernet. Para la ca
 
 \begin{marginfigure}
 	\includegraphics[width=\textwidth]{vlp-16}
-	\caption{El \ac{lidar} VLP-16 de Velodyne tiene un FOV horizontal de \SI{360}{\degree} y vertical de \SI{\pm15}{\degree}, permitiendo una captura de todo el entorno circundante a una frecuencia de hasta \SI{20}{\Hz}. Fuente: \url{http://velodynelidar.com/vlp-16.html}.}
+	\caption[\gls{lidar} modelo VLP-$16$ de empresa Velodyne]{El \ac{lidar} VLP-16 de Velodyne tiene un FOV horizontal de \SI{360}{\degree} y vertical de \SI{\pm15}{\degree}, permitiendo una captura de todo el entorno circundante a una frecuencia de hasta \SI{20}{\Hz}. Fuente: \url{http://velodynelidar.com/vlp-16.html}.}
 	\label{fig:vlp-16}
 \end{marginfigure}
 
@@ -78,7 +78,7 @@ El dispositivo \ac{gps} utilizado para los experimentos ha sido desarrollado en 
 \begin{marginfigure}
 	\centering
 	\includegraphics[width=\textwidth]{gps}
-	\caption{El \ac{gps} permite el posicionamiento 3d sobre en la tierra gracias a la comunicación unidireccional de satélites situados en órbita. Fuente: Wikimedia Commons.}
+	\caption[Posicionamiento \gls{gps} sobre la tierra]{El \ac{gps} permite el posicionamiento 3d sobre en la tierra gracias a la comunicación unidireccional de satélites situados en órbita. Fuente: Wikimedia Commons.}
 	\label{fig:gps}
 \end{marginfigure}
 
@@ -102,7 +102,7 @@ El estándar \ac{can} cubre únicamente las dos primeras capas del modelo \ac{os
 \begin{marginfigure}
 	\centering
 	\includegraphics[width=.35\textwidth]{laciwel-canusb}
-	\caption{El dispositivo CANBUS de LACIWEL AB permite el acceso a través del protocolo RS 232 por el puerto USB al bus \ac{can}. Fuente: \url{http://www.can232.com/}.}
+	\caption[Dispositivo \gls{can} BUS de LACIWEL AB]{El dispositivo CANBUS de LACIWEL AB permite el acceso a través del protocolo RS 232 por el puerto USB al bus \ac{can}. Fuente: \url{http://www.can232.com/}.}
 	\label{fig:laciwel-canusb}
 \end{marginfigure}
 
@@ -119,7 +119,7 @@ La cámara utilizada es un Microsoft Kinect localizada tras el retrovisor interi
 \begin{marginfigure}
 	\centering
 	\includegraphics[width=\textwidth]{kinect}
-	\caption{La cámara Kinect desarrollada por Microsoft ofrece imágenes a color a una velocidad de \SI{30}{\fps} con una resolución de \SI{640x480}{\px}.}
+	\caption[Cámara Microsoft Kinect]{La cámara Kinect desarrollada por Microsoft ofrece imágenes a color a una velocidad de \SI{30}{\fps} con una resolución de \SI{640x480}{\px}.}
 	\label{fig:kinect}
 \end{marginfigure}
 
@@ -135,7 +135,7 @@ $R_1$ tiene una duración de recorrido estimada de \SI{30}{\minute} y se utiliza
 	\centering
 	\subfloat[]{\includegraphics[width=.45\textwidth]{route-1}}\qquad
 	\subfloat[]{\includegraphics[width=.45\textwidth]{route-2}}
-	\caption[Dos recorridos para la captura de datos de conducción]{Los dos recorridos realizados para la captura de datos de conducción, ambos en entorno urbano. (a) $R_1$ tiene una duración estimada de \SI{30}{\minute} y sirve para la captura de los datos de entrenamiento. (b) $R_2$ tiene una duración estimada de \SI{15}{\minute} y sus datos serán utilizdos para los conjuntos de test.\TODO{Poner la ruta de verdad}}
+	\caption[Los dos recorridos planteados para la captura de datos de conducción]{Los dos recorridos realizados para la captura de datos de conducción, ambos en entorno urbano. (a) $R_1$ tiene una duración estimada de \SI{30}{\minute} y sirve para la captura de los datos de entrenamiento. (b) $R_2$ tiene una duración estimada de \SI{15}{\minute} y sus datos serán utilizdos para los conjuntos de test.\TODO{Poner la ruta de verdad}}
 	\label{fig:proposed-routes}
 \end{figure}
 
@@ -206,7 +206,6 @@ Tras obtener todas las variables principales, ya sean directamente de los sensor
 
 \begin{table}
 	\centering
-	\small
 	\caption[Resumen de los indicadores obtenidos tras los recorridos]{Resumen de los indicadores obtenidos tras los recorridos. Éstos incluyen tanto la información extraída directamente como aquella que ha requerido proceso manual. La parte inferior de la tabla describe las variables a predecir en los problemas de modelo longitudinal y de cambio de carril. Las variables \enquote{Distancia circulable} en realidad es una tupla que indica las distancias circulables en los carriles izquierdo, actual y derecho.}
 	\label{tbl:main-variables}
 	\begin{tabular}{lcc}
@@ -229,7 +228,7 @@ Tras obtener todas las variables principales, ya sean directamente de los sensor
 
 \section{Entrenamiento de modelos}
 
-Para los entrenamientos de los modelos se ha utilizado una máquina con procesador Intel\textregistered Core\texttrademark i7-6700K a \SI{4.00}{\giga\Hz} y \SI{16}{\gibi\byte} de memoria. El sistema operativo utilizado ha sido un Debian GNU/Linux versión 9.4. 
+Para los entrenamientos de los modelos se ha utilizado una máquina con procesador Intel\textregistered Core\texttrademark i7-6700K a \SI{4.00}{\giga\Hz} y \SI{16}{\gibi\byte} de memoria. Los entrenamientos se han realizado sobre una \gls{gpu} Titan XP cedida a nuestro grupo de investigación por parte de NVIDIA. El sistema operativo utilizado ha sido un Debian GNU/Linux versión 9.4. 
 
 Para cada uno de los submodelos se han probado dos aproximaciones diferentes para comparar sus desempeños en las tareas por separado. Concretamente se han utilizado \acp{fcs} y \acp{mlp} para modelar el comportamiento longitudinal y \acp{mlp} y \acp{cnn} para modelar el comportamiento en cambio de carril.
 

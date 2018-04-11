@@ -14,8 +14,8 @@ Está desarrollado desde el año 2007 y licenciado bajo la licencia \ac{bsd}\sid
 El \ac{framework} de \ac{ros} se compone en realidad de dos partes:
 
 \begin{itemize}
-	\item El núcleo, el cual entre otras cosas incluye todas las bibliotecas de utilidades y \acp{api} para crear los nodos y las librerías del sistema a desarrollar, herramientas para gestionar el funcionamiento de éste y el nodo principal que se encarga de las comunicaciones entre los diferentes nodos.
-	\item La paquetería \TODO{buscar otro nombre mejor porque esto es un chufo}, compuesta por toda la base de datos de nodos y herramientas desarrolladas para \ac{ros}. Toda esta paquetería está desarrollada siguiendo el estándar que propone \ac{ros} para el desarrollo de utilidades, y está compuesto por paquetes de tipos de mensaje, controladores y drivers de dispositivos, codificación y decodificación de datos, etcétera.
+	\item El \textbf{núcleo}, el cual entre otras cosas incluye todas las bibliotecas de utilidades y \acp{api} para crear los nodos y las librerías del sistema a desarrollar, herramientas para gestionar el funcionamiento de éste y el nodo principal que se encarga de las comunicaciones entre los diferentes nodos.
+	\item El \textbf{sistema de paquetes}, compuesta por toda la base de datos de nodos y herramientas desarrolladas para \ac{ros}. Toda esta paquetería está desarrollada siguiendo el estándar que propone \ac{ros} para el desarrollo de utilidades, y está compuesto por paquetes de tipos de mensaje, controladores y drivers de dispositivos, codificación y decodificación de datos, etcétera.
 \end{itemize}
 
 El verdadero potencial de \ac{ros} es su infraestructura de comunicación, basada en el protocolo de comunicación \ac{tcpip}. Al estar basada en un patrón de comunicación \textit{publish-subscribe} se logra no sólo mantener a los diferentes componentes del sistema muy débilmente desacoplados, sino que además permite su uso en un sistema distribuido a lo largo de varias máquinas independientes sin necesidad de modificar la implementación de los paquetes especificaos del sistema deasrrollado.

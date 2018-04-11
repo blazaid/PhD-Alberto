@@ -128,14 +128,14 @@ Existen otras dos formas de clasificar los simuladores en función de cómo evol
 \begin{figure}
 	\centering
 	\includegraphics[width=10cm]{cellular-automata-based-sim}
-	\caption[Ejemplo de simulador basado en \glsentrylongsp{ca}]{Simulador de tráfico basado en \glsentryshort{ca}. El espacio se divide en celdas que pueden estar vacías u ocupadas por un vehículo a una velocidad (más oscuro implica más lento). Concretamente muestra la evolución a lo largo del tiempo del movimiento de un modelo de \textit{car-following} de $2$ vehículos donde en eje $x$ representa la posición en la vía y el eje $y$ el momento temporal (iteración) de la vía.}
+	\caption[Ejemplo de simulador basado en \acrlongsp{ca}]{Simulador de tráfico basado en \acrlongsp{ca}. El espacio se divide en celdas que pueden estar vacías u ocupadas por un vehículo a una velocidad (más oscuro implica más lento). Concretamente muestra la evolución a lo largo del tiempo del movimiento de un modelo de \textit{car-following} de $2$ vehículos donde en eje $x$ representa la posición en la vía y el eje $y$ el momento temporal (iteración) de la vía.}
 	\label{fig:cellular-automata-based-sim}
 \end{figure}
 
 En el caso de la dimensión \textbf{espacio}, la clasificación diferencia las simulaciones que se mueven por un espacio discreto o por uno continuo:
 
 \begin{itemize}
-	\item Espacio \textbf{discreto}. Simulación donde el espacio está dividido en celdas que (normalmente) sólo pueden estar ocupadas por un elemento en un momento determinado. Este es el caso, por ejemplo, de los simuladores basados en \acp{ca} (figura~\ref{fig:cellular-automata-based-sim}.
+	\item Espacio \textbf{discreto}. Simulación donde el espacio está dividido en celdas que (normalmente) sólo pueden estar ocupadas por un elemento en un momento determinado. Este es el caso, por ejemplo, de los simuladores basados en \acrlongsp{ca} (figura~\ref{fig:cellular-automata-based-sim}.
 	\item Espacio \textbf{continuo}. Simulación que transcurre en una secuencia infinita de puntos en el espacio. Es el caso por ejemplo de los simuladores basados en modelos lineales (figura~\ref{fig:car-following-based-sim}).
 \end{itemize}
 
@@ -200,7 +200,7 @@ Por otro lado, en un \glsentrylong{mas} cada uno de los agentes tiene su propia 
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=10cm, height=4.9cm]{autonomous-vehicles-at-intersections}
-	\caption[Simulación de comportamiento en intersección basada en un \glsentryshort{mas}]{Simulación de comportamiento en intersección basada en un \glsentryshort{mas}. En ésta, cada uno de los vehículos representa a un vehículo real que posee un controlador para hacerlo autónomo. Modelar este caso de estudio con una arquitectura basada en \glsentryshortpl{mas} permite centrarse en el diseño del agente en concreto (i.e. el controlador de conducción del vehículo) y estudiar el comportamiento emergente surgido de la interacción de todos los agentes. Fuente: Proyecto AIM (\url{http://www.cs.utexas.edu/~aim/}).}
+	\caption[Simulación de comportamiento en intersección basada en un \acrlong{mas}]{Simulación de comportamiento en intersección basada en un \glsentryshort{mas}. En ésta, cada uno de los vehículos representa a un vehículo real que posee un controlador para hacerlo autónomo. Modelar este caso de estudio con una arquitectura basada en \glsentryshortpl{mas} permite centrarse en el diseño del agente en concreto (i.e. el controlador de conducción del vehículo) y estudiar el comportamiento emergente surgido de la interacción de todos los agentes. Fuente: Proyecto AIM (\url{http://www.cs.utexas.edu/~aim/}).}
 	\label{fig:autonomous-vehicles-at-intersections}
 \end{figure}
 
@@ -287,32 +287,31 @@ Posteriormente se ha desarrollado un listado de características deseables. No s
 	\item \textbf{Activo}. Es preferible que el sistema esté activamente desarrollado porque eso favorece la aparición de parches y mejoras sobre el software. En caso contrario, se trata de un proyecto con poca actividad por parte de sus autores.
 	\item \textbf{Lenguaje de programación}. Es favorable la implementación de los modelos en código Python.
 	\item \textbf{Licencia}.Es preferible una licencia de tipo \Ac{oss} ya que, en caso de error o falta de funcionalidad, es posible acceder a los fuentes para modificarlos.
-	\item \textbf{Sistema operativo}. Es favorable que el sistema se ejecute en entornos tipo OS-X.
+	\item \textbf{Sistema operativo}. Es favorable que el sistema se ejecute en entornos tipo OS X.
 \end{enumerate}
 
 \subsection{Entornos de simulación a estudiar}
 
-\begin{table}[!b]
+\begin{table*}[!b]
 	\centering
-	\small
-	\caption[Tabla comparativa de los simuladores seleccionados][1.5em]{Tabla comparativa donde se contrastan las características de los simuladores seleccionados. El simulador \gls{sumo} es el que más características cumple de las originalmente planteadas.}
+	\caption[Tabla comparativa de los simuladores seleccionados][-20em]{Tabla comparativa donde se contrastan las características de los simuladores seleccionados. El simulador \gls{sumo} es el que más características cumple de las originalmente planteadas.}
 	\label{tbl:simulators-comparison}
 	\begin{tabular}{lccccc}
 		\toprule
 		& \gls{aorta} & \gls{matsim} & \gls{mitsim} & \gls{movsim} & \gls{sumo} \\
 		\midrule
 		\rowcolor{black!20} Activo & \nop & \yep & \nop & \yep & \yep \\
-		Lenguaje & Scala & Java & C++ & Java & C++/Python \\		
-		\rowcolor{black!20} Lic. Prop. & \nop & \nop & \nop & \nop & \nop \\
-		Lic. \glsentryshort{oss} & \yep & \yep & \yep & \yep & \yep \\
-		\rowcolor{black!20} GPL & \yep & \yep & \nop & \yep & \yep \\
+		Lenguaje de programación & Scala & Java & C++ & Java & C++ y Python \\		
+		\rowcolor{black!20} Licencia Prop. & \nop & \nop & \nop & \nop & \nop \\
+		Licencia \glsentryshort{oss} & \yep & \yep & \yep & \yep & \yep \\
+		\rowcolor{black!20} Licencia \gls{gpl} & \yep & \yep & \nop & \yep & \yep \\
 		\acrshort{api} & \nop & \nop & \nop & \nop & \yep \\
 		\rowcolor{black!20} GNU/Linux & \yep & \yep & \yep & \yep & \yep \\
 		OS X & \yep & \yep & \nop & \yep & \yep \\
 		\rowcolor{black!20} Windows & \yep & \yep & \nop & \yep & \yep \\
 		\bottomrule
 	\end{tabular}
-\end{table}
+\end{table*}
 
 El primer listado de características deja atrás la mayoría de simuladores (una gran cantidad de ellos son o bien de propósito específico, están desarrollados para sistemas operativos Windows o no permiten extender su modelo). Tras la selección, nos quedamos con los siguientes simuladores: \gls{aorta}, \gls{matsim}, \gls{mitsim}, \gls{movsim} y \gls{sumo}.
 

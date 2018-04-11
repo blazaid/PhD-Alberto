@@ -29,13 +29,12 @@ El resultado de la generación de los datasets de entrenamiento y test para todo
 
 \begin{table}[t]
 	\centering
-	\small
 	\caption[Descripción de los conjuntos de datos]{Descripción de los conjuntos de datos para el entrenamiento de los modelos.}
 	\label{tbl:cf-datasets-description}
 	\begin{tabular}{ccccc}
 		\toprule
 		& & & \multicolumn{2}{c}{Tamaño} \\
-		& Entradas & Salidas & Train & Test \\
+		& Entradas & Salidas & Entrenamiento & Test \\
 		\midrule
 		\rowcolor{black!20} $CF_{S_1}$ & $7$ & $1$ & $1089$ & $543$ \\
 		$CF_{S_2}$ & $7$ & $1$ & $1313$ & $560$ \\
@@ -45,7 +44,7 @@ El resultado de la generación de los datasets de entrenamiento y test para todo
 	\end{tabular}
 \end{table}
 
-\section{Modelo \ac{fcs}}
+\section{Modelo basado en \acrlongplsp{fcs}}
 
 Se han realizado entrenamientos sobre arquitecturas con diferente número de particiones difusas en las variables. Las arquitecturas que se han considerado más relevantes (tras un proceso de ensayo y error con diferente número de particiones difusas) se describen en la tabla~\ref{tbl:cf-fcs-architectures}. 
 
@@ -57,7 +56,7 @@ Se han realizado entrenamientos sobre arquitecturas con diferente número de par
 	\begin{tabular}{cccccc}
 		\toprule
 		\multirow{2}{*}{} & \multirow{2}{*}{Arquitectura} & \multirow{2}{*}{Epochs} & \multicolumn{3}{c}{RMS}      \\ 
-		& & & Train & Validation & Test \\
+		& & & Entrenamiento & Validación & Test \\
 		\midrule
 		\rowcolor{black!20} $FCS_1$ & $2, 2, 2, 2, 2, 2, 2$ & $10^5$ & $0.059$ & $0.064$ & $0.062$  \\
 		$FCS_2$ & $3, 3, 2, 2, 2, 3, 3$ & $10^5$ & $0.073$ & $0.079$ & $0.080$  \\
@@ -113,19 +112,18 @@ Tras el entrenamiento, el controlador difuso que menor error en test arroja es e
 
 Las reglas, sin embargo, son muy numerosas para ser incluidas en el texto, ya que la mayoría de reglas posibles en el sistema tienen un peso asociado de más de $0.6$.
 
-\section{Modelo \ac{mlp}}
+\section{Modelo basado en \acrlongplsp{mlp}}
 
 Para determinar el modelo óptimo de \ac{mlp} en comportamiento longitudinal, se han realizado entrenamientos sobre arquitecturas con diferente cantidad de neuronas y capas ocultas. Las arquitecturas más ilustrativas de todas las probadas se resumen en la tabla~\ref{tbl:cf-mlp-architectures}.
 
 \begin{table}
 	\centering
-	\small
 	\caption[Resumen de las arquitecturas \ac{mlp} para el modelo longitudinal]{Resumen de las arquitecturas de \ac{mlp} para el modelo longitudinal. La posición de cada número de la topología indica el índice de la capa oculta y su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:cf-mlp-architectures}
 	\begin{tabular}{cccccc}
 		\toprule
 		\multirow{2}{*}{} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multicolumn{3}{c}{RMS} \\
-		& & & Train & Validation & Test \\
+		& & & Entrenamiento & Validación & Test \\
 		\midrule
 		\rowcolor{black!20} $MLP_1$ & $16$        & $10^5$ & $0.057$ & $0.057$ & $0.069$  \\
 		$MLP_2$ & $8, 2$      & $10^5$ & $0.061$ & $0.061$ & $0.056$  \\
@@ -137,8 +135,8 @@ Para determinar el modelo óptimo de \ac{mlp} en comportamiento longitudinal, se
 
 \begin{figure}[!b]
 	\centering
-	\subfloat[]{\includegraphics[width=.45\textwidth]{lm-mlp-rmse-all-training-and-validation-detail}}\qquad
-	\subfloat[]{\includegraphics[width=.45\textwidth]{lm-mlp-rmse-all-test-detail}}
+	\subfloat[Entrenamiento y validación]{\includegraphics[width=.45\textwidth]{lm-mlp-rmse-all-training-and-validation-detail}}\qquad
+	\subfloat[Test]{\includegraphics[width=.45\textwidth]{lm-mlp-rmse-all-test-detail}}
 	\caption[Evolución del error durante el entrenamiento en las arquitecturas de \ac{mlp} para el modelo longitudinal]{Visión en detalle de la evolución del error en los conjuntos de entrenamiento y validación (izquierda) y de test (derecha). Para cada arquitectura, el color más transparente se corresponde al error en el conjunto de validación. El error de test se muestra debido a que nos ofrece puede ofrecer intuición de qué forma aprende la red, pero su evolución no se ha considerado para determinar las arquitecturas.}
 	\label{fig:lm-mlp-rmse-all-comparisons}
 \end{figure}
@@ -169,8 +167,8 @@ Las mejores arquitecturas de ambos modelos han sido la $MLP_2$ para los \acp{mlp
 
 \begin{figure}
 	\centering
-	\subfloat[]{\includegraphics[width=.46\textwidth]{comparison-between-best-mlp-and-fcs-architecture-rms}}\qquad
-	\subfloat[]{\includegraphics[width=.46\textwidth]{comparison-between-best-mlp-and-fcs-architecture-acceleration-profile}}
+	\subfloat[Error en test]{\includegraphics[width=.46\textwidth]{comparison-between-best-mlp-and-fcs-architecture-rms}}\qquad
+	\subfloat[Perfil de aceleración]{\includegraphics[width=.46\textwidth]{comparison-between-best-mlp-and-fcs-architecture-acceleration-profile}}
 	\caption[Comparación entre los dos tipos de modelo longitudinal]{Comparación de la mejor arquitectura \ac{mlp} frente a la mejor arquitectura \ac{fcs}: (a) diferencia entre los errores cuadráticos medios de ambas arquitecturas y (b) perfiles de aceleración en el conjunto de test.}
 	\label{fig:cf-comparison-between-best-mlp-and-fcs-architecture}
 \end{figure}

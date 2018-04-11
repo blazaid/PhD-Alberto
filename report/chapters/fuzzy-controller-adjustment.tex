@@ -1,4 +1,4 @@
-\chapter{Ajuste de controlador difuso basado en descenso del gradiente}
+\chapter{Ajuste de \acrlongplsp{fcs} basado en descenso del gradiente}
 \label{ch:fuzzy-controller-adjustment}
 
 Como vimos en la sección~\ref{ss:fcs} del capítulo~\nameref{ch:sota-ci}, un \ac{fcs} se compone de cuatro bloques diferenciados: la fuzzificación, el bloque de reglas, la inferencia y la defuzzificación. De éstos bloques, el proceso manual de ajuste se resume siempre\sidenote{
@@ -11,7 +11,7 @@ Como vimos en la sección~\ref{ss:fcs} del capítulo~\nameref{ch:sota-ci}, un \a
 \end{enumerate}
 
 Las soluciones de ajuste que existen en la literatura suelen funcionar ajustando automáticamente uno de los dos puntos manteniendo constante el otro (e.g. ajustar las particiones manteniendo fijas las reglas). Nosotros representaremos el controlador como un grafo computacional de manera que sus gradientes sean sencillos de ajustar\sidenote{
-	Como veremos más adelante, el tiempo de ajuste con esta representación es muy rápido, lo que abre la posibilidad de desarrollar un algoritmo que incluya este para el ajuste de los metaparámetrosdel controlador, como por ejemplo los tamaños de las particiones.
+	Como veremos más adelante, el tiempo de ajuste con esta representación es muy rápido, lo que abre la posibilidad de desarrollar un algoritmo que incluya este para el ajuste de los metaparámetros del controlador, como por ejemplo los tamaños de las particiones.
 }.
 
 Se han tomado una serie de decisiones de diseño para facilitar el desarrollo del controlador, aunque son fácilmente modificables. Éstas son:
@@ -31,7 +31,7 @@ Se han tomado una serie de decisiones de diseño para facilitar el desarrollo de
 	\item El controlador tendrá una única variable de salida.
 \end{itemize}
 
-\section{\ac{fcs} como grafo computacional}
+\section{El \acrlongsp{fcs} como grafo computacional}
 
 Sea $\mathcal{V} = {V_1, V_2, \ldots, V_n}$ el conjunto ordenado de variables lingüísticas de nuestro controlador, y sea $O$ la variable lingüística de salida. Cada una de estas variables tendrá un número prefijado de conjuntos $\mathcal{N} = {N_{V_1}, N_{V_2}, \ldots, N_{V_n}}$ para las variables de entrada y $N_O$ para la variable de salida.
 
@@ -70,10 +70,10 @@ Para ello, se le aplicará a cada columna de la matriz de entrada tantas operaci
 
 \begin{figure*}
 	\centering
-	\subfloat[]{\missingfigure[figwidth=0.29\linewidth]{Line desc}}\qquad
-	\subfloat[]{\missingfigure[figwidth=0.29\linewidth]{Trapz}}\qquad
-	\subfloat[]{\missingfigure[figwidth=0.29\linewidth]{Line asc}}
-	\caption[Funciones de pertenencia definidas como posición y desplazamientos.]{Las funciones de pertenencia (a) línea descendente, (b) trapezoidal y (c) línea ascendente. Éstas se definen como un punto de inicio seguido de tantos desplazamientos como sea necesario.}
+	\subfloat[Línea descendente]{\missingfigure[figwidth=0.29\linewidth]{Line desc}}\qquad
+	\subfloat[Trapezoide]{\missingfigure[figwidth=0.29\linewidth]{Trapz}}\qquad
+	\subfloat[Línea ascendente]{\missingfigure[figwidth=0.29\linewidth]{Line asc}}
+	\caption[Funciones de pertenencia definidas como posición y desplazamientos][1.5em]{Las funciones de pertenencia (a) línea descendente, (b) trapezoidal y (c) línea ascendente. Éstas se definen como un punto de inicio seguido de tantos desplazamientos como sea necesario.}
 	\label{fig:membership-functions}
 \end{figure*}
 
@@ -154,8 +154,8 @@ Para probar su funcionamiento, se realizará el ajuste de un controlador difuso 
 
 \begin{figure}
 	\centering
-	\subfloat[]{\includegraphics[width=.45\textwidth]{real-tip-controller-var-food}}\qquad
-	\subfloat[]{\includegraphics[width=.45\textwidth]{real-tip-controller-var-service}}
+	\subfloat[Variable \textit{Food}]{\includegraphics[width=.45\textwidth]{real-tip-controller-var-food}}\qquad
+	\subfloat[Variable \textit{Service}]{\includegraphics[width=.45\textwidth]{real-tip-controller-var-service}}
 	\caption[Particiones difusas del controlador de ejemplo]{Particiones difusas del controlador de ejemplo. Estas particiones junto con las reglas definirán la superficie de la función que modela nuestro controlador de ejemplo.}
 	\label{fig:real-tip-controller-vars}
 \end{figure}
@@ -177,7 +177,7 @@ El controlador es una función con dos variables que describen la superficie mos
 \begin{figure}
 	\centering
 	\includegraphics{real-tip-controller-surface}
-	\caption[Superficie de la función que modela el controlador difuso de ejemplo]{Las reglas y las particiones definen esta función. De ella obtendremos un conjunto de puntos aleatorio para comprobar si nuestra representación de \ac{fcs} como grafo computacional es capaz de ajustarse a ésta con la técnica del descenso del gradiente.}
+	\caption[Superficie de la función que modela el \acrlongsp{fcs} de ejemplo]{Las reglas y las particiones definen esta función. De ella obtendremos un conjunto de puntos aleatorio para comprobar si nuestra representación de \acrlongsp{fcs} como grafo computacional es capaz de ajustarse a ésta con la técnica del descenso del gradiente.}
 	\label{fig:real-tip-controller-surface}
 \end{figure}
 
@@ -189,10 +189,10 @@ Durante el entrenamiento, las superficies evolucionan hacia una representación 
 
 \begin{figure}
 	\centering
-	\subfloat[]{\includegraphics[width=.28\textwidth]{ajusted-tip-controller-at-start-training}}\qquad
-	\subfloat[]{\includegraphics[width=.28\textwidth]{ajusted-tip-controller-at-half-training}}\qquad
-	\subfloat[]{\includegraphics[width=.28\textwidth]{ajusted-tip-controller-at-end-training}}
-	\caption[Evolución del controlador difuso de acuerdo al conjunto de datos extraido del ]{Particiones difusas del controlador de ajustado. Estas figuras muestran la superficie del controlador ajustado (a) al comienzo del proceso de entrenamiento, (b) tras $250$ iteraciones sobre el conjunto de entrenamiento y (c) al final del proceso del entrenamiento.}
+	\subfloat[Inicio]{\includegraphics[width=.28\textwidth]{ajusted-tip-controller-at-start-training}}\qquad
+	\subfloat[Epoch $250$]{\includegraphics[width=.28\textwidth]{ajusted-tip-controller-at-half-training}}\qquad
+	\subfloat[Epoch $1000$]{\includegraphics[width=.28\textwidth]{ajusted-tip-controller-at-end-training}}
+	\caption[Evolución del \acrlongsp{fcs} de acuerdo al conjunto de datos extraido del ]{Particiones difusas del \acrlongsp{fcs} de ajustado. Estas figuras muestran la superficie del controlador ajustado (a) al comienzo del proceso de entrenamiento, (b) tras $250$ iteraciones sobre el conjunto de entrenamiento y (c) al final del proceso del entrenamiento.}
 	\label{fig:adjusted-tip-controller-training}
 \end{figure}
 

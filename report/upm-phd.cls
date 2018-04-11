@@ -2001,7 +2001,7 @@
 		\glsifhaslongsp{##1}%
 		{% has Spanish version:
 			\Glsentrylongsp{##1}##2\space
-			(\firstacronymfont{\glsentryshort{##1}}, \glsentrylong{##1})%
+			(\firstacronymfont{\glsentryshort{##1}}, \Glsentrylong{##1})%
 		}%
 		{%
 			\Glsentrylong{##1}##2\space
@@ -2025,7 +2025,7 @@
 		\glsifhaslongplsp{##1}%
 		{% has Spanish version:
 			\Glsentrylongplsp{##1}##2\space
-			(\firstacronymfont{\glsentryshortpl{##1}}, \glsentrylongpl{##1})%
+			(\firstacronymfont{\glsentryshortpl{##1}}, \Glsentrylongpl{##1})%
 		}%
 		{%
 			\Glsentrylongpl{##1}##2\space
@@ -2233,7 +2233,26 @@ version={3.0},
 
 %%
 % To specify wich letters are capitalizaed in an acronym
-\newrobustcmd{\LU}[2]{\if@in@acrolist#1\else#2\fi}
+\makeatletter
+\let\oldmakefirstuc\makefirstuc
+\renewcommand*{\makefirstuc}[1]{%
+	\def\gls@add@space{}%
+	\mfu@capitalisewords#1 \@nil\mfu@endcap
+}
+\def\mfu@capitalisewords#1 #2\mfu@endcap{%
+	\def\mfu@cap@first{#1}%
+	\def\mfu@cap@second{#2}%
+	\gls@add@space
+	\oldmakefirstuc{#1}%
+	\def\gls@add@space{ }%
+	\ifx\mfu@cap@second\@nnil
+	\let\next@mfu@cap\mfu@noop
+	\else
+	\let\next@mfu@cap\mfu@capitalisewords
+	\fi
+	\next@mfu@cap#2\mfu@endcap
+}
+\makeatother
 
 
 \usepackage{multirow}

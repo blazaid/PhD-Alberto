@@ -31,7 +31,7 @@ A partir de este momento, la investigación en el área recibió mucha atención
 	\centering
 	\includegraphics[width=0.72\textwidth]{chinese-room}
 	\label{fig:chinese-room}
-	\caption[Experimento mental de la \textit{Habitación China}, por John Searle.]{La \textit{Habitación China} de John Searle es un experimento mental por el que se trata de demostrar la invalidez del Test de Turing. Partimeos de un Test de Turing donde la máquina ha aprendido a hablar chino. Reemplazamos la máquina por un humano sin idea de chino pero con un manual de correspondencias de ideogramas. Cuando una persona le manda mensajes en chino, esta otra responde usando el manual, por lo que podemos afirmar que la persona, y por tanto la máquina, no saben chino.}
+	\caption[Experimento mental de la \textit{Habitación China}, por John Searle]{La \textit{Habitación China} de John Searle es un experimento mental por el que se trata de demostrar la invalidez del Test de Turing. Partimeos de un Test de Turing donde la máquina ha aprendido a hablar chino. Reemplazamos la máquina por un humano sin idea de chino pero con un manual de correspondencias de ideogramas. Cuando una persona le manda mensajes en chino, esta otra responde usando el manual, por lo que podemos afirmar que la persona, y por tanto la máquina, no saben chino.}
 \end{figure}
 
 Dado que los estudios en el área estaban dominados por aquellos relacionados con las ideas del conexionismo, la publicación del libro \textit{\enquote{Perceptrons}}~\cite{minsky1969perceptrons} de Marvin Minsky y Seymour Papert en 1969 supuso un notable varapalo para las investigaciones. En él se expusieron las limitaciones de los modelos de \acp{ann} desarrollados hasta la fecha, y el impacto fue de tal envergadura que la investigación en el área se abandonó casi por completo. Concretamente el conexionismo prácticamente desapareció de la literatura científica durante dos décadas. Es lo que se conoce como el primer \textit{AI Winter}\sidenote{
@@ -52,7 +52,7 @@ Podemos definir la \acrlong{ci} como la \enquote{\textit{rama de la \gls{ai} que
 
 \begin{figure}
 	\includegraphics{different-povs-ai}
-	\caption[Diferentes objetivos perseguidos por la \acrlongsp{ai}.]{Diferentes objetivos perseguidos por la~\acrlongsp{ai}. Las filas diferencian entre pensamiento o comportamiento mientras que las columnas separan entre inteligencia humana o el ideal de la inteligencia (racionalidad). Fuente: \textit{Artificial Intelligence: A Modern Approach ($3^{rd}$ Ed.)},~\cite{russell2003artificial}.}
+	\caption[Diferentes objetivos perseguidos por la \acrlongsp{ai}]{Diferentes objetivos perseguidos por la \acrlongsp{ai}. Las filas diferencian entre pensamiento o comportamiento mientras que las columnas separan entre inteligencia humana o el ideal de la inteligencia (racionalidad). Fuente: \textit{Artificial Intelligence: A Modern Approach ($3^{rd}$ Ed.)},~\cite{russell2003artificial}.}
 	\label{fig:different-povs-ai}
 \end{figure}
 
@@ -70,7 +70,7 @@ Durante estos años ganaba popularidad también el concepto del \gls{sc} en cont
 
 Hoy en día la \gls{ci} es un área con muchas aplicaciones prácticas en una variedad muy distinta de campos de la ciencia y con muchos temas de investigación por explorar. Por ello, esta tesis pretende la exploración de una parte concreta de este área en el tema del modelado de comportamiento humano en el problema de la conducción.
 
-\section{El rol del aprendizaje en la \acrlong{ci}}
+\section{El rol del aprendizaje en la \acrlongsp{ci}}
 \label{s:the-learning-role}
 
 El cambio más notorio entre los dos puntos de vista de la \gls{ai} tradicional y la de la \gls{ci} es el concepto de entrenamiento, es decir, pasar de \textit{\enquote{desarrollar un programa para resolver un problema}} a \textit{\enquote{entrenar un modelo para que aprenda la solución}}. Éste es el concepto de \textbf{aprendizaje}, y al proceso de ajuste del modelo a la solución buscada \textbf{entrenamiento}.
@@ -93,7 +93,7 @@ La terminología general que se usa en la \gls{ci} no es demasiado compleja (con
 
 \begin{figure}
 	\missingfigure[figheight=4cm]{Ilustración con los distintos conjuntos de datos}
-	\caption[Separación clásica de conjuntos de datos en tareas de \acrlong{ml}.]{Los diferentes tipos de conjuntos de datos existentes.}
+	\caption[Separación clásica de conjuntos de datos en problemas de \acrlongsp{ml}]{Los diferentes tipos de conjuntos de datos existentes.}
 	\label{fig:different-kinds-of-datasets}
 \end{figure}
 
@@ -139,7 +139,7 @@ El \textit{deep learning} es una de las palabras con la que últimamente se inun
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.5\textwidth]{applied-ci-cycle}
-	\caption[Ciclo de aplicación de soluciones basadas en \acrlong{ci}]{Ciclo de aplicación de soluciones basadas en \acrlong{ci}. Los sistemas inteligentes se conciben, se implementan y se prueba. En la fase de experimentación se determina cómo de bien o de mal lo está haciendo y cuales son las decisiones a tomar para el nuevo ciclo. Cuandto más rápido se puede realizar este ciclo, más soluciones se pueden probar, por ello el impacto de la mayor capacidad computacional y la optimización de las ténicas de entrenamiento es tan importante.}
+	\caption[Ciclo de aplicación de soluciones basadas en \acrlongsp{ci}]{Ciclo de aplicación de soluciones basadas en \acrlong{ci}. Los sistemas inteligentes se conciben, se implementan y se prueba. En la fase de experimentación se determina cómo de bien o de mal lo está haciendo y cuales son las decisiones a tomar para el nuevo ciclo. Cuandto más rápido se puede realizar este ciclo, más soluciones se pueden probar, por ello el impacto de la mayor capacidad computacional y la optimización de las ténicas de entrenamiento es tan importante.}
 	\label{fig:applied-ci-cycle}
 \end{figure}
 
@@ -149,21 +149,21 @@ El \textit{deep learning} es una de las palabras con la que últimamente se inun
 	\item \textbf{Algoritmos más eficientes}. Nuevos elementos como las funciones de activación \gls{relu}, la representación de las redes como grafos computacionales para facilitar su distribución o innovaciones en los algoritmos de entrenamiento son algunas de las mejoras en este aspecto que redunda, como no, en la optimización de la capacidad computacional de las máquinas y por tanto sobre el ciclo de experimentación.
 \end{itemize}
 
-El adjetivo \textit{deep}, en el contexto de las redes (e.g. redes neuronales, redes de creencia, \ldots), donde se origina este término, se refiere a una red con más capas de lo habitual\sidenote{
-	De aquí surge el nombre de \textbf{shallow network} o red superficial, en contraposición a \textbf{deep network} o red profunda.
-} (normalmente más de dos o tres). Este tipo de capas, históricamente ha sido más difícil de entrenar, debido entre otras cosas a las técnicas de entrenamiento (donde los parámetros tendían a diluirse según se aumentaba el número de capas entre la entrada y la salida) o a la disponibilidad de conjuntos de datos, los cuales al no ser muy grandes, las redes grandes tendían a sobre especializarse. La Figura~\ref{fig:deep-learning-capabilities} introduce, con una ilustración un tanto informal, las capacidades del deep learning frente a las de los modelos entrenados antes de esta época.
-
 \begin{marginfigure}
 	\includegraphics{deep-learning-capabilities}
 	\caption[Capacidad de los modelos en función de la cantidad de datos]{La enorme cantidad de datos junto con la capacidad computacional y la mejora de las ténicas de entrenamiento hacen posible que en la actualidad, con las técnicas asociadas al contexto del deep learning, los modelos entrenados sean más eficientes  inteligentes. Imagen adaptada de la charla \textit{How scale is enabling deep learning} de Andrew Y. Ng, accesible \url{https://youtu.be/LcfLo7YP8O4}.}
 	\label{fig:deep-learning-capabilities}
 \end{marginfigure}
 
+El adjetivo \textit{deep}, en el contexto de las redes (e.g. redes neuronales, redes de creencia, \ldots), donde se origina este término, se refiere a una red con más capas de lo habitual\sidenote{
+	De aquí surge el nombre de \textbf{shallow network} o red superficial, en contraposición a \textbf{deep network} o red profunda.
+} (normalmente más de dos o tres). Este tipo de capas, históricamente ha sido más difícil de entrenar, debido entre otras cosas a las técnicas de entrenamiento (donde los parámetros tendían a diluirse según se aumentaba el número de capas entre la entrada y la salida) o a la disponibilidad de conjuntos de datos, los cuales al no ser muy grandes, las redes grandes tendían a sobre especializarse. La Figura~\ref{fig:deep-learning-capabilities} introduce, con una ilustración un tanto informal, las capacidades del deep learning frente a las de los modelos entrenados antes de esta época.
+
 Los factores antes mencionados han hecho posible la operación sobre redes más grandes y profundas con cantidades de ordenes de magnitud muy superiores. El resultado en la actualidad es que tenemos modelos que mejoran mucho los modelos anteriores, y no parece haber cota superior en su capacidad de aprendizaje\sidenote{
 	Dentro de un contexto de aplicación específica, creemos que aún estamos muy lejos de crear vida inteligente.
 }.
 
-\section{\acrlongplsp{ann}}
+\section{\Acrlongplsp{ann}}
 
 Son herramientas que tratan de replicar las funciones cerebrales de un ser vivo de una manera muy fundamental, esto es, desde sus componentes más básicos, las neuronas. Para ello se basan en estudios de neurobiología y de ciencia cognitiva moderna del cerebro humano\sidenote{
 	Aún apoyándose en la topología y funcionamiento del cerebro humano para realizar el símil, lo cierto es que dichos modelos distan aún de considerarse \textit{cerebros artificiales}. La red neuronal más compleja hasta la fecha es la propuesta en~\cite{TraskANDREWTRASK}, con alrededor de $160.000$ parámetros a ser ajustados (podemos abstraernos y pensar en ellos como conexiones entre neuronas). Si comparamos esta cifra sólo con las del neocórtex (figura~\ref{fig:neocortex}) hace que, tecnológicamente hablando, nos quedemos con la sensación de estar aún a años luz de aproximarnos a la complejidad de un cerebro humano.
@@ -178,16 +178,16 @@ Este primer modelo de neurona proponía una función escalón para determinar si
 \begin{figure}[t]
 	\centering
 	\includegraphics{neocortex}
-	\caption[Ilustración de una sección del neocórtex humano]{Sección del neocórtex humano, región asociada a las capacidades cognitivas y que supone alrededor de un $76\%$ del volumen total del cerebro humano. Está distribuído en $6$ capas y miles de columnas que las atraviesan, cada una con alrededor de $10.000$ neuronas y un diámetro de $0.5mm$.  Como dato anecdótico, se estima que sólo en el neocórtex humano existen alrededor de $20.000$ millones de neuronas, cada una de las cuales conectada a entre $100$ y $100.000$ neuronas vecinas (\cite{Pakkenberg1997}). Esto supone entre $2 \cdot 10^{12}$ y $2 \cdot 10^{15}$ conexiones. Fuente: \textit{Blue Brain Project EPFL}, \url{http://bluebrain.epfl.ch/}.}
+	\caption[Sección de neocórtex humano]{Sección de neocórtex humano, región asociada a las capacidades cognitivas y que supone alrededor de un $76\%$ del volumen total del cerebro humano. Está distribuído en $6$ capas y miles de columnas que las atraviesan, cada una con alrededor de $10.000$ neuronas y un diámetro de $0.5mm$.  Como dato anecdótico, se estima que sólo en el neocórtex humano existen alrededor de $20.000$ millones de neuronas, cada una de las cuales conectada a entre $100$ y $100.000$ neuronas vecinas (\cite{Pakkenberg1997}). Esto supone entre $2 \cdot 10^{12}$ y $2 \cdot 10^{15}$ conexiones. Fuente: \textit{Blue Brain Project EPFL}, \url{http://bluebrain.epfl.ch/}.}
 	\label{fig:neocortex}
 \end{figure}
 
-\begin{figure}[!b]
+\begin{marginfigure}
 	\centering
 	\includegraphics{artificial-neuron-model}
 	\caption[Modelo de neurona artificial de McCulloch y Pitts]{Variación de la representación del modelo de neurona artificial propuesto por McCulloch y Pitts. En éste, cada una de las entradas $x_i$ es incrementada o inhibida aplicando el producto con su peso asociado $w_i$. La activación vendrá determinada por la aplicación de una función (denominada \enquote{de activación}) a la suma de los valores. Esta variación en concreto incluye una entrada $x_0$ y un peso $w_0$ como bias de la neurona para la variación dinámica del umbral de activación.}
 	\label{fig:mccullocs-pitts-neuron-model}
-\end{figure}
+\end{marginfigure}
 
 \subsection{Funciones de activación}
 
@@ -235,7 +235,7 @@ Las funciones de activación clásicas usadas en redes neuronales han sido la fu
 	\centering
 	\subfloat[Sigmoide]{\includegraphics[width=0.46\linewidth]{sigmoid-function}}\qquad
 	\subfloat[Tangente hiperbólica]{\includegraphics[width=0.46\linewidth]{tanh-function}}
-	\caption[Funciones de activación: sigmoidal y tangente hiperbólica.]{Las funciones de activación sigmoidal y tangente hiperbólicas. Ambas se han usado como funciones de activación no lineales gracias a que sus derivadas son continuas a lo largo de todo el dominio y además son fácilmente computables.}
+	\caption[Funciones de activación: sigmoide y tangente hiperbólica]{Las funciones de activación sigmoidal y tangente hiperbólicas. Ambas se han usado como funciones de activación no lineales gracias a que sus derivadas son continuas a lo largo de todo el dominio y además son fácilmente computables.}
 	\label{fig:sig-and-tanh}
 \end{figure}
 
@@ -278,7 +278,7 @@ Este tipo de neurona tiene una serie de características que merece la pena come
 	\centering
 	\subfloat[\acrshort{relu}]{\includegraphics[width=0.46\linewidth]{relu-function}}\qquad
 	\subfloat[Leaky \acrshort{relu}]{\includegraphics[width=0.46\linewidth]{leaky-relu-function}}
-	\caption[Funciones de activación: \acrshort{relu} y Leaky-\acrshort{relu}.]{La función de activación (a) \gls{relu} evita el problema del estancamiento cuando la entrada neta de la neurona es muy alta. La función de activación \textit{Leaky} \gls{relu} (en este ejemplo, con $\epsilon = 0.1$) es una de las posibles soluciones cuando se permite que la entrada neta a la red sea menor que 0, ya que en el caso de la función \gls{relu} la derivada es 0 y por tanto el gradiente no nos indica hacia dónde ha de descender el error.}
+	\caption[Funciones de activación: \acrshort{relu} y Leaky-\acrshort{relu}]{La función de activación (a) \gls{relu} evita el problema del estancamiento cuando la entrada neta de la neurona es muy alta. La función de activación \textit{Leaky} \gls{relu} (en este ejemplo, con $\epsilon = 0.1$) es una de las posibles soluciones cuando se permite que la entrada neta a la red sea menor que 0, ya que en el caso de la función \gls{relu} la derivada es 0 y por tanto el gradiente no nos indica hacia dónde ha de descender el error.}
 	\label{fig:relu-and-leaky-relu}
 \end{figure}
 
@@ -294,22 +294,22 @@ Típicamente, estas redes se componen de neuronas conectadas, por lo que se pued
 	\centering
 	\subfloat[\textit{Feed-forward}]{\includegraphics[width=0.46\linewidth]{multilayer-perceptron}}\qquad
 	\subfloat[Recurrente]{\includegraphics[width=0.46\linewidth]{recurrent-neural-network}}
-	\caption[Diferencias entre toppologías de redes \textit{feed-forward} y \textit{recurrentes}]{Diferencias entre los grafos que representan las \acp{ann} de tipos (a) \textit{feed-forward} y (b) recurrentes. Las redes recurrentes presentan ciclos entre sus nodos que permiten la retroalimentación interna entre las neuronas. Suelen ser más útiles a la hora de modelar eventos en el tiempo, aunque su entrenamiento es más complejo.}
+	\caption[Diferencias entre redes de tipo \textit{feed-forward} y \textit{recurrente}]{Diferencias entre los grafos que representan las \acp{ann} de tipos (a) \textit{feed-forward} y (b) recurrente. Las redes recurrentes presentan ciclos entre sus nodos que permiten la retroalimentación interna entre las neuronas. Suelen ser más útiles a la hora de modelar eventos en el tiempo, aunque su entrenamiento es más complejo.}
 	\label{fig:ff-vs-rnn}
 \end{figure}
 
 \begin{itemize}
 	\item Redes \textbf{feed-forward} (o prealimentadas). Sus representación como grafo no presenta ningún ciclo (por tanto ninguna retroalimentación entre neuronas, como se ilustra en la figura~\ref{fig:ff-vs-rnn}). Es la topología más usada en aplicaciones prácticas debido a su sencillez y su efectividad. En ellas el flujo de información sigue un camino desde un conjunto de neuronas denominadas \textit{entradas} hasta otro conjunto de neuronas denominado \textit{salidas}. No es requisito que las neuronas se agrupen en capas, aunque suele ser la estructura común. A las redes de más de dos/tres capas ocultas (i.e. las capas que se encuentran entre la capa de neuronas de entrada y la capa de neuronas de salida) se las suele denominar \textit{profundas} o \textit{deep}. Representantes clásicos de esta categoría pueden ser el \gls{mlp}~\cite{rumelhart1985learning}, los autoencoders~\cite{Hinton2006} o los \gls{som}~\cite{kohonen1998self}.
-	\item Redes \textbf{recurrentes}. Éstas, a diferencia de las prealimentadas, tienen al menos un ciclo dentro de su representación, de tal manera que el flujo de información de salida de una neurona puede llegar a afectar a su propio estado. Aunque estas topologías representan de una forma más fiel las bases biológicas de las \gls{ann}, históricamente han sido más complejas a la hora de operar y entrenar debido a sus relaciones entre nodos. Sin embargo, durante la última década han aparecido nuevas técnicas que facilitan su operación. Algunos casos particulares de este tipo de arquitectura son las Redes de Hopfield~\cite{hopfield1982neural} o las redes \gls{lstm}~\cite{hochreiter1997long}.
+	\item Redes \textbf{recurrentes}. Éstas tienen al menos un ciclo dentro de su representación, de manera que el flujo de información de salida de una neurona puede llegar a afectar a su propio estado. Aunque representan de manera más fiel las bases biológicas del cerebro, históricamente han sido más complejas a la hora de operar y entrenar debido a estas relaciones. Sin embargo, durante la última década han aparecido nuevas técnicas que facilitan su operación. Algunos casos particulares de este tipo de arquitectura son las Redes de Hopfield~\cite{hopfield1982neural} o las redes \gls{lstm}~\cite{hochreiter1997long}.
 \end{itemize}
 
 Esta tesis se centra en redes pertenecientes al primer grupo, concretamente en las topologías \gls{mlp} y \gls{cnn}, con las que se cerrará la presente sección. Ambos tipos de redes han probado su efectividad en diferentes dominios, aunque las segundas están demostrando su efectividad con las nuevas ténicas surgidas a partir del \textit{deep learning}
 
 \subsection{Perceptrones multicapa}
 
-En un perceptrón multicapa, las neuronas se encuentran agrupads en capas de tal manera que todas las salidas de las neuronas de una capa se conectan a todas las entradas de cada una de las neuronas de la capa siguiente. A las primera y últimacapas de la red se las denomina respectivamente capa de entrada y de salida, mientras que las capas intermedias son denominadas capas ocultas. Hemos visto algunasilustraciones a lo largo del presente capítulo, pero en la Figura~\ref{fid:detailed-multilayer-perceptron} se puede ver en detalle este tipo de red.
+En un perceptrón multicapa, las neuronas se encuentran agrupadas en capas de tal manera que todas las salidas de las neuronas de una capa se conectan a todas las entradas de cada una de las neuronas de la capa siguiente. A las primera y última capas de la red se las denomina respectivamente capa de entrada y de salida, mientras que las capas intermedias son denominadas capas ocultas.
 
-La forma de calcular la salida de un perceptrón multicapa es la siguiente. Supongamos que tenemos dos capas, $l-1$ y $l$, compuestas por $n^{l-1}$ y $n^l$ neuronas respectivamente cada una con su función de activación $f$, y como conexiones (pesos) entre ambas capas tendremos una matriz $W^l$ de dimensiones $(l-1, l)$. Cada una de las neuronas deberá tener una entrada de bias, por lo que tendremos tambien un vector columna $\mathbf{b}^l$ que los representará. La salida $\mathbf{s}^l$ de esa capa será un vector columna que se obtendrá a partir de la siguiente función que se muestra en la ecuación~\ref{eq:ff-mlp}:
+La salida se calcula como sigue: supongamos que tenemos dos capas, $l-1$ y $l$, compuestas por $n^{l-1}$ y $n^l$ neuronas respectivamente cada una con su función de activación $f$, y como conexiones (pesos) entre ambas capas tendremos una matriz $W^l$ de dimensiones $(l-1, l)$. Cada una de las neuronas deberá tener una entrada de \textit{bias}, por lo que tendremos también un vector columna $\mathbf{b}^l$ que los representará. La salida $\mathbf{s}^l$ de esa capa será un vector columna que se obtendrá a partir de la siguiente función que se muestra en la ecuación~\ref{eq:ff-mlp}:
 
 \begin{equation}
 	\mathbf{s}^l = f(W^l \mathbf{s}^{l-1} + \mathbf{b}^l)
@@ -323,24 +323,24 @@ El algoritmo base de aprendizaje en un perceptrón multicapa de denomina \textit
 	
 	Existen diferentes funciones para calcular el error y el coste de un modelo en concreto. En el caso del coste, lo más común es usar la media entre todo el conjunto de entrenamiento como:
 	
-	\begin{equation*}
-		C(M) = \frac{1}{m} \sum_{i=1}^m L(\hat{y}_i, y_i)
-	\end{equation*}
+	\begin{equation}
+	C(M) = \frac{1}{m} \sum_{i=1}^m L(\hat{y}_i, y_i)
+	\end{equation}
 	
 	Donde $M$ es el modelo actual, $m$ el número total de ejemplos y $L$ la función de error entre las salidas $\hat{y}$ e $y$ de cada ejemplo $i$. En algunos casos se usa la media ponderada para dar más importancia a determinados casos, pero no es lo común.
 	
 	Sin embargo, en el caso del error, existen varias funciones dependiendo de cuál sea la tarea. Por ejemplo, para tareas de regresión, lo común es usar el error cuadrático medio o su raíz cuadrada. Para tareas de clasificación, una función de error muy útil que ha remplazado a la función $hit$ (relación de aciertos-fracasos) es la entropía cruzada, que tiene la siguiente forma:
 	
-	\begin{equation*}
-		L(\hat{y}_i, y_i) = (1 - y) \log (1 - \hat{y}) - y \log \hat{y}
-	\end{equation*}
+	\begin{equation}
+	L(\hat{y}_i, y_i) = (1 - y) \log (1 - \hat{y}) - y \log \hat{y}
+	\end{equation}
 	
 	La razón es que en esta última se capturan sutilezas como lo cercano que ha estado un acierto. Por ejemplo, si nuestro objetivo es una salida de clasificación $(1, 1, 0)$ y tenemos dos modelos, uno que dice $(0.9, 0.9, 0.6) \rightarrow (1, 1, 1)$ y otro que dice $(0.6, 0.6, 0.6) \rightarrow (1, 1, 1)$, según la función hiy, ambos modelos funcionan igual mientras que según la entropía cruzada el primero funciona mejor que el segundo.
 	
 	Curiosamente, la entropía cruzada también funciona bien en problemas de regresión, aunque es más sencillo interpretar los resultados de un $RMSE$ y por tanto su uso no está extendido.
-}) de la red calculando como aumenta o disminuye esta con peqñeas variaciones de $x$.
+}) de la red calculando como aumenta o disminuye esta con pequeñas variaciones de $x$.
 
-El algoritmo trata de aplicar un error desde la salida de la red sobre todos los pesos de la misma en función de cuánto han colaborado en dicho error (bajo la suposición de que, cuando mayor es un error, más ha contribuido). El problema es cómo se calcula este error. En la última capa es sencillo (conocemos las salidas real y esperada), pero la genialidad del algoritmo es que el error en las interiores lo determina a partir del error de las sucesivas capas apoyándose en el descensodel gradiente. Es decir:
+El algoritmo trata de aplicar un error desde la salida de la red sobre todos los pesos de la misma en función de cuánto han colaborado en dicho error (bajo la suposición de que, cuando mayor es un error, más ha contribuido). El problema es cómo se calcula este error. En la última capa es sencillo (conocemos las salidas real y esperada), pero la genialidad del algoritmo es que el error en las interiores lo determina a partir del error de las sucesivas capas apoyándose en el descenso del gradiente. Es decir:
 
 Supongamos que nos encontramos en la capa $l$ para la cual conocemos el error de salida que denotaremos como el vector columna $\delta \mathbf{s}^l$, y donde todas las neuronas usan la función de activación $f$. Entonces, de acuerdo al gradiente, el error neto que produce nuestra salida se corresponde con:
 
@@ -383,7 +383,7 @@ Esta es la forma original del algoritmo de back propagation. Al valor $\alpha$ q
 	\item \textbf{Adam}~\cite{kingma2014adam}. Este algoritmo combina los funcionamientos del momento junto con los del gradiente adaptativo del algoritmo RMSProp. Es el más utilizado en los últimos años.
 \end{itemize}
 
-\subsection{\acrlongplsp{cnn}}
+\subsection{\Acrlongplsp{cnn}}
 
 \begin{figure}[!b]
 	\missingfigure[figheight=4cm]{Ilustración con las dos formas de razonamiento}
@@ -490,7 +490,7 @@ Su funcionamiento es similar al de las convoluciones (después de todo se tratan
 \begin{figure}[t]
 	\centering
 	\includegraphics{cnn-pooling}
-	\caption[Ejemplo de las operaciónes de \textit{pooling}.]{Ejemplo de las operaciónes de \textit{pooling} sobre una matriz de entrada de dos dimensiones. El filtro de tamaño $2 \times 2$ recorre la matriz en saltos de 2 celdas horizontales y 2 verticales extrayendo de cada región filtrada el mayor valor, el menor o el valor medio dependiendo de si la operación es \textit{max-pooling}, \textit{min-pooling} o \textit{mid-pooling}.}
+	\caption[Diferentes operaciónes de \textit{pooling}]{Ejemplo de las operaciónes de \textit{pooling} sobre una matriz de entrada de dos dimensiones. El filtro de tamaño $2 \times 2$ recorre la matriz en saltos de 2 celdas horizontales y 2 verticales extrayendo de cada región filtrada el mayor valor, el menor o el valor medio dependiendo de si la operación es \textit{max-pooling}, \textit{min-pooling} o \textit{mid-pooling}.}
 	\label{fig:cnn-max-pooling}
 \end{figure}
 
@@ -519,21 +519,21 @@ En el caso concreto de la regularización, el objetivo de esta técnica es trata
 
 En ésta, la idea es en cada epoch de entrenamiento del modelo, se desactivan una serie de neuronas de manera aleatoria. estas neuronas no participan ni en la predicción ni en el posterior reajuste de pesos. Es muy fácil de implementar, computacionalmente muy eficiente y mejora sustancialmente el proceso de aprendizaje en redes que sufren de una alta especialización. La Figura~\ref{fig:dropout-example} describe un ejemlpo de funcionamiento en tres epochs de un perceptrón multicapa con una tasa de dropout del $0.5$.
 
-\begin{figure}[t]
+\begin{figure*}[t]
 	\centering
 	\subfloat[Epoch 1]{\includegraphics[width=0.27\linewidth]{dropout-example-a}}\qquad
 	\subfloat[Epoch 2]{\includegraphics[width=0.27\linewidth]{dropout-example-b}}\qquad
 	\subfloat[Epoch 3]{\includegraphics[width=0.27\linewidth]{dropout-example-c}}
-	\caption[Ejemplo de la operación de dropout en tres epochs sucesivos.]{Ejemplo del funcionamiento del dropout en tres epochs sucesivos. Suponiendo una tasa de dropout de $0.5$, en cada epoch cada neurona tiene una probabilidad del $50\%$ de ser desactivada, y por tanto el error no se propagará hacia sus pesos de entrada.}
+	\caption[Ejemplo de la operación de dropout para tres epochs sucesivos][1.5em]{Ejemplo del funcionamiento del dropout en tres epochs sucesivos. Suponiendo una tasa de dropout de $0.5$, en cada epoch cada neurona tiene una probabilidad del $50\%$ de ser desactivada, y por tanto el error no se propagará hacia sus pesos de entrada.}
 	\label{fig:dropout-example}
-\end{figure}
+\end{figure*}
 
 \subsection{Grafos computacionales}
 
 \begin{figure}[!b]
 	\centering
 	\includegraphics{computational-graph}
-	\caption[Ejemplo de grafo computacional.]{Ejemplo de grafo computacional para un perceptrón simple de dos neuronas de entrada y una de salida.}
+	\caption[Ejemplo de grafo computacional]{Ejemplo de grafo computacional para un perceptrón simple de dos neuronas de entrada y una de salida.}
 	\label{fig:computational-graph}
 \end{figure}
 
@@ -548,7 +548,7 @@ Como regla general, para conocer el gradiente de una variable $a$ con respecto a
 \begin{figure}[t]
 	\centering
 	\includegraphics{computational-graph-derivatives}
-	\caption[Derivadas parciales sobre un grafo computacional.]{Es fácil representar las derivadas parciales sobre un grafo computacional y, a partir de ahí, obtener el efecto de las variaciones de una variable sobre el resto.}
+	\caption[Derivadas parciales sobre un grafo computacional]{Es fácil representar las derivadas parciales sobre un grafo computacional y, a partir de ahí, obtener el efecto de las variaciones de una variable sobre el resto.}
 	\label{fig:computational-graph-derivatives}
 \end{figure}
 
@@ -613,7 +613,7 @@ Mientras que un conjunto tradicional se basa en si pertenece o no, un conjunto d
 \begin{marginfigure}
 	\centering
 	\includegraphics[width=\textwidth]{trimf-trapmf}
-	\caption[Gráfica de funciones de pertenencia triangular y trapezoidal.]{Las funciones de pertenencia triangular y trapezoidal son las dos funciones más usadas a la hora de definir conjuntos difusos, tanto manualmente como en técnicas de ajuste. La razón es su sencillez, ya que captan la esencia de la imprecisión a la hora de definir un término sobre un dominio.}
+	\caption[Gráfica de funciones de pertenencia triangular y trapezoidal]{Las funciones de pertenencia triangular y trapezoidal son las dos funciones más usadas a la hora de definir conjuntos difusos, tanto manualmente como en técnicas de ajuste. La razón es su sencillez, ya que captan la esencia de la imprecisión a la hora de definir un término sobre un dominio.}
 	\label{fig:trimf-trapmf}
 \end{marginfigure}
 
@@ -632,7 +632,7 @@ Dos casos particulares de funciones de pertenencia son las funciones cuadradas (
 \begin{figure}[!b]
 	\centering
 	\missingfigure[figheight=5cm]{Ilustración de 2 t-normas}
-	\caption[$t$-normas del mínimo y del producto algebraico.]{Las $t$-normas de mínimo y de producto algebraico son dos representantes de un conjunto muy amplio de funciones.}
+	\caption[$t$-normas del mínimo y del producto algebraico.]{Las $t$-normas de mínimo y de producto algebraico son dos representantes de un conjunto muy amplio de funciones}
 	\label{fig:t-norms}
 \end{figure}
 
@@ -659,7 +659,7 @@ El complemento de un conjunto vendrá calculado a partir de la función de perte
 \begin{figure}[t]
 	\centering
 	\missingfigure[figheight=5cm]{Ilustración de 2 t-conormas}
-	\caption[$t$-normas del máximo y de la suma algebraica.]{Las $t$-conormas de máximo y de suma algebraica son las complementarias a $t$-normas mostradas previamente, y como ocurre en estas, existen tantas $t$-conormas como $t$-normas definidas.}
+	\caption[$t$-normas del máximo y de la suma algebraica]{Las $t$-conormas de máximo y de suma algebraica son las complementarias a $t$-normas mostradas previamente, y como ocurre en estas, existen tantas $t$-conormas como $t$-normas definidas.}
 	\label{fig:t-conorms}
 \end{figure}
 
@@ -693,7 +693,7 @@ Se trata de la extensión del método del \textbf{modus ponens} para obtener el 
 \begin{figure}[!b]
 	\centering
 	\missingfigure[figheight=5cm]{Modus ponens vs modus ponens generalizado}
-	\caption[Diferencias entre \textit{modus ponens} clásico y \textit{modus ponens generalizado}.]{Diferencias entre \textit{modus ponens} clásico y \textit{modus ponens generalizado}. Debido a que los valores de las reglas de inferencia difusa son conjuntos difusos, la conclusión de un silogismo es por tanto un conjunto difuso, no un valor absoluto de verdad o mentira.}
+	\caption[Diferencias entre \textit{modus ponens} clásico y \textit{modus ponens generalizado}]{Diferencias entre \textit{modus ponens} clásico y \textit{modus ponens generalizado}. Debido a que los valores de las reglas de inferencia difusa son conjuntos difusos, la conclusión de un silogismo es por tanto un conjunto difuso, no un valor absoluto de verdad o mentira.}
 	\label{fig:modus-ponens-classic-vs-generalized}
 \end{figure}
 
@@ -717,7 +717,7 @@ Este bloque recibe las entradas \textit{crisp} al sistema (los cuales pertenecer
 \begin{figure}[t]
 	\centering
 	\missingfigure[figheight=5cm]{Esquema de un sistema de control difuso}
-	\caption[Esquema de un sistema de control difuso]{Un sistema de control difuso es un componente compuesto por cuatro bloques principales:. fuzzificador, bloque de reglas, razonador y defuzzificador.}
+	\caption[Esquema de un \acrlongsp{fcs}]{Un \acrlongsp{fcs} es un componente compuesto por cuatro bloques principales: fuzzificador, bloque de reglas, razonador y defuzzificador.}
 	\label{fig:fuzzy-control-system}
 \end{figure}
 
@@ -732,7 +732,7 @@ Sin embargo, otra representación muy usada (sobre todo como representación int
 \begin{figure}[!b]
 	\centering
 	\missingfigure[figheight=5cm]{Figura bonica que represente una matriz de reglas difusas}
-	\caption[Representación de conjuntos de reglas como matriz]{Un ejemplo de representación matricial de un conjunto de reglas difusas. Las reglas activas se simbolizan como un $1$ (o como un valor real en caso de querer aplicar pesos).}
+	\caption[Matriz de representación de reglas difusas]{Un ejemplo de representación matricial de un conjunto de reglas difusas. Las reglas activas se simbolizan como un $1$ (o como un valor real en caso de querer aplicar pesos).}
 	\label{fig:fuzzy-controller-matrix-representation}
 \end{figure}
 
@@ -792,7 +792,7 @@ En función del orden del polinomio de la función de salida, el controlador rec
 
 El consecuente en un controlador de tipo Sugeno es un valor directamente, y por tanto no necesita proceso de defuzzificación. Sin embargo, la respuesta pierde significado semántico, a diferencia de un controlador de tipo Mamdani.
 
-\section{El paradigma de los Agentes Inteligentes}
+\section{El paradigma de los agentes inteligentes}
 \label{ch:ci:s:agent-concept}
 
 En la figura~\ref{fig:different-povs-ai} se mostraban los cuatro objetivos perseguidos por la \gls{ai}. En uno de ellos en particular se la entiende como el estudio del conseguir que entidades (e.g. sistemas, software, \ldots) actúen de la manera más inteligente posible.
@@ -838,7 +838,7 @@ Afortunadamente es posible caracterizar los entornos de acuerdo a un conjunto de
 
 \begin{figure}[t]
 	\includegraphics{agent-properties}
-	\caption[Esquema de agente y sus propiedades.]{Esquema de un agente y sus propiedades. Aunque no existe una definición comúnmente aceptada de agente, sí que existe una serie de propiedades que los que los identifican. Es autónomo, opera realiza acciones sobre un entorno dependiendo de las percepciones que le llegan de éste y tiene la capacidad de comunicarse con el resto de elementos, incluídos otros agentes.\TODO{CAMBIAR LA IMAGEN Y VER CÓMO SE PUEDE INCLUIR EL CONCEPTO DE COLABORACIÓN}}
+	\caption[Esquema de agente y sus propiedades]{Esquema de un agente y sus propiedades. Aunque no existe una definición comúnmente aceptada de agente, sí que existe una serie de propiedades que los que los identifican. Es autónomo, opera realiza acciones sobre un entorno dependiendo de las percepciones que le llegan de éste y tiene la capacidad de comunicarse con el resto de elementos, incluídos otros agentes.\TODO{CAMBIAR LA IMAGEN Y VER CÓMO SE PUEDE INCLUIR EL CONCEPTO DE COLABORACIÓN}}
 	\label{fig:agent-properties}
 \end{figure}
 
@@ -856,7 +856,7 @@ Existe una serie de arquitecturas básicas o tipos de agentes que dependen princ
 
 \begin{figure}[!b]
 	\missingfigure[figheight=3.5cm]{Arquitectura básica de un agente}
-	\caption[Arquitectura básica de un agente.]{Arquitectura básica de un agente. Aunque existen múltiples arquitecturas diferentes, todas se basan en la misma estructura. El agente percibe el entorno, lo interpreta y toma la decisión de cómo actuar sobre él.}
+	\caption[Arquitectura básica de un agente]{Arquitectura básica de un agente. Aunque existen múltiples arquitecturas diferentes, todas se basan en la misma estructura. El agente percibe el entorno, lo interpreta y toma la decisión de cómo actuar sobre él.}
 	\label{fig:agent-basic-architecture}
 \end{figure}
 
@@ -878,7 +878,7 @@ La primera diferencia clave surge en la manera que se ofrece al bloque de infere
 
 \begin{figure}[t]
 	\missingfigure[figheight=3.5cm]{Arquitectura básica de un agente}
-	\caption[Diferencias entre un agente sin y con modelo de entorno.]{Ilustración de la diferencia entre un agente sin modelo de entorno y uno con modelo de entorno. Cada acción realizada por el agente con modelo de entorno tiene en cuenta el estado del entorno en momentos pasados. El agente sin modelo de entorno actúa tal y como interpreta el entorno en cada momento, como si sufriese de amnesia.}
+	\caption[Diferencias entre un agente sin y con modelo de entorno]{Ilustración de la diferencia entre un agente sin modelo de entorno y uno con modelo de entorno. Cada acción realizada por el agente con modelo de entorno tiene en cuenta el estado del entorno en momentos pasados. El agente sin modelo de entorno actúa tal y como interpreta el entorno en cada momento, como si sufriese de amnesia.}
 	\label{fig:memory-vs-amnesia-in-agents}
 \end{figure}
 
@@ -898,7 +898,7 @@ Son aquellos sistemas compuestos de dos o más agentes que interactúan de algun
 
 \begin{figure}[t]
 	\includegraphics{agent-types}
-	\caption[Arquitecturas de agente según su comportamiento.]{Distintas arquitecturas de agentes en función del comportamiento. Dependiendo de las acciones a realizar, se identifican tres tipos, los reactivos que aplican una acción sin proceso deductivo y los basados en modelo y utilidad (en algunos contextos denominados deliberativos) que basan su comportamiento en alguna forma de deducción.}
+	\caption[Arquitecturas de agente según su comportamiento]{Distintas arquitecturas de agentes en función del comportamiento. Dependiendo de las acciones a realizar, se identifican tres tipos, los reactivos que aplican una acción sin proceso deductivo y los basados en modelo y utilidad (en algunos contextos denominados deliberativos) que basan su comportamiento en alguna forma de deducción.}
 	\label{fig:agent-types}
 \end{figure}
 
@@ -918,7 +918,7 @@ Desde el punto de vista de la \gls{ai} podemos añadirles la ventaja de que perm
 
 \begin{figure}
 	\missingfigure[figheight=3.5cm]{Una ilustración de algún entorno de vida artificial donde los agentes compiten y uno de algo donde cooperen}
-	\caption[Diferencias entre colaboración y competitividad de agentes.]{La comunicación entre agentes puede ser de dos tipos: \textit{colaborativa}, donde los agentes tratan de llegar a una solución intercambiándose información y \textit{competitiva}, donde los agentes compiten unos contra otros en un entorno.}
+	\caption[Diferencias entre colaboración y competitividad con agentes]{La comunicación entre agentes puede ser de dos tipos: \textit{colaborativa}, donde los agentes tratan de llegar a una solución intercambiándose información y \textit{competitiva}, donde los agentes compiten unos contra otros en un entorno.}
 	\label{fig:communication-between-agents-in-mass}
 \end{figure}
 

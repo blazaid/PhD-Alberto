@@ -1,33 +1,41 @@
 \documentclass{standalone}
-\usepackage[utf8]{inputenc}
 \usepackage{tikz}
+\usetikzlibrary{arrows.meta}
 
-\usetikzlibrary{positioning}
 
-\tikzstyle{inputNode}=[draw,circle,minimum size=10pt,inner sep=0pt]
-\tikzstyle{stateTransition}=[-stealth, thick]
+\tikzstyle{input-node}=[fill=white,circle,thick,draw]
+\tikzstyle{hidden-node}=[fill=white,circle,thick,draw]
+\tikzstyle{output-node}=[fill=white,circle,thick,draw]
+\tikzstyle{empty-node}=[fill=white,circle]
+
+\tikzstyle{black-line}=[draw=black,very thick]
+\tikzstyle{red-line}=[draw=red,very thick]
 
 \begin{document}
-\begin{tikzpicture}
-	\node[inputNode, thick] (i1) at (6, 0.5) {};
-	\node[inputNode, thick] (i2) at (6, -0.5) {};
-
-	\node[inputNode, thick] (h1) at (7, 0.5) {};
-	\node[inputNode, thick] (h2) at (7, -0.5) {};
-
-	\node[inputNode, thick] (o1) at (8, 0) {};
-
-	\draw[stateTransition] (5, 0.5) -- node[above] {$x_1$} (i1);
-	\draw[stateTransition] (5, -0.5) -- node[above] {$x_2$} (i2);
-
-	\draw[stateTransition] (i1) -- (h1) node[pos=0.5,above] {$W_1$};
-	\draw[stateTransition] (i1) -- (h2);
-	\draw[stateTransition] (i2) -- (h1);
-	\draw[stateTransition] (i2) -- (h2);
-
-	\draw[stateTransition] (h1) -- (o1) node[pos=0.5,above] {$W_2$};;
-	\draw[stateTransition] (h2) -- (o1);
-
-	\draw[stateTransition] (o1) -- node[above] {$y$} (9, 0);
-\end{tikzpicture}
+	\begin{tikzpicture}
+	\begin{scope}
+	\node (i1)[input-node] at (0,2) {$x_1$};
+	\node (i2)[input-node] at (0,0) {$x_2$};
+	
+	
+	\node (h1)[hidden-node] at (3,2) {};
+	\node (h2)[hidden-node] at (3,0) {};
+	
+	\node (o1)[output-node] at (6,1) {$y$};
+	\end{scope}
+	
+	\begin{scope}[>={Stealth[black]}, every edge/.style=black-line]
+	\path [->] (i1) edge node {} (h1);
+	\path [->] (i1) edge node {} (h2);
+	\path [->] (i2) edge node {} (h1);
+	\path [->] (i2) edge node {} (h2);
+	\path [->] (h1) edge node {} (o1);
+	\path [->] (h2) edge node {} (o1);
+	\end{scope}
+	
+	\begin{scope}
+	\node (w1)[empty-node] at (1.5,1) {$W_1$};
+	\node (w2)[empty-node] at (4,1) {$W_2$};
+	\end{scope}
+	\end{tikzpicture}
 \end{document}

@@ -138,15 +138,14 @@ Comenzaremos definiendo el \textit{momento} $t_i$ como aquel ejemplo situado a $
 
 Tras este ajuste, los conjuntos de datos están finalizados. Sus propiedades quedan descritas en la Tabla~\ref{tbl:lc-datasets-description}.
 
-\begin{table}
+\begin{table*}
 	\centering
-	\small
-	\caption[Descripción de los conjuntos de datos]{Descripción de los conjuntos de datos para el entrenamiento de los modelos.}
+	\caption[Descripción de los conjuntos de datos][1.5em]{Descripción de los conjuntos de datos para el entrenamiento de los modelos.}
 	\label{tbl:lc-datasets-description}
 	\begin{tabular}{ccccccccc}
 		\toprule
-		&          &         & \multicolumn{2}{c}{Tamaño}  & \multicolumn{2}{c}{Izquierda}  & \multicolumn{2}{c}{Derecha}  \\
-		& Entradas & Salidas & Train    &    Test       & Train & Test & Train & Test \\
+		&          &         & \multicolumn{2}{c}{Tamaño}  & \multicolumn{2}{c}{Cambio carril izda.}  & \multicolumn{2}{c}{Cambio carril dcha.}  \\
+		& Entradas & Salidas & Entrenamiento & Test & Entrenamiento & Test & Entrenamiento & Test \\
 		\midrule
 		\rowcolor{black!20} $LC_{S_1}$ & $8653$ & $3$ & $68990$  & $2057$ & $820$  & $43$  & $820$  & $3$  \\
 		$LC_{S_2}$ & $8653$ & $3$ & $84810$  & $2886$ & $925$  & $27$  & $925$  & $7$  \\
@@ -154,21 +153,21 @@ Tras este ajuste, los conjuntos de datos están finalizados. Sus propiedades que
 		$LC_{S_A}$ & $8653$ & $3$ & $248930$ & $7833$ & $2740$ & $121$ & $2740$ & $23$ \\
 		\bottomrule
 	\end{tabular}
-\end{table}
+\end{table*}
 
-\section{Modelo \ac{mlp}}
+\section{Modelo basado en \acrlongplsp{mlp}}
 
 Los entrenamientos han sido realizados sobre diferentes topologías, siendo las más representativas las descritas en la tabla~\ref{tbl:lc-mlp-architectures}. La tasa de dropout utilizada en los entrenamientos ha sido de $0.1$.
 
 \begin{table}[!b]
 	\centering
 	\small
-	\caption[Resumen de las arquitecturas \ac{mlp} para el modelo de cambio de carril]{Resumen de las arquitecturas de \ac{mlp} para el modelo de cambio de carril. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
+	\caption[Resumen de las arquitecturas \acrlongplsp{mlp} para el modelo de cambio de carril]{Resumen de las arquitecturas de \acrlongplsp{mlp} para el modelo de cambio de carril. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:lc-mlp-architectures}
 	\begin{tabular}{cccccc}
 		\toprule
 		\multirow{2}{*}{} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multicolumn{3}{c}{Precisión} \\
-		& & & Train & Validation & Test \\
+		& & & Entrenamiento & Validación & Test \\
 		\midrule
 		\rowcolor{black!20} $MLP_1$ & $64, 64$ & $10^5$ & $0.33$ & $0.33$ & $0.33$ \\
 		$MLP_2$ & $1024, 512, 128$  & $10^5$ & $0.33$ & $0.33$ & $0.33$ \\
@@ -184,26 +183,26 @@ La figura~\ref{fig:lc-mlp-accuracy-comparison} nos muestra la evolución de la p
 \begin{figure}
 	\centering
 	\small
-	\subfloat[Training y validación]{\includegraphics[width=.45\textwidth]{lc-mlp-acc-all-training-and-validation-detail}}\qquad
+	\subfloat[Entrenamiento y validación]{\includegraphics[width=.45\textwidth]{lc-mlp-acc-all-training-and-validation-detail}}\qquad
 	\subfloat[Test]{\includegraphics[width=.45\textwidth]{lc-mlp-acc-all-test-detail}}
-	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \ac{mlp}]{Comparación de las precisiones alcanzadas por los modelos de tipo \ac{mlp}.}
+	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \acrlongsp{mlp}]{Comparación de las precisiones alcanzadas por los modelos de tipo \acrlongsp{mlp}.}
 	\label{fig:lc-mlp-accuracy-comparison}
 \end{figure}
 
 Cada una de las redes se ha entrenado durante $10^5$ epochs. A la vista de los resultados, la capacidad de predicción de este tipo de redes con el conjunto de datos propuesto no supera el valor de predecir de forma aleatoria\sidenote{Los ejemplos le son propuestos de forma equiprobable, por lo que al ser $3$ clases, la probabilidad de acerta de manera aleatoria es de $\frac{1}{3}$.}, por lo que el uso de~\ac{mlp} aquí es descartado completamente.
 
-\section{Modelo \ac{cnn}}
+\section{Modelo basado en \acrlongplsp{cnn}}
 
 Las arquitecturas de los modelos que mejores resultado han arrojado tras las pruebas se describen en la tabla~\ref{tbl:lc-cnn-architectures}. La tasa de dropout utilizada en los entrenamientos ha sido de $0.1$.
 
 \begin{table*}
 	\centering
-	\caption[Resumen de las arquitecturas \ac{cnn} para el modelo longitudinal][15pt]{Resumen de las arquitecturas \ac{cnn} para el modelo longitudinal. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
+	\caption[Resumen de las arquitecturas de \acrlongplsp{cnn} para el modelo longitudinal][1.5em]{Resumen de las arquitecturas de \acrlongplsp{cnn} para el modelo longitudinal. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:lc-cnn-architectures}
 	\begin{tabular}{cccccc}
 		\toprule
 		\multirow{2}{*}{} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multicolumn{3}{c}{Precisión} \\
-		& & & Train & Validation & Test \\
+		& & & Entrenamiento & Validación & Test \\
 		\midrule
 		\rowcolor{black!20} $CNN_1$ & c16-4-18-v d128 & $10^5$ & $0.589$ & $0.576$ & $0.573$ \\
 		$CNN_2$ & c64-5-36-v, c256-3-5-v, d256-d128-d16                       & $10^6$ & $0.506$ & $0.531$ & $0.518$ \\
@@ -226,7 +225,7 @@ La decisión tomada ha sido entender estas variables (distancia circulable, dist
 \begin{figure}
 	\centering
 	\missingfigure[figheight=3cm]{Esquema donde se ve el flujo que siguen el deepmap y las variables dentro de la modificación de la red de convolución.}
-	\caption[Esquema de modificación de \ac{cnn} para incluír características no espaciales]{Esquema de modificación de \ac{cnn} para incluír características no espaciales. Las variables se separan al principio de la convolución para que éstas trabajen con las imágenes. Una vez este proceso se ha completado, las características de las imágenes y las variables de entrada separada se vuelven a continuar para continuar el flujo normal de funcionamiento.}
+	\caption[Esquema de modificación de \acrlongsp{cnn} para incluir características no espaciales]{Esquema de modificación de \acrlongsp{cnn} para incluír características no espaciales. Las variables se separan al principio de la convolución para que éstas trabajen con las imágenes. Una vez este proceso se ha completado, las características de las imágenes y las variables de entrada separada se vuelven a continuar para continuar el flujo normal de funcionamiento.}
 	\label{fig:modification-of-cnn-to-work-with-variables}
 \end{figure}
 
@@ -237,7 +236,7 @@ La última modificación es la de la aplicación de una tasa de aprendizaje adap
 \begin{figure}[t]
 	\centering
 	\missingfigure[figheight=3cm]{Esquema donde se vea o que hago con la imagen al alimentar de poner parte de la izquierda en la derecha y viceversa..}
-	\caption[Aumentación artificial de los extremos del mapa de profundidad]{Aumentación artificial de los extremos del mapa de profundidad. Para no perder información que puede ser relevante, los mapas se aumentan artificialmente al alimentar a la red, de tal manera que a los extremos izquierdo y derecho se les aumenta con parte de los extremos derecho e izquierdo con un número de píxeles igual a la mitad del tamaño horizontal del los filtros que los recorrerán.}
+	\caption[\textit{Padding} artificial en los extremos del mapa de profundidad]{\textit{Padding} artificial en los extremos del mapa de profundidad. Para no perder información que puede ser relevante, los mapas se aumentan artificialmente al alimentar a la red, de tal manera que a los extremos izquierdo y derecho se les aumenta con parte de los extremos derecho e izquierdo con un número de píxeles igual a la mitad del tamaño horizontal del los filtros que los recorrerán.}
 	\label{fig:deepmap-augmentation-in-cnn}
 \end{figure}
 
@@ -251,7 +250,7 @@ Donde $\alpha_i$ será la tasa de aprendizaje a aplicar en el \textit{epoch} $i$
 \begin{marginfigure}
 	\centering
 	\includegraphics[width=\textwidth]{lc-learning-rate-decay}
-	\caption[Gráfica de la tasa de aprendizaje adaptativo por epoch usada para entrenar \ac{cnn}]{Gráfica de la tasa de aprendizaje adaptativo por epoch usada para entrenar \ac{cnn}. En nuestros entrenamientos, los valores de los parámetros son $\alpha_{min} = 0.1$ y $\alpha_{max} = 0.001$ y $\alpha_d = 20000$.}
+	\caption[Gráfica de la tasa de aprendizaje adaptativo por epoch usada para entrenar \acrlongplsp{cnn}]{Gráfica de la tasa de aprendizaje adaptativo por epoch usada para entrenar \acrlongplsp{cnn}. En nuestros entrenamientos, los valores de los parámetros son $\alpha_{min} = 0.1$ y $\alpha_{max} = 0.001$ y $\alpha_d = 20000$.}
 	\label{fig:learning-rate-decay}
 \end{marginfigure}
 
@@ -261,9 +260,9 @@ La evolución de la precisión a lo largo del entrenamiento para las diferentes 
 
 \begin{figure}[b]
 	\centering
-	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-cnn-acc-all-training-and-validation-detail}}\qquad
-	\subfloat[]{\includegraphics[width=.45\textwidth]{lc-cnn-acc-all-test-detail}}
-	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \ac{mlp}]{Comparación de las precisiones alcanzadas por los modelos de tipo \ac{cnn}.}
+	\subfloat[Entrenamiento y validación]{\includegraphics[width=.45\textwidth]{lc-cnn-acc-all-training-and-validation-detail}}\qquad
+	\subfloat[Test]{\includegraphics[width=.45\textwidth]{lc-cnn-acc-all-test-detail}}
+	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \acrlongsp{cnn}]{Comparación de las precisiones alcanzadas por los modelos de tipo \acrlongsp{cnn}.}
 	\label{fig:lc-cnn-training-validation-test-comparison}
 \end{figure}
 
@@ -280,6 +279,6 @@ En la figura~\ref{fig:lc-cnn-model-confussion-matrix} se expone la matriz de con
 \begin{figure}
 	\centering
 	\includegraphics[width=.6\linewidth]{lc-cnn-model-confussion-matrix}
-	\caption[Matriz de confusión del conjunto de test para \ac{cnn}]{Matriz de confusión del conjunto de test para \ac{cnn}.}
+	\caption[Matriz de confusión del conjunto de test para el modelo $CNN_2$]{Matriz de confusión del conjunto de test para el modelo $CNN_2$.}
 	\label{fig:lc-cnn-model-confussion-matrix}
 \end{figure}
