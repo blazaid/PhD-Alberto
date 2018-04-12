@@ -64,7 +64,7 @@ El acceso a la información se realiza a través del puerto Ethernet. Para la ca
 
 \begin{marginfigure}
 	\includegraphics[width=\textwidth]{vlp-16}
-	\caption[\gls{lidar} modelo VLP-$16$ de empresa Velodyne]{El \ac{lidar} VLP-16 de Velodyne tiene un FOV horizontal de \SI{360}{\degree} y vertical de \SI{\pm15}{\degree}, permitiendo una captura de todo el entorno circundante a una frecuencia de hasta \SI{20}{\Hz}. Fuente: \url{http://velodynelidar.com/vlp-16.html}.}
+	\caption[\acrshort{lidar} modelo VLP-$16$ de empresa Velodyne]{El \acrshort{lidar} VLP-16 de Velodyne tiene un FOV horizontal de \SI{360}{\degree} y vertical de \SI{\pm15}{\degree}, permitiendo una captura de todo el entorno circundante a una frecuencia de hasta \SI{20}{\Hz}. Fuente: \url{http://velodynelidar.com/vlp-16.html}.}
 	\label{fig:vlp-16}
 \end{marginfigure}
 
@@ -92,7 +92,7 @@ De todos los mensajes disponibles, los recuperados son lo de los siguientes tipo
 
 De la captura de datos se encargará el paquete de \ac{ros} denominado \texttt{nmea\_navsat\_driver} \sidenote{\url{http://wiki.ros.org/nmea\_navsat\_driver}.} el cual leerá por el puerto USB la información originada en el \ac{gps}.
 
-\paragraph{Bus \acrfull{can}}
+\paragraph{Bus \Acrfull{can}}
 
 Un bus es una topología caracterizada por tener un único canal de comunicaciones donde los dispositivos se conectan, vierten la información y la reciben. El Bus \ac{can}, o simplemente \ac{can}, es un protocolo de comunicaciones basado en esta topología utilizado, entre otras muchas áreas, para la comunicación entre los diferentes dispositivos que componen un vehículo.
 
@@ -103,7 +103,7 @@ El estándar \ac{can} cubre únicamente las dos primeras capas del modelo \ac{os
 \begin{marginfigure}
 	\centering
 	\includegraphics[width=.35\textwidth]{laciwel-canusb}
-	\caption[Dispositivo \gls{can} BUS de LACIWEL AB]{El dispositivo CANBUS de LACIWEL AB permite el acceso a través del protocolo RS 232 por el puerto USB al bus \ac{can}. Fuente: \url{http://www.can232.com/}.}
+	\caption[Dispositivo \acrshort{can} BUS de LACIWEL AB]{El dispositivo CANBUS de LACIWEL AB permite el acceso a través del protocolo RS 232 por el puerto USB al bus \ac{can}. Fuente: \url{http://www.can232.com/}.}
 	\label{fig:laciwel-canusb}
 \end{marginfigure}
 
@@ -207,7 +207,7 @@ Tras obtener todas las variables principales, ya sean directamente de los sensor
 
 \begin{table}
 	\centering
-	\caption[Resumen de los indicadores obtenidos tras los recorridos]{Resumen de los indicadores obtenidos tras los recorridos. Éstos incluyen tanto la información extraída directamente como aquella que ha requerido proceso manual. La parte inferior de la tabla describe las variables a predecir en los problemas de modelo longitudinal y de cambio de carril. Las variables \enquote{Distancia circulable} en realidad es una tupla que indica las distancias circulables en los carriles izquierdo, actual y derecho.}
+	\caption[Resumen de los indicadores obtenidos en los recorridos del experimento]{Resumen de los indicadores obtenidos tras los recorridos. Éstos incluyen tanto la información extraída directamente como aquella que ha requerido proceso manual. La parte inferior de la tabla describe las variables a predecir en los problemas de modelo longitudinal y de cambio de carril. Las variables \enquote{Distancia circulable} en realidad es una tupla que indica las distancias circulables en los carriles izquierdo, actual y derecho.}
 	\label{tbl:main-variables}
 	\begin{tabular}{lcc}
 		\toprule

@@ -22,13 +22,6 @@ El verdadero potencial de \ac{ros} es su infraestructura de comunicación, basad
 
 Hay una serie de conceptos dentro de \ac{ros} que es necesario conocer para poder comprender de qué manera un sistema está construido. Estos son:
 
-\begin{figure*}[t]
-	\centering
-	\missingfigure[figheight=3cm]{Dibujito con cajitas y flechitas comunicando cositas con más cositas}
-	\caption{Descripción de los componentes de un sistema desarrollado para \ac{ros}.}
-	\label{fig:ros-architecture}
-\end{figure*}
-
 \begin{itemize}
 	\item \textbf{Nodo}. Es el componente principal de un sistema desarrollado sobre \ac{ros}. Los nodos tienen un funcionamiento en principio independiente de los demás, realizan las tareas para las que han sido programados, se comunican con componentes externos al sistema (e.g. hardware) y entre si a través de los mecanismos de comunicación ofrecidos por el \ac{framework}. \ac{ros} Proporciona un \ac{api} para facilitar el desarrollo de nodos en los lenguajes C/C++ y Python.
 	\item \textbf{Mensaje}. Es cada uno de los paquetes de información enviado entre nodos. Es una estructura de datos definida como tuplas de la forma (nombre, tipo) donde los tipos pueden ser o bien los básicos definidos por ros (e.g. valores enteros, de coma flotante, cadenas o timestamps) o bien valores compuestos como listas de tipos básicos u otros mensajes, permitiendo así la creación de mensajes complejos a partir de otros más simples.

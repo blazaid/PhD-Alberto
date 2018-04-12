@@ -76,7 +76,7 @@ Cada uno de los controladores se ha entrenado durante $250.000$ epochs. El proce
 	\subfloat[Distancia a siguiente semáforo]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-next-tls-distance-variable-partition}}\qquad
 	\subfloat[Velocidad]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-speed-variable-partition}}\qquad
 	\subfloat[Velocidad a líder]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-speed-to-leader-variable-partition}}
-	\caption[Particiones difusas después de la operación de ajuste en el modelo longitudinal basado en \ac{fcs}]{Particiones difusas despueés de la operación de ajuste en el modelo longitudinal basado en \ac{fcs}. Las funciones de pertenencia correspondientes al estado del semáforo no se incluyen ya que no se vieron modificadas en ningún entrenamiento. Después de todo, estas variables eran binarias, y las particiones difusas se inicializan de tal manera que dichos valores siempre alcanzan un valor de pertenencia $1$.}
+	\caption[Particiones difusas después de la operación de ajuste en el modelo longitudinal basado en \acrshort{fcs}]{Particiones difusas despueés de la operación de ajuste en el modelo longitudinal basado en \ac{fcs}. Las funciones de pertenencia correspondientes al estado del semáforo no se incluyen ya que no se vieron modificadas en ningún entrenamiento. Después de todo, estas variables eran binarias, y las particiones difusas se inicializan de tal manera que dichos valores siempre alcanzan un valor de pertenencia $1$.}
 	\label{fig:adjusted-fuzzy-partitions}
 \end{figure}
 
@@ -84,7 +84,7 @@ Cada uno de los controladores se ha entrenado durante $250.000$ epochs. El proce
 	\centering
 	\subfloat[Entrenamiento y validación]{\includegraphics[width=.45\textwidth]{lm-fcs-rmse-all-training-and-validation-detail}}\qquad
 	\subfloat[Test]{\includegraphics[width=.45\textwidth]{lm-fcs-rmse-all-test-detail}}
-	\caption[Evolución del error durante el entrenamiento en las arquitecturas de \ac{fcs} para el modelo longitudinal]{Visión en detalle de la evolución del error en los conjuntos de entrenamiento y validación (izquierda) y de test (derecha). Para cada arquitectura, el color más transparente se corresponde al error en el conjunto de validación. El error de test se muestra debido a que nos ofrece puede ofrecer intuición de qué forma aprende la red, pero su evolución no se ha considerado para determinar las arquitecturas.}
+	\caption[Evolución del error durante el entrenamiento en las arquitecturas de \acrshort{fcs} para el modelo longitudinal]{Visión en detalle de la evolución del error en los conjuntos de entrenamiento y validación (izquierda) y de test (derecha). Para cada arquitectura, el color más transparente se corresponde al error en el conjunto de validación. El error de test se muestra debido a que nos ofrece puede ofrecer intuición de qué forma aprende la red, pero su evolución no se ha considerado para determinar las arquitecturas.}
 	\label{fig:lm-fcs-rmse-all-comparisons}
 \end{figure}
 
@@ -137,7 +137,7 @@ Para determinar el modelo óptimo de \ac{mlp} en comportamiento longitudinal, se
 	\centering
 	\subfloat[Entrenamiento y validación]{\includegraphics[width=.45\textwidth]{lm-mlp-rmse-all-training-and-validation-detail}}\qquad
 	\subfloat[Test]{\includegraphics[width=.45\textwidth]{lm-mlp-rmse-all-test-detail}}
-	\caption[Evolución del error durante el entrenamiento en las arquitecturas de \ac{mlp} para el modelo longitudinal]{Visión en detalle de la evolución del error en los conjuntos de entrenamiento y validación (izquierda) y de test (derecha). Para cada arquitectura, el color más transparente se corresponde al error en el conjunto de validación. El error de test se muestra debido a que nos ofrece puede ofrecer intuición de qué forma aprende la red, pero su evolución no se ha considerado para determinar las arquitecturas.}
+	\caption[Evolución del error durante el entrenamiento en las arquitecturas de \acrshort{mlp} para el modelo longitudinal]{Visión en detalle de la evolución del error en los conjuntos de entrenamiento y validación (izquierda) y de test (derecha). Para cada arquitectura, el color más transparente se corresponde al error en el conjunto de validación. El error de test se muestra debido a que nos ofrece puede ofrecer intuición de qué forma aprende la red, pero su evolución no se ha considerado para determinar las arquitecturas.}
 	\label{fig:lm-mlp-rmse-all-comparisons}
 \end{figure}
 
