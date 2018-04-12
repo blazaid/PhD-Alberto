@@ -2228,6 +2228,10 @@ version={3.0},
 \setlength{\intextsep}{1.5em}%
 
 %%
+% To work with syllogisms
+\usepackage{logicproof}
+
+%%
 % To penalize more the use of hyphenation
 \hyphenpenalty=30
 

@@ -623,15 +623,17 @@ Las funciones de pertenencia caracterizan a los conjuntos difusos. Su notación 
 
 \begin{equation}
 	F = \{(x, \mu_F(x)) | x \in U\}
+	\label{eq:fuzzy-set-notation}
 \end{equation}
 
 Dos casos particulares de funciones de pertenencia son las funciones cuadradas (que son qeuivalente a conjuntos \textit{crisp)} y las funciones singleton (que el valor de pertenencia lo tiene un único valor en todo el dominio).
 
 \paragraph{Operaciones entre conjuntos}
 
-\begin{figure}[!b]
+\begin{figure}
 	\centering
-	\missingfigure[figheight=5cm]{Ilustración de 2 t-normas}
+	\subfloat[Mínimo]{\includegraphics[width=0.46\linewidth]{tnorm-minimum}}\qquad
+	\subfloat[Producto Algebráico]{\includegraphics[width=0.46\linewidth]{tnorm-algebraic-product}}
 	\caption[$t$-normas del mínimo y del producto algebraico.]{Las $t$-normas de mínimo y de producto algebraico son dos representantes de un conjunto muy amplio de funciones}
 	\label{fig:t-norms}
 \end{figure}
@@ -658,8 +660,9 @@ El complemento de un conjunto vendrá calculado a partir de la función de perte
 
 \begin{figure}[t]
 	\centering
-	\missingfigure[figheight=5cm]{Ilustración de 2 t-conormas}
-	\caption[$t$-normas del máximo y de la suma algebraica]{Las $t$-conormas de máximo y de suma algebraica son las complementarias a $t$-normas mostradas previamente, y como ocurre en estas, existen tantas $t$-conormas como $t$-normas definidas.}
+	\subfloat[Mínimo]{\includegraphics[width=0.46\linewidth]{snorm-maximum}}\qquad
+	\subfloat[Producto Algebráico]{\includegraphics[width=0.46\linewidth]{snorm-probabilistic-sum}}
+	\caption[$t$-normas del máximo y de la suma algebraica]{Las $t$-conormas de máximo y de suma probabilística son las complementarias a $t$-normas mostradas previamente, y como ocurre en estas, existen tantas $t$-conormas como $t$-normas definidas.}
 	\label{fig:t-conorms}
 \end{figure}
 
@@ -688,16 +691,30 @@ La implicación lógica $A \implies B$ es equivalente a $\lnot A \lor B$, pero e
 
 \paragraph{Modus Ponens Generalizado}
 
-Se trata de la extensión del método del \textbf{modus ponens} para obtener el valor de verdad de un consecuente a partir de un antecedente ambos difusos. En la Figura~\ref{fig:modus-ponens-classic-vs-generalized}
+Se trata de la extensión del método del \textbf{modus ponens} para obtener el valor de verdad de un consecuente a partir de un antecedente ambos difusos. En el modus ponens el esquema de razonamiento es el siguiente (ecuación~\ref{eq:modus-ponens}).
 
-\begin{figure}[!b]
-	\centering
-	\missingfigure[figheight=5cm]{Modus ponens vs modus ponens generalizado}
-	\caption[Diferencias entre \textit{modus ponens} clásico y \textit{modus ponens generalizado}]{Diferencias entre \textit{modus ponens} clásico y \textit{modus ponens generalizado}. Debido a que los valores de las reglas de inferencia difusa son conjuntos difusos, la conclusión de un silogismo es por tanto un conjunto difuso, no un valor absoluto de verdad o mentira.}
-	\label{fig:modus-ponens-classic-vs-generalized}
-\end{figure}
+\begin{logicproof}{1}
+	P(x) \to Q(x) \\
+	P(x)
+	\begin{subproof}
+		Q(x)
+	\end{subproof}
+	\label{eq:modus-ponens}
+\end{logicproof}
 
-La \textit{regla composicional de inferencia} es el método para determinar qué grado de asignamos aun consecuente a partir de las premisas de los antecedentes en un proceso de \textit{modus ponens generalizado}, o dicho de otro modo, cómo obtener la función de pertenencia del conjunto resultado a partir de las funciones de pertenencia de las premisas.
+Sin embargo, debido a que en lógica difusa los valores de las reglas de inferencia son conjuntos difusos, la conclusión de un silogismo no será la conclusión de la regla, sino algo aproximado a ella, como se ilustra en la ecuación~\ref{eq:generalized-modus-ponens}
+
+
+\begin{logicproof}{1}
+	P(x) \to Q(x) \\
+	P'(x)
+	\begin{subproof}
+		Q'(x)
+	\end{subproof}
+	\label{eq:generalized-modus-ponens}
+\end{logicproof}
+
+La \textit{regla composicional de inferencia} es el método para determinar qué grado de asignamos a un consecuente a partir de las premisas de los antecedentes en un proceso de \textit{modus ponens generalizado}, o dicho de otro modo, cómo obtener la función de pertenencia del conjunto resultado a partir de las funciones de pertenencia de las premisas.
 
 Cada regla de un sistema difuso de la forma \texttt{IF $x$ is $A$ THEN $y$ is $B$} se puede representar como una función $I$ tal que $I(\mu_A(x), \mu_B(y))$ (\textit{Regla Composicional de Zadeh}).
 
@@ -716,7 +733,7 @@ Este bloque recibe las entradas \textit{crisp} al sistema (los cuales pertenecer
 
 \begin{figure}[t]
 	\centering
-	\missingfigure[figheight=5cm]{Esquema de un sistema de control difuso}
+	\includegraphics{fuzzy-control-system}
 	\caption[Esquema de un \acrlongsp{fcs}]{Un \acrlongsp{fcs} es un componente compuesto por cuatro bloques principales: fuzzificador, bloque de reglas, razonador y defuzzificador.}
 	\label{fig:fuzzy-control-system}
 \end{figure}
@@ -731,7 +748,7 @@ Sin embargo, otra representación muy usada (sobre todo como representación int
 
 \begin{figure}[!b]
 	\centering
-	\missingfigure[figheight=5cm]{Figura bonica que represente una matriz de reglas difusas}
+	\includegraphics{intelligent-agent}
 	\caption[Matriz de representación de reglas difusas]{Un ejemplo de representación matricial de un conjunto de reglas difusas. Las reglas activas se simbolizan como un $1$ (o como un valor real en caso de querer aplicar pesos).}
 	\label{fig:fuzzy-controller-matrix-representation}
 \end{figure}
@@ -777,14 +794,7 @@ Es consecuente de un sistema de tipo \textit{Mamdani} es siempre un conjunto dif
 
 Este tipo de controlador difuso fue propuesto por Takagi, Sugeno y Kang en los trabajos [Fuzzy identification of systems and its applications to modeling and control, Structure identification of fuzzy model], aunque se suele abreviar a tipo Takagi-Sugeno o, directamente, Sugeno.
 
-En este tipo de controlador, el bloque de defuzzificación desaparece y los consecuentes de las reglas de inferencia son reemplazados por una función (normalmente un polinomio basado en los parámetros del antecedente) la cual nos devuelve directamente un valor \textit{crisp} (ver Figura~\ref{fig:sugeno-type}).
-
-\begin{figure}[!b]
-	\centering
-	\missingfigure[figheight=5cm]{Figura que represente un controlador de tipo Takagi-Sugeno}
-	\caption[Ejemplo de reglas en controlador Takagi-Sugeno]{En un controlador de tipo Takagi-Sugeno-Kang se prescinde del bloque de defuzzificación y los consecuentes de las reglas de inferencia son reemplazados por funciones. Por término general, estas funciones son polinomios.}
-	\label{fig:sugeno-type}
-\end{figure}
+En este tipo de controlador, el bloque de defuzzificación desaparece y los consecuentes de las reglas de inferencia son reemplazados por una función (normalmente un polinomio basado en los parámetros del antecedente) la cual nos devuelve directamente un valor \textit{crisp}.
 
 En función del orden del polinomio de la función de salida, el controlador recibe también el mismo orden. De esta manera, por ejemplo, si tenemos dos valores de entrada $x$ e $y$, cuando $f(x, y) = c$ ($c$ constante)se dice que el controlador es de orden $0$. Si $f(x, y) = ax + by + c$, se dice que es de orden $1$, y así sucesivamente\sidenote{
 	Los controladores de tipo Takagi-Sugeno-Kang de orden $0$ son equivalentes a controladores de tipo Mamdani cuyos conjuntos difusos de salida son de tipo singleton.
@@ -801,7 +811,7 @@ Este concepto es una metáfora denominada \textbf{agente}\sidenote{
 	En \cite{russell2003artificial} se define como \textit{\enquote{\ldots just something that acts}} alegando que la palabra \textit{agent} proviene del latín \textit{agere}. Para clarificar esto, \textit{agere} es la forma verbal para \textit{hacer}, pero imprime un significado de movimiento/actividad diferente que no tiene mucho que ver con \textit{hacer} como forma verbal para \textit{crear} o \textit{dar forma} (de lo que se ocupa el verbo \textit{facere}). Por ello, el verbo \textit{actuar} es un verbo que se relaciona con \textit{agere} y de ahí la definición.
 } en el campo de la \ac{ai}, pero que se ha extendido a lo largo de todo el área de la computación, especialmente en las áreas de los sistemas distribuidos o de las simulaciones basadas en sistemas multiagentes.
 
-Es difícil encontrar un consenso en la definición de agente, y más todavía cuando entra en juego el adjetivo \textit{inteligente}. Sin embargo, sí existen una serie de características que coínciden dentro de la literatura que exponemos a continuación (ver Figura~\ref{fig:agent-properties}):
+Es difícil encontrar un consenso en la definición de agente, y más todavía cuando entra en juego el adjetivo \textit{inteligente}. Sin embargo, sí existen una serie de características que coinciden dentro de la literatura que exponemos a continuación:
 
 \begin{itemize}
 	\item Operan siempre en un \textbf{entorno}, ya sea éste físico (e.g. una red de carreteras para un vehículo autónomo) o virtual (e.g. un cliente de correo electrónico para un clasificador de spam).
@@ -836,11 +846,11 @@ Afortunadamente es posible caracterizar los entornos de acuerdo a un conjunto de
 		En general, los entornos del mundo real tienden a ser tan complejos que es imposible para un agente abarcar todos los aspectos medibles de éste. Por lo tanto, sea o no la naturaleza del entorno determinista, en general se suele suponer éste como no determinista.
 	}.
 
-\begin{figure}[t]
-	\includegraphics{agent-properties}
-	\caption[Esquema de agente y sus propiedades]{Esquema de un agente y sus propiedades. Aunque no existe una definición comúnmente aceptada de agente, sí que existe una serie de propiedades que los que los identifican. Es autónomo, opera realiza acciones sobre un entorno dependiendo de las percepciones que le llegan de éste y tiene la capacidad de comunicarse con el resto de elementos, incluídos otros agentes.\TODO{CAMBIAR LA IMAGEN Y VER CÓMO SE PUEDE INCLUIR EL CONCEPTO DE COLABORACIÓN}}
-	\label{fig:agent-properties}
-\end{figure}
+\begin{marginfigure}
+	\includegraphics{intelligent-agent}
+	\caption[Esquema general de un agente]{Aunque no existe una definición comúnmente aceptada de agente, sí que existe una serie de propiedades que los que los identifican. Es autónomo y realiza acciones sobre un entorno, el cual puede incluir otros agentes.}
+	\label{fig:intelligent-agent}
+\end{marginfigure}
 
 	\item \textbf{Episódico o. secuencial}. Un entorno en el que las acciones se dividen atómicamente donde cada una de ellas conlleva un ciclo de (percepción, decisión, acción) y sin relación una con otra se denomina episódico. Si en lugar de ello la acción del agente puede afectar a las decisiones futuras se dice que el entorno es \textbf{no episódico} o \textbf{secuencial}.
 	\item \textbf{Estático o. dinámico}. Si durante la toma de decisioń en entorno no cambia, se dice que el entorno es \textbf{estático}. En caso contrario, se dice que es \textbf{dinámico}.
@@ -854,35 +864,23 @@ Afortunadamente es posible caracterizar los entornos de acuerdo a un conjunto de
 
 Existe una serie de arquitecturas básicas o tipos de agentes que dependen principalmente de cómo perciben el entorno y de qué forma se comportan aunque, dependiendo de los autores, las nomenclaturas, tipologías y esquemas pueden variar. Por ello, hemos decidido ofrecer una abstracción donde poner de manifiesto las partes comunes y no comunes entre arquitecturas.
 
-\begin{figure}[!b]
-	\missingfigure[figheight=3.5cm]{Arquitectura básica de un agente}
-	\caption[Arquitectura básica de un agente]{Arquitectura básica de un agente. Aunque existen múltiples arquitecturas diferentes, todas se basan en la misma estructura. El agente percibe el entorno, lo interpreta y toma la decisión de cómo actuar sobre él.}
-	\label{fig:agent-basic-architecture}
-\end{figure}
-
-La figura~\ref{fig:agent-basic-architecture} muestra el esquema de las partes principales de un agente. En general, todo arquitectura de agente inteligente está cortada por el mismo patrón y obedece al siguiente funcionamiento:
+La Figura~\ref{fig:intelligent-agent} muestra el esquema de las partes principales de un agente. En general, todo arquitectura de agente inteligente está cortada por el mismo patrón y obedece al siguiente funcionamiento:
 
 \begin{enumerate}
-	\item El agente, a través de sus \textbf{sensores}, percibe el entorno en el que éste se mueve.
-	\item De acuerdo a cómo recordamos el entorno (llamémoslo \textbf{modelo del entorno}), el agente genera una \textbf{interpretación del entorno} tal y como supone el agente que es. Esto es, percibe el entorno y, de acuerdo a sus sensaciones, lo entiende de una determinada forma.
+	\item El agente, a través de sus \textbf{sensores}, percibe el entorno que el que se encuentra inmerso.
+	\item Genera una \textbf{interpretación del entorno} tal y como supone el agente que es, es decir, percibe el entorno y, de acuerdo a sus sensaciones, lo entiende de una determinada forma.
 	\item Esta interpretación del entorno es pasada a un proceso de \textbf{inferencia} el cual, en función la implementación para la consecución de sus objetivos, generará una serie de acciones a realizar sobre el entorno.
 	\item Estas acciones serán ejecutadas sobre el entorno a través de una serie de \textbf{actuadores}, provocando probablemente una modificación en éste que será percibida de nuevo en momentos sucesivos.
 \end{enumerate}
 
-La primera diferencia clave surge en la manera que se ofrece al bloque de inferencia la interpretación del entorno y genera la primera clasificación (figura~\ref{fig:memory-vs-amnesia-in-agents}):
+La primera diferencia clave surge en la manera que se ofrece al bloque de inferencia la interpretación del entorno y genera la primera clasificación:
 
 \begin{itemize}
 	\item \textbf{Sin modelo de entorno}. Si el agente ofrece su interpretación del entorno directamente, sin hacer uso de información histórica sobre el entorno que se ha movido. Otras formas de denominar a estos agentes es como \textit{agentes reactivos} o \textit{simple-reflex agents} (\cite{russell2003artificial}). Sin embargo, los términos \textit{reactivo} o \textit{reflex} para algunos autores se refieren a la forma de inducción de acciones a partir de percepciones, y por ello preferimos la denominación \textit{sin modelo de entorno}.
 	\item \textbf{Con modelo de entorno}. El agente genera su interpretación más detallada del entorno a partir de las percepciones que llegan desde los sensores y de el histórico del entorno que mantiene. Otras formas de llamarlo es \textit{agentes con estado} o \textit{Model-based}, pero lo hemos denominado de esta manera para diferenciar que el modelo que se mantiene en este punto pertenece únicamente al entorno.
 \end{itemize}
 
-\begin{figure}[t]
-	\missingfigure[figheight=3.5cm]{Arquitectura básica de un agente}
-	\caption[Diferencias entre un agente sin y con modelo de entorno]{Ilustración de la diferencia entre un agente sin modelo de entorno y uno con modelo de entorno. Cada acción realizada por el agente con modelo de entorno tiene en cuenta el estado del entorno en momentos pasados. El agente sin modelo de entorno actúa tal y como interpreta el entorno en cada momento, como si sufriese de amnesia.}
-	\label{fig:memory-vs-amnesia-in-agents}
-\end{figure}
-
-La siguiente clasificación viene motivada por la forma de deducir el conjunto de acciones a ser aplicadas por parte de los sensores. En este sentido podemos identificar tres tipos distintos de agentes (figura\ref{fig:agent-types}):
+La siguiente clasificación viene motivada por la forma de deducir el conjunto de acciones a ser aplicadas por parte de los sensores. En este sentido podemos identificar tres tipos distintos de agentes (Figura\ref{fig:agent-types}):
 
 \begin{itemize}
 	\item \textbf{Reactivos}. Son aquellos donde el uso de un proceso de razonamiento explícito es demasiado costoso para producir una conducta en un tiempo aceptable. Se suelen implementar como correspondencias (percepción $\rightarrow$ acción) sin ningún razonamiento adicional.
@@ -890,9 +888,9 @@ La siguiente clasificación viene motivada por la forma de deducir el conjunto d
 	\item \textbf{Basados en utilidad}. Éstos plantean una deducción similar a los basados en objetivos con la diferencia de que, mientras los primeros sólo diferencian entre entorno objetivo o no objetivo, éstos asignan un valor (i.e. \textit{utilidad}) a cada uno de los escenarios de entorno posibles para seleccionar el mejor (e.g. el que mayor utilidad tiene).
 \end{itemize}
 
-En la literatura se describen muchos tipos de agente, como por ejemplo los agentes BDI (Believe-Desire-Intention) o los agentes lógicos (i.e. el entorno se representa con reglas lógicas y se infiere mediante métodos como por ejemplo deducción lógica o prueba de teoremas). Sin embargo, éstos pueden definirse en los términos aquí expuestos (figuras~\ref{fig:agent-basic-architecture}, \ref{fig:memory-vs-amnesia-in-agents} y \ref{fig:agent-types}). 
+En la literatura se describen muchos tipos de agente, como por ejemplo los agentes BDI (Believe-Desire-Intention) o los agentes lógicos (i.e. el entorno se representa con reglas lógicas y se infiere mediante métodos como por ejemplo deducción lógica o prueba de teoremas). Sin embargo, éstos pueden definirse en los términos aquí expuestos. 
 
-\subsection{\gls{mas}}
+\subsection{\Acrlongpl{mas}}
 
 Son aquellos sistemas compuestos de dos o más agentes que interactúan de alguna manera para llegar a una solución.
 
@@ -917,8 +915,8 @@ Desde el punto de vista de la ingeniería de sistemas, y a pesar del aumento de 
 Desde el punto de vista de la \gls{ai} podemos añadirles la ventaja de que permiten el estudio de conductas complejas de poblaciones a partir del comportamiento de sus elementos básicos, facilitando el estudio de modelosy de teorías sobre éstos.
 
 \begin{figure}
-	\missingfigure[figheight=3.5cm]{Una ilustración de algún entorno de vida artificial donde los agentes compiten y uno de algo donde cooperen}
-	\caption[Diferencias entre colaboración y competitividad con agentes]{La comunicación entre agentes puede ser de dos tipos: \textit{colaborativa}, donde los agentes tratan de llegar a una solución intercambiándose información y \textit{competitiva}, donde los agentes compiten unos contra otros en un entorno.}
+	\includegraphics{agent-types}
+	\caption[Agentes colaborativos vs. competitivos]{La comunicación entre agentes puede ser de dos tipos: \textit{colaborativa}, donde los agentes tratan de llegar a una solución intercambiándose información y \textit{competitiva}, donde los agentes compiten unos contra otros en un entorno.}
 	\label{fig:communication-between-agents-in-mass}
 \end{figure}
 
