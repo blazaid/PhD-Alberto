@@ -31,6 +31,13 @@ Limitaremos nuestro estudio a los simuladores de \glspl{dvu}, obviando otros tip
 
 Los aspectos simulables y medibles del problema del tráfico son muy diversos, dependiendo sobre todo:
 
+\begin{figure}[t]
+	\centering
+	\includegraphics{how-to-simulate-traffic}
+	\caption[Aspectos medibles del tráfico]{Los aspectos medibles del problema del tráfico son muy diversos, y dependen del nivel de granularidad (i.e. complejidad) al que se quiere llegar, de qué queremos medir y de cómo lo queremos hacer.}
+	\label{fig:how-to-simulate-traffic}
+\end{figure}
+
 \begin{itemize}
 	\item Del nivel de \textbf{complejidad} del tráfico (e.g. modelar una vía por la que circula un centenar de coches no es lo mismo que modelar una ciudad por la que circulan millones).
 	\item De \textbf{qué} queremos medir (e.g. evaluar a un conductor en una situación determinada o evaluar la evolución del flujo de tráfico en un cuello de botella causado por un accidente).
@@ -42,53 +49,6 @@ El resto de la sección ofrece una visión de las principales categorías existe
 \subsection{Tipos de simulador en función de la complejidad}
 
 La complejidad en una simulación se refiere al nivel de detalle que queremos alcanzar durante la ejecución de la misma y/o en sus resultados. Es evidente que según aumentamos el detalle en la simulación aumenta la cantidad de cálculo. Por ejemplo, si queremos modelar el comportamiento de $10$ billones de canicas cayendo por un tubo es considerablemente más eficiente modelarlas como un fluido con una serie de parámetros que como una colección de elementos individuales, cada uno con sus propiedades (e.g. masa, aceleración, \ldots) e interaccionando entre sí.
-
-\begin{figure*}[t]
-	\centering
-	\begin{tikzpicture}[
-	every node/.style = {draw, rounded corners=3pt, semithick},
-	ROOT/.style = {fill=blue!30, inner sep=2mm, font=\bfseries},
-	L2/.style = {fill=orange!30},
-	L3/.style = {
-		fill=green!30,
-		grow=down,
-		xshift=0.5em,
-		anchor=west, 
-		edge from parent path={
-			(\tikzparentnode.south) |- (\tikzchildnode.west)
-		}
-	},
-	edge from parent/.style = {draw, thick},
-	LD1/.style = {level distance=5ex},
-	LD2/.style = {level distance=10ex},
-	LD3/.style = {level distance=15ex},
-	LD4/.style = {level distance=20ex},
-	level 1/.style = {sibling distance=40mm}
-	]
-	\node[ROOT] {Aspectos medibles}
-	[edge from parent fork down]
-	child{node[L2] {Complejidad}
-		child[L3,LD1] {node[L3] {micro}}
-		child[L3,LD2] {node[L3] {macro}}
-		child[L3,LD3] {node[L3] {meso}}
-		child[L3,LD4] {node[L3] {\ldots}}
-	}
-	child{node[L2] {¿Qué medir?}
-		child[L3,LD1] {node[L3] {vehículos}}
-		child[L3,LD2] {node[L3] {flujo en vía}}
-		child[L3,LD3] {node[L3] {componentes}}
-		child[L3,LD4] {node[L3] {\ldots}}
-	}
-	child {node[L2] {¿Cómo medir?}
-		child[L3,LD1] {node[L3] {\glsentrylongplsp{mas}}}
-		child[L3,LD2] {node[L3] {\glsentrylongplsp{ca}}}
-		child[L3,LD3] {node[L3] {Ecuaciones diferenciales}}
-		child[L3,LD4] {node[L3] {\ldots}}
-	};
-	\end{tikzpicture}
-	\caption[Aspectos medibles del tráfico]{Los aspectos medibles del problema del tráfico son muy diversos, y dependen del nivel de granularidad (i.e. complejidad) al que se quiere llegar, de qué queremos medir y de cómo lo queremos hacer.}
-	\label{fig:how-to-simulate-traffic}
-\end{figure*}
 
 El caso de los simuladores de tráfico es similar. En éstos existe un amplio intervalo de granularidades, desde por ejemplo el flujo de entrada en una autovía hasta el consumo de carburante de un vehículo en ciudad. Lo más común es clasificar los simuladores dentro de dos grandes grupos, los cuales se ilustran en la figura~\ref{fig:granularities-in-traffic-simulation}:
 
@@ -109,13 +69,6 @@ El caso de los simuladores de tráfico es similar. En éstos existe un amplio in
 Aunque ésta es la categorización típica de modelos, en la literatura aparecen otros tipos de modelo con granularidades que pueden considerarse no pertenecientes a ninguno de estos dos conjuntos. Éste es el caso de los simuladores de tipo \textbf{sub-micro} y de tipo \textbf{meso}, de los cuales se muestra un ejemplo en la figura~\ref{fig:mesoscopic-and-submicroscopic-simulation}.
 
 Los \textbf{sub-micromodelos} especifican granularidades por debajo del nivel de \enquote{vehículo} o \enquote{peatón}. Por ejemplo, en (\cite{Minderhoud1999}) trabaja a nivel de funcionamiento del control de crucero inteligente de un vehículo en función del entorno del vehículo.
-
-\begin{figure}
-	\centering
-	\includegraphics[width=10cm, height=3.4cm]{mesoscopic-and-submicroscopic-simulation}
-	\caption[Alternativas a la clasificación por granularidad]{Otras aproximaciones alternativas de modelos en función de la complejidad. Ejemplo de mesosimulación como ventana de microsimulación dentro de un flujo de tráfico en un macrosimulador (e.g. \cite{munoz2001integrated}) y ejemplo de submicrosimulación donde se modelan componentes internos de un vehículo.}
-	\label{fig:mesoscopic-and-submicroscopic-simulation}
-\end{figure}
 
 Por otro lado los \textbf{mesosimuladores} (e.g.~\cite{munoz2001integrated} o \cite{casas2011need}) nacen para amortiguar los problemas inherentes a la complejidad en los micromodelos y a la falta de resolución en los macromodelos.
 
@@ -163,16 +116,16 @@ Existe un tercer punto de vista a la hora de implementar este tipo de modelos, q
 
 \subsection{Microsimulación basada en \glsentrylongplsp{ca}}
 
+Un \ac{ca} es una colección ordenada de celdas (\textit{células}) ordenadas en un espacio $n$-dimensional que parcelan el universo de estudio. Cada una de ellas se encuentra en un estado (e.g. contiene un valor numérico), y el estado de toda la malla se actualiza de manera síncrona\sidenote{
+	Existen arquitecturas diseñadas para operar de esta manera, esto es, arquitecturas basadas en \gls{ca} (e.g.~\cite{Margolus1993}). En ellas, cada ciclo de reloj actualiza todas las celdas de memoria del autómata. Éstas arquitecturas se suelen usar para la implementación de modelos físicos superando en varios órdenes de magnitud la capacidad computacional de las arquitecturas tradicionales.
+} (i.e., todas a la vez) en intervalos regulares de tiempo denominados \textit{ciclos}. El cambio de estado de cada célula depende de los valores de las células vecinas y del mismo algoritmo de modificación al que responden todas y cada una de las células.
+
 \begin{figure}[t]
 	\centering
 	\includegraphics{nagel-schreck}
 	\caption[Ejemplo de efecto de ondas de choque en simulación de tipo Nagel-Scherckenberg]{Aparición de retenciones en una autopista de $250$ celdas usando el modelo Nagel-Scherckenberg. La densidad de ocupación es de $50$ coches en la vía, la velocidad máxima es de $5 c/\Delta t$ y la probabilidad de frenada es de $p = 0.5$. Se puede observar en la figura cómo se desplazan las \enquote{olas} del atasco a lo largo de las $100$ iteraciones.}
 	\label{fig:nagel-schreck}
 \end{figure}
-
-Un \ac{ca} es una colección ordenada de celdas (\textit{células}) ordenadas en un espacio $n$-dimensional que parcelan el universo de estudio. Cada una de ellas se encuentra en un estado (e.g. contiene un valor numérico), y el estado de toda la malla se actualiza de manera síncrona\sidenote{
-	Existen arquitecturas diseñadas para operar de esta manera, esto es, arquitecturas basadas en \gls{ca} (e.g.~\cite{Margolus1993}). En ellas, cada ciclo de reloj actualiza todas las celdas de memoria del autómata. Éstas arquitecturas se suelen usar para la implementación de modelos físicos superando en varios órdenes de magnitud la capacidad computacional de las arquitecturas tradicionales.
-} (i.e., todas a la vez) en intervalos regulares de tiempo denominados \textit{ciclos}. El cambio de estado de cada célula depende de los valores de las células vecinas y del mismo algoritmo de modificación al que responden todas y cada una de las células.
 
 \marginnote{
 	\textbf{El modelo Nagel-Scherckenberg} es un \glsentrylongsp{ca} que basa su funcionamiento en los siguientes aspectos:
@@ -230,48 +183,12 @@ Aunque en un principio se ha valorado el desarrollo de una solución propia, la 
 
 Para elegir el mejor simulador que se adapte a nuestras necesidades se ha realizado un listado de características obligatorias y, de este modo, realizar una primera criba eliminando simuladores no aptos (resumidos en la figura~\ref{fig:simulator-features}):
 
-\begin{figure}[t]
+\begin{marginfigure}
 	\centering
-	\begin{tikzpicture}[
-	every node/.style = {draw, rounded corners=3pt, semithick},
-	ROOT/.style = {fill=blue!30, inner sep=2mm, font=\bfseries},
-	L2/.style = {fill=orange!30},
-	L3/.style = {
-		fill=green!30,
-		grow=down,
-		xshift=0.5em,
-		anchor=west, 
-		edge from parent path={
-			(\tikzparentnode.south) |- (\tikzchildnode.west)
-		}
-	},
-	edge from parent/.style = {draw, thick},
-	LD1/.style = {level distance=5ex},
-	LD2/.style = {level distance=10ex},
-	LD3/.style = {level distance=15ex},
-	LD4/.style = {level distance=20ex},
-	LD5/.style = {level distance=25ex},
-	level 1/.style = {sibling distance=45mm}
-	]
-	\node[ROOT] {Características}
-	[edge from parent fork down]
-	child{node[L2] {Obligatorias}
-		child[L3,LD1] {node[L3] {Tipo de simulador}}
-		child[L3,LD2] {node[L3] {Modelo de simulación}}
-		child[L3,LD3] {node[L3] {Entorno de simulación}}
-		child[L3,LD4] {node[L3] {Extensibilidad}}
-		child[L3,LD5] {node[L3] {Sistema operativo (GNU/Linux)}}
-	}
-	child {node[L2] {Opcionales}
-		child[L3,LD1] {node[L3] {Activo}}
-		child[L3,LD2] {node[L3] {Lenguaje de programación}}
-		child[L3,LD3] {node[L3] {Licencia}}
-		child[L3,LD4] {node[L3] {Sistema operativo (OS-X)}}
-	};
-	\end{tikzpicture}
+	\includegraphics{simulator-features}
 	\caption[Características obligatorias y deseables del simulador a elegir]{Características obligatorias y deseables del simulador donde implementar nuestros modelos personalizados de conductor.}
 	\label{fig:simulator-features}
-\end{figure}
+\end{marginfigure}
 
 \begin{enumerate}
 	\item \textbf{Tipo de simulador}. Para nuestras necesidades es necesario un simulador que implemente \textbf{microsimulación}, ya que es el único tipo de granularidad que permite evaluar el comportamiento de un conductor independientemente del resto de la simulación. Además, debido a la forma en la que se recolectan los datos, es necesario que represente un \textbf{espacio continuo} y una dimensión de \textbf{tiempo discreto} con una resolución de al menos $1$ segundo.
@@ -365,34 +282,6 @@ Al estar licenciado bajo la licencia \gls{gpl}, su distribución implica a su ve
 
 Como protocolo, la interacción a través de cliente/servidor comienza especificando a \gls{sumo} que se desea trabajar de este modo. En ese momento, \gls{sumo} se inicializa en modo servidor dejando abierto un puerto TCP para la conexión del cliente (figura~\ref{fig:traci-messages} \subref{fig:traci-messages-a}).
 
-\begin{figure}[t]
-	\centering
-	\begin{tikzpicture}[
-		node distance=3pt,
-		blueb/.style={
-			draw=white,
-			fill=blue,
-			rounded corners,
-			text width=2.5cm,
-			font={\sffamily\bfseries\color{white}},
-			align=center,
-			text height=12pt,
-			text depth=9pt},
-		greenb/.style={blueb,fill=green},
-	]
-		\node[greenb,fill=orange,text width=7.5cm+44pt] (sumo-traffic-simulation-suite) {SUMO Traffic Simulation Suite};
-		\node[blueb,below=of sumo-traffic-simulation-suite,text width=7.5cm+26pt] (traffic-control-interface) {TraCI Traffic Control Interface};
-		\node[blueb,below=of traffic-control-interface,text width=7.5cm+26pt] (web-service) {Servicios Web};
-		\node[blueb, fill=orange, below=of web-service] (python-client) {Cliente Python};
-		\node[blueb, fill=orange, left=of python-client]
-			(java-client) {Cliente Java};
-		\node[blueb, fill=orange, right=of python-client]
-			(other-clients) {Otros clientes};
-	\end{tikzpicture}
-	\caption[Arquitectura de la plataforma \gls{traas}]{Concepto arquitectural de la plataforma \gls{traas}. La plataforma se conecta como cliente a \gls{sumo} y ofrece un \glsentryshort{api} basado en \glsentryshort{soap} de mensajes que traduce en mensajes del protocolo \gls{traci}, lo que independiza completamente la elección de lenguaje de programación a la vez que abstrae los detalles del protocolo de comunicación.}
-	\label{fig:traas}
-\end{figure}
-
 Una vez el servidor se encuentra en ese estado, el cliente se conecta enviando una señal de conexión indicando que él se encargará de controlar la simulación. Desde ese momento y hasta que el cliente no envíe una señal de desconexión (figura~\ref{fig:traci-messages} \subref{fig:traci-messages-c}), el cliente podrá enviar y recibir todos los mensajes que desee para capturar información y modificar los detalles de la simulación, incluido el mensaje \textit{step}, que es el encargado de avanzar un paso en la simulación (figura~\ref{fig:traci-messages} \subref{fig:traci-messages-b}).
 
 Como librería, \gls{traci} es un módulo desarrollado en \mbox{Python} $2$.$7$. Aunque es posible trabajar directamente con el protocolo de comunicación a través de sockets, una librería abstrae todos los detalles dando una interfaz de trabajo más clara y sencilla. Por ello, aunque no se usarán en la tesis, existen otras dos implementaciones que merece la pena mencionar:
@@ -401,3 +290,31 @@ Como librería, \gls{traci} es un módulo desarrollado en \mbox{Python} $2$.$7$.
 	\item \textbf{TraCI4J}\sidenote{\url{https://github.com/egueli/TraCI4J}.}. El homólogo de la librería de abstracción de Python pero para el lenguaje Java. Está desarrollada por un tercero.
 	\item \textbf{TrasS}\sidenote{\url{http://traas.sourceforge.net/cms/}.}. Una plataforma ofrecida como SaaS que proporciona una interfaz de servicios web bajo protocolo SOAP para abstraer el protocolo en mensajes HTTP (figura~\ref{fig:traas}).
 \end{itemize}
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}[
+	node distance=3pt,
+	blueb/.style={
+		draw=white,
+		fill=blue,
+		rounded corners,
+		text width=2.5cm,
+		font={\sffamily\bfseries\color{white}},
+		align=center,
+		text height=12pt,
+		text depth=9pt},
+	greenb/.style={blueb,fill=green},
+	]
+	\node[greenb,fill=orange,text width=7.5cm+44pt] (sumo-traffic-simulation-suite) {SUMO Traffic Simulation Suite};
+	\node[blueb,below=of sumo-traffic-simulation-suite,text width=7.5cm+26pt] (traffic-control-interface) {TraCI Traffic Control Interface};
+	\node[blueb,below=of traffic-control-interface,text width=7.5cm+26pt] (web-service) {Servicios Web};
+	\node[blueb, fill=orange, below=of web-service] (python-client) {Cliente Python};
+	\node[blueb, fill=orange, left=of python-client]
+	(java-client) {Cliente Java};
+	\node[blueb, fill=orange, right=of python-client]
+	(other-clients) {Otros clientes};
+	\end{tikzpicture}
+	\caption[Arquitectura de la plataforma \gls{traas}]{Concepto arquitectural de la plataforma \gls{traas}. La plataforma se conecta como cliente a \gls{sumo} y ofrece un \glsentryshort{api} basado en \glsentryshort{soap} de mensajes que traduce en mensajes del protocolo \gls{traci}, lo que independiza completamente la elección de lenguaje de programación a la vez que abstrae los detalles del protocolo de comunicación.}
+	\label{fig:traas}
+\end{figure}

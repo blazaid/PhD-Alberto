@@ -22,7 +22,7 @@ Internamente, el modelo estará separado en los dos modelos básicos, el modelo 
 
 \begin{figure}
 	\centering
-	\missingfigure[figheight=5cm]{Esquema general del modelo de conductor}
+	\includegraphics{driver-model}
 	\caption[Esquema general del modelo de conductor planteado]{Esquema general del modelo de conductor planteado en la tesis. En éste se puede ver cómo se distribuyen los estímulos de entrada entre los diferentes componentes del modelo y las salidas del sistema, que irán conectadas a los actuadores pertinentes.}
 	\label{fig:overall-driver-model-schema}
 \end{figure}
@@ -44,7 +44,8 @@ Se ha hecho uso de un vehículo instrumentado con sensores para capturar la mayo
 Todos los dispositivos se conectan a un ordenador con sistema operativo GNU/Linux sobre Intel i7-7500U CPU con 16GB de memoria RAM. Al ser éstos dispositivos con capacidades diferentes, se ha optado por la creación de una aplicación basada en el framework ROS del cual se da una breve visión general en el apéndice~\ref{ch:ros-overview}.
 
 \begin{figure}[t]
-	\includegraphics{instrumented-imiev}
+	\centering
+	\includegraphics[width=0.8\textwidth]{instrumented-imiev}
 	\caption[Vehículo instrumentado utilizado en los ensayos]{El vehículo utilizado en los ensayos realizados. Se trata de un Mitsubishi iMiEV instrumentado con un \acrshort{lidar} anclado en la baca superior, un GPS anclado en el techo, un puerto de acceso directo al Bus CAN y una cámara Microsoft Kinect tras el espejo retrovisor.}
 	\label{fig:instrumented-imievschema}
 \end{figure}
@@ -133,9 +134,9 @@ $R_1$ tiene una duración de recorrido estimada de \SI{30}{\minute} y se utiliza
 
 \begin{figure}[t]
 	\centering
-	\subfloat[]{\includegraphics[width=.45\textwidth]{route-1}}\qquad
-	\subfloat[]{\includegraphics[width=.45\textwidth]{route-2}}
-	\caption[Los dos recorridos planteados para la captura de datos de conducción]{Los dos recorridos realizados para la captura de datos de conducción, ambos en entorno urbano. (a) $R_1$ tiene una duración estimada de \SI{30}{\minute} y sirve para la captura de los datos de entrenamiento. (b) $R_2$ tiene una duración estimada de \SI{15}{\minute} y sus datos serán utilizdos para los conjuntos de test.\TODO{Poner la ruta de verdad}}
+	\subfloat[Ruta $R_1$]{\includegraphics[width=.45\textwidth]{route-1}}\qquad
+	\subfloat[Ruta $R_2$]{\includegraphics[width=.45\textwidth]{route-2}}
+	\caption[Los dos recorridos planteados para la captura de datos de conducción]{Los dos recorridos realizados para la captura de datos de conducción, ambos en entorno urbano. (a) $R_1$ tiene una duración estimada de \SI{30}{\minute} y sirve para la captura de los datos de entrenamiento. (b) $R_2$ tiene una duración estimada de \SI{15}{\minute} y sus datos serán utilizdos para los conjuntos de test.}
 	\label{fig:proposed-routes}
 \end{figure}
 

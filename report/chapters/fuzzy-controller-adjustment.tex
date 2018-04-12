@@ -66,16 +66,7 @@ El grafo computacional asociado a este bloque tomará una matrix bidimensional d
 	\label{fig:input-to-fuzzy-input}
 \end{figure*}
 
-Para ello, se le aplicará a cada columna de la matriz de entrada tantas operaciones (funciones de pertenencia) como conjuntos difusos posea. Concretamente se aplicarán operaciones de línea descendente, trapezoidal y ascendente. En la Figura~\ref{fig:membership-functions} se ilustran las tres funciones de pertenencia junto con las variables que determinan su funcionamiento
-
-\begin{figure*}
-	\centering
-	\subfloat[Línea descendente]{\missingfigure[figwidth=0.29\linewidth]{Line desc}}\qquad
-	\subfloat[Trapezoide]{\missingfigure[figwidth=0.29\linewidth]{Trapz}}\qquad
-	\subfloat[Línea ascendente]{\missingfigure[figwidth=0.29\linewidth]{Line asc}}
-	\caption[Funciones de pertenencia definidas como posición y desplazamientos][1.5em]{Las funciones de pertenencia (a) línea descendente, (b) trapezoidal y (c) línea ascendente. Éstas se definen como un punto de inicio seguido de tantos desplazamientos como sea necesario.}
-	\label{fig:membership-functions}
-\end{figure*}
+Para ello, se le aplicará a cada columna de la matriz de entrada tantas operaciones (funciones de pertenencia) como conjuntos difusos posea. Concretamente se aplicarán operaciones de línea descendente, trapezoidal y ascendente.
 
 Las líneas \textbf{ascendente} y \textbf{descendente} tienen una forma parecida. El grafo asociado a la fórmula de la línea descendente se muestra en la figura~\ref{fig:slope-asc-grap}, que es la que se correspondería con el último conjunto de una partición difusa. Como se puede ver, las variables ajustables son $a$ y $\delta a$. Estas definen el intervalo $(a, a + \delta b) \in \mathbb{R}$ donde los valores $f(X)$ ascienden de $0$ a $1$ (o descienden de $1$ a $0$ en el caso de la recta ascendente).
 
@@ -105,13 +96,6 @@ Sabiendo los grafos computacionales de cada una de las funciones de pertenencia,
 
 Este grafo tiene que definir una serie de variables para que nuestro algoritmo de entrenamiento las ajuste correctamente. Estas variables están directamente relacionadas con los parámetros de las funciones de pertenencia descritas anteriormente. Hemos decidido por tanto establecer estas variables como los espacios existentes entre los puntos caracteríscos de las funciones. En la figura~\ref{fig:fuzzification-graph-vars} se puede observar de qué manera están relacionadas las variables de desplazamiento y los parámetros de las funciones de pertenencia.
 
-\begin{figure}
-	\centering
-	\includegraphics{fuzzification-graph-vars}
-	\caption[Representación de una partición difusa para su ajuste]{Ilustración de una partición difusa para una variable lingüística con $n = 3$ conjuntos difusos en el dominio $[l, h]$. Al ser $n = 3$, la partición queda definida como un punto de origen $l$ y $2(n - 1)$ variables correspondientes a desplazamientos consecutivos, los cuales son los que definen los parámetros de las funciones de pertenencia de cada uno de los conjuntos difusos. A partir de este punto, los grafos computacionales son más complejos y su ilustración no aporta nada, por lo que los conceptos se ilustrarán de forma diferente.}
-	\label{fig:fuzzification-graph-vars}
-\end{figure}
-
 Al estar definidas de esta manera, logramos (i) que la suma de todas las pertenencias en cada punto del eje $X$ es $1$ y (ii) que cada pequeña variación del gradiente de una de las variables tiene el potencial de provocar una variación en el resto de variables.
 
 Por último, un controlador difuso define un número de variables de entrada. Nuestro grafo de fuzzificación estará definido de tal manera que para una matriz de entrada $m \times l$, siendo $m$ cada tupla de valores a inferir y $l$ cada una de las variables lingüísticas, generará una matriz de la forma $m \times \sum_{i=1}^l \left\vert{l_i}\right\vert$, siendo $\left\vert{S}\right\vert$ el número de conjuntos difusos que contiene la variable linguística $l_i$ (Figura~\ref{fuzzification-graph})
@@ -131,12 +115,37 @@ Este bloque de reglas es el que se tratará de ajustar. La representación será
 
 Dicho de otro modo, cada posible conjunto difuso de salida (es decir, para cada valor dentro del eje correspondiente a la salida) se corresponderá con una matriz $v_i$-dimensional resultado del producto cartesiano de las cariables de entradas. Esto es, cada una de las posibles combinaciones de reglas, a la que podemos asociar un valor. En la Figura~\ref{fig:inference-graph} se muestra un ejemplo con las variables obtenidas en el ejemplo de la Figura~\ref{fig:fuzzification-graph} tras aplicarles la $t$-norma.
 
-\begin{figure}
+
+\begin{figure*}[t]
 	\centering
-	\includegraphics{inference-graph}
-	\caption[Producto cartesiano de variables difusas de entrada]{El producto cartesiano de las variables difusas de entrada genera todas las posibles combinaciones entre los conjuntos difusos de las variables lingüísticas. Aplicándosele la $t$-norma a cada una de estas combinaciones tenemos todas las posibles reglas que se pueden definir en este \ac{fcs}.}
+	\begin{equation*}
+		\left(\begin{array}{c}
+			\mu_1^A \ldots \\
+			\mu_2^A \ldots \\
+			\mu_3^A \ldots \\
+		\end{array}\right)
+		\quad \times \quad
+		\left(\begin{array}{ c}
+			\mu_1^B \ldots \\
+			\mu_2^B \ldots \\
+			\mu_3^B \ldots \\
+		\end{array}\right)
+		= \quad 
+		\left(\begin{array}{c}
+			\top(\mu_1^A, \mu_1^B) \\
+			\top(\mu_1^A, \mu_2^B) \\
+			\top(\mu_1^A, \mu_3^B) \\
+			\top(\mu_2^A, \mu_1^B) \\
+			\top(\mu_2^A, \mu_2^B) \\
+			\top(\mu_2^A, \mu_3^B) \\
+			\top(\mu_3^A, \mu_1^B) \\
+			\top(\mu_3^A, \mu_2^B) \\
+			\top(\mu_3^A, \mu_3^B) \\
+		\end{array}\right)
+	\end{equation*}
+	\caption[Producto cartesiano de variables difusas de entrada]{El producto cartesiano de las variables difusas de entrada genera todas las posibles combinaciones entre los conjuntos difusos de las variables lingüísticas. Aplicándosele la $t$-norma a cada una de estas combinaciones tenemos todas las posibles reglas que se pueden definir en este \acrlong{fcs}.}
 	\label{fig:inference-graph}
-\end{figure}
+\end{figure*}
 
 Al estar definida la $t$-conorma y la acumulación con el mismo operador (i.e. el máximo), una regla de tipo OR es equivalente a dos reglas de tipo AND, ya que la acumulación de sus resultados es equivalente. Por tanto, al aplicar la $t$-norma a estas combinaciones tenemos todas las posibles combinaciones de reglas. Pero hasta aquí no tenemos ningún ajuste.
 

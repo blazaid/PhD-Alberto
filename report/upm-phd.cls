@@ -2267,5 +2267,9 @@ version={3.0},
 \usepackage{yhmath}
 
 %%
+% blkarray: To write labels for rows and cols in matrices
+\usepackage{blkarray}
+
+%%
 % End of file
 \endinput

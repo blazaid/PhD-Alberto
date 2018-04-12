@@ -38,75 +38,23 @@ Los modelos de \textbf{aceleración} se ocupan de gestionar las alteraciones de 
 
 \begin{figure}[t]
 	\centering
-	\begin{forest}
-		for tree={
-			align=center,
-			parent anchor=south,
-			child anchor=north,
-			font=\sffamily,
-			edge={thick, -{Stealth[]}},
-			l sep+=10pt,
-			edge path={
-				\noexpand\path [draw, \forestoption{edge}] (!u.parent anchor) -- +(0,-10pt) -| (.child anchor)\forestoption{edge label};
-			},
-		}
-		[Modelos de aceleración
-			[\idx{free flow}]
-			[\idx{approaching}]
-			[\idx{car-following}]
-			[\idx{emergency}]
-			[\ldots]
-		]
-	\end{forest}
+	\includegraphics{acceleration-model-classes}
 	\caption[Diferentes modelos de aceleración]{Tras la aparición de los modelos psico-físicos se comprobó que los umbrales en las percepciones y por tanto el comportamiento podía variar dependiendo de las situaciones. Por ello, el \textit{car-following} no era más que una entre diferentes clases o regímenes de aceleración. Algunos de los regímenes más usados en la literatura son \textit{free-flow}, \textit{car-following}, \textit{approaching}, y \textit{emergency}, aunque algunos autores definen nuevos regímenes, cada uno con sus límites de aplicación.}
 	\label{fig:acceleration-model-classes}
 \end{figure}
 
 \begin{figure}[b]
 	\centering
-	\begin{forest}
-		for tree={
-			align=center,
-			parent anchor=south,
-			child anchor=north,
-			font=\sffamily,
-			edge={thick, -{Stealth[]}},
-			l sep+=10pt,
-			edge path={
-				\noexpand\path [draw, \forestoption{edge}] (!u.parent anchor) -- +(0,-10pt) -| (.child anchor)\forestoption{edge label};
-			},
-		}
-		[Modelos de cambio de carril
-		[\idx{lane selection}]
-		[\idx{gap acceptance}]
-		[\idx{merging}]
-		[\ldots]
-		]
-	\end{forest}
+	\includegraphics{lane-selection-plus-merging}
 	\caption[Operaciones involucradas en el proceso de cambio de carril]{El cambio de carril se divide tradicionalmente en una operación que involucra dos pasos. La selección de carril (\textit{lane-selection}) al que cambiarse y la ejecución del cambio (\textit{merging}). En la operación de merging se suele involucrar otra operación denominada \textit{gap-acceptance}, aunque algunos autores la tratan como operación independiente. Otros autores pueden llegar a añadir opreaciones más especializadas.}
 	\label{fig:lane-selection-plus-merging}
 \end{figure}
 
-El tráfico real, sin embargo, no está compuesto por un sólo carril, sino por varios. Los modelos de \textbf{cambio de carril} (figure~\ref{fig:lane-change-types}) tienen como objetivo identificar cuándo el conductor desea cambiar de carril y realizar dicho cambio, ya sea porque quiere mejorar su circulación (e.g. quiere realizar un adelantamiento) o porque su ruta lo requiere (e.g. está próxima la rampa de salida que quiere tomar en una autopista).
+El tráfico real, sin embargo, no está compuesto por un sólo carril, sino por varios. Los modelos de \textbf{cambio de carril} (figure~\ref{fig:lane-selection-plus-merging}) tienen como objetivo identificar cuándo el conductor desea cambiar de carril y realizar dicho cambio, ya sea porque quiere mejorar su circulación (e.g. quiere realizar un adelantamiento) o porque su ruta lo requiere (e.g. está próxima la rampa de salida que quiere tomar en una autopista).
 
 En la literatura los modelos de aceleración han sido mucho más estudiados que los de cambio de carril, entre otras cosas por la dificultad en la captura de los datos y, por tanto, por su escasez.
 
 El estudio del comportamiento en los cambios de carril es muy interesante debido a que tiene efectos opuestos según la carga de tráfico de la vía en la que se ejecutan. Por un lado, si la carga de tráfico es de ligera, mejora la velocidad media del flujo de la vía. Sin embargo, según aumenta la carga de tráfico, los cambios de carril comienzan a afectar a éste en formas de ondas de choque (\cite{Sasoh2002, Jin2006}) e interferir incluso más que los modelos de \textit{\idx{car-following}} (\cite{Laval2006}).
-
-\subsection{Nomenclatura}
-
-Para no llevar a equívocos, en la figura \ref{fig:lane-representation-with-namings} se ilustran los actores típicos en una situación de tráfico junto con los nombres y su rol. A continuación los explicamos:
-
-\begin{figure}[t]
-	\missingfigure[figheight=4cm]{Ilustración estupenda y maravillosa de los vehículos en la vía y cómo están relacionados unos con otros.}
-	\caption[Nomenclaturas a usar en los modelos de conducción]{Representación de los vehículos en una vía junto con la nomenclatura a usar durante el resto de la tesis.}
-	\label{fig:lane-representation-with-namings}
-\end{figure}
-
-\begin{itemize}
-	\item \textbf{Lag car}.
-	\item \textbf{Lead car}.
-\end{itemize}
 
 \section{Modelado de conductores clásico}
 
@@ -128,21 +76,10 @@ Este modelo se puede considerar de una clase que denominaremos \textbf{mantenimi
 Más adelante, a finales de la decada se presentó el modelo \gls{ghr} (ver ecuación~\ref{eq:ghr-car-following-model}), el cual sirvió como base para el desarrollo de muchos modelos posteriores. Eset modelo dio origen a a una nueva clase de modelos de conducción, los de tipo \textbf{estímulo $\rightarrow$ respuesta}. 
 
 \begin{figure}[t]
-	\begin{center}
-		\smartdiagramset{
-			border color=none,
-			back arrow disabled=true,
-			text width=2.4cm,
-			module x sep=3.5cm
-		}
-		\smartdiagram[flow diagram:horizontal] {
-			Mantenimiento de medidas,
-			estímulo~/ respuesta,
-			psico-físicos
-		}
-		\caption[Evolución de los tres tipos generales de modelo de \textit{car-following}]{Evolución de los tres tipos generales de modelo de \textit{car-following}: mantenimiento de medidas, estímulo$\rightarrow$respuesta y psico-físicos. Con la llegada de los psico-físicos se vio que \textit{car-following} no era más que uno de tantos regímenes distintos dentro de los modelos de aceleración.}
-		\label{fig:car-following-there-different-models}
-	\end{center}
+	\centering
+	\includegraphics{car-following-three-different-models}
+	\caption[Evolución de los tres tipos generales de modelo de \textit{car-following}]{Evolución de los tres tipos generales de modelo de \textit{car-following}: mantenimiento de medidas, estímulo$\rightarrow$respuesta y psico-físicos. Con la llegada de los psico-físicos se vio que \textit{car-following} no era más que uno de tantos regímenes distintos dentro de los modelos de aceleración.}
+	\label{fig:car-following-three-different-models}
 \end{figure}
 
 En realidad los modelos \textit{estímulo $\rightarrow$ respuesta} son la evolución lógica de los modelos anteriores, donde se pasa de un cálculo de velocidad en función de la distancia (u otra medida) a un sistema de control donde la variable a controlar es la aceleración en función de uno o varios estímulos de entrada, además con un retardo simulando el tiempo de reacción. Algunas modificaciones sobre el algoritmo original son la asimetría en la tasa de cambio de aceleración y deceleración \cite{Gazis1959} o la inclusión del efecto de segundos coches delanteros \cite{Bexelius1968}.
@@ -176,25 +113,13 @@ Debido a eso y a la irrupción de los modelos de cambio de carril, los posterior
 
 \newthought{El trabajo de Gipps} es uno de los primeros modelos que agrupa varios regímenes distintos (concretamente \textit{\idx{car-following}} y \textit{\idx{free-flow}}) \cite{Gipps1981}. Sin embargo consideramos más interesante su posterior trabajo, \cite{Gipps1986} ya que puede considerarse como la primera solución para el cambio de carril.
 
-Introduce el concepto de que los cambios de carril obedecen a diferentes motivaciones. Por un lado, los cambios pueden ser \textbf{obligatorios} (denominado en la literatura como \gls{mlc}) cuando los vehículos se ven obligados a abandonar el carril que ocupan. Por otro lado, pueden ser \textbf{discrecionales} cuando el cambio obedece a motivaciones más relacionadas con la mejora del confort o de la situación actual de conducción (ver figura~\ref{fig:lane-change-mandatory-vs-discretional}).
-
-\begin{figure}[t]
-	\missingfigure[figheight=4cm]{Dos ilustraciones, una con un cambio de carril obligatorio (que se acabe el carril por ejemplo) y otro discrecional (que se vea un vehículo lento como un camión y el coche adelantando).}
-	\caption[Ejemplo de cambio de carril obligatorio frente a cambio de carril discrecional]{Los cambios de carril se clasifican como aquellos necesarios para continuar con la conducción (obligatorios) y aquellos útiles para mejorar la situación de conducción (discrecionales).}
-	\label{fig:lane-change-mandatory-vs-discretional}
-\end{figure}
+Introduce el concepto de que los cambios de carril obedecen a diferentes motivaciones. Por un lado, los cambios pueden ser \textbf{obligatorios} (denominado en la literatura como \gls{mlc}) cuando los vehículos se ven obligados a abandonar el carril que ocupan. Por otro lado, pueden ser \textbf{discrecionales} cuando el cambio obedece a motivaciones más relacionadas con la mejora del confort o de la situación actual de conducción.
 
 En su modelo, Gipps propone un modelo para el cambio de carril al aproximarse a un cambio de dirección. Dicho modelo identifica tres distancias que caracterizan el comportamiento del conductor en función de cómo de lejos está dicho punto: (i) \textbf{lejos}, en el que no existe condicionamiento en la decisión de cambio de carril, (ii) \textbf{medio}, donde el conductor empieza a ignorar los cambio que dan ventaja de velocidad si no hacia carriles distanciados del de salida y (iii) \textbf{cerca} donde los vahículos deben estar en el carril de cambio de salida.
 
 Otro concepto que incluye el modelo de Gipps y que exporta a modelos posteriores de cambio de carril\index{lane-changing} es el de ampliar el número de \index{critical-gap}\textit{critical gaps} a más de un hueco: las distancias hasta el vehículo delantero y hasta el vehículo trasero, forzando a que durante el proceso de \textit{\idx{gap-acceptance}} las condiciones de ambos huecos tengan que ser aceptables.
 
 Posteriormente, en \cite{wiedemann1992microscopic} se desarrolla un framework similar pero teniendo en cuenta los cambios a carriles lentos (para representar, por ejemplo, obstrucciones como accidentes o un vehículo lento) y a carriles rápidos (para situaciones como condiciones de la ruta). Además el autor incluye un modelo para influir en su desempeño en función del entorno actual (las características de los vehículos de alrededor) y el entorno potencial (la estimación de las características del entorno en momentos posteriores).
-
-\begin{figure}[t]
-	\missingfigure[figheight=4cm]{Tres ilustraciones, una para cada caso de lejos, medio y cerca..}
-	\caption[Efecto de la distancia en el tipo de cambio de carril según el modelo de \cite{Gipps1986}]{En el modelo de \cite{Gipps1986}, la distancia al punto (i.e. cerca, media distancia y lejos) determina el grado de obligatoriedad del cambio.}
-	\label{fig:lane-change-type-depending-on-the-distance}
-\end{figure}
 
 \marginnote{
 	En el trabajo de \cite{wiedemann1992microscopic} se proponen hasta cuatro clases diferentes de modelos de aceleración en función de las posiciones y velocidades relativas entre el vehículo sujeto y el siguiente: (i) \textbf{free-flow}, donde el comportamiento no se ve afectado por el del vehículo delantero), (ii) \textbf{car-following}, donde el comportamiento sí se ve influenciado por el vehículo delantero, obligando a disminuir la velocidad deseada en el conductor en cuestión, (iii) \textbf{approaching}, stuación intermedia entre las dos anteriores y (iv) \textbf{emergency}, donde la situación es crítica (e.g. colisión inminente) obligando, normalmente, a respuestas extremas.
@@ -244,7 +169,7 @@ Dentro de las \gls{its}, las áreas de aplicación de la \gls{ci} se centran en 
 		Modelado\\ de conductores
 	};
 	\end{tikzpicture}
-	\caption[Principales areas de aplicación de la \acrlongsp{ci} en los \acrlongplsp{its}]{Las principales areas de aplicación de la \acrlongsp{ci} en los \acrlongplsp{its} son el reconocimiento de patrones, la caracterización de conductores y la modelización de los mismos. Aunque son áreas de aplicación distintas, los estudios en general tienden a solaparse. Por ejemplo, las técnicas de reconocimiento de patrones pueden usarse como forma de extracción de características para una caracterización de conductores y a su vez esta caracterización puede usarse como base para su modelado.}
+	\caption[Principales areas de aplicación de la \acrshort{ci} en los \acrshort{its}]{Las principales areas de aplicación de la \acrlongsp{ci} en los \acrlongplsp{its} son el reconocimiento de patrones, la caracterización de conductores y la modelización de los mismos. Aunque son áreas de aplicación distintas, los estudios en general tienden a solaparse. Por ejemplo, las técnicas de reconocimiento de patrones pueden usarse como forma de extracción de características para una caracterización de conductores y a su vez esta caracterización puede usarse como base para su modelado.}
 	\label{fig:main-applications-of-ci-in-its}
 \end{figure}
 

@@ -82,8 +82,8 @@ Cada uno de los controladores se ha entrenado durante $250.000$ epochs. El proce
 
 \begin{figure}[!b]
 	\centering
-	\subfloat[]{\includegraphics[width=.45\textwidth]{lm-fcs-rmse-all-training-and-validation-detail}}\qquad
-	\subfloat[]{\includegraphics[width=.45\textwidth]{lm-fcs-rmse-all-test-detail}}
+	\subfloat[Entrenamiento y validación]{\includegraphics[width=.45\textwidth]{lm-fcs-rmse-all-training-and-validation-detail}}\qquad
+	\subfloat[Test]{\includegraphics[width=.45\textwidth]{lm-fcs-rmse-all-test-detail}}
 	\caption[Evolución del error durante el entrenamiento en las arquitecturas de \ac{fcs} para el modelo longitudinal]{Visión en detalle de la evolución del error en los conjuntos de entrenamiento y validación (izquierda) y de test (derecha). Para cada arquitectura, el color más transparente se corresponde al error en el conjunto de validación. El error de test se muestra debido a que nos ofrece puede ofrecer intuición de qué forma aprende la red, pero su evolución no se ha considerado para determinar las arquitecturas.}
 	\label{fig:lm-fcs-rmse-all-comparisons}
 \end{figure}
@@ -96,8 +96,8 @@ Se puede observar que la arquitectura $FCS_1$ es la que mejor error en test ha a
 
 \begin{figure}[t]
 	\centering
-	\subfloat[]{\includegraphics[width=\textwidth]{lm-fcs-outs-all-test-comparison}}\qquad
-	\subfloat[]{\includegraphics[width=\textwidth]{lm-fcs-outs-all-test-comparison-detail}}
+	\subfloat[Perfil de aceleración]{\includegraphics[width=\textwidth]{lm-fcs-outs-all-test-comparison}}\qquad
+	\subfloat[Detalle entre frames de $750$ a $1050$]{\includegraphics[width=\textwidth]{lm-fcs-outs-all-test-comparison-detail}}
 	\caption[Comparación del perfil de aceleración real y el inferido por los modelos entrenados]{Comparación del perfil de aceleración real y el inferido por los modelos entrenados. En la visión general se puede observar, en transparente, el perfil real. A la derecha se amplía una pequeña sección del perfil para mostrar los diferentes ajustes de los modelos entrenados y cómo difieren del valor real.}
 	\label{fig:fcs-test-comparisons}
 \end{figure}
@@ -156,7 +156,7 @@ A la vista de los resultados, y dado que las arquitecturas se ajustan razonablem
 \begin{figure}[t]
 	\centering
 	\subfloat[Perfil completo]{\includegraphics[width=\textwidth]{lm-mlp-outs-all-test-comparison}}\qquad
-	\subfloat[Detalle]{\includegraphics[width=\textwidth]{lm-mlp-outs-all-test-comparison-detail}}
+	\subfloat[Detalle entre frames de $750$ a $1050$]{\includegraphics[width=\textwidth]{lm-mlp-outs-all-test-comparison-detail}}
 	\caption[Comparación del perfil de aceleración real y el inferido por los modelos entrenados]{Comparación del perfil de aceleración real y el inferido por los modelos entrenados. En la visión general se puede observar, en transparente, el perfil real. A la derecha se amplía una pequeña sección del perfil para mostrar los diferentes ajustes de los modelos entrenados y cómo difieren del valor real.}
 	\label{fig:cf-mlp-test-comparisons}
 \end{figure}
@@ -165,14 +165,14 @@ A la vista de los resultados, y dado que las arquitecturas se ajustan razonablem
 
 Las mejores arquitecturas de ambos modelos han sido la $MLP_2$ para los \acp{mlp} y $FCS_x$ para los \acp{fcs}. Los errores y el perfil de aceleración para ambos modelos se muestran en la figura~\ref{fig:cf-comparison-between-best-mlp-and-fcs-architecture}.
 
-\begin{figure}
+Aunque el modelo basado en \ac{fcs} arroja un error bajo en test y parece que tiende a ajustarse al perfil de aceleración, parece que el problema es suficientemente complejo como para no poder representarse como un simple controlador difuso.
+
+Además, el error arrojado por el \ac{mlp} es sustancialmente menor y, por tanto, la arquitectura elegida para el modelo longitudinal serála $MLP_2$.
+
+\begin{figure}[t]
 	\centering
 	\subfloat[Error en test]{\includegraphics[width=.46\textwidth]{comparison-between-best-mlp-and-fcs-architecture-rms}}\qquad
 	\subfloat[Perfil de aceleración]{\includegraphics[width=.46\textwidth]{comparison-between-best-mlp-and-fcs-architecture-acceleration-profile}}
 	\caption[Comparación entre los dos tipos de modelo longitudinal]{Comparación de la mejor arquitectura \ac{mlp} frente a la mejor arquitectura \ac{fcs}: (a) diferencia entre los errores cuadráticos medios de ambas arquitecturas y (b) perfiles de aceleración en el conjunto de test.}
 	\label{fig:cf-comparison-between-best-mlp-and-fcs-architecture}
 \end{figure}
-
-Aunque el modelo basado en \ac{fcs} arroja un error bajo en test y parece que tiende a ajustarse al perfil de aceleración, parece que el problema es suficientemente complejo como para no poder representarse como un simple controlador difuso.
-
-Además, el error arrojado por el \ac{mlp} es sustancialmente menor y, por tanto, la arquitectura elegida para el modelo longitudinal serála $MLP_2$.

@@ -52,7 +52,7 @@ Para el primer caso, se ha optado por representar el entorno como un mapa de pro
 \begin{figure}
 	\centering
 	\includegraphics[width=\textwidth]{deepness-map}
-	\caption[Ejemplo de un mapa de profundidad]{Un ejemplo del mapa de profundidad asociado a la nube de puntos original. Un color más oscuro implica más próximo al vehículo.}
+	\caption[Mapa de profundidad de ejemplo]{Un mapa de profundidad asociado a la nube de puntos original. Un color más oscuro implica más proximidad al obstáculo.}
 	\label{fig:deepmap-example}
 \end{figure}
 
@@ -195,7 +195,14 @@ Cada una de las redes se ha entrenado durante $10^5$ epochs. A la vista de los r
 
 Las arquitecturas de los modelos que mejores resultado han arrojado tras las pruebas se describen en la tabla~\ref{tbl:lc-cnn-architectures}. La tasa de dropout utilizada en los entrenamientos ha sido de $0.1$.
 
-\begin{table*}
+La descripción de los parámetros de las arquitecturas es la siguiente:
+
+\begin{itemize}
+	\item \textbf{$cF$-$W$-$H$-$x$}. Esta nomenclatura se corresponde con una capa de convolución de $F$ filtros donde cada uno es tiene un tamaño de $W \times H$. $x$ puede tomar el valor $v$ (de \textit{valid}) o $s$ (de \textit{same}), dependiendo de si se desea que el filtro se limite a las dimensiones de la entrada o si por el contrario se prefiere que sobrepase los límites para que las convoluciones den como resultado una salida del mismo tamaño que la entrada original, respectivamente.
+	\item \textbf{$dN$-$r$}. Esta capa se corresponde a las capas \textit{fully-connected} que realizan trabajan sobre el espacio de las características extraídas tras la extracción realizada en las convoluciones. En esta nomenclatura, $N$ se corresponde con el número de neuronas que tiene la capa y $r$ con la tasa de dropout aplicada a sus neuronas.
+\end{itemize}
+
+\begin{table*}[t]
 	\centering
 	\caption[Resumen de las arquitecturas de \acrlongplsp{cnn} para el modelo longitudinal][1.5em]{Resumen de las arquitecturas de \acrlongplsp{cnn} para el modelo longitudinal. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:lc-cnn-architectures}
@@ -211,21 +218,14 @@ Las arquitecturas de los modelos que mejores resultado han arrojado tras las pru
 	\end{tabular}
 \end{table*}
 
-La descripción de los parámetros de las arquitecturas es la siguiente:
-
-\begin{itemize}
-	\item \textbf{$cF$-$W$-$H$-$x$}. Esta nomenclatura se corresponde con una capa de convolución de $F$ filtros donde cada uno es tiene un tamaño de $W \times H$. $x$ puede tomar el valor $v$ (de \textit{valid}) o $s$ (de \textit{same}), dependiendo de si se desea que el filtro se limite a las dimensiones de la entrada o si por el contrario se prefiere que sobrepase los límites para que las convoluciones den como resultado una salida del mismo tamaño que la entrada original, respectivamente.
-	\item \textbf{$dN$-$r$}. Esta capa se corresponde a las capas \textit{fully-connected} que realizan trabajan sobre el espacio de las características extraídas tras la extracción realizada en las convoluciones. En esta nomenclatura, $N$ se corresponde con el número de neuronas que tiene la capa y $r$ con la tasa de dropout aplicada a sus neuronas.
-\end{itemize}
-
 Existen una serie de particularidades del proceso de entrenamiento que hay que destacar. La primera y principal es la modificación de la arquitectura básica de una \ac{cnn} para atender a variables que no obedecen al esquema de mapa $n$-dimensional. Una \ac{cnn} basa su funcionamiento en una fase de extracción de características seguida de una fase de inferencia sobre las características extraídas de la imagen. En nuestro caso, sin embargo, necesitamos alimentar a la red con más información.
 
 La decisión tomada ha sido entender estas variables (distancia circulable, distancia a siguiente semáforo y estado de siguiente semáforo) como características del modelo ya extraídas. Para ello, al alimentar el modelo, los mapas de profundidad y estas variables son separados al comenzar el entrenamiento. Los mapas de profundidades se pasan por el flujo normal de funcionamiento y una vez se han extraído las características de estos mapas se combinan con las variables para continuar con el flujo normal (ver Figura~\ref{fig:modification-of-cnn-to-work-with-variables})
 
 \begin{figure}
 	\centering
-	\missingfigure[figheight=3cm]{Esquema donde se ve el flujo que siguen el deepmap y las variables dentro de la modificación de la red de convolución.}
-	\caption[Esquema de modificación de \acrlongsp{cnn} para incluir características no espaciales]{Esquema de modificación de \acrlongsp{cnn} para incluír características no espaciales. Las variables se separan al principio de la convolución para que éstas trabajen con las imágenes. Una vez este proceso se ha completado, las características de las imágenes y las variables de entrada separada se vuelven a continuar para continuar el flujo normal de funcionamiento.}
+	\includegraphics{modification-of-cnn-to-work-with-variables}
+	\caption[Esquema de modificación de \acrlongsp{cnn} para incluir características no espaciales]{Esquema de modificación de \acrlongsp{cnn} para incluir características no espaciales. Las variables se separan al principio de la convolución para que éstas trabajen con las imágenes. Una vez este proceso se ha completado, las características de las imágenes y las variables de entrada separada se vuelven a continuar para continuar el flujo normal de funcionamiento.}
 	\label{fig:modification-of-cnn-to-work-with-variables}
 \end{figure}
 
@@ -235,17 +235,10 @@ La última modificación es la de la aplicación de una tasa de aprendizaje adap
 
 \begin{figure}[t]
 	\centering
-	\missingfigure[figheight=3cm]{Esquema donde se vea o que hago con la imagen al alimentar de poner parte de la izquierda en la derecha y viceversa..}
+	\includegraphics{deepmap-augmentation-in-cnn}
 	\caption[\textit{Padding} artificial en los extremos del mapa de profundidad]{\textit{Padding} artificial en los extremos del mapa de profundidad. Para no perder información que puede ser relevante, los mapas se aumentan artificialmente al alimentar a la red, de tal manera que a los extremos izquierdo y derecho se les aumenta con parte de los extremos derecho e izquierdo con un número de píxeles igual a la mitad del tamaño horizontal del los filtros que los recorrerán.}
 	\label{fig:deepmap-augmentation-in-cnn}
 \end{figure}
-
-\begin{equation}
-    \alpha_i = \alpha_{min} + (\alpha_{max} - \alpha_{min}) \cdot e^\frac{i}{\alpha_d}
-	\label{eq:learning-rate-decay}
-\end{equation}
-
-Donde $\alpha_i$ será la tasa de aprendizaje a aplicar en el \textit{epoch} $i$, $\alpha_{min}$ y $\alpha_{max}$ la cota inferior y superior que tomará la tasa de aprendizaje y $\alpha_d$ la tasa de decrecimiento. En la Figura~\ref{fig:learning-rate-decay} se ilustra la gráfica de la función usada para entrenar las arquitecturas de esta sección.
 
 \begin{marginfigure}
 	\centering
@@ -254,9 +247,12 @@ Donde $\alpha_i$ será la tasa de aprendizaje a aplicar en el \textit{epoch} $i$
 	\label{fig:learning-rate-decay}
 \end{marginfigure}
 
-Un último apunte antes de pasar a mostrar las gráficas de los entrenamientos. No se ha incluido ninguna capa de \textit{pooling} en las arquitecturas, sino que se ha preferido usar las capas de convolución sin añadir padding para ese efecto, tal y como proponen en~\cite{howard2017mobilenets}.
+\begin{equation}
+    \alpha_i = \alpha_{min} + (\alpha_{max} - \alpha_{min}) \cdot e^\frac{i}{\alpha_d}
+	\label{eq:learning-rate-decay}
+\end{equation}
 
-La evolución de la precisión a lo largo del entrenamiento para las diferentes arquitecturas se muestra en la Figura~\ref{fig:lc-cnn-training-validation-test-comparison}.
+Donde $\alpha_i$ será la tasa de aprendizaje a aplicar en el \textit{epoch} $i$, $\alpha_{min}$ y $\alpha_{max}$ la cota inferior y superior que tomará la tasa de aprendizaje y $\alpha_d$ la tasa de decrecimiento. En la Figura~\ref{fig:learning-rate-decay} se ilustra la gráfica de la función usada para entrenar las arquitecturas de esta sección.
 
 \begin{figure}[b]
 	\centering
@@ -265,6 +261,11 @@ La evolución de la precisión a lo largo del entrenamiento para las diferentes 
 	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \acrlongsp{cnn}]{Comparación de las precisiones alcanzadas por los modelos de tipo \acrlongsp{cnn}.}
 	\label{fig:lc-cnn-training-validation-test-comparison}
 \end{figure}
+
+
+Un último apunte antes de pasar a mostrar las gráficas de los entrenamientos. No se ha incluido ninguna capa de \textit{pooling} en las arquitecturas, sino que se ha preferido usar las capas de convolución sin añadir padding para ese efecto, tal y como proponen en~\cite{howard2017mobilenets}.
+
+La evolución de la precisión a lo largo del entrenamiento para las diferentes arquitecturas se muestra en la Figura~\ref{fig:lc-cnn-training-validation-test-comparison}.
 
 Se puede observar que se ha necesitado una red relativamente grande para superar el límite impuesto por la clasificación aleatoria. Esto contrasta con los resultados obtenidos en~\cite{EL PAPER PARA CUANDO NOS LO PUBLIQUEN}, donde los valores de clasificación eran mucho más altos. La razón por la que se intuye esta disparidad de datos es que es precisamente la operación de \textbf{decisión de cambio de carril} la que es más compleja de modelar, a diferencia de la de \textbf{ejecución de cambio de carril}, en la que esta decisión está ya tomada.
 
