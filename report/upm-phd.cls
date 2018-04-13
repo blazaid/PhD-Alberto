@@ -2228,10 +2228,6 @@ version={3.0},
 \setlength{\intextsep}{1.5em}%
 
 %%
-% To work with syllogisms
-\usepackage{logicproof}
-
-%%
 % To penalize more the use of hyphenation
 \hyphenpenalty=30
 
@@ -2269,6 +2265,10 @@ version={3.0},
 %%
 % blkarray: To write labels for rows and cols in matrices
 \usepackage{blkarray}
+
+%%
+% logicproof: To write logic proofs
+\usepackage{logicproof}
 
 %%
 % End of file

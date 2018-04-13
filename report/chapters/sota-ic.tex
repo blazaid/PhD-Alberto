@@ -464,16 +464,16 @@ Por tanto es necesario que los filtros sean de dimensión impar.
 
 \paragraph{Capas de convolución}
 
-\begin{figure}[!b]
+Las capa más importante en una \acrshort{cnn} son las capas de convolución. Éstas se componen de un número variable de filtros que representan las características que queremos extraer de la matriz de entrada. La entrada a esta capa de convolución será la matriz a la que aplicar los filtros, y la salida será una no linearización sobre el resultado de la convolución, modificándose en el proceso la dimensión de la matriz resultado. En la figura~\ref{fig:cnn-convolution-layer} se ilustra esto.
+
+El proceso de aprendizaje en una \acrlong{cnn}, sin embargo, no es trivial. Sigue apoyándose en el cálculo de los gradientes en función de los parámetros, que en este caso son los valores del filtro junto con un bias por cada filtro. Las ecuaciones de este cálculo en una capa bidimensional (para cada uno de los filtros) son las siguientes:
+
+\begin{figure}[t]
 	\centering
 	\includegraphics{convolution-layer}
 	\caption[Descripción de la capa de convolución]{Descripción de la capa de convolución. Como entrada se recibe una matriz tridimensional con una capa de profundidad. Los filtros han de tener la misma profundidad, mientras que la matriz resultado tiene como profundidad el número de filtros. A las convoluciones (más un \textit{bias}) se les aplica una función no lineal como en los \ac{mlp}. Por tanto, son los valores del filtro junto con los \textit{bias} los parámetros que el algoritmo de aprendizaje debe aprender.}
 	\label{fig:cnn-convolution-layer}
 \end{figure}
-
-Las capa más importante en una \acrshort{cnn} son las capas de convolución. Éstas se componen de un número variable de filtros que representan las características que queremos extraer de la matriz de entrada. La entrada a esta capa de convolución será la matriz a la que aplicar los filtros, y la salida será una no linearización sobre el resultado de la convolución, modificándose en el proceso la dimensión de la matriz resultado. En la figura~\ref{fig:cnn-convolution-layer} se ilustra esto.
-
-El proceso de aprendizaje en una \acrlong{cnn}, sin embargo, no es trivial. Sigue apoyándose en el cálculo de los gradientes en función de los parámetros, que en este caso son los valores del filtro junto con un bias por cada filtro. Las ecuaciones de este cálculo en una capa bidimensional (para cada uno de los filtros) son las siguientes:
 
 \begin{subequations}
 	\begin{equation}
@@ -488,16 +488,16 @@ En estas ecuaciones, $\delta C_{w,h}$ se refiere al gradiente del coste respecto
 
 Estas ecuaciones son más complejas en función de cómo varía el número de filtros y de dimensiones de los mismos, pero al final usa el mismo principio de propagación que un \acrshort{mlp}.
 
-\paragraph{Pooling y normalización}
-
-Junto con las capa de convolución, normalmente se usan otros dos tipos de capa diferentes: las capas de \textit{pooling} y las de \textit{normalización}.
-
 \begin{figure}[!b]
 	\centering
 	\includegraphics[width=0.6\textwidth]{cnn-pooling}
 	\caption[Diferentes operaciones de muestreo]{Ejemplo de diferentes operaciones de muestreo sobre una matriz de valores. El filtro de tamaño $2 \times 2$ recorre la matriz en saltos (\textit{strides}) de $2$ celdas horizontales y $2$ verticales extrayendo de cada región filtrada el menor valor, el valor medio o el mayor valor, dependiendo de si la operación es \textit{min-pooling}, \textit{mid-pooling} o \textit{max-pooling}. La más común en \acrshort{cnn} suele ser la operación \textit{max-pooling}.}
 	\label{fig:cnn-max-pooling}
 \end{figure}
+
+\paragraph{Pooling y normalización}
+
+Junto con las capa de convolución, normalmente se usan otros dos tipos de capa diferentes: las capas de \textit{pooling} y las de \textit{normalización}.
 
 El \textit{pooling} es una operación de discretización del espacio de entrada. El objetivo es reducir las dimensiones de las entradas para las siguientes capas. Esto mejora el coste computacional y ayuda contra la sobre-especialización, ya que hay menos parámetros sobre los que trabajar para la misma entrada.
 
@@ -541,7 +541,7 @@ En el \textit{dropout}, la idea es que en cada epoch de entrenamiento del modelo
 	\subfloat[Epoch 1]{\includegraphics[width=0.27\linewidth]{dropout-example-a}}\qquad
 	\subfloat[Epoch 2]{\includegraphics[width=0.27\linewidth]{dropout-example-b}}\qquad
 	\subfloat[Epoch 3]{\includegraphics[width=0.27\linewidth]{dropout-example-c}}
-	\caption[Ejemplo de la operación de dropout para tres epochs sucesivos][1.5em]{Ejemplo del funcionamiento del dropout en tres epochs sucesivos. Suponiendo una tasa de dropout de $0.5$, en cada epoch cada neurona tiene una probabilidad del $50\%$ de ser desactivada, y por tanto el error no se propagará hacia sus pesos de entrada.}
+	\caption[Ejemplo de la operación de dropout para tres epochs sucesivos][-20em]{Ejemplo del funcionamiento del dropout en tres epochs sucesivos. Suponiendo una tasa de dropout de $0.5$, en cada epoch cada neurona tiene una probabilidad del $50\%$ de ser desactivada, y por tanto el error no se propagará hacia sus pesos de entrada.}
 	\label{fig:dropout-example}
 \end{figure*}
 
@@ -560,7 +560,7 @@ Formalmente, un \textbf{grafo computacional} es un grafo dirigido donde los vér
 
 Una ventaja al representar un modelo como grafo computacional es que ayuda a abstraerse de la formas de las entradas y las salidas, facilitando el trabajo de operaciones en batch. Otra ventaja, todavía mayor, es que, al organizar de entrada a salida (en la figura~\ref{fig:computational-graph} de izquierda a derecha) las operaciones que se necesitan para obtener una salida a partir de una entrada, en los casos donde el objetivo es optimizar la salida permiten fácilmente representar el gradiente al organizarlo del modo contrario (es decir, de las salidas a la entrada o, en el caso de la figura~\ref{fig:computational-graph-derivatives} de derecha a izquierda).
 
-\begin{figure}
+\begin{figure}[!b]
 	\centering
 	\includegraphics{computational-graph-derivatives}
 	\caption[Derivadas parciales sobre un grafo computacional]{Es fácil representar las derivadas parciales sobre un grafo computacional y, a partir de ahí, obtener el efecto de las variaciones de una variable sobre el resto.}
@@ -573,19 +573,19 @@ Como regla general, para conocer el gradiente de una variable $a$ con respecto a
 
 La lógica matemática\sidenote{
 	\textbf{La lógica nace} en el siglo IV a.C. dentro de la física Aristotélica, que permaneció inalterada hasta la revolución científica (alrededor del siglo XVI. d.C.), momento en que se separó y permaneció como disciplina paralela perteneciente más al campo de la filosofía que de la física y la matemática. Empezó a relacionarse de nuevo con la matemática a principios del siglo XIX y a principios del siglo XX la lógica y la teoría de conjuntos pasaron a convertirse en partes indispensables la una de la otra. Por ello suelen ir de la mano cada vez que se habla de la una y de la otra. La evolución de la teoría de conjuntos (Cantor, finales del siglo XIX, buscar referencia) y su unión con la lógica es una época bastante convulsa dentro de la historia de la matemática.
-} (y por extensión la teoría de conjuntos) tiene como misión servir de fundamento del razonamiento matemático. Se basa en la definición precisa y con rigor de un razonamiento evitando cualquier tipo de ambigiüedad y de contradicción. Es por ello que la lógica tradicional no suele servir como fundamento de razonamientos del mundo real.
+} (y por extensión la teoría de conjuntos) tiene como misión servir de fundamento del razonamiento matemático. Se basa en la definición precisa y con rigor de un razonamiento, evitando cualquier tipo de ambigüedad y de contradicción. Es por ello que la lógica tradicional no suele servir como fundamento de razonamientos del mundo real.
 
-Los conceptos que se manejan en el mundo real suelen ser vagos, llenos de imprecisiones. Además tienden a ser nombrados cualitativamente, no quantitativamente, y cuando existe una correspondencia, ésta suele estar marcada por la subjetividad de los términos. La lógica difusa se puede considerar como perteneciente al conjunto de lógicas multivaluadas\sidenote{Las lógicas multivaluadas son aquellas donde las premisas pueden tomar más de dos valores.}, donde se trabaja con este tipo de conceptos.
+Los conceptos que se manejan en el mundo real suelen ser vagos y estar llenos de imprecisiones. Además tienden a ser nombrados cualitativamente, no cuantitativamente, y cuando existe una correspondencia, ésta suele estar marcada por la subjetividad de los términos. La lógica difusa se puede considerar como perteneciente al conjunto de lógicas multivaluadas\sidenote{Las lógicas multivaluadas son aquellas donde las premisas pueden tomar más de dos valores.}, donde se trabaja con este tipo de conceptos.
 
-La idea tras este punto de vista es que raramente el ser humano piensa en términos absolutos o completamente definidos. En su lugar, su forma de razonar conlleva una serie de abstracciones que diluyen el caracter de las observaciones que a su vez pueden ser también imprecisas. Ya que en la lógica clasíca es imposible expresar la complejidad que implica la incertidumbre de este proceso de razonamiento, en la \ac{fl} los conceptos de verdad o mentira se relajan, existiendo una transición entre estados no abrupta, sino suave y progresiva.
+La idea tras este punto de vista es que raramente el ser humano piensa en términos absolutos o completamente definidos. En su lugar, su forma de razonar conlleva una serie de abstracciones que diluyen el carácter de las observaciones, las cuales a su vez pueden ser también imprecisas. Ya que en la lógica clásica es imposible expresar la complejidad que implica la incertidumbre de este proceso de razonamiento, en la \acrlongsp{fl} los conceptos de verdad o mentira se relajan, existiendo una transición entre estados no abrupta, sino suave y progresiva.
 
-A lo largo de la sección se describirá el concepto de conjunto difuso, cómo se usan como mecanismo de razonamiento y su utilidad dentro del área de sistemas de control.
+A lo largo de la sección se describirá el concepto de conjunto difuso, cómo se usa como mecanismo de razonamiento y su utilidad dentro del área de sistemas de control.
 
 \subsection{Ampliando la teoría de conjuntos tradicional}
 
 La teoría de conjuntos difusos nació a mediados del siglo XX de la mano de Lofti A. Zadeh~\cite{lofti1965fuzzy} como solución para la representación de procesos de inferencia conociendo a priori los grados de verdad de las premisas\sidenote{
-	La \ac{fl} es uno de esos casos curiosos en la ciencia donde la aplicación nace antes que la propia teoría.
-}.A diferencia de los conjuntos tradicionales (\textit{crisp} en la terminología de la \ac{fl}), los conjuntos difusos expresan el grado de pertenencia de un elemento a la categoría representada por el conjunto.
+	La \acrlongsp{fl} es uno de esos casos curiosos en la ciencia donde la aplicación nace antes que la propia teoría.
+}.A diferencia de los conjuntos tradicionales (\textit{crisp} en la terminología de la \acrlongsp{fl}), los conjuntos difusos expresan el grado de pertenencia de un elemento a la categoría representada por el conjunto.
 
 \paragraph{Variables lingüísticas}
 
@@ -597,9 +597,20 @@ El uso de variables ligüísticas permite representar fenómenos del mundo real 
 
 \paragraph{Conjuntos difusos}
 
-Una posible definición de conjunto difuso podría ser \textit{dada $X$ una colección de elementos. Se define al \textbf{conjunto difuso} $F$ como un conjunto ordenado de pares de la forma $F = {(x, \mu_F(x)) | x \in X}$, siendo $\mu_F(x) \in [0, 1] \forall x \in X$}. A la función $\mu_F(x)$ se la denomina \textbf{función de pertenencia}, y caracteriza unívocamente a un conjunto difuso del dominio de $X$\sidenote{
+Una posible definición de conjunto difuso\sidenote{
 	Según Zadeh, la teoría de conjuntos difusos debería servir de ejemplo de lo que él denominó \textit{principio de extensión}~\cite{zadeh1975concept}, esto es, el proceso por el cual generalizar cualquier teoría definida en un dominio discreto hacia su versión continua.
-}\sidenote{
+} podría ser la siguiente:
+
+\textit{Dada $X$ una colección de elementos, se define al \textbf{conjunto difuso} $F$ como un conjunto ordenado de pares de la forma:}
+
+\begin{equation}
+F = \{(x, \mu_F(x)) | x \in X\}
+\label{eq:fuzzy-set-notation}
+\end{equation}
+
+\textit{Siendo $\mu_F(x) \in [0, 1] \forall x \in X$.}
+
+A la función $\mu_F(x)$ se la denomina \textbf{función de pertenencia}, y caracteriza unívocamente a un conjunto difuso del dominio de $X$\sidenote{
 	Un ejemplo clásico que pone de relieve la utilidad es el de una variación de la paradoja del montón (o paradoja sorites, donde se aplica el método inductivo para demostrar que un montón de arena es y no es un montón de arena) por parte de~\cite{klir1997fuzzy}. En el artículo se argumenta que si tenemos un montón de arena y vamos quitando los granos uno por uno, llegará un momento que no tendremos dicho montón. Está claro que un grano, dos, tres no son un montón de arena, pero un montón menos uno, dos o tres granos tampoco deja de serlo. Desde el punto de vista de la lógica clásica, es imposible determinar el límite de granos donde un montón de arena deja de serlo. Este ejemplo representa una de las muchas situaciones donde es inevitable la incertidumbre.
 }.
 
@@ -621,7 +632,7 @@ La teoría de conjuntos clásica también define los conjuntos de acuerdo a una 
 	\end{equation}
 \end{subequations}
 
-Mientras que un conjunto tradicional se basa en si pertenece o no, un conjunto difuso puede\sidenote{
+Mientras que un conjunto tradicional se basa en si un valor pertenece o no al conjunto, un elemento en un conjunto difuso puede\sidenote{
 	Puede porque también se puede definir un conjunto \textit{crisp} desde el punto de vista de la lógica difusa.
 } tomar todos los valores posibles en el intervalo $[0, 1]$.
 
@@ -634,16 +645,11 @@ Mientras que un conjunto tradicional se basa en si pertenece o no, un conjunto d
 	\label{fig:trimf-trapmf}
 \end{marginfigure}
 
-Esta función de pertenencia $\mu_F$ puede tomar cualquier forma siempre que estén definidas en el dominio $[0, 1] \subset \mathbb{R}$ (independientemente de si son discretas o no), pero lo habitual es definirlas como funciones triangulares o trapezoidales. Un ejemplo de estas funciones se ilustra en la figura~\ref{fig:membership-functions}.
+Esta función de pertenencia $\mu_F$ puede tomar cualquier forma siempre que estén definidas en el dominio $[0, 1] \subset \mathbb{R}$ (independientemente de si son discretas o no). Lo habitual es definirlas como funciones triangulares o trapezoidales.
 
 Las funciones de pertenencia caracterizan a los conjuntos difusos. Su notación habitual es la que se presenta en la ecuación~\ref{eq:fuzzy-set-notation}, donde $F$ es el conjunto definido, $\mu$ su función de pertenencia y $x$ el valor real del dominio sobre el que se define la variable lingüística.
 
-\begin{equation}
-	F = \{(x, \mu_F(x)) | x \in U\}
-	\label{eq:fuzzy-set-notation}
-\end{equation}
-
-Dos casos particulares de funciones de pertenencia son las funciones cuadradas (que son qeuivalente a conjuntos \textit{crisp)} y las funciones singleton (que el valor de pertenencia lo tiene un único valor en todo el dominio).
+Dos casos particulares de funciones de pertenencia son las funciones cuadradas (que son equivalente a conjuntos \textit{crisp)} y las funciones \textit{singleton} (que el valor de pertenencia lo tiene un único valor en todo el dominio).
 
 \paragraph{Operaciones entre conjuntos}
 
@@ -657,23 +663,23 @@ La $t$-norma es la generalización del operador conjunción en lógica clásica.
 		\item Monótona: $x \leq z, y \leq t \rightarrow T(x, y) \leq T(z, t)$.
 		\item Identidad: $\exists 1 | T(x, 1) = x$.
 	\end{itemize}
-}. Dos de las operaciones más usadas como t-norma se ilustran en la Figura~\ref{fig:t-norms}. Existen muchas más, pero en controladores difusos se suelen usar el mínimo o,en su defecto, el producto.
+}. Dos de las operaciones más usadas como $t$-norma se ilustran en la Figura~\ref{fig:t-norms}. Existen muchas más, pero en controladores difusos se suelen usar el mínimo o, en su defecto, el producto.
 
 \begin{figure}[t]
 	\centering
 	\subfloat[Mínimo]{\includegraphics[width=0.46\linewidth]{tnorm-minimum}}\qquad
 	\subfloat[Producto Algebráico]{\includegraphics[width=0.46\linewidth]{tnorm-algebraic-product}}
-	\caption[$t$-normas del mínimo y del producto algebraico.]{Las $t$-normas de mínimo y de producto algebraico son dos representantes de un conjunto muy amplio de funciones}
+	\caption[$t$-normas de mínimo y producto algebraico.]{Las $t$-normas de mínimo y producto algebraico son dos representantes de un conjunto muy amplio de funciones}
 	\label{fig:t-norms}
 \end{figure}
 
-La $t$-conorma (o $s$-norma), por otro lado, generaliza el concepto de unión. Una $t$-conorma $s$ se define a partir de una $t$-norma $t$ como $S = 1 - T(1-x, 1-y)$, es decir, la función complementaria a la $t$-norma. De esta forma se consigue que las Leyes de Morgan se cumplan de una forma generalista. Dos ejemplos de $t$-conormas se ilustran en la Figura~\ref{fig:t-conorms}
+La $t$-conorma (o $s$-norma), por otro lado, generaliza el concepto de unión. Una $t$-conorma $S$ se define a partir de una $t$-norma $T$ como $S = 1 - T(1-x, 1-y)$, es decir, la función complementaria a la $t$-norma. De esta forma se consigue que las Leyes de Morgan se cumplan de una forma generalista. Dos ejemplos de $t$-conormas se ilustran en la Figura~\ref{fig:t-conorms}.
 
 \begin{figure}[!b]
 	\centering
 	\subfloat[Máximo]{\includegraphics[width=0.46\linewidth]{snorm-maximum}}\qquad
 	\subfloat[Suma probabilística]{\includegraphics[width=0.46\linewidth]{snorm-probabilistic-sum}}
-	\caption[$t$-conormas del máximo y de la suma probabilística]{Las $t$-conormas de máximo y de suma probabilística son las complementarias a $t$-normas mostradas previamente, y como ocurre en estas, existen tantas $t$-conormas como $t$-normas definidas.}
+	\caption[$t$-conormas de máximo y suma probabilística]{Las $t$-conormas de máximo y suma probabilística son las complementarias a $t$-normas mostradas previamente, y como ocurre en estas, existen tantas $t$-conormas como $t$-normas definidas.}
 	\label{fig:t-conorms}
 \end{figure}
 
@@ -683,7 +689,7 @@ Las propiedades que ha de cumplir una $t$-conorma son las mismas que las de la $
 
 El complemento de un conjunto vendrá calculado a partir de la función de pertenencia de dicho conjunto. Esto es similar a la teoría de conjuntos clásica donde el complemento de un conjunto contiene todos aquellos elementos que no estaban originariamente en dicho conjunto.
 
-Formalmente, si $F$ es un conjunto definido por la función de pertenencia $\mu_F$, la función de pertenencia que definirá al conjunto complementario $F^\complement$ será $\mu_{F^\complement} = \mu_F(x) \circ f$, siendo $f$ una aplicación de la forma $f : [0,1] \rightarrow [0,1]$ tal que cumple las propiedades de \textbf{equivalencia con teoría de conjuntos clásica}, \textbf{estrictamente decreciente} e \textbf{involucion}\sidenote{
+Formalmente, si $F$ es un conjunto definido por la función de pertenencia $\mu_F$, la función de pertenencia que definirá al conjunto complementario $F^\complement$ será $\mu_{F^\complement} = \mu_F(x) \circ f$, siendo $f$ una aplicación de la forma $f : [0,1] \rightarrow [0,1]$ tal que cumple las propiedades de \textbf{equivalencia} con teoría de conjuntos clásica, \textbf{estrictamente decreciente} e \textbf{involucion}\sidenote{
 	Las propiedades son:
 	\begin{itemize}
 		\item Equivalencia con teoría de conjuntos clásica en el caso de usar conjuntos \textit{crisp}, es decir, $f(1) = 0 y f(0) = 1$.
@@ -692,43 +698,38 @@ Formalmente, si $F$ es un conjunto definido por la función de pertenencia $\mu_
 	\end{itemize}
 }.
 
-El operador más común para el complemento es el probabilístico, denominado también \textit{complemento de Zadeh} en \ac{fl}. Existen sin embargo otros complementos, como el complemento de Yager o el complemento de Sugeno, ambos deducidos de una familia de funciones denominadas negaciones fuertes\sidenote{
+El operador más común para el complemento es el probabilístico, denominado también \textit{complemento de Zadeh} en \acrlongsp{fl}. Existen sin embargo otros complementos, como el complemento de Yager o el complemento de Sugeno, ambos deducidos de una familia de funciones denominadas negaciones fuertes\sidenote{
 	El \textbf{complemento de Yager} es toda una familia de complementos que obedece a la fórmula $f_\lambda(x) = (1 - x^\lambda)^{1 / \lambda}$ para $\lambda = 0$. El \textbf{complemento de Sugeno} es otra familia cuya función es diferente, $f_\lambda(x) = \frac{1-x}{1 - \lambda \cdot x}$. A partir de ambas se puede definir el complemento de Zadeh variando el valor de $\lambda$.
 }.
 
 \subsection{Razonamiento}
 
-El razonamiento o inferencia es el proceso de obtener consecuencias a partir de hechos (premisas). En \ac{fl}, el proceso de inferencia lógica se amplía a través de relaciones difusas, trasladando valores de verdad aproximados.
+El razonamiento o inferencia es el proceso de obtener consecuencias a partir de hechos (premisas). En \acrlongsp{fl}, el proceso de inferencia lógica se amplía a través de relaciones difusas, trasladando valores de verdad aproximados.
 
-Toda regla difusa está compuesta por un antecedente y un consecuente. Tanto el uno como el otro están compuestos de sentencias que asignan valores de variables difusas (conjuntos difusos) a éstas. La forma más común de representar las reglas difusas es a través de reglas \texttt{IF \ldots THEN}, donde las relaciones entre elementos (i.e. \texttt{AND}, \texttt{OR} y \texttt{NOT}) se corresponden con las operaciones de $t$-norma, $t$-conorma y complemento. La Figura~\ref{fig:fuzzy-rule} detalla los componentes de estas reglas.
+Toda regla difusa está compuesta por un antecedente y un consecuente. Tanto el uno como el otro están compuestos de sentencias que asignan valores de variables difusas (conjuntos difusos) a éstas. La forma más común de representar las reglas difusas es a través de reglas \texttt{IF \ldots THEN}, donde las relaciones entre elementos (i.e. \texttt{AND}, \texttt{OR} y \texttt{NOT}) se corresponden con las operaciones de $t$-norma, $t$-conorma y complemento.
 
-La implicación lógica $A \implies B$ es equivalente a $\lnot A \lor B$, pero en lógica difusa esta equivalencia arroja valores contra-intuitivos. Una definición ampliamente extendida es la del uso de una $t$-norma, como es el caso de la \textbf{Implicación de Mamdani}, pero existen muchos tipos diferentes\sidenote{
-	En los trabajos de [The influence of some fuzzy implication operators on the accuracy of a fuzzy model-Part I, The influence of some fuzzy implication operators on the accuracy of a fuzzy model-Part II] se estudian hasta 72 alternativas al operador $A \implies B \equiv \lnot A \lor B$ de implicación en \ac{fl}.
+La implicación lógica $A \rightarrow B$ es equivalente a $\lnot A \lor B$, pero en lógica difusa esta equivalencia arroja valores contra-intuitivos. Una definición ampliamente extendida es la del uso de una $t$-norma, como es el caso de la \textbf{Implicación de Mamdani}, pero existen muchos tipos diferentes\sidenote{
+	En los trabajos \cite{kiszka1985influence1} y \cite{kiszka1985influence2} se estudian hasta 72 alternativas al operador $A \rightarrow B \equiv \lnot A \lor B$ de implicación en \acrlongsp{fl}.
 }.
 
 \paragraph{Modus Ponens Generalizado}
 
-Se trata de la extensión del método del \textbf{modus ponens} para obtener el valor de verdad de un consecuente a partir de un antecedente ambos difusos. En el modus ponens el esquema de razonamiento es el siguiente (ecuación~\ref{eq:modus-ponens}).
+Se trata de la extensión del método del \textit{modus ponens} para obtener el valor de verdad de un consecuente a partir de un antecedente ambos difusos. En el modus ponens el esquema de razonamiento es el siguiente (ecuación~\ref{eq:modus-ponens}).
 
 \begin{logicproof}{1}
 	P(x) \to Q(x) \\
 	P(x) \\
-	\begin{subproof}
-		Q(x)
-	\end{subproof}
+	\text{Entonces} Q(x)
 	\label{eq:modus-ponens}
 \end{logicproof}
 
 Sin embargo, debido a que en lógica difusa los valores de las reglas de inferencia son conjuntos difusos, la conclusión de un silogismo no será la conclusión de la regla, sino algo aproximado a ella, como se ilustra en la ecuación~\ref{eq:generalized-modus-ponens}
 
-
 \begin{logicproof}{1}
-	\label{eq:generalized-modus-ponens}
 	P(x) \to Q(x) \\
 	P'(x) \\
-	\begin{subproof}
-		Q'(x)
-	\end{subproof}
+	\text{Entonces} Q'(x)
+	\label{eq:generalized-modus-ponens}
 \end{logicproof}
 
 La \textit{regla composicional de inferencia} es el método para determinar qué grado de asignamos a un consecuente a partir de las premisas de los antecedentes en un proceso de \textit{modus ponens generalizado}, o dicho de otro modo, cómo obtener la función de pertenencia del conjunto resultado a partir de las funciones de pertenencia de las premisas.
@@ -738,18 +739,18 @@ Cada regla de un sistema difuso de la forma \texttt{IF $x$ is $A$ THEN $y$ is $B
 \subsection{Sistemas de control difuso}
 \label{ss:fcs}
 
-Los \acrfull{fcs} son el caso de éxito de la lógica difusa que más resultados ha cosechado tanto a nivel académico como a nivel industrial. Se trata sistemas que utilizan el razonamiento difuso para inferir una respuesta a partir de un conjunto de entradas\sidenote{
+Los \acrlongsp{fcs} son el caso de éxito de la lógica difusa que más resultados ha cosechado tanto a nivel académico como a nivel industrial. Se trata sistemas que utilizan el razonamiento difuso para inferir una respuesta a partir de un conjunto de entradas\sidenote{
 	Dado que el control difuso puede extenderse a casi cualquier problema de control tradicional hace que se haya usado en multitud de campos, no sólo en el industrial. Esto hace que el mismo concepto pueda encontrarse con muchos nombres diferentes, como Sistemas de Lógica Difusa, Sistemas de Inferencia Difusa, Sistemas Expertos Difusos, Sistemas Basados en Reglas Difusas o simplemente Sistemas Difusos.
 }. Su uso se aplica tanto a sistemas de control manual como a sistemas donde los elementos a controlar son muy difíciles o incluso imposibles de diseñar (e.g. procesos de control con un alto número de variables relacionadas entre si).
 
-\begin{figure}
+\begin{figure}[!b]
 	\centering
 	\includegraphics{fuzzy-control-system}
 	\caption[Esquema de un \acrlongsp{fcs}]{Un \acrlongsp{fcs} es un componente compuesto por cuatro bloques principales: fuzzificador, bloque de reglas, razonador y defuzzificador.}
 	\label{fig:fuzzy-control-system}
 \end{figure}
 
-Éste se puede definir como un componente que asigna salidas de dominios no difusos (\textit{crisp}) a entradas de dominios también no difusos (\textit{crisp}) de forma no lineal haciendo uso de lógica difusa. La arquitectura de estos sistemas está compuesta por cuatro bloques: \textit{fuzzificador}, \textit{bloque de reglas}, \textit{razonador} y \textit{defuzzificador}. En la Figura~\ref{fig:fuzzy-control-system} se describe el esquema de un sistema de control difuso general.
+Éste se puede definir como un componente que asigna salidas de dominios no difusos (\textit{crisp}) a entradas de dominios también no difusos (\textit{crisp}) de forma no lineal haciendo uso de lógica difusa. La arquitectura de estos sistemas está compuesta por cuatro bloques: \textit{fuzzificador}, \textit{bloque de reglas}, \textit{razonador} (bloque de inferencia) y \textit{defuzzificador}. En la Figura~\ref{fig:fuzzy-control-system} se describe el esquema de un sistema de control difuso general.
 
 \paragraph{Fuzzificador}
 
@@ -757,13 +758,13 @@ Este bloque recibe las entradas \textit{crisp} al sistema (los cuales pertenecer
 
 \paragraph{Bloque de reglas}
 
-Define el conjunto de reglas que gobiernan el proceso deductivo del sistema de control difuso. A estas reglas se les puede aplicar pesos en caso de que se quiera simbolizar la mayor importancia de una regla frente al resto. Se suele representar como un parámetro $w_i > 0 \in \mathbb{R}$ para la regla $i$-ésima, el cual se multiplica al resultado de la regla para ponderar la importancia de la misma.
+Define el conjunto de reglas que gobiernan el proceso deductivo del \acrlongsp{fcs}. A estas reglas se les puede aplicar pesos en caso de que se quiera simbolizar la mayor importancia de una regla frente al resto. Se suele representar como un parámetro $w_i > 0 \in \mathbb{R}$ para la regla $i$-ésima, el cual se multiplica al resultado de la regla para ponderar la importancia de la misma.
 
 La forma más común de representación es a través de reglas de la forma \texttt{IF \ldots THEN \ldots} por su facilidad de comprensión.
 
-Sin embargo, otra representación muy usada (sobre todo como representación interna) es la de $m$ matriz $n$-dimensionales (una por cada conjunto difuso de salida), donde cada dimensión se corresponde con una variable lingüística, con los conjuntos difusos de éstas como índices y con los valores que toman esas intersecciones como los valores de esa salida. En la Figura~\ref{fig:fuzzy-controller-matrix-representation}\sidenote{En el desarrollo de la tesis veremos un caso en el que esta representación es útil a la hora de inferir un controlador difuso a partir de un conjunto de entrenamiento}.
+Sin embargo, otra representación muy usada (sobre todo como representación interna) es la de $m$ matrices $n$-dimensionales, donde $m$ es el número de conjuntos difusos de salida y $n$ cada variable lingüística, con los conjuntos difusos de éstas como índices y con los valores que toman esas intersecciones como los valores de dicha salida\sidenote{En el desarrollo de la tesis veremos un caso en el que esta representación es útil a la hora de inferir un controlador difuso a partir de un conjunto de entrenamiento} (Figura~\ref{fig:fuzzy-controller-matrix-representation}).
 
-\begin{figure}[!b]
+\begin{figure}
 	\centering
 	\begin{blockarray}{cccccc}
 		& $F_B^1$ & $F_B^2$ & $F_B^3$ & $F_B^4$ & $F_B^5$ \\
@@ -803,34 +804,32 @@ Existen diferentes algoritmos para la transformación de un conjunto difuso (exp
 	En el trabajo [Defuzzification: criteria and classification] se realiza una clasificación muy completa de una gran cantidad de algoritmos de defuzzificación.
 }.
 
-\subsection{Tipos de Sistemas de Control Difuso}
+\subsection{Tipos de \acrlongsp{fcs}}
 
-Los sistemas de control difuso se han usado en muchos dominios diferentes. Son tantos los autores que han trabajado sobre ello que los sistemas tienden a variar en su funcionamiento. Existen dos tipos de controladores que son los que dominan la literatura, los cuales de describen brevemente a continuación.
+Los \acrfull{fcs} se han usado en muchos dominios diferentes. Son tantos los autores que han trabajado sobre ello que los sistemas tienden a variar en su funcionamiento. Existen dos tipos de controladores que son los que dominan la literatura, los cuales de describen brevemente a continuación.
 
 \paragraph{Controlador difuso tipo Mamdani}
 
-Este controlador fue el primer intento de control destinado automatizar un motor de vapor y su caldera utilizando para ello un conjunto de reglas difusas del tipo \texttt{$IF \ldots THEN \ldots$} obtenidas directamente de la experiencia de los operarios.
+Este controlador fue el primer intento de control destinado automatizar un motor de vapor y su caldera utilizando para ello un conjunto de reglas difusas del tipo \texttt{$IF \ldots THEN \ldots$} obtenidas directamente de la experiencia de los operarios. Su estructura es la básica presentada previamente (ver Figura~\ref{fig:fuzzy-control-system}).
 
-Su estructura es la básica presentada previamente (ver Figura~\ref{fig:fuzzy-control-system}).
-
-Es consecuente de un sistema de tipo \textit{Mamdani} es siempre un conjunto difuso y por tanto requiere de un proceso de defuzzificación que es costoso. De ahí el significado el siguiente tipo de controlador.
+Es consecuente de un sistema de tipo \textit{Mamdani} es siempre un conjunto difuso y por tanto requiere de un proceso de defuzzificación que es costoso. De ahí el sentido el siguiente tipo de controlador.
 
 \paragraph{Controlador difuso tipo Takagi-Sugeno-Kang}
 
-Este tipo de controlador difuso fue propuesto por Takagi, Sugeno y Kang en los trabajos [Fuzzy identification of systems and its applications to modeling and control, Structure identification of fuzzy model], aunque se suele abreviar a tipo Takagi-Sugeno o, directamente, Sugeno.
+Este tipo de controlador difuso fue propuesto por Takagi, Sugeno y Kang en los trabajos \cite{takagi1993fuzzy} y \cite{sugeno1988structure}, aunque se suele abreviar a tipo Takagi-Sugeno o, directamente, Sugeno.
 
 En este tipo de controlador, el bloque de defuzzificación desaparece y los consecuentes de las reglas de inferencia son reemplazados por una función (normalmente un polinomio basado en los parámetros del antecedente) la cual nos devuelve directamente un valor \textit{crisp}.
 
-En función del orden del polinomio de la función de salida, el controlador recibe también el mismo orden. De esta manera, por ejemplo, si tenemos dos valores de entrada $x$ e $y$, cuando $f(x, y) = c$ ($c$ constante)se dice que el controlador es de orden $0$. Si $f(x, y) = ax + by + c$, se dice que es de orden $1$, y así sucesivamente\sidenote{
+En función del orden del polinomio de la función de salida, el controlador recibe también el mismo orden. De esta manera, por ejemplo, si tenemos dos valores de entrada $x$ e $y$, cuando $f(x, y) = c$ se dice que el controlador es de orden $0$. Si $f(x, y) = ax + by + c$, se dice que es de orden $1$, y así sucesivamente\sidenote{
 	Los controladores de tipo Takagi-Sugeno-Kang de orden $0$ son equivalentes a controladores de tipo Mamdani cuyos conjuntos difusos de salida son de tipo singleton.
 }.
 
-El consecuente en un controlador de tipo Sugeno es un valor directamente, y por tanto no necesita proceso de defuzzificación. Sin embargo, la respuesta pierde significado semántico, a diferencia de un controlador de tipo Mamdani.
+El consecuente en un controlador de tipo Sugeno es directamente un valor del dominio de la variable de salida, y por tanto no necesita proceso de defuzzificación. Sin embargo, la respuesta pierde significado semántico, a diferencia de un controlador de tipo Mamdani.
 
 \section{El paradigma de los agentes inteligentes}
 \label{ch:ci:s:agent-concept}
 
-En la figura~\ref{fig:different-povs-ai} se mostraban los cuatro objetivos perseguidos por la \gls{ai}. En uno de ellos en particular se la entiende como el estudio del conseguir que entidades (e.g. sistemas, software, \ldots) actúen de la manera más inteligente posible.
+En la figura~\ref{fig:different-povs-ai} se mostraban los cuatro objetivos perseguidos por la \acrlongsp{ai}. En uno de ellos en particular se la entiende como el estudio del conseguir que entidades (e.g. sistemas, software, \ldots) actúen de la manera más inteligente posible.
 
 Este concepto es una metáfora denominada \textbf{agente}\sidenote{
 	En \cite{russell2003artificial} se define como \textit{\enquote{\ldots just something that acts}} alegando que la palabra \textit{agent} proviene del latín \textit{agere}. Para clarificar esto, \textit{agere} es la forma verbal para \textit{hacer}, pero imprime un significado de movimiento/actividad diferente que no tiene mucho que ver con \textit{hacer} como forma verbal para \textit{crear} o \textit{dar forma} (de lo que se ocupa el verbo \textit{facere}). Por ello, el verbo \textit{actuar} es un verbo que se relaciona con \textit{agere} y de ahí la definición.
@@ -839,7 +838,7 @@ Este concepto es una metáfora denominada \textbf{agente}\sidenote{
 Es difícil encontrar un consenso en la definición de agente, y más todavía cuando entra en juego el adjetivo \textit{inteligente}. Sin embargo, sí existen una serie de características que coinciden dentro de la literatura que exponemos a continuación:
 
 \begin{itemize}
-	\item Operan siempre en un \textbf{entorno}, ya sea éste físico (e.g. una red de carreteras para un vehículo autónomo) o virtual (e.g. un cliente de correo electrónico para un clasificador de spam).
+	\item Operan siempre en un \textbf{entorno}, ya sea físico (e.g. una red de carreteras para un vehículo autónomo) o virtual (e.g. un cliente de correo electrónico para un clasificador de spam).
 	\item Tienen la capacidad de \textbf{percibir} el entorno por medio de \textit{sensores} y de \textbf{actuar} sobre él por medio de \textit{actuadores}.
 	\item Son \textbf{autónomos} en el sentido de que pueden actuar sin intervención externa (e.g. humana u otros agentes) teniendo control sobre su estado interno y su comportamiento. Algunos autores les presuponen una autonomía absoluta mientras que otros hablan de que sólo es necesaria cierta autonomía parcial.
 	\item Tienen \textbf{objetivos} a cumplir, actuando para ello sobre el entorno de la manera que les indique su comportamiento.
@@ -847,7 +846,7 @@ Es difícil encontrar un consenso en la definición de agente, y más todavía c
 \end{itemize}
 
 Nosotros hablaremos de estas entidades desde el punto de vista de la \gls{ai}, y las denominaremos indistintamente \textit{agentes}, \textit{agentes inteligentes} o \textit{agentes racionales}\sidenote{
-	El término preferido en esta tésis es precisamente este último, \textbf{agentes racionales}, dado que captura la esencia de lo que es un comportamiento inteligente. El problema de este punto de vista es que, como bromean en~\cite{russell2003artificial}, hasta un elemento tan rudimentario como un termostato puede ser considerado un elemento inteligente, ya que realiza siempre la mejor acción para cumplir sus objetivos por muy simples que puedan parecer. Pero, ¿qué hace a un agente inteligente? Según algunos autores, el hecho de que posea unos objetivos y autonomía suficiente para cumplirlos ya denota inteligencia (e.g. en~\cite{russell2003artificial}). Según otros, es necesario que el comportamiento sea flexible, esto es, que sea reactivo (reacciona ante el entorno que percibe), proactivo (iniciativa para tratar de cumplir sus objetivos) y social (capaz de interactuar con otros agentes para cumplir sus objetivos) (e.g.~\cite{Wooldridge1995}). Y otros directamente exigen, además, un comportamiento racional a la hora de cumplir los objetivos para calificarlo de inteligente (e.g.~\cite{shoham1993agent}). Como dijimos anteriormente, dónde está el límite entre qué es y que no es un inteligente cae dentro de los dominios de la filosofía.
+	El término preferido en esta tésis es precisamente este último, \textbf{agentes racionales}, dado que captura la esencia de lo que es un comportamiento inteligente. El problema de este punto de vista es que, como bromean en~\cite{russell2003artificial}, hasta un elemento tan rudimentario como un termostato puede ser considerado un elemento inteligente, ya que realiza siempre la mejor acción para cumplir sus objetivos por muy simples que puedan parecer. Pero, ¿qué hace a un agente inteligente? Según algunos autores, el hecho de que posea unos objetivos y autonomía suficiente para cumplirlos ya denota inteligencia (e.g. en~\cite{russell2003artificial}). Según otros, es necesario que el comportamiento sea flexible, esto es, que sea \textbf{reactivo} (reacciona ante el entorno que percibe), \textbf{proactivo} (iniciativa para tratar de cumplir sus objetivos) y \textbf{social} (capaz de interactuar con otros agentes para cumplir sus objetivos) (e.g.~\cite{Wooldridge1995}). Y otros directamente exigen, además, un comportamiento racional a la hora de cumplir los objetivos para calificarlo de inteligente (e.g.~\cite{shoham1993agent}). Como dijimos anteriormente, dónde está el límite a partir del cual comenzar a considerar a un ente inteligente cae dentro de los dominios de la filosofía.
 }. Por tanto usaremos la siguiente definición:
 
 \blockquote{Un agente es una entidad física o virtual que realiza una acción\sidenote{
@@ -856,7 +855,7 @@ Nosotros hablaremos de estas entidades desde el punto de vista de la \gls{ai}, y
 
 Según ésta, un agente es considerado \textbf{agente inteligente} cuando éste realiza la mejor acción posible (según un criterio de medida). En este contexto, \textit{la mejor acción posible} se refiere en términos de objetivos a cumplir y comprensión del entorno en el que se desarrolla la acción, que puede ser o no correcta.
 
-Las nociones de agentes inteligentes y la de \gls{ci} van de la mano. Esto es debido a que su definición funciona a la perfección para las técnicas de la \gls{ci}, esto es, agentes autónomos que perciben el entorno (problema) y actuan de la mejor manera posible sobre él (resuelven) de acuerdo a su conocimento del medio y su estado interno (en base a algoritmos como \gls{ann}, \gls{fl}, \ldots). Por ello desde mediados de los años 1990 el concepto de agente inteligente ha ganado tanta popularidad\sidenote{Tanto es así que en algunos trabajos se define el objetivo de la \gls{ai} como la implementación de la función agente, esto es, la función que realiza la correspondiencia de una percepción a una acción, para un problema dado.}.
+Las nociones de agentes inteligentes y la de \acrlongsp{ci} van de la mano. Esto es debido a que su definición funciona a la perfección para las técnicas que la constituyen, esto es, agentes autónomos que perciben el entorno (problema) y actuan de la mejor manera posible sobre él (resuelven) de acuerdo a su conocimento del medio y su estado interno (en base a algoritmos como \gls{ann}, \gls{fl}, \ldots). Por ello desde mediados de los años 1990 el concepto de agente inteligente ha ganado tanta popularidad\sidenote{Tanto es así que en algunos trabajos se define el objetivo de la \acrlongsp{ai} como la implementación de la función agente, esto es, la función que realiza la correspondiencia de una percepción a una acción, para un problema dado.}.
 
 \subsection{Tipos de entorno}
 
@@ -878,7 +877,7 @@ Afortunadamente es posible caracterizar los entornos de acuerdo a un conjunto de
 
 \end{marginfigure}
 	\item \textbf{Episódico o secuencial}. Un entorno en el que las acciones se dividen atómicamente donde cada una de ellas conlleva un ciclo de (percepción, decisión, acción) y sin relación una con otra se denomina episódico. Si en lugar de ello la acción del agente puede afectar a las decisiones futuras se dice que el entorno es \textbf{no episódico} o \textbf{secuencial}.
-	\item \textbf{Estático o dinámico}. Si durante la toma de decisioń en entorno no cambia, se dice que el entorno es \textbf{estático}. En caso contrario, se dice que es \textbf{dinámico}.
+	\item \textbf{Estático o dinámico}. Si durante la toma de decisión en entorno no cambia, se dice que el entorno es \textbf{estático}. En caso contrario, se dice que es \textbf{dinámico}.
 	\item \textbf{Discreto o continuo}. Esta dimensión en realidad se divide en cuatro, estado del entorno, tiempo en el entorno, percepciones y acciones. La dimensión es \textbf{discreta} cuando ésta se divide en una partición discretizada, y \textbf{continua} cuando no. Por ejemplo, en el Juego de la Vida de Conway, si se modela en un sistema multiagente, tanto el estado (i.e. tablero) como el tiempo (i.e. turnos) como las percepciones y acciones están discretizadas. Sin embargo, en un entorno de conducción automática se puede determinar que las cuatro dimensiones son continuas.
 	\item \textbf{Conocido o desconocido}. Un entorno es \textbf{conocido} cuando es posible determinar cuál va a ser el resultado de una acción. Si por el contrario no es posible, entonces se dice que es \textbf{desconocido}\sidenote{
 		Que el conocimiento del entorno no sea total es un factor clave que diferencia la racionalidad de la omnisciencia. La omnisciencia significa conocer el resultado de toda acción antes de realizarla y por tanto implica el conocimiento de absolutamente todos los detalles del entorno. La racionalidad existe dentro de un contexto de conocimiento limitado.
@@ -913,16 +912,16 @@ La primera diferencia clave surge en la manera que se ofrece al bloque de infere
 \end{marginfigure}
 
 \begin{itemize}
-	\item \textbf{Sin modelo de entorno}. Si el agente ofrece su interpretación del entorno directamente, sin hacer uso de información histórica sobre el entorno que se ha movido. Otras formas de denominar a estos agentes es como \textit{agentes reactivos} o \textit{simple-reflex agents} (\cite{russell2003artificial}), aunque algunos autores usan dichas expresiones para la forma de inducción de acciones a partir de percepciones. Además, los agentes reactivos sí pueden incorporar un modelo básico del entorno (Figura~\ref{fig:reactive-agent}) y por ello preferimos la deniminación \textit{sin modelo de entorno}.
-	\item \textbf{Con modelo de entorno}. El agente genera su interpretación más detallada del entorno a partir de las percepciones que llegan desde los sensores y de el histórico del entorno que mantiene. Otras formas de llamarlo es \textit{agentes con estado} o \textit{Model-based}, pero lo hemos denominado de esta manera para diferenciar que el modelo que se mantiene en este punto pertenece únicamente al entorno.
+	\item \textbf{Sin modelo de entorno}. Si el agente ofrece su interpretación del entorno directamente, sin hacer uso de información histórica sobre el entorno que se ha movido. Otras formas de denominar a estos agentes es \textit{agentes reactivos} o \textit{simple-reflex agents} (\cite{russell2003artificial}), aunque algunos autores usan dichas expresiones para la forma de inducción de acciones a partir de percepciones. Además, los agentes reactivos sí pueden incorporar un modelo básico del entorno (Figura~\ref{fig:reactive-agent}) y por ello preferimos la deniminación \textit{sin modelo de entorno}.
+	\item \textbf{Con modelo de entorno}. El agente genera su interpretación del entorno a partir de las percepciones que llegan desde los sensores y del histórico del entorno que mantiene. Otras formas de llamarlo es \textit{agentes con estado} o \textit{Model-based}, pero lo hemos denominado de esta manera para diferenciar que el modelo que se mantiene en este punto pertenece únicamente al entorno.
 \end{itemize}
 
 La siguiente clasificación viene motivada por la forma de deducir el conjunto de acciones a ser aplicadas por parte de los sensores. En este sentido podemos identificar tres tipos distintos de agentes:
 
 \begin{itemize}
-	\item \textbf{Reactivos} (\ref{fig:reactive-agent}). Son aquellos donde el uso de un proceso de razonamiento explícito es demasiado costoso para producir una conducta en un tiempo aceptable. Se suelen implementar como correspondencias (percepción $\rightarrow$ acción) sin ningún razonamiento adicional.
-	\item \textbf{Basados en objetivos} (\ref{fig:goal-based-agent}). Plantean una deducción de forma que determinan cuál sería el estado del entorno tres aplicar varias o todas las acciones que puede realizar. En base a los resultados, selecciona la acción que se corresponde con sus propios objetivos.
-	\item \textbf{Basados en utilidad} (\ref{fig:utility-based-agent}). Éstos plantean una deducción similar a los basados en objetivos con la diferencia de que, mientras los primeros sólo diferencian entre entorno objetivo o no objetivo, éstos asignan un valor (i.e. \textit{utilidad}) a cada uno de los escenarios de entorno posibles para seleccionar el mejor (e.g. el que mayor utilidad tiene).
+	\item \textbf{Reactivos} (Figura~\ref{fig:reactive-agent}). Son aquellos donde el uso de un proceso de razonamiento explícito es demasiado costoso para producir una conducta en un tiempo aceptable. Se suelen implementar como correspondencias (percepción $\rightarrow$ acción) sin ningún razonamiento adicional.
+	\item \textbf{Basados en objetivos} (Figura~\ref{fig:goal-based-agent}). Plantean una deducción de forma que determinan cuál sería el estado del entorno tres aplicar varias o todas las acciones que puede realizar. En base a los resultados, selecciona la acción que se corresponde con sus propios objetivos.
+	\item \textbf{Basados en utilidad} (Figura~\ref{fig:utility-based-agent}). Plantean una deducción similar a los basados en objetivos con la diferencia de que, mientras los primeros sólo diferencian entre entorno objetivo o no objetivo, éstos asignan un valor (i.e. \textit{utilidad}) a cada uno de los escenarios de entorno posibles para seleccionar el mejor (e.g. el que mayor utilidad tiene).
 \end{itemize}
 
 \begin{marginfigure}
@@ -933,27 +932,29 @@ La siguiente clasificación viene motivada por la forma de deducir el conjunto d
 
 En la literatura se describen muchos tipos de agente, como por ejemplo los agentes \gls{bdi} o los agentes lógicos\sidenote{El entorno se representa con reglas lógicas y se infiere mediante métodos como por ejemplo deducción lógica o prueba de teoremas}. Sin embargo, éstos pueden definirse en los términos aquí expuestos. 
 
-\subsection{\Acrlongpl{mas}}
+\subsection{\Acrlongplsp{mas}}
 
 Son aquellos sistemas compuestos de dos o más agentes que interactúan de alguna manera para llegar a una solución.
 
-Cuando los agentes son inteligentes y el problema cae dentro del dominio de la \gls{ai}, el ámbito de estudio es el de la \gls{dai}, la rama dedicada a la resolución de problemas mediante procesamiento descentralizado.
+Cuando los agentes son inteligentes y el problema cae dentro del dominio de la \acrlongsp{ai}, el ámbito de estudio es el de la \gls{dai}, la rama dedicada a la resolución de problemas mediante procesamiento descentralizado.
 
-Desde el punto de vista de la ingeniería de sistemas, y a pesar del aumento de complejidad, los \gls{mas}, al ser sistemas inherentemente descentralizados, ofrecen múltiples ventajas frente a los sistemas centralizados tradicionales:
+Desde el punto de vista de la ingeniería de sistemas, y a pesar del aumento de complejidad, los \Acrfull{mas}, al ser sistemas inherentemente descentralizados, ofrecen múltiples ventajas frente a los sistemas centralizados tradicionales:
 
 \begin{itemize}
 	\item Los sistemas son más robustos y fiables frente a fallos, ya que los agentes son autónomos e independientes del resto.
 	\item La modificación del sistema se puede realizar sobre la marcha, agente a agente sin necesidad de parar el sistema al completo.
 	\item Su diseño fuerza a desacoplar las dependencias entre agentes.
 	\item Son inherentemente paralelizables y por tanto pueden llegar a ser más eficientes que sus homólogos centralizados. Este punto es quizá el más controvertido, ya que esta ganancia en eficiencia se puede perder rápidamente en función de la cantidad de comunicación existente entre agentes.
-	\item Debido al nivel de complejidad alcanzado en los sistemas existentes en la actualidad, la computación se distribuye a través de múltiples sistemas, normalmente heterogéneos. La tendencia además es a la alza. La definición de los \gls{mas} hace natural su implementación en este tipo de arquitecturas.
+	\item Debido al nivel de complejidad alcanzado en los sistemas existentes en la actualidad, la computación se distribuye a través de múltiples sistemas, normalmente heterogéneos. La tendencia además es a la alza. La definición de los \acrlongplsp{mas} hace natural su implementación en este tipo de arquitecturas.
 \end{itemize}
 
-Desde el punto de vista de la \gls{ai} podemos añadirles la ventaja de que permiten el estudio de conductas complejas de poblaciones a partir del comportamiento de sus elementos básicos, facilitando el estudio de modelosy de teorías sobre éstos.
+Desde el punto de vista de la \acrlongsp{ai} podemos añadirles la ventaja de que permiten el estudio de conductas complejas de poblaciones a partir del comportamiento de sus elementos básicos, facilitando el estudio de modelos y de teorías sobre éstos.
 
-\newthought{La comunicación entre agentes}, se trata de una característica clave en un \gls{mas}, ya que para denominarse de esta manera dos o más agentes deben interactuar (i.e. comunicarse) entre si. Esta interacción puede implementarse de diversas maneras\sidenote{Las formas clásicas de comunicación son el de paso de mensajes, los sistemas de pizarra y la estigmergia. Para los dos primeros existen dos propuestas para estándar de lenguaje de comunicación, \gls{kqml} (\cite{Finin1994}) y \gls{acl} (\cite{Poslad2007}). La tercera forma de comunicación suele ser muy dependiente del problema y no se apoya en lenguajes estándares. Se trata de una forma de comunicación basada en la modificación del entorno, como la efectuada por las hormigas en la búsqueda de alimento, donde éstas dejan rastros de feromonas modificando el entorno para modificar el comportamiento del resto de la colonia.} y siempre toman una o las dos formas siguientes:
+\newthought{La comunicación entre agentes} se trata de una característica clave en un \acrlongsp{mas}, ya que para denominarse de esta manera dos o más agentes deben interactuar/comunicarse entre si. Esta interacción puede implementarse de diversas maneras\sidenote{
+	Las formas clásicas de comunicación son el paso de mensajes, los sistemas de pizarra y la estigmergia. Para los dos primeros existen dos propuestas para estándar de lenguaje de comunicación, \gls{kqml} (\cite{Finin1994}) y \gls{acl} (\cite{Poslad2007}). La tercera forma de comunicación suele ser muy dependiente del problema y no se apoya en lenguajes estándares. Se trata de una forma de comunicación basada en la modificación del entorno, como la efectuada por las hormigas en la búsqueda de alimento, donde éstas dejan rastros de feromonas modificando el entorno para modificar el comportamiento del resto de la colonia.
+} y siempre toman una o las dos formas siguientes:
 
 \begin{itemize}
-	\item \textbf{Cooperación}. Los agentes intercambian información entre sí para llegar a una solución. Esta solución puede ser fragmentada (i.e. cada agente posee parte de la solución y se comunican para ir avanzando de forma común hacia la solución global) o poseerla uno o varios agentes que hacen uso de más agentes para ir avanzando la solución.
+	\item \textbf{Cooperación}. Los agentes intercambian información entre si para llegar a una solución. Esta solución puede ser fragmentada (i.e. cada agente posee parte de la solución y se comunican para ir avanzando de forma común hacia la solución global) o poseerla uno o varios agentes que hacen uso de más agentes para ir avanzando la solución.
 	\item \textbf{Competición}. Los agentes compiten dentro de un entorno, generalmente mediante la adquisición de recursos limitados. Un ejemplo de este tipo de sistemas multiagente puede ser aquellos sistemas de vida artificial.
 \end{itemize}
