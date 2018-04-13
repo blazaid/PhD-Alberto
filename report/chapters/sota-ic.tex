@@ -156,7 +156,7 @@ El \textit{deep learning} es una de las palabras con la que últimamente se inun
 \end{marginfigure}
 
 El adjetivo \textit{deep}, en el contexto de las redes (e.g. redes neuronales, redes de creencia, \ldots), donde se origina este término, se refiere a una red con más capas de lo habitual\sidenote{
-	De aquí surge el nombre de \textbf{shallow network} o red superficial, en contraposición a \textbf{deep network} o red profunda.
+	De aquí surge el término de \textbf{shallow network} o red superficial, en contraposición a \textbf{deep network} o red profunda.
 } (normalmente más de dos o tres). Este tipo de capas, históricamente ha sido más difícil de entrenar, debido entre otras cosas a las técnicas de entrenamiento (donde los parámetros tendían a diluirse según se aumentaba el número de capas entre la entrada y la salida) o a la disponibilidad de conjuntos de datos, los cuales al no ser muy grandes, las redes grandes tendían a sobre especializarse. La Figura~\ref{fig:deep-learning-capabilities} introduce, con una ilustración un tanto informal, las capacidades del deep learning frente a las de los modelos entrenados antes de esta época.
 
 Los factores antes mencionados han hecho posible la operación sobre redes más grandes y profundas con cantidades de ordenes de magnitud muy superiores. El resultado en la actualidad es que tenemos modelos que mejoran mucho los modelos anteriores, y no parece haber cota superior en su capacidad de aprendizaje\sidenote{
@@ -165,15 +165,15 @@ Los factores antes mencionados han hecho posible la operación sobre redes más 
 
 \section{\Acrlongplsp{ann}}
 
-Son herramientas que tratan de replicar las funciones cerebrales de un ser vivo de una manera muy fundamental, esto es, desde sus componentes más básicos, las neuronas. Para ello se basan en estudios de neurobiología y de ciencia cognitiva moderna del cerebro humano\sidenote{
+Son herramientas que tratan de replicar las funciones cerebrales de un ser vivo de una manera muy fundamental, esto es, desde sus componentes más básicos, las neuronas. Para ello se basan en estudios de neurobiología y de ciencia cognitiva moderna del humano\sidenote{
 	Aún apoyándose en la topología y funcionamiento del cerebro humano para realizar el símil, lo cierto es que dichos modelos distan aún de considerarse \textit{cerebros artificiales}. La red neuronal más compleja hasta la fecha es la propuesta en~\cite{TraskANDREWTRASK}, con alrededor de $160.000$ parámetros a ser ajustados (podemos abstraernos y pensar en ellos como conexiones entre neuronas). Si comparamos esta cifra sólo con las del neocórtex (figura~\ref{fig:neocortex}) hace que, tecnológicamente hablando, nos quedemos con la sensación de estar aún a años luz de aproximarnos a la complejidad de un cerebro humano.
 }.
 
 Una \gls{ann} es independiente del problema a solucionar. Se la puede considerar como una caja negra que aprende las relaciones que subyacen en los datos de un problema para abstraer el modelo a partir de éstos. Estas características de aprendizaje y abstracción son los factores determinantes por los que son usadas en prácticamente todas las áreas de la ciencia y de la ingeniería (\cite{Du2006}).
 
-El primer trabajo en la disciplina se le atribuye a  los investigadores McCulloch-Pitts por su modelo de neurona artificial ilustrado en la figura~\ref{fig:mccullocs-pitts-neuron-model} (\cite{McCulloch1943}). Existen diferentes tipologías y formas de operar con redes, pero todas funcionan de la misma manera: unidades (e.g. neuronas) interconectados mediante enlaces por los que fluye la información de manera unidireccional, donde algunas de dichas unidades sirven de entrada al sistema (i.e. entradas o sensores), otras sirven de salida del sistema (i.e. salidas y actuadores) y otras como elementos internos (i.e. ocultas), y donde los pesos de sus conexiones se ajustan mediante un proceso denominado \textit{entrenamiento}, imitando los principios de la teoría hebbiana~\cite{hebb19680}.
+El primer trabajo en la disciplina se le atribuye a  los investigadores McCulloch-Pitts por su modelo de neurona artificial ilustrado en la figura~\ref{fig:mccullocs-pitts-neuron-model} (\cite{McCulloch1943}). Existen diferentes tipologías y formas de operar con redes, pero todas funcionan de la misma manera: unidades (e.g. neuronas) conectadsa entre si mediante enlaces por los que fluye la información de manera unidireccional, donde algunas de dichas unidades sirven de entrada al sistema (i.e. entradas o sensores), otras sirven de salida del sistema (i.e. salidas y actuadores) y otras como elementos internos (i.e. ocultas), y donde los pesos de sus conexiones se ajustan mediante un proceso denominado \textit{entrenamiento}, imitando los principios de la teoría hebbiana~\cite{hebb19680}.
 
-Este primer modelo de neurona proponía una función escalón para determinar si la neurona se activaba o no, como analogía del funcionamiento de la neurona artificial. Sin embargo, este modelo es muy limitado. La verdadera potencia de las redes surge del tanto del uso de funciones de activación no lineales como de la agrupación de estas neuronas en estructuras más complejas.
+Este primer modelo de neurona proponía una función escalón para determinar si la neurona se activaba o no, como analogía del funcionamiento de la neurona artificial. Sin embargo, este modelo es muy limitado. La verdadera potencia de las redes surge del tanto del uso de funciones de activación no lineales como de la formación de estructuras más complejas de neuronas.
 
 \begin{figure}[t]
 	\centering
@@ -221,72 +221,73 @@ El valor de salida de una neurona queda determinado por la aplicación de una fu
 	\centering
 	\subfloat[Sigmoide]{\includegraphics[width=0.46\linewidth]{sigmoid-function}}\qquad
 	\subfloat[Tangente hiperbólica]{\includegraphics[width=0.46\linewidth]{tanh-function}}
-	\caption[Funciones de activación: sigmoide y tangente hiperbólica]{Las funciones de activación sigmoidal y tangente hiperbólicas. Ambas se han usado como funciones de activación no lineales gracias a que sus derivadas son continuas a lo largo de todo el dominio y además son fácilmente computables.}
+	\caption[Funciones de activación: sigmoide y tangente hiperbólica]{Las funciones de activación sigmoidal y tangente hiperbólica. Ambas se usan como funciones de activación no lineales gracias a que sus derivadas son continuas a lo largo de todo el dominio y además son fácilmente computables.}
 	\label{fig:sig-and-tanh}
 \end{figure}
 
-Las funciones de activación clásicas usadas en redes neuronales han sido la función sigmoidal (eq.~\ref{eq:sigmoid}) y la tangente hiperbólica (eq.~\ref{eq:tanh}). Por un lado, son funciones no lineales que mantienen normalizados las activaciones de las neuronas, y por otro, son derivables a lo largo de todo el dominio de los reales, siendo su derivada además fácilmente computable. En la Figura~\ref{fig:sig-and-tanh} se muestra una representación gráfica de éstas funciones junto con su derivada.
+Las funciones de activación clásicas usadas en redes neuronales han sido la función sigmoidal (eq.~\ref{eq:sigmoid}) y la tangente hiperbólica (eq.~\ref{eq:tanh}). Por un lado, son funciones no lineales que mantienen normalizadas las activaciones de las neuronas, son derivables a lo largo de $\mathbb{R}$, siendo su derivada además fácilmente computable. En la Figura~\ref{fig:sig-and-tanh} se muestra una representación gráfica de éstas funciones junto con su derivada.
 
 \begin{equation}
-\sigma (x) = \frac{1}{1+e^{-x}} \qquad
-\frac{d\sigma (x)}{d(x)} = \sigma (x)\cdot (1-\sigma(x)).
-\label{eq:sigmoid}
+	\sigma (x) = \frac{1}{1+e^{-x}} \qquad
+	\frac{d\sigma (x)}{d(x)} = \sigma (x)\cdot (1-\sigma(x)).
+	\label{eq:sigmoid}
 \end{equation}
 
 \begin{equation}
-\tanh(x) = \frac{e^x - e^{-x}}{e^x+e^{-x}} \qquad
-\frac{d\tanh (x)}{d(x)} = 1 - \tanh^2(x)
-\label{eq:tanh}
+	\tanh(x) = \frac{e^x - e^{-x}}{e^x+e^{-x}} \qquad
+	\frac{d\tanh (x)}{d(x)} = 1 - \tanh^2(x)
+	\label{eq:tanh}
 \end{equation}
 
-En general, la tangente hiperbólica es superior a la sigmoidal en todos sus aspectos. Computacionalmente es menos costoso el cálculo de una función sigmoidal, pero con la potencia de cómputo actual esta diferencia puede considerarse despreciable. Además de tener una forma similar a la sigmoidal, latangente hiperbólica permite enviar señales de activación negativas. Además, tiende a centrar los datos de una capa a otra en lugar de mantener un sesgo hacia el $0.5$ (recordemos que mientras que la sigmoidal está definida en el intervalo $(0, 1)$, la tangente hiperbólica se encuentra definida entre los intervalos $(-1, 1)$. Por tanto, en un caso general, la tengente hiperbólica suele ser preferible a la sigmoidal.
+En general, la tangente hiperbólica es superior a la sigmoidal en todos sus aspectos. Computacionalmente es menos costoso el cálculo de una función sigmoidal, pero con la potencia de cómputo actual esta diferencia se puede considerar despreciable. Además de tener una forma similar a la sigmoidal, la tangente hiperbólica permite enviar señales de activación negativas. Además, tiende a centrar los datos de una capa a otra en lugar de mantener un sesgo hacia el $0.5$ (recordemos que mientras que la sigmoidal está definida en el intervalo $(0, 1)$, la tangente hiperbólica se encuentra definida entre los intervalos $(-1, 1)$. Por tanto, en un caso general, la tangente hiperbólica suele ser preferible a la sigmoidal.
 
 Aún así, en algunas situaciones sí podría tener sentido el uso de funciones sigmoide en lugar de tangentes hiperbólicas. Por ejemplo, en un problema de clasificación, mantener en la capa de salida funciones de activación sigmoide permite ajustar la salida en el intervalo $(0, 1)$, sin necesidad de realizar una posterior normalización.
 
-Sin embargo, el principal problema de estas funciones es cuando los valores netos de las entradas son muy grandes. En ese caso, las funciones se acercan a los extremos, aproximándose sus gradientes a 0, y por tanto frenando el aprendizaje. Este error es denominado frecuentemente como \textit{vanishing gradient} en la literatura. Es una de las razones por las que en la fase de inicialización de una red neuronal se tendía a valores en torno al 0 en los pesos. Unos valores altos hacían que las entradas netas fuesen muy grandes ralentizando el aprendizaje.
+Sin embargo, el principal problema de estas funciones es cuando los valores netos de las entradas son muy grandes. En ese caso, las funciones se acercan a los extremos, aproximándose sus gradientes a $0$, y por tanto frenando el aprendizaje. Este error es denominado frecuentemente como \textit{vanishing gradient} en la literatura. Es una de las razones por las que en la fase de inicialización de una red neuronal se tiende a valores en torno al $0$ en los pesos. Unos valores altos hacen que las entradas netas sean muy grandes ralentizando el aprendizaje.
 
-Uno de los avances dentro del \ref{ss:deep-learning} fue el uso de un tipo de función de activación denominada \acrfull{relu} (eq.~\ref{eq:relu}). Ésta posee una forma muy simple pero es increíblemente efectiva. Por un lado, evita el problema del \textit{vanishing gradient} dado que su derivada es constante en el intervalo $(0, \infty)$. Por otro, su cálculo es tremendamente simple comparado con el resto de funciones (no deja de ser un máximo).
+Uno de los avances dentro del \nameref{ss:deep-learning} ha sido el uso de un tipo de función de activación denominada \acrfull{relu} (eq.~\ref{eq:relu}). Por un lado, evita el problema del \textit{vanishing gradient} dado que su derivada es constante en el intervalo $(0, \infty)$. Por otro, su cálculo es tremendamente simple comparado con el resto de funciones (no deja de ser un máximo).
 
 \begin{equation}
-ReLU(x) = max(0, x) \qquad
-\frac{\partial ReLU(x)}{\partial(x)} \approx
-\begin{cases}
-0 &\quad\text{if} x < 0 \\
-1 &\quad\text{if} x \geq 0 \\
-\end{cases}
-\label{eq:relu}
+	ReLU(x) = max(0, x) \qquad
+	\frac{\partial ReLU(x)}{\partial(x)} \approx
+	\begin{cases}
+	0 &\quad\text{if} x < 0 \\
+	1 &\quad\text{if} x \geq 0 \\
+	\end{cases}
+	\label{eq:relu}
 \end{equation}
 
 \begin{equation}
-LReLU_\epsilon(x) = max(0, x) \qquad
-\frac{\partial LReLU_\epsilon(x)}{\partial(x)} \approx
-\begin{cases}
-\epsilon &\quad\text{if} x < 0 \\
-1 &\quad\text{if} x \geq 0 \\
-\end{cases}
-\label{eq:leaky-relu}
+	LReLU_\epsilon(x) = max(0, x) \qquad
+	\frac{\partial LReLU_\epsilon(x)}{\partial(x)} \approx
+	\begin{cases}
+	\epsilon &\quad\text{if} x < 0 \\
+	1 &\quad\text{if} x \geq 0 \\
+	\end{cases}
+	\label{eq:leaky-relu}
 \end{equation}
 
 Este tipo de neurona tiene una serie de características que merece la pena comentar:
 
 \begin{itemize}
-	\item No existe derivada en $0$. El aprendizaje, basado en el descenso del gradiente, se encuentra con una indeterminación en $0$. Sin embargo, es fácilmente subsanable incluyendo el valor $0$ o $1$ en la derivada en el punto $0$. Aunque no es matemáticamente correcto, computacionalmente se está reemplazando la derivada por una función muy aproximada al ésta en la que el algoritmo de descenso del gradiente se comporta de forma muy similar. Por ejemplo, la representación en la Figura~\ref{fig:relu-and-leaky-relu}, la derivada es $1$ en el punto $x = 0$.
-	\item Sin límite superior y derivada $0$ para $x < 0$. Estas características pueden ser una ventaja o una desventaja. Las activaciones muy fuertes representan relaciones entre elementos muy próximos entre sí, aunque tienen el riesgo de anular el impacto del resto de entradas, pudiendo ralentiazr el aprendizaje. Por otro lado, en el momento que el gradiente de una neurona se hace 0, ésta \textit{\enquote{muere}}, pudiendo ser una desventaja ya que la red dispone de menos neuronas para representar un modelo, como una ventaja, al ajustarse el modelo al número de neuronas necesarias. En general, las desventajas en estos aspectos aparecen cuando el factor de aprendizaje es notoriamente alto.
+	\item No existe derivada en $0$. El aprendizaje, basado en el descenso del gradiente, se encuentra con una indeterminación en $0$. Sin embargo, es fácilmente subsanable incluyendo el valor $0$ o $1$ en la derivada en el punto $0$. Aunque no es matemáticamente correcto, computacionalmente se está reemplazando la derivada por una función muy aproximada al ésta, en la que el algoritmo de descenso del gradiente se comporta de forma muy similar. Por ejemplo, la representación en la Figura~\ref{fig:relu-and-leaky-relu}, la derivada es $1$ en el punto $x = 0$.
+	\item Sin cota superior. Las activaciones muy fuertes representan relaciones entre elementos muy próximos entre sí, por lo que no tener una cota superior en el peso puede ser una ventaja a la hora de acelerar un entrenamiento, o una desventaja porque puede llegar a anular el impacto del resto de entradas. En general, esta desventaja aparece cuando el factor de aprendizaje es notoriamente alto.
+	\item Derivada $0$ para $x < 0$. En el momento que el gradiente de una neurona se hace $s0$ \textit{\enquote{muere}}, por lo que la red estará compuesta sólo por activaciones positivas. Esta anulación puede ser una ventaja al si el modelo se ajusta a las neuronas necesarias o una desventaja si se anulan demasiadas.
 \end{itemize}
 
 \begin{figure}[t]
 	\centering
 	\subfloat[\acrshort{relu}]{\includegraphics[width=0.46\linewidth]{relu-function}}\qquad
 	\subfloat[Leaky \acrshort{relu}]{\includegraphics[width=0.46\linewidth]{leaky-relu-function}}
-	\caption[Funciones de activación: \acrshort{relu} y Leaky-\acrshort{relu}]{La función de activación (a) \gls{relu} evita el problema del estancamiento cuando la entrada neta de la neurona es muy alta. La función de activación \textit{Leaky} \gls{relu} (en este ejemplo, con $\epsilon = 0.1$) es una de las posibles soluciones cuando se permite que la entrada neta a la red sea menor que 0, ya que en el caso de la función \gls{relu} la derivada es 0 y por tanto el gradiente no nos indica hacia dónde ha de descender el error.}
+	\caption[Funciones de activación: \acrshort{relu} y Leaky-\acrshort{relu}]{La función de activación \gls{relu} evita el problema del estancamiento cuando la entrada neta de la neurona es muy alta. La función de activación \textit{Leaky} \gls{relu} (en este ejemplo, con $\epsilon = 0.1$) es una de las posibles soluciones cuando se permite que la entrada neta a la red sea menor que $0$, ya que en el caso de la función \gls{relu} la derivada es $0$ y por tanto el gradiente deja de indicar hacia dónde ha de descender el error.}
 	\label{fig:relu-and-leaky-relu}
 \end{figure}
 
-Por último, la función de activación \textit{Leaky} \gls{relu} (eq.~\ref{eq:leaky-relu}) es una evolución de la \gls{relu} para el uso en problemas donde es ventajoso que una neurona no llegue a tener nunca un gradiente de 0. Van acompañadas de un parámetro $\epsilon \approx 0$ que determina la pendiente para todos aquellos valores menores de $0$. Un ejemplo de esta neurona se ilustra en la figura~\ref{fig:relu-and-leaky-relu}. Su uso no está muy extendido, pero existen casos en los que su uso está justificado.
+Por último, la función de activación \textit{Leaky} \gls{relu} (eq.~\ref{eq:leaky-relu}) es una evolución de la \gls{relu} para el uso en problemas donde es ventajoso que una neurona no llegue a tener nunca un gradiente de $0$. Van acompañadas de un parámetro $\epsilon \approx 0$ que determina la pendiente para todos aquellos valores menores de $0$. Un ejemplo de esta neurona se ilustra en la figura~\ref{fig:relu-and-leaky-relu}. Su uso no está muy extendido, pero existen casos en los que está justificado.
 
 \subsection{Estructura y clasificación de redes neuronales}
 
-Las \gls{ann} reciben ese nombre debido a que son sistemas formados por multitud de neuronas artificiales simples. Dependiendo de cómo su topología y configuración, éstas serán más adecuadas para unos u otros problemas (e.g. unas serán más adecuadas para regresión, clasificación, predicción, \textit{clustering}).
+Las \gls{ann} reciben ese nombre debido a que son sistemas formados por multitud de neuronas artificiales simples. Dependiendo de cómo su topología y configuración, éstas serán más adecuadas para unos u otros problemas (es decir, unas serán más adecuadas para regresión, otras para clasificación, otras para \textit{clustering}, etcétera).
 
 Típicamente, estas redes se componen de neuronas conectadas, por lo que se puede pensar en ellas como un grafo ponderado donde los nodos se corresponden a las neuronas, las aristas a las conexiones entre entradas y salidas y los pesos de las aristas a los pesos de las conexiones de entrada. Existen diferentes topologías o arquitecturas dependiendo de qué forma toma el grafo que modela las neuronas y sus conexiones. Estos dos tipos son los siguientes:
 
@@ -299,27 +300,28 @@ Típicamente, estas redes se componen de neuronas conectadas, por lo que se pued
 \end{figure}
 
 \begin{itemize}
-	\item Redes \textbf{feed-forward} (o prealimentadas). Sus representación como grafo no presenta ningún ciclo (por tanto ninguna retroalimentación entre neuronas, como se ilustra en la figura~\ref{fig:ff-vs-rnn}). Es la topología más usada en aplicaciones prácticas debido a su sencillez y su efectividad. En ellas el flujo de información sigue un camino desde un conjunto de neuronas denominadas \textit{entradas} hasta otro conjunto de neuronas denominado \textit{salidas}. No es requisito que las neuronas se agrupen en capas, aunque suele ser la estructura común. A las redes de más de dos/tres capas ocultas (i.e. las capas que se encuentran entre la capa de neuronas de entrada y la capa de neuronas de salida) se las suele denominar \textit{profundas} o \textit{deep}. Representantes clásicos de esta categoría pueden ser el \gls{mlp}~\cite{rumelhart1985learning}, los autoencoders~\cite{Hinton2006} o los \gls{som}~\cite{kohonen1998self}.
-	\item Redes \textbf{recurrentes}. Éstas tienen al menos un ciclo dentro de su representación, de manera que el flujo de información de salida de una neurona puede llegar a afectar a su propio estado. Aunque representan de manera más fiel las bases biológicas del cerebro, históricamente han sido más complejas a la hora de operar y entrenar debido a estas relaciones. Sin embargo, durante la última década han aparecido nuevas técnicas que facilitan su operación. Algunos casos particulares de este tipo de arquitectura son las Redes de Hopfield~\cite{hopfield1982neural} o las redes \acrshort{lstm}~\cite{hochreiter1997long}.
+	\item Redes \textit{\textbf{feed-forward}} (o prealimentadas). Sus representación como grafo no presenta ningún ciclo (por tanto ninguna retroalimentación entre neuronas, como se ilustra en la figura~\ref{fig:ff-vs-rnn}). Es la topología más usada en aplicaciones prácticas debido a su sencillez y su efectividad. En ellas el flujo de información sigue un camino desde un conjunto de neuronas denominadas \textit{entradas} hasta otro conjunto de neuronas denominado \textit{salidas}. No es requisito que las neuronas se agrupen en capas, aunque suele ser la estructura común. A las redes de más de dos/tres capas ocultas (más adelante, en \nameref{ss:mlp} explicamos esta nomenclatura) se las suele denominar \textit{profundas} o \textit{deep}. Representantes clásicos de esta categoría pueden ser el \gls{mlp}~\cite{rumelhart1985learning}, los \glspl{autoencoder}~\cite{Hinton2006} o los \gls{som}~\cite{kohonen1998self}.
+	\item Redes \textbf{recurrentes}. Tienen al menos un ciclo dentro de su representación, de manera que el flujo de información de salida de una neurona puede llegar a afectar a su propio estado. Aunque representan de manera más fiel las bases biológicas del cerebro, históricamente han sido más complejas a la hora de operar y entrenar debido a estas relaciones. Sin embargo, durante la última década han aparecido nuevas técnicas que facilitan su operación. Algunos casos particulares de este tipo de arquitectura son las Redes de Hopfield~\cite{hopfield1982neural} o las redes \Acrfull{lstm}~\cite{hochreiter1997long}.
 \end{itemize}
 
 Esta tesis se centra en redes pertenecientes al primer grupo, concretamente en las topologías \acrshort{mlp} y \acrshort{cnn}, con las que se cerrará la presente sección. Ambos tipos de redes han probado su efectividad en diferentes dominios, aunque las segundas están demostrando su efectividad con las nuevas ténicas surgidas a partir del \textit{deep learning}
 
 \subsection{Perceptrones multicapa}
+\label{ss:mlp}
 
-En un perceptrón multicapa, las neuronas se encuentran agrupadas en capas de tal manera que todas las salidas de las neuronas de una capa se conectan a todas las entradas de cada una de las neuronas de la capa siguiente. A las primera y última capas de la red se las denomina respectivamente capa de entrada y de salida, mientras que las capas intermedias son denominadas capas ocultas.
+En un \Acrfull{mlp}, las neuronas se encuentran agrupadas en capas de tal manera que todas las salidas de las neuronas de una capa se conectan a todas las entradas de cada una de las neuronas de la capa siguiente. A las primera y última capas de la red se las denomina respectivamente capa de entrada y de salida, mientras que las capas intermedias son denominadas capas ocultas.
 
-La salida se calcula como sigue: supongamos que tenemos dos capas, $l-1$ y $l$, compuestas por $n^{l-1}$ y $n^l$ neuronas respectivamente cada una con su función de activación $f$, y como conexiones (pesos) entre ambas capas tendremos una matriz $W^l$ de dimensiones $(l-1, l)$. Cada una de las neuronas deberá tener una entrada de \textit{bias}, por lo que tendremos también un vector columna $\mathbf{b}^l$ que los representará. La salida $\mathbf{s}^l$ de esa capa será un vector columna que se obtendrá a partir de la siguiente función que se muestra en la ecuación~\ref{eq:ff-mlp}:
+La salida se calcula como sigue: supongamos que tenemos dos capas, $l-1$ y $l$, compuestas por $n^{l-1}$ y $n^l$ neuronas respectivamente cada una con su función de activación $f$ y, como conexiones (pesos) entre ambas capas, tendremos una matriz $W^l$ de dimensiones $(l-1, l)$. Cada una de las neuronas deberá tener una entrada de \textit{bias}, por lo que tendremos también un vector columna $\mathbf{b}^l$ que los representará. La salida $\mathbf{s}^l$ de esa capa será un vector columna que se obtendrá a partir de la ecuación~\ref{eq:ff-mlp}:
 
 \begin{equation}
 	\mathbf{s}^l = f(W^l \mathbf{s}^{l-1} + \mathbf{b}^l)
 	\label{eq:ff-mlp}
 \end{equation}
 
-Como se puede observar, la salida $s^l$ de la capa $l$ depende directamente de la salida de la capa $l - 1$. El proceso de calcular la salida es incorporando las entradas en la capa de entrada e ir iterando hasta la capa de salida.
+Como se puede observar, la salida $s^l$ de la capa $l$ depende directamente de la salida de la capa $l - 1$. El proceso de inferencia es la incorporar las entradas en la capa de entrada e ir iterando sucesivamente hasta la capa de salida.
 
-El algoritmo base de aprendizaje en un perceptrón multicapa de denomina \textit{back-propagation}~\cite{rumelhart1985learning} y se basa en la regla delta~\cite{widrow1960adaptive} para el perceptrón simple. Éste usa una técnica denominada \textit{descenso del gradiente} donde lo que se intenta es minimizar el valor de una función $f(x)$ que representa el error (en realidad el \textit{coste}\sidenote{
-	Existen dos términos asociados al error en \glspl{ann}: el error y el coste, que en la literatura se denominan \textit{loss} y \textit{cost} respectivamente. El primero se refiere al error existente entre la salida de la red neuronal y la salida esperada de un ejemplo en concreto, mientras que el segundo se refiere al error sobre todo el conjunto de entrenamiento. Es de esperar que durante el proceso de entrenamiento este error baje.
+El algoritmo base de aprendizaje en un \acrlongsp{mlp} se denomina \textit{back-propagation}~\cite{rumelhart1985learning} y se basa en la regla delta para el perceptrón simple~\cite{widrow1960adaptive}. Usa una técnica denominada \textit{descenso del gradiente} donde lo que se intenta es minimizar el valor de una función $f(x)$ que representa el error (en realidad el \textit{coste}\sidenote{
+	Existen dos términos asociados al error en \acrshortpl{ann}: \textbf{error} y \textbf{coste}, que en la literatura se denominan \textit{loss} y \textit{cost} respectivamente. El primero se refiere al error existente entre la salida de la \acrlongsp{ann} y la salida esperada de un ejemplo en concreto, mientras que el segundo se refiere al error sobre todo el conjunto de entrenamiento. Es de esperar que durante el proceso de entrenamiento este error baje.
 	
 	Existen diferentes funciones para calcular el error y el coste de un modelo en concreto. En el caso del coste, lo más común es usar la media entre todo el conjunto de entrenamiento como:
 	
@@ -329,7 +331,7 @@ El algoritmo base de aprendizaje en un perceptrón multicapa de denomina \textit
 	
 	Donde $M$ es el modelo actual, $m$ el número total de ejemplos y $L$ la función de error entre las salidas $\hat{y}$ e $y$ de cada ejemplo $i$. En algunos casos se usa la media ponderada para dar más importancia a determinados casos, pero no es lo común.
 	
-	Sin embargo, en el caso del error, existen varias funciones dependiendo de cuál sea la tarea. Por ejemplo, para tareas de regresión, lo común es usar el error cuadrático medio o su raíz cuadrada. Para tareas de clasificación, una función de error muy útil que ha remplazado a la función $hit$ (relación de aciertos-fracasos) es la entropía cruzada, que tiene la siguiente forma:
+	Sin embargo, en el caso del error, existen varias funciones dependiendo de cuál sea la tarea. Por ejemplo, para tareas de regresión, lo común es usar el error cuadrático medio o su raíz cuadrada (\gls{rmse}). Para tareas de clasificación, una función de error muy útil que ha remplazado a la función $hit$ (precisión, o relación aciertos/fracasos) es la entropía cruzada, que tiene la siguiente forma:
 	
 	\begin{equation}
 	L(\hat{y}_i, y_i) = (1 - y) \log (1 - \hat{y}) - y \log \hat{y}
@@ -338,9 +340,9 @@ El algoritmo base de aprendizaje en un perceptrón multicapa de denomina \textit
 	La razón es que en esta última se capturan sutilezas como lo cercano que ha estado un acierto. Por ejemplo, si nuestro objetivo es una salida de clasificación $(1, 1, 0)$ y tenemos dos modelos, uno que dice $(0.9, 0.9, 0.6) \rightarrow (1, 1, 1)$ y otro que dice $(0.6, 0.6, 0.6) \rightarrow (1, 1, 1)$, según la función hiy, ambos modelos funcionan igual mientras que según la entropía cruzada el primero funciona mejor que el segundo.
 	
 	Curiosamente, la entropía cruzada también funciona bien en problemas de regresión, aunque es más sencillo interpretar los resultados de un $RMSE$ y por tanto su uso no está extendido.
-}) de la red calculando como aumenta o disminuye esta con pequeñas variaciones de $x$.
+}) de la red calculando como aumenta o disminuye ésta con pequeñas variaciones de $x$.
 
-El algoritmo trata de aplicar un error desde la salida de la red sobre todos los pesos de la misma en función de cuánto han colaborado en dicho error (bajo la suposición de que, cuando mayor es un error, más ha contribuido). El problema es cómo se calcula este error. En la última capa es sencillo (conocemos las salidas real y esperada), pero la genialidad del algoritmo es que el error en las interiores lo determina a partir del error de las sucesivas capas apoyándose en el descenso del gradiente. Es decir:
+El algoritmo trata de aplicar un error desde la salida de la red sobre todos los pesos de la misma en función de cuánto han colaborado en dicho error bajo la suposición de que, cuando mayor es un error, más ha contribuido. El problema es cómo se calcula este error. En la última capa es sencillo (conocemos las salidas real y esperada), pero la genialidad del algoritmo es que el error en las interiores lo determina a partir del error de las sucesivas capas apoyándose en el descenso del gradiente.
 
 Supongamos que nos encontramos en la capa $l$ para la cual conocemos el error de salida que denotaremos como el vector columna $\delta \mathbf{s}^l$, y donde todas las neuronas usan la función de activación $f$. Entonces, de acuerdo al gradiente, el error neto que produce nuestra salida se corresponde con:
 
@@ -354,7 +356,7 @@ Una vez conocido este error podemos pasar a calcular cómo varían los parámetr
 
 \begin{subequations}
 	\begin{equation}
-		\delta \mathbf{s}^{l-1} = W^{l\top} \cdot \delta \mathbf{e} \label{eq:error-previous-layer}
+		\delta \mathbf{s}^{l-1} = W^{l} \cdot \delta \mathbf{e} \label{eq:error-previous-layer}
 	\end{equation}
 	\begin{equation}
 		\delta W^l = \delta \mathbf{e} \cdot \delta \mathbf{s}^{l-1} \label{eq:bp-weights}
@@ -375,29 +377,29 @@ El valor $\delta \mathbf{s}^{l-1}$ será el valor de entrada para la capa anteri
 	\end{equation}
 \end{subequations}
 
-Esta es la forma original del algoritmo de back propagation. Al valor $\alpha$ que aparece en las ecuaciones se le denomina factor de aprendizaje y como se puede apreciar, su valor determina lo rápido que cambian los pesos. Suele tomar valores entre $0.1$ y $0.01$, pero dependiendo de la evolución del entrenamiento y de la variación del algoritmo, éste puede llegar a tomar valores mucho más bajos. Algunas de las variaciones sobre el algoritmo inicial son las siguientes:
+Esta es la forma original del algoritmo de \textit{back-propagation}. Al valor $\alpha$ que aparece en las ecuaciones se le denomina factor de aprendizaje (en inglés \textit{learning-rate}), y como se puede apreciar, su valor determina lo rápido que cambian los pesos. Suele tomar valores entre $0.1$ y $0.01$, pero dependiendo de la evolución del entrenamiento y de la variación del algoritmo, éste puede llegar a tomar valores mucho más bajos. Algunas de las variaciones sobre el algoritmo inicial son las siguientes:
 
 \begin{itemize}
 	\item \textbf{Momento de inercia}~\cite{qian1999momentum}. Al algoritmo se le añade un factor por el cual los movimientos en el mismo sentido durante sucesivos epochs se acumulan. De esta manera, elriesgo de caer en mínimos locales disminuyen al ser capaz el algoritmo de \enquote{saltar} pequeños baches.
-	\item \textbf{Adagrad}~\cite{duchi2011adaptive}, \textbf{RMSProp}~\cite{tieleman2012lecture} y \textbf{Adadelta}~\cite{zeiler2012adadelta}. Los tres se basan en el mismo principio. Al factor de entrenamiento de la red se le añade la existencia de un factor de entrenamiento por cada peso de tal manera que se actualiza de forma diferente en función de la evolución de su gradiente individual.
-	\item \textbf{Adam}~\cite{kingma2014adam}. Este algoritmo combina los funcionamientos del momento junto con los del gradiente adaptativo del algoritmo RMSProp. Es el más utilizado en los últimos años.
+	\item \textbf{Adagrad}~\cite{duchi2011adaptive}, \textbf{RMSProp}~\cite{tieleman2012lecture} y \textbf{Adadelta}~\cite{zeiler2012adadelta}. Los tres se basan en el mismo principio. Al factor de aprendizaje de la red se le añade la existencia de otro factor individual para por cada peso de tal manera que se actualiza de forma diferente en función de la evolución de su gradiente individual.
+	\item \textbf{Adam}~\cite{kingma2014adam}. Este algoritmo combina los funcionamientos del momento junto con los del gradiente adaptativo del algoritmo \textbf{RMSProp}. Es el más utilizado en los últimos años.
 \end{itemize}
 
 \subsection{\Acrlongplsp{cnn}}
 
-\begin{figure}[!b]
+Tal y como su nombre indica, las \Acrfullpl{cnn} son redes que usan convoluciones para su funcionamiento. Aunque también está estructurada en capas, su funcionamiento es diferente. Para comenzar, su estructura se divide en dos regiones bien diferenciadas, una que se dedica a la extracción de características de la entrada (la denominaremos \textit{extracción de patrones}) y otra que se dedica a la clasificación o regresión de la entrada a partir de las características extraídas (que denominaremos \textit{región de inferencia}). En la Figura~\ref{fig:cnn-general-structure} podemos ver una ilustración del esquema general de una \acrlongsp{cnn} donde se identifican ambas regiones.
+
+\begin{figure}
 	\includegraphics{cnn-general-structure}
 	\caption[Estructura general de una \acrlongsp{cnn}]{Estructura general de una \acrlongsp{cnn}. El primer conjunto, el de extracción de patrones, se compone de operaciones de convolución y muestreo (\textit{subsampling} o \textit{pooling}). El segundo conjunto, el de inferencia, se compone de capas de neuronas conectadas una a una (la misma estructura que un \acrshort{mlp}). Fuente: \url{http://deeplearning.net}.}
 	\label{fig:cnn-general-structure}
 \end{figure}
 
-Tal y como su nombre indica, las \Acrfullpl{cnn} son redes que usan convoluciones para su funcionamiento. Aunque también está estructurada en capas, su funcionamiento es diferente. Para comenzar, su estructura se puede dividir en dos regiones bien diferenciadas, una que se dedica a la extracción de características de la entrada (la denominaremos \textit{extracción de patrones}) y otra que se dedica a la clasificación o regresión de la entrada a partir de las características extraídas (que denominaremos \textit{predicción}). En la Figura~\ref{fig:cnn-general-structure} podemos ver una ilustración del esquema general de una \acrlongsp{cnn} donde se identifican ambas regiones.
-
-La región de inferencia es en esencia un \ac{mlp}. A éste le llega un conjunto de entradas deducidas en la región anterior y realiza la operación de regresión o de clasificación que le corresponda. El funcionamiento se explica en el apartado anterior dedicado a este tipo de redes. La región de extracción de patrones es más interesante y merece más contenido.
+La región de inferencia es en esencia un \ac{mlp}. A ésta le llega un conjunto de entradas deducidas en la región anterior y realiza la operación de regresión o de clasificación que le corresponda. El funcionamiento se explica en el apartado anterior dedicado a este tipo de redes. La región de extracción de patrones es más interesante y merece más contenido.
 
 \paragraph{Convoluciones}
 
-Una convolución es una operación matemática que funciona como filtro sobre una estructura espacial (en este contexto, normalmente de matriz o de cubo) para identificar patrones y/o para transformar estructuras identificadas. Para simplificar la explicación en este apartado, supondremos que la entrada se trata de una matriz bidimensional (e.g. una imagen de un sólo canal de color), y que los filtros son también bidimensionales, pero es común tener espacios de entrada de más dimensiones\sidenote{
+Una convolución es una operación matemática que funciona como filtro sobre una estructura espacial (en este contexto, normalmente en forma de matriz o de cubo) para identificar patrones y/o para transformar estructuras identificadas. Para simplificar la explicación en este apartado, supondremos que la entrada se trata de una matriz bidimensional (e.g. una imagen de un sólo canal de color), y que los filtros son también bidimensionales, pero es común tener espacios de entrada de más dimensiones\sidenote{
 	De hecho, para analizar imágenes lo normal es trabajar sobre los diferentes canales de color como capas diferentes, por lo que una imagen es en realidad una matriz tridimensional de dimensiones $(w, h, c)$ donde $w$ es el ancho, $h$ es el alto y $c$ es el número de canales.
 	
 	\centering
@@ -435,11 +437,11 @@ El símbolo $\circledast$ denota la operación de convolución. Esta operación 
 	\label{eq:convolve-result-sizes-basic}
 \end{align}
 
-No obstante este funcionamiento de las convoluciones tiene un problema: las matrices tienden a ser cada vez más pequeñas con cada opreación de convolución. En el contexto del \textit{deep-learning}, el número de capas es finito y viene determinado por el tamaño del filtro.
+No obstante este funcionamiento de las convoluciones tiene un problema: las matrices tienden a ser cada vez más pequeñas con cada operación de convolución. En el contexto del \textit{deep-learning}, el número de capas es finito y viene determinado por el tamaño del filtro.
 
 La solución a este problema es la aplicación de una técnica denominada \textit{padding} que aumenta la matriz de origen para que la matriz resultante tras la operación de convolución quede del mismo tamaño\sidenote{
-	En general, el padding genera la cantidad de celdas con 0 alrededor de la imagen para que a la hora de aplicarlo el resultado sea igual. Es una solución válida, pero dependiendo del problema puede interesar usar diferentes formas de padding. Por ejemplo, en nuestro problema, el cálculo de los valores de padding horizontal es diferente. En la parte dedicada al desarrollo de la tesis se explicará el cálculo y el por qué.
-}. El cálculo del tamaño del padding para que la matriz resultado sea del mismo tamaño deberá ser:
+	En general, el \textit{padding} genera la cantidad de celdas con 0 alrededor de la imagen para que a la hora de aplicarlo el resultado sea igual. Es una solución válida, pero dependiendo del problema puede interesar usar diferentes formas de padding. Por ejemplo, en nuestro problema, el cálculo de los valores de padding horizontal es diferente. En la parte dedicada al desarrollo de la tesis se explicará el cálculo y el por qué.
+}. El cálculo del tamaño del \textit{padding} para que la matriz resultado sea del mismo tamaño deberá ser:
 
 \begin{align}
 	P_w = \frac{F_w - 1}{2} \\
@@ -454,13 +456,13 @@ Por tanto es necesario que los filtros sean de dimensión impar.
 \begin{figure}[!b]
 	\centering
 	\includegraphics{convolution-layer}
-	\caption[Descripción de la capa de convolución]{Descripción de la capa de convolución. Como entrada se recibe una matriz tridimensional con una capa de profundidad. Los filtros han de tener la misma profundidad, mientras que la matriz resultado tiene como profundidad el número de filtros. A las convoluciones (más un bias) se les aplica una función no lineal como en los \ac{mlp}. Por tanto, son los valores del filtro junto con los bias los parámetros que el algoritmo de aprendizaje debe aprender.}
+	\caption[Descripción de la capa de convolución]{Descripción de la capa de convolución. Como entrada se recibe una matriz tridimensional con una capa de profundidad. Los filtros han de tener la misma profundidad, mientras que la matriz resultado tiene como profundidad el número de filtros. A las convoluciones (más un \textit{bias}) se les aplica una función no lineal como en los \ac{mlp}. Por tanto, son los valores del filtro junto con los \textit{bias} los parámetros que el algoritmo de aprendizaje debe aprender.}
 	\label{fig:cnn-convolution-layer}
 \end{figure}
 
-Las capa más importante en una \ac{cnn} son las capas de convolución. Éstas se componen de un número variable de filtros que representan las características que queremos extraer de la matriz de entrada. La entrada a esta capa de convolución será la matriz a la que aplicar los filtros, y la salida será una no linearización sobre el resultado de la convolución, modificándose en el proceso la dimensión de la matriz resultado. La figura~\ref{fig:convolution-layer} ilustra esto.
+Las capa más importante en una \acrshort{cnn} son las capas de convolución. Éstas se componen de un número variable de filtros que representan las características que queremos extraer de la matriz de entrada. La entrada a esta capa de convolución será la matriz a la que aplicar los filtros, y la salida será una no linearización sobre el resultado de la convolución, modificándose en el proceso la dimensión de la matriz resultado. En la figura~\ref{fig:cnn-convolution-layer} se ilustra esto.
 
-El proceso de aprendizaje en una red de convolución sin embargo no es trivial. Sigue apoyándose en el cálculo de los gradientes en función de los parámetros, que en este caso son los valores del filtro junto con un bias por cada filtro. Las ecuaciones de este cálculo en una capa bidimensional (para cada uno de los filtros) son las siguientes:
+El proceso de aprendizaje en una \acrlong{cnn}, sin embargo, no es trivial. Sigue apoyándose en el cálculo de los gradientes en función de los parámetros, que en este caso son los valores del filtro junto con un bias por cada filtro. Las ecuaciones de este cálculo en una capa bidimensional (para cada uno de los filtros) son las siguientes:
 
 \begin{subequations}
 	\begin{equation}
@@ -473,7 +475,7 @@ El proceso de aprendizaje en una red de convolución sin embargo no es trivial. 
 
 En estas ecuaciones, $\delta C_{w,h}$ se refiere al gradiente del coste respecto a la salida de la capa de convolución correspondiente al filtro $f$ en la celda $(w, h)$. Así mismo, $S^{l*}$ se corresponde con la región (slice) de la entrada que se usó para calcular el correspondiente $\delta C_{w,h}$.
 
-Etas ecuaciones son más complejas en función de cómo varía el número de filtros y de dimensiones de los mismos, pero al final usa los mismos principios que los \acp{mlp}.
+Estas ecuaciones son más complejas en función de cómo varía el número de filtros y de dimensiones de los mismos, pero al final usa el mismo principio de propagación que un \acrshort{mlp}.
 
 \paragraph{Pooling y normalización}
 
@@ -488,11 +490,13 @@ Junto con las capa de convolución, normalmente se usan otros dos tipos de capa 
 
 El \textit{pooling} es una operación de discretización del espacio de entrada. El objetivo es reducir las dimensiones de las entradas para las siguientes capas. Esto mejora el coste computacional y ayuda contra la sobre-especialización, ya que hay menos parámetros sobre los que trabajar para la misma entrada.
 
-Su funcionamiento es similar al de las convoluciones (después de todo se tratan también de filtros), con la diferencia de que se mueven en ventanas no solapables devolviendo un valor para cada ventana y reduciendo por tanto el tamaño de la entrada. Existen tres tipos fundamentales que son el máximo, el mínimo y la media, y su diferencia estriba en el cálculo del valor de salida a partir de los valores de la entrada. En la Figura~\ref{fig:cnn-max-pooling} se ilustra un ejemplo de la operación de \textbf{max-pooling}\sidenote{
+Su funcionamiento es similar al de las convoluciones (después de todo se tratan también de filtros), con la diferencia de que se mueven en ventanas en principio no solapables, generando un único un valor para cada ventana y reduciendo por tanto el tamaño de la entrada\sidenote{
 	Es curioso que por un lado se inventen mecanismos para mantener los tamaños de entradas-salidas entre convoluciones y luego no se use el comportamiento de las convoluciones con un \textit{stride} del tamaño del filtro para realizar esa reducción. De hecho existen algunos estudios que afirman que el uso del \textit{pooling} conlleva un aumento computacional sobre el uso de convoluciones para reducir el tamaño sin implicar una pérdida de rendimiento a la hora de predecir. Un ejemplo de esto lo tenemos en~\cite{howard2017mobilenets} donde afirman:
 	
-	\blockquote{We find that max-pooling can simply be replaced by a convolutional layer with increased stride without loss in accuracy on several image recognition benchmarks}
-}.
+	\blockquote{
+		We find that max-pooling can simply be replaced by a convolutional layer with increased stride without loss in accuracy on several image recognition benchmarks
+	}
+}. Existen tres tipos fundamentales que son el máximo, el mínimo y la media, y su diferencia estriba en el cálculo del valor de salida a partir de los valores de la entrada (Figura~\ref{fig:cnn-max-pooling}).
 
 La normalización es otra operación, esta a nivel de capa, que reafirma las diferencias entre los valores existentes en la matriz, similar a un aumento de contraste en una imagen. Permite destacar diferencias y en general los resultados demuestran que acelera el proceso de aprendizaje de una \ac{cnn} drásticamente cuando se incluye como capa oculta.
 
@@ -500,26 +504,28 @@ En los últimos años, los tipos más comunes de normalización son el \gls{lrn}
 
 \subsection{Solucionando los problemas de entrenamiento}
 
-Anteriormente hablábamos de los problemas a los que se enfrentan los procesos de entrenamiento en la \gls{ci}. En líneas generales, los problemas de subespecialización pueden darse por tres razones diferentes:
+Anteriormente hablábamos de los problemas a los que se enfrentan los procesos de entrenamiento en las técnicas de \acrlongsp{ci}, la \textbf{subespecialización} o \textit{underfitting} y la \textbf{sobreespecialización} o \textit{overfitting}.
+
+En líneas generales, los problemas de subespecialización pueden darse por tres razones diferentes:
 
 \begin{itemize}
-	\item La red no es lo suficientemente grande. Puede ocurrir que el conjunto de datos requiera de más propiedades o parámetros. Las solución es incrementar el número de capas o de neuronas por capa a fin de que el modelo acabe aprendiendo al menos los datos del conjunto de entrenamiento.
-	\item El modelo no ha sido entrenado lo suficiente. Este caso es más raro, pero puede ser que el modelo sea lo suficientemente complejo para requerir más ciclos de entrenamiento. También puede ser que algunos hiperparámetros como el factor de entrernamiento o las funciones de activación están predisponiendo al modelo a aprender más lentamente.
-	\item La topología del modelo no se adecúaa los datos. Puede ocurrir que el modelo que estamos tratando de aprender aprenda mucho mejor en una topologías que en otras. Por ejempo, para aprender a clasificar imágenes, las \glspl{cnn} funcionan mejor, entre otra serie de razones, porque mantiene una coherencia espacial entre los píxeles de la imagen desde el principio, cosas que con un \gls{mlp} no ocurre. Quizá representar los parámetros de entrada de una forma diferente o probar otra topología puede hacer que aprenda el problema de forma diferente.
+	\item La red no es lo suficientemente grande. Puede ocurrir que el conjunto de datos requiera de más propiedades o parámetros. La solución es incrementar el número de capas o de neuronas por capa a fin de que el modelo acabe aprendiendo al menos los datos del conjunto de entrenamiento.
+	\item El modelo no ha sido entrenado lo suficiente. Este caso es más raro, pero puede ser que el modelo sea lo suficientemente complejo para requerir más ciclos de entrenamiento. También puede ser que algunos hiperparámetros como el factor de entrenamiento o las funciones de activación predisponen al modelo a aprender más lentamente.
+	\item La topología del modelo no se adecúa los datos. Puede ocurrir que el modelo que estamos tratando de aprender aprenda mucho mejor en una topologías que en otras. Por ejemplo, para aprender a clasificar imágenes, las \glspl{cnn} funcionan mejor, entre otra serie de razones, porque mantiene una coherencia espacial entre los píxeles de la imagen desde el principio, algo que con un \gls{mlp} no ocurre. Quizá representar los parámetros de entrada de una forma diferente o probar otra topología puede hacer que aprenda el problema de forma diferente.
 \end{itemize}
 
 El caso de la sobreespecialización es quizá algo más complejo. Cuando un modelo está sobreentrenado falla al generalizar, aunque los datos del conjunto de entrenamiento estén perfectamente aprendidos. Suele ser causado por dos razones principales:
 
 \begin{itemize}
-	\item No hay suficientes datos, por lo que el modelo no generaliza porque no sea capaz, sino porque todavía le queda por aprender. La solución suele ser aumentar la cantidad de datos que existen en el conjunto de entrenamiento.
-	\item La red está sobredimensionada. Este suele ser el caso más común, y es que la red tiene tantos parámetros que al final a aprendido a predecir uno a uno casi todos los ejemplos del conjunto de entrenamiento. Existen dos posibles soluciones no excluyentes, la simplificación de la red y la aplicación de técnicas de regularización.
+	\item No hay suficientes datos. El modelo no generaliza porque no sea capaz, sino porque todavía le queda por aprender. La solución suele ser aumentar la cantidad de datos que existen en el conjunto de entrenamiento.
+	\item La red está sobredimensionada. Suele ser el caso más común, y es que la red tiene tantos parámetros que al final a aprendido a predecir uno a uno casi todos los ejemplos del conjunto de entrenamiento. Existen dos posibles soluciones no excluyentes, la simplificación de la red y la aplicación de técnicas de regularización.
 \end{itemize}
 
-En el caso concreto de la regularización, el objetivo de esta técnica es tratar de penalizar o limitar el entrenamiento a través de la inhibición de los parámetros. Existen diferntes ténicas para la regularización de parámetros, como las $l_1$ y $l_2$ (explicadas en detalle en~\cite{ng2004feature}). En esta tésis se ha escogido una técnica de regularización denominada dropout~\cite{srivastava2014dropout}.
+En el caso concreto de la regularización, el objetivo de esta técnica es tratar de penalizar o limitar el entrenamiento a través de la inhibición de los parámetros. Existen diferntes ténicas para la regularización de parámetros, como las $L_1$ y $L_2$ (explicadas en detalle en~\cite{ng2004feature}). En esta tesis se ha escogido una técnica de regularización denominada \textit{dropout}~\cite{srivastava2014dropout}.
 
-En ésta, la idea es en cada epoch de entrenamiento del modelo, se desactivan una serie de neuronas de manera aleatoria. estas neuronas no participan ni en la predicción ni en el posterior reajuste de pesos. Es muy fácil de implementar, computacionalmente muy eficiente y mejora sustancialmente el proceso de aprendizaje en redes que sufren de una alta especialización. La Figura~\ref{fig:dropout-example} describe un ejemlpo de funcionamiento en tres epochs de un perceptrón multicapa con una tasa de dropout del $0.5$.
+En el \textit{dropout}, la idea es que en cada epoch de entrenamiento del modelo, se desactivan una serie de neuronas de manera aleatoria. Estas neuronas no participan ni en la predicción ni en el posterior reajuste de pesos. Es muy fácil de implementar, computacionalmente muy eficiente y mejora sustancialmente el proceso de aprendizaje en redes que sufren de una alta especialización. La Figura~\ref{fig:dropout-example} describe un ejemplo de funcionamiento en tres epochs de un perceptrón multicapa con una tasa de dropout del $0.5$.
 
-\begin{figure*}[t]
+\begin{figure*}
 	\centering
 	\subfloat[Epoch 1]{\includegraphics[width=0.27\linewidth]{dropout-example-a}}\qquad
 	\subfloat[Epoch 2]{\includegraphics[width=0.27\linewidth]{dropout-example-b}}\qquad
@@ -530,7 +536,7 @@ En ésta, la idea es en cada epoch de entrenamiento del modelo, se desactivan un
 
 \subsection{Grafos computacionales}
 
-En la actualidad el concepto de grafo computacional se relaciona directamente con las redes neuronales, y por ello se introduce el concepto en este apartado. Sin embargo, no se trata de un concepto exclusivo de esta técnica. De hecho, ni siquiera es un concepto perteneciente al área de la \ac{ci}, sino que son simplemente una via para representar las operaciones en forma de grafo, de tal manera que es fácil ver cuál es el flujo de los datos y las operaciones que se realizan sobre ellos.
+En la actualidad el concepto de grafo computacional se relaciona directamente con las \acrlongsp{ann}, y por ello se introduce el concepto en este apartado. Sin embargo, no se trata de un concepto exclusivo de esta técnica. De hecho, ni siquiera es un concepto perteneciente a la \acrlongsp{ci}, sino que son simplemente una vía para representar las operaciones en forma de grafo, de tal manera que es fácil ver cuál es el flujo de los datos y las operaciones que se realizan sobre ellos.
 
 Formalmente, un \textbf{grafo computacional} es un grafo dirigido donde los vértices representan operaciones sobre datos mientras que las aristas representan el flujo de dichos datos. La figura~\ref{fig:computational-graph} describe un posible grafo computacional para un perceptrón simple.
 
