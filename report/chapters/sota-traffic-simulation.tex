@@ -5,12 +5,12 @@
 	A lo largo del capítulo, se utilizarán indistintamente los términos \glsentryshort{dvu}, conductor y vehículo para referirse al mismo concepto. En caso de no ser así, se indicará de manera explícita.
 }
 
-El tráfico es un sistema de comportamiento tan caótico que extraer modelos de su funcionamiento es una tarea prácticamente imposible. Por un lado, la cantidad de variables existentes es innumerable y en muchos casos con relaciones no detectables a primera vista. Por otro, es un sistema que funciona en el mundo real, es decir, donde las mediciones en unos casos afectan a los resultados y en otros, directamente no se pueden realizar, ya sea por regulaciones vigentes o por imposibilidad física.
+El tráfico es un sistema de comportamiento tan caótico que extraer modelos de su funcionamiento es una tarea prácticamente imposible. Por un lado, la cantidad de variables existentes es muy numerosa y en muchos casos con relaciones no detectables a primera vista. Por otro, es un sistema que funciona en el mundo real, es decir, donde las mediciones en unos casos afectan a los resultados y en otros, directamente no se pueden realizar, ya sea por regulaciones vigentes o por imposibilidad física.
 
 Los simuladores de tráfico son herramientas de software que, usando diferentes modelos para representar sus componentes, describen el tráfico como sistema, permitiendo, entre otros:
 
 \begin{itemize}
-	\item Extracción de resultados y conclusiones en escenarios de tráfico determinados.
+	\item Extracción de resultados y conclusiones de escenarios de tráfico determinados.
 	\item Implementación de técnicas determinadas en tráfico simulado para su evaluación sin necesidad de alterar el tráfico real.
 	\item Introducción de modificaciones en puntos determinados (e.g. espaciales o temporales) de un escenario conocido para estudiar la divergencia en la evolución del tráfico.
 \end{itemize}
@@ -18,7 +18,7 @@ Los simuladores de tráfico son herramientas de software que, usando diferentes 
 El objetivo principal de un simulador de tráfico es el de hacer que sus modelos se parezcan lo máximo posible a la realidad. En este capítulo vamos a ver cuál es la realidad actual de este tipo de simuladores, cuáles son sus diferentes tipologías y formas de modelar los diferentes aspectos del tráfico y, posteriormente, qué simulador de los disponibles en el mercado es el idóneo para nuestro trabajo.
 
 \marginnote{
-	El entorno de simulación \gls{torcs}, usado en multitud de concursos e investigaciones, se trata de un juego. Los juegos son un \textit{sandbox} perfecto ya que presentan una abstracción de complejidad acotada sobre el dominio que trabajar.
+	El entorno de simulación \gls{torcs}, usado en multitud de concursos e investigaciones es, en realidad, un juego. Los juegos son un \textit{sandbox} perfecto ya que presentan una abstracción de complejidad acotada sobre el dominio que trabajar.
 
 	\includegraphics{torcs-logo}
 	
@@ -34,12 +34,12 @@ Los aspectos simulables y medibles del problema del tráfico son muy diversos, d
 \begin{figure}[t]
 	\centering
 	\includegraphics{how-to-simulate-traffic}
-	\caption[Aspectos medibles del tráfico]{Los aspectos medibles del problema del tráfico son muy diversos, y dependen del nivel de granularidad (i.e. complejidad) al que se quiere llegar, de qué queremos medir y de cómo lo queremos hacer.}
+	\caption[Aspectos medibles del tráfico]{Los aspectos medibles del problema del tráfico son muy diversos, y dependen del nivel de granularidad (complejidad) al que se quiere llegar, de qué queremos medir y de cómo lo queremos hacer.}
 	\label{fig:how-to-simulate-traffic}
 \end{figure}
 
 \begin{itemize}
-	\item Del nivel de \textbf{complejidad} del tráfico (e.g. modelar una vía por la que circula un centenar de coches no es lo mismo que modelar una ciudad por la que circulan millones).
+	\item Del nivel de \textbf{complejidad} del tráfico (e.g. modelar una vía por la que circula un centenar de coches no es lo mismo que modelar una ciudad por la que circulan cientos de miles).
 	\item De \textbf{qué} queremos medir (e.g. evaluar a un conductor en una situación determinada o evaluar la evolución del flujo de tráfico en un cuello de botella causado por un accidente).
 	\item De \textbf{cómo} (e.g. un \glsentrylongsp{ca} se modela de forma diferente a un modelo lineal de vías o carriles).
 \end{itemize}
@@ -54,9 +54,9 @@ El caso de los simuladores de tráfico es similar. En éstos existe un amplio in
 
 \begin{itemize}
 	\item \textbf{Microsimulación} o simulación de tipo \textbf{micro}. Su objetivo es estudiar, desde un punto de vista de granularidad fina (e.g. vehículos o peatones), las micropropiedades del flujo de tráfico como, por ejemplo, los cambios de carril, las aproximaciones a vehículos delanteros o los adelantamientos, para evaluar su comportamiento. Sus dos principales ventajas son la posibilidad de estudiar el tráfico como un todo a partir de sus elementos más simples (ofreciendo una representación más fiel de éste) y la posibilidad de estudiar cada elemento por separado. Sin embargo, su principal desventaja es que cada elemento de la simulación requiere de cómputo independiente y por tanto simulaciones con alto contenido de elementos pueden llegar a ser inviables\sidenote{
-		Existen técnicas de computación distribuida que superan ampliamente los límites impuestos por la computación en un único nodo. Un ejemplo relativamente reciente es el simulador de IBM \textit{Megaffic}. Éste implementa un modelo de granularidad micro donde cada elemento es un agente independiente (i.e. \glsentrylongplsp{mas}) usando para ello entornos con cientos de núcleos de proceso que proveen de capacidad suficiente para modelar ciudades enteras como Tokio (ver~\cite{Osogami2012} y~\cite{Suzumura2012}).
+		Existen técnicas de computación distribuida que superan ampliamente los límites impuestos por la computación en un único nodo. Un ejemplo relativamente reciente es el simulador de IBM \textit{Megaffic}. Éste implementa un modelo de granularidad micro donde cada elemento es un agente independiente (i.e. \acrlongplsp{mas}) usando para ello entornos con cientos de núcleos de proceso que proveen de capacidad suficiente para modelar ciudades enteras como Tokio (ver~\cite{Osogami2012} y~\cite{Suzumura2012}).
 	}.
-	\item \textbf{Macrosimulación} o simulación de tipo \textbf{macro}. Este tipo de modelos centran su esfuerzo en estudiar el flujo de tráfico como un todo (generalmente como fluido), explorando sus macropropiedades (e.g. evolución del tráfico, efectos onda, velocidad media o flujo en vías). Su ventaja principal es que a nivel macroscópico permiten estudiar propiedades que a nivel microscópico requeriría una cantidad ingente de recursos. Sin embargo, con este modelo es imposible obtener información precisa de un elemento en particular del tráfico.
+	\item \textbf{Macrosimulación} o simulación de tipo \textbf{macro}. Este tipo de modelos centran su esfuerzo en estudiar el flujo de tráfico como un todo (generalmente como fluido), explorando sus macropropiedades (e.g. evolución del tráfico, efectos onda, velocidad media o flujo en vías). Su ventaja principal es que a nivel macroscópico permiten estudiar propiedades que a nivel microscópico requerirían una cantidad ingente de recursos. Sin embargo, con este modelo es imposible obtener información precisa de un elemento en particular del tráfico.
 \end{itemize}
 
 \begin{figure}
@@ -68,7 +68,7 @@ El caso de los simuladores de tráfico es similar. En éstos existe un amplio in
 
 Aunque ésta es la categorización típica de modelos, en la literatura aparecen otros tipos de modelo con granularidades que pueden considerarse no pertenecientes a ninguno de estos dos conjuntos. Éste es el caso de los simuladores de tipo \textbf{sub-micro} y de tipo \textbf{meso}, de los cuales se muestra un ejemplo en la figura~\ref{fig:mesoscopic-and-submicroscopic-simulation}.
 
-Los \textbf{sub-micromodelos} especifican granularidades por debajo del nivel de \enquote{vehículo} o \enquote{peatón}. Por ejemplo, en (\cite{Minderhoud1999}) trabaja a nivel de funcionamiento del control de crucero inteligente de un vehículo en función del entorno del vehículo.
+Los \textbf{sub-micromodelos} (en algunos artículos, \textit{nano-simulación}) especifican granularidades por debajo del nivel de \enquote{vehículo} o \enquote{peatón}. Por ejemplo, en (\cite{Minderhoud1999}) trabaja a nivel de funcionamiento del control de crucero inteligente de un vehículo en función del entorno del vehículo.
 
 Por otro lado los \textbf{mesosimuladores} (e.g.~\cite{munoz2001integrated} o \cite{casas2011need}) nacen para amortiguar los problemas inherentes a la complejidad en los micromodelos y a la falta de resolución en los macromodelos.
 
@@ -88,14 +88,14 @@ Existen otras dos formas de clasificar los simuladores en función de cómo evol
 En el caso de la dimensión \textbf{espacio}, la clasificación diferencia las simulaciones que se mueven por un espacio discreto o por uno continuo:
 
 \begin{itemize}
-	\item Espacio \textbf{discreto}. Simulación donde el espacio está dividido en celdas que (normalmente) sólo pueden estar ocupadas por un elemento en un momento determinado. Este es el caso, por ejemplo, de los simuladores basados en \acrlongsp{ca} (figura~\ref{fig:cellular-automata-based-sim}.
+	\item Espacio \textbf{discreto}. Simulación donde el espacio está dividido en celdas que (normalmente) sólo pueden estar ocupadas por un elemento en un momento determinado. Este es el caso, por ejemplo, de los simuladores basados en \acrlongplsp{ca} (figura~\ref{fig:cellular-automata-based-sim}).
 	\item Espacio \textbf{continuo}. Simulación que transcurre en una secuencia infinita de puntos en el espacio. Es el caso por ejemplo de los simuladores basados en modelos lineales (figura~\ref{fig:car-following-based-sim}).
 \end{itemize}
 
 En el caso de la dimensión \textbf{tiempo}, la división se realiza en los mismos términos que en los del espacio:
 
 \begin{itemize}
-	\item Tiempo \textbf{discreto}. También denominada \textit{simulación de eventos discretos}, divide el tiempo en intervalos discretos, generalmente (aunque existen excepciones) de longitud fija durante toda la simulación. Los simuladores basados en \acp{ca} son también simuladores típicos discretos, ya que cada posición en el espacio se va calculando para cada intervalo discreto de tiempo (figuras~\ref{fig:cellular-automata-based-sim} y~\ref{fig:nagel-schreck}).
+	\item Tiempo \textbf{discreto}. También denominada \textit{simulación de eventos discretos}, divide el tiempo en intervalos discretos, generalmente de longitud fija durante toda la simulación. Los simuladores basados en \acrlongplsp{ca} son típicamente discretos, ya que cada posición en el espacio se va calculando para cada intervalo discreto de tiempo (figuras~\ref{fig:cellular-automata-based-sim} y~\ref{fig:nagel-schreck}).
 	\item Tiempo \textbf{continuo}. En estos simuladores el tiempo es un factor más para un modelo de ecuaciones diferenciales. La figura~\ref{fig:car-following-based-sim} ilustra un modelo de \textit{\idx{car-following}} que puede implementarse en una simulación de tiempo continuo si la aceleración viene determinada por un modelo que entre otros factores incluye el tiempo.
 \end{itemize}
 
@@ -108,15 +108,15 @@ En el caso de la dimensión \textbf{tiempo}, la división se realiza en los mism
 
 En nuestro caso queremos conocer la situación exacta del vehículo y no una situación aproximada en una separación discreta del espacio. Esto nos dirige hacia simuladores de \textbf{espacio continuo}. Por otro lado, realizamos la recolección de datos en intervalos cuantificables de tiempo, los cuales serán usados para modelar los comportamientos de los conductores y para contrastar los resultados; por tanto, la elección en la dimensión tiempo ha de ser de \textbf{eventos discretos}.
 
-\section{Modelos de microsimulación}
+\section{Modelos de micro-simulación}
 
-Los simuladores que se basan en un modelo de granularidad micro están en su mayoría implementados en dos tipos de paradigma: \glsentrylongplsp{ca} y \glsentrylongplsp{mas}.
+Los simuladores que se basan en un modelo de granularidad micro están en su mayoría implementados en dos tipos de paradigma: \acrlongplsp{ca} y \acrlongplsp{mas}.
 
 Existe un tercer punto de vista a la hora de implementar este tipo de modelos, que es el de los sistemas de partículas. Sin embargo, su ámbito de aplicación es el mismo que el del punto de vista macroscópico, esto es, usar sistemas de partículas para el análisis del tráfico como fluido. Por tanto, el resto de la sección describirá los dos tipos principales sin tener en cuenta éste último.
 
-\subsection{Microsimulación basada en \glsentrylongplsp{ca}}
+\subsection{Microsimulación basada en \acrlongplsp{ca}}
 
-Un \ac{ca} es una colección ordenada de celdas (\textit{células}) ordenadas en un espacio $n$-dimensional que parcelan el universo de estudio. Cada una de ellas se encuentra en un estado (e.g. contiene un valor numérico), y el estado de toda la malla se actualiza de manera síncrona\sidenote{
+Un \Acrfull{ca} es una colección ordenada de celdas (\textit{células}) ordenadas en un espacio $n$-dimensional que parcelan el universo de estudio. Cada una de ellas se encuentra en un estado (e.g. contiene un valor numérico), y el estado de toda la malla se actualiza de manera síncrona\sidenote{
 	Existen arquitecturas diseñadas para operar de esta manera, esto es, arquitecturas basadas en \gls{ca} (e.g.~\cite{Margolus1993}). En ellas, cada ciclo de reloj actualiza todas las celdas de memoria del autómata. Éstas arquitecturas se suelen usar para la implementación de modelos físicos superando en varios órdenes de magnitud la capacidad computacional de las arquitecturas tradicionales.
 } (i.e., todas a la vez) en intervalos regulares de tiempo denominados \textit{ciclos}. El cambio de estado de cada célula depende de los valores de las células vecinas y del mismo algoritmo de modificación al que responden todas y cada una de las células.
 
@@ -144,11 +144,11 @@ El modelo clásico de esta aproximación es el propuesto por Nagel-Scherckenberg
 
 En general los modelos de la literatura suelen ser una variación del de Nagel-Scherckenberg con modificaciones para estudiar aspectos concretos de modelos de tráfico o para dotarle de un mayor realismo. Algunos ejemplos de estas variaciones son la modificación del paso de \textit{aleatorización} (e.g. \cite{Barlovic1998}), reglas para determinar niveles de molestia a vehículos vecinos (\cite{Wagner1997}), celdas más pequeñas (e.g. \cite{Krauss1997}) para comprobar la metaestabilidad del flujo de tráfico, o modelos y reglas para cambio de carril en vías de dos carriles (\cite{Brilon1999, Nagel1998}).
 
-\subsection{Microsimulación basada en sistemas multiagentes}
+\subsection{Micro-simulación basada en \acrlongplsp{mas}}
 
-Los modelos basados en \glsentrylongplsp{ca}, aunque interesantes, no son suficientemente realistas desde un punto de vista microscópico. Por poner un ejemplo, en una situación típica de un modelo Nagel-Scherckenberg, los vehículos realizan aleatoriamente aceleraciones y deceleraciones de $27 km/h$. Es más, en una situación favorable, cualquier vehículo puede realizar una aceleración de $0$ a $162km/h$ en tan sólo $6$ segundos. Por tanto, no ofrecen una visión demasiado realista ni fiable en caso de querer realizar estudios muy detallados de tráfico a nivel micro.
+Los modelos basados en \acrlongplsp{ca}, aunque interesantes, no son suficientemente realistas desde un punto de vista microscópico. Por poner un ejemplo, en una situación típica de un modelo Nagel-Scherckenberg, los vehículos realizan aleatoriamente aceleraciones y deceleraciones de $27 km/h$. Es más, en una situación favorable, cualquier vehículo puede realizar una aceleración de $0$ a $162km/h$ en tan sólo $6$ segundos. Por tanto, no ofrecen una visión demasiado realista ni fiable en caso de querer realizar estudios muy detallados de tráfico.
 
-Por otro lado, en un \glsentrylong{mas} cada uno de los agentes tiene su propia entidad dentro del sistema. Esto es, perciben tanto el entorno como al resto de agentes y actúan de acuerdo a lo percibido y a su comportamiento. Basarse no sólo en las magnitudes físicas del resto de vehículos (e.g. distancia, aceleración, \ldots) sino también en un comportamiento de conducción ofrece un interesante campo de estudio a nivel cognitivo. Se entra habla más en detalle sobre los \glspl{mas} en el capítulo \nameref{ch:sota-ci} y sobre los comportamientos concretos de agentes de interés para esta tesis en el capítulo~\ref{ch:sota-behavior-models}. Por ello, este apartado únicamente hará una pequeña introducción a estudios existentes y aplicaciones de simuladores basados en este modelo.
+Por otro lado, en un \glsentrylong{mas} cada uno de los agentes tiene su propia entidad dentro del sistema. Esto es, perciben tanto el entorno como al resto de agentes y actúan de acuerdo a lo percibido y a su comportamiento. Basarse no sólo en las magnitudes físicas del resto de vehículos (e.g. distancia, aceleración, \ldots) sino también en un comportamiento de conducción ofrece un interesante campo de estudio a nivel cognitivo. Se entra habla más en detalle sobre los \acrlongplsp{mas} en el capítulo \nameref{ch:sota-ci} y sobre los comportamientos concretos de agentes de interés para esta tesis en el capítulo~\ref{ch:sota-behavior-models}. Por ello, este apartado únicamente hará una pequeña introducción a estudios existentes y aplicaciones de simuladores basados en este modelo.
 
 \begin{figure}[t]
 	\centering
@@ -157,11 +157,11 @@ Por otro lado, en un \glsentrylong{mas} cada uno de los agentes tiene su propia 
 	\label{fig:autonomous-vehicles-at-intersections}
 \end{figure}
 
-A diferencia de los \acp{ca}, los \acp{mas} pueden emplazarse en un entorno virtual que represente un espacio continuo y no discreto. Esto permite modelar con mayor fidelidad magnitudes físicas asociadas a cada agente (e.g. posición y velocidades actuales, dimensiones del vehículo, masa, velocidad máxima permitida, \ldots). Sin embargo, aun así no es una propiedad inherente de éstos. No existe ninguna limitación en cuanto a la representación del espacio y es perfectamente posible representar un modelo basado en \glsentrylongplsp{ca} usando para ello \glsentrylongsp{mas}.
+A diferencia de los \acrlongplsp{ca}, los \acrlongplsp{mas} pueden emplazarse en un entorno virtual que represente un espacio continuo y no discreto. Esto permite modelar con mayor fidelidad magnitudes físicas asociadas a cada agente (e.g. posición y velocidades actuales, dimensiones del vehículo, masa, velocidad máxima permitida, \ldots). Sin embargo, aun así no es una propiedad inherente de éstos. No existe ninguna limitación en cuanto a la representación del espacio y es perfectamente posible representar un modelo basado en \acrlongplsp{ca} usando para ello \acrlongplsp{mas}.
 
-Cada uno de los agentes es independiente del resto, y una consecuencia directa es que el comportamiento de cada individuo permite evaluar comportamientos grupales complejos, como el descrito en la figura~\ref{fig:autonomous-vehicles-at-intersections}. Esta independencia da la posibilidad de tener todos los agentes diferentes entre sí, ofreciendo la ventaja de permitir experimentar con diferentes perfiles de conducción (e.g. un perfil agresivo en un flujo de tráfico dominado por conductores tranquilos). Esto es debido a que en un \ac{mas} cada agente es una parte del sistema y las decisiones de cómo se ha de comportar las toma él mismo. Desde el punto de vista de un \ac{ca}, el comportamiento existe en cada celda, sin dar control al contenido o estado de cada celda.
+Cada uno de los agentes es independiente del resto, y una consecuencia directa es que el comportamiento de cada individuo permite evaluar comportamientos grupales complejos, como el descrito en la figura~\ref{fig:autonomous-vehicles-at-intersections}. Esta independencia da la posibilidad de tener todos los agentes diferentes entre sí, ofreciendo la ventaja de permitir experimentar con diferentes perfiles de conducción (e.g. un perfil agresivo en un flujo de tráfico dominado por conductores tranquilos). Esto es debido a que en un \acrlongsp{mas} cada agente es una parte del sistema y las decisiones de cómo se ha de comportar las toma él mismo. Desde el punto de vista de un \acrlongsp{ca}, el comportamiento existe en cada celda, sin dar control al contenido o estado de cada celda.
 
-En general los estudios basados en este modelo suelen seguir el patrón $1 \text{ \gls{dvu}} \equiv 1 \text{ agente}$, dando así una enorme cantidad de posibilidades a experimentar. Por ejemplo en \cite{Das} se hace uso de sistemas difusos para decidir cómo comportarse en la vía mientras que en \cite{Ehlert2001} se hace uso de un patrón reactivo. Otros, como \cite{Dia2002} o \cite{Balmer} hacen uso de encuestas o censos para establecer las propiedades y calibrar los parámetros de diferentes tipos de agentes.
+En general los estudios basados en este modelo suelen seguir el patrón $1 \text{ \gls{dvu}} \equiv 1 \text{ agente}$, dando así una enorme cantidad de posibilidades a experimentar. Por ejemplo en \cite{Das} se hace uso de \acrlongplsp{fcs} para decidir cómo comportarse en la vía mientras que en \cite{Ehlert2001} se hace uso de un patrón reactivo. Otros, como \cite{Dia2002} o \cite{Balmer} hacen uso de encuestas o censos para establecer las propiedades y calibrar los parámetros de diferentes tipos de agentes.
 
 \begin{figure}
 	\centering
@@ -172,7 +172,7 @@ En general los estudios basados en este modelo suelen seguir el patrón $1 \text
 
 Los estudios en materia de simuladores de tráfico con \glsentrylongsp{mas} no se limitan a vehículos, sino que se usan también en otras áreas como el control de luces de tráfico o agentes para peatones entre otros. Por ejemplo el estudio presentado en \cite{Clymer2002}, los agentes del sistema son las señales de tráfico luminosas y no los vehículos, y el objetivo es adaptar la señalización en una red de carreteras para minimizar al máximo el tiempo de espera por parte de los vehículos en las intersecciones gestionadas por las señales. Otro ejemplo es el propuesto por en \cite{Galis2000}, donde los agentes, en lugar de ser los vehículos son los tramos de las carreteras; en él, los vehículos poseen comportamiento, pero lo reciben del agente que les guía de acuerdo a la zona en la que se encuentran. Esto tiene la ventaja de que el paso de información a vehículos dentro de la misma zona se realiza mucho más rápido en un entorno distribuido.
 
-En los últimos años, otro concepto que está en auge es el de las redes intervehiculares e intravehículares, \gls{v2v} y \gls{v2i} respectivamente. El modelo de \gls{mas} permite la implementación rápida de diferentes políticas y protocolos de comunicación via sensores y actuadores para estudiar estos tipos de redes de comunicación (figura~\ref{fig:cooperative-traffic-movsim}). Estudios como por ejemplo \cite{Shiose2001} o \cite{Galis2000} hacen uso de un \ac{mas} para implementar diferentes formas de \ac{v2v} con el objetivo de aliviar congestiones de tráfico (en el primer caso) y por el propio estudio de las comunicaciones en si (en el segundo caso). En el caso de redes \ac{v2i}, un buen ejemplo es~\cite{Dresner2004}, donde se representan como agentes tanto los vehículos como las intersecciones de la vía. Éstas gestionan un sistema de reservas de tokens que los vehículos solicitan cuando van a entrar en la intersección y devuelven cuando salen, gestionando  comunicando en todo momento mediante eventos los cambios en dicho sistema. El estudio concluye que una comunicación de este tipo es más eficiente que una intersección clásica basada en señales de tráfico luminosas.
+En los últimos años, otro concepto que está en auge es el de las redes intervehiculares e intravehículares, \gls{v2v} y \gls{v2i} respectivamente. El modelo de \acrlongplsp{mas} permite la implementación rápida de diferentes políticas y protocolos de comunicación via sensores y actuadores para estudiar estos tipos de redes de comunicación (figura~\ref{fig:cooperative-traffic-movsim}). Estudios como por ejemplo \cite{Shiose2001} o \cite{Galis2000} hacen uso de un \ac{mas} para implementar diferentes formas de \ac{v2v} con el objetivo de aliviar congestiones de tráfico (en el primer caso) y por el propio estudio de las comunicaciones en si (en el segundo caso). En el caso de redes \ac{v2i}, un buen ejemplo es~\cite{Dresner2004}, donde se representan como agentes tanto los vehículos como las intersecciones de la vía. Éstas gestionan un sistema de reservas de tokens que los vehículos solicitan cuando van a entrar en la intersección y devuelven cuando salen, gestionando  comunicando en todo momento mediante eventos los cambios en dicho sistema. El estudio concluye que una comunicación de este tipo es más eficiente que una intersección clásica basada en señales de tráfico luminosas.
 
 \section{Software de simulación}
 
@@ -192,7 +192,7 @@ Para elegir el mejor simulador que se adapte a nuestras necesidades se ha realiz
 
 \begin{enumerate}
 	\item \textbf{Tipo de simulador}. Para nuestras necesidades es necesario un simulador que implemente \textbf{microsimulación}, ya que es el único tipo de granularidad que permite evaluar el comportamiento de un conductor independientemente del resto de la simulación. Además, debido a la forma en la que se recolectan los datos, es necesario que represente un \textbf{espacio continuo} y una dimensión de \textbf{tiempo discreto} con una resolución de al menos $1$ segundo.
-	\item \textbf{Modelo de simulación}. Debe ofrecer un entorno basado en un \textbf{\gls{mas}} donde cada \gls{dvu} se comporte como agente individual.
+	\item \textbf{Modelo de simulación}. Debe ofrecer un entorno basado en un \textbf{\acrlongsp{mas}} donde cada \gls{dvu} se comporte como agente individual.
 	\item \textbf{Entorno de simulación}. Debe ofrecer un entorno de \textbf{simulación de tráfico general}, permitiendo la creación de escenarios. Quedan excluídos los simuladores de propósito específico o de casos particulares como simuladores de autopistas, congestiones o colisiones.
 	\item \textbf{Extensibilidad}. El simulador debe permitir extender de alguna la ejecución de los modelos desarrollados en los agentes (\glspl{dvu}). Aunque se puede considerar que si es simulador \gls{oss}, se puede modificar su comportamiento para adecuarlo a los modelos desarrollados, es mejor que el propio software ofrezca los mecanismos necesarios para la integración sin necesidad de tocar los fuentes del sistema.
 	\item \textbf{Sistema operativo}. Es imprescindible que el software se ejecute sobre sistemas operativos GNU/Linux por la configuración de los sistemas sobre los que se trabaja.
@@ -203,7 +203,7 @@ Posteriormente se ha desarrollado un listado de características deseables. No s
 \begin{enumerate}
 	\item \textbf{Activo}. Es preferible que el sistema esté activamente desarrollado porque eso favorece la aparición de parches y mejoras sobre el software. En caso contrario, se trata de un proyecto con poca actividad por parte de sus autores.
 	\item \textbf{Lenguaje de programación}. Es favorable la implementación de los modelos en código Python.
-	\item \textbf{Licencia}.Es preferible una licencia de tipo \Ac{oss} ya que, en caso de error o falta de funcionalidad, es posible acceder a los fuentes para modificarlos.
+	\item \textbf{Licencia}. Es preferible una licencia de tipo \Ac{oss} ya que, en caso de error o falta de funcionalidad, es posible acceder a los fuentes para modificarlos.
 	\item \textbf{Sistema operativo}. Es favorable que el sistema se ejecute en entornos tipo OS X.
 \end{enumerate}
 
@@ -232,7 +232,7 @@ Posteriormente se ha desarrollado un listado de características deseables. No s
 
 El primer listado de características deja atrás la mayoría de simuladores (una gran cantidad de ellos son o bien de propósito específico, están desarrollados para sistemas operativos Windows o no permiten extender su modelo). Tras la selección, nos quedamos con los siguientes simuladores: \gls{aorta}, \gls{matsim}, \gls{mitsim}, \gls{movsim} y \gls{sumo}.
 
-Dichos entornos están prácticamente igualados en las características presentadas, tal y como se puede observar en el cuadro~\ref{tbl:simulators-comparison}. Sin embargo, en matería de extensibilidad, \ac{sumo} es el único que permite el desarrollo de \acp{dvu} de manera externa. El resto requiere la modificación del código fuente del simulador para varias los comportamientos de los conductores. \ac{aorta} además no es un proyecto que se mantenga activo en la actualidad (las últimas modificaciones del repositorio datan de principios del año $2014$).
+Dichos entornos están prácticamente igualados en las características presentadas, tal y como se puede observar en la Tabla~\ref{tbl:simulators-comparison}. Sin embargo, en matería de extensibilidad, \ac{sumo} es el único que permite el desarrollo de \acp{dvu} de manera externa. El resto requiere la modificación del código fuente del simulador para varias los comportamientos de los conductores. \ac{aorta} además no es un proyecto que se mantenga activo en la actualidad (las últimas modificaciones del repositorio datan de principios del año $2014$).
 
 No obstante se ha tratado de modificar los comportamientos de los conductores en los cuatro simuladores para validar este hecho y ha quedado patente que es mucho más eficaz usar \gls{sumo} como simulador para nuestro estudio.
 
@@ -242,7 +242,7 @@ En definitiva, el simulador que más se adapta a nuestras necesidades y el que s
 
 \begin{figure}[!b]
 	\includegraphics{sumo-simulator}
-	\caption[Captura de pantalla del simulador \gls{sumo}]{Captura de pantalla del simulador \gls{sumo}. Además de software de simulación propiamente dicho, \gls{sumo} provee de una interfaz gráfica que permite una visualización general, de zonas y de elementos en concreto a la vez que permite la variación de configuración de la simulación durante el desarrollo de la misma.\TODO{Meter una imagen de nuestras simulaciones cuando estén, a poder ser sin color. Hacer el alto más pequeño}}
+	\caption[Captura de pantalla del simulador \gls{sumo}]{Captura de pantalla del simulador \gls{sumo}. Además de software de simulación propiamente dicho, \gls{sumo} provee de una interfaz gráfica que permite una visualización general, de zonas y de elementos en concreto a la vez que permite la variación de configuración de la simulación durante el desarrollo de la misma.}
 	\label{fig:sumo-simulator}
 \end{figure}
 
@@ -293,28 +293,7 @@ Como librería, \gls{traci} es un módulo desarrollado en \mbox{Python} $2$.$7$.
 
 \begin{figure}
 	\centering
-	\begin{tikzpicture}[
-	node distance=3pt,
-	blueb/.style={
-		draw=white,
-		fill=blue,
-		rounded corners,
-		text width=2.5cm,
-		font={\sffamily\bfseries\color{white}},
-		align=center,
-		text height=12pt,
-		text depth=9pt},
-	greenb/.style={blueb,fill=green},
-	]
-	\node[greenb,fill=orange,text width=7.5cm+44pt] (sumo-traffic-simulation-suite) {SUMO Traffic Simulation Suite};
-	\node[blueb,below=of sumo-traffic-simulation-suite,text width=7.5cm+26pt] (traffic-control-interface) {TraCI Traffic Control Interface};
-	\node[blueb,below=of traffic-control-interface,text width=7.5cm+26pt] (web-service) {Servicios Web};
-	\node[blueb, fill=orange, below=of web-service] (python-client) {Cliente Python};
-	\node[blueb, fill=orange, left=of python-client]
-	(java-client) {Cliente Java};
-	\node[blueb, fill=orange, right=of python-client]
-	(other-clients) {Otros clientes};
-	\end{tikzpicture}
+	\includegraphics[width=.7\textwidth]{traas-architecture}
 	\caption[Arquitectura de la plataforma \gls{traas}]{Concepto arquitectural de la plataforma \gls{traas}. La plataforma se conecta como cliente a \gls{sumo} y ofrece un \glsentryshort{api} basado en \glsentryshort{soap} de mensajes que traduce en mensajes del protocolo \gls{traci}, lo que independiza completamente la elección de lenguaje de programación a la vez que abstrae los detalles del protocolo de comunicación.}
 	\label{fig:traas}
 \end{figure}
