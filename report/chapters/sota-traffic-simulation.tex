@@ -59,9 +59,10 @@ El caso de los simuladores de tráfico es similar. En éstos existe un amplio in
 	\item \textbf{Macrosimulación} o simulación de tipo \textbf{macro}. Este tipo de modelos centran su esfuerzo en estudiar el flujo de tráfico como un todo (generalmente como fluido), explorando sus macropropiedades (e.g. evolución del tráfico, efectos onda, velocidad media o flujo en vías). Su ventaja principal es que a nivel macroscópico permiten estudiar propiedades que a nivel microscópico requerirían una cantidad ingente de recursos. Sin embargo, con este modelo es imposible obtener información precisa de un elemento en particular del tráfico.
 \end{itemize}
 
-\begin{figure}
+\begin{figure}[!b]
 	\centering
-	\includegraphics[width=10cm, height=4cm]{granularities-in-traffic-simulation}
+	\subfloat[Macroscópico]{\includegraphics[height=5cm]{macroscopic}}\qquad
+	\subfloat[Microscópico]{\includegraphics[height=5cm]{microscopic}}
 	\caption[Clasificación de simuladores según granularidad]{Clasificación clásica de simuladores en función de la granularidad (complejidad) de la simulación. En la imagen de la izquierda se muestra un ejemplo clásico de macrosimulador donde el tráfico se modela como un flujo a través de las vías. En la de la derecha, se ilustra un modelo clásico de microsimulación donde cada elemento (en este caso vehículos) circula por un carril de la vía.}
 	\label{fig:granularities-in-traffic-simulation}
 \end{figure}
