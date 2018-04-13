@@ -12,7 +12,7 @@ En este trabajo se tratará de modelar, sin embargo, el proceso de cambio de car
 	\item \ac{cnn}. Otro de los grandes exponentes a la hora de clasificar, sobre todo trabajando con mapas de características $n$-dimensionales con las \acp{cnn}. Al representar la evolución temporal del entorno circundante como un espacio tridimensional, podemos aplicar esta técnica para la identificación de características de manera, supuestamente, más eficiente.
 \end{enumerate}
 
-Ambos modelos, al igual que ocurría con el modelo longitudinal, han sido entrenados ajustando sus parámetros con el algoritmo ADAM~\cite{kingma2014adam}. Las funciones de activación, sin embargo, varían, y por tanto la inicialización de las variables también\sidenote{
+Ambos modelos, al igual que ocurría con el modelo longitudinal, han sido entrenados ajustando sus parámetros con el algoritmo ADAM \cite{kingma2014adam}. Las funciones de activación, sin embargo, varían, y por tanto la inicialización de las variables también\sidenote{
 	La inicialización clásica, de valores uniformes en un intervalo pequeño alrededor de $0$ haría que la mitad de los valores cayesen por debajo de 0. Si la neurona tiene una función de activación de tipo \ac{relu}, el peso no se vería modificado, ya que su derivada será siempre $0$.
 }.
 
@@ -128,7 +128,7 @@ En cada una de las filas poseemos una representación del entorno en forma de ma
 \begin{figure}[t]
 	\centering
 	\includegraphics{explanation-of-data-frequency}
-	\caption[Momento $t_i$en el conjunto de datos]{Un momento $t_i$ se define como el estado en el que se encontraba el vehículo en $t - \frac{i}{10}s$. Por tanto, $t_0$ es el momento actual.}
+	\caption[Momento $t_i$ en el conjunto de datos]{Un momento $t_i$ se define como el estado en el que se encontraba el vehículo en $t - \frac{i}{10}s$. Por tanto, $t_0$ es el momento actual.}
 	\label{fig:moments-illustration}
 \end{figure}
 
@@ -162,7 +162,7 @@ Los entrenamientos han sido realizados sobre diferentes topologías, siendo las 
 \begin{table}[!b]
 	\centering
 	\small
-	\caption[Resumen de las arquitecturas \acrlongplsp{mlp} para el modelo de cambio de carril]{Resumen de las arquitecturas de \acrlongplsp{mlp} para el modelo de cambio de carril. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
+	\caption[Resumen de las arquitecturas \acrshort{mlp} para el modelo de cambio de carril]{Resumen de las arquitecturas de \acrlongplsp{mlp} para el modelo de cambio de carril. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:lc-mlp-architectures}
 	\begin{tabular}{cccccc}
 		\toprule
@@ -185,7 +185,7 @@ La figura~\ref{fig:lc-mlp-accuracy-comparison} nos muestra la evolución de la p
 	\small
 	\subfloat[Entrenamiento y validación]{\includegraphics[width=.45\textwidth]{lc-mlp-acc-all-training-and-validation-detail}}\qquad
 	\subfloat[Test]{\includegraphics[width=.45\textwidth]{lc-mlp-acc-all-test-detail}}
-	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \acrlongsp{mlp}]{Comparación de las precisiones alcanzadas por los modelos de tipo \acrlongsp{mlp}.}
+	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \acrshort{mlp}]{Comparación de las precisiones alcanzadas por los modelos de tipo \acrlongsp{mlp}.}
 	\label{fig:lc-mlp-accuracy-comparison}
 \end{figure}
 
@@ -204,7 +204,7 @@ La descripción de los parámetros de las arquitecturas es la siguiente:
 
 \begin{table*}[t]
 	\centering
-	\caption[Resumen de las arquitecturas de \acrlongplsp{cnn} para el modelo longitudinal][1.5em]{Resumen de las arquitecturas de \acrlongplsp{cnn} para el modelo longitudinal. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
+	\caption[Resumen de las arquitecturas \acrshort{cnn} para el modelo longitudinal][1.5em]{Resumen de las arquitecturas de \acrlongplsp{cnn} para el modelo longitudinal. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:lc-cnn-architectures}
 	\begin{tabular}{cccccc}
 		\toprule
@@ -225,7 +225,7 @@ La decisión tomada ha sido entender estas variables (distancia circulable, dist
 \begin{figure}
 	\centering
 	\includegraphics{modification-of-cnn-to-work-with-variables}
-	\caption[Esquema de modificación de \acrlongsp{cnn} para incluir características no espaciales]{Esquema de modificación de \acrlongsp{cnn} para incluir características no espaciales. Las variables se separan al principio de la convolución para que éstas trabajen con las imágenes. Una vez este proceso se ha completado, las características de las imágenes y las variables de entrada separada se vuelven a continuar para continuar el flujo normal de funcionamiento.}
+	\caption[Esquema de modificación de \acrshortpl{cnn} para incluir características no espaciales]{Esquema de modificación de \acrlongsp{cnn} para incluir características no espaciales. Las variables se separan al principio de la convolución para que éstas trabajen con las imágenes. Una vez este proceso se ha completado, las características de las imágenes y las variables de entrada separada se vuelven a continuar para continuar el flujo normal de funcionamiento.}
 	\label{fig:modification-of-cnn-to-work-with-variables}
 \end{figure}
 
@@ -243,7 +243,7 @@ La última modificación es la de la aplicación de una tasa de aprendizaje adap
 \begin{marginfigure}
 	\centering
 	\includegraphics[width=\textwidth]{lc-learning-rate-decay}
-	\caption[Gráfica de la tasa de aprendizaje adaptativo por epoch usada para entrenar \acrlongplsp{cnn}]{Gráfica de la tasa de aprendizaje adaptativo por epoch usada para entrenar \acrlongplsp{cnn}. En nuestros entrenamientos, los valores de los parámetros son $\alpha_{min} = 0.1$ y $\alpha_{max} = 0.001$ y $\alpha_d = 20000$.}
+	\caption[Gráfica de la tasa de aprendizaje adaptativo por \textit{epoch} usada para entrenar \acrshortpl{cnn}]{Gráfica de la tasa de aprendizaje adaptativo por epoch usada para entrenar \acrlongplsp{cnn}. En nuestros entrenamientos, los valores de los parámetros son $\alpha_{min} = 0.1$ y $\alpha_{max} = 0.001$ y $\alpha_d = 20000$.}
 	\label{fig:learning-rate-decay}
 \end{marginfigure}
 
@@ -258,7 +258,7 @@ Donde $\alpha_i$ será la tasa de aprendizaje a aplicar en el \textit{epoch} $i$
 	\centering
 	\subfloat[Entrenamiento y validación]{\includegraphics[width=.45\textwidth]{lc-cnn-acc-all-training-and-validation-detail}}\qquad
 	\subfloat[Test]{\includegraphics[width=.45\textwidth]{lc-cnn-acc-all-test-detail}}
-	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \acrlongsp{cnn}]{Comparación de las precisiones alcanzadas por los modelos de tipo \acrlongsp{cnn}.}
+	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \acrlongsp{cnn}]{Comparación de las precisiones alcanzadas por los modelos de tipo \acrshort{cnn}.}
 	\label{fig:lc-cnn-training-validation-test-comparison}
 \end{figure}
 
@@ -280,6 +280,6 @@ En la figura~\ref{fig:lc-cnn-model-confussion-matrix} se expone la matriz de con
 \begin{figure}
 	\centering
 	\includegraphics[width=.6\linewidth]{lc-cnn-model-confussion-matrix}
-	\caption[Matriz de confusión del conjunto de test para el modelo $CNN_2$]{Matriz de confusión del conjunto de test para el modelo $CNN_2$.}
+	\caption[Matriz de confusión del conjunto de test para el modelo de cambio de carril seleccionado]{Matriz de confusión del conjunto de test para el modelo de cambio de carril seleccionado.}
 	\label{fig:lc-cnn-model-confussion-matrix}
 \end{figure}

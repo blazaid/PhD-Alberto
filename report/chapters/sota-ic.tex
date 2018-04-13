@@ -3,17 +3,17 @@
 
 Todo elemento dentro de un entorno se ve influenciado por multitud de variables que determinan en mayor o menor grado su comportamiento. En la mayoría de los casos es muy complicado determinar el grado de efecto de estas variables, identificar las relaciones que existen entre las mismas o incluso determinar cuáles son.
 
-No existe una definición globalmente aceptada de qué es la \acf{ci}. Dependiendo del autor, se la considera desde un sinónimo de la \acf{ai} hasta un campo completamente diferenciado.
+No existe una definición globalmente aceptada de qué es la \acrlongsp{ci}. Dependiendo del autor, se la considera desde un sinónimo de la \acrlongsp{ai} hasta un campo completamente diferenciado.
 
-En esta tesis hablaremos desde el punto de vista mayoritario, la \ac{ci} como rama de la \ac{ai} que agrupa todas aquellas técnicas que tratan de aprender soluciones a problemas a través del análisis de información presente en conjuntos de datos, en el entorno o ambos.
+En esta tesis hablaremos desde el punto de vista mayoritario, es decir, como rama de la \acrshort{ai} donde se agrupan todas aquellas técnicas que tratan de aprender soluciones a problemas a través del análisis de información presente en conjuntos de datos, en el entorno o ambos.
 
-El resto del capítulo ofrecerá una visión histórica para explicar el por qué de esta definición, justificará la importancia que tiene el aprendizaje dentro de este área, describirá las técnicas de \ac{ann} y la \ac{fl} necesarias para sentar las bases del posterior desarrollo de la tesis y por último, dará nociones de qué son los agentes y por qué este punto de vista es útil para nuestro cometido.
+El resto del capítulo ofrecerá una visión histórica para explicar el por qué de esta definición, justificará la importancia que tiene el aprendizaje dentro de este área, describirá las técnicas de \acrlongsp{ann} y la \acrlong{fl} necesarias para sentar las bases del posterior desarrollo de la tesis y, por último, dará nociones de qué son los agentes y por qué este punto de vista es útil para nuestro cometido.
 
 \section{De \acrlongsp{ai} a \acrlongsp{ci}}
 
-Es difícil datar el comienzo del interés del ser humano por la emular la inteligencia humana. Los silogismos en la antigua grecia para modelar el conocimiento como reglas, los autómatas mecánicos de los filósofos modernos (siglos XVII al XIX) donde los cuerpos vivos son como un reloj, o la electricidad (siglos XIX y XX), capaz de animar constructos, son sólo ejemplos de cómo cada nuevo avance en la ciencia ha ido acompañado de un intento de simular el cuerpo y mente humanos.
+Es difícil datar el comienzo del interés del ser humano por la emular la inteligencia humana. Los silogismos en la antigua grecia para modelar el conocimiento como reglas, los autómatas mecánicos de los filósofos modernos (siglos XVII al XIX) donde los cuerpos vivos son como un reloj, o la electricidad (siglos XIX y XX) capaz de animar constructos, son sólo ejemplos de cómo cada nuevo avance en la ciencia ha ido acompañado de un intento de simular cuerpo y mente humanos.
 
-Podemos aventurarnos a decir que a principios del siglo XX se comienza a gestar el área de la \gls{ai} con los trabajos relacionados con los principios del \textbf{conexionismo}\sidenote{
+Podemos aventurarnos a decir que a principios del siglo XX se comienza a gestar el área de la \acrshort{ai} con los trabajos relacionados con los principios del \textbf{conexionismo}\sidenote{
 	El enfoque del \textbf{conexionismo} postula que tanto la \textit{mente} como el \textit{conocimiento} son comportamientos complejos que emergen de redes formadas por unidades sencillas (i.e. neuronas) interconectadas. Se puede considerar a Santiago Ramón y Cajal como principal precursor de esta idea por sus trabajos acerca de la estructura de las neuronas y sus conexiónes (e.g. \cite{y1888estructura} y~\cite{ramon1904textura}).
 }. Estas ideas saltaron al mundo de la computación hacia mediados del siglo XX, cuando Warren S. McCulloch y Walter Pitts publicaron su trabajo \textit{\enquote{A logical calculus of the ideas immanent in nervous activity}}~\cite{McCulloch1943}\sidenote{Muchos autores prefieren nombrar este hito, junto con el trabajo \textit{\enquote{The organization of behavior}}\cite{hebb19680} de Donald O. Hebb como el punto de partida del área debido a su connotación computacional}, donde se describe el primer modelo artificial de una neurona.
 
@@ -25,30 +25,32 @@ El trabajo suscitó tanta expectación que se comenzó a especular sobre la posi
 
 Pocos años después de la publicación del artículo, en el año 1956, se celebró la \textbf{Conferencia Dartmouth}~\cite{mccarthy1956dartmouth}. En ésta, el tema de la conferencia fue la pregunta del artículo de Turing, y fue John McCarthy en este preciso momento cuando acuñó el término que todos conocemos como \ac{ai}.
 
-A partir de este momento, la investigación en el área recibió mucha atención por parte de investigadores y gobiernos. Después de todo era un área nueva, muy prometedora y con mucho trabajo por delante. Tras su nacimiento el campo comenzó a dar resultados, pero la expectación y las promesas no permitían ver que los resultados se obtenían en problemas relativamente simples, muy formales y en general estériles, donde en realidad no era necesaria demasiada información para generar un conociminto del entorno en el que los modelos se movían.
-
-\begin{figure}[t]
+\begin{figure}[!b]
 	\centering
-	\includegraphics[width=0.72\textwidth]{chinese-room}
+	\includegraphics[width=0.8\textwidth]{chinese-room}
 	\label{fig:chinese-room}
 	\caption[Experimento mental de la \textit{Habitación China}, por John Searle]{La \textit{Habitación China} de John Searle es un experimento mental por el que se trata de demostrar la invalidez del Test de Turing. Partimeos de un Test de Turing donde la máquina ha aprendido a hablar chino. Reemplazamos la máquina por un humano sin idea de chino pero con un manual de correspondencias de ideogramas. Cuando una persona le manda mensajes en chino, esta otra responde usando el manual, por lo que podemos afirmar que la persona, y por tanto la máquina, no saben chino.}
 \end{figure}
+
+A partir de este momento, la investigación en el área recibió mucha atención por parte de investigadores y gobiernos. Después de todo era un área nueva, muy prometedora y con mucho trabajo por delante. Tras su nacimiento el campo comenzó a dar resultados, pero la expectación y las promesas no dejaban ver que los resultados se obtenían en problemas relativamente simples, muy formales y en general estériles, donde en realidad no era necesaria demasiada información para generar un conocimiento del entorno en el que los modelos se movían.
 
 Dado que los estudios en el área estaban dominados por aquellos relacionados con las ideas del conexionismo, la publicación del libro \textit{\enquote{Perceptrons}}~\cite{minsky1969perceptrons} de Marvin Minsky y Seymour Papert en 1969 supuso un notable varapalo para las investigaciones. En él se expusieron las limitaciones de los modelos de \acp{ann} desarrollados hasta la fecha, y el impacto fue de tal envergadura que la investigación en el área se abandonó casi por completo. Concretamente el conexionismo prácticamente desapareció de la literatura científica durante dos décadas. Es lo que se conoce como el primer \textit{AI Winter}\sidenote{
 	El \textbf{AI Winter} no sólo se produjo por el efecto gurú del libro \textit{Perceptrons}, aunque éste fue la gota que colmó el vaso. A la emoción inicial por los avances le siguieron muchos años de promesas incumplidas, investigación sin resultados significativos, limitaciones de hardware y el aumento de la complejidad del software (los comienzos de la crisis del software \cite{dijkstra1972humble}). Todo ello provocó un desinterés y una disminución de la financiación que se retroalimentaron la una a la otra.
 }.
 
-El interés por el campo volvió de nuevo a principios de los $80$ con la aparición en escena de los primeros \acp{esys}, los cuales se consideran como el primer caso de éxito en \ac{ai} (\cite{russell2003artificial}). A finales de la década, sin embargo, empezaron a resurgir de nuevo los enfoques conexionistas, debido en gran parte a la aparición de nuevas técnicas de entrenamiento en perceptrones multicapa y por el concepto de activación no lineal en neuronas \cite{rumelhart1985learning, cybenko1989approximation}). En este momento, los \acp{esys} empezaron a perder interés frente al nuevo avance del conexionismo\sidenote{
-	Esto, evidentemente no sentó bien a los autores prolíficos en \glspl{esys}. Mientras que el enfoque en estos sistemas es el clásico en la computación, donde los problemas (en este caso el conocimiento experto) son resueltos mediante operaciones sobre un lenguaje de símbolos, el enfoque del conexionismo postula que la mente, el comportamiento inteligente, emerge de modelos a más bajo nivel. Por ello, algunas voces se alzaran contra lo que se consideraba el \textit{enfoque incorrecto} de la \gls{ai}. Después de todo, los modelos desarrollados en los métodos clásicos son fáciles de interpretar mientas que los del enfoque conexionista no son del todo deducibles, más aún si estos problemas son de naturaleza estocástica.
+El interés por el campo volvió de nuevo a principios de los $80$ con la aparición en escena de los primeros \acp{esys}, considerados como el primer caso de éxito en \ac{ai} (\cite{russell2003artificial}). A finales de la década, sin embargo, empezaron a resurgir de nuevo los enfoques conexionistas, debido en gran parte a la aparición de nuevas técnicas de entrenamiento en perceptrones multicapa y por el concepto de activación no lineal en neuronas \cite{rumelhart1985learning, cybenko1989approximation}). En este momento, los \acp{esys} empezaron a perder interés frente al nuevo avance del conexionismo\sidenote{
+	Esto, evidentemente no sentó bien a los autores prolíficos en \glspl{esys}. Mientras que el enfoque en estos sistemas es el clásico en la computación, donde los problemas (en este caso el conocimiento experto) son resueltos mediante operaciones sobre un lenguaje de símbolos, el enfoque del conexionismo postula que la \textit{mente}, el comportamiento inteligente, emerge de modelos a más bajo nivel. Por ello, algunas voces se alzaran contra lo que se consideraba el \textit{enfoque incorrecto} de la \gls{ai}. Después de todo, los modelos desarrollados en los métodos clásicos son fáciles de interpretar mientas que los del enfoque conexionista no son del todo deducibles, más aún si estos problemas son de naturaleza estocástica.
 }. Esta época se suele identificar como el segundo \textit{AI Winter}, ya que tanto la investigación como las inversiones en el área de \acp{esys} disminuyeron. Sin embargo, el efecto no fue ni mucho menos equiparable al de el primero.
 
-Junto con el resurgir del conexionismo, otras técnicas alineadas como la \gls{fl} o los \glspl{ga} también ganaban popularidad, y entre ellas retroalimentaban los exitos gracias a sus sinergias. Esto provocó una explosión de terminologías para diferenciar las investigaciones en curso de la propia \gls{ai} clásica. Por un lado se evitaba el conflicto, nombrando las áreas de trabajo con un término más acorde con el comportamiento o técnica utilizada. Por otro, se separaba de las connotaciones negativas que fue cosechando la \gls{ai} con el paso de los años (i.e. promesas, pero no resultados).
+Junto con el resurgir del conexionismo, otras técnicas alineadas como la \acrlongsp{fl} o los \Acrfull{ga} también ganaban popularidad, y entre ellas retroalimentaban los exitos gracias a sus sinergias. Esto provocó una explosión de terminologías para diferenciar las investigaciones en curso de la propia \gls{ai} clásica. Por un lado se evitaba el conflicto, nombrando las áreas de trabajo con un término más acorde con el comportamiento o técnica utilizada. Por otro, se separaba de las connotaciones negativas que fue cosechando la \gls{ai} con el paso de los años (i.e. promesas, pero no resultados).
 
-Lo verdaderamente interesante es ver la evolución de la literatura durante estos años. En el nacimiento del campo, se buscan literalmente máquinas que piensen como humanos, o al menos seres racionales, con mente. Con el paso de los años, el área va tendiendo hacia la búsqueda de conductas y comportamientos inteligentes cada vez más específicos. Este hecho se hace más patente en este momento, donde cada investigación se nombra de cualquier forma menos con el término \gls{ai} (e.g \gls{ml}, \gls{rs}, o \gls{nlp}). Es evidente que la \gls{ai} se puede observar desde diferentes puntos de vista, todos perfectamente válidos. En~\cite{russell2003artificial}, tras un análisis de las definiciones existentes en la literatura por parte de diferentes autores, se hace énfasis en este hecho mostrando los diferentes puntos de vista a la hora de hablar de lo que es la \gls{ai}. El resumen se puede observar en la figura~\ref{fig:different-povs-ai}.
+\begin{figure}[!b]
+	\includegraphics{soft-computing-connections}
+	\caption[Sinergias entre técnicas del \gls{sc}]{Las \acrlongplsp{ann}, junto con otras técnicas como la \acrlongsp{fl} o los \Acrfull{ga} se complementan perfectamente, y esta una de las razones de la vuelta a la investigación en el área de la \acrlongsp{ai}.}
+	\label{fig:soft-computing-connections}
+\end{figure}
 
-Volviendo al tema de la terminología, muchas de las técnicas se fueron agrupando dentro de diferentes áreas. Una de ellas es la conocida como \acrlong{ci}. Dado que persigue el mismo objetivo a largo plazo y que surje de la propia \gls{ai} parece lógico mantenerla como un subconjunto y no como un nuevo campo del conocimiento humano. Sin embargo, algunos autores abogan por que la \gls{ci} es un campo diferenciado de la \gls{ai}.
-
-Podemos definir la \acrlongsp{ci} como la \enquote{\textit{rama de la \gls{ai} que aporta soluciones a \textbf{tareas específicas} de forma \textbf{inteligente} a partir del aprendizaje mediante el uso de \textbf{datos experimentales}}}. A diferencia de la aproximación clásica de la \gls{ai}, se buscan aproximaciones a las soluciones y no las soluciones exactas. Esto es debido a que muchos problemas son de naturaleza compleja, ya sea por la relación entre sus multiples variables, a la falta de información o a la imposibilidad de traducirlos a lenguaje binario.
+Lo verdaderamente interesante es ver la evolución de la literatura durante estos años. En el nacimiento del campo, se buscan literalmente máquinas que piensen como humanos, o al menos seres racionales, con mente. Con el paso de los años, el área va tendiendo hacia la búsqueda de conductas y comportamientos inteligentes cada vez más específicos. Este hecho se hace más patente en este momento, donde cada investigación se nombra de cualquier forma menos con el término \Acrlongsp{ai} (e.g \Acrfull{ml}, \Acrfullpl{rs}, o \Acrfull{nlp}). Es evidente que la \acrlongsp{ai} se puede observar desde diferentes puntos de vista, todos perfectamente válidos. En~\cite{russell2003artificial}, tras un análisis de las definiciones existentes en la literatura por parte de diferentes autores, se hace énfasis en este hecho mostrando los diferentes puntos de vista a la hora de hablar de lo que es la \gls{ai}. El resumen se puede observar en la figura~\ref{fig:different-povs-ai}.
 
 \begin{figure}[t]
 	\includegraphics{different-povs-ai}
@@ -56,17 +58,21 @@ Podemos definir la \acrlongsp{ci} como la \enquote{\textit{rama de la \gls{ai} q
 	\label{fig:different-povs-ai}
 \end{figure}
 
+Volviendo al tema de la terminología, muchas de las técnicas se fueron agrupando dentro de diferentes áreas. Una de ellas es la conocida como \acrlongsp{ci}. Dado que persigue el mismo objetivo a largo plazo y que surje de la propia \gls{ai} parece lógico mantenerla como un subconjunto y no como un nuevo campo del conocimiento humano. Sin embargo, algunos autores abogan por que la \gls{ci} es un campo diferenciado de la \gls{ai}.
+
+Podemos definir la \Acrlongsp{ci} como la \enquote{\textit{rama de la \gls{ai} que aporta soluciones a \textbf{tareas específicas} de forma \textbf{inteligente} a partir del aprendizaje mediante el uso de \textbf{datos experimentales}}}. A diferencia de la aproximación clásica de la \gls{ai}, se buscan aproximaciones a las soluciones y no las soluciones exactas. Esto es debido a que muchos problemas son de naturaleza compleja, ya sea por la relación entre sus multiples variables, por la falta de información o por la imposibilidad de traducirlos a lenguaje binario.
+
 Se puede establecer el año $1994$ como en el que la \acrlongsp{ci} nace formalmente como área, coincidiendo con el cambio de nombre del \textit{IEEE Neural Networks Council} a \textit{IEEE Computational Intelligence Society}\sidenote{
 	\url{http://cis.ieee.org/}
-}. Poco antes, en $1993$, Bob Marks presentaba las que él consideraba diferencias fundamentales entre la \acrlongsp{ai} clásica y la \acrlongsp{ci}, resumiéndolas en la siguiente frase:
+}. Poco antes, en $1993$, Bob Marks presentaba las que él consideraba diferencias fundamentales entre la \acrshort{ai} clásica y la \acrshort{ci}, resumiéndolas en la siguiente frase:
 
 \blockquote{Neural networks, genetic algorithms, fuzzy systems, evolutionary programming, and artificial life are the building blocks of \ac{ci}.}
 
-Durante estos años ganaba popularidad también el concepto del \gls{sc} en contraposición con el \gls{hc}. El \gls{sc} engloba las técnicas que buscan resolver problemas con información incompleta o con ruido. Debido a que el conjunto de técnicas definidas como consituyentes del \gls{sc} son las mismas que se usan en la \gls{ci} algunos autores consideran ambos términos equivalentes. Nosotros consideramos que el \gls{sc} es un punto de vista de la computación a diferencia de la \gls{ci}, la cual es un área de específica dentro de la \gls{ai} hace uso de métodos incluídos en el concepto \gls{sc}.
+Durante estos años ganaba popularidad también el concepto del \gls{sc} en contraposición con el \gls{hc}\sidenote{
+	\textbf{\gls{hc} y \gls{sc}} son la forma de diferenciar dos puntos de vista a la hora de resolver problemas computacionalmente. El \gls{hc} basa sus técnicas en aquellas basadas en modelos analíticos definidos de forma precisa y que en ocasiones requieren mucho tiempo de cómputo. Están basados en lógica binaria, análisis numérico, algoritmos y respuestas exactas. El \gls{sc} por otro lado es tolerante a la imprecisión y al ruido y tiende a llegar a soluciones aproximadas de manera más rápida. Se basa en modelos aproximados, emergencia de algoritmos y modelos estocásticos.
+}. El \gls{sc} engloba las técnicas que buscan resolver problemas con información incompleta o con ruido. Debido a que el conjunto de técnicas definidas como consituyentes del \gls{sc} son las mismas que se usan en la \gls{ci} algunos autores consideran ambos términos equivalentes. Nosotros consideramos que el \gls{sc} es un punto de vista de la computación a diferencia de la \Acrlongsp{ci}, la cual es un área de específica dentro de la \gls{ai} que hace uso de métodos incluidos en el concepto \gls{sc}.
 
-\marginnote{
-	\textbf{\gls{hc} y \gls{sc}} son la forma de referirse a la computación convencional frente al \gls{sc}. El \gls{hc} basa sus técnicas en aquellas basadas en modelos analíticos definidos de forma precisa y que en ocasiones requieren mucho tiempo de cómputo. Están basados en lógica binaria, análisis numérico, algoritmos y respuestas exactas. El \gls{sc} por otro lado es tolerante a la imprecisión y al ruido y tiende a llegar a soluciones aproximadas de manera más rápida. Se basa en modelos aproximados, emergencia de algoritmos y modelos estocásticos.
-}
+
 
 Hoy en día la \gls{ci} es un área con muchas aplicaciones prácticas en una variedad muy distinta de campos de la ciencia y con muchos temas de investigación por explorar. Por ello, esta tesis pretende la exploración de una parte concreta de este área en el tema del modelado de comportamiento humano en el problema de la conducción.
 
@@ -78,9 +84,9 @@ El cambio más notorio entre los dos puntos de vista de la \gls{ai} tradicional 
 Las técnicas de aprendizaje se clasifican dependiendo de la forma en la que entrenan los modelos. Podemos identificar tres clases principales de técnicas de entrenamiento las cuales se describen a continuación:
 
 \begin{itemize}
-	\item \textbf{Aprendizaje supervisado}. Supongamos que disponemos de un modelo denotado por $M_V(V, I) = O$ donde $V$ es el conjunto de variables de determinan el comportamiento de $M_V$ y donde $I$ es un conjunto de valores (características) de entrada para las que el modelo obtiene un conjunto $O$ de valores de salida. Entonces, la forma de entrenar al modelo, es decir el \textit{algoritmo de entrenamiento} se encargaría de, a partir de un conjunto de la forma $D = {(I_i, O_i) | \forall i \in \mathbb{N}}$, donde cada $O_i$ es la salida esperada del modelo a la entrada $I_i$, modificar los valores de las variables del conjunto $V$ para ajustar lo más posible $O_i$ a $O$ dado $I_i$.
-	\item \textbf{Aprendizaje no supervisado}. Es el proceso por el cual un modelo aprende a partir de datos en brutos sus relaciones y extrae patrones, sin saber qué son esos datos ni recibir supervisión (a diferencia del aprendizaje supervisado donde los datos incluyen un valore de entrada y su salida correspondiente). En general, los algoritmos pertenecientes a esta categoría se dedican al problema del \textit{clustering}, es decir, identificar grupos de elementos cercanos en el espacio basándose en la suposición de que el comportamiento de dos elementos es más parecido cuanto más cerca están el uno del otro. Algunos ejemplos de técnicas que basan su entrenamiento en un esquema no supervisado son los mapas autoorganizados (SOM), los autoencoders o las redes de creencia profunda (DBN de Deep Belief Network).
-	\item \textbf{Aprendizaje por refuerzo}. En este pardigma, el algoritmo ajusta el modelo de acuerdo a políticas de recompensa o penaliación en función de lo bien o lo mal que el modelo está desempeñando la tarea de acuerdo a una métrica determinada. 
+	\item \textbf{Aprendizaje supervisado}. Suponiendo que disponemos de un modelo denotado por $M_V(V, I) = O$ donde $V$ es el conjunto de variables de determinan el comportamiento de $M_V$ y donde $I$ es un conjunto de valores (características) de entrada para las que el modelo obtiene un conjunto $O$ de valores de salida. Entonces, la forma de entrenar al modelo, es decir el \textit{algoritmo de entrenamiento} se encargará de, a partir de un conjunto de la forma $D = {(I_i, O_i) | \forall i \in \mathbb{N}}$, donde cada $O_i$ es la salida esperada del modelo a la entrada $I_i$, modificar los valores de las variables del conjunto $V$ para ajustar lo más posible $O_i$ a $O$ dado $I_i$.
+	\item \textbf{Aprendizaje no supervisado}. Es el proceso por el cual un modelo aprende a partir de datos en brutos sus relaciones y extrae patrones, sin necesidad de saber qué son esos datos ni recibir supervisión (a diferencia del aprendizaje supervisado donde los datos incluyen un valore de entrada y su salida correspondiente). En general, los algoritmos pertenecientes a esta categoría se dedican al problema del \textit{clustering}, es decir, identificar grupos de elementos cercanos en el espacio basándose en la suposición de que el comportamiento de dos elementos es más parecido cuanto más cerca están el uno del otro. Algunos ejemplos de técnicas que basan su entrenamiento en un esquema no supervisado son los \gls{som}, los autoencoders o las \gls{dbn}.
+	\item \textbf{Aprendizaje por refuerzo}. En este paradigma, el algoritmo ajusta el modelo de acuerdo a políticas de recompensa o penalización en función de lo bien o lo mal que el modelo está desempeñando la tarea de acuerdo a una métrica determinada. 
 \end{itemize}
 
 Algunos autores hacen uso de técnicas pertenecientes a ambos paradigmas en forma de aproximación híbrida para suplir deficiencias u optimizar/acelerar el aprendizaje. Un claro ejemplo lo podemos ver en \cite{Hinton2006}, donde los autores hacen uso de \textit{autoencoders} como técnica no supervisada para la inicialización de los pesos de una red neuronal y posteriormente realizan un entrenamiento supervisado para la optimización es éstos.
@@ -91,14 +97,14 @@ Esta tesis se dedica al modelado de comportamiento entrenando a partir de datos 
 
 La terminología general que se usa en la \gls{ci} no es demasiado compleja (con la salvedad de los nombres de técnicas y algoritmos). La Figura~\ref{fig:different-kinds-of-datasets} muestra un esquema de esta terminología.
 
-\begin{figure}[t]
+\begin{figure}
 	\includegraphics{different-kinds-of-datasets}
 	\caption[Separación clásica de conjuntos de datos en problemas de \acrlongsp{ml}]{Los diferentes tipos de conjuntos de datos existentes. El conjunto de datos original está separado en dos conjuntos, entrenamiento y test. Del conjunto de entrenamiento se separa una porción para comprobar cómo evoluciona el entrenamiento y así determinar qué arquitectura y meta-parámetros son más útiles.}
 	\label{fig:different-kinds-of-datasets}
 \end{figure}
 
 Un \textbf{dataset} es todo el conjunto de datos que disponemos para nuestro experimento. Cuando el dataset es el resultado de una observación directa, también se le denomina \textit{ground truth}. La calidad del conjunto de datos es esencial, ya que de éste depende la efectividad de las soluciones que lo han usado. Sin entrar demasiado en detalle, es recomendable que la distribución de datos del dataset sea aproximadamente la misma que la distribución del sistema en el mundo real\sidenote{
-	Desgraciadamente este es un dato a proiori desconocido en muchos problemas. Por eso la máxima de ``cuantos más datos, mejor'' suele funcionar ya que, cuantos más datos diferentes contiene el dataset, más se aproxima su función de distribución a la del sistema a modelar.
+	Desgraciadamente, éste es un dato a priori desconocido en muchos problemas. Por eso la máxima de ``cuantos más datos, mejor'' suele funcionar ya que, cuantos más datos diferentes contiene el dataset, más se aproxima su función de distribución a la del sistema a modelar.
 }.
 
 Para problemas que requieren soluciones del área del \ac{ml}, este conjunto se suele partir en varios subconjuntos\sidenote{Evidentemente disjuntos.}, cada uno para un cometido específico. Éstos comparten la característica de que, para ser lo más útiles posibles, han de mantener en la medida de lo posible la misma distribución que la del dataset del que provienen.
@@ -107,8 +113,8 @@ El primero de ellos es el \textbf{conjunto de entrenamiento} o \textit{training 
 
 El conjunto de validación o \textbf{validation set} tiene como objetivo validar el modelo \textbf{durante} el entrenamiento. Durante el entrenamiento, dependiendo del modelo o modelos que se están explorado, lo más común es realizar una serie de modificaciones en metavariables para ajustarlo. Al usar un conjunto distinto que el de entrenamiento, ajustamos el modelo para unos datos que no ha visto durante el proceso de entrenamiento.
 
-Sin embargo, al realizar estos ajuste sí estamos incurriendo en un sesgo hacia el conjunto de validación. Esto es, el modelo se está entrenando de acuerdo a los datos que se le presentan en el conjunto de entrenamiento, y las metavariables a lo que le dicta el conjunto de validación. En este punto surge el conjunto de test o \textbf{test set}\sidenote{
-	En la literatura existe cierta confusión entre estos dos terminos. Históricamente el conjunto de dato se solía dividir entre los conjuntos de entrenamiento y test. Posteriormente se vio la utilidad de separar el conjunto de test en dos diferentes para evaluar el modelo durante y después del proceso de entrenamiento.
+Sin embargo, al realizar estos ajuste sí estamos incurriendo en un sesgo hacia el conjunto de validación. Esto es, el modelo se está entrenando de acuerdo a los datos que se le presentan en el conjunto de entrenamiento, y las metavariables a lo que le dicta el conjunto de validación. En este punto surge el \textbf{conjunto de test} o \textit{test set}\sidenote{
+	En la literatura existe cierta confusión entre estos dos términos. Históricamente el conjunto de datos se solía dividir entre los conjuntos de entrenamiento y test. Posteriormente se vio la utilidad de separar el conjunto de test en dos diferentes para diferencia la evaluación del modelo durante y después del proceso de entrenamiento.
 	
 	Muchos autores prefieren la definición aquí expuesta, pero otros invierten los significados de validación y test indicando que el test se usa para el ajuste del modelo \textbf{durante} el proceso de entrenamiento mientras que la validación se realiza \textbf{al final} del proceso.
 }. Su objetivo es el de, precisamente, evaluar todo el proceso de entrenamiento \textbf{al final} de éste para comprobar que el modelo entrenado es lo sufientemente bueno para realizar la tarea para la que ha sido entrenado.
@@ -119,7 +125,7 @@ En otros contextos la definición de \textit{epoch} se mantiene y a cada una de 
 
 \subsection{Problemas del aprendizaje en la \acrlongsp{ci}}
 
-El entrenamiento de modelos en la \gls{ci} adolece de dos principales problemas que, además, no tienen una solución general (\textit{non free-lunch theorem}~\cite{wolpert1997no}) ya que dependen tanto de la estructura de los datos sobre los que vamos a trabar como de los hiperparámetros\sidenote{
+El entrenamiento de modelos en la \gls{ci} adolece de dos principales problemas que, además, no tienen una solución general\sidenote{Es el llamado \textit{non free-lunch theorem} \cite{wolpert1997no}.} ya que dependen tanto de la estructura de los datos sobre la que vamos a trabajar como de los hiperparámetros\sidenote{
 	En general, hablaremos de \textit{parámetros} cuando nos referimos a valores que son inherentes al modelo (e.g. en una \gls{ann}, los valores de los pesos) y de \textit{hiperparámetros} cuando nos referimos a aquellos parámetros que modifican los elementos que modifican los parámetros (e.g. en una \gls{ann}, el factor de aprendizaje).
 } del modelo. Estos son la sobreespecialización y la subespecialización\sidenote{
 	En la literatura también se habla de \textit{high variance} o \textit{over-fitting} y de \textit{high bias} o \textit{under-fitting} para referirse a la sobreespecialización y subespecialización respectivamente.
@@ -132,7 +138,7 @@ El objetivo de un entrenamiento es conseguir modelos lo suficientemente buenos p
 
 La tónica general en la ciencia es que cada pocos años algún término se escape del mundo de la investigación y se convierta en la palabra de moda que inunde la prensa especializada y no especializada. Palabras con fuerza como Big Data, Cloud Computing, Web Services o SaaS que lo más normal es que sean conceptos ya existentes como proceso de datos masivos, computación distribuida o ejecución remota.
 
-Sí es cierto que en ocasiones estas palabras captan sutilidades o información que las hace más adecuadas que los antigüos conceptos y que incluso pueden llegar a abrir en elfuturo nuevas ramas dentro del área al que pertenecen. Un ejemplo podrían ser los \textit{sistemas de recomendación}, un caso particular de \textit{sistemas de filtrado de información} cuyo nombre estuvo de moda durante unos años y que en la actualidad conserva su entidad como una subrama de la rama principal.
+Sí es cierto que en ocasiones estas palabras captan sutilidades o información que las hace más adecuadas que los antigüos conceptos y que incluso pueden llegar a abrir en el futuro nuevas ramas dentro del área al que pertenecen. Un ejemplo podrían ser los \acrlongsp{rs}, un caso particular de \textit{sistemas de filtrado de información} cuyo nombre estuvo de moda durante unos años y que en la actualidad conserva su entidad como una subrama de la rama principal.
 
 El \textit{deep learning} es una de las palabras con la que últimamente se inunda la prensa, pero lo cierto es que desde la aparición del término, parece que los avances dentro de éste no tienen límites. En esta tesis se considera al \textit{deep learning} a la nueva generación de enfoques en la que confluyen varios factores que han hecho posible una mejora sustancial en el entrenamiento y la operación de modelos con técnicas que, por otro lado, ya existían previamente. Estos factores son los siguientes:
 
@@ -145,7 +151,7 @@ El \textit{deep learning} es una de las palabras con la que últimamente se inun
 
 \begin{itemize}
 	\item \textbf{Disponibilidad de datos}. En la última década, la cantidad de datos que generamos como especie ha crecido en muchos órdenes de magnitud. El abaratamiento de los costes de producción de dispositivos y de sensores o la acumulación temporal de los datos historicos son sólo dos factores que nos permiten en la actualidad el acceso a una cantidad ingente de datos con la que trabajar, algo impensable en la década anterior.
-	\item \textbf{Capacidad computacional}. Aunque obvio, es un factor también crucial. Una mayor capacidad computacional es directamente proporcional a una mayor velocidad en el ciclo de experimentación de modelos (ver Figura~\ref{fig:applied-ci-cycle}). El verdadero impacto de esta década ha sido el del uso de las GPU de las tarjetas gráfiacs como plataforma donde distribuir el cómputo.
+	\item \textbf{Capacidad computacional}. Aunque obvio, es un factor también crucial. Una mayor capacidad computacional es directamente proporcional a una mayor velocidad en el ciclo de experimentación de modelos (ver Figura~\ref{fig:applied-ci-cycle}). El verdadero impacto de esta década ha sido el del uso de las GPU de las tarjetas gráficas como plataforma donde distribuir el cómputo.
 	\item \textbf{Algoritmos más eficientes}. Nuevos elementos como las funciones de activación \gls{relu}, la representación de las redes como grafos computacionales para facilitar su distribución o innovaciones en los algoritmos de entrenamiento son algunas de las mejoras en este aspecto que redunda, como no, en la optimización de la capacidad computacional de las máquinas y por tanto sobre el ciclo de experimentación.
 \end{itemize}
 
@@ -155,13 +161,18 @@ El \textit{deep learning} es una de las palabras con la que últimamente se inun
 	\label{fig:deep-learning-capabilities}
 \end{marginfigure}
 
-El adjetivo \textit{deep}, en el contexto de las redes (e.g. redes neuronales, redes de creencia, \ldots), donde se origina este término, se refiere a una red con más capas de lo habitual\sidenote{
-	De aquí surge el término de \textbf{shallow network} o red superficial, en contraposición a \textbf{deep network} o red profunda.
-} (normalmente más de dos o tres). Este tipo de capas, históricamente ha sido más difícil de entrenar, debido entre otras cosas a las técnicas de entrenamiento (donde los parámetros tendían a diluirse según se aumentaba el número de capas entre la entrada y la salida) o a la disponibilidad de conjuntos de datos, los cuales al no ser muy grandes, las redes grandes tendían a sobre especializarse. La Figura~\ref{fig:deep-learning-capabilities} introduce, con una ilustración un tanto informal, las capacidades del deep learning frente a las de los modelos entrenados antes de esta época.
+El adjetivo \textit{deep}, en el contexto de las redes (e.g. \acrlongplsp{ann}, \gls{dbn}, \ldots), donde se origina este término, se refiere a una red con más capas de lo habitual\sidenote{
+	De aquí surge el nombre de \textbf{shallow network} o red superficial, en contraposición a \textbf{deep network} o red profunda.
+} (normalmente más de dos o tres). Este tipo de capas, históricamente han sido más difíciles de entrenar, debido entre otras cosas a:
 
-Los factores antes mencionados han hecho posible la operación sobre redes más grandes y profundas con cantidades de ordenes de magnitud muy superiores. El resultado en la actualidad es que tenemos modelos que mejoran mucho los modelos anteriores, y no parece haber cota superior en su capacidad de aprendizaje\sidenote{
+\begin{itemize}
+	\item Las técnicas de entrenamiento, donde los parámetros tendían a diluirse (\textit{vanishing gradient}) según se aumentaba el número de capas entre la entrada y la salida.
+	\item La disponibilidad de conjuntos de datos, los cuales al no ser muy grandes, las redes grandes tendían a sobre especializarse.
+\end{itemize}
+
+Los factores antes mencionados han hecho posible la operación sobre redes más grandes y profundas de ordenes de magnitud muy superiores. El resultado en la actualidad es que disponemos de modelos que mejoran en mucho a los modelos anteriores, y no parece haber cota superior en su capacidad de aprendizaje\sidenote{
 	Dentro de un contexto de aplicación específica, creemos que aún estamos muy lejos de crear vida inteligente.
-}.
+}. La Figura~\ref{fig:deep-learning-capabilities} introduce, con una ilustración un tanto informal, las capacidades del \textit{deep learning} frente a las de los modelos entrenados antes de esta época.
 
 \section{\Acrlongplsp{ann}}
 
@@ -484,7 +495,7 @@ Junto con las capa de convolución, normalmente se usan otros dos tipos de capa 
 \begin{figure}[!b]
 	\centering
 	\includegraphics[width=0.6\textwidth]{cnn-pooling}
-	\caption[Diferentes operaciónes de muestreo en \acrshort{cnn}]{Ejemplo de diferentes operaciones de muestreo sobre una matriz de valores. El filtro de tamaño $2 \times 2$ recorre la matriz en saltos (\textit{strides}) de $2$ celdas horizontales y $2$ verticales extrayendo de cada región filtrada el menor valor, el valor medio o el mayor valor, dependiendo de si la operación es \textit{min-pooling}, \textit{mid-pooling} o \textit{max-pooling}. La más común en \acrshort{cnn} suele ser la operación \textit{max-pooling}.}
+	\caption[Diferentes operaciones de muestreo]{Ejemplo de diferentes operaciones de muestreo sobre una matriz de valores. El filtro de tamaño $2 \times 2$ recorre la matriz en saltos (\textit{strides}) de $2$ celdas horizontales y $2$ verticales extrayendo de cada región filtrada el menor valor, el valor medio o el mayor valor, dependiendo de si la operación es \textit{min-pooling}, \textit{mid-pooling} o \textit{max-pooling}. La más común en \acrshort{cnn} suele ser la operación \textit{max-pooling}.}
 	\label{fig:cnn-max-pooling}
 \end{figure}
 
@@ -662,7 +673,7 @@ La $t$-conorma (o $s$-norma), por otro lado, generaliza el concepto de unión. U
 	\centering
 	\subfloat[Máximo]{\includegraphics[width=0.46\linewidth]{snorm-maximum}}\qquad
 	\subfloat[Suma probabilística]{\includegraphics[width=0.46\linewidth]{snorm-probabilistic-sum}}
-	\caption[$t$-normas del máximo y de la suma algebraica]{Las $t$-conormas de máximo y de suma probabilística son las complementarias a $t$-normas mostradas previamente, y como ocurre en estas, existen tantas $t$-conormas como $t$-normas definidas.}
+	\caption[$t$-conormas del máximo y de la suma probabilística]{Las $t$-conormas de máximo y de suma probabilística son las complementarias a $t$-normas mostradas previamente, y como ocurre en estas, existen tantas $t$-conormas como $t$-normas definidas.}
 	\label{fig:t-conorms}
 \end{figure}
 

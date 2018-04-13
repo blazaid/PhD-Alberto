@@ -115,20 +115,25 @@ Este bloque de reglas es el que se tratará de ajustar. La representación será
 
 Dicho de otro modo, cada posible conjunto difuso de salida (es decir, para cada valor dentro del eje correspondiente a la salida) se corresponderá con una matriz $v_i$-dimensional resultado del producto cartesiano de las cariables de entradas. Esto es, cada una de las posibles combinaciones de reglas, a la que podemos asociar un valor. En la Figura~\ref{fig:inference-graph} se muestra un ejemplo con las variables obtenidas en el ejemplo de la Figura~\ref{fig:fuzzification-graph} tras aplicarles la $t$-norma.
 
+Al estar definida la $t$-conorma y la acumulación con el mismo operador (i.e. el máximo), una regla de tipo OR es equivalente a dos reglas de tipo AND, ya que la acumulación de sus resultados es equivalente. Por tanto, al aplicar la $t$-norma a estas combinaciones tenemos todas las posibles combinaciones de reglas. Pero hasta aquí no tenemos ningún ajuste.
 
-\begin{figure*}[t]
+Si aplicamos el producto de Hadamard a una matriz de pesos con la misma dimensión y acotamos sus valores a $[0, 1] \in \mathbb{N}$, tenemos una manera de ajustar qué reglas son las más relevantes y cuáles no. Esta representación tiene un problema: estos dos valores definen una función escalón donde el error no se propaga al ser su gradiente $0$. Sin embargo, si en lugar de un valor natural, el peso toma un valor real y le aplicamos una operación sigmoidal, el valor se mantendrá entre $(0, 1) \in \mathbb{R}$ con la ventaja de que el gradiente no se estanca, y en un proceso posterior se pueden descartar las reglas cuyos valores superen ciertos rangos establecidos.
+
+A la salida de la inferencia, tras aplicar la acumulación, disponemos de tantos valores difusos como conjuntos difusos tiene la salida.
+
+\begin{figure}[t]
 	\centering
 	\begin{equation*}
 		\left(\begin{array}{c}
-			\mu_1^A \ldots \\
-			\mu_2^A \ldots \\
-			\mu_3^A \ldots \\
+			\mu_1^A \\
+			\mu_2^A \\
+			\mu_3^A \\
 		\end{array}\right)
 		\quad \times \quad
 		\left(\begin{array}{ c}
-			\mu_1^B \ldots \\
-			\mu_2^B \ldots \\
-			\mu_3^B \ldots \\
+			\mu_1^B \\
+			\mu_2^B \\
+			\mu_3^B \\
 		\end{array}\right)
 		= \quad 
 		\left(\begin{array}{c}
@@ -143,15 +148,9 @@ Dicho de otro modo, cada posible conjunto difuso de salida (es decir, para cada 
 			\top(\mu_3^A, \mu_3^B) \\
 		\end{array}\right)
 	\end{equation*}
-	\caption[Producto cartesiano de variables difusas de entrada]{El producto cartesiano de las variables difusas de entrada genera todas las posibles combinaciones entre los conjuntos difusos de las variables lingüísticas. Aplicándosele la $t$-norma a cada una de estas combinaciones tenemos todas las posibles reglas que se pueden definir en este \acrlong{fcs}.}
+	\caption[Producto cartesiano de variables difusas de entrada]{El producto cartesiano de las variables difusas de entrada genera todas las posibles combinaciones entre los conjuntos difusos de las variables lingüísticas. Aplicándosele la $t$-norma a cada una de estas combinaciones tenemos todas las posibles reglas que se pueden definir en este \acrlongsp{fcs}.}
 	\label{fig:inference-graph}
-\end{figure*}
-
-Al estar definida la $t$-conorma y la acumulación con el mismo operador (i.e. el máximo), una regla de tipo OR es equivalente a dos reglas de tipo AND, ya que la acumulación de sus resultados es equivalente. Por tanto, al aplicar la $t$-norma a estas combinaciones tenemos todas las posibles combinaciones de reglas. Pero hasta aquí no tenemos ningún ajuste.
-
-Si aplicamos el producto de Hadamard a una matriz de pesos con la misma dimensión y acotamos sus valores a $[0, 1] \in \mathbb{N}$, tenemos una manera de ajustar qué reglas son las más relevantes y cuáles no. Esta representación tiene un problema: estos dos valores definen una función escalón donde el error no se propaga al ser su gradiente $0$. Sin embargo, si en lugar de un valor natural, el peso toma un valor real y le aplicamos una operación sigmoidal, el valor se mantendrá entre $(0, 1) \in \mathbb{R}$ con la ventaja de que el gradiente no se estanca, y en un proceso posterior se pueden descartar las reglas cuyos valores superen ciertos rangos establecidos.
-
-A la salida de la inferencia, tras aplicar la acumulación, disponemos de tantos valores difusos como conjuntos difusos tiene la salida.
+\end{figure}
 
 \subsection{Bloque de defuzzificación}
 
@@ -198,7 +197,7 @@ Durante el entrenamiento, las superficies evolucionan hacia una representación 
 
 \begin{figure}
 	\centering
-	\subfloat[Inicio]{\includegraphics[width=.28\textwidth]{ajusted-tip-controller-at-start-training}}\qquad
+	\subfloat[Inicio]{\includegraphics[width=.28\textwidth]{ajusted-tip-controller-at-init-training}}\qquad
 	\subfloat[Epoch $250$]{\includegraphics[width=.28\textwidth]{ajusted-tip-controller-at-half-training}}\qquad
 	\subfloat[Epoch $1000$]{\includegraphics[width=.28\textwidth]{ajusted-tip-controller-at-end-training}}
 	\caption[Evolución del \acrlongsp{fcs} de acuerdo al conjunto de datos extraido del ]{Particiones difusas del \acrlongsp{fcs} de ajustado. Estas figuras muestran la superficie del controlador ajustado (a) al comienzo del proceso de entrenamiento, (b) tras $250$ iteraciones sobre el conjunto de entrenamiento y (c) al final del proceso del entrenamiento.}
