@@ -1,16 +1,16 @@
 \chapter{Ajuste de \acrlongplsp{fcs} basado en descenso del gradiente}
 \label{ch:fuzzy-controller-adjustment}
 
-Como vimos en la sección~\ref{ss:fcs} del capítulo~\nameref{ch:sota-ci}, un \ac{fcs} se compone de cuatro bloques diferenciados: la fuzzificación, el bloque de reglas, la inferencia y la defuzzificación. De éstos bloques, el proceso manual de ajuste se resume siempre\sidenote{
+Como vimos en la sección \nameref{ss:fcs} del capítulo \nameref{ch:sota-ci}, un \acrlongsp{fcs} se compone de cuatro bloques diferenciados: la fuzzificación, el bloque de reglas, la inferencia y la defuzzificación. De estos bloques, el proceso manual de ajuste se resume siempre en dos pasos\sidenote{
 	Por supuesto implica más ajustes como la elección de las funciones de fuzzificación, las $t$-normas y $t$-conormas, de la función de defuzzificación, pero estas operaciones no tienen tanto impacto en el desempeño del controlador como las particiones difusas y las reglas.
-} en dos pasos:
+}:
 
 \begin{enumerate}
 	\item Elección de las particiones difusas de las variables lingüísticas.
 	\item Definición de las reglas difusas.
 \end{enumerate}
 
-Las soluciones de ajuste que existen en la literatura suelen funcionar ajustando automáticamente uno de los dos puntos manteniendo constante el otro (e.g. ajustar las particiones manteniendo fijas las reglas). Nosotros representaremos el controlador como un grafo computacional de manera que sus gradientes sean sencillos de ajustar\sidenote{
+Las soluciones de ajuste que existen en la literatura suelen funcionar ajustando automáticamente uno de los dos puntos, manteniendo fijo el otro (e.g. ajustar las particiones fijas las reglas). Nosotros representaremos el controlador como un grafo computacional de manera que sus gradientes sean sencillos de ajustar\sidenote{
 	Como veremos más adelante, el tiempo de ajuste con esta representación es muy rápido, lo que abre la posibilidad de desarrollar un algoritmo que incluya este para el ajuste de los metaparámetros del controlador, como por ejemplo los tamaños de las particiones.
 }.
 
@@ -27,7 +27,7 @@ Se han tomado una serie de decisiones de diseño para facilitar el desarrollo de
 		\end{equation}
 		Es decir, la suma ponderada de los valores de salida.
 	}.
-	\item El tamaño de las particiones difusas no variará dinámicamente a lo largo del entrenamiento, siendo este un meta-parámetro de configuración del controlador.
+	\item El tamaño de las particiones difusas no variará dinámicamente a lo largo del entrenamiento, siendo éste un meta-parámetro de configuración del controlador.
 	\item El controlador tendrá una única variable de salida.
 \end{itemize}
 
@@ -37,13 +37,13 @@ Sea $\mathcal{V} = {V_1, V_2, \ldots, V_n}$ el conjunto ordenado de variables li
 
 El controlador recibirá una matriz bidimensional de rango $(m, n)$ y devolverá un vector de rango $(m)$, siendo $m$ el número de ejemplos que queremos calcular a la vez.
 
-Representaremos el \ac{fcs} como grafo computacional. De esta manera, podremos (i) aplicar la función de manera más eficiente y (ii) calcular fácilmente los gradientes de las funciones parciales para aplicar la técnica del descenso del gradiente propagando el error de la salida.
+Representaremos el \acrlongsp{fcs} como grafo computacional. De esta manera, podremos (i) aplicar la función de manera más eficiente y (ii) calcular fácilmente los gradientes de las funciones parciales para aplicar la técnica del descenso del gradiente propagando el error de la salida.
 
-El proceso de desarrollo será el siguiente: primero, construiremos cada uno de los bloques fundamentales del \ac{fcs} como un grafos computacionales; después construiremos el controlador conectando entre sí estos grafos.
+El proceso de desarrollo será el siguiente: primero, construiremos cada uno de los bloques fundamentales del \acrlongsp{fcs} como un grafos computacionales; después construiremos el controlador conectando entre sí estos grafos.
 
 \subsection{Bloque de fuzzificación}
 
-El grafo computacional asociado a este bloque tomará una matrix bidimensional de rango $(m, n)$ (la matriz de entrada) que contendrá para cada ejemplo una lista de los valores que toma cada una de las variables de entrada. La salida de este grafo será una matriz bidimensional de rango $(m, \sum_{i=1}^n N_i)$, donde se almacenarán los grados de pertenencia de esos valores acada conjunto difuso de la variable que les corresponda (Figura~\ref{fig:input-to-fuzzy-input}).
+El grafo computacional asociado a este bloque tomará una matriz bidimensional de rango $(m, n)$ (la matriz de entrada) que contendrá para cada ejemplo una lista de los valores que toma cada una de las variables de entrada. La salida de este grafo será una matriz bidimensional de rango $(m, \sum_{i=1}^n N_i)$, donde se almacenarán los grados de pertenencia de esos valores acada conjunto difuso de la variable que les corresponda (Figura~\ref{fig:input-to-fuzzy-input}).
 
 \begin{figure*}[t]
 	\centering
@@ -62,13 +62,13 @@ El grafo computacional asociado a este bloque tomará una matrix bidimensional d
 		\mu^1_{V_1}(x^4_{V_1}) & \mu^2_{V_1}(x^4_{V_1}) & \mu^1_{V_2}(x^4_{V_2}) & \mu^2_{V_2}(x^4_{V_2}) & \ldots \\
 		\end{array}\right)
 	\end{equation*}
-	\caption[Ejemplo de operación en el bloque de fuzzificación]{El bloque de fuzzificación transformará los valores de sus respectivos dominios al dominio de pertenencia a cada conjunto difuso. La matriz generada tendrá tantas columnas como conjuntos difusos posea cada variable.}
+	\caption[Ejemplo de operación en el bloque de fuzzificación]{El bloque de fuzzificación transformará los valores de sus respectivos dominios al de cada conjunto difuso. La matriz generada tendrá tantas columnas como conjuntos difusos posee cada variable.}
 	\label{fig:input-to-fuzzy-input}
 \end{figure*}
 
 Para ello, se le aplicará a cada columna de la matriz de entrada tantas operaciones (funciones de pertenencia) como conjuntos difusos posea. Concretamente se aplicarán operaciones de línea descendente, trapezoidal y ascendente.
 
-Las líneas \textbf{ascendente} y \textbf{descendente} tienen una forma parecida. El grafo asociado a la fórmula de la línea descendente se muestra en la figura~\ref{fig:slope-asc-grap}, que es la que se correspondería con el último conjunto de una partición difusa. Como se puede ver, las variables ajustables son $a$ y $\delta a$. Estas definen el intervalo $(a, a + \delta b) \in \mathbb{R}$ donde los valores $f(X)$ ascienden de $0$ a $1$ (o descienden de $1$ a $0$ en el caso de la recta ascendente).
+Los grafos de las líneas \textbf{ascendente} y \textbf{descendente} tienen una forma parecida. El grafo asociado a la fórmula de la línea descendente se muestra en la figura~\ref{fig:slope-asc-grap}, que es la que se correspondería con el último conjunto de una partición difusa. Como se puede ver, las variables ajustables son $a$ y $\delta b$. Estas definen el intervalo $(a, a + \delta b) \in \mathbb{R}$ donde los valores $f(X)$ ascienden de $0$ a $1$ (o descienden de $1$ a $0$ en el caso de la recta ascendente).
 
 \begin{figure}
 	\centering
@@ -86,7 +86,7 @@ El \textbf{trapecio} se define a partir de los parámetros $(a, \delta b, \delta
 	\label{fig:trap-graph}
 \end{figure}
 
-Sabiendo los grafos computacionales de cada una de las funciones de pertenencia, ya podemos definir el grafo asociado a la partición difusa de una variable lingüística. Suponiendo que la variable $V_i$ está dividida en $N_{V_i}$ conjuntos difusos, la partición de ésta estará compuesta de:
+Sabiendo los grafos computacionales de cada una de las funciones de pertenencia, ya podemos definir el grafo asociado a la partición difusa de una variable lingüística. Suponiendo que la variable $V_i$ está dividida en $N_{V_i}$ conjuntos difusos, la partición estará compuesta de:
 
 \begin{itemize}
 	\item Un primer conjunto definido como una pendiente descendente.
@@ -94,9 +94,9 @@ Sabiendo los grafos computacionales de cada una de las funciones de pertenencia,
 	\item Un último conjunto definido como una pendiente ascendente.
 \end{itemize}
 
-Este grafo tiene que definir una serie de variables para que nuestro algoritmo de entrenamiento las ajuste correctamente. Estas variables están directamente relacionadas con los parámetros de las funciones de pertenencia descritas anteriormente. Hemos decidido por tanto establecer estas variables como los espacios existentes entre los puntos caracteríscos de las funciones. En la figura~\ref{fig:fuzzification-graph-vars} se puede observar de qué manera están relacionadas las variables de desplazamiento y los parámetros de las funciones de pertenencia.
+Este grafo tiene que definir una serie de variables para que nuestro algoritmo de entrenamiento las ajuste correctamente. Estas variables están directamente relacionadas con los parámetros de las funciones de pertenencia descritas anteriormente. Hemos decidido por tanto establecer estas variables como los espacios existentes entre los puntos característicos de las funciones.
 
-Al estar definidas de esta manera, logramos (i) que la suma de todas las pertenencias en cada punto del eje $X$ es $1$ y (ii) que cada pequeña variación del gradiente de una de las variables tiene el potencial de provocar una variación en el resto de variables.
+Al estar definidas de esta manera, logramos (i) que la suma de todas las pertenencias en cada punto del eje $X$ sea $1$ y (ii) que cada pequeña variación del gradiente de una de las variables tiene el potencial de provocar una variación en el resto de variables.
 
 Por último, un controlador difuso define un número de variables de entrada. Nuestro grafo de fuzzificación estará definido de tal manera que para una matriz de entrada $m \times l$, siendo $m$ cada tupla de valores a inferir y $l$ cada una de las variables lingüísticas, generará una matriz de la forma $m \times \sum_{i=1}^l \left\vert{l_i}\right\vert$, siendo $\left\vert{S}\right\vert$ el número de conjuntos difusos que contiene la variable linguística $l_i$ (Figura~\ref{fuzzification-graph})
 
@@ -158,7 +158,7 @@ Este bloque tiene la particularidad de que no posee ninguna variable que ajustar
 
 \section{Ejemplo de ajuste de un controlador difuso}
 
-Para probar su funcionamiento, se realizará el ajuste de un controlador difuso a partir de un conjunto de entrenamiento con unos valores determinados. Estos valores se habrán obtenido a su vez de un \ac{fcs} de ejemplo para comprobar lo correcto de la implementación.
+Para probar su funcionamiento, se realizará el ajuste de un controlador difuso a partir de un conjunto de entrenamiento con unos valores determinados. Estos valores se habrán obtenido a su vez de un \acrlongsp{fcs} de ejemplo para comprobar lo correcto de la implementación.
 
 \begin{figure}
 	\centering
@@ -191,7 +191,7 @@ El controlador es una función con dos variables que describen la superficie mos
 
 Recogeremos una muestra aleatoria uniforme de $2500$ de entre los $62500$ que conforman la representación de la superficie del controlador de ejemplo. Posteriormente se crea un controlador difuso y se itera el algoritmo de descenso del gradiente ADAM~\cite{kingma2014adam}.
 
-El proceso de entrenamiento consistirá en la ejecución del algoritmo de propagación del error durante $2500$ epochs con una tasa de aprendizaje de $0.01$, la cual se ha considerado suficiente para el ejemplo en cuestión. La evolución del error durante este entrenamiento se puede ver en la Figura~\ref{fig:fcs-ajustment-rms-during-training}.
+El proceso de entrenamiento consistirá en la ejecución del algoritmo de propagación del error durante $2500$ epochs con una tasa de aprendizaje de $0.01$, la cual se ha considerado suficiente para el ejemplo en cuestión.
 
 Durante el entrenamiento, las superficies evolucionan hacia una representación aproximada de lo que es el controlador original. En la figura~\ref{fig:adjusted-tip-controller-training} podemos observar cómo evoluciona la superficie que representa el controlador ajustado.
 

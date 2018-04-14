@@ -3,9 +3,9 @@
 
 El problema del cambio de carril determina cuándo y cómo realiza los cambios de carril un conductor en un momento determinado. A priori la intuición sobre el problema es que muchos de los factores determinantes no son medibles en el mundo real y/o en el entorno simulado (e.g. estados de humor, condición física, eventos fortuitos, etcétera).
 
-En un trabajo anterior~\cite{CITA DEL ARTÍCULO DE LANE EXECUTION CUANDO NOS LO PUBLIQUEN} los autores tratamos de controlar muchos de estos factores dividiendo el problema en dos partes, la intención de cambio y la ejecución del cambio, y fijando el primero de tal manera que los conductores sólo cambiaban de carril cuando se les ordenaba. De esta manera se permitía el estudio de cómo diferentes perfiles de conductor ejecutaban de distintas formas los cambios de carril y de cómo este fenómeno es modelable.
+En un trabajo anterior~\cite{diaz2018modelling} los autores tratamos de controlar muchos de estos factores dividiendo el problema en dos partes, la intención de cambio y la ejecución del cambio, y fijando el primero de tal manera que los conductores sólo cambiaban de carril cuando se les ordenaba. De esta manera se permitía el estudio de cómo diferentes perfiles de conductor ejecutaban de distintas formas los cambios de carril y de cómo este fenómeno es modelable.
 
-En este trabajo se tratará de modelar, sin embargo, el proceso de cambio de carril como un todo, esto es, decidir en cada momento si cambiar a un carril (i.e. izquierda o derecha) o no hacerlo, a partir de las variables medibles del entorno real y simulado. El problema a resolver será por tanto de clasificación, donde se tratará de maximizar el número de aciertos entre los cambios de carril realizados y el modelo a ajustar. Las técnicas que se han seleccionado para tratar el cambio de carril son las siguientes:
+En este trabajo se tratará de modelar, sin embargo, el proceso de cambio de carril como un todo, esto es, decidir en cada momento si cambiar a un carril (i.e. izquierda o derecha) o no hacerlo, a partir de las variables medibles del entorno real y simulado. El problema a resolver será, por tanto, de clasificación, donde se tratará de maximizar el número de aciertos entre los cambios de carril realizados y el modelo a ajustar. Las técnicas que se han seleccionado para tratar el cambio de carril son las siguientes:
 
 \begin{enumerate}
 	\item \acrshort{mlp}. Los \acrlongplsp{mlp}, más ahora en la época del \textit{deep-learning} son una de las técnicas más usadas para problemas de clasificación. En esta época del \textit{deep-learning} han aumentado su eficiencia varios ordenes de magnitud en capacidad de aprendizaje y, por tanto, en rendimiento a la hora de clasificar.
@@ -28,11 +28,11 @@ Al tratarse además de un problema de clasificación donde las clases son mutuam
 	\end{equation}
 } para transformar el vector de salida en un vector de probabilidades, siendo el cambio de carril seleccionado la salida con el valor de probabilidad más alto.
 
-Para el cálculo del coste, en lugar de intentar maximizar la cantidad de aciertos o minimizar el número de falsos positivos o negativos, el error que se ha tratado de minimizar es la entropía cruzada, concepto del cual hablamos anteriormente en el capítulo~\nameref{ch:sota-ci}. Este indicador es mucho más eficiente a la hora de trabajar con problemas de clasificación. Sin embargo, de cara a mostrar resultados en la tesis, el valor de ésta no ofrece información relevante más allá de \enquote{si decrece es bueno}. Por ellos se ofrecerán los valores de precisión y matrices de confusión que son más acordes con el problema en cuestión.
+Para el cálculo del coste, en lugar de intentar maximizar la cantidad de aciertos o minimizar el número de falsos positivos o negativos, el error que se ha tratado de minimizar es la entropía cruzada, concepto del cual hablamos anteriormente en la sección \ref{ss:mlp} del capítulo \nameref{ch:sota-ci}. Este indicador es mucho más eficiente a la hora de trabajar con problemas de clasificación. Sin embargo, de cara a mostrar resultados en la tesis, el valor de ésta no ofrece información relevante más allá de \enquote{si decrece es bueno}. Por ellos se ofrecerán los valores de precisión y matrices de confusión que son más acordes con el problema en cuestión.
 
 Antes de pasar a la descripción de los modelos, queda hablar del sesgo existente en los datos de entrenamiento. Debido a la naturaleza el problema, el número de ejemplos existentes de cambios de carril es significativamente menor al existente de no cambios de carril. Este sesgo hace que los modelos se entrenen rápidamente para marcar todos los ejemplos como \enquote{no cambio}, dificultando el ajuste posterior hacia cambios a izquierda o derecha.
 
-Por tanto, debido a que (i) las limitaciones de la máquina no nos permiten operar con los conjuntos completos en cada epoch y (ii) existe un sesgo hacia predicciones de \enquote{no cambio}, en cada uno de los epochs, se usará un batch tamaño $m = 6.000$ compuesto por una selección aleatoria de todos los ejemplos equidistribuidos entre las clases del problema (esto es, aproximadamente $\frac{m}{3}$ para cada clase \enquote{cambio izda.}, \enquote{no cambio} y \enquote{cambio dcha.}).
+Por tanto, debido a que (i) las limitaciones de la máquina no nos permiten operar con los conjuntos completos en cada \textit{epoch} y (ii) existe un sesgo hacia predicciones de \enquote{no cambio}, en cada uno de los \textit{epochs}, se usará un \textit{batch} tamaño $m = 6.000$ compuesto por una selección aleatoria de todos los ejemplos equidistribuidos entre las clases del problema (esto es, aproximadamente $\frac{m}{3}$ para cada clase \enquote{cambio izda.}, \enquote{no cambio} y \enquote{cambio dcha.}).
 
 \section{Descripción de los datasets}
 
@@ -40,11 +40,11 @@ Del conjunto de datos descrito en la Tabla~\ref{tbl:main-variables} del capítul
 
 \subsection{Representación de los datos}
 
-Las secuencias de las que se compone el conjunto de datos son, aparte de variables numéricas, una representación del entorno del vehículo como nube de puntos. Los límites técnicos y la representación en sí implican dos problemas principales:
+Las secuencias de las que se compone el conjunto de datos son, aparte de variables numéricas para cada indicador no espacial, una representación del entorno del vehículo como nube de puntos. Los límites técnicos y la representación en sí implican dos problemas principales:
 
 \begin{enumerate}
-	\item Los modelos que utilizamos en esta tesis se basan en un número fijo de entradas, y la nube de puntos contiene un número variable de éstos, dependiendo del número de obstáculos y su distancia a estos.
-	\item La nube de puntos se origina a través de un dispositivo mecánico que funciona con coordenadas esféricas a una resoluciones horizontal de \SI{0.2}{\degree} y vertical de \SI{2}{\degree} con una tasa de refresco de \SI{10}{\hertz}. Esto implica que la superficie del sector circular que no se cubre a largas distancias sea muy extenso, por lo que el espacio según nos alejamos del origen va siendo cada vez más diperso.
+	\item Los modelos que utilizamos en esta tesis se basan en un número fijo de entradas, y la nube de puntos contiene un número variable de éstos, dependiendo del número de obstáculos y su distancia a éstos.
+	\item La nube de puntos se origina a través de un dispositivo mecánico que funciona con coordenadas esféricas a una resolución horizontal de \SI{0.2}{\degree} y vertical de \SI{2}{\degree} con una tasa de refresco de \SI{10}{\hertz}. Esto implica que la superficie del sector circular que no se cubre a largas distancias sea muy extenso, por lo que el espacio según nos alejamos del origen va siendo cada vez más diperso.
 \end{enumerate}
 
 Para el primer caso, se ha optado por representar el entorno como un mapa de profundidad, ilustrado en la Figura~\ref{fig:deepmap-example}. Un mapa de profundidad representa el entorno como una imagen de un sólo canal donde cada píxel representa la distancia a un sector esférico del espacio original.
@@ -56,11 +56,11 @@ Para el primer caso, se ha optado por representar el entorno como un mapa de pro
 	\label{fig:deepmap-example}
 \end{figure}
 
-Dado que el \acrshort{lidar} describe el entorno de manera discreta con valores constantes de elevación y azimuth, se puede definir una biyección entre el conjunto de puntos original y los píxeles del mapa de profundidad, por lo que la información disponible en ambas es equivalente. Sin embargo, en nuestro caso no necesitamos una representación tan fiel del entorno porque:
+Dado que el \acrshort{lidar} describe el entorno de manera discreta con valores constantes de elevación y azimuth, se podría llegar a definir una biyección entre el conjunto de puntos original y los píxeles del mapa de profundidad, por lo que la información disponible en ambas es equivalente. Sin embargo, en nuestro caso no necesitamos una representación tan fiel del entorno porque:
 
 \begin{itemize}
 	\item La resolución horizontal produce un mapa de profundidad de $1800$ columnas. Esta resolución es extremadamente grande, y requeriría el uso de modelos con muchos parámetros, pudiendo caer fácilmente en un problema de \textit{over-fitting}.
-	\item La apertura vertical del LIDAR genera puntos en planos que no son relevantes para el problema. Esto es, planos muy bajos que impactan en el vehículo o muy altos que no impactan con el entorno considerado de interés.
+	\item La apertura vertical del \acrshort{lidar} genera puntos en planos que no son relevantes para el problema. Esto es, planos muy bajos que impactan en el vehículo o muy altos que no impactan con el entorno considerado de interés.
 \end{itemize}
 
 Por estas razones, los mapas de profundidad se generarán de una manera más compacta, usando una resolución horizontal de \SI{1}{\degree} y los seis canales que van desde los \SI{-7}{\degree} hasta los \SI{3}{\degree}, lo que nos da un mapa de profundidad con una resolución de $6 \times 360$ con un canal representando la distancia al punto de impacto más cercano contenido en el sector esférico que representa cada posición del mapa.
@@ -140,17 +140,17 @@ Tras este ajuste, los conjuntos de datos están finalizados. Sus propiedades que
 
 \begin{table*}
 	\centering
-	\caption[Descripción de los conjuntos de datos][1.5em]{Descripción de los conjuntos de datos para el entrenamiento de los modelos.}
+	\caption[Descripción de los conjuntos de datos][1.5em]{Descripción de los conjuntos de datos para el entrenamiento de los modelos. Los datos de entrenamiento incluyen todos los valores generados tras los procesos de \textit{mirroring} y \textit{shaking}.}
 	\label{tbl:lc-datasets-description}
 	\begin{tabular}{ccccccccc}
 		\toprule
 		&          &         & \multicolumn{2}{c}{Tamaño}  & \multicolumn{2}{c}{Cambio carril izda.}  & \multicolumn{2}{c}{Cambio carril dcha.}  \\
 		& Entradas & Salidas & Entrenamiento & Test & Entrenamiento & Test & Entrenamiento & Test \\
 		\midrule
-		\rowcolor{black!20} $LC_{S_1}$ & $8653$ & $3$ & $68990$  & $2057$ & $820$  & $43$  & $820$  & $3$  \\
-		$LC_{S_2}$ & $8653$ & $3$ & $84810$  & $2886$ & $925$  & $27$  & $925$  & $7$  \\
-		\rowcolor{black!20} $LC_{S_3}$ & $8653$ & $3$ & $82060$  & $2890$ & $995$  & $51$  & $995$  & $13$ \\
-		$LC_{S_A}$ & $8653$ & $3$ & $248930$ & $7833$ & $2740$ & $121$ & $2740$ & $23$ \\
+		\rowcolor{black!20} $LC_{S_1}$ & $8653$ & $3$ & $68990$  & $2057$ & $820$  & $43$  & $820$  & $13$  \\
+		$LC_{S_2}$ & $8653$ & $3$ & $84810$  & $2886$ & $925$  & $27$ & $925$  & $17$  \\
+		\rowcolor{black!20} $LC_{S_3}$ & $8653$ & $3$ & $82060$  & $2890$ & $995$  & $51$  & $995$  & $23$ \\
+		$LC_{S_A}$ & $8653$ & $3$ & $248930$ & $7833$ & $2740$ & $121$ & $2740$ & $53$ \\
 		\bottomrule
 	\end{tabular}
 \end{table*}
@@ -265,13 +265,13 @@ Un último apunte antes de pasar a mostrar las gráficas de los entrenamientos. 
 
 La evolución de la precisión a lo largo del entrenamiento para las diferentes arquitecturas se muestra en la Figura~\ref{fig:lc-cnn-training-validation-test-comparison}.
 
-Se puede observar que se ha necesitado una red relativamente grande para superar el límite impuesto por la clasificación aleatoria. Esto contrasta con los resultados obtenidos en~\cite{EL PAPER PARA CUANDO NOS LO PUBLIQUEN}, donde los valores de clasificación eran mucho más altos. La razón por la que se intuye esta disparidad de datos es que es precisamente la operación de \textbf{decisión de cambio de carril} la que es más compleja de modelar, a diferencia de la de \textbf{ejecución de cambio de carril}, en la que esta decisión está ya tomada.
+Se puede observar que se ha necesitado una red relativamente grande para superar el límite impuesto por la clasificación aleatoria. Esto contrasta con los resultados obtenidos en~\cite{diaz2018modelling}, donde los valores de clasificación eran mucho más altos. La razón por la que se intuye esta disparidad de datos es que es precisamente la operación de \textbf{decisión de cambio de carril} la que es más compleja de modelar, a diferencia de la de \textbf{ejecución de cambio de carril}, en la que esta decisión está ya tomada.
 
 Probablemente con otra serie de variables se pueda aumentar la precisión de estos modelos, pero en este experimento estamos limitados al conjunto de variables observables en los entornos real y de simulación.
 
 \section{Comparación entre modelos}
 
-En este caso, las de las dos técnicas propuestas, las \acrlongplsp{mlp} ha sido descartada completamente al ser sus clasificación iguales a la de la selección aleatoria. Por tanto, el modelo que usaremos será el $CNN_2$, ya que es la única arquitectura que supera este límite.
+En este caso, de las dos técnicas propuestas para los modelos, los \acrlongplsp{mlp} ha sido descartados completamente al ser sus clasificación iguales a la de la selección aleatoria. Por tanto, el modelo que usaremos será el $CNN_2$, ya que es la única arquitectura que supera este límite.
 
 En la figura~\ref{fig:lc-cnn-model-confussion-matrix} se expone la matriz de confusión asociada a esta arquitectura para los valores existentes en el conjunto de test.
 

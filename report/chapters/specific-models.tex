@@ -3,7 +3,7 @@
 
 En los capítulos anteriores se han decidido los modelos candidatos que conformarán el modelo de comportamiento de conductor general.
 
-Ahora que sabemos cuáles son las técnicas y arquitecturas que mejor se adecuan a este problema con los datos que disponemos, pasaremos a probarlas con los datos de los conductores específicos, comprobando si:
+Ahora que sabemos cuáles son las técnicas y arquitecturas que mejor se adecúan a este problema con los datos que disponemos, pasaremos a probarlas con los datos de los conductores específicos, comprobando si:
 
 \begin{itemize}
 	\item Los errores y precisiones se mantienen en el orden del modelo global.
@@ -49,11 +49,11 @@ En el caso del modelo de cambio de carril, la arquitectura con la que se han ent
 \begin{figure}
 	\centering
 	\includegraphics[width=\textwidth]{lc-specific-rmse-all-test-detail}
-	\caption[\acrshort{rmse} en test entre los sujetos de la arquitectura seleccionada para el modelo de cambio de carril]{Comparativa de la evolución del error de test entre los sujetos de la arquitectura seleccionada para el modelo de cambio de carril.}
+	\caption[\gls{rmse} en test entre los sujetos de la arquitectura seleccionada para el modelo de cambio de carril]{Comparativa de la evolución de la precisión en test entre los sujetos de la arquitectura seleccionada para el modelo de cambio de carril.}
 	\label{fig:lc-specific-rmse-all-test-detail}
 \end{figure}
 
-La precisión alcanzada en los modelos específicos entrenados con esta arquitectura es mayor que la alcanzada por el modelo global. Tiene sentido ya que el modelo global se ha entrenado con el conjunto de datos global y por tanto no obedece exactamente al comportamiento de ningún perfil en concreto, mientras que en los modelos específicos sí. En la tabla~\ref{tbl:lc-specific-accuracy} se exponen los valores de la precisión de este modelo.
+La precisión alcanzada en los modelos específicos entrenados con esta arquitectura es mayor que la alcanzada por el modelo global. Tiene sentido ya que el modelo global se ha entrenado con el conjunto de datos global y por tanto no obedece exactamente al comportamiento de ningún perfil en concreto, mientras que en los modelos específicos sí. En la Tabla~\ref{tbl:lc-specific-accuracy} se exponen los valores de la precisión de este modelo.
 
 \begin{table}
 	\centering
