@@ -160,7 +160,7 @@ Este bloque tiene la particularidad de que no posee ninguna variable que ajustar
 
 Para probar su funcionamiento, se realizará el ajuste de un controlador difuso a partir de un conjunto de entrenamiento con unos valores determinados. Estos valores se habrán obtenido a su vez de un \acrlongsp{fcs} de ejemplo para comprobar lo correcto de la implementación.
 
-\begin{figure}
+\begin{figure}[t]
 	\centering
 	\subfloat[Variable \textit{Food}]{\includegraphics[width=.45\textwidth]{real-tip-controller-var-food}}\qquad
 	\subfloat[Variable \textit{Service}]{\includegraphics[width=.45\textwidth]{real-tip-controller-var-service}}
@@ -182,9 +182,9 @@ El ejemplo en concreto se trata del problema clásico de la asignación de propi
 
 El controlador es una función con dos variables que describen la superficie mostrada en la Figura~\ref{fig:real-tip-controller-surface}.
 
-\begin{figure}
+\begin{figure}[b]
 	\centering
-	\includegraphics{real-tip-controller-surface}
+	\includegraphics[width=.7\textwidth]{real-tip-controller-surface}
 	\caption[Superficie de la función que modela el \acrlongsp{fcs} de ejemplo]{Las reglas y las particiones definen esta función. De ella obtendremos un conjunto de puntos aleatorio para comprobar si nuestra representación de \acrlongsp{fcs} como grafo computacional es capaz de ajustarse a ésta con la técnica del descenso del gradiente.}
 	\label{fig:real-tip-controller-surface}
 \end{figure}
@@ -204,4 +204,4 @@ Durante el entrenamiento, las superficies evolucionan hacia una representación 
 	\label{fig:adjusted-tip-controller-training}
 \end{figure}
 
-Este proceso demuestra que es posible obtener controladores difusos ajustados a un patrón de datos con un grado alto de precisión. La ventaja de este método radica en que es posible por tanto explicar mediante reglas el por qué de las predicciones que hace el modelo, a diferencia de otras técnicas como las \ac{ann}\sidenote{Aunque no se han extraído en este ejemplo, el proceso de extracción de particiones difusas y reglas se muestra en el capítulo~\nameref{ch:lane-change-model}.}.
+Este proceso demuestra que es posible obtener controladores difusos ajustados a un patrón de datos con un grado alto de precisión. La ventaja de este método radica en que es posible por tanto explicar mediante reglas el por qué de las predicciones que hace el modelo, a diferencia de otras técnicas como las \acrlongsp{ann}.

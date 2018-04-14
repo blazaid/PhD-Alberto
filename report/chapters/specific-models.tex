@@ -75,12 +75,6 @@ La precisión alcanzada en los modelos específicos entrenados con esta arquitec
 
 \section{Personalización en modelos de conducción específicos}
 
-Las anteriores secciones han mostrado cómo las topologías seleccionadas en los capítulos \nameref{ch:longitudinal-model} y \nameref{ch:lane-change-model} son adecuadas para modelar los comportamientos específicos de cada conductor, además de el conjunto global.
-
-Lo interesante es comprobar si estas topologías son capaces de capturar las diferencias entre conductores. Para ello, comprobaremos cómo se comportan cada uno de los conductores en todos los conjuntos de test.
-
-En el caso del modelo longitudinal, los valores de error cruzados entre sujetos se muestran en la tabla~\ref{tbl:lm-subjects-comparison}.
-
 \begin{figure}[t]
 	\centering
 	\subfloat[Sujeto $S_1$]{\includegraphics[width=\textwidth]{lm-subjects-comparison-with-edgar-acceleration-profiles}}\qquad
@@ -90,7 +84,9 @@ En el caso del modelo longitudinal, los valores de error cruzados entre sujetos 
 	\label{fig:lm-subjects-comparison}
 \end{figure}
 
-\begin{table}
+Las anteriores secciones han mostrado cómo las topologías seleccionadas en los capítulos \nameref{ch:longitudinal-model} y \nameref{ch:lane-change-model} son adecuadas para modelar los comportamientos específicos de cada conductor, además de el conjunto global.
+
+\begin{table}[b]
 	\centering
 	\caption[Comparación de los errores de aceleración en los diferentes modelos longitudinales]{Comparación de los errores de aceleración en los diferentes modelos longitudinales. Las filas se corresponden con los recorridos mientras que las columnas se corresponden con los modelos que se han intentado ajustar a ellas.}
 	\label{tbl:lm-subjects-comparison}
@@ -104,6 +100,10 @@ En el caso del modelo longitudinal, los valores de error cruzados entre sujetos 
 		\bottomrule
 	\end{tabular}
 \end{table}
+
+Lo interesante es comprobar si estas topologías son capaces de capturar las diferencias entre conductores. Para ello, comprobaremos cómo se comportan cada uno de los conductores en todos los conjuntos de test.
+
+En el caso del modelo longitudinal, los valores de error cruzados entre sujetos se muestran en la tabla~\ref{tbl:lm-subjects-comparison}.
 
 El \ac{rmse} de cada uno de los conductores se mantiene más bajo que el del resto de los sujetos en su propio conjunto de test. En la Figura~\ref{fig:lm-subjects-comparison} se muestra gráficamente el perfil de aceleración de cada uno de los conductores sobre cada uno de los perfiles reales.
 

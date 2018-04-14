@@ -488,18 +488,18 @@ En estas ecuaciones, $\delta C_{w,h}$ se refiere al gradiente del coste respecto
 
 Estas ecuaciones son más complejas en función de cómo varía el número de filtros y de dimensiones de los mismos, pero al final usa el mismo principio de propagación que un \acrshort{mlp}.
 
-\begin{figure}[!b]
-	\centering
-	\includegraphics[width=0.6\textwidth]{cnn-pooling}
-	\caption[Diferentes operaciones de muestreo]{Ejemplo de diferentes operaciones de muestreo sobre una matriz de valores. El filtro de tamaño $2 \times 2$ recorre la matriz en saltos (\textit{strides}) de $2$ celdas horizontales y $2$ verticales extrayendo de cada región filtrada el menor valor, el valor medio o el mayor valor, dependiendo de si la operación es \textit{min-pooling}, \textit{mid-pooling} o \textit{max-pooling}. La más común en \acrshort{cnn} suele ser la operación \textit{max-pooling}.}
-	\label{fig:cnn-max-pooling}
-\end{figure}
-
 \paragraph{Pooling y normalización}
 
 Junto con las capa de convolución, normalmente se usan otros dos tipos de capa diferentes: las capas de \textit{pooling} y las de \textit{normalización}.
 
 El \textit{pooling} es una operación de discretización del espacio de entrada. El objetivo es reducir las dimensiones de las entradas para las siguientes capas. Esto mejora el coste computacional y ayuda contra la sobre-especialización, ya que hay menos parámetros sobre los que trabajar para la misma entrada.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.6\textwidth]{cnn-pooling}
+	\caption[Diferentes operaciones de muestreo]{Ejemplo de diferentes operaciones de muestreo sobre una matriz de valores. El filtro de tamaño $2 \times 2$ recorre la matriz en saltos (\textit{strides}) de $2$ celdas horizontales y $2$ verticales extrayendo de cada región filtrada el menor valor, el valor medio o el mayor valor, dependiendo de si la operación es \textit{min-pooling}, \textit{mid-pooling} o \textit{max-pooling}. La más común en \acrshort{cnn} suele ser la operación \textit{max-pooling}.}
+	\label{fig:cnn-max-pooling}
+\end{figure}
 
 Su funcionamiento es similar al de las convoluciones (después de todo se tratan también de filtros), con la diferencia de que se mueven en ventanas en principio no solapables, generando un único un valor para cada ventana y reduciendo por tanto el tamaño de la entrada\sidenote{
 	Es curioso que por un lado se inventen mecanismos para mantener los tamaños de entradas-salidas entre convoluciones y luego no se use el comportamiento de las convoluciones con un \textit{stride} del tamaño del filtro para realizar esa reducción. De hecho existen algunos estudios que afirman que el uso del \textit{pooling} conlleva un aumento computacional sobre el uso de convoluciones para reducir el tamaño sin implicar una pérdida de rendimiento a la hora de predecir. Un ejemplo de esto lo tenemos en~\cite{howard2017mobilenets} donde afirman:
@@ -532,33 +532,31 @@ El caso de la sobreespecialización es quizá algo más complejo. Cuando un mode
 	\item La red está sobredimensionada. Suele ser el caso más común, y es que la red tiene tantos parámetros que al final a aprendido a predecir uno a uno casi todos los ejemplos del conjunto de entrenamiento. Existen dos posibles soluciones no excluyentes, la simplificación de la red y la aplicación de técnicas de regularización.
 \end{itemize}
 
-En el caso concreto de la regularización, el objetivo de esta técnica es tratar de penalizar o limitar el entrenamiento a través de la inhibición de los parámetros. Existen diferntes ténicas para la regularización de parámetros, como las $L_1$ y $L_2$ (explicadas en detalle en~\cite{ng2004feature}). En esta tesis se ha escogido una técnica de regularización denominada \textit{dropout}~\cite{srivastava2014dropout}.
-
-En el \textit{dropout}, la idea es que en cada epoch de entrenamiento del modelo, se desactivan una serie de neuronas de manera aleatoria. Estas neuronas no participan ni en la predicción ni en el posterior reajuste de pesos. Es muy fácil de implementar, computacionalmente muy eficiente y mejora sustancialmente el proceso de aprendizaje en redes que sufren de una alta especialización. La Figura~\ref{fig:dropout-example} describe un ejemplo de funcionamiento en tres epochs de un perceptrón multicapa con una tasa de dropout del $0.5$.
-
-\begin{figure*}
+\begin{figure}[!b]
 	\centering
 	\subfloat[Epoch 1]{\includegraphics[width=0.27\linewidth]{dropout-example-a}}\qquad
 	\subfloat[Epoch 2]{\includegraphics[width=0.27\linewidth]{dropout-example-b}}\qquad
 	\subfloat[Epoch 3]{\includegraphics[width=0.27\linewidth]{dropout-example-c}}
-	\caption[Ejemplo de la operación de dropout para tres epochs sucesivos][-20em]{Ejemplo del funcionamiento del dropout en tres epochs sucesivos. Suponiendo una tasa de dropout de $0.5$, en cada epoch cada neurona tiene una probabilidad del $50\%$ de ser desactivada, y por tanto el error no se propagará hacia sus pesos de entrada.}
+	\caption[Ejemplo de la operación de dropout para tres epochs sucesivos]{Ejemplo del funcionamiento del dropout en tres epochs sucesivos. Suponiendo una tasa de dropout de $0.5$, en cada epoch cada neurona tiene una probabilidad del $50\%$ de ser desactivada, y por tanto el error no se propagará hacia sus pesos de entrada.}
 	\label{fig:dropout-example}
-\end{figure*}
+\end{figure}
+
+En el caso concreto de la regularización, el objetivo de esta técnica es tratar de penalizar o limitar el entrenamiento a través de la inhibición de los parámetros. Existen diferntes ténicas para la regularización de parámetros, como las $L_1$ y $L_2$ (explicadas en detalle en~\cite{ng2004feature}). En esta tesis se ha escogido una técnica de regularización denominada \textit{dropout}~\cite{srivastava2014dropout}.
+
+En el \textit{dropout}, la idea es que en cada epoch de entrenamiento del modelo, se desactivan una serie de neuronas de manera aleatoria. Estas neuronas no participan ni en la predicción ni en el posterior reajuste de pesos. Es muy fácil de implementar, computacionalmente muy eficiente y mejora sustancialmente el proceso de aprendizaje en redes que sufren de una alta especialización. La Figura~\ref{fig:dropout-example} describe un ejemplo de funcionamiento en tres epochs de un perceptrón multicapa con una tasa de dropout del $0.5$.
 
 \subsection{Grafos computacionales}
 
 En la actualidad el concepto de grafo computacional se relaciona directamente con las \acrlongsp{ann}, y por ello se introduce el concepto en este apartado. Sin embargo, no se trata de un concepto exclusivo de esta técnica. De hecho, ni siquiera es un concepto perteneciente a la \acrlongsp{ci}, sino que son simplemente una vía para representar las operaciones en forma de grafo, de tal manera que es fácil ver cuál es el flujo de los datos y las operaciones que se realizan sobre ellos.
 
-Formalmente, un \textbf{grafo computacional} es un grafo dirigido donde los vértices representan operaciones sobre datos mientras que las aristas representan el flujo de dichos datos. La figura~\ref{fig:computational-graph} describe un posible grafo computacional para un perceptrón simple.
-
-\begin{figure}[t]
+\begin{figure}
 	\centering
 	\includegraphics{computational-graph}
 	\caption[Ejemplo de grafo computacional]{Ejemplo de grafo computacional para un perceptrón simple de dos neuronas de entrada y una de salida.}
 	\label{fig:computational-graph}
 \end{figure}
 
-Una ventaja al representar un modelo como grafo computacional es que ayuda a abstraerse de la formas de las entradas y las salidas, facilitando el trabajo de operaciones en batch. Otra ventaja, todavía mayor, es que, al organizar de entrada a salida (en la figura~\ref{fig:computational-graph} de izquierda a derecha) las operaciones que se necesitan para obtener una salida a partir de una entrada, en los casos donde el objetivo es optimizar la salida permiten fácilmente representar el gradiente al organizarlo del modo contrario (es decir, de las salidas a la entrada o, en el caso de la figura~\ref{fig:computational-graph-derivatives} de derecha a izquierda).
+Formalmente, un \textbf{grafo computacional} es un grafo dirigido donde los vértices representan operaciones sobre datos mientras que las aristas representan el flujo de dichos datos. La figura~\ref{fig:computational-graph} describe un posible grafo computacional para un perceptrón simple.
 
 \begin{figure}[!b]
 	\centering
@@ -566,6 +564,8 @@ Una ventaja al representar un modelo como grafo computacional es que ayuda a abs
 	\caption[Derivadas parciales sobre un grafo computacional]{Es fácil representar las derivadas parciales sobre un grafo computacional y, a partir de ahí, obtener el efecto de las variaciones de una variable sobre el resto.}
 	\label{fig:computational-graph-derivatives}
 \end{figure}
+
+Una ventaja al representar un modelo como grafo computacional es que ayuda a abstraerse de la formas de las entradas y las salidas, facilitando el trabajo de operaciones en batch. Otra ventaja, todavía mayor, es que, al organizar de entrada a salida (en la figura~\ref{fig:computational-graph} de izquierda a derecha) las operaciones que se necesitan para obtener una salida a partir de una entrada, en los casos donde el objetivo es optimizar la salida permiten fácilmente representar el gradiente al organizarlo del modo contrario (es decir, de las salidas a la entrada o, en el caso de la figura~\ref{fig:computational-graph-derivatives} de derecha a izquierda).
 
 Como regla general, para conocer el gradiente de una variable $a$ con respecto a otra variable $b$, se aplicaría la \textit{regla de la cadena multivariable}, que es equivalente a sumar todos los posibles caminos que van de $a$ a $b$ del grafo, multiplicando las derivadas parciales de cada arista.
 
@@ -655,6 +655,14 @@ Dos casos particulares de funciones de pertenencia son las funciones cuadradas (
 
 Las mismas nociones de operaciones en teoría de conjuntos son aplicables a la teoría de conjuntos difusos. Una operación entre conjuntos difusos es aquella que genera un nuevo conjunto difuso a partir de uno o más conjuntos difusos de entrada definidos sobre el mismo universo de discurso. Son las operaciones $t$-norma, $t$-conorma y complemento.
 
+\begin{figure}[t]
+	\centering
+	\subfloat[Mínimo]{\includegraphics[width=0.46\linewidth]{tnorm-minimum}}\qquad
+	\subfloat[Producto Algebráico]{\includegraphics[width=0.46\linewidth]{tnorm-algebraic-product}}
+	\caption[$t$-normas de mínimo y producto algebraico.]{Las $t$-normas de mínimo y producto algebraico son dos representantes de un conjunto muy amplio de funciones}
+	\label{fig:t-norms}
+\end{figure}
+
 La $t$-norma es la generalización del operador conjunción en lógica clásica. Son un conjunto de aplicaciones de la forma $T: [0, 1] \times [0, 1] \rightarrow [0, 1]$ tales que cumplen las propiedades \textit{conmutativa}, \textit{asociativa}, \textit{monótona} e \textit{identidad}\sidenote{
 	Las propiedades son:
 	\begin{itemize}
@@ -665,16 +673,6 @@ La $t$-norma es la generalización del operador conjunción en lógica clásica.
 	\end{itemize}
 }. Dos de las operaciones más usadas como $t$-norma se ilustran en la Figura~\ref{fig:t-norms}. Existen muchas más, pero en controladores difusos se suelen usar el mínimo o, en su defecto, el producto.
 
-\begin{figure}[t]
-	\centering
-	\subfloat[Mínimo]{\includegraphics[width=0.46\linewidth]{tnorm-minimum}}\qquad
-	\subfloat[Producto Algebráico]{\includegraphics[width=0.46\linewidth]{tnorm-algebraic-product}}
-	\caption[$t$-normas de mínimo y producto algebraico.]{Las $t$-normas de mínimo y producto algebraico son dos representantes de un conjunto muy amplio de funciones}
-	\label{fig:t-norms}
-\end{figure}
-
-La $t$-conorma (o $s$-norma), por otro lado, generaliza el concepto de unión. Una $t$-conorma $S$ se define a partir de una $t$-norma $T$ como $S = 1 - T(1-x, 1-y)$, es decir, la función complementaria a la $t$-norma. De esta forma se consigue que las Leyes de Morgan se cumplan de una forma generalista. Dos ejemplos de $t$-conormas se ilustran en la Figura~\ref{fig:t-conorms}.
-
 \begin{figure}[!b]
 	\centering
 	\subfloat[Máximo]{\includegraphics[width=0.46\linewidth]{snorm-maximum}}\qquad
@@ -682,6 +680,8 @@ La $t$-conorma (o $s$-norma), por otro lado, generaliza el concepto de unión. U
 	\caption[$t$-conormas de máximo y suma probabilística]{Las $t$-conormas de máximo y suma probabilística son las complementarias a $t$-normas mostradas previamente, y como ocurre en estas, existen tantas $t$-conormas como $t$-normas definidas.}
 	\label{fig:t-conorms}
 \end{figure}
+
+La $t$-conorma (o $s$-norma), por otro lado, generaliza el concepto de unión. Una $t$-conorma $S$ se define a partir de una $t$-norma $T$ como $S = 1 - T(1-x, 1-y)$, es decir, la función complementaria a la $t$-norma. De esta forma se consigue que las Leyes de Morgan se cumplan de una forma generalista. Dos ejemplos de $t$-conormas se ilustran en la Figura~\ref{fig:t-conorms}.
 
 Las propiedades que ha de cumplir una $t$-conorma son las mismas que las de la $t$-norma\sidenote{
 	De hecho, son deducibles a partir de la $t$-norma con una salvedad, la identidad, que se define como $\exists 0 | S(x, 0) = x$.
