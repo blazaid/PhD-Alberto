@@ -22,10 +22,10 @@ El objetivo principal de un simulador de tráfico es el de hacer que sus modelos
 
 	\includegraphics{torcs-logo}
 	
-	Algunos trabajos interesantes que usan como base \gls{torcs} para emular comportamientos de conductores reales (conduciendo en el simulador) son \cite{munoz2010human}, donde se usan perceptrones multicapa entrenados con técnicas de \textit{\idx{back propagation}} y \cite{van2009robust}, donde también se usan perceptrones, pero esta vez entrenados mediante \glsentrylongsp{ga} multiobjetivo. Sin embargo, este tipo de modelos se encuentran más cercanos al nivel de control que al nivel táctico (ver figura~\ref{fig:three-levels-of-human-driving}.
+	Algunos trabajos interesantes que usan como base \gls{torcs} para emular comportamientos de conductores reales (conduciendo en el simulador) son \cite{munoz2010human}, donde se usan perceptrones multicapa entrenados con técnicas de \textit{\idx{back-propagation}} y \cite{van2009robust}, donde también se usan perceptrones, pero esta vez entrenados mediante \glsentrylongsp{ga} multiobjetivo. Sin embargo, este tipo de modelos se encuentran más cercanos al nivel de control que al nivel táctico (ver figura~\ref{fig:three-levels-of-human-driving}.
 }
 
-Limitaremos nuestro estudio a los simuladores de \glspl{dvu}, obviando otros tipos de simulación de tráfico que nada tienen que ver con esta temática, como por ejemplo los orientados a la evaluación de sistemas de señalización inteligentes (e.g.~\cite{jin2016evaluation}), a la estimación de emisiones (e.g.~\cite{quaassdorff2016microscale}) o los de carreras (e.g. \cite{Wymann2013}).
+Limitaremos nuestro estudio a los simuladores de \Acrfullpl{dvu}\index{driver-vehicle unit}, obviando otros tipos de simulación de tráfico que nada tienen que ver con esta temática, como por ejemplo los orientados a la evaluación de sistemas de señalización inteligentes (e.g.~\cite{jin2016evaluation}), a la estimación de emisiones (e.g.~\cite{quaassdorff2016microscale}) o los de carreras (e.g. \cite{Wymann2013}).
 
 \section{Clasificación de simuladores de tráfico}
 
@@ -41,7 +41,7 @@ Los aspectos simulables y medibles del problema del tráfico son muy diversos, d
 \begin{itemize}
 	\item Del nivel de \textbf{complejidad} del tráfico (e.g. modelar una vía por la que circula un centenar de coches no es lo mismo que modelar una ciudad por la que circulan cientos de miles).
 	\item De \textbf{qué} queremos medir (e.g. evaluar a un conductor en una situación determinada o evaluar la evolución del flujo de tráfico en un cuello de botella causado por un accidente).
-	\item De \textbf{cómo} (e.g. un \glsentrylongsp{ca} se modela de forma diferente a un modelo lineal de vías o carriles).
+	\item De \textbf{cómo} (e.g. un \acrlongsp{ca} se modela de forma diferente a un modelo lineal de vías o carriles).
 \end{itemize}
 
 El resto de la sección ofrece una visión de las principales categorías existentes para clasificar a los simuladores de tráfico.
@@ -82,7 +82,7 @@ Existen otras dos formas de clasificar los simuladores en función de cómo evol
 \begin{figure}
 	\centering
 	\includegraphics[width=10cm]{cellular-automata-based-sim}
-	\caption[Ejemplo de simulador basado en \acrlongsp{ca}]{Simulador de tráfico basado en \acrlongsp{ca}. El espacio se divide en celdas que pueden estar vacías u ocupadas por un vehículo a una velocidad (más oscuro implica más lento). Concretamente muestra la evolución a lo largo del tiempo del movimiento de un modelo de \textit{car-following} de $2$ vehículos donde en eje $x$ representa la posición en la vía y el eje $y$ el momento temporal (iteración) de la vía.}
+	\caption[Ejemplo de simulador basado en \acrlongsp{ca}]{Simulador de tráfico basado en \acrlongsp{ca}. El espacio se divide en celdas que pueden estar vacías u ocupadas por un vehículo a una velocidad (más oscuro implica más lento). Concretamente muestra la evolución a lo largo del tiempo del movimiento de un modelo de \textit{\gls{car-following}} de $2$ vehículos donde en eje $x$ representa la posición en la vía y el eje $y$ el momento temporal (iteración) de la vía.}
 	\label{fig:cellular-automata-based-sim}
 \end{figure}
 
@@ -97,13 +97,13 @@ En el caso de la dimensión \textbf{tiempo}, la división se realiza en los mism
 
 \begin{itemize}
 	\item Tiempo \textbf{discreto}. También denominada \textit{simulación de eventos discretos}, divide el tiempo en intervalos discretos, generalmente de longitud fija durante toda la simulación. Los simuladores basados en \acrlongplsp{ca} son típicamente discretos, ya que cada posición en el espacio se va calculando para cada intervalo discreto de tiempo (figuras~\ref{fig:cellular-automata-based-sim} y~\ref{fig:nagel-schreck}).
-	\item Tiempo \textbf{continuo}. En estos simuladores el tiempo es un factor más para un modelo de ecuaciones diferenciales. La figura~\ref{fig:car-following-based-sim} ilustra un modelo de \textit{\idx{car-following}} que puede implementarse en una simulación de tiempo continuo si la aceleración viene determinada por un modelo que entre otros factores incluye el tiempo.
+	\item Tiempo \textbf{continuo}. En estos simuladores el tiempo es un factor más para un modelo de ecuaciones diferenciales. La figura~\ref{fig:car-following-based-sim} ilustra un modelo de \textit{\gls{car-following}\index{car-following}} que puede implementarse en una simulación de tiempo continuo si la aceleración viene determinada por un modelo que entre otros factores incluye el tiempo.
 \end{itemize}
 
 \begin{figure*}[t]
 	\centering
 	\includegraphics{car-following-based-sim}
-	\caption[Ejemplo de modelo lineal en un espacio continuo]{Ejemplo de un modelo lineal en un espacio continuo. La posición del vehículo es un valor $x \in \mathbb{R}$. Este ejemplo muestra un modelo de \textit{car-following} donde el comportamiento de la aceleración del vehículo es determinado por la distancia al coche siguiente. Fuente:~\cite{Tordeux2011}.}
+	\caption[Ejemplo de modelo lineal en un espacio continuo]{Ejemplo de un modelo lineal en un espacio continuo. La posición del vehículo es un valor $x \in \mathbb{R}$. Este ejemplo muestra un modelo de \textit{\gls{car-following}} donde el comportamiento de la aceleración del vehículo es determinado por la distancia al coche siguiente. Fuente:~\cite{Tordeux2011}.}
 	\label{fig:car-following-based-sim}
 \end{figure*}
 
@@ -258,13 +258,13 @@ Además de simulación clásica, incorpora una interfaz gráfica (se puede ver u
 	\item Diferentes tipologías de vehículos y de carreteras, cada una con diferentes carriles y éstas con diferentes subdivisiones de subcarriles (diseño conceptual para permitir modelar comportamientos en vehículos como motocicletas y similares).
 \end{itemize}
 
-\gls{sumo} usa como modelo por defecto de \textit{\idx{car-following}} el modelo de Stefan Krauß\cite{jin2016evaluation}, debido a su simplicidad y su velocidad de ejecución y como modelo de cambio de carril el modelo de Gipps \cite{krajzewicz2002sumo}. No obstante, se encuentran paraseleccionar otros modelos como el \gls{idm} \textit{Intelligent Driver Model}, el modelo de tres fases de Kerner \cite{kerner2008testbed} y el modelo de Wiedemann \cite{wiedemann1974simulation}.
+\gls{sumo} usa como modelo por defecto de \textit{\gls{car-following}\index{car-following}} el modelo de Stefan Krauß\cite{jin2016evaluation}, debido a su simplicidad y su velocidad de ejecución y como modelo de cambio de carril el modelo de Gipps \cite{krajzewicz2002sumo}. No obstante, se encuentran paraseleccionar otros modelos como el \gls{idm} \textit{Intelligent Driver Model}, el modelo de tres fases de Kerner \cite{kerner2008testbed} y el modelo de Wiedemann \cite{wiedemann1974simulation}.
 
-Al estar licenciado bajo la licencia \gls{gpl}, su distribución implica a su vez la distribución de su código fuente. Esto permite la modificación de su comportamiento y el desarrollo de nuevos modelos integrados dentro del simulador. Sin embargo nosotros no haremos uso de esta característica, sino que usaremos \gls{sumo} como aplicación servidor y el módulo \gls{traci} como aplicación cliente desde donde gestionar todos los aspectos de la simulación.
+Al estar licenciado bajo la licencia \gls{gpl}\index{GNU General Public License}, su distribución implica a su vez la distribución de su código fuente. Esto permite la modificación de su comportamiento y el desarrollo de nuevos modelos integrados dentro del simulador. Sin embargo nosotros no haremos uso de esta característica, sino que usaremos \gls{sumo} como aplicación servidor y el módulo \gls{traci}\index{TraCI} como aplicación cliente desde donde gestionar todos los aspectos de la simulación.
 
 \subsection{La interfaz \gls{traci}}
 
-\gls{traci} \cite{Wegener2008} es tanto el nombre del protocolo de comunicación expuesto por \gls{sumo} en su versión servidor como el nombre de la librería escrita en Python para interactuar con el mismo.
+\gls{traci}\index{TraCI} \cite{Wegener2008} es tanto el nombre del protocolo de comunicación expuesto por \gls{sumo}\index{SUMO} en su versión servidor como el nombre de la librería escrita en Python para interactuar con el mismo.
 
 \begin{figure}[!b]
 	\centering

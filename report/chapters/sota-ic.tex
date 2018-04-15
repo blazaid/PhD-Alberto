@@ -7,7 +7,7 @@ No existe una definición globalmente aceptada de qué es la \acrlongsp{ci}. Dep
 
 En esta tesis hablaremos desde el punto de vista mayoritario, es decir, como rama de la \acrshort{ai} donde se agrupan todas aquellas técnicas que tratan de aprender soluciones a problemas a través del análisis de información presente en conjuntos de datos, en el entorno o ambos.
 
-El resto del capítulo ofrecerá una visión histórica para explicar el por qué de esta definición, justificará la importancia que tiene el aprendizaje dentro de este área, describirá las técnicas de \acrlongsp{ann} y la \acrlong{fl} necesarias para sentar las bases del posterior desarrollo de la tesis y, por último, dará nociones de qué son los agentes y por qué este punto de vista es útil para nuestro cometido.
+El resto del capítulo ofrecerá una visión histórica para explicar el por qué de esta definición, justificará la importancia que tiene el aprendizaje dentro de este área, describirá las técnicas de \acrlongsp{ann}\index{red neuronal artificial} y la \acrlong{fl}\index{lógica difusa} necesarias para sentar las bases del posterior desarrollo de la tesis y, por último, dará nociones de qué son los agentes y por qué este punto de vista es útil para nuestro cometido.
 
 \section{De \acrlongsp{ai} a \acrlongsp{ci}}
 
@@ -34,7 +34,7 @@ Pocos años después de la publicación del artículo, en el año 1956, se celeb
 
 A partir de este momento, la investigación en el área recibió mucha atención por parte de investigadores y gobiernos. Después de todo era un área nueva, muy prometedora y con mucho trabajo por delante. Tras su nacimiento el campo comenzó a dar resultados, pero la expectación y las promesas no dejaban ver que los resultados se obtenían en problemas relativamente simples, muy formales y en general estériles, donde en realidad no era necesaria demasiada información para generar un conocimiento del entorno en el que los modelos se movían.
 
-Dado que los estudios en el área estaban dominados por aquellos relacionados con las ideas del conexionismo, la publicación del libro \textit{\enquote{Perceptrons}}~\cite{minsky1969perceptrons} de Marvin Minsky y Seymour Papert en 1969 supuso un notable varapalo para las investigaciones. En él se expusieron las limitaciones de los modelos de \acp{ann} desarrollados hasta la fecha, y el impacto fue de tal envergadura que la investigación en el área se abandonó casi por completo. Concretamente el conexionismo prácticamente desapareció de la literatura científica durante dos décadas. Es lo que se conoce como el primer \textit{AI Winter}\sidenote{
+Dado que los estudios en el área estaban dominados por aquellos relacionados con las ideas del conexionismo, la publicación del libro \textit{\enquote{Perceptrons}}~\cite{minsky1969perceptrons} de Marvin Minsky y Seymour Papert en 1969 supuso un notable varapalo para las investigaciones. En él se expusieron las limitaciones de los modelos de \acp{ann}\index{red neuronal artificial} desarrollados hasta la fecha, y el impacto fue de tal envergadura que la investigación en el área se abandonó casi por completo. Concretamente el conexionismo prácticamente desapareció de la literatura científica durante dos décadas. Es lo que se conoce como el primer \textit{AI Winter}\sidenote{
 	El \textbf{AI Winter} no sólo se produjo por el efecto gurú del libro \textit{Perceptrons}, aunque éste fue la gota que colmó el vaso. A la emoción inicial por los avances le siguieron muchos años de promesas incumplidas, investigación sin resultados significativos, limitaciones de hardware y el aumento de la complejidad del software (los comienzos de la crisis del software \cite{dijkstra1972humble}). Todo ello provocó un desinterés y una disminución de la financiación que se retroalimentaron la una a la otra.
 }.
 
@@ -125,8 +125,8 @@ En otros contextos la definición de \textit{epoch} se mantiene y a cada una de 
 
 \subsection{Problemas del aprendizaje en la \acrlongsp{ci}}
 
-El entrenamiento de modelos en la \gls{ci} adolece de dos principales problemas que, además, no tienen una solución general\sidenote{Es el llamado \textit{non free-lunch theorem} \cite{wolpert1997no}.} ya que dependen tanto de la estructura de los datos sobre la que vamos a trabajar como de los hiperparámetros\sidenote{
-	En general, hablaremos de \textit{parámetros} cuando nos referimos a valores que son inherentes al modelo (e.g. en una \gls{ann}, los valores de los pesos) y de \textit{hiperparámetros} cuando nos referimos a aquellos parámetros que modifican los elementos que modifican los parámetros (e.g. en una \gls{ann}, el factor de aprendizaje).
+El entrenamiento de modelos en la \gls{ci} adolece de dos principales problemas que, además, no tienen una solución general\sidenote{Es el llamado \textit{non free-lunch theorem}\index{non free-lunch theorem} \cite{wolpert1997no}.} ya que dependen tanto de la estructura de los datos sobre la que vamos a trabajar como de los hiperparámetros\sidenote{
+	En general, hablaremos de \textit{parámetros} cuando nos referimos a valores que son inherentes al modelo (e.g. en una \gls{ann}\index{red neuronal artificial}, los valores de los pesos) y de \textit{hiperparámetros} cuando nos referimos a aquellos parámetros que modifican los elementos que modifican los parámetros (e.g. en una \gls{ann}\index{red neuronal artificial}, el factor de aprendizaje).
 } del modelo. Estos son la sobreespecialización y la subespecialización\sidenote{
 	En la literatura también se habla de \textit{high variance} o \textit{over-fitting} y de \textit{high bias} o \textit{under-fitting} para referirse a la sobreespecialización y subespecialización respectivamente.
 }.
@@ -161,7 +161,7 @@ El \textit{deep learning} es una de las palabras con la que últimamente se inun
 	\label{fig:deep-learning-capabilities}
 \end{marginfigure}
 
-El adjetivo \textit{deep}, en el contexto de las redes (e.g. \acrlongplsp{ann}, \gls{dbn}, \ldots), donde se origina este término, se refiere a una red con más capas de lo habitual\sidenote{
+El adjetivo \textit{deep}, en el contexto de las redes (e.g. \acrlongplsp{ann}\index{red neuronal artificial}, \gls{dbn}, \ldots), donde se origina este término, se refiere a una red con más capas de lo habitual\sidenote{
 	De aquí surge el nombre de \textbf{shallow network} o red superficial, en contraposición a \textbf{deep network} o red profunda.
 } (normalmente más de dos o tres). Este tipo de capas, históricamente han sido más difíciles de entrenar, debido entre otras cosas a:
 
@@ -174,13 +174,13 @@ Los factores antes mencionados han hecho posible la operación sobre redes más 
 	Dentro de un contexto de aplicación específica, creemos que aún estamos muy lejos de crear vida inteligente.
 }. La Figura~\ref{fig:deep-learning-capabilities} introduce, con una ilustración un tanto informal, las capacidades del \textit{deep learning} frente a las de los modelos entrenados antes de esta época.
 
-\section{\Acrlongplsp{ann}}
+\section{\Acrlongplsp{ann}\index{red neuronal artificial}}
 
 Son herramientas que tratan de replicar las funciones cerebrales de un ser vivo de una manera muy fundamental, esto es, desde sus componentes más básicos, las neuronas. Para ello se basan en estudios de neurobiología y de ciencia cognitiva moderna del humano\sidenote{
 	Aún apoyándose en la topología y funcionamiento del cerebro humano para realizar el símil, lo cierto es que dichos modelos distan aún de considerarse \textit{cerebros artificiales}. La red neuronal más compleja hasta la fecha es la propuesta en~\cite{TraskANDREWTRASK}, con alrededor de $160.000$ parámetros a ser ajustados (podemos abstraernos y pensar en ellos como conexiones entre neuronas). Si comparamos esta cifra sólo con las del neocórtex (figura~\ref{fig:neocortex}) hace que, tecnológicamente hablando, nos quedemos con la sensación de estar aún a años luz de aproximarnos a la complejidad de un cerebro humano.
 }.
 
-Una \gls{ann} es independiente del problema a solucionar. Se la puede considerar como una caja negra que aprende las relaciones que subyacen en los datos de un problema para abstraer el modelo a partir de éstos. Estas características de aprendizaje y abstracción son los factores determinantes por los que son usadas en prácticamente todas las áreas de la ciencia y de la ingeniería (\cite{Du2006}).
+Una \Acrfull{ann}\index{red neuronal artificial} es independiente del problema a solucionar. Se la puede considerar como una caja negra que aprende las relaciones que subyacen en los datos de un problema para abstraer el modelo a partir de éstos. Estas características de aprendizaje y abstracción son los factores determinantes por los que son usadas en prácticamente todas las áreas de la ciencia y de la ingeniería (\cite{Du2006}).
 
 El primer trabajo en la disciplina se le atribuye a  los investigadores McCulloch-Pitts por su modelo de neurona artificial ilustrado en la figura~\ref{fig:mccullocs-pitts-neuron-model} (\cite{McCulloch1943}). Existen diferentes tipologías y formas de operar con redes, pero todas funcionan de la misma manera: unidades (e.g. neuronas) conectadsa entre si mediante enlaces por los que fluye la información de manera unidireccional, donde algunas de dichas unidades sirven de entrada al sistema (i.e. entradas o sensores), otras sirven de salida del sistema (i.e. salidas y actuadores) y otras como elementos internos (i.e. ocultas), y donde los pesos de sus conexiones se ajustan mediante un proceso denominado \textit{entrenamiento}, imitando los principios de la teoría hebbiana~\cite{hebb19680}.
 
@@ -298,7 +298,7 @@ Por último, la función de activación \textit{Leaky} \gls{relu} (eq.~\ref{eq:l
 
 \subsection{Estructura y clasificación de redes neuronales}
 
-Las \gls{ann} reciben ese nombre debido a que son sistemas formados por multitud de neuronas artificiales simples. Dependiendo de cómo su topología y configuración, éstas serán más adecuadas para unos u otros problemas (es decir, unas serán más adecuadas para regresión, otras para clasificación, otras para \textit{clustering}, etcétera).
+Las \acrlong{ann}\index{red neuronal artificial} reciben ese nombre debido a que son sistemas formados por multitud de neuronas artificiales simples. Dependiendo de cómo su topología y configuración, éstas serán más adecuadas para unos u otros problemas (es decir, unas serán más adecuadas para regresión, otras para clasificación, otras para \textit{clustering}, etcétera).
 
 Típicamente, estas redes se componen de neuronas conectadas, por lo que se puede pensar en ellas como un grafo ponderado donde los nodos se corresponden a las neuronas, las aristas a las conexiones entre entradas y salidas y los pesos de las aristas a los pesos de las conexiones de entrada. Existen diferentes topologías o arquitecturas dependiendo de qué forma toma el grafo que modela las neuronas y sus conexiones. Estos dos tipos son los siguientes:
 
@@ -331,8 +331,8 @@ La salida se calcula como sigue: supongamos que tenemos dos capas, $l-1$ y $l$, 
 
 Como se puede observar, la salida $s^l$ de la capa $l$ depende directamente de la salida de la capa $l - 1$. El proceso de inferencia es la incorporar las entradas en la capa de entrada e ir iterando sucesivamente hasta la capa de salida.
 
-El algoritmo base de aprendizaje en un \acrlongsp{mlp} se denomina \textit{back-propagation}~\cite{rumelhart1985learning} y se basa en la regla delta para el perceptrón simple~\cite{widrow1960adaptive}. Usa una técnica denominada \textit{descenso del gradiente} donde lo que se intenta es minimizar el valor de una función $f(x)$ que representa el error (en realidad el \textit{coste}\sidenote{
-	Existen dos términos asociados al error en \acrshortpl{ann}: \textbf{error} y \textbf{coste}, que en la literatura se denominan \textit{loss} y \textit{cost} respectivamente. El primero se refiere al error existente entre la salida de la \acrlongsp{ann} y la salida esperada de un ejemplo en concreto, mientras que el segundo se refiere al error sobre todo el conjunto de entrenamiento. Es de esperar que durante el proceso de entrenamiento este error baje.
+El algoritmo base de aprendizaje en un \acrlongsp{mlp} se denomina \textit{\idx{back-propagation}} \cite{rumelhart1985learning} y se basa en la regla delta para el perceptrón simple~\cite{widrow1960adaptive}. Usa una técnica denominada \textit{descenso del gradiente} donde lo que se intenta es minimizar el valor de una función $f(x)$ que representa el error (en realidad el \textit{coste}\sidenote{
+	Existen dos términos asociados al error en \acrshortpl{ann}\index{red neuronal artificial}: \textbf{error} y \textbf{coste}, que en la literatura se denominan \textit{loss} y \textit{cost} respectivamente. El primero se refiere al error existente entre la salida de la \acrlongsp{ann}\index{red neuronal artificial} y la salida esperada de un ejemplo en concreto, mientras que el segundo se refiere al error sobre todo el conjunto de entrenamiento. Es de esperar que durante el proceso de entrenamiento este error baje.
 	
 	Existen diferentes funciones para calcular el error y el coste de un modelo en concreto. En el caso del coste, lo más común es usar la media entre todo el conjunto de entrenamiento como:
 	
@@ -388,7 +388,7 @@ El valor $\delta \mathbf{s}^{l-1}$ será el valor de entrada para la capa anteri
 	\end{equation}
 \end{subequations}
 
-Esta es la forma original del algoritmo de \textit{back-propagation}. Al valor $\alpha$ que aparece en las ecuaciones se le denomina factor de aprendizaje (en inglés \textit{learning-rate}), y como se puede apreciar, su valor determina lo rápido que cambian los pesos. Suele tomar valores entre $0.1$ y $0.01$, pero dependiendo de la evolución del entrenamiento y de la variación del algoritmo, éste puede llegar a tomar valores mucho más bajos. Algunas de las variaciones sobre el algoritmo inicial son las siguientes:
+Esta es la forma original del algoritmo de \textit{\idx{back-propagation}}. Al valor $\alpha$ que aparece en las ecuaciones se le denomina factor de aprendizaje (en inglés \textit{learning-rate}), y como se puede apreciar, su valor determina lo rápido que cambian los pesos. Suele tomar valores entre $0.1$ y $0.01$, pero dependiendo de la evolución del entrenamiento y de la variación del algoritmo, éste puede llegar a tomar valores mucho más bajos. Algunas de las variaciones sobre el algoritmo inicial son las siguientes:
 
 \begin{itemize}
 	\item \textbf{Momento de inercia}~\cite{qian1999momentum}. Al algoritmo se le añade un factor por el cual los movimientos en el mismo sentido durante sucesivos epochs se acumulan. De esta manera, elriesgo de caer en mínimos locales disminuyen al ser capaz el algoritmo de \enquote{saltar} pequeños baches.
@@ -426,7 +426,7 @@ Una convolución es una operación matemática que funciona como filtro sobre un
 	\end{pmatrix}
 	\circledast
 	\begin{pmatrix}
-		1 & 0 &  \\
+		1 & 0 \\
 		0 & 1
 	\end{pmatrix}
 	=
@@ -547,7 +547,7 @@ En el \textit{dropout}, la idea es que en cada epoch de entrenamiento del modelo
 
 \subsection{Grafos computacionales}
 
-En la actualidad el concepto de grafo computacional se relaciona directamente con las \acrlongsp{ann}, y por ello se introduce el concepto en este apartado. Sin embargo, no se trata de un concepto exclusivo de esta técnica. De hecho, ni siquiera es un concepto perteneciente a la \acrlongsp{ci}, sino que son simplemente una vía para representar las operaciones en forma de grafo, de tal manera que es fácil ver cuál es el flujo de los datos y las operaciones que se realizan sobre ellos.
+En la actualidad el concepto de grafo computacional se relaciona directamente con las \acrlongsp{ann}\index{red neuronal artificial}, y por ello se introduce el concepto en este apartado. Sin embargo, no se trata de un concepto exclusivo de esta técnica. De hecho, ni siquiera es un concepto perteneciente a la \acrlongsp{ci}, sino que son simplemente una vía para representar las operaciones en forma de grafo, de tal manera que es fácil ver cuál es el flujo de los datos y las operaciones que se realizan sobre ellos.
 
 \begin{figure}
 	\centering
@@ -855,7 +855,7 @@ Nosotros hablaremos de estas entidades desde el punto de vista de la \gls{ai}, y
 
 Según ésta, un agente es considerado \textbf{agente inteligente} cuando éste realiza la mejor acción posible (según un criterio de medida). En este contexto, \textit{la mejor acción posible} se refiere en términos de objetivos a cumplir y comprensión del entorno en el que se desarrolla la acción, que puede ser o no correcta.
 
-Las nociones de agentes inteligentes y la de \acrlongsp{ci} van de la mano. Esto es debido a que su definición funciona a la perfección para las técnicas que la constituyen, esto es, agentes autónomos que perciben el entorno (problema) y actuan de la mejor manera posible sobre él (resuelven) de acuerdo a su conocimento del medio y su estado interno (en base a algoritmos como \gls{ann}, \gls{fl}, \ldots). Por ello desde mediados de los años 1990 el concepto de agente inteligente ha ganado tanta popularidad\sidenote{Tanto es así que en algunos trabajos se define el objetivo de la \acrlongsp{ai} como la implementación de la función agente, esto es, la función que realiza la correspondiencia de una percepción a una acción, para un problema dado.}.
+Las nociones de agentes inteligentes y la de \acrlongsp{ci} van de la mano. Esto es debido a que su definición funciona a la perfección para las técnicas que la constituyen, esto es, agentes autónomos que perciben el entorno (problema) y actuan de la mejor manera posible sobre él (resuelven) de acuerdo a su conocimento del medio y su estado interno (en base a algoritmos como \acrlong{ann}\index{red neuronal artificial}, \acrlong{fl}\index{lógica difusa}, \ldots). Por ello desde mediados de los años 1990 el concepto de agente inteligente ha ganado tanta popularidad\sidenote{Tanto es así que en algunos trabajos se define el objetivo de la \acrlongsp{ai} como la implementación de la función agente, esto es, la función que realiza la correspondiencia de una percepción a una acción, para un problema dado.}.
 
 \subsection{Tipos de entorno}
 
