@@ -15,7 +15,7 @@ Por lo tanto, la solución por la que se ha optado es por la implementación de 
 	\item Cálculo de la nube de puntos colisionando contra los prismas generados.
 \end{enumerate}
 
-En el vehículo se han implantado los modelos longitudinales y de cambio de carril dentro de un conductor virtual tanto para el sujeto global como para cada uno de los sujetos del experimento y se ha realizado un recorridos de características similares al recorrido del que se obtuvieron los datos del conjunto de test (ver Figura~\ref{fig:sumo-route}).
+En el vehículo se han implantado los modelos longitudinales y de cambio de carril\index{lane-change} dentro de un conductor virtual tanto para el sujeto global como para cada uno de los sujetos del experimento y se ha realizado un recorridos de características similares al recorrido del que se obtuvieron los datos del conjunto de test (ver Figura~\ref{fig:sumo-route}).
 
 \begin{marginfigure}
 	\centering
@@ -67,7 +67,7 @@ La forma por la que se comprobará si los comportamientos son similares es la pr
 	\end{tabular}
 \end{table*}
 
-Por otro lado, para el comportamiento del modelo de cambio de carril se usará el número de éstos que se han producido durante el recorrido, ya que podemos considerar las condiciones similares (i.e. flujo de tráfico moderado en ambas direcciones, misma distancia de recorrido y aproximadamente el mismo número de carriles y semáforos durante el recorrido).
+Por otro lado, para el comportamiento del modelo de cambio de carril\index{lane-change} se usará el número de éstos que se han producido durante el recorrido, ya que podemos considerar las condiciones similares (i.e. flujo de tráfico moderado en ambas direcciones, misma distancia de recorrido y aproximadamente el mismo número de carriles y semáforos durante el recorrido).
 
 La Tabla~\ref{tbl:global-comparison-indicators} ofrece mucha información, por lo que la comentaremos por partes.
 
@@ -91,7 +91,7 @@ Podemos concluir que los valores entre simulación y realidad son muy similares 
 	\label{fig:lc-global-comparison-indicators}
 \end{figure}
 
-\section{Comportamiento en el modelo de cambio de carril}
+\section{Comportamiento en el modelo de cambio de carril\index{lane-change}}
 
 En el caso del modelo de cambios de carril, se pueden ver indicios de que el número de cambios de carril en la realidad se mantienen en el mismo rango aproximado que el número de cambios de carril de los modelos estimados, tanto para el general como para los específicos.
 

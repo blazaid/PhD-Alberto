@@ -26,7 +26,7 @@ El error que se trata de minimizar es el cuadrado del \gls{rmse}\index{RMSE} ent
 
 Del conjunto de datos descrito en la Tabla~\ref{tbl:main-variables} del capítulo~\nameref{ch:methodology} seleccionamos aquellos indicadores de interés: \textit{Distancia a líder}, \textit{Distancia a siguiente TLS}, \textit{Estado de siguiente TLS}, \textit{Velocidad}, \textit{Velocidad a líder} y \textit{Aceleración} (este último como salida a ajustar por el modelo). Estos valores conformarán los conjuntos de entrenamiento y de test tanto para cada uno de los sujetos $S_1$, $S_2$ y $S_3$, como para el conjunto global de éstos $S_A$.
 
-Dado que nuestros modelos se basan en un esquema \textit{feed-forward}, existe el inconveniente de que para ellos es imposible mantener una memoria del orden en el que se están sucediendo las entradas. Sin embargo, contamos con las derivadas de la posición respecto al líder (la aceleración y la velocidad al líder) y la velocidad, por lo que consideramos que disponemos de información temporal suficiente para este problema en concreto.
+Dado que nuestros modelos se basan en un esquema \textit{\idx{feed-forward}}, existe el inconveniente de que para ellos es imposible mantener una memoria del orden en el que se están sucediendo las entradas. Sin embargo, contamos con las derivadas de la posición respecto al líder (la aceleración y la velocidad al líder) y la velocidad, por lo que consideramos que disponemos de información temporal suficiente para este problema en concreto.
 
 El resultado de la generación de los datasets de entrenamiento y test para todos los sujetos se resume en la Tabla~\ref{tbl:cf-datasets-description}
 
