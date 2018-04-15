@@ -1,7 +1,7 @@
-\chapter{Ajuste de \acrlongplsp{fcs} basado en descenso del gradiente}
+\chapter{Ajuste de \acrlongplsp{fcs}\index{sistema de control difuso} basado en descenso del gradiente}
 \label{ch:fuzzy-controller-adjustment}
 
-Como vimos en la sección \nameref{ss:fcs} del capítulo \nameref{ch:sota-ci}, un \acrlongsp{fcs} se compone de cuatro bloques diferenciados: la fuzzificación, el bloque de reglas, la inferencia y la defuzzificación. De estos bloques, el proceso manual de ajuste se resume siempre en dos pasos\sidenote{
+Como vimos en la sección \nameref{ss:fcs} del capítulo \nameref{ch:sota-ci}, un \acrlongsp{fcs}\index{sistema de control difuso} se compone de cuatro bloques diferenciados: la fuzzificación, el bloque de reglas, la inferencia y la defuzzificación. De estos bloques, el proceso manual de ajuste se resume siempre en dos pasos\sidenote{
 	Por supuesto implica más ajustes como la elección de las funciones de fuzzificación, las $t$-normas y $t$-conormas, de la función de defuzzificación, pero estas operaciones no tienen tanto impacto en el desempeño del controlador como las particiones difusas y las reglas.
 }:
 
@@ -31,15 +31,15 @@ Se han tomado una serie de decisiones de diseño para facilitar el desarrollo de
 	\item El controlador tendrá una única variable de salida.
 \end{itemize}
 
-\section{El \acrlongsp{fcs} como grafo computacional}
+\section{El \acrlongsp{fcs}\index{sistema de control difuso} como grafo computacional}
 
 Sea $\mathcal{V} = {V_1, V_2, \ldots, V_n}$ el conjunto ordenado de variables lingüísticas de nuestro controlador, y sea $O$ la variable lingüística de salida. Cada una de estas variables tendrá un número prefijado de conjuntos $\mathcal{N} = {N_{V_1}, N_{V_2}, \ldots, N_{V_n}}$ para las variables de entrada y $N_O$ para la variable de salida.
 
 El controlador recibirá una matriz bidimensional de rango $(m, n)$ y devolverá un vector de rango $(m)$, siendo $m$ el número de ejemplos que queremos calcular a la vez.
 
-Representaremos el \acrlongsp{fcs} como grafo computacional. De esta manera, podremos (i) aplicar la función de manera más eficiente y (ii) calcular fácilmente los gradientes de las funciones parciales para aplicar la técnica del descenso del gradiente propagando el error de la salida.
+Representaremos el \acrlongsp{fcs}\index{sistema de control difuso} como grafo computacional. De esta manera, podremos (i) aplicar la función de manera más eficiente y (ii) calcular fácilmente los gradientes de las funciones parciales para aplicar la técnica del descenso del gradiente propagando el error de la salida.
 
-El proceso de desarrollo será el siguiente: primero, construiremos cada uno de los bloques fundamentales del \acrlongsp{fcs} como un grafos computacionales; después construiremos el controlador conectando entre sí estos grafos.
+El proceso de desarrollo será el siguiente: primero, construiremos cada uno de los bloques fundamentales del \acrlongsp{fcs}\index{sistema de control difuso} como un grafos computacionales; después construiremos el controlador conectando entre sí estos grafos.
 
 \subsection{Bloque de fuzzificación}
 
@@ -158,7 +158,7 @@ Este bloque tiene la particularidad de que no posee ninguna variable que ajustar
 
 \section{Ejemplo de ajuste de un controlador difuso}
 
-Para probar su funcionamiento, se realizará el ajuste de un controlador difuso a partir de un conjunto de entrenamiento con unos valores determinados. Estos valores se habrán obtenido a su vez de un \acrlongsp{fcs} de ejemplo para comprobar lo correcto de la implementación.
+Para probar su funcionamiento, se realizará el ajuste de un controlador difuso a partir de un conjunto de entrenamiento con unos valores determinados. Estos valores se habrán obtenido a su vez de un \acrlongsp{fcs}\index{sistema de control difuso} de ejemplo para comprobar lo correcto de la implementación.
 
 \begin{figure}[t]
 	\centering

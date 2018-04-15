@@ -21,10 +21,10 @@ Además, los conductores de vehículos utilitarios no son los únicos agentes ex
 
 Otro objetivo de modelado sería los sistemas de generación de emisiones de los vehículos. Actualmente, los simuladores incorporan modelos de emisión\sidenote{
 	Normalmente, las emisiones incluyen también el consumo de gasolina, diésel y electricidad, así como el ruido que emiten.
-} para simular de qué manera los vehículos producen emisiones. Los sistemas más completos (como \ac{sumo}) implementan las tipologías descritas en el \ac{hbefa}~\cite{de2004modelling}, pero no dejan de ser modelos que generalizan tipologías de vehículos y se alejan de la realidad. Creemos que las emisiones de los vehículos en particular son fácilmente modelables a partir de sus datos reales con técnicas de \ac{ci}.
+} para simular de qué manera los vehículos producen emisiones. Los sistemas más completos (como \gls{sumo}\index{SUMO}) implementan las tipologías descritas en el \gls{hbefa}~\cite{de2004modelling}, pero no dejan de ser modelos que generalizan tipologías de vehículos y se alejan de la realidad. Creemos que las emisiones de los vehículos en particular son fácilmente modelables a partir de sus datos reales con técnicas de \ac{ci}.
 
-\section{Redes recurrentes}
+\section{\Acrlongplsp{rnn}\index{redes neuronales recurrentes}}
 
 El estudio se ha limitado a redes de tipo \textit{\idx{feed-forward}}, representando la evolución del tiempo como ventanas de datos temporales. Este tipo de redes no ven más allá de su ventana temporal, y puede no ser suficiente para determinados modelos.
 
-Se propone el uso de arquitecturas de redes recurrentes para incorporar capacidad de comprender la continuidad temporal en el flujo de datos que percibe el agente. Quizá de esta manera se podrían captar características tales como la percepción temporal de velocidades de aproximación a obstáculos o impaciencia en función de otros factores.
+Se propone el uso de arquitecturas de \acrlongplsp{rnn}\index{redes neuronales recurrentes} para incorporar capacidad de comprender la continuidad temporal en el flujo de datos que percibe el agente. Quizá de esta manera se podrían captar características tales como la percepción temporal de velocidades de aproximación a obstáculos o impaciencia en función de otros factores.

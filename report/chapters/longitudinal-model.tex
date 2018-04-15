@@ -1,7 +1,7 @@
 \chapter{Comportamiento longitudinal}
 \label{ch:longitudinal-model}
 
-El comportamiento longitudinal es un problema de regresión sobre cómo ha de comportarse la aceleración del \ac{dvu} en función de la información existente alrededor. El perfil de aceleración para el conjunto general de conductores tanto del conjunto de test como del de entrenamiento se ilustran en la figura~\ref{fig:acceleration-profiles}.
+El comportamiento longitudinal es un problema de regresión sobre cómo ha de comportarse la aceleración del \gls{dvu}\index{driver-vehicle unit} en función de la información existente alrededor. El perfil de aceleración para el conjunto general de conductores tanto del conjunto de test como del de entrenamiento se ilustran en la figura~\ref{fig:acceleration-profiles}.
 
 \begin{figure}[!b]
 	\centering
@@ -14,11 +14,11 @@ El comportamiento longitudinal es un problema de regresión sobre cómo ha de co
 Por la naturaleza del problema se han seleccionado dos técnicas diferentes para el ajuste del modelo:
 
 \begin{enumerate}
-	\item \ac{mlp}. Al ser un problema de regresión, el uso de \acrlongplsp{mlp} en el comportamiento longitudinal está justificado a ser considerados éstos aproximadores universales~\cite{hornik1991approximation}\sidenote{El \textit{Teorema de aproximación Universal} postula que un \ac{mlp} con al menos una capa oculta es capaz de aproximar cualquier función si dispone de suficientes neuronas en ésta.}
-	\item \ac{fcs}. La formulación de este problema se ajusta muy bien al funcionamiento de estos modelos, donde en función de las entradas y de acuerdo a una serie de reglas, el controlador toma una decisión para la salida. Además, los \acrlongplsp{fcs} tienen la ventaja de que se puede explicar cómo funcionan, cosa que no es posible para un \acrlongsp{mlp} con una o más capas ocultas.
+	\item \Acrshort{mlp}\index{perceptron multicapa}. Al ser un problema de regresión, el uso de \acrlongplsp{mlp} en el comportamiento longitudinal está justificado a ser considerados éstos aproximadores universales~\cite{hornik1991approximation}\sidenote{El \textit{Teorema de aproximación Universal} postula que un \ac{mlp}\index{perceptron multicapa} con al menos una capa oculta es capaz de aproximar cualquier función si dispone de suficientes neuronas en ésta.}
+	\item \Acrshort{fcs}\index{sistema de control difuso}. La formulación de este problema se ajusta muy bien al funcionamiento de estos modelos, donde en función de las entradas y de acuerdo a una serie de reglas, el controlador toma una decisión para la salida. Además, los \acrlongplsp{fcs}\index{sistema de control difuso} tienen la ventaja de que se puede explicar cómo funcionan, cosa que no es posible para un \acrlongsp{mlp}\index{perceptron multicapa} con una o más capas ocultas.
 \end{enumerate}
 
-Ambos modelos se ajustarán con un procedimiento basado en el descenso del gradiente denominado ADAM~\cite{kingma2014adam}. Su aplicación a los \acrlongplsp{mlp} es directa (después de todo es una técnica desarrollada dentro de área de las \acrlongplsp{ann}\index{red neuronal artificial}), pero para los \acrlongplsp{fcs}\index{sistema de control difuso} es necesaria una representación que permita el uso de este método para su optimización. Esta representación es una de las aportaciones de esta tesis y se se explica en el apéndice \nameref{ch:fuzzy-controller-adjustment}.
+Ambos modelos se ajustarán con un procedimiento basado en el descenso del gradiente denominado ADAM~\cite{kingma2014adam}. Su aplicación a los \acrlongplsp{mlp}\index{perceptron multicapa} es directa (después de todo es una técnica desarrollada dentro de área de las \acrlongplsp{ann}\index{red neuronal artificial}), pero para los \acrlongplsp{fcs}\index{sistema de control difuso} es necesaria una representación que permita el uso de este método para su optimización. Esta representación es una de las aportaciones de esta tesis y se se explica en el apéndice \nameref{ch:fuzzy-controller-adjustment}.
 
 El error que se trata de minimizar es el cuadrado del \gls{rmse}\index{RMSE} entre los valores de aceleración del conjunto reales y los ajustados por el modelo, ya que es equivalente. Los resultados no obstante se presentan con el \gls{rmse}\index{RMSE} ya que éste es directamente interpretable en las medidas de la variable sobre la que se aplica (en nuestro caso, \SI{}{\metre\per\square\second}).
 
@@ -47,14 +47,14 @@ El resultado de la generación de los datasets de entrenamiento y test para todo
 	\end{tabular}
 \end{table}
 
-\section{Modelo basado en \acrlongplsp{fcs}}
+\section{Modelo basado en \acrlongplsp{fcs}\index{sistema de control difuso}}
 
 Se han realizado entrenamientos sobre arquitecturas con diferente número de particiones difusas en las variables. Las arquitecturas que se han considerado más relevantes (tras un proceso de ensayo y error con diferente número de particiones difusas) se describen en la Tabla~\ref{tbl:cf-fcs-architectures}. 
 
 \begin{table}[t]
 	\centering
 	\small
-	\caption[Resumen de las arquitecturas \ac{fcs} para el modelo longitudinal]{Resumen de las arquitecturas seleccionadas. La posición de cada número de la arquitectura indica a qué variable lingüística se refiere (\textit{Distancia al líder}, \textit{Distancia a siguiente TLS}, \textit{TLS en verde}, \textit{TLS en amarillo}, \textit{TLS en rojo}, \textit{Velocidad} y \textit{Velocidad de aproximación al líder} respectivamente). Su valor se corresponde al número de conjuntos difusos de la partición de cada una de ellas.}
+	\caption[Resumen de las arquitecturas \ac{fcs}\index{sistema de control difuso} para el modelo longitudinal]{Resumen de las arquitecturas seleccionadas. La posición de cada número de la arquitectura indica a qué variable lingüística se refiere (\textit{Distancia al líder}, \textit{Distancia a siguiente TLS}, \textit{TLS en verde}, \textit{TLS en amarillo}, \textit{TLS en rojo}, \textit{Velocidad} y \textit{Velocidad de aproximación al líder} respectivamente). Su valor se corresponde al número de conjuntos difusos de la partición de cada una de ellas.}
 	\label{tbl:cf-fcs-architectures}
 	\begin{tabular}{cccccc}
 		\toprule
@@ -96,7 +96,7 @@ Concretamente, los $250.000$ epochs de entrenamiento han sido divididos en $250$
 	\subfloat[Distancia a siguiente semáforo]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-next-tls-distance-variable-partition}}\qquad
 	\subfloat[Velocidad]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-speed-variable-partition}}\qquad
 	\subfloat[Velocidad a líder]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-speed-to-leader-variable-partition}}
-	\caption[Particiones difusas después de la operación de ajuste en el modelo longitudinal basado en \acrshort{fcs}]{Particiones difusas despueés de la operación de ajuste en el modelo longitudinal basado en \ac{fcs}. Las funciones de pertenencia correspondientes al estado del semáforo no se incluyen ya que no se vieron modificadas en ningún entrenamiento. Después de todo, estas variables eran binarias, y las particiones difusas se inicializan de tal manera que dichos valores siempre alcanzan un valor de pertenencia $1$. El de la variable \textit{Velocidad a líder} es cuanto menos, curioso. Tras varias ejecuciones sobre esta y otras arquitecturas, ha mantenido este comportamiento, por lo que intuimos que la variable tiene un efecto mínimo o nulo sobre el comportamiento en el modelo longitudinal.}
+	\caption[Particiones difusas después de la operación de ajuste en el modelo longitudinal basado en \acrshort{fcs}]{Particiones difusas después de la operación de ajuste en el modelo longitudinal basado en \Acrshortpl{fcs}. Las funciones de pertenencia correspondientes al estado del semáforo no se incluyen ya que no se vieron modificadas en ningún entrenamiento. Después de todo, estas variables eran binarias, y las particiones difusas se inicializan de tal manera que dichos valores siempre alcanzan un valor de pertenencia $1$. El de la variable \textit{Velocidad a líder} es cuanto menos, curioso. Tras varias ejecuciones sobre esta y otras arquitecturas, ha mantenido este comportamiento, por lo que intuimos que la variable tiene un efecto mínimo o nulo sobre el comportamiento en el modelo longitudinal.}
 	\label{fig:adjusted-fuzzy-partitions}
 \end{figure}
 
@@ -104,7 +104,7 @@ Empíricamente (y para este problema en concreto) se ha podido observar que el e
 
 En la Figura~\ref{fig:lm-fcs-rmse-all-comparisons} se puede observar la evolución en general y un detalle de la disminución del error durante el entrenamiento de los controladores. El error en test se ofrece a título informativo, y no ha sido usado para determinar las arquitecturas seleccionadas.
 
-Se puede observar que la arquitectura $FCS_1$ es la que mejor error en test ha alcanzado. En las pruebas realizadas para el ajuste de controladores se ha observado además que los errores en entrenamiento y en test tienden a ser similares cuando los problemas son representables con un \acrlongsp{fcs}.
+Se puede observar que la arquitectura $FCS_1$ es la que mejor error en test ha alcanzado. En las pruebas realizadas para el ajuste de controladores se ha observado además que los errores en entrenamiento y en test tienden a ser similares cuando los problemas son representables con un \acrlongsp{fcs}\index{sistema de control difuso}.
 
 Éste será por tanto, el modelo seleccionado para la comparativa final. Las funciones de pertenencia ajustadas se muestran en la Figura~\ref{fig:adjusted-fuzzy-partitions} contrastadas con las versiones de antes de comenzar el entrenamiento. Las reglas, sin embargo, son muy numerosas para ser incluidas en el texto, ya que la mayoría de reglas posibles en el sistema (aproximadamente $60$) tienen un peso asociado de más de $0.5$.
 
@@ -120,11 +120,11 @@ En la Figura~\ref{fig:fcs-test-comparisons} se muestran los perfiles de la acele
 	\label{fig:fcs-test-comparisons}
 \end{figure}
 
-\section{Modelo basado en \acrlongplsp{mlp}}
+\section{Modelo basado en \acrlongplsp{mlp}\index{perceptron multicapa}}
 
-Para determinar el modelo óptimo de \acrlongsp{mlp} en comportamiento longitudinal, se han realizado entrenamientos sobre arquitecturas con diferente cantidad de neuronas y capas ocultas. Las arquitecturas más ilustrativas de todas las probadas se resumen en la tabla~\ref{tbl:cf-mlp-architectures}.
+Para determinar el modelo óptimo de \acrlongsp{mlp}\index{perceptron multicapa} en comportamiento longitudinal, se han realizado entrenamientos sobre arquitecturas con diferente cantidad de neuronas y capas ocultas. Las arquitecturas más ilustrativas de todas las probadas se resumen en la tabla~\ref{tbl:cf-mlp-architectures}.
 
-El modelo de funciones de activación que se ha utilizado es de tipo tangente hiperbólica en todas las neuronas salvo en la última, que se ha utilizado una activación lineal\sidenote{Se han utilizado también funciones de activación de tipo \acrshort{relu}, pero las tasas de error tras el entrenamiento eran notablemente más altas por lo que se ha optado al final por el uso de activación basada en tangente hiperbólica.}. Los pesos de la red han sido inicializados con una muestra aleatoria uniforme de valores reales en el intervalo $(-0.25, 0.25)$.
+El modelo de funciones de activación que se ha utilizado es de tipo tangente hiperbólica en todas las neuronas salvo en la última, que se ha utilizado una activación lineal\sidenote{Se han utilizado también funciones de activación de tipo \acrshort{relu}\index{ReLU}, pero las tasas de error tras el entrenamiento eran notablemente más altas por lo que se ha optado al final por el uso de activación basada en tangente hiperbólica.}. Los pesos de la red han sido inicializados con una muestra aleatoria uniforme de valores reales en el intervalo $(-0.25, 0.25)$.
 
 \begin{table}
 	\centering
@@ -171,7 +171,7 @@ A la vista de los resultados, y dado que las arquitecturas se ajustan bien a los
 
 \section{Comparación entre modelos}
 
-Las mejores arquitecturas de ambos modelos han sido la $MLP_2$ para los \acrlongplsp{mlp} y $FCS_1$ para los \acrlongplsp{fcs}. Los errores y el perfil de aceleración para ambos modelos se muestran en la figura~\ref{fig:cf-comparison-between-best-mlp-and-fcs-architecture}.
+Las mejores arquitecturas de ambos modelos han sido la $MLP_2$ para los \acrlongplsp{mlp}\index{perceptron multicapa} y $FCS_1$ para los \acrlongplsp{fcs}\index{sistema de control difuso}. Los errores y el perfil de aceleración para ambos modelos se muestran en la figura~\ref{fig:cf-comparison-between-best-mlp-and-fcs-architecture}.
 
 \begin{figure}
 	\centering
@@ -181,7 +181,7 @@ Las mejores arquitecturas de ambos modelos han sido la $MLP_2$ para los \acrlong
 	\label{fig:cf-comparison-between-best-mlp-and-fcs-architecture}
 \end{figure}
 
-Aunque el modelo basado en \acrlongplsp{fcs} arroja un error bajo en test y parece que tiende a ajustarse al perfil de aceleración, parece que el problema es suficientemente complejo como para no poder representarse como un simple \acrlongsp{fcs}.
+Aunque el modelo basado en \acrlongplsp{fcs}\index{sistema de control difuso} arroja un error bajo en test y parece que tiende a ajustarse al perfil de aceleración, parece que el problema es suficientemente complejo como para no poder representarse como un simple \acrlongsp{fcs}\index{sistema de control difuso}.
 
-Además, el error arrojado por el \acrlongsp{mlp} es sustancialmente menor y, por tanto, la arquitectura elegida para el modelo longitudinal serála $MLP_2$.
+Además, el error arrojado por el \acrlongsp{mlp}\index{perceptron multicapa} es sustancialmente menor y, por tanto, la arquitectura elegida para el modelo longitudinal será la $MLP_2$.
 

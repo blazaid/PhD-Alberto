@@ -1,17 +1,17 @@
 \chapter{Implementación en simulador}
 \label{ch:simulation-implementation}
 
-El entorno de simulación que nos ofrece \ac{sumo} nos permite recoger la práctica totalidad de información propuesta en la Tabla~\ref{tbl:main-variables} del capítulo \nameref{ch:methodology} con la excepción del entorno.
+El entorno de simulación que nos ofrece \gls{sumo}\index{SUMO} nos permite recoger la práctica totalidad de información propuesta en la Tabla~\ref{tbl:main-variables} del capítulo \nameref{ch:methodology} con la excepción del entorno.
 
-El problema es que la representación que nos ofrece \ac{sumo} de éste es un conjunto posiciones y tipologías de elementos, de tal manera que podemos acceder a información rápidamente pero de forma muy limitada. Dicho de otro modo, en un entorno real no podemos saber, por ejemplo, que existe un coche en la posición $(x, y, z)$ de unas determinadas dimensiones\sidenote{
-	En realidad sí sería posible conseguir esa información con cierto grado de certeza aplicando técnicas de reconocimiento de patrones a las las nubes de puntos. Dichas técnicas son propensas a errores, más aun con la escasa resolución a largas distancias del \ac{lidar} usado en los experimentos, por lo que no han sido consideradas para este trabajo.
+El problema es que la representación que nos ofrece \gls{sumo}\index{SUMO} de éste es un conjunto posiciones y tipologías de elementos, de tal manera que podemos acceder a información rápidamente pero de forma muy limitada. Dicho de otro modo, en un entorno real no podemos saber, por ejemplo, que existe un coche en la posición $(x, y, z)$ de unas determinadas dimensiones\sidenote{
+	En realidad sí sería posible conseguir esa información con cierto grado de certeza aplicando técnicas de reconocimiento de patrones a las las nubes de puntos. Dichas técnicas son propensas a errores, más aun con la escasa resolución a largas distancias del \acrshort{lidar}\index{LiDAR} usado en los experimentos, por lo que no han sido consideradas para este trabajo.
 }.
 
-Por lo tanto, la solución por la que se ha optado es por la implementación de un \ac{lidar} en el vehículo simulado de tal manera que ofrece una nube de puntos de las mismas características que las capturadas por el \ac{lidar} físico y situado en la misma posición del vehículo. Este \ac{lidar}, a una tasa de \SI{10}{\hertz}, realizará las siguientes operaciones:
+Por lo tanto, la solución por la que se ha optado es por la implementación de un \acrshort{lidar}\index{LiDAR} en el vehículo simulado de tal manera que ofrece una nube de puntos de las mismas características que las capturadas por el \acrshort{lidar}\index{LiDAR} físico y situado en la misma posición del vehículo. Este \acrshort{lidar}\index{LiDAR}, a una tasa de \SI{10}{\hertz}, realizará las siguientes operaciones:
 
 \begin{enumerate}
-	\item Captura de posición de todos los semáforos situados a un radio $r$ del centro del \ac{lidar} y transformación de éstos a prisma con base cuadrada sitiada a altura \SI{0}{\meter} y con altura de \SI{3}{\meter}.
-	\item Captura de posición de todos los vehículos situados a un radio $r$ del centro del \ac{lidar} y transformación de éstos a prismas con las dimensiones que especifiquen sus propiedades.
+	\item Captura de posición de todos los semáforos situados a un radio $r$ del centro del \acrshort{lidar}\index{LiDAR} y transformación de éstos a prisma con base cuadrada sitiada a altura \SI{0}{\meter} y con altura de \SI{3}{\meter}.
+	\item Captura de posición de todos los vehículos situados a un radio $r$ del centro del \acrshort{lidar}\index{LiDAR} y transformación de éstos a prismas con las dimensiones que especifiquen sus propiedades.
 	\item Cálculo de la nube de puntos colisionando contra los prismas generados.
 \end{enumerate}
 

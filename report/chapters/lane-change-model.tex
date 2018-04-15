@@ -13,10 +13,10 @@ En este trabajo se tratará de modelar, sin embargo, el proceso de cambio de car
 \end{enumerate}
 
 Ambos modelos, al igual que con el modelo longitudinal, han sido entrenados ajustando sus parámetros con el algoritmo ADAM \cite{kingma2014adam}. Las funciones de activación, sin embargo, varían, y por tanto la inicialización de las variables también\sidenote{
-	La inicialización clásica, de valores uniformes en un intervalo pequeño alrededor de $0$ haría que la mitad de los valores cayesen por debajo de 0. Si la neurona tiene una función de activación de tipo \ac{relu}, el peso no se vería modificado, ya que su derivada será siempre $0$.
+	La inicialización clásica, de valores uniformes en un intervalo pequeño alrededor de $0$ haría que la mitad de los valores cayesen por debajo de 0. Si la neurona tiene una función de activación de tipo \acrshort{relu}\index{ReLU}, el peso no se vería modificado, ya que su derivada será siempre $0$.
 }.
 
-En este caso, ambos modelos hacen uso de neuronas de activación de tipo \ac{relu}, salvo en la última capa que la activación es lineal. Para inicializar los pesos de las variables se hace uso del algoritmo Glorot~\cite{glorot2010understanding} (también denominado Xavier) debido a su mejor desempeño, sobre todo en redes con funciones de activación tipo \ac{relu}~\cite{glorot2011deep}\sidenote{
+En este caso, ambos modelos hacen uso de neuronas de activación de tipo \acrshort{relu}\index{ReLU}, salvo en la última capa que la activación es lineal. Para inicializar los pesos de las variables se hace uso del algoritmo Glorot~\cite{glorot2010understanding} (también denominado Xavier) debido a su mejor desempeño, sobre todo en redes con funciones de activación tipo \acrshort{relu}\index{ReLU}~\cite{glorot2011deep}\sidenote{
 	Esta inicialización se basa en intentar mantener la misma desviación típica de gradientes en cada capa de la red. En~\cite{glorot2010understanding} determinan que ésta debe ser $\sigma^l = \frac{2}{\mathbf{card}(W^l_{in}) + \mathbf{card}(W^l_{out})}$, siendo $\mathbf{card}(W^l_{in})$ y $\mathbf{card}(W^l_{out})$ el número de entradas y de salidas de la capa, extrayendo posteriormente sus valores de una distribución aleatoria de la forma $X^l \sim \mathcal{N}(\mu=0,\sigma=\sigma^l)$
 }.
 
@@ -56,11 +56,11 @@ Para el primer caso, se ha optado por representar el entorno como un mapa de pro
 	\label{fig:deepmap-example}
 \end{figure}
 
-Dado que el \acrshort{lidar} describe el entorno de manera discreta con valores constantes de elevación y azimuth, se podría llegar a definir una biyección entre el conjunto de puntos original y los píxeles del mapa de profundidad, por lo que la información disponible en ambas es equivalente. Sin embargo, en nuestro caso no necesitamos una representación tan fiel del entorno porque:
+Dado que el \acrshort{lidar}\index{LiDAR} describe el entorno de manera discreta con valores constantes de elevación y azimuth, se podría llegar a definir una biyección entre el conjunto de puntos original y los píxeles del mapa de profundidad, por lo que la información disponible en ambas es equivalente. Sin embargo, en nuestro caso no necesitamos una representación tan fiel del entorno porque:
 
 \begin{itemize}
 	\item La resolución horizontal produce un mapa de profundidad de $1800$ columnas. Esta resolución es extremadamente grande, y requeriría el uso de modelos con muchos parámetros, pudiendo caer fácilmente en un problema de \textit{over-fitting}.
-	\item La apertura vertical del \acrshort{lidar} genera puntos en planos que no son relevantes para el problema. Esto es, planos muy bajos que impactan en el vehículo o muy altos que no impactan con el entorno considerado de interés.
+	\item La apertura vertical del \acrshort{lidar}\index{LiDAR} genera puntos en planos que no son relevantes para el problema. Esto es, planos muy bajos que impactan en el vehículo o muy altos que no impactan con el entorno considerado de interés.
 \end{itemize}
 
 Por estas razones, los mapas de profundidad se generarán de una manera más compacta, usando una resolución horizontal de \SI{1}{\degree} y los seis canales que van desde los \SI{-7}{\degree} hasta los \SI{3}{\degree}, lo que nos da un mapa de profundidad con una resolución de $6 \times 360$ con un canal representando la distancia al punto de impacto más cercano contenido en el sector esférico que representa cada posición del mapa.
@@ -73,7 +73,7 @@ Con estos datos, los mapas de profundidad serán normalizados al intervalo $[0, 
 
 Este problema de Los problemas con alta variabilidad de sus entradas suelen ser complejos y requerir de conjuntos de datos de tamaños bastante grandes para poder identificar patrones, como lo son por ejemplo los problemas de reconocimiento de imágenes.
 
-En nuestro caso, el modelo de cambio de carril tiene como entrada una nube de puntos, la cual representa en un espacio de $3$ dimensiones un conjunto muy limitado de puntos, con la dificultad añadida de que el \acrshort{lidar} tiene de base un error de \SI{3}{\cm}. Como el espacio sobre el que trabajar es tan complejo, se requerirían modelos con muchos parámetros, pero al disponer de pocos ejemplos, podríamos caer muy fácilmente en problemas de \textit{over-fitting}.
+En nuestro caso, el modelo de cambio de carril tiene como entrada una nube de puntos, la cual representa en un espacio de $3$ dimensiones un conjunto muy limitado de puntos, con la dificultad añadida de que el \acrshort{lidar}\index{LiDAR} tiene de base un error de \SI{3}{\cm}. Como el espacio sobre el que trabajar es tan complejo, se requerirían modelos con muchos parámetros, pero al disponer de pocos ejemplos, podríamos caer muy fácilmente en problemas de \textit{over-fitting}.
 
 Por ello, se ha optado por realizar un proceso de generación de datos artificiales a partir de los datos existentes. De esta manera, ayudaremos al modelo a entrenar con casos similares y que de esta manera generalice mejor. La generación artificial se ha realizado sobre los datos recogidos en la ruta $R_1$, ya que es la que nos proporciona la información para entrenar el modelo y es por tanto en el único conjunto que cobra sentido este proceso. Concretamente hemos hecho uso de dos técnicas, primero un \textit{mirroring} sobre todas las filas del conjunto y diez aplicaciones de la técnica \textit{shaking} sobre el nuevo conjunto con los datos originales y simétricos.
 
@@ -115,7 +115,7 @@ Esta técnica, a diferencia del \textit{mirroring} sí puede llegar a tener impa
 	Debido a que la aplicación iterativa de este proceso sobre la misma nube de puntos acumula los errores entre iteraciones haciéndola ininteligible.
 }, se aplica un desplazamiento aleatorio $(\delta x, \delta y, \delta z)$ sobre cada punto tal y como se describe en~\cite{EL PAPER CUANDO NOS LO PUBLIQUEN}. La Figura~\ref{fig:shaking-example} ilustra dos procesos de shaking con diferentes desplazamientos sobre la nube original mostrada en la figura~\ref{fig:mirroring-example}
 
-Las especificaciones técnicas del \ac{lidar} usado en los experimentos garantizan un error por debajo de los \SI{3}{\cm} de radio, por lo que un desplazamiento aleatorio para cada punto menor o igual que este valor no añadiría más ruido del existente. Sin embargo, en el experimento se ha optado sin embargo por aplicar un desplazamiento de $\delta x = \delta y = \delta z = 0.05m$ en cada eje, ligeramente superior al proporcionado por el lidar. De esta forma se pretende la incorporación de ruido sobre el entorno original para aumentar la capacidad de generalización del modelo\sidenote{
+Las especificaciones técnicas del \acrshort{lidar}\index{LiDAR} usado en los experimentos garantizan un error por debajo de los \SI{3}{\cm} de radio, por lo que un desplazamiento aleatorio para cada punto menor o igual que este valor no añadiría más ruido del existente. Sin embargo, en el experimento se ha optado sin embargo por aplicar un desplazamiento de $\delta x = \delta y = \delta z = 0.05m$ en cada eje, ligeramente superior al proporcionado por el \acrshort{lidar}\index{LiDAR}. De esta forma se pretende la incorporación de ruido sobre el entorno original para aumentar la capacidad de generalización del modelo\sidenote{
 	La intuición de este proceso
 }.
 
@@ -138,7 +138,7 @@ Comenzaremos definiendo el \textit{momento} $t_i$ como aquel ejemplo situado a $
 
 Tras este ajuste, los conjuntos de datos están finalizados. Sus propiedades quedan descritas en la Tabla~\ref{tbl:lc-datasets-description}.
 
-\section{Modelo basado en \acrlongplsp{mlp}}
+\section{Modelo basado en \acrlongplsp{mlp}\index{perceptron multicapa}}
 
 Los entrenamientos han sido realizados sobre diferentes topologías, siendo las más representativas las descritas en la tabla~\ref{tbl:lc-mlp-architectures}. La tasa de dropout utilizada en los entrenamientos ha sido de $0.1$.
 
@@ -178,18 +178,17 @@ Los entrenamientos han sido realizados sobre diferentes topologías, siendo las 
 
 La figura~\ref{fig:lc-mlp-accuracy-comparison} nos muestra la evolución de la precisión alcanzada por los modelos a lo largo del entrenamiento, tanto en entrenamiento como en el posterior test.
 
-Cada una de las redes se ha entrenado durante $10^5$ epochs. A la vista de los resultados, la capacidad de predicción de este tipo de redes con el conjunto de datos propuesto no supera el valor de predecir de forma aleatoria\sidenote{Los ejemplos le son propuestos de forma equiprobable, por lo que al ser $3$ clases, la probabilidad de acertar de manera aleatoria es de $\frac{1}{3}$.}. Además, en  ningún caso las redes desarrolladas han sido capaces de superar ese valor (sí el caso del entrenamiento). Por tanto, el uso de~\ac{mlp} aquí es descartado definitivamente.
+Cada una de las redes se ha entrenado durante $10^5$ epochs. A la vista de los resultados, la capacidad de predicción de este tipo de redes con el conjunto de datos propuesto no supera el valor de predecir de forma aleatoria\sidenote{Los ejemplos le son propuestos de forma equiprobable, por lo que al ser $3$ clases, la probabilidad de acertar de manera aleatoria es de $\frac{1}{3}$.}. Además, en  ningún caso las redes desarrolladas han sido capaces de superar ese valor (sí el caso del entrenamiento). Por tanto, el uso de~\ac{mlp}\index{perceptron multicapa} aquí es descartado definitivamente.
 
 \begin{figure}
 	\centering
-	\small
 	\subfloat[Entrenamiento y validación]{\includegraphics[width=.45\textwidth]{lc-mlp-acc-all-training-and-validation-detail}}\qquad
 	\subfloat[Test]{\includegraphics[width=.45\textwidth]{lc-mlp-acc-all-test-detail}}
 	\caption[Comparación de las precisiones alcanzadas por los modelos de tipo \acrshort{mlp}]{Comparación de las precisiones alcanzadas por los modelos de tipo \acrlongsp{mlp}.}
 	\label{fig:lc-mlp-accuracy-comparison}
 \end{figure}
 
-\section{Modelo basado en \acrlongplsp{cnn}}
+\section{Modelo basado en \acrlongplsp{cnn}\index{red de convolución}}
 
 Las arquitecturas de los modelos que mejores resultado han arrojado tras las pruebas se describen en la Tabla~\ref{tbl:lc-cnn-architectures}. La tasa de \textit{dropout} utilizada en los entrenamientos ha sido de $0.1$.
 
@@ -271,7 +270,7 @@ Probablemente con otra serie de variables se pueda aumentar la precisión de est
 
 \section{Comparación entre modelos}
 
-En este caso, de las dos técnicas propuestas para los modelos, los \acrlongplsp{mlp} ha sido descartados completamente al ser sus clasificación iguales a la de la selección aleatoria. Por tanto, el modelo que usaremos será el $CNN_2$, ya que es la única arquitectura que supera este límite.
+En este caso, de las dos técnicas propuestas para los modelos, los \acrlongplsp{mlp}\index{perceptron multicapa} ha sido descartados completamente al ser sus clasificación iguales a la de la selección aleatoria. Por tanto, el modelo que usaremos será el $CNN_2$, ya que es la única arquitectura que supera este límite.
 
 En la figura~\ref{fig:lc-cnn-model-confussion-matrix} se expone la matriz de confusión asociada a esta arquitectura para los valores existentes en el conjunto de test.
 

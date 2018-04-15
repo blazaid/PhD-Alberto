@@ -1,7 +1,7 @@
 \chapter{Metodología}
 \label{ch:methodology}
 
-Los modelos de conducción propuestos se basarán en datos extraídos de entornos reales. Tras su generación, se integrarán posteriormente en el entorno de simulación \ac{sumo} para comprobar su desempeño. Es importante por tanto reparar en los siguientes detalles:
+Los modelos de conducción propuestos se basarán en datos extraídos de entornos reales. Tras su generación, se integrarán posteriormente en el entorno de simulación \gls{sumo}\index{SUMO} para comprobar su desempeño. Es importante por tanto reparar en los siguientes detalles:
 
 \begin{itemize}
 	\item Los datos extraídos del entorno real deben ser extraíbles también del entorno simulado. 
@@ -14,7 +14,7 @@ En este capítulo se describe el esquema general del modelo a desarrollar, los e
 
 \section{Perspectiva general del modelo de conducción}
 
-El entorno de simulación con el que trabajamos, \ac{sumo} impone ciertas limitaciones, siendo una de las más decisivas el funcionamiento \enquote{por carril}. Esto quiere decir aunque el simulador sea continuo en el espacio, su recorrido longitudinal funciona en una única dimensión, siendo el cambio de carril\index{lane-change} el salto de un carril a otro.
+El entorno de simulación con el que trabajamos, \gls{sumo}\index{SUMO} impone ciertas limitaciones, siendo una de las más decisivas el funcionamiento \enquote{por carril}. Esto quiere decir aunque el simulador sea continuo en el espacio, su recorrido longitudinal funciona en una única dimensión, siendo el cambio de carril\index{lane-change} el salto de un carril a otro.
 
 Por ello, para el diseño y ajuste del modelo de conductor se ha decidido separar también los dos comportamientos principales que componen el nivel cognitivo táctico, es decir, un agente con un modelo de comportamiento que actúe sobre (i) la aceleración/deceleración, y (ii) la decisión y ejecución del cambio de carril\index{lane-change}, ambos a partir de los estímulos recibidos del exterior. Estos estímulos serán replicados en el simulador para que los agentes con los modelos entrenados a partir de estímulos del mundo real reciban estímulos similares en estos entornos.
 
@@ -39,7 +39,7 @@ Estos modelos serán entrenados siguiendo un esquema supervisado, por lo que nec
 
 \section{Extracción de datos de conducción}
 
-Se ha hecho uso de un vehículo instrumentado con sensores para capturar la mayor cantidad posible de la información indicada. El vehículo en cuestión es un Mitsubishi iMiEV (Figura~\ref{fig:instrumented-imiev}) y los dispositivos un \acrfull{lidar}, un \gls{gps}, el Bus \Acrfull{can} y una cámara.
+Se ha hecho uso de un vehículo instrumentado con sensores para capturar la mayor cantidad posible de la información indicada. El vehículo en cuestión es un Mitsubishi iMiEV (Figura~\ref{fig:instrumented-imiev}) y los dispositivos un \acrfull{lidar}\index{LiDAR}, un \gls{gps}, el Bus \Acrfull{can} y una cámara.
 
 Todos los dispositivos se conectan a un ordenador con sistema operativo GNU/Linux sobre Intel i7-7500U CPU con 16GB de memoria RAM. Al ser éstos dispositivos con capacidades diferentes, se ha optado por la creación de una aplicación basada en el framework ROS del cual se da una breve visión general en el apéndice~\nameref{ch:ros-overview}.
 
@@ -54,9 +54,9 @@ Todos los dispositivos se conectan a un ordenador con sistema operativo GNU/Linu
 
 A continuación se describen los dispositivos usados y su información generada.
 
-\paragraph{\acrshort{lidar}}
+\paragraph{\acrshort{lidar}\index{LiDAR}}
 
-Se trata de un dispositivo que usa uno o más haces de luz pulsada para el cálculo de la distancia a los objetos donde éstos impactan. Nuestro \acrshort{lidar} en concreto modelo VLP-16 de la empresa Velodyne.
+Se trata de un dispositivo que usa uno o más haces de luz pulsada para el cálculo de la distancia a los objetos donde éstos impactan. Nuestro \acrshort{lidar}\index{LiDAR} en concreto modelo VLP-16 de la empresa Velodyne.
 
 Está compuesto por un único haz láser con un movimiento continuo vertical y horizontal capturando información con una apertura de campo vertical de \SI{\pm15}{\degree} distribuído a lo largo de 16 planos (dando como resultado una resolución fija de \SI{2}{\degree}), y un campo horizontal de visión de \SI{360}{\degree} con una resolución dependiente de la velocidad de giro del láser, de \SI{0.1}{\degree} a \SI{0.4}{\degree} para \SI{5}{\Hz} a \SI{20}{\Hz} respectivamente. Estas medidas permiten una captura desde $75000$ hasta $300000$ puntos del entorno en función de la velocidad de giro a una distancia de hasta \SI{100}{\meter}.
 
@@ -68,13 +68,13 @@ El acceso a la información se realiza a través del puerto Ethernet. Para la ca
 	\label{fig:vlp-16}
 \end{marginfigure}
 
-El \ac{lidar} instrumentado se encuentra anclado en la baca del vehículo con el eje $X$ dispuesto en el sentido de conducción y el eje $Z$ en sentido ascendente. Su posición es centrada en el vehículo y a una altura de \SI{1.75}{\meter}.
+El \acrshort{lidar}\index{LiDAR} instrumentado se encuentra anclado en la baca del vehículo con el eje $X$ dispuesto en el sentido de conducción y el eje $Z$ en sentido ascendente. Su posición es centrada en el vehículo y a una altura de \SI{1.75}{\meter}.
 
 \paragraph{\ac{gps}}
 
 El \ac{gps} es una tecnología usada para sincronización de tiempo y posicionamiento $3d$ (i.e. latitud, longitud y altitud) de objetos en el globo terráqueo. Es un dispositivo que funciona en un único sentido, es decir, el receptor recibe la información de los satélites, pero no envía ninguna.
 
-El dispositivo \ac{gps} utilizado para los experimentos ha sido desarrollado en el Laboratorio de Electrónica e Instrumentación del \ac{insia}. Se trata de un dispositivo \ac{gps} con corrección diferencial que genera mensajes \ac{nmea} a una frecuencia de hasta \SI{20}{\Hz}. La posición de la antena receptora estará localizada en el centro del vehículo, justo debajo del \ac{lidar}, situándose de esta forma en el origen de coordenadas del entorno capturado con éste último.
+El dispositivo \ac{gps} utilizado para los experimentos ha sido desarrollado en el Laboratorio de Electrónica e Instrumentación del \ac{insia}. Se trata de un dispositivo \ac{gps} con corrección diferencial que genera mensajes \ac{nmea} a una frecuencia de hasta \SI{20}{\Hz}. La posición de la antena receptora estará localizada en el centro del vehículo, justo debajo del \acrshort{lidar}\index{LiDAR}, situándose de esta forma en el origen de coordenadas del entorno capturado con éste último.
 
 \begin{marginfigure}
 	\centering
@@ -187,10 +187,10 @@ Las distancias obtenidas se corresponden al carril izquierdo, al actual y al der
 
 \paragraph{Distancia al obstáculo más cercano}
 
-Para el cálculo de esta variable, se ha procedido a capturar una región de interés de cada una de las nubes de puntos dentro de la cual identificar los posibles obstáculos existentes. Por la posición del lidar se ha decidido que ésta está acotada entre los intervalos $(0.35, 35)$, $(-1, 1)$ y $(-1.5, 0.5)$ para los ejes X, Y y Z respectivamente.
+Para el cálculo de esta variable, se ha procedido a capturar una región de interés de cada una de las nubes de puntos dentro de la cual identificar los posibles obstáculos existentes. Por la posición del \acrshort{lidar}\index{LiDAR} se ha decidido que ésta está acotada entre los intervalos $(0.35, 35)$, $(-1, 1)$ y $(-1.5, 0.5)$ para los ejes X, Y y Z respectivamente.
 
-Posteriormente, para la nube de puntos resultante se ha realizado un proceso de clusterización aplicando el algoritmo DBSCAN\sidenote{
-	DBSCAN~\cite{ester1996density} es un algoritmo de clusterización que identifica un número variable de conjuntos en un espació $n$-dimensional.
+Posteriormente, para la nube de puntos resultante se ha realizado un proceso de clusterización\index{clustering} aplicando el algoritmo DBSCAN\sidenote{
+	DBSCAN\index{DBSCAN} \cite{ester1996density} es un algoritmo de clusterización\index{clustering} que identifica un número variable de conjuntos en un espacio $n$-dimensional.
 	
 	Funciona a partir de la agregación de puntos en función de sus parámetros $\epsilon$ y $\mu$. $\epsilon$ es la distancia mínima a la que se deben encontrar dos puntos para considerarse pertenecientes al mismo clúster mientras que $\mu$ determina el número mínimo de puntos que debe tener un clúster para ser considerado como tal.
 } con parámetros $\epsilon = 0.5$ y $\mu = 3$. Este proceso identifica un número variable de clústers, tras el cual nos hemos quedado con el más cercando al vehículo.
@@ -227,6 +227,6 @@ Tras obtener todas las variables principales, ya sean directamente de los sensor
 
 Para los entrenamientos de los modelos se ha utilizado una máquina con procesador Intel\textregistered Core\texttrademark i7-6700K a \SI{4.00}{\giga\Hz} y \SI{16}{\gibi\byte} de memoria. Los entrenamientos se han realizado sobre una \gls{gpu} Titan XP cedida a nuestro grupo de investigación por parte de NVIDIA. El sistema operativo utilizado ha sido un Debian GNU/Linux versión 9.4. 
 
-Para cada uno de los submodelos se han probado dos aproximaciones diferentes para comparar sus desempeños en las tareas por separado. Concretamente se han utilizado \acp{fcs} y \acp{mlp} para modelar el comportamiento longitudinal y \acp{mlp} y \acp{cnn} para modelar el comportamiento en cambio de carril\index{lane-change}.
+Para cada uno de los submodelos se han probado dos aproximaciones diferentes para comparar sus desempeños en las tareas por separado. Concretamente se han utilizado \acp{fcs}\index{sistema de control difuso} y \acp{mlp}\index{perceptrón multicapa} para modelar el comportamiento longitudinal y \acp{mlp}\index{perceptrón multicapa} y \acp{cnn}\index{red de convolución} para modelar el comportamiento en cambio de carril\index{lane-change}.
 
 Los modelos serán entrenados con un conjuntos por tipo de modelo (longitudinal y cambio de carril\index{lane-change}) asociado al total de sujetos. Tras ello, y una vez decididas las arquitecturas de los modelos que se usarán para cada tipo, se entrenarán para cada uno de los sujetos por separado.
