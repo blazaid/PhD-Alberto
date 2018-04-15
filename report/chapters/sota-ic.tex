@@ -829,7 +829,7 @@ El consecuente en un controlador de tipo Sugeno es directamente un valor del dom
 \section{El paradigma de los agentes inteligentes}
 \label{ch:ci:s:agent-concept}
 
-En la figura~\ref{fig:different-povs-ai} se mostraban los cuatro objetivos perseguidos por la \acrlongsp{ai}. En uno de ellos en particular se la entiende como el estudio del conseguir que entidades (e.g. sistemas, software, \ldots) actúen de la manera más inteligente posible.
+En la figura~\ref{fig:different-povs-ai} se mostraban los cuatro objetivos perseguidos por la \acrlongsp{ai}. En uno de ellos en particular se la entiende como el estudio para conseguir que entidades (e.g. sistemas, software, \ldots) actúen de la manera más inteligente posible.
 
 Este concepto es una metáfora denominada \textbf{agente}\sidenote{
 	En \cite{russell2003artificial} se define como \textit{\enquote{\ldots just something that acts}} alegando que la palabra \textit{agent} proviene del latín \textit{agere}. Para clarificar esto, \textit{agere} es la forma verbal para \textit{hacer}, pero imprime un significado de movimiento/actividad diferente que no tiene mucho que ver con \textit{hacer} como forma verbal para \textit{crear} o \textit{dar forma} (de lo que se ocupa el verbo \textit{facere}). Por ello, el verbo \textit{actuar} es un verbo que se relaciona con \textit{agere} y de ahí la definición.
@@ -849,13 +849,11 @@ Nosotros hablaremos de estas entidades desde el punto de vista de la \gls{ai}, y
 	El término preferido en esta tésis es precisamente este último, \textbf{agentes racionales}, dado que captura la esencia de lo que es un comportamiento inteligente. El problema de este punto de vista es que, como bromean en~\cite{russell2003artificial}, hasta un elemento tan rudimentario como un termostato puede ser considerado un elemento inteligente, ya que realiza siempre la mejor acción para cumplir sus objetivos por muy simples que puedan parecer. Pero, ¿qué hace a un agente inteligente? Según algunos autores, el hecho de que posea unos objetivos y autonomía suficiente para cumplirlos ya denota inteligencia (e.g. en~\cite{russell2003artificial}). Según otros, es necesario que el comportamiento sea flexible, esto es, que sea \textbf{reactivo} (reacciona ante el entorno que percibe), \textbf{proactivo} (iniciativa para tratar de cumplir sus objetivos) y \textbf{social} (capaz de interactuar con otros agentes para cumplir sus objetivos) (e.g.~\cite{Wooldridge1995}). Y otros directamente exigen, además, un comportamiento racional a la hora de cumplir los objetivos para calificarlo de inteligente (e.g.~\cite{shoham1993agent}). Como dijimos anteriormente, dónde está el límite a partir del cual comenzar a considerar a un ente inteligente cae dentro de los dominios de la filosofía.
 }. Por tanto usaremos la siguiente definición:
 
-\blockquote{Un agente es una entidad física o virtual que realiza una acción\sidenote{
-		En \cite{russell2003artificial} se define como \textit{\enquote{\ldots just something that acts}} alegando que la palabra \textit{agent} proviene del latín \textit{agere}. Para clarificar esto, \textit{agere} es la forma verbal para \textit{hacer}, pero imprime un significado de movimiento/actividad diferente que no tiene mucho que ver con \textit{hacer} como forma verbal para \textit{crear} o \textit{dar forma} (de lo que se ocupa el verbo \textit{facere}). Por ello, el verbo \textit{actuar} es un verbo que se relaciona con \textit{agere} y de ahí la definición.
-	} de manera total o parcialmente autónoma dada una secuencia de percepciones del entorno en el que se ubica.}
+\blockquote{Un agente es una entidad física o virtual que realiza una acción de manera total o parcialmente autónoma dada una secuencia de percepciones del entorno en el que se ubica.}
 
 Según ésta, un agente es considerado \textbf{agente inteligente} cuando éste realiza la mejor acción posible (según un criterio de medida). En este contexto, \textit{la mejor acción posible} se refiere en términos de objetivos a cumplir y comprensión del entorno en el que se desarrolla la acción, que puede ser o no correcta.
 
-Las nociones de agentes inteligentes y la de \acrlongsp{ci} van de la mano. Esto es debido a que su definición funciona a la perfección para las técnicas que la constituyen, esto es, agentes autónomos que perciben el entorno (problema) y actuan de la mejor manera posible sobre él (resuelven) de acuerdo a su conocimento del medio y su estado interno (en base a algoritmos como \acrlong{ann}\index{red neuronal artificial}, \acrlong{fl}\index{lógica difusa}, \ldots). Por ello desde mediados de los años 1990 el concepto de agente inteligente ha ganado tanta popularidad\sidenote{Tanto es así que en algunos trabajos se define el objetivo de la \acrlongsp{ai} como la implementación de la función agente, esto es, la función que realiza la correspondiencia de una percepción a una acción, para un problema dado.}.
+Las nociones de agentes inteligentes y la de \acrlongsp{ci} van de la mano. Esto es debido a que su definición funciona a la perfección para las técnicas que la constituyen, esto es, agentes autónomos que perciben el entorno (problema) y actuan de la mejor manera posible sobre él (resuelven) de acuerdo a su conocimento del medio y su estado interno (en base a algoritmos como \acrlong{ann}\index{red neuronal artificial}, \acrlong{fl}\index{lógica difusa}, \ldots). Por ello desde mediados de la década de $1990$ el concepto de agente inteligente ha ganado tanta popularidad\sidenote{Tanto es así que en algunos trabajos se define el objetivo de la \acrlongsp{ai} como la implementación de la función agente, esto es, la función que realiza la correspondencia de una percepción a una acción, para un problema dado.}.
 
 \subsection{Tipos de entorno}
 
@@ -888,7 +886,7 @@ Afortunadamente es posible caracterizar los entornos de acuerdo a un conjunto de
 
 Existe una serie de arquitecturas básicas o tipos de agentes que dependen principalmente de cómo perciben el entorno y de qué forma se comportan aunque, dependiendo de los autores, las nomenclaturas, tipologías y esquemas pueden variar. Por ello, hemos decidido ofrecer una abstracción donde poner de manifiesto las partes comunes y no comunes entre arquitecturas.
 
-La Figura~\ref{fig:intelligent-agent} muestra el esquema de las partes principales de un agente. En general, todo arquitectura de agente inteligente está cortada por el mismo patrón y obedece al siguiente funcionamiento:
+La Figura~\ref{fig:intelligent-agent} muestra el esquema de las partes principales de un agente. En general, toda arquitectura de agente inteligente está cortada por el mismo patrón y obedece al siguiente funcionamiento:
 
 \begin{marginfigure}
 	\includegraphics{goal-based-agent}
@@ -912,15 +910,15 @@ La primera diferencia clave surge en la manera que se ofrece al bloque de infere
 \end{marginfigure}
 
 \begin{itemize}
-	\item \textbf{Sin modelo de entorno}. Si el agente ofrece su interpretación del entorno directamente, sin hacer uso de información histórica sobre el entorno que se ha movido. Otras formas de denominar a estos agentes es \textit{agentes reactivos} o \textit{simple-reflex agents} (\cite{russell2003artificial}), aunque algunos autores usan dichas expresiones para la forma de inducción de acciones a partir de percepciones. Además, los agentes reactivos sí pueden incorporar un modelo básico del entorno (Figura~\ref{fig:reactive-agent}) y por ello preferimos la deniminación \textit{sin modelo de entorno}.
-	\item \textbf{Con modelo de entorno}. El agente genera su interpretación del entorno a partir de las percepciones que llegan desde los sensores y del histórico del entorno que mantiene. Otras formas de llamarlo es \textit{agentes con estado} o \textit{Model-based}, pero lo hemos denominado de esta manera para diferenciar que el modelo que se mantiene en este punto pertenece únicamente al entorno.
+	\item \textbf{Sin modelo de entorno}. Si el agente ofrece su interpretación del entorno directamente, sin hacer uso de información histórica sobre el entorno que se ha movido. Otras formas de denominar a estos agentes es \textit{agentes reactivos} o \textit{simple-reflex agents} (\cite{russell2003artificial}), aunque algunos autores usan dichas expresiones para la forma de inducción de acciones a partir de percepciones. Además, los agentes reactivos sí pueden incorporar un modelo básico del entorno (Figura~\ref{fig:reactive-agent}) y por ello preferimos la denominación \textit{sin modelo de entorno}.
+	\item \textbf{Con modelo de entorno}. El agente genera su interpretación del entorno a partir de las percepciones que llegan desde los sensores y del histórico del entorno que mantiene. Algunos autores los denominan \textit{agentes con estado} o \textit{Model-based}, pero lo hemos denominado de esta manera para diferenciar que el modelo que se mantiene en este punto pertenece únicamente al entorno.
 \end{itemize}
 
 La siguiente clasificación viene motivada por la forma de deducir el conjunto de acciones a ser aplicadas por parte de los sensores. En este sentido podemos identificar tres tipos distintos de agentes:
 
 \begin{itemize}
 	\item \textbf{Reactivos} (Figura~\ref{fig:reactive-agent}). Son aquellos donde el uso de un proceso de razonamiento explícito es demasiado costoso para producir una conducta en un tiempo aceptable. Se suelen implementar como correspondencias (percepción $\rightarrow$ acción) sin ningún razonamiento adicional.
-	\item \textbf{Basados en objetivos} (Figura~\ref{fig:goal-based-agent}). Plantean una deducción de forma que determinan cuál sería el estado del entorno tres aplicar varias o todas las acciones que puede realizar. En base a los resultados, selecciona la acción que se corresponde con sus propios objetivos.
+	\item \textbf{Basados en objetivos} (Figura~\ref{fig:goal-based-agent}). Plantean una deducción de forma que determinan cuál sería el estado del entorno tras aplicar varias o todas las acciones que puede realizar. En base a los resultados, selecciona la acción que se corresponde con sus propios objetivos.
 	\item \textbf{Basados en utilidad} (Figura~\ref{fig:utility-based-agent}). Plantean una deducción similar a los basados en objetivos con la diferencia de que, mientras los primeros sólo diferencian entre entorno objetivo o no objetivo, éstos asignan un valor (i.e. \textit{utilidad}) a cada uno de los escenarios de entorno posibles para seleccionar el mejor (e.g. el que mayor utilidad tiene).
 \end{itemize}
 
@@ -938,7 +936,7 @@ Son aquellos sistemas compuestos de dos o más agentes que interactúan de algun
 
 Cuando los agentes son inteligentes y el problema cae dentro del dominio de la \acrlongsp{ai}, el ámbito de estudio es el de la \gls{dai}, la rama dedicada a la resolución de problemas mediante procesamiento descentralizado.
 
-Desde el punto de vista de la ingeniería de sistemas, y a pesar del aumento de complejidad, los \Acrfull{mas}\index{sistemas multiagente}, al ser sistemas inherentemente descentralizados, ofrecen múltiples ventajas frente a los sistemas centralizados tradicionales:
+Desde el punto de vista de la ingeniería de sistemas, y a pesar del aumento de complejidad, los \Acrfullpl{mas}\index{sistemas multiagente}, al ser sistemas inherentemente descentralizados, ofrecen múltiples ventajas frente a los sistemas centralizados tradicionales:
 
 \begin{itemize}
 	\item Los sistemas son más robustos y fiables frente a fallos, ya que los agentes son autónomos e independientes del resto.
@@ -950,11 +948,11 @@ Desde el punto de vista de la ingeniería de sistemas, y a pesar del aumento de 
 
 Desde el punto de vista de la \acrlongsp{ai} podemos añadirles la ventaja de que permiten el estudio de conductas complejas de poblaciones a partir del comportamiento de sus elementos básicos, facilitando el estudio de modelos y de teorías sobre éstos.
 
-\newthought{La comunicación entre agentes} se trata de una característica clave en un \acrlongsp{mas}\index{sistemas multiagente}, ya que para denominarse de esta manera dos o más agentes deben interactuar/comunicarse entre si. Esta interacción puede implementarse de diversas maneras\sidenote{
+\newthought{La comunicación entre agentes} se trata de una característica clave en un \acrlongsp{mas}\index{sistemas multiagente}, ya que para denominarse de esta manera dos o más agentes deben interactuar/comunicarse entre sí. Esta interacción puede implementarse de diversas maneras\sidenote{
 	Las formas clásicas de comunicación son el paso de mensajes, los sistemas de pizarra y la estigmergia. Para los dos primeros existen dos propuestas para estándar de lenguaje de comunicación, \gls{kqml} (\cite{Finin1994}) y \gls{acl} (\cite{Poslad2007}). La tercera forma de comunicación suele ser muy dependiente del problema y no se apoya en lenguajes estándares. Se trata de una forma de comunicación basada en la modificación del entorno, como la efectuada por las hormigas en la búsqueda de alimento, donde éstas dejan rastros de feromonas modificando el entorno para modificar el comportamiento del resto de la colonia.
 } y siempre toman una o las dos formas siguientes:
 
 \begin{itemize}
-	\item \textbf{Cooperación}. Los agentes intercambian información entre si para llegar a una solución. Esta solución puede ser fragmentada (i.e. cada agente posee parte de la solución y se comunican para ir avanzando de forma común hacia la solución global) o poseerla uno o varios agentes que hacen uso de más agentes para ir avanzando la solución.
+	\item \textbf{Cooperación}. Los agentes intercambian información entre sí para llegar a una solución. Esta solución puede ser fragmentada (i.e. cada agente posee parte de la solución y se comunican para ir avanzando de forma común hacia la solución global) o poseerla uno o varios agentes que hacen uso de más agentes para ir avanzando la solución.
 	\item \textbf{Competición}. Los agentes compiten dentro de un entorno, generalmente mediante la adquisición de recursos limitados. Un ejemplo de este tipo de sistemas multiagente puede ser aquellos sistemas de vida artificial.
 \end{itemize}
