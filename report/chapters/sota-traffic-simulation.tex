@@ -2,10 +2,10 @@
 \label{ch:sota-traffic-simulation}
 
 \marginnote{
-	A lo largo del capítulo, se utilizarán indistintamente los términos \gls{dvu}\index{driver-vehicle unit}, conductor y vehículo para referirse al mismo concepto. En caso de no ser así, se indicará de manera explícita.
+	A lo largo del capítulo, se utilizarán indistintamente los términos \Acrfull{dvu}\index{driver-vehicle unit}, conductor y vehículo para referirse al mismo concepto. En caso de no ser así, se indicará de manera explícita.
 }
 
-El tráfico es un sistema de comportamiento tan caótico que extraer modelos de su funcionamiento es una tarea prácticamente imposible. Por un lado, la cantidad de variables existentes es muy numerosa y en muchos casos con relaciones no detectables a primera vista. Por otro, es un sistema que funciona en el mundo real, es decir, donde las mediciones en unos casos afectan a los resultados y en otros, directamente no se pueden realizar, ya sea por regulaciones vigentes o por imposibilidad física.
+El tráfico es un sistema de comportamiento tan caótico que extraer modelos de su funcionamiento es una tarea prácticamente imposible. Por un lado, la cantidad de variables existentes es muy numerosa y en muchos casos con relaciones no detectables a primera vista. Por otro lado, es un sistema que funciona en el mundo real, es decir, donde las mediciones en unos casos afectan a los resultados y en otros, directamente no se pueden realizar, ya sea por regulaciones vigentes o por imposibilidad física.
 
 Los simuladores de tráfico son herramientas de software que, usando diferentes modelos para representar sus componentes, describen el tráfico como sistema, permitiendo, entre otros:
 
@@ -107,7 +107,7 @@ En el caso de la dimensión \textbf{tiempo}, la división se realiza en los mism
 	\label{fig:car-following-based-sim}
 \end{figure*}
 
-En nuestro caso queremos conocer la situación exacta del vehículo y no una situación aproximada en una separación discreta del espacio. Esto nos dirige hacia simuladores de \textbf{espacio continuo}. Por otro lado, realizamos la recolección de datos en intervalos cuantificables de tiempo, los cuales serán usados para modelar los comportamientos de los conductores y para contrastar los resultados; por tanto, la elección en la dimensión tiempo ha de ser de \textbf{eventos discretos}.
+En nuestro caso, queremos conocer la situación exacta del vehículo en lugar de una situación aproximada en un dominio espacial discreto. También realizaremos la recolección de datos en intervalos cuantificables de tiempo, los cuales serán usados para modelar los comportamientos de los conductores y para contrastar los resultados. Por tanto, nos dirigiremos hacia la búsqueda de micro-simuladores de \textbf{espacio continuo} y \textbf{eventos discretos}.
 
 \section{Modelos de micro-simulación}
 
@@ -115,7 +115,7 @@ Los simuladores que se basan en un modelo de granularidad micro están en su may
 
 Existe un tercer punto de vista a la hora de implementar este tipo de modelos, que es el de los sistemas de partículas. Sin embargo, su ámbito de aplicación es el mismo que el del punto de vista macroscópico, esto es, usar sistemas de partículas para el análisis del tráfico como fluido. Por tanto, el resto de la sección describirá los dos tipos principales sin tener en cuenta éste último.
 
-\subsection{Microsimulación basada en \acrlongplsp{ca}\index{autómata celular}}
+\subsection{Micro-simulación basada en \acrlongplsp{ca}\index{autómata celular}}
 
 Un \Acrfull{ca}\index{autómata celular} es una colección ordenada de celdas (\textit{células}) ordenadas en un espacio $n$-dimensional que parcelan el universo de estudio. Cada una de ellas se encuentra en un estado (e.g. contiene un valor numérico), y el estado de toda la malla se actualiza de manera síncrona\sidenote{
 	Existen arquitecturas diseñadas para operar de esta manera, esto es, arquitecturas basadas en \gls{ca}\index{autómata celular} (e.g.~\cite{Margolus1993}). En ellas, cada ciclo de reloj actualiza todas las celdas de memoria del autómata. Éstas arquitecturas se suelen usar para la implementación de modelos físicos superando en varios órdenes de magnitud la capacidad computacional de las arquitecturas tradicionales.
@@ -139,7 +139,7 @@ Un \Acrfull{ca}\index{autómata celular} es una colección ordenada de celdas (\
 	\end{itemize}
 }
 
-Estos modelos de microsimulación, debido a la propia naturaleza de los \acrlongplsp{ca}\index{autómata celular}, se encuentran clasificados como simuladores de tiempo y espacio discreto, y se usan debido a su facilidad de implementación y a su eficiencia, ya que son fácilmente paralelizables.
+Estos modelos de micro-simulación, debido a la propia naturaleza de los \acrlongplsp{ca}\index{autómata celular}, se encuentran clasificados como simuladores de tiempo y espacio discreto, y se usan debido a su facilidad de implementación y a su eficiencia, ya que son fácilmente paralelizables.
 
 El modelo clásico de esta aproximación es el propuesto por Nagel-Scherckenberg en su artículo \textit{A cellular automaton model for freeway traffic} \cite{Nagel1992}, un modelo teórico creado para la simulación de tráfico en autopistas. La figura~\ref{fig:nagel-schreck} muestra la evolución del tráfico en una autopista a lo largo del tiempo en una implementación basada en este paradigma.
 
@@ -147,7 +147,7 @@ En general los modelos de la literatura suelen ser una variación del de Nagel-S
 
 \subsection{Micro-simulación basada en \acrlongplsp{mas}\index{sistemas multiagente}}
 
-Los modelos basados en \acrlongplsp{ca}\index{autómata celular}, aunque interesantes, no son suficientemente realistas desde un punto de vista microscópico. Por poner un ejemplo, en una situación típica de un modelo Nagel-Scherckenberg, los vehículos realizan aleatoriamente aceleraciones y deceleraciones de $27 km/h$. Es más, en una situación favorable, cualquier vehículo puede realizar una aceleración de $0$ a $162km/h$ en tan sólo $6$ segundos. Por tanto, no ofrecen una visión demasiado realista ni fiable en caso de querer realizar estudios muy detallados de tráfico.
+Los modelos basados en \acrlongplsp{ca}\index{autómata celular} no son suficientemente realistas desde un punto de vista microscópico. Por poner un ejemplo, en una situación típica de un modelo Nagel-Scherckenberg, los vehículos realizan aleatoriamente aceleraciones y deceleraciones de $27 km/h$. Es más, en una situación favorable, cualquier vehículo puede realizar una aceleración de $0$ a $162km/h$ en tan sólo $6$ segundos. Por tanto, no ofrecen una visión demasiado realista ni fiable en caso de querer realizar estudios muy detallados de tráfico.
 
 Por otro lado, en un \glsentrylong{mas}\index{sistemas multiagente} cada uno de los agentes tiene su propia entidad dentro del sistema. Esto es, perciben tanto el entorno como al resto de agentes y actúan de acuerdo a lo percibido y a su comportamiento. Basarse no sólo en las magnitudes físicas del resto de vehículos (e.g. distancia, aceleración, \ldots) sino también en un comportamiento de conducción ofrece un interesante campo de estudio a nivel cognitivo. Se habla más en detalle sobre los \acrlongplsp{mas}\index{sistemas multiagente} en el capítulo \nameref{ch:sota-ci} y sobre los comportamientos concretos de agentes de interés para esta tesis en el capítulo~\ref{ch:sota-behavior-models}. Por ello, este apartado únicamente hará una pequeña introducción a estudios existentes y aplicaciones de simuladores basados en este modelo.
 
@@ -210,17 +210,18 @@ Posteriormente se ha desarrollado un listado de características deseables. No s
 
 \subsection{Entornos de simulación a estudiar}
 
-\begin{table*}[!b]
+\begin{table}[!b]
 	\centering
-	\caption[Tabla comparativa de los simuladores seleccionados][-20em]{Tabla comparativa donde se contrastan las características de los simuladores seleccionados. El simulador \gls{sumo} es el que más características cumple de las originalmente planteadas.}
+	\small
+	\caption[Tabla comparativa de los simuladores seleccionados]{Tabla comparativa donde se contrastan las características de los simuladores seleccionados. El simulador \gls{sumo} es el que más características cumple de las originalmente planteadas.}
 	\label{tbl:simulators-comparison}
 	\begin{tabular}{lccccc}
 		\toprule
 		& \gls{aorta} & \gls{matsim} & \gls{mitsim} & \gls{movsim} & \gls{sumo} \\
 		\midrule
 		\rowcolor{black!20} Activo & \nop & \yep & \nop & \yep & \yep \\
-		Lenguaje de programación & Scala & Java & C++ & Java & C++ y \gls{python} \\		
-		\rowcolor{black!20} Licencia Prop. & \nop & \nop & \nop & \nop & \nop \\
+		Lenguajes & Scala & Java & C++ & Java & C++/\gls{python} \\		
+		\rowcolor{black!20} Propietario & \nop & \nop & \nop & \nop & \nop \\
 		Licencia \glsentryshort{oss} & \yep & \yep & \yep & \yep & \yep \\
 		\rowcolor{black!20} Licencia \gls{gpl} & \yep & \yep & \nop & \yep & \yep \\
 		\acrshort{api} & \nop & \nop & \nop & \nop & \yep \\
@@ -229,7 +230,7 @@ Posteriormente se ha desarrollado un listado de características deseables. No s
 		\rowcolor{black!20} Windows & \yep & \yep & \nop & \yep & \yep \\
 		\bottomrule
 	\end{tabular}
-\end{table*}
+\end{table}
 
 El primer listado de características deja atrás la mayoría de simuladores (una gran cantidad de ellos son o bien de propósito específico, están desarrollados para sistemas operativos Windows o no permiten extender su modelo). Tras la selección, nos quedamos con los siguientes simuladores: \gls{aorta}, \gls{matsim}, \gls{mitsim}, \gls{movsim} y \gls{sumo}\index{SUMO}.
 
@@ -247,7 +248,7 @@ En definitiva, el simulador que más se adapta a nuestras necesidades y el que s
 	\label{fig:sumo-simulator}
 \end{figure}
 
-\gls{sumo}\index{SUMO} es un entorno de microsimulación licenciado bajo la \gls{gpl}\index{GNU General Public License} versión $3.0$ y desarrollado por el instituto de sistemas de transporte del Centro Aeroespacial Alemán. Implementa un modelo discreto en el tiempo y continuo en el espacio.
+\gls{sumo}\index{SUMO} es un entorno de microsimulación licenciado bajo la \gls{gpl}\index{GNU General Public License} versión $3$.$0$ y desarrollado por el instituto de sistemas de transporte del Centro Aeroespacial Alemán. Implementa un modelo discreto en el tiempo y continuo en el espacio.
 
 Además de simulación clásica, incorpora una interfaz gráfica (se puede ver una captura de la vista gráfica en la figura~\ref{fig:sumo-simulator}) donde se puede ver el comportamiento de cada vehículo durante la simulación. Es interesante para obtener de un vistazo información acerca del funcionamiento del modelo en concreto a controlar. Otras de las características que el simulador ofrece son las siguientes:
 

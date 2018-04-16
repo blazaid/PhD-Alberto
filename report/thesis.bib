@@ -145,7 +145,6 @@
 	author={Ester, Martin and Kriegel, Hans-Peter and Sander, J{\"o}rg and Xu, Xiaowei and others},
 	booktitle={Kdd},
 	volume={96},
-	number={34},
 	pages={226--231},
 	year={1996}
 }
@@ -233,19 +232,19 @@
 }
 
 @article{parliament2010directive,
-	title={ Directive 2010/40/EU of the European Parliament and of the Council of 7 July 2010 on the framework for the deployment of Intelligent Transport Systems in the field of road transport and for interfaces with other modes of transport Text with EEA relevance.},
-	journal={Official Journal of the European Union},
-	volume={50},
-	pages={207},
+	title={40/EU European Parliament and of the Council of 7 July 2010 on the framework for the deployment of Intelligent Transport Systems in the field of road transport and for interfaces with other modes of transport},
+	author={Directive, EC},
+	journal={L207/1},
+	volume={6},
 	year={2010}
 }
 
-@online{oica2014motrate,
-	author = {OICA},
-	title = {Motorization rate 2014 -- WORLDWIDE},
-	year = 2015,
-	url = {http://www.oica.net/category/vehicles-in-use/},
-	urldate = {2015-06-16}
+@misc{oica2014motrate,
+	author={OICA},
+	title={Motorization rate 2014 -- WORLDWIDE},
+	year={2015},
+	howpublished={\url{http://www.oica.net/category/vehicles-in-use/}},
+	note={{\'{U}}ltimo acceso en 2015-06-16}
 }
 
 @article{imprialou2016re,
@@ -347,7 +346,7 @@
 	title={Evaluation of Fuzzy Intelligent Traffic Signal Control (FITS) system using traffic simulation},
 	author={Jin, Junchen and Ma, Xiaoliang and Koskinen, Kari and Rychlik, Michael and Kosonen, Iisakki},
 	booktitle={Transportation Research Board 95th Annual Meeting},
-	number={16-4359},
+	volume={16},
 	year={2016}
 }
 
@@ -383,26 +382,13 @@
 	publisher={IEEE}
 }
 
-@article{al2001framework,
-	abstract = {A framework for modeling driver behavior within driving simulators is described in this paper. This framework serves as a basis for building human-like driving behavior models for autonomous vehicles operating within the virtual environment of a driving simulator. The framework consists of four units, the Perception Unit, the Emotions Unit, the Decision-making Unit (DMU), and the Decision-implementation Unit (DIU). The Perception Unit defines how the model perceives its environment in local and global terms. The Emotions Unit defines how the model responds emotionally to its environment. The DMU investigates the environment for possible actions that might potentially serve the model's emotional demands. And finally the DIU tries to implement these decisions when a traffic condition, perceived as safe enough for such an implementation, emerges. Each of these units has its own set of fuzzy variables and fuzzy ifthen rules. Any driving model, that is based on this framework, should provide membership function parameters for these fuzzy variables in accordance with the category of human driving behavior this model is targeting. Our framework addresses decision making and implementation at the maneuvering and operational levels of the driving task. Decisions at the planning level are addressed through a script-based traffic controller. The present model is limited to simulating human behaviors when driving in a two-lane rural environment.},
-	author = {Al-Shihabi, T and Mourant, R R},
-	doi = {10.1145/375735.376310},
-	file = {:home/blazaid/Downloads/A{\_}framework{\_}for{\_}modeling{\_}human-like{\_}driving{\_}behavi.pdf:pdf},
-	isbn = {158113326X},
-	journal = {The 5th International Conference on Autonomous Agents.},
-	number = {June},
-	pages = {286--291.},
-	title = {{A framework for modeling human-like driving behaviors for autonomous vehicles in driving simulators.}},
-	year = {2001}
-}
-
-@incollection{michon1985critical,
-	title={A critical view of driver behavior models: what do we know, what should we do?},
-	author={Michon, John A},
-	booktitle={Human behavior and traffic safety},
-	pages={485--524},
-	year={1985},
-	publisher={Springer}
+@inproceedings{al2001framework,
+	title={A framework for modeling human-like driving behaviors for autonomous vehicles in driving simulators},
+	author={Al-Shihabi, Talal and Mourant, Ronald R},
+	booktitle={Proceedings of the fifth international conference on Autonomous agents},
+	pages={286--291},
+	year={2001},
+	organization={ACM}
 }
 
 @article{treiber2000congested,
@@ -496,21 +482,19 @@
 @techreport{dingus2006100,
 	title={The 100-car naturalistic driving study, Phase II-results of the 100-car field experiment},
 	author={Dingus, Thomas A and Klauer, Sheila G and Neale, Vicki L and Petersen, A and Lee, SE and Sudweeks, JD and Perez, MA and Hankey, J and Ramsey, DJ and Gupta, S and others},
-	year={2006}
+	year={2006},
+	institution={United States. National Highway Traffic Safety Administration}
 }
 
-@inproceedings{Khodayari2012,
-	author = {Khodayari, Alireza and Ghaffari, Ali and Kazemi, Reza and Braunstingl, Reinhard},
-	booktitle = {IEEE on Systems, Man, and Cybernetics},
-	doi = {10.1109/TSMCA.2012.2192262},
-	issn = {1083-4427},
-	month = {nov},
-	number = {6},
-	pages = {1440--1449},
-	title = {{A Modified Car-Following Model Based on a Neural Network Model of the Human Driver Effects}},
-	url = {http://ieeexplore.ieee.org/document/6193221/ http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=6193221},
-	volume = {42},
-	year = {2012}
+@article{Khodayari2012,
+	title={A modified car-following model based on a neural network model of the human driver effects},
+	author={Khodayari, Alireza and Ghaffari, Ali and Kazemi, Reza and Braunstingl, Reinhard},
+	journal={IEEE Transactions on Systems, Man, and Cybernetics-Part A: Systems and Humans},
+	volume={42},
+	number={6},
+	pages={1440--1449},
+	year={2012},
+	publisher={IEEE}
 }
 
 @article{Hunt1994,
@@ -628,15 +612,6 @@
 	booktitle={2011 14th International IEEE Conference on Intelligent Transportation Systems (ITSC)},
 	pages={1609--1615},
 	year={2011},
-	organization={IEEE}
-}
-
-@inproceedings{van2013driver,
-	title={Driver classification and driving style recognition using inertial sensors},
-	author={Van Ly, Minh and Martin, Sujitha and Trivedi, Mohan M},
-	booktitle={Intelligent Vehicles Symposium (IV), 2013 IEEE},
-	pages={1040--1045},
-	year={2013},
 	organization={IEEE}
 }
 
@@ -768,7 +743,7 @@
 	publisher={Cornell Aeronautical Laboratory}
 }
 
-@article{minski1969perceptrons,
+@article{minsky1969perceptrons,
 	title={Perceptrons: an introduction to computational geometry},
 	author={Minski, Marvin L and Papert, Seymour A},
 	journal={MA: MIT Press, Cambridge},
@@ -992,20 +967,20 @@
 	publisher={Elsevier}
 }
 
-@article{trask2015modeling,
+@article{TraskANDREWTRASK,
 	title={Modeling order in neural word embeddings at scale},
 	author={Trask, Andrew and Gilmore, David and Russell, Matthew},
 	journal={arXiv preprint arXiv:1506.02338},
 	year={2015}
 }
 
-@article{Du2006,
-	author = {Du, KL and Swamy, MNS},
-	file = {:home/blazaid/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Du, Swamy - 2006 - Neural networks in a softcomputing framework.pdf:pdf},
-	title = {{Neural networks in a softcomputing framework}},
-	url = {https://books.google.es/books?hl=es{\&}lr={\&}id=FUA4BcSCRt4C{\&}oi=fnd{\&}pg=PR23{\&}dq=Neural+networks+ina+softcomputing+framework{\&}ots=SYFgomfUiJ{\&}sig=8n73d2E3QFWRiTKT3uYZqSa2Qck},
-	year = {2006}
+@book{Du2006,
+	title={Neural networks in a softcomputing framework},
+	author={Du, Ke-Lin and Swamy, Madisetti NS},
+	year={2006},
+	publisher={Springer Science \& Business Media}
 }
+
 
 @phdthesis{Minderhoud1999,
 	abstract = {pag. 121-140},
@@ -1124,14 +1099,14 @@
 	year = {2001}
 }
 
-@article{Gu2015,
-	author = {Gu, Maxime and Billot, Romain and Faouzi, Nour-eddin El and Lyon, De and Hassas, Salima},
-	isbn = {9781577357049},
-	pages = {4276--4277},
-	title = {{Multi-Agent Dynamic Coupling for Cooperative Vehicles Modeling}},
-	url = {https://www.semanticscholar.org/paper/Multi-Agent-Dynamic-Coupling-for-Cooperative-Gu{\%}C3{\%}A9riau-Billot/d47525a4551fb520b6bc2231b7e39b0ad202e85f},
-	year = {2015}
+@inproceedings{Gu2015,
+	title={Multi-Agent Dynamic Coupling for Cooperative Vehicles Modeling.},
+	author={Gu{\'e}riau, Maxime and Billot, Romain and El Faouzi, Nour-Eddin and Hassas, Salima and Armetta, Fr{\'e}d{\'e}ric},
+	booktitle={AAAI},
+	pages={4276--4277},
+	year={2015}
 }
+
 
 @inproceedings{Shiose2001,
 	author = {Shiose, T. and Onitsuka, T. and Taura, T.},
@@ -1290,11 +1265,12 @@
 	year = {2008}
 }
 
-@article{Galis2000,
-	author = {Galis, a and Rao, S},
-	title = {{-”Application of Agent Technology to Telecommunication Management Services”}},
-	url = {https://trid.trb.org/view.aspx?id=654125 http://eprints.ucl.ac.uk/38681/},
-	year = {2000}
+@incollection{Galis2000,
+	title={Application of Agent Technology to Telecommunication Management Services},
+	author={Galis, Alex and Rao, Sathya},
+	year={2000},
+	booktitle={On The Way To Information Society},
+	publisher={IOS Press,}
 }
 
 @article{Ehlert2001,
@@ -1700,10 +1676,11 @@
 }
 
 @article{Jin2006,
-	author = {Jin, Wen-Long},
-	file = {:home/blazaid/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Jin - 2006 - A kinematic wave theory of lane-changing vehicular traffic.pdf:pdf},
-	title = {{A kinematic wave theory of lane-changing vehicular traffic}},
-	year = {2006}
+	title={A kinematic wave theory of lane-changing vehicular traffic. eprint},
+	author={Jin, WL},
+	journal={arXiv: math},
+	volume={503036},
+	year={2006}
 }
 
 @article{Laval2006,
@@ -2071,7 +2048,6 @@
 }
 
 @article{Zheng2013,
-	abstract = {Reaction delay of the driver-vehicle unit varies greatly according to driver-vehicle characteristics and traffic conditions, and is an indispensable factor for modeling vehicle movements. In this study, by defining the time interval between the relative speed and acceleration, the gap and speed observed from real traffic as driver-vehicle reaction delay, a neural network for instantaneous reaction delay is built. Incorporating the reaction delay network into a neural-network-based car-following model, movements of nine vehicles which follow each other are simulated. Simulation results show that the models with instantaneous reaction delay apparently outperform the models with fixed reaction delay. In addition, the model with short fixed reaction delay makes the vehicles follow each other more closely than the vehicles in real traffic do, and collisions occur in the model with long fixed reaction delay, which also illustrates the necessity of taking into account instantaneous reaction delay in microscopic traffic simulation. Besides, for future reference, the calibrated weights and biases in the proposed methodology are presented in Appendix. {\textcopyright} 2013 Elsevier Ltd.},
 	author = {Zheng, Jian and Suzuki, Koji and Fujita, Motohiro},
 	doi = {10.1016/j.trc.2013.09.010},
 	isbn = {0968-090X},
@@ -2085,27 +2061,23 @@
 	year = {2013}
 }
 
-@article{Hatipkarasulu2002,
-	author = {Hatipkarasulu, Yilmaz},
-	file = {:home/blazaid/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Hatipkarasulu - 2002 - a Variable Response Time Lag Module for Car Following Models Using Fuzzy Set Theory.pdf:pdf},
-	keywords = {car following model,mobility,mobility model,reaction time,thesis,time lag},
-	number = {225},
-	title = {{A Variable Response Time Lag Module for Car Following Models Using Fuzzy Set Theory}},
-	year = {2003}
+@phdthesis{Hatipkarasulu2002,
+	author={Hatipkarasulu, Yilmaz},
+	school = {Louisiana State University},
+	title={A variable response time lag module for car following models using fuzzy set theory},
+	year={2002}
 }
 
-@incollection\{Fuller1993,
-	address = \{Dordrecht\},
-	author = \{Full\{\textbackslash\{\}'\{e\}\}r, Robert and Zimmermann, Hans-J\{\textbackslash\{\}"\{u\}\}rgen\},
-	booktitle = \{Fuzzy Logic\},
-	doi = \{10.1007/978-94-011-2014-2\_19\},
-	file = \{:home/blazaid/.local/share/data/Mendeley Ltd./Mendeley Desktop/Downloaded/Full\{\textbackslash\{\}'\{e\}\}r, Zimmermann - 1993 - On Zadeh's Compositional Rule of Inference.pdf:pdf\},
-	pages = \{193--200\},
-	publisher = \{Springer Netherlands\},
-	title = \{\{On Zadeh's Compositional Rule of Inference\}\},
-	url = \{http://link.springer.com/10.1007/978-94-011-2014-2\{\textbackslash\{\}\_\}19\},
-	year = \{1993\}
-\}
+
+@incollection{Fuller1993,
+	title={On Zadeh’s compositional rule of inference},
+	author={Full{\'e}r, Robert and Zimmermann, Hans-J{\"u}rgen},
+	booktitle={Fuzzy Logic},
+	pages={193--200},
+	year={1993},
+	publisher={Springer}
+}
+
 
 @article{Kiszka1985,
 	author = {Kiszka, J B and Kocha$\backslash$'nska, M E and Sliwi$\backslash$'nska, D S},

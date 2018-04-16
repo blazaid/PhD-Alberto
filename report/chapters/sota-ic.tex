@@ -3,7 +3,7 @@
 
 Todo elemento dentro de un entorno se ve influenciado por multitud de variables que determinan en mayor o menor grado su comportamiento. En la mayoría de los casos es muy complicado determinar el grado de efecto de estas variables, identificar las relaciones que existen entre las mismas o incluso determinar cuáles son.
 
-No existe una definición globalmente aceptada de qué es la \acrlongsp{ci}. Dependiendo del autor, se la considera desde un sinónimo de la \acrlongsp{ai} hasta un campo completamente diferenciado.
+No existe una definición globalmente aceptada de \acrlongsp{ci}. Dependiendo del autor, se la considera desde un sinónimo de la \acrlongsp{ai} hasta un campo completamente diferenciado.
 
 En esta tesis hablaremos desde el punto de vista mayoritario, es decir, como rama de la \acrshort{ai} donde se agrupan todas aquellas técnicas que tratan de aprender soluciones a problemas a través del análisis de información presente en conjuntos de datos, en el entorno o ambos.
 
@@ -64,17 +64,15 @@ Podemos definir la \acrlongsp{ci} como la \enquote{\textit{rama de la \gls{ai} q
 
 Se puede establecer el año $1994$ como en el que la \acrlongsp{ci} nace formalmente como área, coincidiendo con el cambio de nombre del \textit{IEEE Neural Networks Council} a \textit{IEEE Computational Intelligence Society}\sidenote{
 	\url{http://cis.ieee.org/}
-}. Poco antes, en $1993$, Bob Marks presentaba las que él consideraba diferencias fundamentales entre la \acrshort{ai} clásica y la \acrshort{ci}, resumiéndolas en la siguiente frase:
+}. Poco antes, en $1993$, Bob Marks presentaba las que él consideraba diferencias fundamentales entre la \acrlongsp{ai} clásica y la \acrlongsp{ci}, resumiéndolas en la siguiente frase:
 
 \blockquote{Neural networks, genetic algorithms, fuzzy systems, evolutionary programming, and artificial life are the building blocks of \ac{ci}.}
 
-Durante estos años ganaba popularidad también el concepto del \gls{sc}\index{soft-computing} en contraposición con el \gls{hc}\index{hard-computing}\sidenote{
+Durante estos años también iba ganando popularidad el concepto del \gls{sc}\index{soft-computing} en contraposición con el \gls{hc}\index{hard-computing}\sidenote{
 	\textbf{\gls{hc}\index{hard computing} y \gls{sc}\index{soft-computing}} son la forma de diferenciar dos puntos de vista a la hora de resolver problemas computacionalmente. El \gls{hc}\index{hard-computing} basa sus técnicas en aquellas basadas en modelos analíticos definidos de forma precisa y que en ocasiones requieren mucho tiempo de cómputo. Están basados en lógica binaria, análisis numérico, algoritmos y respuestas exactas. El \gls{sc}\index{soft-computing} por otro lado es tolerante a la imprecisión y al ruido y tiende a llegar a soluciones aproximadas de manera más rápida. Se basa en modelos aproximados, emergencia de algoritmos y modelos estocásticos.
 }. El \gls{sc}\index{soft-computing} engloba las técnicas que buscan resolver problemas con información incompleta o con ruido. Debido a que el conjunto de técnicas definidas como consituyentes del \gls{sc} son las mismas que se usan en la \gls{ci} algunos autores consideran ambos términos equivalentes. Nosotros consideramos que el \gls{sc} es un punto de vista de la computación a diferencia de la \Acrlongsp{ci}, la cual es un área de específica dentro de la \gls{ai} que hace uso de métodos incluidos en el concepto \gls{sc}.
 
-
-
-Hoy en día la \gls{ci} es un área con muchas aplicaciones prácticas en una variedad muy distinta de campos de la ciencia y con muchos temas de investigación por explorar. Por ello, esta tesis pretende la exploración de una parte concreta de este área en el tema del modelado de comportamiento humano en el problema de la conducción.
+Hoy en día la \acrlongsp{ci} es un área con muchas aplicaciones prácticas en una variedad muy distinta de campos de la ciencia y con muchos temas de investigación por explorar. Por ello, esta tesis pretende la exploración de una parte concreta de este área en el tema del modelado de comportamiento humano en el problema de la conducción.
 
 \section{El rol del aprendizaje en la \acrlongsp{ci}}
 \label{s:the-learning-role}
@@ -85,13 +83,13 @@ Las técnicas de aprendizaje se clasifican dependiendo de la forma en la que ent
 
 \begin{itemize}
 	\item \textbf{Aprendizaje supervisado}. Suponiendo que disponemos de un modelo denotado por $M_V(V, I) = O$ donde $V$ es el conjunto de variables de determinan el comportamiento de $M_V$ y donde $I$ es un conjunto de valores (características) de entrada para las que el modelo obtiene un conjunto $O$ de valores de salida. Entonces, la forma de entrenar al modelo, es decir el \textit{algoritmo de entrenamiento} se encargará de, a partir de un conjunto de la forma $D = {(I_i, O_i) | \forall i \in \mathbb{N}}$, donde cada $O_i$ es la salida esperada del modelo a la entrada $I_i$, modificar los valores de las variables del conjunto $V$ para ajustar lo más posible $O_i$ a $O$ dado $I_i$.
-	\item \textbf{Aprendizaje no supervisado}. Es el proceso por el cual un modelo aprende a partir de datos en brutos sus relaciones y extrae patrones, sin necesidad de saber qué son esos datos ni recibir supervisión (a diferencia del aprendizaje supervisado donde los datos incluyen un valor de entrada y su salida correspondiente). En general, los algoritmos pertenecientes a esta categoría se dedican al problema del \textit{clustering}\index{clustering}, es decir, identificar grupos de elementos cercanos en el espacio basándose en la suposición de que el comportamiento de dos elementos es más parecido cuanto más cerca están el uno del otro. Algunos ejemplos de técnicas que basan su entrenamiento en un esquema no supervisado son los \gls{som}, los \glspl{autoencoder}\index{autoencoder} o las \gls{dbn}\index{deep belief networks}.
+	\item \textbf{Aprendizaje no supervisado}. Es el proceso por el cual un modelo aprende a partir de datos en bruto sus relaciones y extrae patrones, sin necesidad de saber qué son esos datos ni recibir supervisión (a diferencia del aprendizaje supervisado donde los datos incluyen un valor de entrada y su salida correspondiente). En general, los algoritmos pertenecientes a esta categoría se dedican al problema del \textit{clustering}\index{clustering}, es decir, identificar grupos de elementos cercanos en el espacio basándose en la suposición de que el comportamiento de dos elementos es más parecido cuanto más cerca están el uno del otro. Algunos ejemplos de técnicas que basan su entrenamiento en un esquema no supervisado son los \gls{som}, los \glspl{autoencoder}\index{autoencoder} o las \gls{dbn}\index{deep belief networks}.
 	\item \textbf{Aprendizaje por refuerzo}. En este paradigma, el algoritmo ajusta el modelo de acuerdo a políticas de recompensa o penalización en función de lo bien o lo mal que el modelo está desempeñando la tarea de acuerdo a una métrica determinada. 
 \end{itemize}
 
 Algunos autores hacen uso de técnicas híbridas para suplir deficiencias u optimizar/acelerar el aprendizaje. Un claro ejemplo lo podemos ver en \cite{Hinton2006}, donde los autores hacen uso de \textit{\glspl{autoencoder}}\index{autoencoder} como técnica no supervisada para la inicialización de los pesos de una red neuronal, y posteriormente realizan un entrenamiento supervisado para su optimización.
 
-Esta tesis se dedica al modelado de comportamiento entrenando a partir de datos reales de conducción, por lo que el discurso se centrará únicamente en el esquema de aprendizaje supervisado. En él, los algoritmos de entrenamiento dependen del modelo a usar (no es lo mismo un algoritmo de entrenamiento para una \Acrfull{rnn}\index{redes neuronales recurrentes} que para un \acrlongsp{mlp}), y suelen ser usados principalmente para la solución a problemas de \textbf{clasificación} (i.e. determinar si un elemento dada sus características pertenece o no a determinado conjunto) y de \textbf{regresión}, esto es, ajustar las salidas de un modelo para ajustarse lo máximo posible al valor real del sistema modelado.
+Esta tesis se dedica al modelado de comportamiento entrenando a partir de datos reales de conducción, por lo que el discurso se centrará únicamente en el esquema de aprendizaje supervisado. En él, los algoritmos de entrenamiento dependen del modelo a usar (no es lo mismo un algoritmo de entrenamiento para una \Acrfull{rnn}\index{redes neuronales recurrentes} que para un \acrlongsp{mlp}), y suelen ser usados principalmente para la solución a problemas de \textbf{clasificación} (i.e. determinar si un elemento dada sus características pertenece o no a un determinado conjunto) y de \textbf{regresión}, esto es, ajustar las salidas de un modelo para ajustarse lo máximo posible al valor real del sistema modelado.
 
 \subsection{Epochs, conjuntos de entrenamiento, test y validación}
 
@@ -111,7 +109,7 @@ Para problemas que requieren soluciones del área del \acrlongsp{ml}\index{apren
 
 El primero de ellos es el \textbf{conjunto de entrenamiento} o \textit{training set}. Éste es usado para entrenar los modelos y suele ser el mayor de los subconjuntos.
 
-El conjunto de validación o \textbf{validation set} tiene como objetivo validar el modelo \textbf{durante} el entrenamiento. Durante el entrenamiento, dependiendo del modelo o modelos que se están explorado, lo más común es realizar una serie de modificaciones en metavariables para ajustarlo. Al usar un conjunto distinto que el de entrenamiento, ajustamos el modelo para unos datos que no ha visto durante el proceso de entrenamiento.
+El conjunto de validación o \textbf{validation set} tiene como objetivo validar el modelo \textbf{durante} el entrenamiento ya que, dependiendo del modelo que se está explorado, lo más común es realizar una serie de modificaciones en metavariables para ajustarlo. Al usar un conjunto distinto que el de entrenamiento, ajustamos el modelo para unos datos que no ha visto durante el proceso de entrenamiento.
 
 Sin embargo, al realizar estos ajustes sí estamos incurriendo en un sesgo hacia el conjunto de validación. Esto es, el modelo se está entrenando de acuerdo a los datos que se le presentan en el conjunto de entrenamiento, y las metavariables a lo que le dicta el conjunto de validación. En este punto surge el \textbf{conjunto de test} o \textit{test set}\sidenote{
 	En la literatura existe cierta confusión entre estos dos términos. Históricamente el conjunto de datos se solía dividir entre los conjuntos de entrenamiento y test. Posteriormente se vio la utilidad de separar el conjunto de test en dos diferentes para diferencia la evaluación del modelo durante y después del proceso de entrenamiento.
@@ -242,7 +240,7 @@ Las funciones de activación clásicas usadas en redes neuronales han sido la fu
 	\label{eq:tanh}
 \end{equation}
 
-En general, la tangente hiperbólica es superior a la sigmoidal en todos sus aspectos. Computacionalmente es menos costoso el cálculo de una función sigmoidal, pero con la potencia de cómputo actual esta diferencia se puede considerar despreciable. Además de tener una forma similar a la sigmoidal, la tangente hiperbólica permite enviar señales de activación negativas. Además, tiende a centrar los datos de una capa a otra en lugar de mantener un sesgo hacia el $0.5$ (recordemos que mientras que la sigmoidal está definida en el intervalo $(0, 1)$, la tangente hiperbólica se encuentra definida entre los intervalos $(-1, 1)$. Por tanto, en un caso general, la tangente hiperbólica suele ser preferible a la sigmoidal.
+En general, la tangente hiperbólica es superior a la sigmoidal en todos sus aspectos. Computacionalmente es menos costoso el cálculo de una función sigmoidal, pero con la potencia de cómputo actual esta diferencia se puede considerar despreciable. Además de tener una forma similar a la sigmoidal, la tangente hiperbólica permite enviar señales de activación negativas. Además, tiende a centrar los datos de una capa a otra en lugar de mantener un sesgo hacia el $0.5$ (recordemos que mientras que la sigmoidal está definida en el intervalo $(0, 1)$, la tangente hiperbólica se encuentra definida entre los intervalos $(-1, 1)$). Por tanto, en un caso general, la tangente hiperbólica suele ser preferible a la sigmoidal.
 
 \begin{figure}[t]
 	\centering
@@ -280,19 +278,19 @@ Uno de los avances dentro del \nameref{ss:deep-learning} ha sido el uso de un ti
 
 Este tipo de neurona tiene una serie de características que merece la pena comentar:
 
-\begin{itemize}
-	\item No existe derivada en $0$. El aprendizaje, basado en el descenso del gradiente, se encuentra con una indeterminación en $0$. Sin embargo, es fácilmente subsanable incluyendo el valor $0$ o $1$ en la derivada en el punto $0$. Aunque no es matemáticamente correcto, computacionalmente se está reemplazando la derivada por una función muy aproximada a ésta, en la que el algoritmo de descenso del gradiente se comporta de forma muy similar. Por ejemplo, la representación en la Figura~\ref{fig:relu-and-leaky-relu}, la derivada es $1$ en el punto $x = 0$.
-	\item Sin cota superior. Las activaciones muy fuertes representan relaciones entre elementos muy próximos entre sí, por lo que no tener una cota superior en el peso puede ser una ventaja a la hora de acelerar un entrenamiento, o una desventaja porque puede llegar a anular el impacto del resto de entradas. En general, esta desventaja aparece cuando el factor de aprendizaje es notoriamente alto.
-	\item Derivada $0$ para $x < 0$. En el momento que el gradiente de una neurona se hace $0$, ésta \textit{\enquote{muere}}, por lo que la red estará compuesta sólo por activaciones positivas. Esta anulación puede ser una ventaja si el modelo se ajusta a las neuronas necesarias o una desventaja si se anulan demasiadas.
-\end{itemize}
-
-\begin{figure}[t]
+\begin{figure}[!b]
 	\centering
 	\subfloat[\acrshort{relu}]{\includegraphics[width=0.46\linewidth]{relu-function}}\qquad
 	\subfloat[Leaky \acrshort{relu}]{\includegraphics[width=0.46\linewidth]{leaky-relu-function}}
 	\caption[Funciones de activación: \acrshort{relu} y Leaky-\acrshort{relu}]{La función de activación \gls{relu} evita el problema del estancamiento cuando la entrada neta de la neurona es muy alta. La función de activación \textit{Leaky} \gls{relu} (en este ejemplo, con $\epsilon = 0.1$) es una de las posibles soluciones cuando se permite que la entrada neta a la red sea menor que $0$, ya que en el caso de la función \gls{relu} la derivada es $0$ y por tanto el gradiente deja de indicar hacia dónde ha de descender el error.}
 	\label{fig:relu-and-leaky-relu}
 \end{figure}
+
+\begin{itemize}
+	\item No existe derivada en $0$. El aprendizaje, basado en el descenso del gradiente, se encuentra con una indeterminación en $0$. Sin embargo, es fácilmente subsanable incluyendo el valor $0$ o $1$ en la derivada en el punto $0$. Aunque no es matemáticamente correcto, computacionalmente se está reemplazando la derivada por una función muy aproximada a ésta, en la que el algoritmo de descenso del gradiente se comporta de forma muy similar. Por ejemplo, la representación en la Figura~\ref{fig:relu-and-leaky-relu}, la derivada es $1$ en el punto $x = 0$.
+	\item Sin cota superior. Las activaciones muy fuertes representan relaciones entre elementos muy próximos entre sí, por lo que no tener una cota superior en el peso puede ser una ventaja a la hora de acelerar un entrenamiento, o una desventaja porque puede llegar a anular el impacto del resto de entradas. En general, esta desventaja aparece cuando el factor de aprendizaje es notoriamente alto.
+	\item Derivada $0$ para $x < 0$. En el momento que el gradiente de una neurona se hace $0$, ésta \textit{\enquote{muere}}, por lo que la red estará compuesta sólo por activaciones positivas. Esta anulación puede ser una ventaja si el modelo se ajusta a las neuronas necesarias o una desventaja si se anulan demasiadas.
+\end{itemize}
 
 Por último, la función de activación \textit{Leaky} \gls{relu} (eq.~\ref{eq:leaky-relu}) es una evolución de la \acrshort{relu}\index{ReLU} para el uso en problemas donde es ventajoso que una neurona no llegue a tener nunca un gradiente de $0$. Van acompañadas de un parámetro $\epsilon \approx 0$ que determina la pendiente para todos aquellos valores menores de $0$. Un ejemplo de esta neurona se ilustra en la figura~\ref{fig:relu-and-leaky-relu}. Su uso no está muy extendido, pero existen casos en los que está justificado.
 
@@ -302,7 +300,7 @@ Las \acrlongplsp{ann}\index{red neuronal artificial} reciben ese nombre debido a
 
 Típicamente, estas redes se componen de neuronas conectadas, por lo que se puede pensar en ellas como un grafo ponderado donde los nodos se corresponden a las neuronas, las aristas a las conexiones entre entradas y salidas y los pesos de las aristas a los pesos de las conexiones de entrada. Existen diferentes topologías o arquitecturas dependiendo de qué forma toma el grafo que modela las neuronas y sus conexiones. Estos dos tipos son los siguientes:
 
-\begin{figure}[t]
+\begin{figure}
 	\centering
 	\subfloat[\textit{Feed-forward}]{\includegraphics[width=0.46\linewidth]{multilayer-perceptron}}\qquad
 	\subfloat[Recurrente]{\includegraphics[width=0.46\linewidth]{recurrent-neural-network}}
@@ -311,11 +309,13 @@ Típicamente, estas redes se componen de neuronas conectadas, por lo que se pued
 \end{figure}
 
 \begin{itemize}
-	\item Redes \textit{\textbf{\idx{feed-forward}}} (o prealimentadas). Su representación como grafo no presenta ningún ciclo (por tanto ninguna retroalimentación entre neuronas, como se ilustra en la figura~\ref{fig:ff-vs-rnn}). Es la topología más usada en aplicaciones prácticas debido a su sencillez y su efectividad. En ellas el flujo de información sigue un camino desde un conjunto de neuronas denominadas \textit{entradas} hasta otro conjunto de neuronas denominado \textit{salidas}. No es requisito que las neuronas se agrupen en capas, aunque suele ser la estructura común. A las redes de más de dos/tres capas ocultas (más adelante, en \nameref{ss:mlp} explicamos esta nomenclatura) se las suele denominar \textit{profundas} o \textit{deep}. Representantes clásicos de esta categoría pueden ser el \gls{mlp}\index{perceptron multicapa} \cite{rumelhart1985learning}, los \glspl{autoencoder}\index{autoencoder} \cite{Hinton2006} o los \gls{som} \cite{kohonen1998self}.
-	\item \Acrlongsp{rnn}\index{redes neuronales recurrentes}. Tienen al menos un ciclo dentro de su representación, de manera que el flujo de información de salida de una neurona puede llegar a afectar a su propio estado. Aunque representan de manera más fiel las bases biológicas del cerebro, históricamente han sido más complejas a la hora de operar y entrenar debido a estas relaciones. Sin embargo, durante la última década han aparecido nuevas técnicas que facilitan su operación. Algunos casos particulares de este tipo de arquitectura son las Redes de Hopfield~\cite{hopfield1982neural} o las redes \Acrfull{lstm}\index{Long-Short Term Memory} \cite{hochreiter1997long}.
+	\item Redes \textit{\textbf{\idx{feed-forward}}} (o prealimentadas). Su representación como grafo no presenta ningún ciclo (por tanto ninguna retroalimentación entre neuronas, como se ilustra en la figura~\ref{fig:ff-vs-rnn}). Es la topología más usada en aplicaciones prácticas debido a su sencillez y su efectividad. En éstas, el flujo de información sigue un camino desde un conjunto de neuronas denominadas \textit{entradas} o \textit{input} hasta otro conjunto de neuronas denominado \textit{salidas} o \textit{output}. No es requisito que las neuronas se agrupen en capas, aunque sí suele ser la disposición más común. A las redes de más de dos/tres capas ocultas\sidenote{
+		Más adelante, en la sección \nameref{ss:mlp}, explicamos esta nomenclatura.
+	} se las suele denominar \textit{profundas} o \textit{deep}. Representantes clásicos de esta categoría pueden ser el \acrlongplsp{mlp}\index{perceptron multicapa} \cite{rumelhart1985learning}, los \glspl{autoencoder}\index{autoencoder} \cite{Hinton2006} o los \gls{som} \cite{kohonen1998self}.
+	\item \Acrlongsp{rnn}\index{redes neuronales recurrentes}. Tienen al menos un ciclo dentro de su representación, de manera que el flujo de información de salida de una neurona puede llegar a afectar a su propio estado. Aunque representan de manera más fiel las bases biológicas del cerebro, durante muchos años han sido más complejas a la hora de operar y sobre todo, entrenar, debido a estas relaciones. Sin embargo, durante la última década han aparecido nuevas técnicas relacionadas con el \textit{deep learning}\index{deep learning} que facilitan su operación. Algunos casos particulares de este tipo de arquitectura son las Redes de Hopfield~\cite{hopfield1982neural} o las redes \Acrfull{lstm}\index{Long-Short Term Memory} \cite{hochreiter1997long}.
 \end{itemize}
 
-Esta tesis se centra en redes pertenecientes al primer grupo, concretamente en las topologías \acrshort{mlp}\index{perceptron multicapa} y \acrshort{cnn}\index{red de convolución}, con las que se cerrará la presente sección. Ambos tipos de redes han probado su efectividad en diferentes dominios, aunque las segundas están demostrando su efectividad con las nuevas técnicas surgidas a partir del \textit{deep learning}.
+Esta tesis se centra en redes pertenecientes al primer grupo, concretamente en las arquitecturas \acrlongsp{mlp}\index{perceptron multicapa} y  \acrlongsp{cnn}\index{red de convolución}, con las que se cerrará la presente sección. Ambos tipos de redes han probado su efectividad en diferentes dominios, aunque las segundas están demostrando su efectividad con las nuevas técnicas surgidas a partir del \textit{deep learning}\index{deep learning}.
 
 \subsection{Perceptrones multicapa}
 \label{ss:mlp}
@@ -329,7 +329,7 @@ La salida se calcula como sigue: supongamos que tenemos dos capas, $l-1$ y $l$, 
 	\label{eq:ff-mlp}
 \end{equation}
 
-Como se puede observar, la salida $s^l$ de la capa $l$ depende directamente de la salida de la capa $l - 1$. El proceso de inferencia es la incorporar las entradas en la capa de entrada e ir iterando sucesivamente hasta la capa de salida.
+Como se puede observar, la salida $s^l$ de la capa $l$ depende directamente de la salida de la capa $l - 1$. El proceso de inferencia es introducir los valores en la primera capa, recoger los valores de salida, convertirlos en la nueva entrada de la capa siguiente y repetir hasta que se llega a la última capa, es decir, la de salida.
 
 El algoritmo base de aprendizaje en un \acrlongsp{mlp}\index{perceptron multicapa} se denomina \textit{\idx{back-propagation}} \cite{rumelhart1985learning} y se basa en la regla delta para el perceptrón simple~\cite{widrow1960adaptive}. Usa una técnica denominada \textit{descenso del gradiente} donde lo que se intenta es minimizar el valor de una función $f(x)$ que representa el error (en realidad el \textit{coste}\sidenote{
 	Existen dos términos asociados al error en \acrlongplsp{ann}\index{red neuronal artificial}: \textbf{error} y \textbf{coste}, que en la literatura se denominan \textit{loss} y \textit{cost} respectivamente. El primero se refiere al error existente entre la salida de la \acrlongsp{ann}\index{red neuronal artificial} y la salida esperada de un ejemplo en concreto, mientras que el segundo se refiere al error sobre todo el conjunto de entrenamiento. Es de esperar que durante el proceso de entrenamiento este error baje.
@@ -391,9 +391,9 @@ El valor $\delta \mathbf{s}^{l-1}$ será el valor de entrada para la capa anteri
 Esta es la forma original del algoritmo de \textit{\idx{back-propagation}}. Al valor $\alpha$ que aparece en las ecuaciones se le denomina factor de aprendizaje (en inglés \textit{learning-rate}), y como se puede apreciar, su valor determina lo rápido que cambian los pesos. Suele tomar valores entre $0.1$ y $0.01$, pero dependiendo de la evolución del entrenamiento y de la variación del algoritmo, éste puede llegar a tomar valores mucho más bajos. Algunas de las variaciones sobre el algoritmo inicial son las siguientes:
 
 \begin{itemize}
-	\item \textbf{Momento de inercia}~\cite{qian1999momentum}. Al algoritmo se le añade un factor por el cual los movimientos en el mismo sentido durante sucesivos epochs se acumulan. De esta manera, el riesgo de caer en mínimos locales disminuye al ser capaz el algoritmo de \enquote{saltar} pequeños baches.
-	\item \textbf{Adagrad}~\cite{duchi2011adaptive}, \textbf{RMSProp}~\cite{tieleman2012lecture} y \textbf{Adadelta}~\cite{zeiler2012adadelta}. Los tres se basan en el mismo principio. Al factor de aprendizaje de la red se le añade la existencia de otro factor individual para por cada peso de tal manera que se actualiza de forma diferente en función de la evolución de su gradiente individual.
-	\item \textbf{Adam}~\cite{kingma2014adam}. Este algoritmo combina los funcionamientos del momento junto con los del gradiente adaptativo del algoritmo \textbf{RMSProp}. Es el más utilizado en los últimos años.
+	\item \textbf{Momento de inercia}~\cite{qian1999momentum}. Al algoritmo se le añade un factor por el cual los movimientos en el mismo sentido durante sucesivos epochs se acumulan. De esta manera, el riesgo de caer en mínimos locales disminuye al ser capaz de \enquote{saltar} pequeños baches.
+	\item \textbf{Adagrad}~\cite{duchi2011adaptive}, \textbf{RMSProp}~\cite{tieleman2012lecture} y \textbf{Adadelta}~\cite{zeiler2012adadelta}. Los tres se basan en el mismo principio. Al factor de aprendizaje de la red se le añade la existencia de otro factor individual por cada peso de tal manera que se actualiza de forma diferente en función de la evolución de su gradiente individual.
+	\item \textbf{Adam}~\cite{kingma2014adam}. Este algoritmo combina los funcionamientos del momento junto con los del gradiente adaptativo del algoritmo \textbf{RMSProp}. Este algoritmo es el usado de base en los últimos años debido a su buen desempeño.
 \end{itemize}
 
 \subsection{\Acrlongplsp{cnn}}
@@ -515,14 +515,14 @@ En los últimos años, los tipos más comunes de normalización son el \gls{lrn}
 
 \subsection{Solucionando los problemas de entrenamiento}
 
-Anteriormente hablábamos de los problemas a los que se enfrentan los procesos de entrenamiento en las técnicas de \acrlongsp{ci}, la \textbf{sub-especialización} o \textit{underfitting} y la \textbf{sobre-especialización} o \textit{overfitting}.
+Anteriormente hablábamos de los problemas a los que se enfrentan los procesos de entrenamiento en las técnicas de \acrlongsp{ci}, la \textbf{sub-especialización} o \textit{underfitting}\index{sub-especialización} y la \textbf{sobre-especialización} u \textit{overfitting}\index{sobre-especialización}.
 
-En líneas generales, los problemas de subespecialización pueden darse por tres razones diferentes:
+En líneas generales, los problemas de sub-especialización pueden darse por tres razones diferentes:
 
 \begin{itemize}
 	\item La red no es lo suficientemente grande. Puede ocurrir que el conjunto de datos requiera de más propiedades o parámetros. La solución es incrementar el número de capas o de neuronas por capa a fin de que el modelo acabe aprendiendo al menos los datos del conjunto de entrenamiento.
 	\item El modelo no ha sido entrenado lo suficiente. Este caso es más raro, pero puede ser que el modelo sea lo suficientemente complejo para requerir más ciclos de entrenamiento. También puede ser que algunos hiperparámetros como el factor de entrenamiento o las funciones de activación predisponen al modelo a aprender más lentamente.
-	\item La topología del modelo no se adecúa los datos. Puede ocurrir que el modelo que estamos tratando de aprender aprenda mucho mejor en una topologías que en otras. Por ejemplo, para aprender a clasificar imágenes, las \acrlongplsp{cnn}\index{red de convolución} funcionan mejor, entre otra serie de razones, porque mantienen una coherencia espacial entre los píxeles de la imagen desde el principio, algo que con un \gls{mlp}\index{perceptron multicapa} no ocurre. Quizá representar los parámetros de entrada de una forma diferente o probar otra topología puede hacer que aprenda el problema de forma diferente.
+	\item La topología del modelo no se adecúa a los datos. Puede ocurrir que el modelo que estamos tratando de aprender aprenda mucho mejor en una topologías que en otras. Por ejemplo, para aprender a clasificar imágenes, las \acrlongplsp{cnn}\index{red de convolución} funcionan mejor, entre otra serie de razones, porque mantienen una coherencia espacial entre los píxeles de la imagen desde el principio, algo que con un \gls{mlp}\index{perceptron multicapa} no ocurre. Quizá representar los parámetros de entrada de una forma diferente o probar otra topología puede hacer que aprenda el problema de forma diferente.
 \end{itemize}
 
 El caso de la sobreespecialización es quizá algo más complejo. Cuando un modelo está sobreentrenado falla al generalizar, aunque los datos del conjunto de entrenamiento estén perfectamente aprendidos. Suele ser causado por dos razones principales:
@@ -565,11 +565,11 @@ Formalmente, un \textbf{grafo computacional} es un grafo dirigido donde los vér
 	\label{fig:computational-graph-derivatives}
 \end{figure}
 
-Una ventaja al representar un modelo como grafo computacional es que ayuda a abstraerse de la formas de las entradas y las salidas, facilitando el trabajo de operaciones en batch. Otra ventaja, todavía mayor, es que, al organizar de entrada a salida (en la figura~\ref{fig:computational-graph} de izquierda a derecha) las operaciones que se necesitan para obtener una salida a partir de una entrada, en los casos donde el objetivo es optimizar la salida permiten fácilmente representar el gradiente al organizarlo del modo contrario (es decir, de las salidas a la entrada o, en el caso de la figura~\ref{fig:computational-graph-derivatives} de derecha a izquierda).
+Una ventaja al representar un modelo como grafo computacional es que ayuda a abstraerse de la formas de las entradas y las salidas, facilitando el trabajo de operaciones en batch. Otra ventaja, todavía mayor, es que, al organizar de entrada a salida (en la figura~\ref{fig:computational-graph} de izquierda a derecha) las operaciones que se necesitan para obtener una salida a partir de una entrada, en los casos donde el objetivo es optimizar la salida, permiten fácilmente representar el gradiente al organizarlo del modo contrario (es decir, de las salidas a la entrada o, en el caso de la figura~\ref{fig:computational-graph-derivatives} de derecha a izquierda).
 
 Como regla general, para conocer el gradiente de una variable $a$ con respecto a otra variable $b$, se aplicaría la \textit{regla de la cadena multivariable}, que es equivalente a sumar todos los posibles caminos que van de $a$ a $b$ del grafo, multiplicando las derivadas parciales de cada arista.
 
-\section{\acrlongsp{fl}}
+\section{\Acrlongsp{fl}}
 
 La lógica matemática\sidenote{
 	\textbf{La lógica nace} en el siglo IV a.C. dentro de la física Aristotélica, que permaneció inalterada hasta la revolución científica (alrededor del siglo XVI. d.C.), momento en que se separó y permaneció como disciplina paralela perteneciente más al campo de la filosofía que de la física y la matemática. Empezó a relacionarse de nuevo con la matemática a principios del siglo XIX y a principios del siglo XX la lógica y la teoría de conjuntos pasaron a convertirse en partes indispensables la una de la otra. Por ello suelen ir de la mano cada vez que se habla de la una y de la otra. La evolución de la teoría de conjuntos y su unión con la lógica es una época bastante convulsa dentro de la historia de la matemática.
@@ -739,16 +739,16 @@ Cada regla de un sistema difuso de la forma \texttt{IF $x$ is $A$ THEN $y$ is $B
 \subsection{Sistemas de control difuso}
 \label{ss:fcs}
 
-Los \Acrfull{fcs}\index{sistema de control difuso} son el caso de éxito de la lógica difusa que más resultados ha cosechado tanto a nivel académico como a nivel industrial. Se trata sistemas que utilizan el razonamiento difuso para inferir una respuesta a partir de un conjunto de entradas\sidenote{
-	Dado que el control difuso puede extenderse a casi cualquier problema de control tradicional hace que se haya usado en multitud de campos, no sólo en el industrial. Esto hace que el mismo concepto pueda encontrarse con muchos nombres diferentes, como Sistemas de Lógica Difusa, Sistemas de Inferencia Difusa, Sistemas Expertos Difusos, Sistemas Basados en Reglas Difusas o simplemente Sistemas Difusos.
-}. Su uso se aplica tanto a sistemas de control manual como a sistemas donde los elementos a controlar son muy difíciles o incluso imposibles de diseñar (e.g. procesos de control con un alto número de variables relacionadas entre sí).
-
 \begin{figure}[!b]
 	\centering
 	\includegraphics{fuzzy-control-system}
 	\caption[Esquema de un \acrlongsp{fcs}]{Un \acrlongsp{fcs} es un componente compuesto por cuatro bloques principales: fuzzificador, bloque de reglas, razonador y defuzzificador.}
 	\label{fig:fuzzy-control-system}
 \end{figure}
+
+Los \Acrfull{fcs}\index{sistema de control difuso} son el caso de éxito de la lógica difusa que más resultados ha cosechado tanto a nivel académico como a nivel industrial. Se trata sistemas que utilizan el razonamiento difuso para inferir una respuesta a partir de un conjunto de entradas\sidenote{
+	Dado que el control difuso puede extenderse a casi cualquier problema de control tradicional hace que se haya usado en multitud de campos, no sólo en el industrial. Esto hace que el mismo concepto pueda encontrarse con muchos nombres diferentes, como Sistemas de Lógica Difusa, Sistemas de Inferencia Difusa, Sistemas Expertos Difusos, Sistemas Basados en Reglas Difusas o simplemente Sistemas Difusos.
+}. Su uso se aplica tanto a sistemas de control manual como a sistemas donde los elementos a controlar son muy difíciles o incluso imposibles de diseñar (e.g. procesos de control con un alto número de variables relacionadas entre sí).
 
 Éste se puede definir como un componente que asigna salidas de dominios no difusos (\textit{crisp}) a entradas de dominios también no difusos (\textit{crisp}) de forma no lineal haciendo uso de lógica difusa. La arquitectura de estos sistemas está compuesta por cuatro bloques: \textit{fuzzificador}, \textit{bloque de reglas}, \textit{razonador} (bloque de inferencia) y \textit{defuzzificador}. En la Figura~\ref{fig:fuzzy-control-system} se describe el esquema de un sistema de control difuso general.
 
@@ -800,7 +800,7 @@ Realiza el proceso inverso del bloque fuzzificador. Dado que a la salida del raz
 	\end{equation}
 \end{subequations}
 
-Existen diferentes algoritmos para la transformación de un conjunto difuso (expresado a partir de su función de pertenencia $\mu_F$) a un valor \textit{crisp}. Suelen ser comunes en conjuntos de salida continuos el COA (\textit{centroid of area}, ecuación~\ref{eq:centroid-of-area} y en conjuntos de tipo singleton su versión \textit{media ponderada} (ecuación~\ref{eq:weighted-sum})\sidenote{
+Existen diferentes algoritmos para la transformación de un conjunto difuso (expresado a partir de su función de pertenencia $\mu_F$) a un valor \textit{crisp}. Suelen ser comunes en conjuntos de salida continuos el \Acrfull{coa}, ecuación~\ref{eq:centroid-of-area} y en conjuntos de tipo singleton su versión \textit{media ponderada} (ecuación~\ref{eq:weighted-sum})\sidenote{
 	En el trabajo [Defuzzification: criteria and classification] se realiza una clasificación muy completa de una gran cantidad de algoritmos de defuzzificación.
 }.
 
@@ -833,7 +833,7 @@ En la figura~\ref{fig:different-povs-ai} se mostraban los cuatro objetivos perse
 
 Este concepto es una metáfora denominada \textbf{agente}\sidenote{
 	En \cite{russell2003artificial} se define como \textit{\enquote{\ldots just something that acts}} alegando que la palabra \textit{agent} proviene del latín \textit{agere}. Para clarificar esto, \textit{agere} es la forma verbal para \textit{hacer}, pero imprime un significado de movimiento/actividad diferente que no tiene mucho que ver con \textit{hacer} como forma verbal para \textit{crear} o \textit{dar forma} (de lo que se ocupa el verbo \textit{facere}). Por ello, el verbo \textit{actuar} es un verbo que se relaciona con \textit{agere} y de ahí la definición.
-} en el campo de la \ac{ai}, pero que se ha extendido a lo largo de todo el área de la computación, especialmente en las áreas de los sistemas distribuidos o de las simulaciones basadas en sistemas multiagentes.
+} en el campo de la \acrlongsp{ai}, pero que se ha extendido a lo largo de todo el área de la computación, especialmente en las áreas de los sistemas distribuidos o de las simulaciones basadas en sistemas multiagentes.
 
 Es difícil encontrar un consenso en la definición de agente, y más todavía cuando entra en juego el adjetivo \textit{inteligente}. Sin embargo, sí existen una serie de características que coinciden dentro de la literatura que exponemos a continuación:
 
@@ -845,8 +845,8 @@ Es difícil encontrar un consenso en la definición de agente, y más todavía c
 	\item Pueden ser \textbf{sociales}, es decir, tienen la capacidad de comunicarse con otras entidades (e.g. otros agentes) para llevar a cabo sus objetivos.
 \end{itemize}
 
-Nosotros hablaremos de estas entidades desde el punto de vista de la \gls{ai}, y las denominaremos indistintamente \textit{agentes}, \textit{agentes inteligentes} o \textit{agentes racionales}\sidenote{
-	El término preferido en esta tésis es precisamente este último, \textbf{agentes racionales}, dado que captura la esencia de lo que es un comportamiento inteligente. El problema de este punto de vista es que, como bromean en~\cite{russell2003artificial}, hasta un elemento tan rudimentario como un termostato puede ser considerado un elemento inteligente, ya que realiza siempre la mejor acción para cumplir sus objetivos por muy simples que puedan parecer. Pero, ¿qué hace a un agente inteligente? Según algunos autores, el hecho de que posea unos objetivos y autonomía suficiente para cumplirlos ya denota inteligencia (e.g. en~\cite{russell2003artificial}). Según otros, es necesario que el comportamiento sea flexible, esto es, que sea \textbf{reactivo} (reacciona ante el entorno que percibe), \textbf{proactivo} (iniciativa para tratar de cumplir sus objetivos) y \textbf{social} (capaz de interactuar con otros agentes para cumplir sus objetivos) (e.g.~\cite{Wooldridge1995}). Y otros directamente exigen, además, un comportamiento racional a la hora de cumplir los objetivos para calificarlo de inteligente (e.g.~\cite{shoham1993agent}). Como dijimos anteriormente, dónde está el límite a partir del cual comenzar a considerar a un ente inteligente cae dentro de los dominios de la filosofía.
+Nosotros hablaremos de estas entidades desde el punto de vista de la \acrlongsp{ai}, y las denominaremos indistintamente \textit{agentes}, \textit{agentes inteligentes} o \textit{agentes racionales}\sidenote{
+	El término preferido en esta tésis es precisamente este último, \textbf{agentes racionales}, dado que captura la esencia de lo que es un comportamiento inteligente. El problema de este punto de vista es que, como bromean en~\cite{russell2003artificial}, hasta un elemento tan rudimentario como un termostato puede ser considerado un elemento inteligente, ya que realiza siempre la mejor acción para cumplir sus objetivos por muy simples que puedan parecer. Pero, ¿qué hace a un agente inteligente? Según algunos autores, el hecho de que posea unos objetivos y autonomía suficiente para cumplirlos ya denota inteligencia (e.g. en~\cite{russell2003artificial}). Según otros, es necesario que el comportamiento sea flexible, o lo que es lo mismo, que sea \textbf{reactivo} (reacciona ante el entorno que percibe), \textbf{proactivo} (iniciativa para tratar de cumplir sus objetivos) y \textbf{social} (capaz de interactuar con otros agentes para cumplir sus objetivos) (e.g.~\cite{Wooldridge1995}). Y otros directamente exigen, además, un comportamiento racional a la hora de cumplir los objetivos para calificarlo de inteligente (e.g.~\cite{shoham1993agent}). Como dijimos anteriormente, dónde está el límite a partir del cual comenzar a considerar a un ente inteligente cae dentro de los dominios de la filosofía.
 }. Por tanto usaremos la siguiente definición:
 
 \blockquote{Un agente es una entidad física o virtual que realiza una acción de manera total o parcialmente autónoma dada una secuencia de percepciones del entorno en el que se ubica.}
@@ -916,19 +916,23 @@ La primera diferencia clave surge en la manera que se ofrece al bloque de infere
 
 La siguiente clasificación viene motivada por la forma de deducir el conjunto de acciones a ser aplicadas por parte de los sensores. En este sentido podemos identificar tres tipos distintos de agentes:
 
-\begin{itemize}
-	\item \textbf{Reactivos} (Figura~\ref{fig:reactive-agent}). Son aquellos donde el uso de un proceso de razonamiento explícito es demasiado costoso para producir una conducta en un tiempo aceptable. Se suelen implementar como correspondencias (percepción $\rightarrow$ acción) sin ningún razonamiento adicional.
-	\item \textbf{Basados en objetivos} (Figura~\ref{fig:goal-based-agent}). Plantean una deducción de forma que determinan cuál sería el estado del entorno tras aplicar varias o todas las acciones que puede realizar. En base a los resultados, selecciona la acción que se corresponde con sus propios objetivos.
-	\item \textbf{Basados en utilidad} (Figura~\ref{fig:utility-based-agent}). Plantean una deducción similar a los basados en objetivos con la diferencia de que, mientras los primeros sólo diferencian entre entorno objetivo o no objetivo, éstos asignan un valor (i.e. \textit{utilidad}) a cada uno de los escenarios de entorno posibles para seleccionar el mejor (e.g. el que mayor utilidad tiene).
-\end{itemize}
-
 \begin{marginfigure}
 	\includegraphics{utility-based-agent}
 	\caption[Esquema de agente basado en utilidad]{Los agentes basados en utilidad son similares a los basados en objetivo, pero añadiéndoles una medida de cómo de buenas son las acciones que podemos ejecutar, eligiendo la que mayor utilidad le ofrece (a menudo se habla de esta utilidad como \textit{felicidad}).}
 	\label{fig:utility-based-agent}
 \end{marginfigure}
 
-En la literatura se describen muchos tipos de agente, como por ejemplo los agentes \gls{bdi}\index{BDI (Belief-Desire-Intention)} o los agentes lógicos\sidenote{El entorno se representa con reglas lógicas y se infiere mediante métodos como por ejemplo deducción lógica o prueba de teoremas}. Sin embargo, éstos pueden definirse en los términos aquí expuestos. 
+\begin{itemize}
+	\item \textbf{Reactivos} (Figura~\ref{fig:reactive-agent}). Son aquellos donde el uso de un proceso de razonamiento explícito es demasiado costoso para producir una conducta en un tiempo aceptable. Se suelen implementar como correspondencias (percepción $\rightarrow$ acción) sin ningún razonamiento adicional.
+	\item \textbf{Basados en objetivos} (Figura~\ref{fig:goal-based-agent}). Plantean una deducción de forma que determinan cuál sería el estado del entorno tras aplicar varias o todas las acciones que puede realizar. En base a los resultados, selecciona la acción que se corresponde con sus propios objetivos.
+	\item \textbf{Basados en utilidad} (Figura~\ref{fig:utility-based-agent}). Plantean una deducción similar a los basados en objetivos con la diferencia de que, mientras los primeros sólo diferencian entre entorno objetivo o no objetivo, éstos asignan un valor (i.e. \textit{utilidad}) a cada uno de los escenarios de entorno posibles para seleccionar el mejor (e.g. el que mayor utilidad tiene).
+\end{itemize}
+
+En la literatura se describen muchos tipos de agente, como por ejemplo los agentes \Acrfull{bdi}\index{BDI (Belief-Desire-Intention)}\sidenote{
+	Deciden las acciones (\textit{intentions}) que creen que ayudarán (\textit{beliefs}) a la consecución de sus objetivos (\textit{desires}) a partir de las entradas y su conocimiento del entorno
+} o los agentes lógicos\sidenote{
+	El entorno se representa con reglas lógicas y se infiere mediante métodos como por ejemplo deducción lógica o prueba de teoremas
+}. Sin embargo, éstos pueden definirse en los términos aquí expuestos. 
 
 \subsection{\Acrlongplsp{mas}\index{sistemas multiagente}}
 
@@ -953,6 +957,6 @@ Desde el punto de vista de la \acrlongsp{ai} podemos añadirles la ventaja de qu
 } y siempre toman una o las dos formas siguientes:
 
 \begin{itemize}
-	\item \textbf{Cooperación}. Los agentes intercambian información entre sí para llegar a una solución. Esta solución puede ser fragmentada (i.e. cada agente posee parte de la solución y se comunican para ir avanzando de forma común hacia la solución global) o poseerla uno o varios agentes que hacen uso de más agentes para ir avanzando la solución.
+	\item \textbf{Cooperación}. Los agentes intercambian información entre sí para llegar a una solución. Esta solución puede ser fragmentada (i.e. cada agente posee parte de la solución y se comunican para ir avanzando de forma común hacia la solución global) o centralizada uno o varios agentes que usan al resto como componentes para llegar ir avanzando hacia la solución.
 	\item \textbf{Competición}. Los agentes compiten dentro de un entorno, generalmente mediante la adquisición de recursos limitados. Un ejemplo de este tipo de sistemas multiagente puede ser aquellos sistemas de vida artificial.
 \end{itemize}

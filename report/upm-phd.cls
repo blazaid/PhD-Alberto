@@ -388,7 +388,7 @@
 %%
 % Turn off section numbering
 
-\setcounter{secnumdepth}{-1}
+\setcounter{secnumdepth}{2}
 
 %%
 % Tighten up space between displays (e.g., a figure or table) and make symmetric
@@ -1587,13 +1587,22 @@
 	\if@twocolumn\hbox{}\newpage\fi\fi}
 
 %%
-% Make Tuftian-style section headings and TOC formatting
+% Style for section titles
+\titleformat{\part}
+[display]
+{\Huge\scshape\filright}
+{\partname~\thepart}
+{20pt}
+{
+	%\pagecolor{black}%\afterpage{\nopagecolor}
+	%\color{white}
+	\afterpage{\nopagecolor}
+}
 
 \titleformat{\chapter}
-[display]
 {\relax}% format applied to label+text
-{\itshape\huge\chaptertitlename~\thechapter}% label
-{0pt}% horizontal separation between label and title body
+{\itshape\huge\thechapter}% label
+{1em}% horizontal separation between label and title body
 {\huge\rmfamily\itshape}% before the title body
 []
 
@@ -1910,7 +1919,7 @@
     \clearpage%
   \fi%
   \@mainmatterfalse%
-  \pagenumbering{arabic}%
+  \pagenumbering{Roman}%
   %\pagestyle{plain}%
   \fancyhf{}%
   \fancyhead[LE,RO]{\thepage}
@@ -1926,6 +1935,7 @@
     \clearpage%
   \fi%
   \@mainmattertrue%
+  \pagenumbering{arabic}%
   \fancyhf{}%
   \renewcommand{\chaptermark}[1]{\markboth{##1}{}}%
   \fancyhead[LE]{\thepage\quad\smallcaps{\newlinetospace{\plaintitle}}}
@@ -2212,15 +2222,6 @@ version={3.0},
 }
 
 \usepackage{afterpage}
-
-\titleformat{\part}[display]
-{\Huge\scshape\filright}
-{\partname~\thepart:}
-{20pt}
-{
-	%\pagecolor{black}%\afterpage{\nopagecolor}
-	%\color{white}
-}
 
 %%
 % Add a little space after floats
