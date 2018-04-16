@@ -2213,14 +2213,13 @@ version={3.0},
 
 \usepackage{afterpage}
 
-
 \titleformat{\part}[display]
-{\Huge\filleft}
-{\textsc{\thepart}}
+{\Huge\scshape\filright}
+{\partname~\thepart:}
 {20pt}
 {
-	\pagecolor{black}%\afterpage{\nopagecolor}
-	\color{white}
+	%\pagecolor{black}%\afterpage{\nopagecolor}
+	%\color{white}
 }
 
 %%

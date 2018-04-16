@@ -26,7 +26,7 @@ El comportamiento de un conductor al volante tiene una relación directa con el 
 
 Las tipologías de agentes utilizadas es de todo tipo. Existen desde trabajos que explotan las características de los agentes reactivos (e.g. agentes que continuamente van realizando decisiones de control para mantenerse en la via \cite{Ehlert2001}) hasta aquellos que proponen complejos frameworks para definir comportamientos (e.g. cuatro unidades de funcionamiento interconectadas, \textit{percepción}, \textit{emoción}, \textit{toma de decisiones} y \textit{ejecución}, que gestionan el comportamiento inteligente del agente en cada situación \cite{al2001framework}).
 
-La información que manejan estos agentes dentro de los simuladores suele limitarse a tipologías de vehículo (e.g. utilitarios o vehículos de grandes dimensiones) y magnitudes físicas (tamaño, velocidad máxima). Dependiendo del trabajo, algunos autores añaden más conocimiento a los agentes; por ejemplo, en \cite{hidas2002}, el autor incluye en los agentes, denominados \glspl{dvo}\index{driver-vehicle object} (otra denominación del concepto de \gls{dvu}\index{driver-vehicle unit}), información adicional sobre el tipo de conductor y el nivel de conocimiento de la red de carreteras.
+La información que manejan estos agentes dentro de los simuladores suele limitarse a tipologías de vehículo (e.g. utilitarios o vehículos de grandes dimensiones) y magnitudes físicas (tamaño, velocidad máxima). Dependiendo del trabajo, algunos autores añaden más conocimiento a los agentes; por ejemplo, en \cite{hidas2002modelling}, el autor incluye en los agentes, denominados \glspl{dvo}\index{driver-vehicle object} (otra denominación del concepto de \gls{dvu}\index{driver-vehicle unit}), información adicional sobre el tipo de conductor y el nivel de conocimiento de la red de carreteras.
 
 El resto del capítulo introducirá los modelos de comportamiento más conocidos y hará especial hincapié en el estado más reciente de modelos basados en técnicas de la \acrlongsp{ci}.
 
@@ -139,7 +139,7 @@ Uno de los primeros trabajos en abordar el comportamiento colaborativo es el de 
 	\label{fig:toledo-2007-behavior-model-tree}
 \end{figure}
 
-\newthought{Además, al usar árboles secuenciales}, los factores son evaluados uno detrás de otro hasta encontrar una situación favorable, en cuyo caso el resto de factores no son evaluados. Por ejemplo, tal y como está formado el modelo de Gibbs, y algunos basados en éste como \cite{Hidas2002}, un \textit{\Acrshort{mlc}\index{mandatory lane change}} inhibe cualquier posibilidad de realizar un \textit{\Acrshort{dlc}\index{discretional lane change}} independientemente de la utilidad de ambos. Para evitar esta limitación, algunos autores hacen uso de técnicas como modelos probabilísticos. Ejemplos de avances en esta línea de trabajo pueden ser \cite{Toledo2003, Toledo2007, Wei2000} (figura~\ref{fig:toledo-2007-behavior-model-tree}).
+\newthought{Además, al usar árboles secuenciales}, los factores son evaluados uno detrás de otro hasta encontrar una situación favorable, en cuyo caso el resto de factores no son evaluados. Por ejemplo, tal y como está formado el modelo de Gibbs, y algunos basados en éste como \cite{hidas2002modelling}, un \textit{\Acrshort{mlc}\index{mandatory lane change}} inhibe cualquier posibilidad de realizar un \textit{\Acrshort{dlc}\index{discretional lane change}} independientemente de la utilidad de ambos. Para evitar esta limitación, algunos autores hacen uso de técnicas como modelos probabilísticos. Ejemplos de avances en esta línea de trabajo pueden ser \cite{Toledo2003, Toledo2007, Wei2000} (figura~\ref{fig:toledo-2007-behavior-model-tree}).
 
 \section{Modelado basado en \acrlongsp{ci}}
 
@@ -212,7 +212,7 @@ Los modelos hasta el momento se basaban en conjuntos difusos y reglas definidos 
 \end{marginfigure}
 
 Más adelante, en \cite{Das2009}, dentro de su simulador \gls{aasim} añaden los conceptos de \Acrshort{mlc}\index{mandatory lane change} y \Acrshort{dlc}\index{discretional lane change} a los comportamientos de cambos de carril. En \Acrshort{mlc}\index{mandatory lane change} las reglas tienen en cuenta la distancia al siguiente punto característico (e.g. una salida) y el número de cambios de carril necesarios. En \Acrshort{dlc}\index{discretional lane change} deciden si cambiar o no basándose en el nivel de satisfacción del conductor y en el nivel de congestión en los carriles adyacentes\sidenote{
-	Este trabajo se apoya en trabajos anteriores que separan las jerarquías en situaciones de \Acrshort{mlc}\index{mandatory lane change} y \Acrshort{dlc}\index{discretional lane change} como \cite{Yang1996, Halati1997, Hidas2002}. Estos trabajos, no obstante, no pertenecen al área de la \gls{ci}.
+	Este trabajo se apoya en trabajos anteriores que separan las jerarquías en situaciones de \Acrshort{mlc}\index{mandatory lane change} y \Acrshort{dlc}\index{discretional lane change} como \cite{Yang1996, Halati1997, hidas2002modelling}. Estos trabajos, no obstante, no pertenecen al área de la \gls{ci}.
 }.
 
 \newthought{Las \acrlongplsp{ann}\index{red neuronal artificial} y la \acrlongsp{fl}\index{lógica difusa} no son} las únicas técnicas usadas para determinar comportamientos en conductores.

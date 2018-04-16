@@ -113,7 +113,7 @@ La principal ventaja de esta aproximación es que es posible doblar el tamaño d
 
 Esta técnica, a diferencia del \textit{mirroring} sí puede llegar a tener impacto en la precisión de los datos. Partiendo de una nube de puntos original\sidenote{
 	Debido a que la aplicación iterativa de este proceso sobre la misma nube de puntos acumula los errores entre iteraciones haciéndola ininteligible.
-}, se aplica un desplazamiento aleatorio $(\delta x, \delta y, \delta z)$ sobre cada punto tal y como se describe en~\cite{EL PAPER CUANDO NOS LO PUBLIQUEN}. La Figura~\ref{fig:shaking-example} ilustra dos procesos de shaking con diferentes desplazamientos sobre la nube original mostrada en la figura~\ref{fig:mirroring-example}
+}, se aplica un desplazamiento aleatorio $(\delta x, \delta y, \delta z)$ sobre cada punto tal y como se describe en~\cite{diaz2018modelling}. La Figura~\ref{fig:shaking-example} ilustra dos procesos de shaking con diferentes desplazamientos sobre la nube original mostrada en la figura~\ref{fig:mirroring-example}
 
 Las especificaciones técnicas del \acrshort{lidar}\index{LiDAR} usado en los experimentos garantizan un error por debajo de los \SI{3}{\cm} de radio, por lo que un desplazamiento aleatorio para cada punto menor o igual que este valor no añadiría más ruido del existente. Sin embargo, en el experimento se ha optado sin embargo por aplicar un desplazamiento de $\delta x = \delta y = \delta z = 0.05m$ en cada eje, ligeramente superior al proporcionado por el \acrshort{lidar}\index{LiDAR}. De esta forma se pretende la incorporación de ruido sobre el entorno original para aumentar la capacidad de generalización del modelo\sidenote{
 	La intuición de este proceso
@@ -132,7 +132,7 @@ En cada una de las filas poseemos una representación del entorno en forma de ma
 	\label{fig:moments-illustration}
 \end{figure}
 
-Comenzaremos definiendo el \textit{momento} $t_i$ como aquel ejemplo situado a $t - \frac{i}{10}s$ en el pasado (ver Figura~\ref{fig:moments-illustration}). Los momentos que se tendrán en cuenta en los datasets finales serán $t_0$, $t_10$, $t_20$, correspondientes al momento actual, \SI{1}{\second} anterior y \SI{2}{\second} anteriores respectivamente. Estos valores no son arbitrarios, sino que se han elegido de acuerdo a los experimentos realizados en~\cite{EL PAPER CUANDO NOS LO PUBLIQUEN}\sidenote{
+Comenzaremos definiendo el \textit{momento} $t_i$ como aquel ejemplo situado a $t - \frac{i}{10}s$ en el pasado (ver Figura~\ref{fig:moments-illustration}). Los momentos que se tendrán en cuenta en los datasets finales serán $t_0$, $t_10$, $t_20$, correspondientes al momento actual, \SI{1}{\second} anterior y \SI{2}{\second} anteriores respectivamente. Estos valores no son arbitrarios, sino que se han elegido de acuerdo a los experimentos realizados en~\cite{diaz2018modelling}\sidenote{
 	Dichos experimentos trabajan sobre el proceso de ejecución de cambio de carril\index{lane-change}, donde se asume que la maniobra involucra al córtex visual y al córtex prefrontal. Estos procesos cognitivos tienen un tiempo de respuesta de entre \SI{0.2}{\second}, \SI{1.2}{\second}~\cite{buzsaki2012temporal}.
 }. Además, al incluir tres momentos temporales, ayudamos a los modelos a reconocer patrones en los que es involucran la velocidad y la aceleración.
 
