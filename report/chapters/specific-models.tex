@@ -1,35 +1,33 @@
 \chapter{Modelos específicos de conductores}
 \label{ch:specific-models}
 
-En los capítulos anteriores se han decidido los modelos candidatos que conformarán el modelo de comportamiento de conductor general.
-
-Ahora que sabemos cuáles son las técnicas y arquitecturas que mejor se adecúan a este problema con los datos que disponemos, pasaremos a probarlas con los datos de los conductores específicos, comprobando si:
+En los capítulos anteriores se han decidido los modelos candidatos que conformarán el modelo de comportamiento de conductor general. Ahora que sabemos cuáles son las técnicas y arquitecturas que mejor se adecúan a este problema con los datos que disponemos, pasaremos a probarlas con los datos de los conductores específicos comprobando si:
 
 \begin{itemize}
 	\item Los errores y precisiones se mantienen en el orden del modelo global.
 	\item Los modelos capturan las particularidades de cada sujeto de estudio.
 \end{itemize}
 
-Para ello, compararemos primero el modelo longitudinal global con los modelos entrenados de los sujetos. Posteriormente, compararemos los modelos de los sujetos contra los conjuntos de test de cada uno de ellos.
+Para ello, se comparará primero el modelo longitudinal global con los modelos entrenados de los sujetos. Posteriormente, se compararán los modelos de los sujetos contra los conjuntos de test de cada uno de ellos.
 
 \section{Modelo longitudinal}
 
-La arquitectura que se ha entrenado para cada uno de los sujetos ha sido la $MLP_2$ (topología $7, 8, 4, 1$). En la Figura~\ref{fig:lm-specific-training-validation-and-test-comparison} 
+La arquitectura que se ha entrenado para cada uno de los sujetos ha sido la $MLP_2$. En la Figura~\ref{fig:lm-specific-training-validation-and-test-comparison} se muestra la evolución del \Acrshort{rmse}\index{RMSE} en test para cada uno de los sujetos tras entrenar los modelos con los parámetros indicado en el anterior capítulo.
 
-\begin{figure}[!b]
+\begin{figure}
 	\centering
 	\includegraphics[width=\textwidth]{lm-specific-rmse-all-test-detail}
 	\caption[Comparativa de la evolución del \gls{rmse} en test para los sujetos de la arquitectura seleccionada para el modelo longitudinal]{Comparativa de la evolución del error de test entre los sujetos de la arquitectura seleccionada para el modelo longitudinal. El \gls{rmse} en test en el caso del sujeto $S_2$ es muy alto (mayor que $0.2$) comparado con el error en el resto de sujetos y en el global.}
 	\label{fig:lm-specific-training-validation-and-test-comparison}
 \end{figure}
 
-Se puede observar que el error en test de los sujetos es ligeramente mayor que el del conjunto global. Esto se puede explicar por la mayor capacidad de generalización de $S_A$ al haber sido entrenado con un conjunto de datos mayor.
+Se puede observar que el error en test de los sujetos es ligeramente mayor que el del conjunto global. Esto se puede explicar por la mayor capacidad de generalización de $S_A$ al haber sido entrenado con un conjunto de datos mayor. Los errores se resumen en la Tabla~\ref{tbl:lm-specific-rmse}.
 
 \begin{table}
 	\centering
-	\caption[Resumen de los valores de \gls{rmse} para los modelos específicos de comportamiento longitudinal]{Resumen de los valores de \gls{rmse} para los modelos específicos de comportamiento longitudinal.}
+	\caption[Resumen de los valores de \Acrshort{rmse} para los modelos específicos de comportamiento longitudinal]{Resumen de los valores de \Acrshort{rmse} para los modelos específicos de comportamiento longitudinal.}
 	\label{tbl:lm-specific-rmse}
-	\begin{tabular}{cccccc}
+	\begin{tabularx}{\linewidth}{YYYYYY}
 		\toprule
 		\multirow{2}{*}{} & \multicolumn{3}{c}{\ac{rmse}}      \\ 
 		& Entrenamiento & Validación & Test \\
@@ -39,12 +37,12 @@ Se puede observar que el error en test de los sujetos es ligeramente mayor que e
 		\rowcolor{black!20} $S_2$ & $0.048$ & $0.047$ & $0.058$  \\
 		$S_3$ & $0.055$ & $0.054$ & $0.058$  \\
 		\bottomrule
-	\end{tabular}
+	\end{tabularx}
 \end{table}
 
-\section{Cambio de carril}
+\section{Control lateral}
 
-En el caso del modelo de cambio de carril\index{lane-change}, la arquitectura con la que se han entrenado los modelos específicos es al $CNN_1$ (topología $c16$-$4$-$18$-$v$, $d128$). En la Figura~\ref{fig:lc-specific-rmse-all-test-detail} 
+En el caso del modelo del control lateral\index{lane-change}, la arquitectura con la que se han entrenado los modelos específicos es al $CNN_1$ (topología $c16$-$4$-$18$-$v$, $d128$). En la Figura~\ref{fig:lc-specific-rmse-all-test-detail} se muestra la evolución del \Acrshort{rmse}\index{RMSE} en test para cada uno de los sujetos tras entrenar los modelos con los parámetros indicado en el anterior capítulo.
 
 \begin{figure}
 	\centering
@@ -59,7 +57,7 @@ La precisión alcanzada en los modelos específicos entrenados con esta arquitec
 	\centering
 	\caption[Precisión alcanzada para los modelos específicos de cambio de carril]{Resumen de los valores de precisión para los modelos específicos de cambio de carril.}
 	\label{tbl:lc-specific-accuracy}
-	\begin{tabular}{cccccc}
+	\begin{tabularx}{\linewidth}{YYYYYY}
 		\toprule
 		\multirow{2}{*}{} & \multicolumn{3}{c}{\ac{rmse}}      \\ 
 		& Entrenamiento & Validación & Test \\
@@ -69,13 +67,19 @@ La precisión alcanzada en los modelos específicos entrenados con esta arquitec
 		\rowcolor{black!20} $S_2$ & $0.683$ & $0.708$ & $0.706$  \\
 		$S_3$ & $0.727$ & $0.706$ & $0.710$  \\
 		\bottomrule
-	\end{tabular}
+	\end{tabularx}
 \end{table}
 
 
 \section{Personalización en modelos de conducción específicos}
 
-\begin{figure}[t]
+Las anteriores secciones han mostrado cómo las topologías seleccionadas en los capítulos \nameref{ch:longitudinal-model} y \nameref{ch:lane-change-model} son adecuadas para modelar los comportamientos específicos de cada conductor, además del conjunto global.
+
+Lo interesante es comprobar si estas topologías son capaces de capturar las diferencias entre conductores. Para ello, comprobaremos cómo se comportan cada uno de los conductores en todos los conjuntos de test.
+
+En el caso del modelo longitudinal, el \ac{rmse} de cada uno de los conductores se mantiene más bajo que el del resto de los sujetos en su propio conjunto de test. En la Figura~\ref{fig:lm-subjects-comparison} se muestra gráficamente el perfil de aceleración de cada uno de los conductores sobre cada uno de los perfiles reales.
+
+\begin{figure}
 	\centering
 	\subfloat[Sujeto $S_1$]{\includegraphics[width=\textwidth]{lm-subjects-comparison-with-edgar-acceleration-profiles}}\qquad
 	\subfloat[Sujeto $S_2$]{\includegraphics[width=\textwidth]{lm-subjects-comparison-with-jj-acceleration-profiles}}\qquad
@@ -84,13 +88,13 @@ La precisión alcanzada en los modelos específicos entrenados con esta arquitec
 	\label{fig:lm-subjects-comparison}
 \end{figure}
 
-Las anteriores secciones han mostrado cómo las topologías seleccionadas en los capítulos \nameref{ch:longitudinal-model} y \nameref{ch:lane-change-model} son adecuadas para modelar los comportamientos específicos de cada conductor, además de el conjunto global.
+Los valores de error cruzados entre sujetos se resumen en la tabla~\ref{tbl:lm-subjects-comparison}.
 
-\begin{table}[b]
+\begin{table}
 	\centering
 	\caption[Comparación de los errores de aceleración en los diferentes modelos longitudinales]{Comparación de los errores de aceleración en los diferentes modelos longitudinales. Las filas se corresponden con los recorridos mientras que las columnas se corresponden con los modelos que se han intentado ajustar a ellas.}
 	\label{tbl:lm-subjects-comparison}
-	\begin{tabular}{cccc}
+	\begin{tabularx}{\linewidth}{YYYY}
 		\toprule
 		& $S_1$ & $S_2$ & $S_3$ \\
 		\midrule
@@ -98,22 +102,16 @@ Las anteriores secciones han mostrado cómo las topologías seleccionadas en los
 		$S_2$ & $0.064$        & $0.058$        & $0.067$ \\
 		\rowcolor{black!20} $S_3$ & $0.065$        & $0.065$        & $0.057$ \\
 		\bottomrule
-	\end{tabular}
+	\end{tabularx}
 \end{table}
 
-Lo interesante es comprobar si estas topologías son capaces de capturar las diferencias entre conductores. Para ello, comprobaremos cómo se comportan cada uno de los conductores en todos los conjuntos de test.
-
-En el caso del modelo longitudinal, los valores de error cruzados entre sujetos se muestran en la tabla~\ref{tbl:lm-subjects-comparison}.
-
-El \ac{rmse} de cada uno de los conductores se mantiene más bajo que el del resto de los sujetos en su propio conjunto de test. En la Figura~\ref{fig:lm-subjects-comparison} se muestra gráficamente el perfil de aceleración de cada uno de los conductores sobre cada uno de los perfiles reales.
-
-En el caso del modelo de cambio de carril\index{lane-change}, la comparativa la deberíamos hacer con respecto a las tasas de acierto en sus respectivos conjuntos de test. La tabla~\ref{tbl:lc-subjects-comparison} muestra los índices de precisión de los sujetos sobre cada uno de los conjuntos de test de los demás.
+En el caso del modelo de cambio de carril\index{lane-change}, la comparativa la deberíamos hacer con respecto a las tasas de acierto en sus respectivos conjuntos de test. La Tabla~\ref{tbl:lc-subjects-comparison} muestra los índices de precisión de los sujetos sobre cada uno de los conjuntos de test de los demás.
 
 \begin{table}
 	\centering
-	\caption[Comparación de la precisión para los diferentes modelos de cambio de carril]{Comparación de la precisión para los diferentes modelos de cambio de carril Las filas se corresponden con los recorridos mientras que las columnas se corresponden con los modelos que se han intentado ajustar a ellas.}
+	\caption[Comparación de la precisión para los diferentes modelos de cambio de carril]{Comparación de la precisión para los diferentes modelos de cambio de carril. Las filas se corresponden con los recorridos mientras que las columnas se corresponden con los modelos que se han intentado ajustar a ellas.}
 	\label{tbl:lc-subjects-comparison}
-	\begin{tabular}{cccc}
+	\begin{tabularx}{\linewidth}{YYYY}
 		\toprule
 		& $S_1$ & $S_2$ & $S_3$ \\
 		\midrule
@@ -121,5 +119,5 @@ En el caso del modelo de cambio de carril\index{lane-change}, la comparativa la 
 		$S_2$ & $0.601$ & $0.706$ & $0.511$ \\
 		\rowcolor{black!20} $S_3$ & $0.648$ & $0.666$ & $0.710$ \\
 		\bottomrule
-	\end{tabular}
+	\end{tabularx}
 \end{table}

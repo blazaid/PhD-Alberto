@@ -14,13 +14,13 @@ En este capítulo se describe el esquema general del modelo a desarrollar, los e
 
 \section{Perspectiva general del modelo de conducción}
 
-El entorno de simulación con el que trabajamos, \gls{sumo}\index{SUMO} impone ciertas limitaciones, siendo una de las más decisivas el funcionamiento \enquote{por carril}. Esto quiere decir aunque el simulador sea continuo en el espacio, su recorrido longitudinal funciona en una única dimensión, siendo el cambio de carril\index{lane-change} el salto de un carril a otro.
+Como todo entorno de simulación, \gls{sumo}\index{SUMO} nos impone ciertas limitaciones a causa de su abstracción sobre el sistema a modelar en realidad. Una de las más decisivas es la del control lateral\index{control lateral}; aunque el simulador es continuo en el espacio, esta continuidad sólo existe en el desplazamiento longitudinal, en forma de distancia desde el comienzo del tramo. Esto produce que el comportamiento lateral\index{lane-change} sea modelado como saltos discretos entre carriles, sin ninguna continuidad durante el desplazamiento lateral.
 
 Por ello, para el diseño y ajuste del modelo de conductor se ha decidido separar también los dos comportamientos principales que componen el nivel cognitivo táctico, es decir, un agente con un modelo de comportamiento que actúe sobre (i) la aceleración/deceleración, y (ii) la decisión y ejecución del cambio de carril\index{lane-change}, ambos a partir de los estímulos recibidos del exterior. Estos estímulos serán replicados en el simulador para que los agentes con los modelos entrenados a partir de estímulos del mundo real reciban estímulos similares en estos entornos.
 
 Internamente, el modelo estará separado en los dos modelos básicos, el \textbf{modelo longitudinal} y el de \textbf{cambio de carril}\index{lane-change}. En la Figura~\ref{fig:overall-driver-model-schema} se describe el modelo, las entradas y salidas y el flujo de datos entre componentes.
 
-\begin{figure}[t]
+\begin{figure}
 	\centering
 	\includegraphics{driver-model}
 	\caption[Esquema general del modelo de conductor planteado]{Esquema general del modelo de conductor planteado en la tesis. En éste se puede ver cómo se distribuyen los estímulos de entrada entre los diferentes componentes del modelo y las salidas del sistema, que irán conectadas a los actuadores pertinentes.}
@@ -32,14 +32,14 @@ Estos modelos serán entrenados siguiendo un esquema supervisado, por lo que nec
 \begin{itemize}
 	\item \textbf{Entorno} El conductor, y por tanto el modelo, desarrolla su actividad y basa sus comportamientos, entre otros factores, en el entorno en el que se encuentra inmerso. Consideramos pues que el ajuste de la velocidad y sobre todo los cambios de carril, se ven influenciados por éste.
 	\item \textbf{Velocidad actual del vehículo}. La velocidad del conductor influye en cómo va a modificar su aceleración en momentos posteriores. La velocidad máxima de la vía también influye, pero ésta se mantiene constante en el intervalo \SI{40}{\kilo\meter\per\hour} a \SI{50}{\kilo\meter\per\hour}, por lo que no se tiene en cuenta al considerarse una constante.
-	\item \textbf{Distancia y diferencia de velocidad con el vehículo delantero}. Al igual que con la velocidad, el vehículo delantero juega un papel esencial en los cambios de aceleración. También se intuye que puede influir en el comportamiento de cambio de carril\index{lane-change} en casos en los que el vehículo delantero va muy lento.
-	\item \textbf{Siguiente salida y carriles cortados}. Se considera que este tipo de información es crucial a la hora de realizar cambios de carril, ya que además de lo obvio, puede influir en otras maniobras tales como un adelantamiento.
-	\item \textbf{Señales luminosas}. Es interesante contar con este tipo de señales ya que pueden influir en diferentes patrones de aceleración (e.g. estamos cerca y cambia de color a ámbar) o desaceleración (e.g. semáforo en rojo). Otras señales también serían interesantes, pero el simulador en el momento del desarrollo de los modelos sólo ofrece el acceso a este tipo de señales.
+	\item \textbf{Distancia y diferencia de velocidad con el vehículo delantero}. Al igual que con la velocidad, el vehículo delantero juega un papel esencial en los cambios de aceleración. También se intuye que puede influir en el comportamiento de cambio de carril\index{lane-change} en casos en los que el vehículo delantero circula muy lento.
+	\item \textbf{Siguiente salida y carriles cortados}. Se considera que este tipo de información es crucial a la hora de realizar cambios de carril, ya que además puede influir en otras maniobras tales como un adelantamiento.
+	\item \textbf{Señales luminosas}. Es interesante contar con este tipo de señales ya que pueden influir en diferentes patrones de aceleración (e.g. estamos cerca y el semáforo cambia a ámbar) o desaceleración (e.g. semáforo en rojo). Otras señales también serían interesantes, pero el simulador en el momento del desarrollo de los modelos sólo ofrece el acceso a este tipo de señales.
 \end{itemize}
 
 \section{Extracción de datos de conducción}
 
-Se ha hecho uso de un vehículo instrumentado con sensores para capturar la mayor cantidad posible de la información indicada. El vehículo en cuestión es un Mitsubishi iMiEV (Figura~\ref{fig:instrumented-imiev}) y los dispositivos un \acrfull{lidar}\index{LiDAR}, un \gls{gps}, el Bus \Acrfull{can} y una cámara.
+Se ha hecho uso de un vehículo instrumentado con sensores para capturar la mayor cantidad posible de información. El vehículo en cuestión es un Mitsubishi iMiEV (Figura~\ref{fig:instrumented-imiev}) y los dispositivos un \Acrfull{lidar}\index{LiDAR}, un \Acrfull{gps}, el Bus \Acrfull{can} y una cámara.
 
 Todos los dispositivos se conectan a un ordenador con sistema operativo GNU/Linux sobre Intel i7-7500U CPU con 16GB de memoria RAM. Al ser éstos dispositivos con capacidades diferentes, se ha optado por la creación de una aplicación basada en el framework ROS del cual se da una breve visión general en el apéndice~\nameref{ch:ros-overview}.
 
@@ -70,16 +70,16 @@ El acceso a la información se realiza a través del puerto Ethernet. Para la ca
 
 El \acrshort{lidar}\index{LiDAR} instrumentado se encuentra anclado en la baca del vehículo con el eje $X$ dispuesto en el sentido de conducción y el eje $Z$ en sentido ascendente. Su posición es centrada en el vehículo y a una altura de \SI{1.75}{\meter}.
 
-\paragraph{\ac{gps}}
+\paragraph{\Acrshort{gps}}
 
-El \ac{gps} es una tecnología usada para sincronización de tiempo y posicionamiento $3d$ (i.e. latitud, longitud y altitud) de objetos en el globo terráqueo. Es un dispositivo que funciona en un único sentido, es decir, el receptor recibe la información de los satélites, pero no envía ninguna.
+El \Acrshort{gps} es una tecnología usada para sincronización de tiempo y posicionamiento $3d$ (i.e. latitud, longitud y altitud) de objetos en el globo terráqueo. Es un dispositivo que funciona en un único sentido, es decir, el receptor recibe la información de los satélites, pero no envía ninguna.
 
-El dispositivo \ac{gps} utilizado para los experimentos ha sido desarrollado en el Laboratorio de Electrónica e Instrumentación del \ac{insia}. Se trata de un dispositivo \ac{gps} con corrección diferencial que genera mensajes \ac{nmea} a una frecuencia de hasta \SI{20}{\Hz}. La posición de la antena receptora estará localizada en el centro del vehículo, justo debajo del \acrshort{lidar}\index{LiDAR}, situándose de esta forma en el origen de coordenadas del entorno capturado con éste último.
+El dispositivo \Acrshort{gps} utilizado para los experimentos ha sido desarrollado en el Laboratorio de Electrónica e Instrumentación del \ac{insia}. Se trata de un dispositivo \Acrshort{gps} con corrección diferencial que genera mensajes \ac{nmea} a una frecuencia de hasta \SI{20}{\Hz}. La posición de la antena receptora estará localizada en el centro del vehículo, justo debajo del \acrshort{lidar}\index{LiDAR}, situándose de esta forma en el origen de coordenadas del entorno capturado con éste último.
 
 \begin{marginfigure}
 	\centering
 	\includegraphics[width=\textwidth]{gps}
-	\caption[Posicionamiento \gls{gps} sobre la tierra]{El \ac{gps} permite el posicionamiento 3d sobre en la tierra gracias a la comunicación unidireccional de satélites situados en órbita. Fuente: Wikimedia Commons.}
+	\caption[Posicionamiento \Acrshort{gps} sobre la tierra]{El \Acrshort{gps} permite el posicionamiento 3d sobre en la tierra gracias a la comunicación unidireccional de satélites situados en órbita. Fuente: Wikimedia Commons.}
 	\label{fig:gps}
 \end{marginfigure}
 
@@ -90,14 +90,14 @@ De todos los mensajes disponibles, los recuperados son lo de los siguientes tipo
 	\item VTG. Velocidad del vehículo, que se usará como el valor real de la velocidad tomada por el vehículo.
 \end{itemize}
 
-De la captura de datos se encargará el paquete de \ac{ros} denominado \texttt{nmea\_navsat\_driver} \sidenote{\url{http://wiki.ros.org/nmea\_navsat\_driver}.} el cual leerá por el puerto USB la información originada en el \ac{gps}.
+De la captura de datos se encargará el paquete de \ac{ros} denominado \texttt{nmea\_navsat\_driver} \sidenote{\url{http://wiki.ros.org/nmea\_navsat\_driver}.} el cual leerá por el puerto USB la información originada en el \Acrshort{gps}.
 
 \paragraph{Bus \Acrshort{can}}
 
 Un bus es una topología caracterizada por tener un único canal de comunicaciones donde los dispositivos se conectan, vierten la información y la reciben. El Bus \Acrshort{can}, o simplemente \Acrshort{can}, es un protocolo de comunicaciones basado en esta topología utilizado, entre otras muchas áreas, para la comunicación entre los diferentes dispositivos que componen un vehículo.
 
-El estándar \ac{can} cubre únicamente las dos primeras capas del modelo \ac{osi}\sidenote{
-	Las dos primeras capas son la capa física (la conexión el hardware a la red y la transmisión/recepción física de los datos) y la de enlace de datos (direccionamiento físico, detección de errores y control de flujo). Sobre el resto de niveles no existen un estándar definido y por tanto existen multiples protocolos de estas dependiendo del fabricante u organismo que lo implemente.
+El estándar \Acrshort{can} cubre únicamente las dos primeras capas del modelo \ac{osi}\sidenote{
+	Las dos primeras capas son la capa física (la conexión el hardware a la red y la transmisión/recepción física de los datos) y la de enlace de datos (direccionamiento físico, detección de errores y control de flujo). Sobre el resto de niveles no existen un estándar definido y por tanto existen múltiples protocolos de estas dependiendo del fabricante u organismo que lo implemente.
 }, lo cual es suficiente para el acceso a la información del vehículo. Sin embargo, dependiendo del fabricante, los vehículos pueden contar con uno o más buses independientes, con acceso más o menos restringido y con identificadores de mensajes diferentes. Además, el acceso a esta información no suele ser accesible para el público en general, por lo que lo habitual, como ha sido en nuestro caso, es realizar una tarea previa de ingeniería inversa para identificar los mensajes correspondientes a los datos que se desean almacenar y su frecuencia de actualización.
 
 \begin{marginfigure}
@@ -107,13 +107,13 @@ El estándar \ac{can} cubre únicamente las dos primeras capas del modelo \ac{os
 	\label{fig:laciwel-canusb}
 \end{marginfigure}
 
-Del \Acrshort{can} se ha recogido numerosa información, tanto para esta tesis como para más proyectos relacionados con ella. Para este experimento, no obstante, se ha utilizado únicamente la velocidad, y no directamente. La razón es que el \Acrshort{can} ofrece ésta como un número entero, por lo que los cambios de velocidad durante los recorridos ocurren de \SI{\pm1}{\km\per\hour}. Esta resolución es insuficiente para los cálculos de la aceleración, por lo que se ha usado para validar la velocidad capturada por el \Acrshort{gps}
+Del \Acrshort{can} se ha recogido numerosa información, tanto para esta tesis como para más proyectos relacionados con ella. Para este experimento, no obstante, se ha utilizado únicamente la velocidad, y no directamente. La razón es que el \Acrshort{can} ofrece ésta como un número entero, por lo que los cambios de velocidad durante los recorridos ocurren de \SI{\pm1}{\km\per\hour}. Esta resolución es insuficiente para los cálculos de aceleración, por lo que se ha usado para validar la velocidad capturada por el \Acrshort{gps}
 
 El acceso a la información del bus se ha realizado a través del puerto USB. Para ello se ha utilizado el dispositivo CANUSB de la empresa LAWICEL AB, el cual se encarga de la traducción del protocolo CAN a una conexión estándar RS232. La captura de los paquetes se ha realizado a través de un nodo de \ac{ros} desarrollado para la elaboración de esta tesis.
 
 \paragraph{Cámara}
 
-Para la obtención de algunos valores de indicadores no existentes necesitamos un proceso posterior de análisis sobre el recorrido, asociando las imágenes a los valores recogidos del resto de dispositivos, como posiciones o nube de puntos del entorno. Para ello se ha hecho uso de una cámara para la visualización del recorrido desde el punto de vista del conductor.
+Para la obtención de algunos valores de indicadores no existentes necesitamos un proceso posterior de análisis sobre el recorrido, asociando las imágenes a los valores recogidos del resto de dispositivos, como posiciones o nube de puntos del entorno. Para ello se ha hecho uso de una cámara que permite la visualización del recorrido desde el punto de vista del conductor.
 
 La cámara utilizada es un Microsoft Kinect localizada tras el retrovisor interior del vehículo. Dicha cámara está orientada de tal manera que ofrece una visualización de la vía por la que circula el vehículo.
 
@@ -124,21 +124,21 @@ La cámara utilizada es un Microsoft Kinect localizada tras el retrovisor interi
 	\label{fig:kinect}
 \end{marginfigure}
 
-Entre otras capacidades, la cámara ofrece captura de imágenes VGA de \SI{640x480}{\px} de resolución y a una frecuencia de \SI{30}{\Hz}. El dispositivo se conecta vía USB y de la captura se encarga un nodo de ROS denominado \textit{freenect}\sidenote{\url{http://wiki.ros.org/freenect\_stack}.} 	que, entre otras cosas, public las imágenes tomadas a icha frecuencia.
+Entre otras capacidades, la cámara ofrece captura de imágenes VGA de \SI{640x480}{\px} de resolución y a una frecuencia de \SI{30}{\Hz}. El dispositivo se conecta vía USB y de la captura se encarga un nodo de ROS denominado \textit{freenect}\sidenote{\url{http://wiki.ros.org/freenect\_stack}.} 	que, entre otras cosas, publica las imágenes tomadas a dicha frecuencia.
 
 \subsection{Selección de rutas}
 
-Para la captura de datos se han propuesto dos rutas, en adelante $R_1$ y $R_2$, consideradas equivalentes al tratarse de vías en entorno urbano, con tramos de entre uno y tres carriles a lo largo de su recorrido y con velocidades máximas establecidas entre los \SI{30}{\km\per\hour} y los \SI{50}{\km\per\hour}. La figura~\ref{fig:proposed-routes} muestra los recorridos en el mapa.
+Para la captura de datos se han propuesto dos rutas, en adelante $R_1$ y $R_2$, consideradas equivalentes al tratarse de vías en entorno urbano, con tramos de entre uno y tres carriles a lo largo de su recorrido y con velocidades máximas establecidas entre los \SI{30}{\km\per\hour} y los \SI{50}{\km\per\hour}. La Figura~\ref{fig:proposed-routes} muestra estos recorridos en el mapa.
 
-$R_1$ tiene una duración de recorrido estimada de \SI{30}{\minute} y se utilizará como fuente de datos destinada al entrenamiento del modelo (conjuntos de entrenamiento y de validación). $R_2$ por su lado tiene un tiempo estimado de recorrido de \SI{15}{\minute} y sus datos tienen el propósito de servir de conjunto de test. Ambas fueron realizadas entre las 11:00am y las 12:00pm en días laborables, permitiendo una circulación con suficientes vehículos para requerir maniobras dependientes del entorno, pero sin demasiados como para impedir la circulación.
-
-\begin{figure}[t]
+\begin{figure}
 	\centering
 	\subfloat[Ruta $R_1$]{\includegraphics[width=.45\textwidth]{route-1}}\qquad
 	\subfloat[Ruta $R_2$]{\includegraphics[width=.45\textwidth]{route-2}}
 	\caption[Los dos recorridos planteados para la captura de datos de conducción]{Los dos recorridos realizados para la captura de datos de conducción, ambos en entorno urbano. (a) $R_1$ tiene una duración estimada de \SI{30}{\minute} y sirve para la captura de los datos de entrenamiento. (b) $R_2$ tiene una duración estimada de \SI{15}{\minute} y sus datos serán utilizdos para los conjuntos de test.}
 	\label{fig:proposed-routes}
 \end{figure}
+
+$R_1$ tiene una duración de recorrido estimada de \SI{30}{\minute} y se utilizará como fuente de datos destinada al entrenamiento del modelo (conjuntos de entrenamiento y de validación). $R_2$ por su lado tiene un tiempo estimado de recorrido de \SI{15}{\minute} y sus datos tienen el propósito de servir de conjunto de test. Ambas fueron realizadas entre las $11$:$00$ am y las $12$:$00$ pm en días laborables, permitiendo una circulación con suficientes vehículos para requerir maniobras dependientes del entorno, pero sin demasiados como para impedir la circulación.
 
 \subsection{Selección de sujetos}
 
@@ -177,13 +177,11 @@ Se han identificado los cambios de carril como $+1$ si es hacia la izquierda o $
 
 \paragraph{Distancia y estado de semáforos}
 
-La distancia al semáforo ha sido obtenida a partir de la distancia euclídea entre la geoposición del origen de coordenadas y la geoposición del semáforo, por lo que es esperable cierto márgen de error. Los estados se han extraído directamente del visionado de las imágenes, tomando este los valores $g$, $y$ y $r$ dependiendo de si el semáforo se encuentra en verde, ámbar o rojo respectivamente.
+La distancia al semáforo ha sido obtenida a partir de la distancia euclídea entre la geoposición del origen de coordenadas y la del semáforo, por lo que es esperable cierto margen de error. Los estados se han extraído directamente del visionado de las imágenes, tomando este los valores $g$, $y$ y $r$ dependiendo de si el semáforo se encuentra en verde, ámbar o rojo respectivamente.
 
 \paragraph{Distancia circulable en carriles}
 
-Al igual que con la distancia a los semáforos, ésta se ha calculado a partir de la distancia euclídea de la geoposición del origen de coordenadas a los puntos a partir de los cuales no se puede continuar por el recorrido especificado.
-
-Las distancias obtenidas se corresponden al carril izquierdo, al actual y al derecho.
+Al igual que con la distancia a los semáforos, ésta se ha calculado a partir de la distancia euclídea de la geoposición del origen de coordenadas a los puntos a partir de los cuales no se puede continuar por el recorrido especificado. Las distancias obtenidas se corresponden al carril izquierdo, al actual y al derecho.
 
 \paragraph{Distancia al obstáculo más cercano}
 
@@ -205,7 +203,7 @@ Tras obtener todas las variables principales, ya sean directamente de los sensor
 	\centering
 	\caption[Resumen de los indicadores obtenidos en los recorridos del experimento]{Resumen de los indicadores obtenidos tras los recorridos. Éstos incluyen tanto la información extraída directamente como aquella que ha requerido proceso manual. La parte inferior de la tabla describe las variables a predecir en los problemas de modelo longitudinal y de cambio de carril. Las variables \enquote{Distancia circulable} en realidad es una tupla que indica las distancias circulables en los carriles izquierdo, actual y derecho.}
 	\label{tbl:main-variables}
-	\begin{tabular}{lcc}
+	\begin{tabularx}{\linewidth}{Xcc}
 		\toprule
 		Variable & Longitudinal & Cambio de carril \\
 		\midrule
@@ -220,7 +218,7 @@ Tras obtener todas las variables principales, ya sean directamente de los sensor
 		\textbf{Aceleración}      & \yep & \nop \\
 		\rowcolor{black!20} \textbf{Cambio de carril} & \nop & \yep \\
 		\bottomrule
-	\end{tabular}
+	\end{tabularx}
 \end{table}
 
 \section{Entrenamiento de modelos}

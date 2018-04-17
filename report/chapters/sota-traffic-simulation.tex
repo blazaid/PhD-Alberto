@@ -210,18 +210,21 @@ Posteriormente se ha desarrollado un listado de características deseables. No s
 
 \subsection{Entornos de simulación a estudiar}
 
-\begin{table}[!b]
+El primer listado de características deja atrás la mayoría de simuladores (una gran cantidad de ellos son o bien de propósito específico, están desarrollados para sistemas operativos Windows o no permiten extender su modelo). Tras la selección, nos quedamos con los siguientes simuladores: \gls{aorta}, \gls{matsim}, \gls{mitsim}, \gls{movsim} y \gls{sumo}\index{SUMO}.
+
+Dichos entornos están prácticamente igualados en las características presentadas, tal y como se puede observar en la Tabla~\ref{tbl:simulators-comparison}. Sin embargo, en matería de extensibilidad, \gls{sumo}\index{SUMO} es el único que permite el desarrollo de \acrshortpl{dvu}\index{driver-vehicle unit} de manera externa. El resto requiere la modificación del código fuente del simulador para variar los comportamientos de los conductores. \gls{aorta} además no es un proyecto que se mantenga activo en la actualidad (las últimas modificaciones del repositorio datan de principios del año $2014$).
+
+\begin{table*}
 	\centering
-	\small
-	\caption[Tabla comparativa de los simuladores seleccionados]{Tabla comparativa donde se contrastan las características de los simuladores seleccionados. El simulador \gls{sumo} es el que más características cumple de las originalmente planteadas.}
+	\caption[Tabla comparativa de los simuladores seleccionados][-21em]{Tabla comparativa donde se contrastan las características de los simuladores seleccionados. El simulador \gls{sumo} es el que más características cumple de las originalmente planteadas.}
 	\label{tbl:simulators-comparison}
-	\begin{tabular}{lccccc}
+	\begin{tabularx}{\linewidth}{Xccccc}
 		\toprule
 		& \gls{aorta} & \gls{matsim} & \gls{mitsim} & \gls{movsim} & \gls{sumo} \\
 		\midrule
 		\rowcolor{black!20} Activo & \nop & \yep & \nop & \yep & \yep \\
-		Lenguajes & Scala & Java & C++ & Java & C++/\gls{python} \\		
-		\rowcolor{black!20} Propietario & \nop & \nop & \nop & \nop & \nop \\
+		Lenguajes de programación & Scala & Java & C++ & Java & C++/\gls{python} \\		
+		\rowcolor{black!20} Licencia propietaria & \nop & \nop & \nop & \nop & \nop \\
 		Licencia \glsentryshort{oss} & \yep & \yep & \yep & \yep & \yep \\
 		\rowcolor{black!20} Licencia \gls{gpl} & \yep & \yep & \nop & \yep & \yep \\
 		\acrshort{api} & \nop & \nop & \nop & \nop & \yep \\
@@ -229,12 +232,8 @@ Posteriormente se ha desarrollado un listado de características deseables. No s
 		OS X & \yep & \yep & \nop & \yep & \yep \\
 		\rowcolor{black!20} Windows & \yep & \yep & \nop & \yep & \yep \\
 		\bottomrule
-	\end{tabular}
-\end{table}
-
-El primer listado de características deja atrás la mayoría de simuladores (una gran cantidad de ellos son o bien de propósito específico, están desarrollados para sistemas operativos Windows o no permiten extender su modelo). Tras la selección, nos quedamos con los siguientes simuladores: \gls{aorta}, \gls{matsim}, \gls{mitsim}, \gls{movsim} y \gls{sumo}\index{SUMO}.
-
-Dichos entornos están prácticamente igualados en las características presentadas, tal y como se puede observar en la Tabla~\ref{tbl:simulators-comparison}. Sin embargo, en matería de extensibilidad, \gls{sumo}\index{SUMO} es el único que permite el desarrollo de \acrshortpl{dvu}\index{driver-vehicle unit} de manera externa. El resto requiere la modificación del código fuente del simulador para variar los comportamientos de los conductores. \gls{aorta} además no es un proyecto que se mantenga activo en la actualidad (las últimas modificaciones del repositorio datan de principios del año $2014$).
+	\end{tabularx}
+\end{table*}
 
 No obstante se ha tratado de modificar los comportamientos de los conductores en los cuatro simuladores para validar este hecho y ha quedado patente que es mucho más eficaz usar \gls{sumo}\index{SUMO} como simulador para nuestro estudio.
 

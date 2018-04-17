@@ -45,7 +45,7 @@ El proceso de desarrollo será el siguiente: primero, construiremos cada uno de 
 
 El grafo computacional asociado a este bloque tomará una matriz bidimensional de rango $(m, n)$ (la matriz de entrada) que contendrá para cada ejemplo una lista de los valores que toma cada una de las variables de entrada. La salida de este grafo será una matriz bidimensional de rango $(m, \sum_{i=1}^n N_i)$, donde se almacenarán los grados de pertenencia de esos valores acada conjunto difuso de la variable que les corresponda (Figura~\ref{fig:input-to-fuzzy-input}).
 
-\begin{figure*}[t]
+\begin{figure*}
 	\centering
 	\begin{equation*}
 		\left(\begin{array}{>{\columncolor{red!20}}c>{\columncolor{blue!20}}cc}
@@ -68,7 +68,7 @@ El grafo computacional asociado a este bloque tomará una matriz bidimensional d
 
 Para ello, se le aplicará a cada columna de la matriz de entrada tantas operaciones (funciones de pertenencia) como conjuntos difusos posea. Concretamente se aplicarán operaciones de línea descendente, trapezoidal y ascendente.
 
-Los grafos de las líneas \textbf{ascendente} y \textbf{descendente} tienen una forma parecida. El grafo asociado a la fórmula de la línea descendente se muestra en la figura~\ref{fig:slope-asc-grap}, que es la que se correspondería con el último conjunto de una partición difusa. Como se puede ver, las variables ajustables son $a$ y $\delta b$. Estas definen el intervalo $(a, a + \delta b) \in \mathbb{R}$ donde los valores $f(X)$ ascienden de $0$ a $1$ (o descienden de $1$ a $0$ en el caso de la recta ascendente).
+Los grafos de las líneas \textbf{ascendente} y \textbf{descendente} tienen una forma parecida. El grafo asociado a la fórmula de la línea descendente se muestra en la Figura~\ref{fig:slope-asc-grap}, que es la que se correspondería con el último conjunto de una partición difusa. Como se puede ver, las variables ajustables son $a$ y $\delta b$. Estas definen el intervalo $(a, a + \delta b) \in \mathbb{R}$ donde los valores $f(X)$ ascienden de $0$ a $1$ (o descienden de $1$ a $0$ en el caso de la recta ascendente).
 
 \begin{figure}
 	\centering
@@ -98,7 +98,7 @@ Este grafo tiene que definir una serie de variables para que nuestro algoritmo d
 
 Al estar definidas de esta manera, logramos (i) que la suma de todas las pertenencias en cada punto del eje $X$ sea $1$ y (ii) que cada pequeña variación del gradiente de una de las variables tiene el potencial de provocar una variación en el resto de variables.
 
-Por último, un controlador difuso define un número de variables de entrada. Nuestro grafo de fuzzificación estará definido de tal manera que para una matriz de entrada $m \times l$, siendo $m$ cada tupla de valores a inferir y $l$ cada una de las variables lingüísticas, generará una matriz de la forma $m \times \sum_{i=1}^l \left\vert{l_i}\right\vert$, siendo $\left\vert{S}\right\vert$ el número de conjuntos difusos que contiene la variable linguística $l_i$ (Figura~\ref{fuzzification-graph})
+Por último, un controlador difuso define un número de variables de entrada. Nuestro grafo de fuzzificación estará definido de tal manera que para una matriz de entrada $m \times l$, siendo $m$ cada tupla de valores a inferir y $l$ cada una de las variables lingüísticas, generará una matriz de la forma $m \times \sum_{i=1}^l \left\vert{l_i}\right\vert$, siendo $\left\vert{S}\right\vert$ el número de conjuntos difusos que contiene la variable linguística $l_i$ (Figura~\ref{fig:fuzzification-graph})
 
 \begin{figure}
 	\centering
@@ -111,9 +111,9 @@ Por último, un controlador difuso define un número de variables de entrada. Nu
 
 Este bloque tomará una matriz bidimensional de rango $(m, \sum_{i=1}^n N_i)$, es decir, la matriz de salida del bloque de fuzzificación, y generará una matriz bidimensional de rango $(m, N_O)$ que contendrá los valores difusos de salida (un valor difuso por cada conjunto difuso de salida). Para ello, hará uso de un bloque de reglas en las que basará su inferencia.
 
-Este bloque de reglas es el que se tratará de ajustar. La representación será la de una matriz $(v_i + 1)$-dimensional, siendo $v_i = \sum_{i=1}^l \left\vert{l_i}\right\vert$ (el número total de entradas difusas que llegan al bloque). La dimensión adicional se corresponde a la variable lingüística de salida.
+Este bloque de reglas es el que se tratará de ajustar. La representación será la de una matriz $(v_i + 1)$-dimensional, siendo $v_i = \sum_{i=1}^l \left\vert{l_i}\right\vert$ el número total de entradas difusas que llegan al bloque. La dimensión adicional se corresponde a la variable lingüística de salida.
 
-Dicho de otro modo, cada posible conjunto difuso de salida (es decir, para cada valor dentro del eje correspondiente a la salida) se corresponderá con una matriz $v_i$-dimensional resultado del producto cartesiano de las cariables de entradas. Esto es, cada una de las posibles combinaciones de reglas, a la que podemos asociar un valor. En la Figura~\ref{fig:inference-graph} se muestra un ejemplo con las variables obtenidas en el ejemplo de la Figura~\ref{fig:fuzzification-graph} tras aplicarles la $t$-norma.
+Dicho de otro modo, cada posible conjunto difuso de salida (cada valor dentro del eje correspondiente a la salida) se corresponderá con una matriz $v_i$-dimensional resultado del producto cartesiano de las cariables de entradas. Esto es, cada una de las posibles combinaciones de reglas, a la que podemos asociar un valor. En la Figura~\ref{fig:inference-graph} se muestra un ejemplo con las variables obtenidas en el ejemplo de la Figura~\ref{fig:fuzzification-graph} tras aplicarles la $t$-norma.
 
 Al estar definida la $t$-conorma y la acumulación con el mismo operador (i.e. el máximo), una regla de tipo OR es equivalente a dos reglas de tipo AND, ya que la acumulación de sus resultados es equivalente. Por tanto, al aplicar la $t$-norma a estas combinaciones tenemos todas las posibles combinaciones de reglas. Pero hasta aquí no tenemos ningún ajuste.
 
@@ -189,11 +189,11 @@ El controlador es una función con dos variables que describen la superficie mos
 	\label{fig:real-tip-controller-surface}
 \end{figure}
 
-Recogeremos una muestra aleatoria uniforme de $2500$ de entre los $62500$ que conforman la representación de la superficie del controlador de ejemplo. Posteriormente se crea un controlador difuso y se itera el algoritmo de descenso del gradiente ADAM~\cite{kingma2014adam}.
+Recogeremos una muestra aleatoria uniforme de $2500$ de entre los $62500$ que conforman la representación de la superficie del controlador de ejemplo. Posteriormente se creará un controlador difuso y se entrenará aplicando el algoritmo de descenso del gradiente ADAM~\cite{kingma2014adam}.
 
 El proceso de entrenamiento consistirá en la ejecución del algoritmo de propagación del error durante $2500$ epochs con una tasa de aprendizaje de $0.01$, la cual se ha considerado suficiente para el ejemplo en cuestión.
 
-Durante el entrenamiento, las superficies evolucionan hacia una representación aproximada de lo que es el controlador original. En la figura~\ref{fig:adjusted-tip-controller-training} podemos observar cómo evoluciona la superficie que representa el controlador ajustado.
+Durante el entrenamiento, las superficies evolucionan hacia una representación aproximada de lo que es el controlador original. En la Figura~\ref{fig:adjusted-tip-controller-training} podemos observar cómo evoluciona la superficie que representa el controlador ajustado.
 
 \begin{figure}
 	\centering

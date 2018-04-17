@@ -37,10 +37,9 @@ La forma por la que se comprobará si los comportamientos son similares es la pr
 
 \begin{table*}[!b]
 	\centering
-	\small
 	\caption[Indicadores reales frente a indicadores capturados en simulación][-46em]{Resumen de los indicadores provenientes de los datos de los conductores en los recorridos frente a los valores. En el caso del conjunto global, se ha elegido la media (redondeada a entero en el caso de cambio de carril) de los tres sujetos como estimador de los valores que correspondan para un supuesto conductor medio en ese recorrido. Los valores de los cambios de carril son el numero exacto y no el número de frames que transcurren durante los mismos. Los valores de cambio de carril correspondientes a las simulaciones son la media y la varianza de tres ejecuciones sobre el mismo escenario.}
 	\label{tbl:global-comparison-indicators}
-	\begin{tabular}{cccccccccc}
+	\begin{tabularx}{\linewidth}{cYYYYYYYYY}
 		\toprule
 		&                   & \multicolumn{2}{c}{$S_A$}    & \multicolumn{2}{c}{$S_1$}          & \multicolumn{2}{c}{$S_2$}        & \multicolumn{2}{c}{\textbf{$S_3$}}        \\
 		\multicolumn{2}{l}{}                  & $\mu$     & $\sigma$ & $\mu$    & $\sigma$ & $\mu$     & $\sigma$  & $\mu$    & $\sigma$ \\
@@ -64,7 +63,7 @@ La forma por la que se comprobará si los comportamientos son similares es la pr
 		\rowcolor{black!20} \cellcolor{white} \multirow{2}{*}{\textbf{$RC$}}  & R. & $3.333$ & $0.942$ & $2$     &  -      & $4$     &    -    & $4$     &    -    \\
 		                                                                      & S. & $1.667$ & $1.700$ & $0.667$ & $0.471$ & $2.333$ & $1.886$ & $0.667$ & $0.943$ \\
 		\bottomrule
-	\end{tabular}
+	\end{tabularx}
 \end{table*}
 
 Por otro lado, para el comportamiento del modelo de cambio de carril\index{lane-change} se usará el número de éstos que se han producido durante el recorrido, ya que podemos considerar las condiciones similares (i.e. flujo de tráfico moderado en ambas direcciones, misma distancia de recorrido y aproximadamente el mismo número de carriles y semáforos durante el recorrido).

@@ -34,7 +34,7 @@ El resultado de la generación de los datasets de entrenamiento y test para todo
 	\centering
 	\caption[Descripción de los conjuntos de datos]{Descripción de los conjuntos de datos para el entrenamiento de los modelos. $CF_{S_A}$ se corresponde con el modelo de conductor global, mientras que cada $CF_{S_i}$ es la porción de datos correspondiente al sujeto $S_i$.}
 	\label{tbl:cf-datasets-description}
-	\begin{tabular}{ccccc}
+	\begin{tabularx}{\textwidth}{YYYYY}
 		\toprule
 		& & & \multicolumn{2}{c}{Tamaño} \\
 		& Entradas & Salidas & Entrenamiento & Test \\
@@ -44,19 +44,18 @@ El resultado de la generación de los datasets de entrenamiento y test para todo
 		\rowcolor{black!20} $CF_{S_3}$ & $7$ & $1$ & $2067$ & $668$ \\
 		$CF_{S_A}$ & $7$ & $1$ & $4469$ & $1771$ \\
 		\bottomrule
-	\end{tabular}
+	\end{tabularx}
 \end{table}
 
 \section{Modelo basado en \acrlongplsp{fcs}\index{sistema de control difuso}}
 
 Se han realizado entrenamientos sobre arquitecturas con diferente número de particiones difusas en las variables. Las arquitecturas que se han considerado más relevantes (tras un proceso de ensayo y error con diferente número de particiones difusas) se describen en la Tabla~\ref{tbl:cf-fcs-architectures}. 
 
-\begin{table}[t]
+\begin{table*}
 	\centering
-	\small
-	\caption[Resumen de las arquitecturas \ac{fcs}\index{sistema de control difuso} para el modelo longitudinal]{Resumen de las arquitecturas seleccionadas. La posición de cada número de la arquitectura indica a qué variable lingüística se refiere (\textit{Distancia al líder}, \textit{Distancia a siguiente TLS}, \textit{TLS en verde}, \textit{TLS en amarillo}, \textit{TLS en rojo}, \textit{Velocidad} y \textit{Velocidad de aproximación al líder} respectivamente). Su valor se corresponde al número de conjuntos difusos de la partición de cada una de ellas.}
+	\caption[Resumen de las arquitecturas \ac{fcs}\index{sistema de control difuso} para el modelo longitudinal][2em]{Resumen de las arquitecturas seleccionadas. La posición de cada número de la arquitectura indica a qué variable lingüística se refiere (\textit{Distancia al líder}, \textit{Distancia a siguiente TLS}, \textit{TLS en verde}, \textit{TLS en amarillo}, \textit{TLS en rojo}, \textit{Velocidad} y \textit{Velocidad de aproximación al líder} respectivamente). Su valor se corresponde al número de conjuntos difusos de la partición de cada una de ellas.}
 	\label{tbl:cf-fcs-architectures}
-	\begin{tabular}{cccccc}
+	\begin{tabularx}{\linewidth}{XXXXXX}
 		\toprule
 		\multirow{2}{*}{} & \multirow{2}{*}{Arquitectura} & \multirow{2}{*}{Epochs} & \multicolumn{3}{c}{RMS}      \\ 
 		& & & Entrenamiento & Validación & Test \\
@@ -66,39 +65,21 @@ Se han realizado entrenamientos sobre arquitecturas con diferente número de par
 		\rowcolor{black!20} $FCS_3$ & $4, 3, 2, 2, 2, 3, 3$ & $10^5$ & $0.072$ & $0.078$ & $0.088$  \\
 		$FCS_4$ & $5, 5, 2, 2, 2, 5, 5$ & $10^5$ & $0.063$ & $0.068$ & $0.109$  \\
 		\bottomrule
-	\end{tabular}
-\end{table}
+	\end{tabularx}
+\end{table*}
 
 Todas las arquitecturas mantienen el número de conjuntos difusos asociados a las variables de estado del semáforo (verde, ámbar y rojo) a $2$. La razón es debido a que dicha variable sólo puede tomar dos valores, $0$ o $1$, y en la inicialización de sus respectivas particiones, estas variables ya toman dichos valores con un grado de pertenencia de $1$ en sus dominios.
 
-Cada uno de los controladores se ha entrenado durante $250.000$ epochs. En un principio, el proceso de entrenamiento fue el habitual, ajustando todas las variables a la vez (particiones difusas y pesos asociados a las reglas).
-
-\begin{figure}[!b]
-	\centering
-	\subfloat[Entrenamiento y validación]{\includegraphics[width=.45\textwidth]{lm-fcs-rmse-all-training-and-validation-detail}}\qquad
-	\subfloat[Test]{\includegraphics[width=.45\textwidth]{lm-fcs-rmse-all-test-detail}}
-	\caption[Evolución del error durante el entrenamiento en las arquitecturas de \acrshort{fcs} para el modelo longitudinal]{Visión en detalle de la evolución del error en los conjuntos de entrenamiento y validación (izquierda) y de test (derecha). Para cada arquitectura, el color más transparente se corresponde al error en el conjunto de validación. El error de test se muestra debido a que nos ofrece puede ofrecer intuición de qué forma aprende la red, pero su evolución no se ha considerado para determinar las arquitecturas.}
-	\label{fig:lm-fcs-rmse-all-comparisons}
-\end{figure}
+Cada uno de los controladores se ha entrenado durante $250000$ \textit{epochs}\index{epoch}. En un principio, el proceso de entrenamiento fue el habitual, ajustando todas las variables a la vez (particiones difusas y pesos asociados a las reglas).
 
 Sin embargo, tras varias pruebas, se ha comprobado que el ajuste de las variables que determinan las particiones difusas parece suceder más rápido que el ajuste de los pesos asociados a las reglas. Por ello, en lugar entrenar a la vez, se ha particionado el entrenamiento en secuencias sucesivas de entrenamiento de reglas y entrenamiento de particiones difusas.
 
-Concretamente, los $250.000$ epochs de entrenamiento han sido divididos en $250$ iteraciones de:
+Concretamente, los $250000$ epochs de entrenamiento han sido divididos en $250$ iteraciones de:
 
 \begin{enumerate}
-	\item $800$ epochs ajustando sólo las reglas con una tasa de entrenamiento de $0.01$
+	\item $800$ epochs ajustando sólo las reglas con una tasa de entrenamiento de $0.01$.
 	\item $200$ epochs ajustando sólo las variables de las particiones difusas con una tasa de entrenamiento de $0.001$.
 \end{enumerate}
-
-\begin{figure}[t]
-	\centering
-	\subfloat[Distancia a líder]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-leader-distance-variable-partition}}\qquad
-	\subfloat[Distancia a siguiente semáforo]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-next-tls-distance-variable-partition}}\qquad
-	\subfloat[Velocidad]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-speed-variable-partition}}\qquad
-	\subfloat[Velocidad a líder]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-speed-to-leader-variable-partition}}
-	\caption[Particiones difusas después de la operación de ajuste en el modelo longitudinal basado en \acrshort{fcs}]{Particiones difusas después de la operación de ajuste en el modelo longitudinal basado en \Acrshortpl{fcs}. Las funciones de pertenencia correspondientes al estado del semáforo no se incluyen ya que no se vieron modificadas en ningún entrenamiento. Después de todo, estas variables eran binarias, y las particiones difusas se inicializan de tal manera que dichos valores siempre alcanzan un valor de pertenencia $1$. El de la variable \textit{Velocidad a líder} es cuanto menos, curioso. Tras varias ejecuciones sobre esta y otras arquitecturas, ha mantenido este comportamiento, por lo que intuimos que la variable tiene un efecto mínimo o nulo sobre el comportamiento en el modelo longitudinal.}
-	\label{fig:adjusted-fuzzy-partitions}
-\end{figure}
 
 Empíricamente (y para este problema en concreto) se ha podido observar que el entrenamiento realizado de esta manera hace que el \ac{rmse} descienda más rápido en el mismo número de iteraciones.
 
@@ -108,29 +89,49 @@ Se puede observar que la arquitectura $FCS_1$ es la que mejor error en test ha a
 
 Éste será por tanto, el modelo seleccionado para la comparativa final. Las funciones de pertenencia ajustadas se muestran en la Figura~\ref{fig:adjusted-fuzzy-partitions} contrastadas con las versiones de antes de comenzar el entrenamiento. Las reglas, sin embargo, son muy numerosas para ser incluidas en el texto, ya que la mayoría de reglas posibles en el sistema (aproximadamente $60$) tienen un peso asociado de más de $0.5$.
 
+\begin{figure}[t]
+	\centering
+	\subfloat[Entrenamiento y validación]{\includegraphics[width=.45\textwidth]{lm-fcs-rmse-all-training-and-validation-detail}}\qquad
+	\subfloat[Test]{\includegraphics[width=.45\textwidth]{lm-fcs-rmse-all-test-detail}}
+	\caption[Evolución del error durante el entrenamiento en las arquitecturas de \acrshort{fcs} para el modelo longitudinal]{Visión en detalle de la evolución del error en los conjuntos de entrenamiento y validación (izquierda) y de test (derecha). Para cada arquitectura, el color más transparente se corresponde al error en el conjunto de validación. El error de test se muestra debido a que nos ofrece puede ofrecer intuición de qué forma aprende la red, pero su evolución no se ha considerado para determinar las arquitecturas.}
+	\label{fig:lm-fcs-rmse-all-comparisons}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\subfloat[Distancia a líder]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-leader-distance-variable-partition}}\qquad
+	\subfloat[Distancia a siguiente semáforo]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-next-tls-distance-variable-partition}}\qquad
+	\subfloat[Velocidad]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-speed-variable-partition}}\qquad
+	\subfloat[Velocidad a líder]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-speed-to-leader-variable-partition}}
+	\caption[Particiones difusas después de la operación de ajuste en el modelo longitudinal basado en \acrshort{fcs}]{Particiones difusas después de la operación de ajuste en el modelo longitudinal basado en \Acrshortpl{fcs}, donde $f_i$ se corresponde con la función de pertenencia que caracteriza al conjunto borroso $i$-ésimo de la variable. Las funciones de pertenencia correspondientes al estado del semáforo no se incluyen ya que no se vieron modificadas en ningún entrenamiento. Después de todo, estas variables eran binarias, y las particiones difusas se inicializan de tal manera que dichos valores siempre alcanzan un valor de pertenencia $1$. El de la variable \textit{Velocidad a líder} es cuanto menos, curioso. Tras varias ejecuciones sobre esta y otras arquitecturas, ha mantenido este comportamiento, por lo que intuimos que la variable tiene un efecto mínimo o nulo sobre el comportamiento en el modelo longitudinal.}
+	\label{fig:adjusted-fuzzy-partitions}
+\end{figure}
+
 Un detalle que merece la pena destacar es el aprendizaje de la variable lingüística \textit{Velocidad a Líder}. En todos los entrenamientos conducidos con las arquitecturas de la Tabla~\ref{tbl:cf-fcs-architectures} el comportamiento ha sido el mismo. Esto nos hace pensar que esta variable tiene un efecto mínimo o nulo sobre el comportamiento del modelo longitudinal.
 
 En la Figura~\ref{fig:fcs-test-comparisons} se muestran los perfiles de la aceleración estimada por los controladores frente la aceleración real en cada momento. 
 
-\begin{figure}[t]
+\begin{figure}
 	\centering
 	\subfloat[Perfil de aceleración]{\includegraphics[width=\textwidth]{lm-fcs-outs-all-test-comparison}}\qquad
 	\subfloat[Detalle entre frames de $750$ a $1050$]{\includegraphics[width=\textwidth]{lm-fcs-outs-all-test-comparison-detail}}
-	\caption[Comparación del perfil de aceleración real y el inferido por los modelos entrenados]{Comparación del perfil de aceleración real y el inferido por los modelos entrenados. En la visión general se puede observar, en transparente, el perfil real. A la derecha se amplía una pequeña sección del perfil para mostrar los diferentes ajustes de los modelos entrenados y cómo difieren del valor real.}
+	\caption[Comparación del perfil de aceleración real y el inferido por los modelos entrenados]{Comparación del perfil de aceleración real y el inferido por los modelos entrenados. En la visión general se puede observar el perfile real en color semi-transparente. Debajo, en el perfil, se amplía una pequeña sección del perfil para mostrar los diferentes ajustes de los modelos entrenados y cómo difieren del valor real.}
 	\label{fig:fcs-test-comparisons}
 \end{figure}
 
+En el detalle podemos ver de qué forma está ajustando el controlador con menor error en test frente al resto. Mientras que el $FCS_1$ presenta picos de variación que aproximan el valor inferido al valor real, el resto de controladores mantiene valores constantes separados en escalones.
+
 \section{Modelo basado en \acrlongplsp{mlp}\index{perceptron multicapa}}
 
-Para determinar el modelo óptimo de \acrlongsp{mlp}\index{perceptron multicapa} en comportamiento longitudinal, se han realizado entrenamientos sobre arquitecturas con diferente cantidad de neuronas y capas ocultas. Las arquitecturas más ilustrativas de todas las probadas se resumen en la tabla~\ref{tbl:cf-mlp-architectures}.
+Para determinar el modelo óptimo de \acrlongsp{mlp}\index{perceptron multicapa} en comportamiento longitudinal, se han realizado entrenamientos sobre arquitecturas con diferente cantidad de neuronas y capas ocultas.
 
-El modelo de funciones de activación que se ha utilizado es de tipo tangente hiperbólica en todas las neuronas salvo en la última, que se ha utilizado una activación lineal\sidenote{Se han utilizado también funciones de activación de tipo \acrshort{relu}\index{ReLU}, pero las tasas de error tras el entrenamiento eran notablemente más altas por lo que se ha optado al final por el uso de activación basada en tangente hiperbólica.}. Los pesos de la red han sido inicializados con una muestra aleatoria uniforme de valores reales en el intervalo $(-0.25, 0.25)$.
+Las arquitecturas más ilustrativas de todas las probadas se resumen en la tabla~\ref{tbl:cf-mlp-architectures}.
 
 \begin{table}
 	\centering
 	\caption[Resumen de las arquitecturas de \acrlongplsp{mlp} para el modelo longitudinal]{Resumen de las arquitecturas de de \acrlongplsp{mlp} para el modelo longitudinal. La posición de cada número de la topología indica el índice de la capa oculta y su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:cf-mlp-architectures}
-	\begin{tabular}{cccccc}
+	\begin{tabularx}{\linewidth}{YYYYYY}
 		\toprule
 		\multirow{2}{*}{} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multicolumn{3}{c}{RMS} \\
 		& & & Entrenamiento & Validación & Test \\
@@ -140,12 +141,14 @@ El modelo de funciones de activación que se ha utilizado es de tipo tangente hi
 		\rowcolor{black!20} $MLP_3$ & $16, 8$     & $10^5$ & $0.051$ & $0.051$ & $0.060$  \\
 		$MLP_4$ & $16, 16, 8$ & $10^5$ & $0.046$ & $0.046$ & $0.061$  \\
 		\bottomrule
-	\end{tabular}
+	\end{tabularx}
 \end{table}
+
+El modelo de funciones de activación que se ha utilizado es de tipo tangente hiperbólica en todas las neuronas salvo en la última, que se ha utilizado una activación lineal\sidenote{Se han utilizado también funciones de activación de tipo \acrshort{relu}\index{ReLU}, pero las tasas de error tras el entrenamiento eran notablemente más altas por lo que se ha optado al final por el uso de activación basada en tangente hiperbólica.}. Los pesos de la red han sido inicializados con una muestra aleatoria uniforme de valores reales en el intervalo $(-0.25, 0.25)$.
 
 La Figura~\ref{fig:lm-mlp-rmse-all-comparisons} muestra la evolución del \gls{rmse} durante el proceso de entrenamiento. También se ilustra el error de test durante el mismo, aunque éste no se ha utilizado para decidir las arquitecturas y es simplemente informativo.
 
-\begin{figure}[t]
+\begin{figure}
 	\centering
 	\subfloat[Entrenamiento y validación]{\includegraphics[width=.45\textwidth]{lm-mlp-rmse-all-training-and-validation-detail}}\qquad
 	\subfloat[Test]{\includegraphics[width=.45\textwidth]{lm-mlp-rmse-all-test-detail}}
@@ -157,11 +160,11 @@ La Figura~\ref{fig:lm-mlp-rmse-all-comparisons} muestra la evolución del \gls{r
 	\centering
 	\subfloat[Perfil completo]{\includegraphics[width=\textwidth]{lm-mlp-outs-all-test-comparison}}\qquad
 	\subfloat[Detalle entre frames de $750$ a $1050$]{\includegraphics[width=\textwidth]{lm-mlp-outs-all-test-comparison-detail}}
-	\caption[Comparación del perfil de aceleración real y el inferido por los modelos entrenados]{Comparación del perfil de aceleración real y el inferido por los modelos entrenados. En la visión general se puede observar, en transparente, el perfil real. A la derecha se amplía una pequeña sección del perfil para mostrar los diferentes ajustes de los modelos entrenados y cómo difieren del valor real.}
+	\caption[Comparación del perfil de aceleración real y el inferido por los modelos entrenados]{Comparación del perfil de aceleración real y el inferido por los modelos entrenados. En la visión general se puede observar el perfil real en semi-transparente. En el detalle, se amplía una pequeña sección del perfil para mostrar los diferentes ajustes de los modelos entrenados y cómo difieren del valor real.}
 	\label{fig:cf-mlp-test-comparisons}
 \end{figure}
 
-Estos errores se encuentran entre los \SI{0.05}{\metre\per\square\second} y los \SI{0.07}{\metre\per\square\second}, lo cual consideramos que es una aproximación aceptable. Una particularidad del problema ha sido la inestabilidad de los entrenamientos, esto es, la alta sensibilidad a los valores de inicialización de los parámetros. La intuición tras ver la evolución de los entrenamientos es que la función de error del problema tiene muchos mínimos locales o mesetas.
+Estos errores se encuentran entre los \SI{0.05}{\metre\per\square\second} y los \SI{0.07}{\metre\per\square\second}, lo cual consideramos que es una aproximación aceptable. Una particularidad del problema ha sido la inestabilidad de los entrenamientos, esto es, la alta sensibilidad a los valores de inicialización de los parámetros. La intuición tras ver la evolución de los entrenamientos es que la función de error sufre de muchos mínimos locales o mesetas.
 
 Al contrastar los errores de test, podemos determinar que la arquitectura que parece que mejor generaliza es la $MLP_2$ (arquitectura $7, 8, 2, 1$).
 

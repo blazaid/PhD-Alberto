@@ -742,43 +742,6 @@
 	}%
 }{}
 
-%\ifthenelse{\boolean{@tufte@letterspace}}{%
-%\ifthenelse{\boolean{pdf}}{%
-%\ifthenelse{\NOT\boolean{@tufte@letterspace@pkg@prereqs}}{%
-%% pdfLaTeX version is too old or not using pdfLaTeX
-%\ifthenelse{\boolean{@tufte@xetex}}{%
-%% TODO use xetex letterspacing
-%\@tufte@debug@info@noline{XeTeX detected. Reverting to `soul' package for letterspacing}%
-%\@tufte@loadsoul%
-%}{%
-%% use `soul' package for letterspacing
-%\@tufte@debug@info@noline{Old version of pdfTeX detected. Reverting to `soul' package for letterspacing}%
-%\@tufte@loadsoul%
-%}
-%}{%
-%\IfFileExists{letterspace.sty}{%
-%\@tufte@debug@info@noline{Modern version of pdfTeX detected. Using `letterspace' package}
-%\RequirePackage{letterspace}
-%% Set up letterspacing (using microtype package) -- requires pdfTeX v1.40+
-%\renewcommand{\allcapsspacing}[1]{\textls[200]{##1}}
-%\renewcommand{\smallcapsspacing}[1]{\textls[50]{##1}}
-%\renewcommand{\allcaps}[1]{\textls[200]{\MakeTextUppercase{##1}}}
-%\renewcommand{\smallcaps}[1]{\smallcapsspacing{\MakeTextLowercase{##1}}}
-%\renewcommand{\textsc}[1]{\smallcapsspacing{\textsmallcaps{##1}}}
-%}{% microtype failed, check for soul
-%\@tufte@debug@info@noline{Modern version of pdfTeX detected, but `letterspace' package not installed.  Reverting to  `soul' package for letterspacing}
-%\@tufte@loadsoul
-%}%
-%}%
-%}{%
-%\@tufte@debug@info@noline{Plain LaTeX detected. Using `soul' package for letterspacing}
-%\@tufte@loadsoul
-%}
-%}{%
-%% we're not to load letterspacing, so do nothing
-%}
-
-
 %%
 % An environment for paragraph-style section
 
@@ -2261,6 +2224,11 @@ version={3.0},
 \usepackage{amssymb}
 \usepackage{textcomp}
 \usepackage{yhmath}
+
+%%
+% To fill with full width tables
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\centering\arraybackslash}X} % Centered resizable column
 
 %%
 % blkarray: To write labels for rows and cols in matrices
