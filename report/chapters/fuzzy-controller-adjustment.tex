@@ -86,11 +86,11 @@ El \textbf{trapecio} se define a partir de los parámetros $(a, \delta b, \delta
 	\label{fig:trap-graph}
 \end{figure}
 
-Sabiendo los grafos computacionales de cada una de las funciones de pertenencia, ya podemos definir el grafo asociado a la partición borrosa de una variable lingüística. Suponiendo que la variable $V_i$ está dividida en $N_{V_i}$ conjuntos borrosos\index{conjunto borroso}, la partición estará compuesta de:
+Sabiendo los grafos computacionales de cada una de las funciones de pertenencia, podemos definir el grafo asociado a la partición borrosa de una variable lingüística. Suponiendo que la variable $V_i$ está dividida en $N_{V_i}$ conjuntos borrosos\index{conjunto borroso}, la partición estará compuesta de:
 
 \begin{itemize}
 	\item Un primer conjunto definido como una pendiente descendente.
-	\item $N_{V_i} - 2$ conjuntos definidos por una función de pertenencia de tipo trapezoidal.
+	\item $N_{V_i} - 2$ conjuntos definidos como trapezoides.
 	\item Un último conjunto definido como una pendiente ascendente.
 \end{itemize}
 
@@ -98,7 +98,7 @@ Este grafo tiene que definir una serie de variables para que nuestro algoritmo d
 
 Al estar definidas de esta manera, logramos (i) que la suma de todas las pertenencias en cada punto del eje $X$ sea $1$ y (ii) que cada pequeña variación del gradiente de una de las variables tiene el potencial de provocar una variación en el resto de variables.
 
-Por último, un \acrlongsp{fcs} define un número de variables de entrada. Nuestro grafo de fuzzificación estará definido de tal manera que para una matriz de entrada $m \times l$, siendo $m$ cada tupla de valores a inferir y $l$ cada una de las variables lingüísticas, generará una matriz de la forma $m \times \sum_{i=1}^l \left\vert{l_i}\right\vert$, siendo $\left\vert{S}\right\vert$ el número de conjuntos borrosos\index{conjunto borroso} que contiene la variable linguística $l_i$ (Figura~\ref{fig:fuzzification-graph})
+Por último, un \acrlongsp{fcs}\index{sistema de control borroso} define un número de variables de entrada. Nuestro grafo de fuzzificación estará definido de tal manera que para una matriz de entrada $m \times l$, siendo $m$ cada tupla de valores a inferir y $l$ cada una de las variables lingüísticas, generará una matriz de la forma $m \times \sum_{i=1}^l \left\vert{l_i}\right\vert$, siendo $\left\vert{S}\right\vert$ el número de conjuntos borrosos\index{conjunto borroso} que contiene la variable linguística $l_i$ (Figura~\ref{fig:fuzzification-graph})
 
 \begin{figure}
 	\centering
@@ -109,58 +109,60 @@ Por último, un \acrlongsp{fcs} define un número de variables de entrada. Nuest
 
 \subsection{Bloque de inferencia}
 
-Este bloque tomará una matriz bidimensional de rango $(m, \sum_{i=1}^n N_i)$, es decir, la matriz de salida del bloque de fuzzificación, y generará una matriz bidimensional de rango $(m, N_O)$ que contendrá los valores borrosos de salida (un valor borroso por cada conjunto borroso\index{conjunto borroso} de salida). Para ello, hará uso de un bloque de reglas en las que basará su inferencia.
+Este bloque tomará una matriz bidimensional de rango $(m, \sum_{i=1}^n N_i)$, es decir, la matriz de salida del bloque de fuzzificación, y generará una matriz bidimensional de rango $(m, N_O)$ que contendrá los valores borrosos de salida (uno por cada conjunto borroso\index{conjunto borroso} de salida). Para ello, hará uso de un bloque de reglas en las que basará su inferencia.
 
 Este bloque de reglas es el que se tratará de ajustar. La representación será la de una matriz $(v_i + 1)$-dimensional, siendo $v_i = \sum_{i=1}^l \left\vert{l_i}\right\vert$ el número total de entradas borrosas que llegan al bloque. La dimensión adicional se corresponde a la variable lingüística de salida.
 
-Dicho de otro modo, cada posible conjunto borroso de salida (cada valor dentro del eje correspondiente a la salida) se corresponderá con una matriz $v_i$-dimensional resultado del producto cartesiano de las cariables de entradas. Esto es, cada una de las posibles combinaciones de reglas, a la que podemos asociar un valor. En la Figura~\ref{fig:inference-graph} se muestra un ejemplo con las variables obtenidas en el ejemplo de la Figura~\ref{fig:fuzzification-graph} tras aplicarles la $t$-norma.
+Dicho de otro modo, cada posible conjunto borroso\index{conjunto borroso} de salida (cada valor dentro del eje correspondiente a la salida) se corresponderá con una matriz $v_i$-dimensional resultado del producto cartesiano de las cariables de entradas. Esto es, cada una de las posibles combinaciones de reglas, a la que podemos asociar un valor. En la Figura~\ref{fig:inference-graph} se muestra un ejemplo con las variables obtenidas en el ejemplo de la Figura~\ref{fig:fuzzification-graph} tras aplicarles la $t$-norma.
 
-Al estar definida la $t$-conorma y la acumulación con el mismo operador (i.e. el máximo), una regla de tipo OR es equivalente a dos reglas de tipo AND, ya que la acumulación de sus resultados es equivalente. Por tanto, al aplicar la $t$-norma a estas combinaciones tenemos todas las posibles combinaciones de reglas. Pero hasta aquí no tenemos ningún ajuste.
-
-Si aplicamos el producto de Hadamard a una matriz de pesos con la misma dimensión y acotamos sus valores a $[0, 1] \in \mathbb{N}$, tenemos una manera de ajustar qué reglas son las más relevantes y cuáles no. Esta representación tiene un problema: estos dos valores definen una función escalón donde el error no se propaga al ser su gradiente $0$. Sin embargo, si en lugar de un valor natural, el peso toma un valor real y le aplicamos una operación sigmoidal, el valor se mantendrá entre $(0, 1) \in \mathbb{R}$ con la ventaja de que el gradiente no se estanca, y en un proceso posterior se pueden descartar las reglas cuyos valores superen ciertos rangos establecidos.
-
-A la salida de la inferencia, tras aplicar la acumulación, disponemos de tantos valores borrosos como conjuntos borrosos tiene la salida.
-
-\begin{figure}[t]
+\begin{figure}
 	\centering
 	\begin{equation*}
-		\left(\begin{array}{c}
-			\mu_1^A \\
-			\mu_2^A \\
-			\mu_3^A \\
-		\end{array}\right)
-		\quad \times \quad
-		\left(\begin{array}{ c}
-			\mu_1^B \\
-			\mu_2^B \\
-			\mu_3^B \\
-		\end{array}\right)
-		= \quad 
-		\left(\begin{array}{c}
-			\top(\mu_1^A, \mu_1^B) \\
-			\top(\mu_1^A, \mu_2^B) \\
-			\top(\mu_1^A, \mu_3^B) \\
-			\top(\mu_2^A, \mu_1^B) \\
-			\top(\mu_2^A, \mu_2^B) \\
-			\top(\mu_2^A, \mu_3^B) \\
-			\top(\mu_3^A, \mu_1^B) \\
-			\top(\mu_3^A, \mu_2^B) \\
-			\top(\mu_3^A, \mu_3^B) \\
-		\end{array}\right)
+	\left(\begin{array}{c}
+	\mu_1^A \\
+	\mu_2^A \\
+	\mu_3^A \\
+	\end{array}\right)
+	\quad \times \quad
+	\left(\begin{array}{ c}
+	\mu_1^B \\
+	\mu_2^B \\
+	\mu_3^B \\
+	\end{array}\right)
+	= \quad 
+	\left(\begin{array}{c}
+	\top(\mu_1^A, \mu_1^B) \\
+	\top(\mu_1^A, \mu_2^B) \\
+	\top(\mu_1^A, \mu_3^B) \\
+	\top(\mu_2^A, \mu_1^B) \\
+	\top(\mu_2^A, \mu_2^B) \\
+	\top(\mu_2^A, \mu_3^B) \\
+	\top(\mu_3^A, \mu_1^B) \\
+	\top(\mu_3^A, \mu_2^B) \\
+	\top(\mu_3^A, \mu_3^B) \\
+	\end{array}\right)
 	\end{equation*}
 	\caption[Producto cartesiano de variables borrosas de entrada]{El producto cartesiano de las variables borrosas de entrada genera todas las posibles combinaciones entre los conjuntos borrosos de las variables lingüísticas. Aplicándosele la $t$-norma a cada una de estas combinaciones tenemos todas las posibles reglas que se pueden definir en este \acrlongsp{fcs}.}
 	\label{fig:inference-graph}
 \end{figure}
 
+Al estar definida la $t$-conorma y la acumulación con el mismo operador, una regla de tipo \texttt{OR} es equivalente a dos reglas de tipo \texttt{AND}, ya que la acumulación de sus resultados es equivalente. Por tanto, al aplicar la $t$-norma a estas combinaciones tenemos todas las posibles combinaciones de reglas. Pero hasta aquí no tenemos ningún ajuste.
+
+Si aplicamos el producto de Hadamard a una matriz de pesos con la misma dimensión y acotamos sus valores a $[0, 1] \in \mathbb{N}$, tenemos una manera de ajustar qué reglas son las más relevantes y cuáles no. Esta representación tiene un problema: estos dos valores definen una función escalón donde el error no se propaga al ser su gradiente $0$. Sin embargo, si en lugar de un valor natural, el peso toma un valor real y le aplicamos una operación sigmoidal, el valor se mantendrá entre $(0, 1) \in \mathbb{R}$ con la ventaja de que el gradiente no se estanca, y en un proceso posterior se pueden descartar las reglas cuyos valores superen ciertos rangos establecidos.
+
+A la salida de la inferencia, tras aplicar la acumulación, disponemos de tantos valores borrosos como conjuntos borrosos tiene la salida.
+
 \subsection{Bloque de defuzzificación}
 
 Este bloque tiene la particularidad de que no posee ninguna variable que ajustar. Se trata simplemente de una operación que toma una matriz bidimensional de rango $(m, N_O)$ con los valores borrosos de salida y devuelve un vector de rango $(m)$ con los valores en el dominio de la variable lingüística de salida.
 
-\section{Ejemplo de ajuste de un \acrlongsp{fcs}}
+\section{Ejemplo de ajuste de un \acrlongsp{fcs}\index{sistema de control borroso}}
 
-Para probar su funcionamiento, se realizará el ajuste de un \acrlongsp{fcs}\index{sistema de control borroso} a partir de un conjunto de entrenamiento con unos valores determinados. Estos valores se habrán obtenido a su vez de un \acrlongsp{fcs}\index{sistema de control borroso} de ejemplo para comprobar lo correcto de la implementación.
+Se realizará el ajuste de un \acrlongsp{fcs}\index{sistema de control borroso} a partir de un conjunto de entrenamiento con unos valores determinados. Éstos se habrán obtenido a su vez de un \acrlongsp{fcs}\index{sistema de control borroso} de ejemplo para comprobar su correcto funcionamiento.
 
-\begin{figure}[t]
+El ejemplo en concreto se trata del problema clásico de la asignación de propinas, donde la propina viene determinada en función de las variables calidad de la comida y calidad del servicio. Las particiones de las variables lingüísticas del controlador (denominadas \textit{food} y \textit{service}) se muestran en la Figura~\ref{fig:real-tip-controller-vars}.
+
+\begin{figure}
 	\centering
 	\subfloat[Variable \textit{Food}]{\includegraphics[width=.45\textwidth]{real-tip-controller-var-food}}\qquad
 	\subfloat[Variable \textit{Service}]{\includegraphics[width=.45\textwidth]{real-tip-controller-var-service}}
@@ -168,8 +170,7 @@ Para probar su funcionamiento, se realizará el ajuste de un \acrlongsp{fcs}\ind
 	\label{fig:real-tip-controller-vars}
 \end{figure}
 
-
-El ejemplo en concreto se trata del problema clásico de la asignación de propinas, donde la propina viene determinada en función de las variables calidad de la comida y calidad del servicio. Las particiones de las variables lingüísticas del controlador (denominadas \textit{food} y \textit{service}) se muestran en la Figura~\ref{fig:real-tip-controller-vars}. Las reglas que determinan su comportamiento son las siguientes:
+Las reglas que determinan su comportamiento son las siguientes:
 
 \begin{align}
 	\text{service IS good}                              &\rightarrow \text{tip IS high}\nonumber\\
@@ -182,14 +183,14 @@ El ejemplo en concreto se trata del problema clásico de la asignación de propi
 
 El controlador es una función con dos variables que describen la superficie mostrada en la Figura~\ref{fig:real-tip-controller-surface}.
 
-\begin{figure}[b]
+\begin{figure}
 	\centering
 	\includegraphics[width=.7\textwidth]{real-tip-controller-surface}
 	\caption[Superficie de la función que modela el \acrlongsp{fcs} de ejemplo]{Las reglas y las particiones definen esta función. De ella obtendremos un conjunto de puntos aleatorio para comprobar si nuestra representación de \acrlongsp{fcs} como grafo computacional es capaz de ajustarse a ésta con la técnica del descenso del gradiente.}
 	\label{fig:real-tip-controller-surface}
 \end{figure}
 
-Recogeremos una muestra aleatoria uniforme de $2500$ de entre los $62500$ que conforman la representación de la superficie del controlador de ejemplo. Posteriormente se creará un controlador borroso y se entrenará aplicando el algoritmo de descenso del gradiente ADAM~\cite{kingma2014adam}.
+Recogeremos una muestra aleatoria uniforme de $1500$ puntos de entre los $62500$ que conforman la representación de la superficie del controlador de ejemplo. Posteriormente se creará un controlador borroso y se entrenará aplicando el algoritmo de descenso del gradiente ADAM~\cite{kingma2014adam}.
 
 El proceso de entrenamiento consistirá en la ejecución del algoritmo de propagación del error durante $2500$ epochs con una tasa de aprendizaje de $0.01$, la cual se ha considerado suficiente para el ejemplo en cuestión.
 
@@ -204,4 +205,4 @@ Durante el entrenamiento, las superficies evolucionan hacia una representación 
 	\label{fig:adjusted-tip-controller-training}
 \end{figure}
 
-Este proceso demuestra que es posible obtener \acrlongplsp{fcs} ajustados a un patrón de datos con un grado alto de precisión. La ventaja de este método radica en que es posible por tanto explicar mediante reglas el por qué de las predicciones que hace el modelo, a diferencia de otras técnicas como las \acrlongsp{ann}\index{red neuronal artificial}.
+Este proceso demuestra que es posible obtener \acrlongplsp{fcs}\index{sistema de control borroso} ajustados a un patrón de datos con un grado alto de precisión. La ventaja de este método radica en que es posible por tanto explicar mediante reglas el por qué de las predicciones que hace el modelo, a diferencia de otras técnicas como las \acrlongsp{ann}\index{red neuronal artificial}.

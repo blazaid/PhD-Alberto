@@ -571,23 +571,23 @@ Una ventaja al representar un modelo como grafo computacional es que ayuda a abs
 
 Como regla general, para conocer el gradiente de una variable $a$ con respecto a otra variable $b$, se aplicaría la \textit{regla de la cadena multivariable}, que es equivalente a sumar todos los posibles caminos que van de $a$ a $b$ del grafo, multiplicando las derivadas parciales de cada arista.
 
-\section{\Acrlongsp{fl}}
+\section{\Acrlongsp{fl}\index{lógica borrosa}}
 
 La lógica matemática\sidenote{
 	\textbf{La lógica nace} en el siglo IV a.C. dentro de la física Aristotélica, que permaneció inalterada hasta la revolución científica (alrededor del siglo XVI. d.C.), momento en que se separó y permaneció como disciplina paralela perteneciente más al campo de la filosofía que de la física y la matemática. Empezó a relacionarse de nuevo con la matemática a principios del siglo XIX y a principios del siglo XX la lógica y la teoría de conjuntos pasaron a convertirse en partes indispensables la una de la otra. Por ello suelen ir de la mano cada vez que se habla de la una y de la otra. La evolución de la teoría de conjuntos y su unión con la lógica es una época bastante convulsa dentro de la historia de la matemática.
 } (y por extensión la teoría de conjuntos) tiene como misión servir de fundamento del razonamiento matemático. Se basa en la definición precisa y con rigor de un razonamiento, evitando cualquier tipo de ambigüedad y de contradicción. Es por ello que la lógica tradicional no suele servir como fundamento de razonamientos del mundo real.
 
-Los conceptos que se manejan en el mundo real suelen ser vagos y estar llenos de imprecisiones. Además tienden a ser nombrados cualitativamente, no cuantitativamente, y cuando existe una correspondencia, ésta suele estar marcada por la subjetividad de los términos. La \acrlongsp{fl} se puede considerar como perteneciente al conjunto de lógicas multivaluadas\sidenote{Las lógicas multivaluadas son aquellas donde las premisas pueden tomar más de dos valores.}, donde se trabaja con este tipo de conceptos.
+Los conceptos que se manejan en el mundo real suelen ser vagos y estar llenos de imprecisiones. Además tienden a ser nombrados cualitativamente, no cuantitativamente, y cuando existe una correspondencia, ésta suele estar marcada por la subjetividad de los términos. La \acrlongsp{fl}\index{lógica borrosa} se puede considerar como perteneciente al conjunto de lógicas multivaluadas\sidenote{Las lógicas multivaluadas son aquellas donde las premisas pueden tomar más de dos valores.}, donde se trabaja con este tipo de conceptos.
 
-La idea tras este punto de vista es que raramente el ser humano piensa en términos absolutos o completamente definidos. En su lugar, su forma de razonar conlleva una serie de abstracciones que diluyen el carácter de las observaciones, las cuales a su vez pueden ser también imprecisas. Ya que en la lógica clásica es imposible expresar la complejidad que implica la incertidumbre de este proceso de razonamiento, en la \acrlongsp{fl} los conceptos de verdad o mentira se relajan, existiendo una transición entre estados no abrupta, sino suave y progresiva.
+La idea tras este punto de vista es que raramente el ser humano piensa en términos absolutos o completamente definidos. En su lugar, su forma de razonar conlleva una serie de abstracciones que diluyen el carácter de las observaciones, las cuales a su vez pueden ser también imprecisas. Ya que en la lógica clásica es imposible expresar la complejidad que implica la incertidumbre de este proceso de razonamiento, en la \acrlongsp{fl}\index{lógica borrosa} los conceptos de verdad o mentira se relajan, existiendo una transición entre estados no abrupta, sino suave y progresiva.
 
 A lo largo de la sección se describirá el concepto de conjunto borroso\index{conjunto borroso}, cómo se usa como mecanismo de razonamiento y su utilidad dentro del área de sistemas de control.
 
 \subsection{Ampliando la teoría de conjuntos tradicional}
 
 La teoría de conjuntos borrosos\index{conjunto borroso} nació a mediados del siglo XX de la mano de Lofti A. Zadeh~\cite{lofti1965fuzzy} como solución para la representación de procesos de inferencia conociendo a priori los grados de verdad de las premisas\sidenote{
-	La \acrlongsp{fl} es uno de esos casos curiosos en la ciencia donde la aplicación nace antes que la propia teoría.
-}.A diferencia de los conjuntos tradicionales (\textit{crisp} en la terminología de la \acrlongsp{fl}), los conjuntos borrosos\index{conjunto borroso} expresan el grado de pertenencia de un elemento a la categoría representada por el conjunto.
+	La \acrlongsp{fl}\index{lógica borrosa} es uno de esos casos curiosos en la ciencia donde la aplicación nace antes que la propia teoría.
+}.A diferencia de los conjuntos tradicionales (\textit{crisp} en la terminología de la \acrlongsp{fl}\index{lógica borrosa}), los conjuntos borrosos\index{conjunto borroso} expresan el grado de pertenencia de un elemento a la categoría representada por el conjunto.
 
 \paragraph{Variables lingüísticas}
 
@@ -635,7 +635,7 @@ La teoría de conjuntos clásica también define los conjuntos de acuerdo a una 
 \end{subequations}
 
 Mientras que un conjunto tradicional se basa en si un valor pertenece o no al conjunto, un elemento en un conjunto borroso\index{conjunto borroso} puede\sidenote{
-	Puede porque también se puede definir un conjunto \textit{crisp} desde el punto de vista de la \acrlongsp{fl}.
+	Puede porque también se puede definir un conjunto \textit{crisp} desde el punto de vista de la \acrlongsp{fl}\index{lógica borrosa}.
 } tomar todos los valores posibles en el intervalo $[0, 1]$.
 
 \paragraph{Funciones de pertenencia}
@@ -659,7 +659,7 @@ Una operación entre conjuntos borrosos\sidenote{
 	Las mismas nociones de operaciones en teoría de conjuntos son aplicables a la teoría de conjuntos borrosos.
 } es aquella que, a partir de uno o más conjuntos borrosos genera uno nuevo definido sobre el mismo universo de discurso. Son l $t$-norma, la $t$-conorma y el complemento.
 
-La $t$-norma es la generalización del operador conjunción en lógica clásica. En la Figura~\ref{fig:t-norms} se describen las dos operaciones más usadas como $t$-norma en \acrlongsp{fcs}.
+La $t$-norma es la generalización del operador conjunción en lógica clásica. En la Figura~\ref{fig:t-norms} se describen las dos operaciones más usadas como $t$-norma en \acrlongsp{fcs}\index{sistema de control borroso}.
 
 \begin{figure}
 	\centering
@@ -704,18 +704,18 @@ Formalmente, si $F$ es un conjunto definido por la función de pertenencia $\mu_
 	\end{itemize}
 }.
 
-El operador más común para el complemento es el probabilístico, denominado también \textit{complemento de Zadeh} en \acrlongsp{fl}. Existen sin embargo otros complementos, como el complemento de Yager o el complemento de Sugeno, ambos deducidos de una familia de funciones denominadas negaciones fuertes\sidenote{
+El operador más común para el complemento es el probabilístico, denominado también \textit{complemento de Zadeh} en \acrlongsp{fl}\index{lógica borrosa}. Existen sin embargo otros complementos, como el complemento de Yager o el complemento de Sugeno, ambos deducidos de una familia de funciones denominadas negaciones fuertes\sidenote{
 	El \textbf{complemento de Yager} es toda una familia de complementos que obedece a la fórmula $f_\lambda(x) = (1 - x^\lambda)^{1 / \lambda}$ para $\lambda = 0$. El \textbf{complemento de Sugeno} es otra familia cuya función es diferente, $f_\lambda(x) = \frac{1-x}{1 - \lambda \cdot x}$. A partir de ambas se puede definir el complemento de Zadeh variando el valor de $\lambda$.
 }.
 
 \subsection{Razonamiento}
 
-El razonamiento o inferencia es el proceso de obtener consecuencias a partir de hechos (premisas). En \acrlongsp{fl}, el proceso de inferencia lógica se amplía a través de relaciones borrosas, trasladando valores de verdad aproximados.
+El razonamiento o inferencia es el proceso de obtener consecuencias a partir de hechos (premisas). En \acrlongsp{fl}\index{lógica borrosa}, el proceso de inferencia lógica se amplía a través de relaciones borrosas, trasladando valores de verdad aproximados.
 
 Toda regla borrosa está compuesta por un antecedente y un consecuente. Tanto el uno como el otro están compuestos de sentencias que asignan valores de variables borrosas (conjuntos borrosos\index{conjunto borroso}) a éstas. La forma más común de representar las reglas borrosas es a través de reglas \texttt{IF \ldots THEN}, donde las relaciones entre elementos (i.e. \texttt{AND}, \texttt{OR} y \texttt{NOT}) se corresponden con las operaciones de $t$-norma, $t$-conorma y complemento.
 
-La implicación lógica $A \rightarrow B$ es equivalente a $\lnot A \lor B$, pero en \acrlongsp{fl} esta equivalencia arroja valores contra-intuitivos. Una definición ampliamente extendida es la del uso de una $t$-norma, como es el caso de la \textbf{Implicación de Mamdani}, pero existen muchos tipos diferentes\sidenote{
-	En los trabajos \cite{kiszka1985influence1} y \cite{kiszka1985influence2} se estudian hasta 72 alternativas al operador $A \rightarrow B \equiv \lnot A \lor B$ de implicación en \acrlongsp{fl}.
+La implicación lógica $A \rightarrow B$ es equivalente a $\lnot A \lor B$, pero en \acrlongsp{fl}\index{lógica borrosa} esta equivalencia arroja valores contra-intuitivos. Una definición ampliamente extendida es la del uso de una $t$-norma, como es el caso de la \textbf{Implicación de Mamdani}, pero existen muchos tipos diferentes\sidenote{
+	En los trabajos \cite{kiszka1985influence1} y \cite{kiszka1985influence2} se estudian hasta 72 alternativas al operador $A \rightarrow B \equiv \lnot A \lor B$ de implicación en \acrlongsp{fl}\index{lógica borrosa}.
 }.
 
 \paragraph{Modus Ponens Generalizado}
@@ -729,7 +729,7 @@ Se trata de la extensión del método del \textit{modus ponens} para obtener el 
 	\label{eq:modus-ponens}
 \end{logicproof}
 
-Sin embargo, debido a que en \acrlongpl{fl} los valores de las reglas de inferencia son conjuntos borrosos\index{conjunto borroso}, la conclusión de un silogismo no será la conclusión de la regla, sino algo aproximado a ella, como se ilustra en la ecuación~\ref{eq:generalized-modus-ponens}
+Sin embargo, debido a que en \acrlongpl{fl}\index{lógica borrosa} los valores de las reglas de inferencia son conjuntos borrosos\index{conjunto borroso}, la conclusión de un silogismo no será la conclusión de la regla, sino algo aproximado a ella, como se ilustra en la ecuación~\ref{eq:generalized-modus-ponens}
 
 \begin{logicproof}{1}
 	P(x) \to Q(x) \\
@@ -745,11 +745,11 @@ Cada regla de tipo \texttt{IF $x$ is $A$ THEN $y$ is $B$} se puede representar c
 \subsection{Acrlongplsp{fcs}\index{sistema de control borroso}}
 \label{ss:fcs}
 
-Los \Acrfull{fcs}\index{sistema de control borroso} son el caso de éxito de la \acrlongsp{fl} que más resultados ha cosechado tanto a nivel académico como a nivel industrial. Se trata sistemas que utilizan el razonamiento borroso para inferir una respuesta a partir de un conjunto de entradas\sidenote{
+Los \Acrfull{fcs}\index{sistema de control borroso} son el caso de éxito de la \acrlongsp{fl}\index{lógica borrosa} que más resultados ha cosechado tanto a nivel académico como a nivel industrial. Se trata sistemas que utilizan el razonamiento borroso para inferir una respuesta a partir de un conjunto de entradas\sidenote{
 	Dado que el control borroso puede extenderse a casi cualquier problema de control tradicional hace que se haya usado en multitud de campos, no sólo en el industrial. Esto hace que el mismo concepto pueda encontrarse con muchos nombres diferentes, como Sistemas de Lógica Difusa, Sistemas de Inferencia Difusa, Sistemas Expertos Difusos, Sistemas Basados en Reglas Difusas o simplemente Sistemas Difusos.
 }. Su uso se aplica tanto a sistemas de control manual como a sistemas donde los elementos a controlar son muy difíciles o incluso imposibles de diseñar (e.g. procesos de control con un alto número de variables relacionadas entre sí).
 
-Se puede definir como un componente que asigna salidas de dominios no borrosos (\textit{crisp}) a entradas de dominios también no borrosos (\textit{crisp}) de forma no lineal haciendo uso de \acrlongsp{fl}. La arquitectura de estos sistemas está compuesta por cuatro bloques: \textit{fuzzificador}, \textit{bloque de reglas}, \textit{razonador} (bloque de inferencia) y \textit{defuzzificador}. En la Figura~\ref{fig:fuzzy-control-system} se describe el esquema de un \acrlongsp{fcs} general.
+Se puede definir como un componente que asigna salidas de dominios no borrosos (\textit{crisp}) a entradas de dominios también no borrosos (\textit{crisp}) de forma no lineal haciendo uso de \acrlongsp{fl}\index{lógica borrosa}. La arquitectura de estos sistemas está compuesta por cuatro bloques: \textit{fuzzificador}, \textit{bloque de reglas}, \textit{razonador} (bloque de inferencia) y \textit{defuzzificador}. En la Figura~\ref{fig:fuzzy-control-system} se describe el esquema de un \acrlongsp{fcs}\index{sistema de control borroso} general.
 
 \begin{figure}
 	\centering
@@ -766,7 +766,7 @@ Este bloque recibe las entradas \textit{crisp} al sistema (los cuales pertenecer
 
 Define el conjunto de reglas que gobiernan el proceso deductivo del \acrlongsp{fcs}\index{sistema de control borroso}. A estas reglas se les puede aplicar pesos en caso de que se quiera simbolizar la mayor importancia de una regla frente al resto. Se suele representar como un parámetro $w_i > 0 \in \mathbb{R}$ para la regla $i$-ésima, el cual se multiplica al resultado de la regla para ponderar la importancia de la misma.
 
-La forma más común de representación es a través de reglas de la forma \texttt{IF \ldots THEN \ldots} por su facilidad de comprensión. Sin embargo, otra representación muy usada (sobre todo como representación interna) es la de $m$ matrices $n$-dimensionales, donde $m$ es el número de conjuntos de salida y $n$ cada variable lingüística, con los conjuntos borrosos\index{conjunto borroso} de éstas como índices y con los valores que toman esas intersecciones como los valores de dicha salida\sidenote{Más adelante veremos un caso en el que esta representación es útil a la hora de inferir un \acrlongsp{fcs} a partir de un conjunto de entrenamiento} (Figura~\ref{fig:fuzzy-controller-matrix-representation}).
+La forma más común de representación es a través de reglas de la forma \texttt{IF \ldots THEN \ldots} por su facilidad de comprensión. Sin embargo, otra representación muy usada (sobre todo como representación interna) es la de $m$ matrices $n$-dimensionales, donde $m$ es el número de conjuntos de salida y $n$ cada variable lingüística, con los conjuntos borrosos\index{conjunto borroso} de éstas como índices y con los valores que toman esas intersecciones como los valores de dicha salida\sidenote{Más adelante veremos un caso en el que esta representación es útil a la hora de inferir un \acrlongsp{fcs}\index{sistema de control borroso} a partir de un conjunto de entrenamiento} (Figura~\ref{fig:fuzzy-controller-matrix-representation}).
 
 \begin{figure}
 	\centering
