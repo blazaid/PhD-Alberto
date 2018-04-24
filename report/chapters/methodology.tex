@@ -1,7 +1,9 @@
 \chapter{Metodología}
 \label{ch:methodology}
 
-Los modelos de conducción propuestos se basarán en datos extraídos de entornos reales. Tras su generación, se integrarán posteriormente en el entorno de simulación \gls{sumo}\index{SUMO} para comprobar su desempeño. Es importante por tanto reparar en los siguientes detalles:
+Los objetivos de la presente tesis se enfocan en el uso de técnicas pertenencientes al campo de la \acrlongsp{ci} sobre datos de conductores reales para (i) incorporar comportamientos humanos en modelos de simulación (hipótesis~H\ref{hyp:first}) y (ii) que dichos comportamientos caracterizen a conductores concretos (hipótesis~H\ref{hyp:second}).
+
+Para ello, se generarán modelos personalizados de conductor a partir de datos extraídos de entornos reales, se aplicarán dichos modelos al entorno de simulación multiagente \gls{sumo}\index{SUMO}, y por último se validarán los datos recogidos de los modelos generaos contra los recogidos de los conductores reales. Es importante por tanto reparar en los siguientes detalles:
 
 \begin{itemize}
 	\item Los datos extraídos del entorno real deben ser extraíbles también del entorno simulado. 
@@ -227,4 +229,6 @@ Para los entrenamientos de los modelos se ha utilizado una máquina con procesad
 
 Para cada uno de los submodelos se han probado dos aproximaciones diferentes para comparar sus desempeños en las tareas por separado. Concretamente se han utilizado \acp{fcs}\index{sistema de control difuso} y \acp{mlp}\index{perceptrón multicapa} para modelar el comportamiento longitudinal y \acp{mlp}\index{perceptrón multicapa} y \acp{cnn}\index{red de convolución} para modelar el comportamiento en cambio de carril\index{lane-change}.
 
-Los modelos serán entrenados con un conjuntos por tipo de modelo (longitudinal y cambio de carril\index{lane-change}) asociado al total de sujetos. Tras ello, y una vez decididas las arquitecturas de los modelos que se usarán para cada tipo, se entrenarán para cada uno de los sujetos por separado.
+Los modelos serán entrenados con un conjunto por tipo de modelo (longitudinal y cambio de carril\index{lane-change}) asociado al total de sujetos. Con estos modelos generales se comprobará si es posible aprender características de conducción de conductores y con qué técnicas y arquitecturas. Para validar este modelo se comprarán los datos reales de los conjuntos de test con datos de simulación generados en un entorno similar\sidenote{Se ha valorado el uso de otros marcos de validación como el \textit{KITTI Vision Benchmark Suite}\index{KITTI}. El problema es que la suite KITTI\index{KITTI} está orientada al análisis del entorno del vehículo y no al de la personalización, por lo que no tenemos manera de saber qué partes del conjunto pertenecen a unos u otros conductores.}.
+
+Una vez decididas las arquitecturas de los modelos que se usarán para cada tipo, serán entrenadas con los datos de cada conductor en concreto. A partir de estos datos se determinará si los rasgos aprendidos se consideran suficientes para caracterizar a cada conductor por separado.
