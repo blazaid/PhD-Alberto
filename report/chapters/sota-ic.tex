@@ -7,7 +7,7 @@ No existe una definición globalmente aceptada de \acrlongsp{ci}. Dependiendo de
 
 En esta tesis hablaremos desde el punto de vista mayoritario, es decir, como rama de la \acrlongsp{ai} donde se agrupan todas aquellas técnicas que tratan de aprender soluciones a problemas a través del análisis de información presente en conjuntos de datos, en el entorno o ambos \cite{rutkowski2008computational, siddique2013computational}.
 
-El resto del capítulo ofrecerá una visión histórica para explicar el por qué de esta definición, justificará la importancia que tiene el aprendizaje dentro de este área, describirá las de \acrlongplsp{ann}\index{red neuronal artificial} y la \acrlongsp{fl}\index{lógica difusa} necesarias para sentar las bases del posterior desarrollo de la tesis y, por último, dará nociones de qué son los agentes y por qué este punto de vista es útil para nuestro cometido.
+El resto del capítulo ofrecerá una visión histórica para explicar el por qué de esta definición, justificará la importancia que tiene el aprendizaje dentro de este área, describirá las de \acrlongplsp{ann}\index{red neuronal artificial} y la \acrlongsp{fl}\index{lógica borrosa} necesarias para sentar las bases del posterior desarrollo de la tesis y, por último, dará nociones de qué son los agentes y por qué este punto de vista es útil para nuestro cometido.
 
 \section{De \acrlongsp{ai} a \acrlongsp{ci}}
 
@@ -42,7 +42,7 @@ El interés por el campo volvió de nuevo a principios de los $80$ con la aparic
 	Esto, evidentemente no sentó bien a los autores prolíficos en \glspl{esys}. Mientras que el enfoque en estos sistemas es el clásico en la computación, donde los problemas (en este caso el conocimiento experto) son resueltos mediante operaciones sobre un lenguaje de símbolos, el enfoque del conexionismo postula que la \textit{mente}, el comportamiento inteligente, emerge de modelos a más bajo nivel. Por ello, algunas voces se alzaran contra lo que se consideraba el \textit{enfoque incorrecto} de la \acrlongsp{ai}. Después de todo, los modelos desarrollados en los métodos clásicos son fáciles de interpretar mientas que los del enfoque conexionista no son del todo deducibles, más aún si estos problemas son de naturaleza estocástica.
 }. Esta época se suele identificar como el segundo \textit{AI Winter}, ya que tanto la investigación como las inversiones en el área de \acrlongplsp{esys}\index{sistema experto} disminuyeron. Sin embargo, el efecto no fue ni mucho menos equiparable al del primero.
 
-Junto con el resurgir del conexionismo, otras técnicas alineadas como la \acrlongsp{fl}\index{lógica difusa} o los \Acrfullpl{ga}\index{algoritmos genéticos} también ganaban popularidad, y entre ellas retroalimentaban los exitos gracias a sus sinergias. Esto provocó una explosión de terminologías para diferenciar las investigaciones en curso de la propia \gls{ai} clásica. Por un lado se evitaba el conflicto, nombrando las áreas de trabajo con un término más acorde con el comportamiento o técnica utilizada. Por otro, se separaba de las connotaciones negativas que fue cosechando la \gls{ai} con el paso de los años (i.e. promesas, pero no resultados).
+Junto con el resurgir del conexionismo, otras técnicas alineadas como la \acrlongsp{fl}\index{lógica borrosa} o los \Acrfullpl{ga}\index{algoritmos genéticos} también ganaban popularidad, y entre ellas retroalimentaban los exitos gracias a sus sinergias. Esto provocó una explosión de terminologías para diferenciar las investigaciones en curso de la propia \gls{ai} clásica. Por un lado se evitaba el conflicto, nombrando las áreas de trabajo con un término más acorde con el comportamiento o técnica utilizada. Por otro, se separaba de las connotaciones negativas que fue cosechando la \gls{ai} con el paso de los años (i.e. promesas, pero no resultados).
 
 \begin{figure}[!b]
 	\includegraphics{soft-computing-connections}
@@ -577,46 +577,46 @@ La lógica matemática\sidenote{
 	\textbf{La lógica nace} en el siglo IV a.C. dentro de la física Aristotélica, que permaneció inalterada hasta la revolución científica (alrededor del siglo XVI. d.C.), momento en que se separó y permaneció como disciplina paralela perteneciente más al campo de la filosofía que de la física y la matemática. Empezó a relacionarse de nuevo con la matemática a principios del siglo XIX y a principios del siglo XX la lógica y la teoría de conjuntos pasaron a convertirse en partes indispensables la una de la otra. Por ello suelen ir de la mano cada vez que se habla de la una y de la otra. La evolución de la teoría de conjuntos y su unión con la lógica es una época bastante convulsa dentro de la historia de la matemática.
 } (y por extensión la teoría de conjuntos) tiene como misión servir de fundamento del razonamiento matemático. Se basa en la definición precisa y con rigor de un razonamiento, evitando cualquier tipo de ambigüedad y de contradicción. Es por ello que la lógica tradicional no suele servir como fundamento de razonamientos del mundo real.
 
-Los conceptos que se manejan en el mundo real suelen ser vagos y estar llenos de imprecisiones. Además tienden a ser nombrados cualitativamente, no cuantitativamente, y cuando existe una correspondencia, ésta suele estar marcada por la subjetividad de los términos. La lógica difusa se puede considerar como perteneciente al conjunto de lógicas multivaluadas\sidenote{Las lógicas multivaluadas son aquellas donde las premisas pueden tomar más de dos valores.}, donde se trabaja con este tipo de conceptos.
+Los conceptos que se manejan en el mundo real suelen ser vagos y estar llenos de imprecisiones. Además tienden a ser nombrados cualitativamente, no cuantitativamente, y cuando existe una correspondencia, ésta suele estar marcada por la subjetividad de los términos. La \acrlongsp{fl} se puede considerar como perteneciente al conjunto de lógicas multivaluadas\sidenote{Las lógicas multivaluadas son aquellas donde las premisas pueden tomar más de dos valores.}, donde se trabaja con este tipo de conceptos.
 
 La idea tras este punto de vista es que raramente el ser humano piensa en términos absolutos o completamente definidos. En su lugar, su forma de razonar conlleva una serie de abstracciones que diluyen el carácter de las observaciones, las cuales a su vez pueden ser también imprecisas. Ya que en la lógica clásica es imposible expresar la complejidad que implica la incertidumbre de este proceso de razonamiento, en la \acrlongsp{fl} los conceptos de verdad o mentira se relajan, existiendo una transición entre estados no abrupta, sino suave y progresiva.
 
-A lo largo de la sección se describirá el concepto de conjunto difuso, cómo se usa como mecanismo de razonamiento y su utilidad dentro del área de sistemas de control.
+A lo largo de la sección se describirá el concepto de conjunto borroso\index{conjunto borroso}, cómo se usa como mecanismo de razonamiento y su utilidad dentro del área de sistemas de control.
 
 \subsection{Ampliando la teoría de conjuntos tradicional}
 
-La teoría de conjuntos difusos nació a mediados del siglo XX de la mano de Lofti A. Zadeh~\cite{lofti1965fuzzy} como solución para la representación de procesos de inferencia conociendo a priori los grados de verdad de las premisas\sidenote{
+La teoría de conjuntos borrosos\index{conjunto borroso} nació a mediados del siglo XX de la mano de Lofti A. Zadeh~\cite{lofti1965fuzzy} como solución para la representación de procesos de inferencia conociendo a priori los grados de verdad de las premisas\sidenote{
 	La \acrlongsp{fl} es uno de esos casos curiosos en la ciencia donde la aplicación nace antes que la propia teoría.
-}.A diferencia de los conjuntos tradicionales (\textit{crisp} en la terminología de la \acrlongsp{fl}), los conjuntos difusos expresan el grado de pertenencia de un elemento a la categoría representada por el conjunto.
+}.A diferencia de los conjuntos tradicionales (\textit{crisp} en la terminología de la \acrlongsp{fl}), los conjuntos borrosos\index{conjunto borroso} expresan el grado de pertenencia de un elemento a la categoría representada por el conjunto.
 
 \paragraph{Variables lingüísticas}
 
-El primer concepto importante a entender en la teoría de conjuntos difusos es el de \textbf{variable lingüística}, las cuales sirven de base para toda la teoría porque sus posibles valores son, precisamente, conjuntos difusos. Se define como:
+El primer concepto importante a entender en la teoría de conjuntos borrosos\index{conjunto borroso} es el de \textbf{variable lingüística}, las cuales sirven de base para toda la teoría porque sus posibles valores son, precisamente, conjuntos borrosos\index{conjunto borroso}. Se define como:
 
 \blockquote{[\ldots] variable whose values are words or sentences in a natural or artificial language [\ldots]}~\cite{zadeh1975concept}
 
-El uso de variables ligüísticas permite representar fenómenos del mundo real como variables cualitativas. Por ejemplo, la variable \textit{velocidad}, puede tomar los valores \textit{atrás rápido}, \textit{atrás lento}, \textit{parado}, \textit{adelante lento} y \textit{adelante rápido}. Es cierto que la variable velocidad a su vez está definida sobre $\mathbb{R}$, y que los conjuntos tienen una definición sobre este dominio, pero la imprecisión que nos dan los términos (conjuntos difusos) se hereda a lo largo de todo el proceso de deducción, de manera similar a como lo hacen los humanos.
+El uso de variables ligüísticas permite representar fenómenos del mundo real como variables cualitativas. Por ejemplo, la variable \textit{velocidad}, puede tomar los valores \textit{atrás rápido}, \textit{atrás lento}, \textit{parado}, \textit{adelante lento} y \textit{adelante rápido}. Es cierto que la variable velocidad a su vez está definida sobre $\mathbb{R}$, y que los conjuntos tienen una definición sobre este dominio, pero la imprecisión que nos dan los términos (conjuntos borrosos\index{conjunto borroso}) se hereda a lo largo de todo el proceso de deducción, de manera similar a como lo hacen los humanos.
 
-\paragraph{Conjuntos difusos}
+\paragraph{Conjuntos borrosos\index{conjunto borroso}}
 
-Una posible definición de conjunto difuso\sidenote{
-	Según Zadeh, la teoría de conjuntos difusos debería servir de ejemplo de lo que él denominó \textit{principio de extensión}~\cite{zadeh1975concept}, esto es, el proceso por el cual generalizar cualquier teoría definida en un dominio discreto hacia su versión continua.
+Una posible definición de conjunto borroso\index{conjunto borroso}\sidenote{
+	Según Zadeh, la teoría de conjuntos borrosos\index{conjunto borroso} debería servir de ejemplo de lo que él denominó \textit{principio de extensión}~\cite{zadeh1975concept}, esto es, el proceso por el cual generalizar cualquier teoría definida en un dominio discreto hacia su versión continua.
 } podría ser la siguiente:
 
-\textit{Dada $X$ una colección de elementos, se define al \textbf{conjunto difuso} $F$ como un conjunto ordenado de pares de la forma:}
+\textit{Dada $X$ una colección de elementos, se define al \textbf{conjunto borroso}\index{conjunto borroso} $F$ como un conjunto ordenado de pares de la forma:}
 
 \begin{equation}
-F = \{(x, \mu_F(x)) | x \in X\}
-\label{eq:fuzzy-set-notation}
+	F = \{(x, \mu_F(x)) | x \in X\}
+	\label{eq:fuzzy-set-notation}
 \end{equation}
 
 \textit{Siendo $\mu_F(x) \in [0, 1] \forall x \in X$.}
 
-A la función $\mu_F(x)$ se la denomina \textbf{función de pertenencia}, y caracteriza unívocamente a un conjunto difuso del dominio de $X$\sidenote{
+A la función $\mu_F(x)$ se la denomina \textbf{función de pertenencia}, y caracteriza unívocamente a un conjunto borroso\index{conjunto borroso} del dominio de $X$\sidenote{
 	Un ejemplo clásico que pone de relieve la utilidad es el de una variación de la paradoja del montón (o paradoja sorites, donde se aplica el método inductivo para demostrar que un montón de arena es y no es un montón de arena) por parte de~\cite{klir1997fuzzy}. En el artículo se argumenta que si tenemos un montón de arena y vamos quitando los granos uno por uno, llegará un momento que no tendremos dicho montón. Está claro que un grano, dos, tres no son un montón de arena, pero un montón menos uno, dos o tres granos tampoco deja de serlo. Desde el punto de vista de la lógica clásica, es imposible determinar el límite de granos donde un montón de arena deja de serlo. Este ejemplo representa una de las muchas situaciones donde es inevitable la incertidumbre.
 }.
 
-La teoría de conjuntos clásica también define los conjuntos de acuerdo a una función, en este caso denominada \textit{función característica}. Las ecuaciones~\ref{eq:characteristic-function} y~\ref{eq:membership-function} muestran las diferencias entre los valores de $f$ siendo ésta una función característica de la teoría de conjuntos clásica o una función de pertenencia de la teoría de conjuntos difusos respectivamente.
+La teoría de conjuntos clásica también define los conjuntos de acuerdo a una función, en este caso denominada \textit{función característica}. Las ecuaciones~\ref{eq:characteristic-function} y~\ref{eq:membership-function} muestran las diferencias entre los valores de $f$ siendo ésta una función característica de la teoría de conjuntos clásica o una función de pertenencia de la teoría de conjuntos borrosos\index{conjunto borroso} respectivamente.
 
 \begin{subequations}
 	\begin{equation}
@@ -634,8 +634,8 @@ La teoría de conjuntos clásica también define los conjuntos de acuerdo a una 
 	\end{equation}
 \end{subequations}
 
-Mientras que un conjunto tradicional se basa en si un valor pertenece o no al conjunto, un elemento en un conjunto difuso puede\sidenote{
-	Puede porque también se puede definir un conjunto \textit{crisp} desde el punto de vista de la lógica difusa.
+Mientras que un conjunto tradicional se basa en si un valor pertenece o no al conjunto, un elemento en un conjunto borroso\index{conjunto borroso} puede\sidenote{
+	Puede porque también se puede definir un conjunto \textit{crisp} desde el punto de vista de la \acrlongsp{fl}.
 } tomar todos los valores posibles en el intervalo $[0, 1]$.
 
 \paragraph{Funciones de pertenencia}
@@ -643,13 +643,13 @@ Mientras que un conjunto tradicional se basa en si un valor pertenece o no al co
 \begin{marginfigure}
 	\centering
 	\includegraphics[width=\textwidth]{trimf-trapmf}
-	\caption[Gráfica de funciones de pertenencia triangular y trapezoidal]{Las funciones de pertenencia triangular y trapezoidal son las dos funciones más usadas a la hora de definir conjuntos difusos, tanto manualmente como en técnicas de ajuste. La razón es su sencillez, ya que captan la esencia de la imprecisión a la hora de definir un término sobre un dominio.}
+	\caption[Gráfica de funciones de pertenencia triangular y trapezoidal]{Las funciones de pertenencia triangular y trapezoidal son las dos funciones más usadas a la hora de definir conjuntos borrosos, tanto manualmente como en técnicas de ajuste. La razón es su sencillez, ya que captan la esencia de la imprecisión a la hora de definir un término sobre un dominio.}
 	\label{fig:trimf-trapmf}
 \end{marginfigure}
 
 Esta función de pertenencia $\mu_F$ puede tomar cualquier forma siempre que estén definidas en el dominio $[0, 1] \subset \mathbb{R}$ (independientemente de si son discretas o no). Lo habitual es definirlas como funciones triangulares o trapezoidales.
 
-Las funciones de pertenencia caracterizan a los conjuntos difusos. Su notación habitual es la que se presenta en la ecuación~\ref{eq:fuzzy-set-notation}, donde $F$ es el conjunto definido, $\mu$ su función de pertenencia y $x$ el valor real del dominio sobre el que se define la variable lingüística.
+Las funciones de pertenencia caracterizan a los conjuntos borrosos\index{conjunto borroso}. Su notación habitual es la que se presenta en la ecuación~\ref{eq:fuzzy-set-notation}, donde $F$ es el conjunto definido, $\mu$ su función de pertenencia y $x$ el valor real del dominio sobre el que se define la variable lingüística.
 
 Dos casos particulares de funciones de pertenencia son las funciones cuadradas (equivalente a conjuntos \textit{crisp)} y las funciones \textit{singleton} (El valor de pertenencia lo tiene un único valor en todo el dominio).
 
@@ -710,17 +710,17 @@ El operador más común para el complemento es el probabilístico, denominado ta
 
 \subsection{Razonamiento}
 
-El razonamiento o inferencia es el proceso de obtener consecuencias a partir de hechos (premisas). En \acrlongsp{fl}, el proceso de inferencia lógica se amplía a través de relaciones difusas, trasladando valores de verdad aproximados.
+El razonamiento o inferencia es el proceso de obtener consecuencias a partir de hechos (premisas). En \acrlongsp{fl}, el proceso de inferencia lógica se amplía a través de relaciones borrosas, trasladando valores de verdad aproximados.
 
-Toda regla difusa está compuesta por un antecedente y un consecuente. Tanto el uno como el otro están compuestos de sentencias que asignan valores de variables difusas (conjuntos difusos) a éstas. La forma más común de representar las reglas difusas es a través de reglas \texttt{IF \ldots THEN}, donde las relaciones entre elementos (i.e. \texttt{AND}, \texttt{OR} y \texttt{NOT}) se corresponden con las operaciones de $t$-norma, $t$-conorma y complemento.
+Toda regla borrosa está compuesta por un antecedente y un consecuente. Tanto el uno como el otro están compuestos de sentencias que asignan valores de variables borrosas (conjuntos borrosos\index{conjunto borroso}) a éstas. La forma más común de representar las reglas borrosas es a través de reglas \texttt{IF \ldots THEN}, donde las relaciones entre elementos (i.e. \texttt{AND}, \texttt{OR} y \texttt{NOT}) se corresponden con las operaciones de $t$-norma, $t$-conorma y complemento.
 
-La implicación lógica $A \rightarrow B$ es equivalente a $\lnot A \lor B$, pero en lógica difusa esta equivalencia arroja valores contra-intuitivos. Una definición ampliamente extendida es la del uso de una $t$-norma, como es el caso de la \textbf{Implicación de Mamdani}, pero existen muchos tipos diferentes\sidenote{
+La implicación lógica $A \rightarrow B$ es equivalente a $\lnot A \lor B$, pero en \acrlongsp{fl} esta equivalencia arroja valores contra-intuitivos. Una definición ampliamente extendida es la del uso de una $t$-norma, como es el caso de la \textbf{Implicación de Mamdani}, pero existen muchos tipos diferentes\sidenote{
 	En los trabajos \cite{kiszka1985influence1} y \cite{kiszka1985influence2} se estudian hasta 72 alternativas al operador $A \rightarrow B \equiv \lnot A \lor B$ de implicación en \acrlongsp{fl}.
 }.
 
 \paragraph{Modus Ponens Generalizado}
 
-Se trata de la extensión del método del \textit{modus ponens} para obtener el valor de verdad de un consecuente a partir de un antecedente ambos difusos. En el modus ponens el esquema de razonamiento es el siguiente (ecuación~\ref{eq:modus-ponens}).
+Se trata de la extensión del método del \textit{modus ponens} para obtener el valor de verdad de un consecuente a partir de un antecedente ambos borrosos. En el \textit{modus ponens} el esquema de razonamiento es el siguiente (ecuación~\ref{eq:modus-ponens}).
 
 \begin{logicproof}{1}
 	P(x) \to Q(x) \\
@@ -729,7 +729,7 @@ Se trata de la extensión del método del \textit{modus ponens} para obtener el 
 	\label{eq:modus-ponens}
 \end{logicproof}
 
-Sin embargo, debido a que en lógica difusa los valores de las reglas de inferencia son conjuntos difusos, la conclusión de un silogismo no será la conclusión de la regla, sino algo aproximado a ella, como se ilustra en la ecuación~\ref{eq:generalized-modus-ponens}
+Sin embargo, debido a que en \acrlongpl{fl} los valores de las reglas de inferencia son conjuntos borrosos\index{conjunto borroso}, la conclusión de un silogismo no será la conclusión de la regla, sino algo aproximado a ella, como se ilustra en la ecuación~\ref{eq:generalized-modus-ponens}
 
 \begin{logicproof}{1}
 	P(x) \to Q(x) \\
@@ -740,16 +740,16 @@ Sin embargo, debido a que en lógica difusa los valores de las reglas de inferen
 
 La \textit{regla composicional de inferencia} es el método para determinar qué grado le asignamos a un consecuente a partir de las premisas de los antecedentes en un proceso de \textit{modus ponens generalizado}, o dicho de otro modo, cómo obtener la función de pertenencia del conjunto resultado a partir de las funciones de pertenencia de las premisas.
 
-Cada regla de un sistema difuso de la forma \texttt{IF $x$ is $A$ THEN $y$ is $B$} se puede representar como una función $I$ tal que $I(\mu_A(x), \mu_B(y))$ (\textit{Regla Composicional de Zadeh}).
+Cada regla de tipo \texttt{IF $x$ is $A$ THEN $y$ is $B$} se puede representar como una función $I$ tal que $I(\mu_A(x), \mu_B(y))$ (\textit{Regla Composicional de Zadeh}).
 
-\subsection{Sistemas de control difuso}
+\subsection{Acrlongplsp{fcs}\index{sistema de control borroso}}
 \label{ss:fcs}
 
-Los \Acrfull{fcs}\index{sistema de control difuso} son el caso de éxito de la lógica difusa que más resultados ha cosechado tanto a nivel académico como a nivel industrial. Se trata sistemas que utilizan el razonamiento difuso para inferir una respuesta a partir de un conjunto de entradas\sidenote{
-	Dado que el control difuso puede extenderse a casi cualquier problema de control tradicional hace que se haya usado en multitud de campos, no sólo en el industrial. Esto hace que el mismo concepto pueda encontrarse con muchos nombres diferentes, como Sistemas de Lógica Difusa, Sistemas de Inferencia Difusa, Sistemas Expertos Difusos, Sistemas Basados en Reglas Difusas o simplemente Sistemas Difusos.
+Los \Acrfull{fcs}\index{sistema de control borroso} son el caso de éxito de la \acrlongsp{fl} que más resultados ha cosechado tanto a nivel académico como a nivel industrial. Se trata sistemas que utilizan el razonamiento borroso para inferir una respuesta a partir de un conjunto de entradas\sidenote{
+	Dado que el control borroso puede extenderse a casi cualquier problema de control tradicional hace que se haya usado en multitud de campos, no sólo en el industrial. Esto hace que el mismo concepto pueda encontrarse con muchos nombres diferentes, como Sistemas de Lógica Difusa, Sistemas de Inferencia Difusa, Sistemas Expertos Difusos, Sistemas Basados en Reglas Difusas o simplemente Sistemas Difusos.
 }. Su uso se aplica tanto a sistemas de control manual como a sistemas donde los elementos a controlar son muy difíciles o incluso imposibles de diseñar (e.g. procesos de control con un alto número de variables relacionadas entre sí).
 
-Se puede definir como un componente que asigna salidas de dominios no difusos (\textit{crisp}) a entradas de dominios también no difusos (\textit{crisp}) de forma no lineal haciendo uso de lógica difusa. La arquitectura de estos sistemas está compuesta por cuatro bloques: \textit{fuzzificador}, \textit{bloque de reglas}, \textit{razonador} (bloque de inferencia) y \textit{defuzzificador}. En la Figura~\ref{fig:fuzzy-control-system} se describe el esquema de un sistema de control difuso general.
+Se puede definir como un componente que asigna salidas de dominios no borrosos (\textit{crisp}) a entradas de dominios también no borrosos (\textit{crisp}) de forma no lineal haciendo uso de \acrlongsp{fl}. La arquitectura de estos sistemas está compuesta por cuatro bloques: \textit{fuzzificador}, \textit{bloque de reglas}, \textit{razonador} (bloque de inferencia) y \textit{defuzzificador}. En la Figura~\ref{fig:fuzzy-control-system} se describe el esquema de un \acrlongsp{fcs} general.
 
 \begin{figure}
 	\centering
@@ -760,13 +760,13 @@ Se puede definir como un componente que asigna salidas de dominios no difusos (\
 
 \paragraph{Fuzzificador}
 
-Este bloque recibe las entradas \textit{crisp} al sistema (los cuales pertenecerán al dominio sobre el que las variables están definidas) y las transforma a valores de pertenencia de sus respectivos conjuntos difusos.
+Este bloque recibe las entradas \textit{crisp} al sistema (los cuales pertenecerán al dominio sobre el que las variables están definidas) y las transforma a valores de pertenencia de sus respectivos conjuntos borrosos\index{conjunto borroso}.
 
 \paragraph{Bloque de reglas}
 
-Define el conjunto de reglas que gobiernan el proceso deductivo del \acrlongsp{fcs}\index{sistema de control difuso}. A estas reglas se les puede aplicar pesos en caso de que se quiera simbolizar la mayor importancia de una regla frente al resto. Se suele representar como un parámetro $w_i > 0 \in \mathbb{R}$ para la regla $i$-ésima, el cual se multiplica al resultado de la regla para ponderar la importancia de la misma.
+Define el conjunto de reglas que gobiernan el proceso deductivo del \acrlongsp{fcs}\index{sistema de control borroso}. A estas reglas se les puede aplicar pesos en caso de que se quiera simbolizar la mayor importancia de una regla frente al resto. Se suele representar como un parámetro $w_i > 0 \in \mathbb{R}$ para la regla $i$-ésima, el cual se multiplica al resultado de la regla para ponderar la importancia de la misma.
 
-La forma más común de representación es a través de reglas de la forma \texttt{IF \ldots THEN \ldots} por su facilidad de comprensión. Sin embargo, otra representación muy usada (sobre todo como representación interna) es la de $m$ matrices $n$-dimensionales, donde $m$ es el número de conjuntos de salida y $n$ cada variable lingüística, con los conjuntos difusos de éstas como índices y con los valores que toman esas intersecciones como los valores de dicha salida\sidenote{Más adelante veremos un caso en el que esta representación es útil a la hora de inferir un controlador difuso a partir de un conjunto de entrenamiento} (Figura~\ref{fig:fuzzy-controller-matrix-representation}).
+La forma más común de representación es a través de reglas de la forma \texttt{IF \ldots THEN \ldots} por su facilidad de comprensión. Sin embargo, otra representación muy usada (sobre todo como representación interna) es la de $m$ matrices $n$-dimensionales, donde $m$ es el número de conjuntos de salida y $n$ cada variable lingüística, con los conjuntos borrosos\index{conjunto borroso} de éstas como índices y con los valores que toman esas intersecciones como los valores de dicha salida\sidenote{Más adelante veremos un caso en el que esta representación es útil a la hora de inferir un \acrlongsp{fcs} a partir de un conjunto de entrenamiento} (Figura~\ref{fig:fuzzy-controller-matrix-representation}).
 
 \begin{figure}
 	\centering
@@ -779,7 +779,7 @@ La forma más común de representación es a través de reglas de la forma \text
 			$F_A^4$ & $0$ & $0$ & $0$ & $1$ & $1$ \\
 		\end{block}
 	\end{blockarray}
-	\caption[Matriz de representación de reglas difusas]{Representación matricial de un conjunto de reglas difusas para un conjunto difuso de salida $O_k$. Siendo $F_A^i$ y $F_B^j$ cada uno de los $i$ y $j$ conjuntos difusos de las variables $A$ y $B$ respectivamente, los valores de la matriz representan si la conjunción entre ambos conjuntos difusos existe o no.}
+	\caption[Matriz de representación de reglas borrosas]{Representación matricial de un conjunto de reglas borrosas para un conjunto borroso de salida $O_k$. Siendo $F_A^i$ y $F_B^j$ cada uno de los $i$ y $j$ conjuntos borrosos de las variables $A$ y $B$ respectivamente, los valores de la matriz representan si la conjunción entre ambos conjuntos borrosos existe o no.}
 	\label{fig:fuzzy-controller-matrix-representation}
 \end{figure}
 
@@ -787,11 +787,11 @@ La forma más común de representación es a través de reglas de la forma \text
 
 Se encarga de realizar todo el procesamiento de inferencia haciendo uso de las entradas fuzzy (las salidas del bloque fuzzificador) y las reglas del bloque de reglas.
 
-A partir de éstos realizará un proceso de deducción (normalmente \textit{modus ponens generalizado}) tras el cual se obtendrán las funciones de pertenencia para cada uno de los conjuntos difusos resultado de las conclusiones del proceso de inferencia.
+A partir de éstos realizará un proceso de deducción (normalmente \textit{modus ponens generalizado}) tras el cual se obtendrán las funciones de pertenencia para cada uno de los conjuntos borroso\index{conjunto borroso} resultado de las conclusiones del proceso de inferencia.
 
 \paragraph{Defuzzificador}
 
-Realiza el proceso inverso del bloque fuzzificador. Dado que a la salida del razonador sólo contamos con valores de pertenencia al conjunto difuso de salida, es necesario una transformación al dominio de la variable lingüística de salida para convertirlo en un valor interpretable por el sistema a controlar.
+Realiza el proceso inverso del bloque fuzzificador. Dado que a la salida del razonador sólo contamos con valores de pertenencia al conjunto borroso\index{conjunto borroso} de salida, es necesario una transformación al dominio de la variable lingüística de salida para convertirlo en un valor interpretable por el sistema a controlar.
 
 \begin{subequations}
 	\begin{equation}
@@ -804,28 +804,28 @@ Realiza el proceso inverso del bloque fuzzificador. Dado que a la salida del raz
 	\end{equation}
 \end{subequations}
 
-Existen diferentes algoritmos para la transformación de un conjunto difuso (expresado a partir de su función de pertenencia $\mu_F$) a un valor \textit{crisp}. Suelen ser comunes en conjuntos de salida continuos el \Acrfull{coa}, ecuación~\ref{eq:centroid-of-area} y en conjuntos de tipo singleton su versión \textit{media ponderada} (ecuación~\ref{eq:weighted-sum})\sidenote{
+Existen diferentes algoritmos para la transformación de un conjunto borroso\index{conjunto borroso} (expresado a partir de su función de pertenencia $\mu_F$) a un valor \textit{crisp}. Suelen ser comunes en conjuntos de salida continuos el \Acrfull{coa}, ecuación~\ref{eq:centroid-of-area} y en conjuntos de tipo singleton su versión \textit{media ponderada} (ecuación~\ref{eq:weighted-sum})\sidenote{
 	En el trabajo [Defuzzification: criteria and classification] se realiza una clasificación muy completa de una gran cantidad de algoritmos de defuzzificación.
 }.
 
-\subsection{Tipos de \acrlongplsp{fcs}\index{sistema de control difuso}}
+\subsection{Tipos de \acrlongplsp{fcs}\index{sistema de control borroso}}
 
-Los \acrlongplsp{fcs}\index{sistema de control difuso} se han usado en muchos dominios diferentes. Son tantos los autores que han trabajado sobre ello que los sistemas tienden a variar en su funcionamiento. Existen dos tipos de controladores que son los que dominan la literatura, los cuales de describen brevemente a continuación.
+Los \acrlongplsp{fcs}\index{sistema de control borroso} se han usado en muchos dominios diferentes. Son tantos los autores que han trabajado sobre ello que los sistemas tienden a variar en su funcionamiento. Existen dos tipos de controladores que son los que dominan la literatura, los cuales de describen brevemente a continuación.
 
-\paragraph{Controlador difuso tipo Mamdani}
+\paragraph{Controlador borroso tipo Mamdani}
 
-Este controlador fue el primer intento de control destinado automatizar un motor de vapor y su caldera utilizando para ello un conjunto de reglas difusas del tipo \texttt{$IF \ldots THEN \ldots$} obtenidas directamente de la experiencia de los operarios. Su estructura es la básica presentada previamente (ver Figura~\ref{fig:fuzzy-control-system}).
+Este controlador fue el primer intento de control destinado automatizar un motor de vapor y su caldera utilizando para ello un conjunto de reglas borrosas del tipo \texttt{$IF \ldots THEN \ldots$} obtenidas directamente de la experiencia de los operarios. Su estructura es la básica presentada previamente (ver Figura~\ref{fig:fuzzy-control-system}).
 
-Es consecuente de un sistema de tipo \textit{Mamdani} es siempre un conjunto difuso y por tanto requiere de un proceso de defuzzificación que es costoso. De ahí el sentido el siguiente tipo de controlador.
+Es consecuente de un sistema de tipo \textit{Mamdani} es siempre un conjunto borroso\index{conjunto borroso} y por tanto requiere de un proceso de defuzzificación que es costoso. De ahí el sentido el siguiente tipo de controlador.
 
-\paragraph{Controlador difuso tipo Takagi-Sugeno-Kang}
+\paragraph{Controlador borroso tipo Takagi-Sugeno-Kang}
 
-Este tipo de controlador difuso fue propuesto por Takagi, Sugeno y Kang en los trabajos \cite{takagi1993fuzzy} y \cite{sugeno1988structure}, aunque se suele abreviar a tipo Takagi-Sugeno o, directamente, Sugeno.
+Este tipo de controlador borroso fue propuesto por Takagi, Sugeno y Kang en los trabajos \cite{takagi1993fuzzy} y \cite{sugeno1988structure}, aunque se suele abreviar a tipo Takagi-Sugeno o, directamente, Sugeno.
 
 En este tipo de controlador, el bloque de defuzzificación desaparece y los consecuentes de las reglas de inferencia son reemplazados por una función (normalmente un polinomio basado en los parámetros del antecedente) la cual nos devuelve directamente un valor \textit{crisp}.
 
 En función del orden del polinomio de la función de salida, el controlador recibe también el mismo orden. De esta manera, por ejemplo, si tenemos dos valores de entrada $x$ e $y$, cuando $f(x, y) = c$ se dice que el controlador es de orden $0$. Si $f(x, y) = ax + by + c$, se dice que es de orden $1$, y así sucesivamente\sidenote{
-	Los controladores de tipo Takagi-Sugeno-Kang de orden $0$ son equivalentes a controladores de tipo Mamdani cuyos conjuntos difusos de salida son de tipo singleton.
+	Los controladores de tipo Takagi-Sugeno-Kang de orden $0$ son equivalentes a controladores de tipo Mamdani cuyos conjuntos borroso\index{conjunto borroso} de salida son de tipo singleton.
 }.
 
 El consecuente en un controlador de tipo Sugeno es directamente un valor del dominio de la variable de salida, y por tanto no necesita proceso de defuzzificación. Sin embargo, la respuesta pierde significado semántico, a diferencia de un controlador de tipo Mamdani.
@@ -857,7 +857,7 @@ Nosotros hablaremos de estas entidades desde el punto de vista de la \acrlongsp{
 
 Según ésta, un agente es considerado \textbf{agente inteligente} cuando éste realiza la mejor acción posible (según un criterio de medida). En este contexto, \textit{la mejor acción posible} se refiere en términos de objetivos a cumplir y comprensión del entorno en el que se desarrolla la acción, que puede ser o no correcta.
 
-Las nociones de agentes inteligentes y la de \acrlongsp{ci} van de la mano. Esto es debido a que su definición funciona a la perfección para las técnicas que la constituyen, esto es, agentes autónomos que perciben el entorno (problema) y actuan de la mejor manera posible sobre él (resuelven) de acuerdo a su conocimento del medio y su estado interno (en base a algoritmos como \acrlong{ann}\index{red neuronal artificial}, \acrlong{fl}\index{lógica difusa}, \ldots). Por ello desde mediados de la década de $1990$ el concepto de agente inteligente ha ganado tanta popularidad\sidenote{Tanto es así que en algunos trabajos se define el objetivo de la \acrlongsp{ai} como la implementación de la función agente, esto es, la función que realiza la correspondencia de una percepción a una acción, para un problema dado.}.
+Las nociones de agentes inteligentes y la de \acrlongsp{ci} van de la mano. Esto es debido a que su definición funciona a la perfección para las técnicas que la constituyen, esto es, agentes autónomos que perciben el entorno (problema) y actuan de la mejor manera posible sobre él (resuelven) de acuerdo a su conocimento del medio y su estado interno (en base a algoritmos como \acrlong{ann}\index{red neuronal artificial}, \acrlong{fl}\index{lógica borrosa}, \ldots). Por ello desde mediados de la década de $1990$ el concepto de agente inteligente ha ganado tanta popularidad\sidenote{Tanto es así que en algunos trabajos se define el objetivo de la \acrlongsp{ai} como la implementación de la función agente, esto es, la función que realiza la correspondencia de una percepción a una acción, para un problema dado.}.
 
 \subsection{Tipos de entorno}
 

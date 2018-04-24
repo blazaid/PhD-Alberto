@@ -1,13 +1,13 @@
-\chapter{Ajuste de \acrlongplsp{fcs}\index{sistema de control difuso} basado en descenso del gradiente}
+\chapter{Ajuste de \acrlongplsp{fcs}\index{sistema de control borroso} basado en descenso del gradiente}
 \label{ch:fuzzy-controller-adjustment}
 
-Como vimos en la sección \nameref{ss:fcs} del capítulo \nameref{ch:sota-ci}, un \acrlongsp{fcs}\index{sistema de control difuso} se compone de cuatro bloques diferenciados: la fuzzificación, el bloque de reglas, la inferencia y la defuzzificación. De estos bloques, el proceso manual de ajuste se resume siempre en dos pasos\sidenote{
-	Por supuesto implica más ajustes como la elección de las funciones de fuzzificación, las $t$-normas y $t$-conormas, de la función de defuzzificación, pero estas operaciones no tienen tanto impacto en el desempeño del controlador como las particiones difusas y las reglas.
+Como vimos en la sección \nameref{ss:fcs} del capítulo \nameref{ch:sota-ci}, un \acrlongsp{fcs}\index{sistema de control borroso} se compone de cuatro bloques diferenciados: la fuzzificación, el bloque de reglas, la inferencia y la defuzzificación. De estos bloques, el proceso manual de ajuste se resume siempre en dos pasos\sidenote{
+	Por supuesto implica más ajustes como la elección de las funciones de fuzzificación, las $t$-normas y $t$-conormas, de la función de defuzzificación, pero estas operaciones no tienen tanto impacto en el desempeño del controlador como las particiones borrosas y las reglas.
 }:
 
 \begin{enumerate}
-	\item Elección de las particiones difusas de las variables lingüísticas.
-	\item Definición de las reglas difusas.
+	\item Elección de las particiones borrosas de las variables lingüísticas.
+	\item Definición de las reglas borrosas.
 \end{enumerate}
 
 Las soluciones de ajuste que existen en la literatura suelen funcionar ajustando automáticamente uno de los dos puntos, manteniendo fijo el otro (e.g. ajustar las particiones fijas las reglas). Nosotros representaremos el controlador como un grafo computacional de manera que sus gradientes sean sencillos de ajustar\sidenote{
@@ -17,9 +17,9 @@ Las soluciones de ajuste que existen en la literatura suelen funcionar ajustando
 Se han tomado una serie de decisiones de diseño para facilitar el desarrollo del controlador, aunque son fácilmente modificables. Éstas son:
 
 \begin{itemize}
-	\item Para cada partición difusa se limitarán las funciones de pertenencia a: una línea descendente para caracterizar al primer conjunto difuso, una línea ascendente para caracterizar el último y trapezoides para caracterizar al resto.
+	\item Para cada partición borrosa se limitarán las funciones de pertenencia a: una línea descendente para caracterizar al primer conjunto borroso\index{conjunto borroso}, una línea ascendente para caracterizar el último y trapezoides para caracterizar al resto.
 	\item Las $t$-norma y $t$-conorma serán el máximo y el mínimo respectivamente. La $t$-norma se usará como operador asociado al \texttt{AND} lógico y a la operación de implicación, mientras que la $t$-conorma se usará como operador asociado al \texttt{OR} lógico y a la acumulación.
-	\item El controlador será de tipo \textit{Takagi-Sugeno} de orden $0$, y por tanto se representarán las funciones de salida como conjuntos difusos de tipo singletón. La función de defuzzificación será la la operación CoGS\sidenote{
+	\item El controlador será de tipo \textit{Takagi-Sugeno} de orden $0$, y por tanto se representarán las funciones de salida como conjuntos borrosos\index{conjunto borroso} de tipo singletón. La función de defuzzificación será la la operación CoGS\sidenote{
 		La operación CoGS (\textit{Center of Gravity for Singletons}) se define como:
 		\begin{equation}
 			CoGS = \sum_{i=1}^n w_i \cdot o_i
@@ -27,23 +27,23 @@ Se han tomado una serie de decisiones de diseño para facilitar el desarrollo de
 		\end{equation}
 		Es decir, la suma ponderada de los valores de salida.
 	}.
-	\item El tamaño de las particiones difusas no variará dinámicamente a lo largo del entrenamiento, siendo éste un meta-parámetro de configuración del controlador.
+	\item El tamaño de las particiones borrosas no variará dinámicamente a lo largo del entrenamiento, siendo éste un meta-parámetro de configuración del controlador.
 	\item El controlador tendrá una única variable de salida.
 \end{itemize}
 
-\section{El \acrlongsp{fcs}\index{sistema de control difuso} como grafo computacional}
+\section{El \acrlongsp{fcs}\index{sistema de control borroso} como grafo computacional}
 
 Sea $\mathcal{V} = {V_1, V_2, \ldots, V_n}$ el conjunto ordenado de variables lingüísticas de nuestro controlador, y sea $O$ la variable lingüística de salida. Cada una de estas variables tendrá un número prefijado de conjuntos $\mathcal{N} = {N_{V_1}, N_{V_2}, \ldots, N_{V_n}}$ para las variables de entrada y $N_O$ para la variable de salida.
 
 El controlador recibirá una matriz bidimensional de rango $(m, n)$ y devolverá un vector de rango $(m)$, siendo $m$ el número de ejemplos que queremos calcular a la vez.
 
-Representaremos el \acrlongsp{fcs}\index{sistema de control difuso} como grafo computacional. De esta manera, podremos (i) aplicar la función de manera más eficiente y (ii) calcular fácilmente los gradientes de las funciones parciales para aplicar la técnica del descenso del gradiente propagando el error de la salida.
+Representaremos el \acrlongsp{fcs}\index{sistema de control borroso} como grafo computacional. De esta manera, podremos (i) aplicar la función de manera más eficiente y (ii) calcular fácilmente los gradientes de las funciones parciales para aplicar la técnica del descenso del gradiente propagando el error de la salida.
 
-El proceso de desarrollo será el siguiente: primero, construiremos cada uno de los bloques fundamentales del \acrlongsp{fcs}\index{sistema de control difuso} como un grafos computacionales; después construiremos el controlador conectando entre sí estos grafos.
+El proceso de desarrollo será el siguiente: primero, construiremos cada uno de los bloques fundamentales del \acrlongsp{fcs}\index{sistema de control borroso} como un grafos computacionales; después construiremos el controlador conectando entre sí estos grafos.
 
 \subsection{Bloque de fuzzificación}
 
-El grafo computacional asociado a este bloque tomará una matriz bidimensional de rango $(m, n)$ (la matriz de entrada) que contendrá para cada ejemplo una lista de los valores que toma cada una de las variables de entrada. La salida de este grafo será una matriz bidimensional de rango $(m, \sum_{i=1}^n N_i)$, donde se almacenarán los grados de pertenencia de esos valores acada conjunto difuso de la variable que les corresponda (Figura~\ref{fig:input-to-fuzzy-input}).
+El grafo computacional asociado a este bloque tomará una matriz bidimensional de rango $(m, n)$ (la matriz de entrada) que contendrá para cada ejemplo una lista de los valores que toma cada una de las variables de entrada. La salida de este grafo será una matriz bidimensional de rango $(m, \sum_{i=1}^n N_i)$, donde se almacenarán los grados de pertenencia de esos valores acada conjunto borroso\index{conjunto borroso} de la variable que les corresponda (Figura~\ref{fig:input-to-fuzzy-input}).
 
 \begin{figure*}
 	\centering
@@ -62,13 +62,13 @@ El grafo computacional asociado a este bloque tomará una matriz bidimensional d
 		\mu^1_{V_1}(x^4_{V_1}) & \mu^2_{V_1}(x^4_{V_1}) & \mu^1_{V_2}(x^4_{V_2}) & \mu^2_{V_2}(x^4_{V_2}) & \ldots \\
 		\end{array}\right)
 	\end{equation*}
-	\caption[Ejemplo de operación en el bloque de fuzzificación]{El bloque de fuzzificación transformará los valores de sus respectivos dominios al de cada conjunto difuso. La matriz generada tendrá tantas columnas como conjuntos difusos posee cada variable.}
+	\caption[Ejemplo de operación en el bloque de fuzzificación]{El bloque de fuzzificación transformará los valores de sus respectivos dominios al de cada conjunto borroso. La matriz generada tendrá tantas columnas como conjuntos borrosos posee cada variable.}
 	\label{fig:input-to-fuzzy-input}
 \end{figure*}
 
-Para ello, se le aplicará a cada columna de la matriz de entrada tantas operaciones (funciones de pertenencia) como conjuntos difusos posea. Concretamente se aplicarán operaciones de línea descendente, trapezoidal y ascendente.
+Para ello, se le aplicará a cada columna de la matriz de entrada tantas operaciones (funciones de pertenencia) como conjuntos borrosos\index{conjunto borroso} posea. Concretamente se aplicarán operaciones de línea descendente, trapezoidal y ascendente.
 
-Los grafos de las líneas \textbf{ascendente} y \textbf{descendente} tienen una forma parecida. El grafo asociado a la fórmula de la línea descendente se muestra en la Figura~\ref{fig:slope-asc-grap}, que es la que se correspondería con el último conjunto de una partición difusa. Como se puede ver, las variables ajustables son $a$ y $\delta b$. Estas definen el intervalo $(a, a + \delta b) \in \mathbb{R}$ donde los valores $f(X)$ ascienden de $0$ a $1$ (o descienden de $1$ a $0$ en el caso de la recta ascendente).
+Los grafos de las líneas \textbf{ascendente} y \textbf{descendente} tienen una forma parecida. El grafo asociado a la fórmula de la línea descendente se muestra en la Figura~\ref{fig:slope-asc-grap}, que es la que se correspondería con el último conjunto de una partición borrosa. Como se puede ver, las variables ajustables son $a$ y $\delta b$. Estas definen el intervalo $(a, a + \delta b) \in \mathbb{R}$ donde los valores $f(X)$ ascienden de $0$ a $1$ (o descienden de $1$ a $0$ en el caso de la recta ascendente).
 
 \begin{figure}
 	\centering
@@ -86,7 +86,7 @@ El \textbf{trapecio} se define a partir de los parámetros $(a, \delta b, \delta
 	\label{fig:trap-graph}
 \end{figure}
 
-Sabiendo los grafos computacionales de cada una de las funciones de pertenencia, ya podemos definir el grafo asociado a la partición difusa de una variable lingüística. Suponiendo que la variable $V_i$ está dividida en $N_{V_i}$ conjuntos difusos, la partición estará compuesta de:
+Sabiendo los grafos computacionales de cada una de las funciones de pertenencia, ya podemos definir el grafo asociado a la partición borrosa de una variable lingüística. Suponiendo que la variable $V_i$ está dividida en $N_{V_i}$ conjuntos borrosos\index{conjunto borroso}, la partición estará compuesta de:
 
 \begin{itemize}
 	\item Un primer conjunto definido como una pendiente descendente.
@@ -98,28 +98,28 @@ Este grafo tiene que definir una serie de variables para que nuestro algoritmo d
 
 Al estar definidas de esta manera, logramos (i) que la suma de todas las pertenencias en cada punto del eje $X$ sea $1$ y (ii) que cada pequeña variación del gradiente de una de las variables tiene el potencial de provocar una variación en el resto de variables.
 
-Por último, un controlador difuso define un número de variables de entrada. Nuestro grafo de fuzzificación estará definido de tal manera que para una matriz de entrada $m \times l$, siendo $m$ cada tupla de valores a inferir y $l$ cada una de las variables lingüísticas, generará una matriz de la forma $m \times \sum_{i=1}^l \left\vert{l_i}\right\vert$, siendo $\left\vert{S}\right\vert$ el número de conjuntos difusos que contiene la variable linguística $l_i$ (Figura~\ref{fig:fuzzification-graph})
+Por último, un \acrlongsp{fcs} define un número de variables de entrada. Nuestro grafo de fuzzificación estará definido de tal manera que para una matriz de entrada $m \times l$, siendo $m$ cada tupla de valores a inferir y $l$ cada una de las variables lingüísticas, generará una matriz de la forma $m \times \sum_{i=1}^l \left\vert{l_i}\right\vert$, siendo $\left\vert{S}\right\vert$ el número de conjuntos borrosos\index{conjunto borroso} que contiene la variable linguística $l_i$ (Figura~\ref{fig:fuzzification-graph})
 
 \begin{figure}
 	\centering
 	\includegraphics{fuzzification-graph}
-	\caption[Ejemplo de operación de fuzzificación como grafo computacional]{Siendo el número de conjuntos difusos de las variables lingüísticas $X_1$ e $X_2$ $3$, el grafo de fuzzificación transformará los dos valores de entrada $x \in X_1$ e $y \in X_2$ en seis valores, los corerspondientes a los valores de pertenencia de $x$ e $y$ a cada uno de los conjuntos difusos de $X_1$ y $X_2$ respectivamente}
+	\caption[Ejemplo de operación de fuzzificación como grafo computacional]{Siendo el número de conjuntos borrosos de las variables lingüísticas $X_1$ e $X_2$ $3$, el grafo de fuzzificación transformará los dos valores de entrada $x \in X_1$ e $y \in X_2$ en seis valores, los corerspondientes a los valores de pertenencia de $x$ e $y$ a cada uno de los conjuntos borrosos de $X_1$ y $X_2$ respectivamente}
 	\label{fig:fuzzification-graph}
 \end{figure}
 
 \subsection{Bloque de inferencia}
 
-Este bloque tomará una matriz bidimensional de rango $(m, \sum_{i=1}^n N_i)$, es decir, la matriz de salida del bloque de fuzzificación, y generará una matriz bidimensional de rango $(m, N_O)$ que contendrá los valores difusos de salida (un valor difuso por cada conjunto difuso de salida). Para ello, hará uso de un bloque de reglas en las que basará su inferencia.
+Este bloque tomará una matriz bidimensional de rango $(m, \sum_{i=1}^n N_i)$, es decir, la matriz de salida del bloque de fuzzificación, y generará una matriz bidimensional de rango $(m, N_O)$ que contendrá los valores borrosos de salida (un valor borroso por cada conjunto borroso\index{conjunto borroso} de salida). Para ello, hará uso de un bloque de reglas en las que basará su inferencia.
 
-Este bloque de reglas es el que se tratará de ajustar. La representación será la de una matriz $(v_i + 1)$-dimensional, siendo $v_i = \sum_{i=1}^l \left\vert{l_i}\right\vert$ el número total de entradas difusas que llegan al bloque. La dimensión adicional se corresponde a la variable lingüística de salida.
+Este bloque de reglas es el que se tratará de ajustar. La representación será la de una matriz $(v_i + 1)$-dimensional, siendo $v_i = \sum_{i=1}^l \left\vert{l_i}\right\vert$ el número total de entradas borrosas que llegan al bloque. La dimensión adicional se corresponde a la variable lingüística de salida.
 
-Dicho de otro modo, cada posible conjunto difuso de salida (cada valor dentro del eje correspondiente a la salida) se corresponderá con una matriz $v_i$-dimensional resultado del producto cartesiano de las cariables de entradas. Esto es, cada una de las posibles combinaciones de reglas, a la que podemos asociar un valor. En la Figura~\ref{fig:inference-graph} se muestra un ejemplo con las variables obtenidas en el ejemplo de la Figura~\ref{fig:fuzzification-graph} tras aplicarles la $t$-norma.
+Dicho de otro modo, cada posible conjunto borroso de salida (cada valor dentro del eje correspondiente a la salida) se corresponderá con una matriz $v_i$-dimensional resultado del producto cartesiano de las cariables de entradas. Esto es, cada una de las posibles combinaciones de reglas, a la que podemos asociar un valor. En la Figura~\ref{fig:inference-graph} se muestra un ejemplo con las variables obtenidas en el ejemplo de la Figura~\ref{fig:fuzzification-graph} tras aplicarles la $t$-norma.
 
 Al estar definida la $t$-conorma y la acumulación con el mismo operador (i.e. el máximo), una regla de tipo OR es equivalente a dos reglas de tipo AND, ya que la acumulación de sus resultados es equivalente. Por tanto, al aplicar la $t$-norma a estas combinaciones tenemos todas las posibles combinaciones de reglas. Pero hasta aquí no tenemos ningún ajuste.
 
 Si aplicamos el producto de Hadamard a una matriz de pesos con la misma dimensión y acotamos sus valores a $[0, 1] \in \mathbb{N}$, tenemos una manera de ajustar qué reglas son las más relevantes y cuáles no. Esta representación tiene un problema: estos dos valores definen una función escalón donde el error no se propaga al ser su gradiente $0$. Sin embargo, si en lugar de un valor natural, el peso toma un valor real y le aplicamos una operación sigmoidal, el valor se mantendrá entre $(0, 1) \in \mathbb{R}$ con la ventaja de que el gradiente no se estanca, y en un proceso posterior se pueden descartar las reglas cuyos valores superen ciertos rangos establecidos.
 
-A la salida de la inferencia, tras aplicar la acumulación, disponemos de tantos valores difusos como conjuntos difusos tiene la salida.
+A la salida de la inferencia, tras aplicar la acumulación, disponemos de tantos valores borrosos como conjuntos borrosos tiene la salida.
 
 \begin{figure}[t]
 	\centering
@@ -148,23 +148,23 @@ A la salida de la inferencia, tras aplicar la acumulación, disponemos de tantos
 			\top(\mu_3^A, \mu_3^B) \\
 		\end{array}\right)
 	\end{equation*}
-	\caption[Producto cartesiano de variables difusas de entrada]{El producto cartesiano de las variables difusas de entrada genera todas las posibles combinaciones entre los conjuntos difusos de las variables lingüísticas. Aplicándosele la $t$-norma a cada una de estas combinaciones tenemos todas las posibles reglas que se pueden definir en este \acrlongsp{fcs}.}
+	\caption[Producto cartesiano de variables borrosas de entrada]{El producto cartesiano de las variables borrosas de entrada genera todas las posibles combinaciones entre los conjuntos borrosos de las variables lingüísticas. Aplicándosele la $t$-norma a cada una de estas combinaciones tenemos todas las posibles reglas que se pueden definir en este \acrlongsp{fcs}.}
 	\label{fig:inference-graph}
 \end{figure}
 
 \subsection{Bloque de defuzzificación}
 
-Este bloque tiene la particularidad de que no posee ninguna variable que ajustar. Se trata simplemente de una operación que toma una matriz bidimensional de rango $(m, N_O)$ con los valores difusos de salida y devuelve un vector de rango $(m)$ con los valores en el dominio de la variable lingüística de salida.
+Este bloque tiene la particularidad de que no posee ninguna variable que ajustar. Se trata simplemente de una operación que toma una matriz bidimensional de rango $(m, N_O)$ con los valores borrosos de salida y devuelve un vector de rango $(m)$ con los valores en el dominio de la variable lingüística de salida.
 
-\section{Ejemplo de ajuste de un controlador difuso}
+\section{Ejemplo de ajuste de un \acrlongsp{fcs}}
 
-Para probar su funcionamiento, se realizará el ajuste de un controlador difuso a partir de un conjunto de entrenamiento con unos valores determinados. Estos valores se habrán obtenido a su vez de un \acrlongsp{fcs}\index{sistema de control difuso} de ejemplo para comprobar lo correcto de la implementación.
+Para probar su funcionamiento, se realizará el ajuste de un \acrlongsp{fcs}\index{sistema de control borroso} a partir de un conjunto de entrenamiento con unos valores determinados. Estos valores se habrán obtenido a su vez de un \acrlongsp{fcs}\index{sistema de control borroso} de ejemplo para comprobar lo correcto de la implementación.
 
 \begin{figure}[t]
 	\centering
 	\subfloat[Variable \textit{Food}]{\includegraphics[width=.45\textwidth]{real-tip-controller-var-food}}\qquad
 	\subfloat[Variable \textit{Service}]{\includegraphics[width=.45\textwidth]{real-tip-controller-var-service}}
-	\caption[Particiones difusas del controlador de ejemplo]{Particiones difusas del controlador de ejemplo. Estas particiones junto con las reglas definirán la superficie de la función que modela nuestro controlador de ejemplo.}
+	\caption[Particiones borrosas del controlador de ejemplo]{Particiones borrosas del controlador de ejemplo. Estas particiones junto con las reglas definirán la superficie de la función que modela nuestro controlador de ejemplo.}
 	\label{fig:real-tip-controller-vars}
 \end{figure}
 
@@ -189,7 +189,7 @@ El controlador es una función con dos variables que describen la superficie mos
 	\label{fig:real-tip-controller-surface}
 \end{figure}
 
-Recogeremos una muestra aleatoria uniforme de $2500$ de entre los $62500$ que conforman la representación de la superficie del controlador de ejemplo. Posteriormente se creará un controlador difuso y se entrenará aplicando el algoritmo de descenso del gradiente ADAM~\cite{kingma2014adam}.
+Recogeremos una muestra aleatoria uniforme de $2500$ de entre los $62500$ que conforman la representación de la superficie del controlador de ejemplo. Posteriormente se creará un controlador borroso y se entrenará aplicando el algoritmo de descenso del gradiente ADAM~\cite{kingma2014adam}.
 
 El proceso de entrenamiento consistirá en la ejecución del algoritmo de propagación del error durante $2500$ epochs con una tasa de aprendizaje de $0.01$, la cual se ha considerado suficiente para el ejemplo en cuestión.
 
@@ -200,8 +200,8 @@ Durante el entrenamiento, las superficies evolucionan hacia una representación 
 	\subfloat[Inicio]{\includegraphics[width=.28\textwidth]{ajusted-tip-controller-at-init-training}}\qquad
 	\subfloat[Epoch $250$]{\includegraphics[width=.28\textwidth]{ajusted-tip-controller-at-half-training}}\qquad
 	\subfloat[Epoch $500$]{\includegraphics[width=.28\textwidth]{ajusted-tip-controller-at-end-training}}
-	\caption[Evolución del \acrlongsp{fcs} de acuerdo al conjunto de datos extraido del ]{Particiones difusas del \acrlongsp{fcs} de ajustado. Estas figuras muestran la superficie del controlador ajustado (a) al comienzo del proceso de entrenamiento, (b) tras $250$ iteraciones sobre el conjunto de entrenamiento y (c) al final del proceso del entrenamiento.}
+	\caption[Evolución del \acrlongsp{fcs} de acuerdo al conjunto de datos extraido del ]{Particiones borrosas del \acrlongsp{fcs} de ajustado. Estas figuras muestran la superficie del controlador ajustado (a) al comienzo del proceso de entrenamiento, (b) tras $250$ iteraciones sobre el conjunto de entrenamiento y (c) al final del proceso del entrenamiento.}
 	\label{fig:adjusted-tip-controller-training}
 \end{figure}
 
-Este proceso demuestra que es posible obtener controladores difusos ajustados a un patrón de datos con un grado alto de precisión. La ventaja de este método radica en que es posible por tanto explicar mediante reglas el por qué de las predicciones que hace el modelo, a diferencia de otras técnicas como las \acrlongsp{ann}\index{red neuronal artificial}.
+Este proceso demuestra que es posible obtener \acrlongplsp{fcs} ajustados a un patrón de datos con un grado alto de precisión. La ventaja de este método radica en que es posible por tanto explicar mediante reglas el por qué de las predicciones que hace el modelo, a diferencia de otras técnicas como las \acrlongsp{ann}\index{red neuronal artificial}.

@@ -15,10 +15,10 @@ Por la naturaleza del problema se han seleccionado dos técnicas diferentes para
 
 \begin{enumerate}
 	\item \Acrshort{mlp}\index{perceptron multicapa}. Al ser un problema de regresión, el uso de \acrlongplsp{mlp} en el comportamiento longitudinal está justificado a ser considerados éstos aproximadores universales~\cite{hornik1991approximation}\sidenote{El \textit{Teorema de aproximación Universal} postula que un \ac{mlp}\index{perceptron multicapa} con al menos una capa oculta es capaz de aproximar cualquier función si dispone de suficientes neuronas en ésta.}
-	\item \Acrshort{fcs}\index{sistema de control difuso}. La formulación de este problema se ajusta muy bien al funcionamiento de estos modelos, donde en función de las entradas y de acuerdo a una serie de reglas, el controlador toma una decisión para la salida. Además, los \acrlongplsp{fcs}\index{sistema de control difuso} tienen la ventaja de que se puede explicar cómo funcionan, cosa que no es posible para un \acrlongsp{mlp}\index{perceptron multicapa} con una o más capas ocultas.
+	\item \Acrshort{fcs}\index{sistema de control borroso}. La formulación de este problema se ajusta muy bien al funcionamiento de estos modelos, donde en función de las entradas y de acuerdo a una serie de reglas, el controlador toma una decisión para la salida. Además, los \acrlongplsp{fcs}\index{sistema de control borroso} tienen la ventaja de que se puede explicar cómo funcionan, cosa que no es posible para un \acrlongsp{mlp}\index{perceptron multicapa} con una o más capas ocultas.
 \end{enumerate}
 
-Ambos modelos se ajustarán con un procedimiento basado en el descenso del gradiente denominado ADAM~\cite{kingma2014adam}. Su aplicación a los \acrlongplsp{mlp}\index{perceptron multicapa} es directa (después de todo es una técnica desarrollada dentro de área de las \acrlongplsp{ann}\index{red neuronal artificial}), pero para los \acrlongplsp{fcs}\index{sistema de control difuso} es necesaria una representación que permita el uso de este método para su optimización. Esta representación es una de las aportaciones de esta tesis y se se explica en el apéndice \nameref{ch:fuzzy-controller-adjustment}.
+Ambos modelos se ajustarán con un procedimiento basado en el descenso del gradiente denominado ADAM~\cite{kingma2014adam}. Su aplicación a los \acrlongplsp{mlp}\index{perceptron multicapa} es directa (después de todo es una técnica desarrollada dentro de área de las \acrlongplsp{ann}\index{red neuronal artificial}), pero para los \acrlongplsp{fcs}\index{sistema de control borroso} es necesaria una representación que permita el uso de este método para su optimización. Esta representación es una de las aportaciones de esta tesis y se se explica en el apéndice \nameref{ch:fuzzy-controller-adjustment}.
 
 El error que se trata de minimizar es el cuadrado del \gls{rmse}\index{RMSE} entre los valores de aceleración del conjunto reales y los ajustados por el modelo, ya que es equivalente. Los resultados no obstante se presentan con el \gls{rmse}\index{RMSE} ya que éste es directamente interpretable en las medidas de la variable sobre la que se aplica (en nuestro caso, \SI{}{\metre\per\square\second}).
 
@@ -47,13 +47,13 @@ El resultado de la generación de los datasets de entrenamiento y test para todo
 	\end{tabularx}
 \end{table}
 
-\section{Modelo basado en \acrlongplsp{fcs}\index{sistema de control difuso}}
+\section{Modelo basado en \acrlongplsp{fcs}\index{sistema de control borroso}}
 
-Se han realizado entrenamientos sobre arquitecturas con diferente número de particiones difusas en las variables. Las arquitecturas que se han considerado más relevantes (tras un proceso de ensayo y error con diferente número de particiones difusas) se describen en la Tabla~\ref{tbl:cf-fcs-architectures}. 
+Se han realizado entrenamientos sobre arquitecturas con diferente número de particiones borrosas en las variables. Las arquitecturas que se han considerado más relevantes (tras un proceso de ensayo y error con diferente número de particiones borrosas) se describen en la Tabla~\ref{tbl:cf-fcs-architectures}. 
 
 \begin{table*}
 	\centering
-	\caption[Resumen de las arquitecturas \ac{fcs}\index{sistema de control difuso} para el modelo longitudinal][2em]{Resumen de las arquitecturas seleccionadas. La posición de cada número de la arquitectura indica a qué variable lingüística se refiere (\textit{Distancia al líder}, \textit{Distancia a siguiente TLS}, \textit{TLS en verde}, \textit{TLS en amarillo}, \textit{TLS en rojo}, \textit{Velocidad} y \textit{Velocidad de aproximación al líder} respectivamente). Su valor se corresponde al número de conjuntos difusos de la partición de cada una de ellas.}
+	\caption[Resumen de las arquitecturas \ac{fcs}\index{sistema de control borroso} para el modelo longitudinal][2em]{Resumen de las arquitecturas seleccionadas. La posición de cada número de la arquitectura indica a qué variable lingüística se refiere (\textit{Distancia al líder}, \textit{Distancia a siguiente TLS}, \textit{TLS en verde}, \textit{TLS en amarillo}, \textit{TLS en rojo}, \textit{Velocidad} y \textit{Velocidad de aproximación al líder} respectivamente). Su valor se corresponde al número de conjuntos borrosos de la partición de cada una de ellas.}
 	\label{tbl:cf-fcs-architectures}
 	\begin{tabularx}{\linewidth}{XXXXXX}
 		\toprule
@@ -68,24 +68,24 @@ Se han realizado entrenamientos sobre arquitecturas con diferente número de par
 	\end{tabularx}
 \end{table*}
 
-Todas las arquitecturas mantienen el número de conjuntos difusos asociados a las variables de estado del semáforo (verde, ámbar y rojo) a $2$. La razón es debido a que dicha variable sólo puede tomar dos valores, $0$ o $1$, y en la inicialización de sus respectivas particiones, estas variables ya toman dichos valores con un grado de pertenencia de $1$ en sus dominios.
+Todas las arquitecturas mantienen el número de conjuntos borrosos\index{conjunto borroso} asociados a las variables de estado del semáforo (verde, ámbar y rojo) a $2$. La razón es debido a que dicha variable sólo puede tomar dos valores, $0$ o $1$, y en la inicialización de sus respectivas particiones, estas variables ya toman dichos valores con un grado de pertenencia de $1$ en sus dominios.
 
-Cada uno de los controladores se ha entrenado durante $250000$ \textit{epochs}\index{epoch}. En un principio, el proceso de entrenamiento fue el habitual, ajustando todas las variables a la vez (particiones difusas y pesos asociados a las reglas).
+Cada uno de los controladores se ha entrenado durante $250000$ \textit{epochs}\index{epoch}. En un principio, el proceso de entrenamiento fue el habitual, ajustando todas las variables a la vez (particiones borrosas y pesos asociados a las reglas).
 
-Sin embargo, tras varias pruebas, se ha comprobado que el ajuste de las variables que determinan las particiones difusas parece suceder más rápido que el ajuste de los pesos asociados a las reglas. Por ello, en lugar entrenar a la vez, se ha particionado el entrenamiento en secuencias sucesivas de entrenamiento de reglas y entrenamiento de particiones difusas.
+Sin embargo, tras varias pruebas, se ha comprobado que el ajuste de las variables que determinan las particiones borrosas parece suceder más rápido que el ajuste de los pesos asociados a las reglas. Por ello, en lugar entrenar a la vez, se ha particionado el entrenamiento en secuencias sucesivas de entrenamiento de reglas y entrenamiento de particiones borrosas.
 
 Concretamente, los $250000$ epochs de entrenamiento han sido divididos en $250$ iteraciones de:
 
 \begin{enumerate}
 	\item $800$ epochs ajustando sólo las reglas con una tasa de entrenamiento de $0.01$.
-	\item $200$ epochs ajustando sólo las variables de las particiones difusas con una tasa de entrenamiento de $0.001$.
+	\item $200$ epochs ajustando sólo las variables de las particiones borrosas con una tasa de entrenamiento de $0.001$.
 \end{enumerate}
 
 Empíricamente (y para este problema en concreto) se ha podido observar que el entrenamiento realizado de esta manera hace que el \ac{rmse} descienda más rápido en el mismo número de iteraciones.
 
 En la Figura~\ref{fig:lm-fcs-rmse-all-comparisons} se puede observar la evolución en general y un detalle de la disminución del error durante el entrenamiento de los controladores. El error en test se ofrece a título informativo, y no ha sido usado para determinar las arquitecturas seleccionadas.
 
-Se puede observar que la arquitectura $FCS_1$ es la que mejor error en test ha alcanzado. En las pruebas realizadas para el ajuste de controladores se ha observado además que los errores en entrenamiento y en test tienden a ser similares cuando los problemas son representables con un \acrlongsp{fcs}\index{sistema de control difuso}.
+Se puede observar que la arquitectura $FCS_1$ es la que mejor error en test ha alcanzado. En las pruebas realizadas para el ajuste de controladores se ha observado además que los errores en entrenamiento y en test tienden a ser similares cuando los problemas son representables con un \acrlongsp{fcs}\index{sistema de control borroso}.
 
 Éste será por tanto, el modelo seleccionado para la comparativa final. Las funciones de pertenencia ajustadas se muestran en la Figura~\ref{fig:adjusted-fuzzy-partitions} contrastadas con las versiones de antes de comenzar el entrenamiento. Las reglas, sin embargo, son muy numerosas para ser incluidas en el texto, ya que la mayoría de reglas posibles en el sistema (aproximadamente $60$) tienen un peso asociado de más de $0.5$.
 
@@ -103,7 +103,7 @@ Se puede observar que la arquitectura $FCS_1$ es la que mejor error en test ha a
 	\subfloat[Distancia a siguiente semáforo]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-next-tls-distance-variable-partition}}\qquad
 	\subfloat[Velocidad]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-speed-variable-partition}}\qquad
 	\subfloat[Velocidad a líder]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-speed-to-leader-variable-partition}}
-	\caption[Particiones difusas después de la operación de ajuste en el modelo longitudinal basado en \acrshort{fcs}]{Particiones difusas después de la operación de ajuste en el modelo longitudinal basado en \Acrshortpl{fcs}, donde $f_i$ se corresponde con la función de pertenencia que caracteriza al conjunto borroso $i$-ésimo de la variable. Las funciones de pertenencia correspondientes al estado del semáforo no se incluyen ya que no se vieron modificadas en ningún entrenamiento. Después de todo, estas variables eran binarias, y las particiones difusas se inicializan de tal manera que dichos valores siempre alcanzan un valor de pertenencia $1$. El de la variable \textit{Velocidad a líder} es cuanto menos, curioso. Tras varias ejecuciones sobre esta y otras arquitecturas, ha mantenido este comportamiento, por lo que intuimos que la variable tiene un efecto mínimo o nulo sobre el comportamiento en el modelo longitudinal.}
+	\caption[Particiones borrosas después de la operación de ajuste en el modelo longitudinal basado en \acrshort{fcs}]{Particiones borrosas después de la operación de ajuste en el modelo longitudinal basado en \Acrshortpl{fcs}, donde $f_i$ se corresponde con la función de pertenencia que caracteriza al conjunto borroso $i$-ésimo de la variable. Las funciones de pertenencia correspondientes al estado del semáforo no se incluyen ya que no se vieron modificadas en ningún entrenamiento. Después de todo, estas variables eran binarias, y las particiones borrosas se inicializan de tal manera que dichos valores siempre alcanzan un valor de pertenencia $1$. El de la variable \textit{Velocidad a líder} es cuanto menos, curioso. Tras varias ejecuciones sobre esta y otras arquitecturas, ha mantenido este comportamiento, por lo que intuimos que la variable tiene un efecto mínimo o nulo sobre el comportamiento en el modelo longitudinal.}
 	\label{fig:adjusted-fuzzy-partitions}
 \end{figure}
 
@@ -174,7 +174,7 @@ A la vista de los resultados, y dado que las arquitecturas se ajustan bien a los
 
 \section{Comparación entre modelos}
 
-Las mejores arquitecturas de ambos modelos han sido la $MLP_2$ para los \acrlongplsp{mlp}\index{perceptron multicapa} y $FCS_1$ para los \acrlongplsp{fcs}\index{sistema de control difuso}. Los errores y el perfil de aceleración para ambos modelos se muestran en la figura~\ref{fig:cf-comparison-between-best-mlp-and-fcs-architecture}.
+Las mejores arquitecturas de ambos modelos han sido la $MLP_2$ para los \acrlongplsp{mlp}\index{perceptron multicapa} y $FCS_1$ para los \acrlongplsp{fcs}\index{sistema de control borroso}. Los errores y el perfil de aceleración para ambos modelos se muestran en la Figura~\ref{fig:cf-comparison-between-best-mlp-and-fcs-architecture}.
 
 \begin{figure}
 	\centering
@@ -184,7 +184,7 @@ Las mejores arquitecturas de ambos modelos han sido la $MLP_2$ para los \acrlong
 	\label{fig:cf-comparison-between-best-mlp-and-fcs-architecture}
 \end{figure}
 
-Aunque el modelo basado en \acrlongplsp{fcs}\index{sistema de control difuso} arroja un error bajo en test y parece que tiende a ajustarse al perfil de aceleración, parece que el problema es suficientemente complejo como para no poder representarse como un simple \acrlongsp{fcs}\index{sistema de control difuso}.
+Aunque el modelo basado en \acrlongplsp{fcs}\index{sistema de control borroso} arroja un error bajo en test y parece que tiende a ajustarse al perfil de aceleración, parece que el problema es suficientemente complejo como para no poder representarse como un simple \acrlongsp{fcs}\index{sistema de control borroso}.
 
 Además, el error arrojado por el \acrlongsp{mlp}\index{perceptron multicapa} es sustancialmente menor y, por tanto, la arquitectura elegida para el modelo longitudinal será la $MLP_2$.
 
