@@ -100,12 +100,12 @@ En el caso de la dimensión \textbf{tiempo}, la división se realiza en los mism
 	\item Tiempo \textbf{continuo}. En estos simuladores el tiempo es un factor más para un modelo de ecuaciones diferenciales. La figura~\ref{fig:car-following-based-sim} ilustra un modelo de \textit{\gls{car-following}\index{car-following}} que puede implementarse en una simulación de tiempo continuo si la aceleración viene determinada por un modelo que entre otros factores incluye el tiempo.
 \end{itemize}
 
-\begin{figure*}[t]
+\begin{figure}[t]
 	\centering
 	\includegraphics{car-following-based-sim}
 	\caption[Ejemplo de modelo lineal en un espacio continuo]{Ejemplo de un modelo lineal en un espacio continuo. La posición del vehículo es un valor $x \in \mathbb{R}$. Este ejemplo muestra un modelo de \textit{\gls{car-following}} donde el comportamiento de la aceleración del vehículo es determinado por la distancia al coche siguiente. Fuente:~\cite{Tordeux2011}.}
 	\label{fig:car-following-based-sim}
-\end{figure*}
+\end{figure}
 
 En nuestro caso, queremos conocer la situación exacta del vehículo en lugar de una situación aproximada en un dominio espacial discreto. También realizaremos la recolección de datos en intervalos cuantificables de tiempo, los cuales serán usados para modelar los comportamientos de los conductores y para contrastar los resultados. Por tanto, nos dirigiremos hacia la búsqueda de micro-simuladores de \textbf{espacio continuo} y \textbf{eventos discretos}.
 
