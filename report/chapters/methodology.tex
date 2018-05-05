@@ -3,11 +3,11 @@
 
 Los objetivos de la presente tesis se enfocan en el uso de técnicas pertenencientes al campo de la \acrlongsp{ci} sobre datos de conductores reales para (i) incorporar comportamientos humanos en modelos de simulación (hipótesis~H\ref{hyp:first}) y (ii) que dichos comportamientos caracterizen a conductores concretos (hipótesis~H\ref{hyp:second}).
 
-Para ello, se generarán modelos personalizados de conductor a partir de datos extraídos de entornos reales, se aplicarán dichos modelos al entorno de simulación multiagente \gls{sumo}\index{SUMO}, y por último se validarán los datos recogidos de los modelos generaos contra los recogidos de los conductores reales. Es importante por tanto reparar en los siguientes detalles:
+Para ello, se generarán modelos personalizados de conductor a partir de datos extraídos de entornos reales, se aplicarán dichos modelos al entorno de simulación multiagente \gls{sumo}\index{SUMO}, y por último se validarán los datos recogidos de los modelos generados contra los recogidos de los conductores reales. Es importante por tanto reparar en los siguientes detalles:
 
 \begin{itemize}
-	\item Los datos extraídos del entorno real deben ser extraíbles también del entorno simulado. 
-	\item Los parámetros a ajustar dependen completamente del entorno de simulación que son, en esencia, variación de aceleración y cambio de carril\index{lane-change}.
+	\item Los datos extraídos del entorno real deben ser extraíbles también del entorno simulado y viceversa. 
+	\item Los parámetros a ajustar dependen completamente del entorno de simulación que son, en esencia, aceleración y cambio de carril\index{lane-change}.
 \end{itemize}
 
 Por tanto, los datos de entrada y de salida capturados del entorno real han de ser procesados para el entrenamiento de los modelos de tal manera que el modelo lo perciba lo más parecido posible a cómo los percibirá en el entorno de simulación.
@@ -25,32 +25,32 @@ Internamente, el modelo estará separado en los dos modelos básicos, el \textbf
 \begin{figure}
 	\centering
 	\includegraphics{driver-model}
-	\caption[Esquema general del modelo de conductor planteado]{Esquema general del modelo de conductor planteado en la tesis. En éste se puede ver cómo se distribuyen los estímulos de entrada entre los diferentes componentes del modelo y las salidas del sistema, que irán conectadas a los actuadores pertinentes.}
+	\caption[Esquema general del modelo de conductor planteado]{Esquema general del modelo de conductor planteado en la tesis.}
 	\label{fig:overall-driver-model-schema}
 \end{figure}
 
 Estos modelos serán entrenados siguiendo un esquema supervisado, por lo que necesitamos datos reales a partir de los cuales se deberá ajustar su funcionamiento. La información que se considera suficiente para que los modelos desempeñen su función en el entorno de simulación es la siguiente:
 
 \begin{itemize}
-	\item \textbf{Entorno} El conductor, y por tanto el modelo, desarrolla su actividad y basa sus comportamientos, entre otros factores, en el entorno en el que se encuentra inmerso. Consideramos pues que el ajuste de la velocidad y sobre todo los cambios de carril, se ven influenciados por éste.
-	\item \textbf{Velocidad actual del vehículo}. La velocidad del conductor influye en cómo va a modificar su aceleración en momentos posteriores. La velocidad máxima de la vía también influye, pero ésta se mantiene constante en el intervalo \SI{40}{\kilo\meter\per\hour} a \SI{50}{\kilo\meter\per\hour}, por lo que no se tiene en cuenta al considerarse una constante.
+	\item \textbf{Entorno}. El conductor, y por tanto el modelo, desarrolla su actividad y basa sus comportamientos, entre otros factores, en el entorno en el que se encuentra inmerso. Consideramos pues que el ajuste de la velocidad y sobre todo los cambios de carril, se ven influenciados por éste. Este entorno será representado como una nube de puntos alrededor del vehículo, como veremos posteriormente.
+	\item \textbf{Velocidad actual del vehículo}. La velocidad del conductor influye en cómo va a alterar su velocidad en momentos posteriores. La velocidad máxima de la vía también influye, pero ésta se mantiene constante en el intervalo \SI{40}{\kilo\meter\per\hour} a \SI{50}{\kilo\meter\per\hour}, por lo que no se tiene en cuenta al considerarse una constante.
 	\item \textbf{Distancia y diferencia de velocidad con el vehículo delantero}. Al igual que con la velocidad, el vehículo delantero juega un papel esencial en los cambios de aceleración. También se intuye que puede influir en el comportamiento de cambio de carril\index{lane-change} en casos en los que el vehículo delantero circula muy lento.
-	\item \textbf{Siguiente salida y carriles cortados}. Se considera que este tipo de información es crucial a la hora de realizar cambios de carril, ya que además puede influir en otras maniobras tales como un adelantamiento.
-	\item \textbf{Señales luminosas}. Es interesante contar con este tipo de señales ya que pueden influir en diferentes patrones de aceleración (e.g. estamos cerca y el semáforo cambia a ámbar) o desaceleración (e.g. semáforo en rojo). Otras señales también serían interesantes, pero el simulador en el momento del desarrollo de los modelos sólo ofrece el acceso a este tipo de señales.
+	\item \textbf{Distancia circulable}. Es la forma de identificar en el simulador las siguientes salidas a tomar y los carriles cortados. Se considera que este tipo de información para cada carril es crucial a la hora de realizar cambios de carril, ya que además puede influir en otras maniobras tales como un adelantamiento.
+	\item \textbf{Señales luminosas}. Es interesante contar con la información de este tipo de señales ya que pueden influir en diferentes patrones de aceleración o desaceleración. Otras señales también serían interesantes, pero el simulador en el momento del desarrollo de los modelos sólo ofrece el acceso a este tipo de señales.
 \end{itemize}
 
 \section{Extracción de datos de conducción}
 
-Se ha hecho uso de un vehículo instrumentado con sensores para capturar la mayor cantidad posible de información. El vehículo en cuestión es un Mitsubishi iMiEV (Figura~\ref{fig:instrumented-imiev}) y los dispositivos un \Acrfull{lidar}\index{LiDAR}, un \Acrfull{gps}, el Bus \Acrfull{can} y una cámara.
+Se ha hecho uso de un vehículo instrumentado, concretamente un Mitsubishi iMiEV (Figura~\ref{fig:instrumented-imiev}).
 
-Todos los dispositivos se conectan a un ordenador con sistema operativo GNU/Linux sobre Intel i7-7500U CPU con 16GB de memoria RAM. Al ser éstos dispositivos con capacidades diferentes, se ha optado por la creación de una aplicación basada en el framework ROS del cual se da una breve visión general en el apéndice~\nameref{ch:ros-overview}.
-
-\begin{figure}[t]
+\begin{figure}
 	\centering
 	\includegraphics[width=0.8\textwidth]{instrumented-imiev}
-	\caption[Vehículo instrumentado utilizado en los ensayos]{El vehículo utilizado en los ensayos realizados. Se trata de un Mitsubishi iMiEV instrumentado con un \acrshort{lidar} anclado en la baca superior, un GPS anclado en el techo, un puerto de acceso directo al Bus CAN y una cámara Microsoft Kinect tras el espejo retrovisor.}
+	\caption[Vehículo instrumentado utilizado en los ensayos]{El vehículo utilizado en los ensayos realizados.}
 	\label{fig:instrumented-imiev}
 \end{figure}
+
+Todos los dispositivos con los que se ha instrumentado el vehículo se conectan a un ordenador con sistema operativo GNU/Linux sobre Intel i7-7500U CPU con 16GB de memoria RAM. Al tener estos dispositivos funcionamientos muy diferentes, se ha optado por la creación de una aplicación basada en el framework ROS, del cual se da una breve visión general en el apéndice~\nameref{ch:ros-overview}.
 
 \subsection{Dispositivos usados para la captura de datos}
 
@@ -66,7 +66,7 @@ El acceso a la información se realiza a través del puerto Ethernet. Para la ca
 
 \begin{marginfigure}
 	\includegraphics[width=\textwidth]{vlp-16}
-	\caption[\acrshort{lidar} modelo VLP-$16$ de empresa Velodyne]{El \acrshort{lidar} VLP-16 de Velodyne tiene un FOV horizontal de \SI{360}{\degree} y vertical de \SI{\pm15}{\degree}, permitiendo una captura de todo el entorno circundante a una frecuencia de hasta \SI{20}{\Hz}. Fuente: \url{http://velodynelidar.com/vlp-16.html}.}
+	\caption[\acrshort{lidar} modelo VLP-$16$ de empresa Velodyne]{\acrshort{lidar} modelo VLP-$16$ de empresa Velodyne. Fuente: \url{http://velodynelidar.com/vlp-16.html}.}
 	\label{fig:vlp-16}
 \end{marginfigure}
 
@@ -77,13 +77,6 @@ El \acrshort{lidar}\index{LiDAR} instrumentado se encuentra anclado en la baca d
 El \Acrshort{gps} es una tecnología usada para sincronización de tiempo y posicionamiento $3d$ (i.e. latitud, longitud y altitud) de objetos en el globo terráqueo. Es un dispositivo que funciona en un único sentido, es decir, el receptor recibe la información de los satélites, pero no envía ninguna.
 
 El dispositivo \Acrshort{gps} utilizado para los experimentos ha sido desarrollado en el Laboratorio de Electrónica e Instrumentación del \ac{insia}. Se trata de un dispositivo \Acrshort{gps} con corrección diferencial que genera mensajes \ac{nmea} a una frecuencia de hasta \SI{20}{\Hz}. La posición de la antena receptora estará localizada en el centro del vehículo, justo debajo del \acrshort{lidar}\index{LiDAR}, situándose de esta forma en el origen de coordenadas del entorno capturado con éste último.
-
-\begin{marginfigure}
-	\centering
-	\includegraphics[width=\textwidth]{gps}
-	\caption[Posicionamiento \Acrshort{gps} sobre la tierra]{El \Acrshort{gps} permite el posicionamiento 3d sobre en la tierra gracias a la comunicación unidireccional de satélites situados en órbita. Fuente: Wikimedia Commons.}
-	\label{fig:gps}
-\end{marginfigure}
 
 De todos los mensajes disponibles, los recuperados son lo de los siguientes tipos:
 
@@ -109,13 +102,13 @@ El estándar \Acrshort{can} cubre únicamente las dos primeras capas del modelo 
 	\label{fig:laciwel-canusb}
 \end{marginfigure}
 
-Del \Acrshort{can} se ha recogido numerosa información, tanto para esta tesis como para más proyectos relacionados con ella. Para este experimento, no obstante, se ha utilizado únicamente la velocidad, y no directamente. La razón es que el \Acrshort{can} ofrece ésta como un número entero, por lo que los cambios de velocidad durante los recorridos ocurren de \SI{\pm1}{\km\per\hour}. Esta resolución es insuficiente para los cálculos de aceleración, por lo que se ha usado para validar la velocidad capturada por el \Acrshort{gps}
-
 El acceso a la información del bus se ha realizado a través del puerto USB. Para ello se ha utilizado el dispositivo CANUSB de la empresa LAWICEL AB, el cual se encarga de la traducción del protocolo CAN a una conexión estándar RS232. La captura de los paquetes se ha realizado a través de un nodo de \ac{ros} desarrollado para la elaboración de esta tesis.
+
+Del \Acrshort{can} se ha recogido numerosa información, tanto para esta tesis como para más proyectos relacionados con ella. Para este experimento, no obstante, se ha utilizado únicamente la velocidad, y no directamente. La razón es que el \Acrshort{can} ofrece ésta como un número entero, por lo que los cambios de velocidad durante los recorridos ocurren de \SI{\pm1}{\km\per\hour}. Esta resolución es insuficiente para los cálculos de aceleración, por lo que se ha usado para validar la velocidad capturada por el \Acrshort{gps}
 
 \paragraph{Cámara}
 
-Para la obtención de algunos valores de indicadores no existentes necesitamos un proceso posterior de análisis sobre el recorrido, asociando las imágenes a los valores recogidos del resto de dispositivos, como posiciones o nube de puntos del entorno. Para ello se ha hecho uso de una cámara que permite la visualización del recorrido desde el punto de vista del conductor.
+Para la obtención de algunos valores de indicadores derivados de los obtenidos directamente, necesitamos un proceso posterior de análisis sobre el recorrido, asociando las imágenes a los valores recogidos del resto de dispositivos, como posiciones o nube de puntos del \acrshort{lidar}. Para ello se ha hecho uso de una cámara que permite la visualización del recorrido desde el punto de vista del conductor.
 
 La cámara utilizada es un Microsoft Kinect localizada tras el retrovisor interior del vehículo. Dicha cámara está orientada de tal manera que ofrece una visualización de la vía por la que circula el vehículo.
 
@@ -136,7 +129,7 @@ Para la captura de datos se han propuesto dos rutas, en adelante $R_1$ y $R_2$, 
 	\centering
 	\subfloat[Ruta $R_1$]{\includegraphics[width=.45\textwidth]{route-1}}\qquad
 	\subfloat[Ruta $R_2$]{\includegraphics[width=.45\textwidth]{route-2}}
-	\caption[Los dos recorridos planteados para la captura de datos de conducción]{Los dos recorridos realizados para la captura de datos de conducción, ambos en entorno urbano. (a) $R_1$ tiene una duración estimada de \SI{30}{\minute} y sirve para la captura de los datos de entrenamiento. (b) $R_2$ tiene una duración estimada de \SI{15}{\minute} y sus datos serán utilizdos para los conjuntos de test.}
+	\caption[Mapa de los dos recorridos planteados para la captura de datos de conducción]{Mapa de los dos recorridos planteados para la captura de datos de conducción.}
 	\label{fig:proposed-routes}
 \end{figure}
 
@@ -146,9 +139,9 @@ $R_1$ tiene una duración de recorrido estimada de \SI{30}{\minute} y se utiliza
 
 Se han elegido un total de tres sujetos para los experimentos. Los tres pertenencen al grupo especificado en los supuestos del capítulo~\nameref{ch:intro}.
 
-Los sujetos tienen experiencia de conducción y han realizado el recorrido anteriormente a fin de basar sus comportamientos lo más posible al nivel táctico de conducción\sidenote{
-	Dado que los comportamientos de \textit{\gls{car-following}\index{car-following}} y \textit{\idx{lane-change}} se asocian con el nivel cognitivo táctico, se ha querido reducir el impacto del operador decidiendo durante el experimento hacia dónde o no ir. De esta manera los conductores son libres de realizar el movimiento que deseen y de anticipar maniobras con más libertad.
-}.
+Los sujetos tienen experiencia de conducción y han realizado el recorrido anteriormente a fin de basar sus comportamientos lo más posible al nivel táctico de conducción y disponer de una mayor libertad de acción. La razón es la siguiente; los comportamientos longitudinal (\textit{\gls{car-following}\index{car-following}}) y lateral (\textit{\idx{lane-change}}) se asocian con el nivel cognitivo táctico.
+
+Por un lado, al conocer los recorridos de antemano el comportamiento de planificación ya se ha cumplido. Por otro, no necesitan estar pendientes de las decisiones de un operador, ya que pueden limitan ciertas maniobras al no saber cuál será la siguiente ordenada por éste.
 
 \section{Preparación de los datos}
 

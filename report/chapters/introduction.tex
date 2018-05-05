@@ -7,32 +7,30 @@ Una de las razones es su carácter multidisciplinar ya que, aunque pertenece al 
 
 Dentro del área de la \acrlongsp{ai} es común diferenciar dos tipos de aproximaciones para representar el conocimiento: el enfoque \textbf{clásico}, que postula que se puede reducir a un conjunto de símbolos con operadores para su manipulación, y el enfoque de la \acrlongsp{ci}, que defiende que el conocimiento se alcanza a través del aprendizaje, y que basa sus esfuerzos en la simulación de elementos de bajo nivel esperando que el conocimiento \enquote{emerja} de su interacción.
 
-El límite entre ambos conjuntos no está perfectamente definido, más aún si tenemos en cuenta las diferentes terminologías existentes, las sinergias entre distintas técnicas dentro del área y los diferentes puntos de vista sobre éstas por parte de los autores. Sin embargo, una de las principales diferencias de ambos paradigmas es el punto de vista a la hora de solucionar problemas, siendo la aproximación \textbf{top-down} la usada en problemas de \acrlongsp{ai} clásica y la \textbf{bottom-up} la típica usada en la \acrshort{ci}. Revisaremos las diferencias entre conceptos de diferentes autores en el capítulo \nameref{ch:sota-ci}.
+El límite entre ambos conjuntos no está perfectamente definido, más aún si tenemos en cuenta las diferentes terminologías existentes, las sinergias entre distintas técnicas dentro del área y los diferentes puntos de vista sobre éstas por parte de los autores. Sin embargo, una de las principales diferencias de ambos paradigmas es el punto de vista a la hora de solucionar problemas, siendo la aproximación \textbf{top-down} la usada en problemas de \acrlongsp{ai} clásica y la \textbf{bottom-up} la típica usada en la \acrlongsp{ci}. Revisaremos las diferencias entre conceptos de diferentes autores en el capítulo \nameref{ch:sota-ci}.
 
-Uno de los campos de aplicación es el de los \Acrfullpl{its}\index{ITS}. Éstos se definen como un conjunto de aplicaciones orientadas a gestionar el transporte en todos sus aspectos (e.g. conducción eficiente, diseño de automóviles, gestión del tráfico o señalización en redes de carreteras) para hacerlos más eficientes y seguros. El interés es tal que en el año 2010 se publicó la directiva 2010/40/UE (ver \cite{parliament2010directive}) en la que se estableció el marco de implantación de los \acrlongplsp{its}\index{ITS} para toda la Unión Europea, quedando éstos definidos como:
+Uno de los campos de aplicación es el de los \acrfull{its}\index{ITS}. Éstos se definen como un conjunto de aplicaciones orientadas a gestionar el transporte en todos sus aspectos (e.g. conducción eficiente, gestión del tráfico o señalización en redes de carreteras) para hacerlos más eficientes y seguros. El interés es tal que en el año 2010 se publicó la directiva 2010/40/UE (ver \cite{parliament2010directive}) en la que se estableció el marco de implantación de los \acrshort{its}\index{ITS} para toda la Unión Europea, quedando éstos definidos como:
 
-\enquote{[Los \acrshortpl{its}\index{ITS} \ldots] son aplicaciones avanzadas que, sin incluir la inteligencia como tal, proporcionan servicios innovadores en relación con los diferentes modos de transporte y la gestión del tráfico y permiten a los distintos usuarios estar mejor informados y hacer un uso más seguro, más coordinado y más inteligente de las redes de transporte.}
+\enquote{[Los \acrshort{its}\index{ITS} \ldots] son aplicaciones avanzadas que, sin incluir la inteligencia como tal, proporcionan servicios innovadores en relación con los diferentes modos de transporte y la gestión del tráfico y permiten a los distintos usuarios estar mejor informados y hacer un uso más seguro, más coordinado y más inteligente de las redes de transporte.}
 
-La \textit{conducción} es una tarea muy compleja que involucra la ejecución de muchas tareas cognitivas pertenecientes a diversos niveles de abstracción. El concepto del \textit{tráfico} puede verse como un sistema complejo que emerge de las interacciones de agentes muy diversos, incluyendo a aquellos que realizan la tareas de conducir. El comportamiento durante la tarea de conducción es un objeto interesante de estudio: la evaluación de los conductores para conocer su manera de actuar en determinados escenarios nos permite, por ejemplo, detectar qué factores pueden afectar más o menos sobre determinados indicadores. Sin embargo, la evaluación en algunos casos puede no ser posible debido a limitaciones como el tiempo, el dinero o la peligrosidad del escenario, entre otros.
+La \textit{conducción} es una actividad muy compleja que involucra la ejecución de muchas tareas cognitivas pertenecientes a diversos niveles de abstracción. El concepto del \textit{tráfico} puede verse como un sistema complejo que emerge de las interacciones de agentes muy diversos, incluyendo a aquellos que realizan la tareas de conducir. El comportamiento durante la tarea de conducción es un objeto interesante de estudio: la evaluación de los conductores para conocer su manera de actuar en determinados escenarios nos permite, por ejemplo, detectar qué factores pueden afectar más o menos sobre determinados indicadores. Sin embargo, la evaluación en algunos casos puede no ser posible debido a limitaciones como el tiempo, el dinero o la peligrosidad del escenario, entre otros.
 
-Los simuladores de tráfico son una solución para muchas de estas limitaciones, pero suelen basar su funcionamiento en modelos de conductor que responden a funciones más o menos complejas, alejadas de la realidad, además con pocas o ninguna opción de personalización. Esto provoca que dichos modelos se adapten poco al comportamiento de un conductor en concreto.
+Los simuladores de tráfico son una solución para muchas de estas limitaciones, pero suelen basar su funcionamiento en modelos de conductor que responden a funciones más o menos simplificadas, alejadas de la realidad, además con pocas o ninguna opción de personalización. Esto provoca que dichos modelos se adapten poco al comportamiento de un conductor en concreto.
 
 Esta tesis pretende explotar la generación de modelos de conductor para simuladores que respondan al comportamiento de conductores reales usando, para ello, técnicas pertenecientes al campo de la \acrlongsp{ci}. Estos perfiles extraídos se aplicarán a un entorno de simulación basado en \acrlongplsp{mas}\index{sistemas multiagente}. Así, una vez configurado el entorno, se podrán estudiar aspectos generales como la evolución del tráfico con determinados perfiles o particulares como el estilo de conducción o el impacto de los sistemas de asistencia.
 
 \section{Motivación}
 
-Los conceptos introducidos al comienzo del capítulo obedecen a una necesidad de la sociedad en la que vivimos, y que afecta tanto a nuestra generación como a las venideras: la eficiencia en el transporte. Dado que es imprescindible saber que existe un problema para arreglarlo, nada mejor que puntualizar algunos hechos de sobra conocidos:
+Los conceptos introducidos al comienzo del capítulo obedecen a una necesidad de la sociedad en la que vivimos, y que afecta tanto a nuestra generación como a las venideras: la eficiencia en el transporte. Dado que es imprescindible saber que existe un problema para resolverlo, nada mejor que puntualizar algunos hechos de sobra conocidos:
 
 \begin{itemize}
-	\item En el año 2016, el número de vehículos a nivel mundial superó los $1.350$ millones, con una tendencia creciente \cite{oica2014motrate}. Reducir en un pequeño porcentaje el consumo evita la emisión de toneladas de gases considerados nocivos para el medio ambiente y el ser humano\footnote{
-		Uno puede argumentar que el parque automovilístico se recicla con nuevos vehículos eléctricos categorizados \enquote{de consumo $0$}. La triste realidad es que estos vehículos consumen la electricidad generada actualmente de una mayoría de centrales de combustibles fósiles y nucleares. Además, mientras que en países desarrollados el crecimiento ha sido en torno al 4-7\%, en países subdesarrollados, donde no existe aun infraestructura para la recarga de vehículos eléctricos, dicho crecimiento ha superado el 120\%.
-	}.
+	\item En el año 2016, el número de vehículos a nivel mundial superó los $1.350$ millones, con una tendencia creciente \cite{oica2014motrate}. Reducir en un pequeño porcentaje el consumo evita la emisión de toneladas de gases considerados nocivos para el medio ambiente y el ser humano.
 	\item Aunque existen diferentes puntos de vista acerca de cuándo se agotarán las reservas de petróleo, los combustibles fósiles son recursos \textbf{finitos}. Lo más probable es que no se lleguen a agotar debido a la ley de la oferta y la demanda, pero hay que recordar que el petróleo se usa como base para la producción de otros muchos tipos de productos, como por ejemplo la vaselina, el asfalto o los plásticos.
-	\item Aunque hay estudio que tratan de asociar el calentamiento global a causas no humanas \cite{jaworowski2004solar}, existe consenso en la comunidad científica de que la emisión de gases, por parte de la óaccin humana, está correlacionada con el aumento de la temperatura del planeta \cite{oreskes2018scientific}. De ser así, es necesaria una reducción drástica en su emisión para mitigar y revertir sus efectos.
+	\item A pesar de que existen estudios que asocian el calentamiento global a causas no humanas \cite{jaworowski2004solar}, existe consenso en la comunidad científica de que la emisión de gases, por parte de la acción humana, está correlacionada con el aumento de la temperatura del planeta \cite{oreskes2018scientific}. De ser así, es necesaria una reducción drástica en su emisión para mitigar y revertir sus efectos.
 	\item La conducción eficiente afecta directamente a factores relacionados con el número de accidentes de tráfico. Un factor de sobra conocido es el de la velocidad, que influye no sólo en el número sino en la gravedad de los accidentes (\cite{imprialou2016re}). Otros indicadores son las aceleraciones, deceleraciones y maniobras de cambio de dirección, cuyas frecuencias son directamente proporcionales a la agresividad, falta de seguridad y accidentes, e inversamente proporcionales a la eficiencia (\cite{dingus2006100, lerner2010exploration}).
 \end{itemize}
 
-Éstos son sólo algunos hechos que ponen de manifiesto la necesidad de cómo conseguir que la conducción sea una actividad más eficiente y segura. Por ello, la \textbf{conducción eficiente} o \textit{eco-driving} se define como sigue:
+Éstos son sólo algunos hechos que ponen de manifiesto la necesidad de conseguir que la conducción sea una actividad más eficiente y segura. Por ello, la \textbf{conducción eficiente} o \textit{eco-driving} se define como sigue:
 
 \blockquote{[Eco-driving is \ldots] the practice of driving in such a way as to minimize fuel consumption and the emission of carbon dioxide.}\\---{\textit{Oxford Dictionary}}.
 
@@ -49,7 +47,9 @@ Demostrar que la evaluación de un modelo del conductor en entornos simulados es
 \section{Objetivos}
 \label{ch:intro:objectives}
 
-El objetivo de esta tesis doctoral es la de demostrar las hipótesis~H\ref{hyp:first} y~H\ref{hyp:second}, quedando dicha demostración dentro de los límites impuestos por los supuestos y restricciones indicados más adelante.
+El objetivo general de esta tesis es el de simular el comportamiento humano de conductores en entornos de micro-simulación, de tal manera que (i) se aumente el realismo de los modelos existentes de conductor en estos entornos, y (ii) éstos puedan ser usados tanto como fuentes de datos así como marco de referencia para la comparación de características entre conductores.
+
+Para ello, se tratarán de demostrar las hipótesis~H\ref{hyp:first} y~H\ref{hyp:second}, quedando dicha demostración dentro de los límites impuestos por los supuestos y restricciones indicados más adelante.
 
 \begin{hyp}[H\ref{hyp:first}] \label{hyp:first}
 	La aplicación de técnicas pertenecientes al campo de la \acrlongsp{ci} sobre datos de conductores reales para la obtención de un modelo de conducción permitirá incorporar características humanas no reproducibles por los modelos lineales existentes, mejorando la calidad de dichas simulaciones.
@@ -59,12 +59,12 @@ El objetivo de esta tesis doctoral es la de demostrar las hipótesis~H\ref{hyp:f
 	La aplicación de técnicas pertenecientes al campo de la \acrlongsp{ci} con datos extraídos de un entorno de micro-simulación\index{micro-simulación} de espacio continuo y tiempo discreto basado en \acrlongplsp{mas}\index{sistemas multiagente} permitirá modelar, de manera fiel a la realidad, el comportamiento de conductores reales.
 \end{hyp}
 
-Por tanto, el objetivo de la tesis es el de simular el comportamiento de conductores en entornos de micro-simulación a partir de su comportamiento en entornos reales usando técnicas de \acrlongsp{ci}. Para ello se consideran los siguientes objetivos específicos:
+Se consideran además los siguientes objetivos específicos:
 
 \begin{itemize}
 	\item Estudiar y aplicar técnicas de la \acrlongsp{ci} sobre el área de la conducción.
 	\item Realizar un estudio naturalista de conducción\sidenote{
-		Un \textbf{estudio naturalista de conducción} basa su funcionamiento en la captura masiva de datos de conducción, normalmente involucrando una gran cantidad de sensores, para analizar el comportamiento del conductor, las características del vehículo, la vía, etcétera. La cantidad de sensores y la velocidad de captura hacen que la tarea de analizar y extraer conclusiones sea una tarea prácticamente imposible para un humano, por lo que es necesario el uso de técnicas de análisis de datos que suelen recaer en los campos de la estadística y del aprendizaje automático.
+		Un \textbf{estudio naturalista de conducción} basa su funcionamiento en la captura masiva de datos de conducción, normalmente involucrando una gran cantidad de sensores, para analizar el comportamiento del conductor, las características del vehículo, la vía, etcétera. La cantidad de sensores y la frecuencia hacen que la tarea de analizar y extraer conclusiones sea una tarea prácticamente imposible para un humano, por lo que es necesario el uso de técnicas de análisis de datos que suelen recaer en los campos de la estadística y del aprendizaje automático.
 	} sobre conductores reales para:
 	\begin{enumerate}
 		\item Generar modelos personalizados de conductor a partir de los datos de conducción obtenidos.
@@ -79,7 +79,7 @@ Por tanto, el objetivo de la tesis es el de simular el comportamiento de conduct
 \begin{itemize}
 	\item La circulación se supone por la derecha de la vía en el sentido de la circulación, siendo los carriles de lento a rápido de derecha a izquierda respectivamente.
 	\item La captura de datos se realizará durante el día, con buena visibilidad y sin lluvia para minimizar el impacto de la variabilidad del entorno en el comportamiento.
-	\item El tipo de vehículo sobre el que modelar el comportamiento será de tipo \textit{utilitario}, al ser (i) la principal tipología de vehículo usada en las carreteras y (ii) la tipología del vehículo instrumentado del que dispone nuestro grupo.
+	\item El tipo de vehículo sobre el que modelar el comportamiento será de tipo \textit{turismo}, al ser (i) la principal tipología de vehículo usada en las carreteras y (ii) la tipología del vehículo instrumentado del que dispone nuestro grupo.
 	\item El conductor a modelar pertenecerá al grupo de conductores varón de $30$ a $34$ años, edades con las que se corresponden los sujetos que aceptaron formar parte del experimento.
 \end{itemize}
 
@@ -91,7 +91,7 @@ Por tanto, el objetivo de la tesis es el de simular el comportamiento de conduct
 		Son conocidos en la literatura como modelos de \textbf{aceleración} y modelos de \textbf{cambio de carril}\index{lane-change}. Entraremos en detalle sobre ambos conceptos en el capítulo~\nameref{ch:sota-behavior-models}.
 	}.
 	\item La resolución máxima del modelo creado será de \SI{10}{\hertz}.
-	\item En el caso de los modelos que hacen uso de \acrlongplsp{ann}\index{red neuronal artificial} las razones del comportamiento inferido no podrán ser explicadas.
+	\item En el caso de los modelos que hacen uso de \acrlongplsp{ann}\index{red neuronal artificial}, las razones del comportamiento inferido no podrán ser explicadas.
 \end{itemize}
 
 \section{Estructura de la tesis}
