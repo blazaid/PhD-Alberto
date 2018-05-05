@@ -11,6 +11,7 @@
 % Cambio de nombres
 %\renewcommand{\tableofcontentsname}{Tabla de contenidos}
 
+
 %%
 % The `xkeyval' package simplifies the user interface for the document class options
 \RequirePackage{xkeyval}
@@ -2238,6 +2239,8 @@ version={3.0},
 % logicproof: To write logic proofs
 \usepackage{logicproof}
 
+\usepackage[nottoc,notlof,notlot,notindex]{tocbibind} 
+\renewcommand\tocbibname{Referencias}
 %%
 % End of file
 \endinput
