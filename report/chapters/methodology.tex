@@ -50,7 +50,7 @@ Se ha hecho uso de un vehículo instrumentado, concretamente un Mitsubishi iMiEV
 	\label{fig:instrumented-imiev}
 \end{figure}
 
-Todos los dispositivos con los que se ha instrumentado el vehículo se conectan a un ordenador con sistema operativo GNU/Linux sobre Intel i7-7500U CPU con 16GB de memoria RAM. Al tener estos dispositivos funcionamientos muy diferentes, se ha optado por la creación de una aplicación basada en el framework ROS, del cual se da una breve visión general en el apéndice~\nameref{ch:ros-overview}.
+Todos los dispositivos con los que se ha instrumentado el vehículo se conectan a un ordenador con sistema operativo GNU/Linux sobre Intel i7-7500U CPU con 16GB de memoria RAM. Al tener estos dispositivos funcionamientos muy diferentes, se ha optado por la creación de una aplicación basada en el framework \Acrfull{ros}, del cual se da una breve visión general en el apéndice~\nameref{ch:ros-overview}.
 
 \subsection{Dispositivos usados para la captura de datos}
 
@@ -119,7 +119,7 @@ La cámara utilizada es un Microsoft Kinect localizada tras el retrovisor interi
 	\label{fig:kinect}
 \end{marginfigure}
 
-Entre otras capacidades, la cámara ofrece captura de imágenes VGA de \SI{640x480}{\px} de resolución y a una frecuencia de \SI{30}{\Hz}. El dispositivo se conecta vía USB y de la captura se encarga un nodo de ROS denominado \textit{freenect}\sidenote{\url{http://wiki.ros.org/freenect\_stack}.} 	que, entre otras cosas, publica las imágenes tomadas a dicha frecuencia.
+Entre otras capacidades, la cámara ofrece captura de imágenes VGA de \SI{640x480}{\px} de resolución y a una frecuencia de \SI{30}{\Hz}. El dispositivo se conecta vía USB y de la captura se encarga un nodo de \acrshort{ros} denominado \textit{freenect}\sidenote{\url{http://wiki.ros.org/freenect\_stack}.} 	que, entre otras cosas, publica las imágenes tomadas a dicha frecuencia.
 
 \subsection{Selección de rutas}
 
@@ -137,7 +137,7 @@ $R_1$ tiene una duración de recorrido estimada de \SI{30}{\minute} y se utiliza
 
 \subsection{Selección de sujetos}
 
-Se han elegido un total de tres sujetos para los experimentos. Los tres pertenencen al grupo especificado en los supuestos del capítulo~\nameref{ch:intro}.
+Se han elegido un total de tres sujetos para los experimentos. Los tres pertenecen al grupo especificado en los supuestos del capítulo~\nameref{ch:intro}.
 
 Los sujetos tienen experiencia de conducción y han realizado el recorrido anteriormente a fin de basar sus comportamientos lo más posible al nivel táctico de conducción y disponer de una mayor libertad de acción. La razón es la siguiente; los comportamientos longitudinal (\textit{\gls{car-following}\index{car-following}}) y lateral (\textit{\idx{lane-change}}) se asocian con el nivel cognitivo táctico.
 
@@ -149,9 +149,9 @@ Tras la captura se ha realizado una secuencia de pasos para dejar los datos prep
 
 \subsection{Fusión de sensores}
 
-Como hemos visto anteriormente, cada uno de los dispositivos ofrece sus datos a una tasa de frecuencia diferente (con excepción del bus CAN, en el cual los datos van a frecuencias diferentes).
+Como hemos visto anteriormente, cada uno de los dispositivos ofrece sus datos a una frecuencia diferente. Además, el bus \acrshort{can} genera datos a frecuencias diferentes, por lo que es necesario sincronizar de alguna manera todas las entradas a los modelos.
 
-El primer paso en la preparación de los datos ha sido el de la fusión de estos. Afortunadamente cada uno de los mensajes almacenados que llegan desde nodos de ROS vienen con una marca temporal que podemos suponer sincronizada entre nodos de la misma aplicación. Por ello, la fusión se ha realizado en dos pasos:
+El primer paso en la preparación de los datos ha sido el de la fusión de estos. Cada uno de los mensajes almacenados que llegan desde nodos de \acrshort{ros} vienen con una marca temporal que podemos suponer sincronizada entre nodos de la misma aplicación. Por ello, la fusión se ha realizado en dos pasos:
 
 \begin{enumerate}
 	\item Cálculo del primer elemento a fusionar de cada uno de los conjuntos de datos. Para ello, se han desechado todos los primeros valores hasta encontrar la primera tupla de valores (uno por cada conjunto de datos) donde éstos están más próximos entre si.
@@ -162,9 +162,9 @@ Este proceso se ha repetido con cada uno de los conductores para cada uno de los
 
 \subsection{Extracción de variables no observables directamente}
 
-Existen una serie de variables cuya extracción directa del entorno no es trivial. Ésta es una de las razones por las que se ha capturado con la cámara la visión del conductor en el recorrido.
+Existen una serie de variables cuya extracción directa del entorno no es directa. Ésta es una de las razones por las que se ha capturado con la cámara la visión del conductor en el recorrido.
 
-El proceso de obtenición ha sido manual, obteniendo las marcas temporales de las variables a capturar tras el visionado de las imágenes capturadas por la cámara. Estas variables son las siguientes:
+El proceso de obtención se ha realizado en un postproceso haciendo uso de las imágenes obtenidas durante los recorridos, obteniendo las marcas temporales de las variables a capturar tras el visionado de las imágenes capturadas por la cámara. Estas variables son las siguientes:
 
 \paragraph{Cambio de carril}
 
@@ -180,15 +180,15 @@ Al igual que con la distancia a los semáforos, ésta se ha calculado a partir d
 
 \paragraph{Distancia al obstáculo más cercano}
 
-Para el cálculo de esta variable, se ha procedido a capturar una región de interés de cada una de las nubes de puntos dentro de la cual identificar los posibles obstáculos existentes. Por la posición del \acrshort{lidar}\index{LiDAR} se ha decidido que ésta está acotada entre los intervalos $(0.35, 35)$, $(-1, 1)$ y $(-1.5, 0.5)$ para los ejes X, Y y Z respectivamente.
+Para el cálculo de esta variable, se ha procedido a capturar una región de interés de cada una de las nubes de puntos dentro de la cual identificar los posibles obstáculos existentes. Por la posición del \acrshort{lidar}\index{LiDAR} se ha decidido que ésta está acotada entre los intervalos $(0.35, 35)$, $(-1, 1)$ y $(-1.5, 0.5)$ para los ejes $X$, $Y$ y $Z$ respectivamente.
 
-Posteriormente, para la nube de puntos resultante se ha realizado un proceso de clusterización\index{clustering} aplicando el algoritmo DBSCAN\sidenote{
+Sobre la nube de puntos resultante se ha realizado un proceso de clusterización\index{clustering} aplicando el algoritmo DBSCAN\sidenote{
 	DBSCAN\index{DBSCAN} \cite{ester1996density} es un algoritmo de clusterización\index{clustering} que identifica un número variable de conjuntos en un espacio $n$-dimensional.
 	
 	Funciona a partir de la agregación de puntos en función de sus parámetros $\epsilon$ y $\mu$. $\epsilon$ es la distancia mínima a la que se deben encontrar dos puntos para considerarse pertenecientes al mismo clúster mientras que $\mu$ determina el número mínimo de puntos que debe tener un clúster para ser considerado como tal.
 } con parámetros $\epsilon = 0.5$ y $\mu = 3$. Este proceso identifica un número variable de clústers, tras el cual nos hemos quedado con el más cercando al vehículo.
 
-Posteriormente y de forma manual, se ha realizado el recorrido mostrando las nubes de puntos correspondientes a las capturas superponiendo el centroide para eliminar los de aquellos frames que se corresponden con errores. De los restantes se ha calculado una distancia euclídea al origen de coordenadas.
+Para finalizar, y de forma manual, se ha realizado el recorrido mostrando las nubes de puntos correspondientes a las capturas superponiendo el centroide para eliminar los de aquellos frames que se corresponden con errores. De los restantes se ha calculado una distancia euclídea al origen de coordenadas.
 
 \subsection{Curación de datos}
 
@@ -220,8 +220,10 @@ Tras obtener todas las variables principales, ya sean directamente de los sensor
 
 Para los entrenamientos de los modelos se ha utilizado una máquina con procesador Intel\textregistered Core\texttrademark i7-6700K a \SI{4.00}{\giga\Hz} y \SI{16}{\gibi\byte} de memoria. Los entrenamientos se han realizado sobre una \gls{gpu} Titan XP cedida a nuestro grupo de investigación por parte de NVIDIA. El sistema operativo utilizado ha sido un Debian GNU/Linux versión 9.4. 
 
-Para cada uno de los submodelos se han probado dos aproximaciones diferentes para comparar sus desempeños en las tareas por separado. Concretamente se han utilizado \acrshortpl{fcs}\index{sistema de control borroso} y \acrshortpl{mlp}\index{perceptrón multicapa} para modelar el comportamiento longitudinal y \acrshortpl{mlp}\index{perceptrón multicapa} y \acrshortpl{cnn}\index{red de convolución} para modelar el comportamiento en cambio de carril\index{lane-change}.
+Para cada uno de los submodelos se han probado dos aproximaciones diferentes para comparar sus desempeños en las tareas por separado. Concretamente se han utilizado \acrshortpl{fcs}\index{sistema de control borroso} y \acrshortpl{mlp}\index{perceptrón multicapa} para modelar el comportamiento longitudinal y \acrshortpl{mlp}\index{perceptrón multicapa} y \acrshortpl{cnn}\index{red de convolución} para modelar el comportamiento en cambio de carril\index{lane-change}. La razón de estas elecciones se expone en sus respectivos capítulos.
 
-Los modelos serán entrenados con un conjunto por tipo de modelo (longitudinal y cambio de carril\index{lane-change}) asociado al total de sujetos. Con estos modelos generales se comprobará si es posible aprender características de conducción de conductores y con qué técnicas y arquitecturas. Para validar este modelo se comprarán los datos reales de los conjuntos de test con datos de simulación generados en un entorno similar\sidenote{Se ha valorado el uso de otros marcos de validación como el \textit{KITTI Vision Benchmark Suite}\index{KITTI}. El problema es que la suite KITTI\index{KITTI} está orientada al análisis del entorno del vehículo y no al de la personalización, por lo que no tenemos manera de saber qué partes del conjunto pertenecen a unos u otros conductores.}.
+Los modelos serán entrenados con un conjunto por tipo de modelo (longitudinal y cambio de carril\index{lane-change}) asociado al total de sujetos. Con estos modelos generales se comprobará si es posible aprender características de conducción de conductores y con qué técnicas y arquitecturas. Una vez decididas las arquitecturas de los modelos que se usarán para cada tipo, serán entrenadas con los datos de cada conductor en concreto. A partir de estos datos se determinará si los rasgos aprendidos se consideran suficientes para caracterizar a cada conductor por separado.
 
-Una vez decididas las arquitecturas de los modelos que se usarán para cada tipo, serán entrenadas con los datos de cada conductor en concreto. A partir de estos datos se determinará si los rasgos aprendidos se consideran suficientes para caracterizar a cada conductor por separado.
+Para validar los modelos, se compararán los datos reales de los conjuntos de test con datos de simulación generados en un entorno similar\sidenote{
+	Se ha valorado el uso de otros marcos de validación como el \textit{KITTI Vision Benchmark Suite}\index{KITTI}. El problema es que la suite KITTI\index{KITTI} está orientada al análisis del entorno del vehículo y no al de la personalización, por lo que no tenemos manera de saber qué partes del conjunto pertenecen a unos u otros conductores.
+}. Concretamente, se hará circular a los modelos generados por un recorrido virtual similar al del recorrido real de test. Tras ello, se compararán los indicadores obtenidos del simulador con los obtenidos en los recorridos reales para comprobar si en efecto se reproducen los comportamientos de los conductores en sus respectivos modelos.

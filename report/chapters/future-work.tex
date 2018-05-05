@@ -1,40 +1,7 @@
-\chapter{Resultados y líneas de investigación futuras}
+\chapter{Diseminación de resultados}
 \label{ch:future-work}
 
-En este capítulo se comentarán una serie de líneas de trabajo futuras que se consideran de interés tras el trabajo realizado. Posteriormente se enumerarán las publicaciones realizadas durante la tesis como consecuencia directa o indirecta de la tesis.
-
-\section{Propuestas de líneas de investigación futuras}
-
-\subsection{Entornos de simulación más realistas}
-
-Para simular conductores en entornos de simulación es necesario que estos sean lo suficientemente potentes como para presentar un escenario realista al agente que va a modelar al conductor.
-
-Sera muy interesante evaluar las mismas técnicas en otros entornos de simulación. Algunas opciones sería entornos de conducción de tipo \ac{torcs} adaptados a la simulación de tráfico, simuladores de conducción que funcionasen conectándose a simuladores de entornos de tráfico (como por ejemplo el anteriormente citado 3DCoAutoSim \cite{olaverri2018implementation}) o, más reciente, el uso de videojuegos con entornos de tráfico\sidenote{
-	Está habiendo una tendencia en los últimos años de hacer aprender a agentes a jugar a todo tipo de videojuegos a partir de la lectura en crudo de la pantalla y actuando sobre los controles del juego. Uno de éstos juegos titulado Grand Theft Auto V incorpora una simulación de una ciudad entera con peatones, señales de tráfico, vehículo y un punto de vista de cámara desde el interior del vehículo. Dos lecturas interesantes sobre este fenómeno son~\cite{richter2016playing} y~\ref{johnson2017driving} donde ahondan en la recuperación de datos a partir de videojuegos y de hasta qué punto pueden llegar a reemplazar daos reales.
-}.
-
-La aplicación de estas técnicas en el modelado de agentes en estos entornos propiciaría la investigación en otras áreas más orientadas a factores humanos, ya que el comportamiento de los conductores sería más realista.
-
-\subsection{Modelado de diferentes actores y escenarios}
-
-En esta tesis se trabaja sobre todo con el comportamiento global de comportamiento de conductores. Existen casos específicos de comportamiento que merecería la pena explorar por separado, como pueden ser intersecciones más o menos complejas, rotondas, incorporaciones a vías, etcétera.
-
-Además, los conductores de turismos no son los únicos agentes existentes en el sistema que es el tráfico. En general se tiende a prestar poca atención a los vehículos pesados, pero su conducción y comportamiento es muy diferente a la de un turismo. Existen también motos, bicicletas, pero también peatones.
-
-Otro objetivo de modelado sería los sistemas de generación de emisiones de los vehículos. Actualmente, los simuladores incorporan modelos de emisión\sidenote{
-	Normalmente, las emisiones incluyen también el consumo de gasolina, diésel y electricidad, así como el ruido que emiten.
-} para simular de qué manera los vehículos producen emisiones. Los sistemas más completos (como \gls{sumo}\index{SUMO}) implementan las tipologías descritas en el \gls{hbefa}~\cite{de2004modelling}, pero no dejan de ser modelos que generalizan tipologías de vehículos y se alejan de la realidad. Creemos que las emisiones de los vehículos en particular son fácilmente modelables a partir de sus datos reales con técnicas de \ac{ci}.
-
-\subsection{\Acrlongplsp{rnn}\index{redes neuronales recurrentes}}
-
-El estudio se ha limitado a redes de tipo \textit{\idx{feed-forward}}, representando la evolución del tiempo como ventanas de datos temporales. Este tipo de redes no ven más allá de su ventana temporal, y puede no ser suficiente para determinados modelos.
-
-Se propone el uso de arquitecturas de \acrlongplsp{rnn}\index{redes neuronales recurrentes} para incorporar capacidad de comprender la continuidad temporal en el flujo de datos que percibe el agente. Quizá de esta manera se podrían captar características tales como la percepción temporal de velocidades de aproximación a obstáculos o impaciencia en función de otros factores.
-
-
-\section{Diseminación de resultados}
-
-\subsection{Revistas}
+\section{Revistas}
 
 \begin{enumerate}
 	\item Díaz-Álvarez, A., Clavijo, M., Jiménez, F. Talavera, E., \& Serradilla, F. (2018). \textit{Modelling the human lane-change execution behaviour through Multilayer Perceptrons and Convolutional Neural Networks}. Transportation Research Part F: Psychology and Behaviour, 2018. \textbf{(Q2)}.
@@ -45,10 +12,10 @@ Se propone el uso de arquitecturas de \acrlongplsp{rnn}\index{redes neuronales r
 	\item Alvarez, A. D., Garcia, F. S., Naranjo, J. E., Anaya, J. J., \& Jimenez, F. (2014). \textit{Modeling the driving behavior of electric vehicles using smartphones and neural networks}. IEEE Intelligent Transportation Systems Magazine, 6(3), 44-53. \textbf{(Q3)}.
 \end{enumerate}
 
-\subsection{Congresos}
+\section{Congresos}
 
 \begin{enumerate}
-	\item Clavijo, M., \& Díaz, A., Serradilla, F., Jiménez F., Naranjo, J.E. (2017, July). \textit{Deep learning application for 3D LiDAR odometry estimation in autonomous vehicles}. Connected and Automated Transport, 2018 Transport Research Arena (TRA).Internacional.
+	\item Clavijo, M., Díaz, A., Serradilla, F., Jiménez F., Naranjo, J.E. (2017, July). \textit{Deep learning application for 3D LiDAR odometry estimation in autonomous vehicles}. Connected and Automated Transport, 2018 Transport Research Arena (TRA).Internacional.
 	\item Clavijo, M., Serradilla, F., Naranjo, J.E., Jiménez F., \& Díaz, A. (2017, July). \textit{Application of Deep Learning to Route Odometry Estimation from LiDAR Data}. Advances in Vehicular Systems, Technologies and Applications, 2017 The Sixth International Conference on (pp. 60-65). Internacional.
 	\item Felipe, J., Amarillo, J. C., Naranjo, J. E., Serradilla, F., \& Díaz, A. (2015, September). \textit{Energy consumption estimation in electric vehicles considering driving style}. In Intelligent Transportation Systems (ITSC), 2015 IEEE 18th International Conference on (pp. 101-106). IEEE.
 \end{enumerate}

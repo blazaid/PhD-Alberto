@@ -2239,6 +2239,10 @@ version={3.0},
 % logicproof: To write logic proofs
 \usepackage{logicproof}
 
+%%
+%
+\usepackage{pageslts}
+
 \usepackage[nottoc,notlof,notlot,notindex]{tocbibind} 
 \renewcommand\tocbibname{Referencias}
 %%
