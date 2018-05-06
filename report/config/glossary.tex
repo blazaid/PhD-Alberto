@@ -2,9 +2,13 @@
 \renewcommand*{\acronymname}{Abreviaturas}
 
 % Glossary terms
+\newglossaryentry{aimsun}{
+	name={Aimsun Next},
+	description={\textit{Advanced Interactive Microscopic Simulator for Urban and Non-Urban Networks}. Simulador de tráfico a nivel micro, macro y meso desarrollado por la Universidad Politécnica de Cataluña (UPC) y actualmente en propiedad de la compañía Aimsun, formada en el seno de la universidad por lo desarrolladores originales. Url: \url{https://www.aimsun.com}}
+}
 \newglossaryentry{aorta}{
 	name=AORTA,
-	description={(\textit{Approximately Orchestrated Routing and Transportation Analyzer}). Entorno de microsimulación multiagente de tráfico desarrollado en el departamento de Ciencias de la Computación de la Universidad de Austin (Texas). Url: \url{http://www.aorta-traffic.org/}}
+	description={(\textit{Approximately Orchestrated Routing and Transportation Analyzer}). Entorno de microsimulación multiagente de tráfico desarrollado en el departamento de Ciencias de la Computación de la Universidad de Texas en Austin. Url: \url{http://www.aorta-traffic.org/}}
 }
 \newglossaryentry{autoencoder}{
 	name=autoencoder,
@@ -16,6 +20,11 @@
 	name=car-following,
 	description={Modelo de control de conductor longitudinal que basa su comportamiento en el del vehículo del mismo carril que le precede}
 }
+\newglossaryentry{corsim}{
+	name={TSIS-CORSIM},
+	description={Paquete de micro-simulación de tráfico desarrollado por la FHWA (Federal Highway Administration) de Florida, y actualmente mantenido por el Instituto de Transporte de la Universidad de Florida (McTrans). Url: \url{https://mctrans.ce.ufl.edu/mct/index.php/tsis-corsim/}}
+}
+
 \newglossaryentry{dai}{
 	name={Inteligencia Artificial Distribuida},
 	description={Rama de la \gls{ai} donde se estudian las técnicas de aplicación, coordinación y distribución de conocimiento en un entorno multiagente},
@@ -49,19 +58,19 @@
 }
 \newglossaryentry{hbefa}{
 	name=HBEFA,
-	description={\textit{The Handbook Emission Factors for Road Transport} es una guía que propone unas tablas de emisiones específicas en \SI{}{\gram\per\kilo\meter} para todas las categorías actuales de vehículos de carretera (concretamente automóviles de pasajeros, vehículos ligeros, vehículos pesados, autobuses y motocicletas).}
+	description={\textit{The Handbook Emission Factors for Road Transport} es una guía que propone unas tablas de emisiones específicas en \SI{}{\gram\per\kilo\meter} para todas las categorías actuales de vehículos de carretera (concretamente automóviles de pasajeros, vehículos ligeros, vehículos pesados, autobuses y motocicletas)}
 }
 \newglossaryentry{hc}{
 	name=Hard Computing,
 	description={Forma de denominar a la computación clásica en contraposición al término \gls{sc}}
 }
-\newglossaryentry{aimsun}{
-	name=Aimsun,
-	description={\textit{Advanced Interactive Microscopic Simulator for Urban and Non-Urban Networks}. Simulador de tráfico a nivel micro y meso desarrollado por la Universidad Politécnica de Cataluña (UPC). También se refiere al nombre de la compañía que se formó en el seno de la Universidad y que actualmente posee los derechos sobre el paquete de simulación. Url: \url{https://www.aimsun.com}}
+\newglossaryentry{linux}{
+	name={GNU/Linux},
+	description={Término con el que se designa al sistema operativo compuesto del núcleo \textit{Linux} y varios componentes de software de GNU. Es el término sugerido por la \textit{Free Software Foundation} para enfatizar que \textit{Linux} es sólo un pequeño componente de un sistema mucho mayor.}
 }
 \newglossaryentry{matsim}{
 	name=MatSIM,
-	description={(\textit{Multi-Agent Transport Simulation}). Software de microsimulación multiagente desarrollado en la ETH Zürich. Url: \url{http://matsim.org}}
+	description={(\textit{Multi-Agent Transport Simulation}). Software de microsimulación multiagente desarrollado en la TU Berlin y la ETH Zürich. Url: \url{http://matsim.org}}
 }
 \newglossaryentry{mitsim}{
 	name=MitSIM,
@@ -69,7 +78,7 @@
 }
 \newglossaryentry{movsim}{
 	name=MovSim,
-	description={(\textit{Multi-model Open-source Vehicular-traffic Simulator}). Software de microsimulación que implementa tanto modelo multiagente y como modelo basado en \glsentryshortpl{ca}. Url: \url{http://www.movsim.org/}}
+	description={(\textit{Multi-model Open-source Vehicular-traffic Simulator}). Software de micro-simulación que implementa tanto modelos basados en \acrlongplsp{mas} y como basados en \acrlongplsp{ca}. Url: \url{http://www.movsim.org/}}
 }
 \newglossaryentry{nmea}{
 	name=NMEA,
@@ -79,9 +88,13 @@
 	name=OSI,
 	description={Estándar de comunicaciones en red desarrollado por la ISO en 1980 para servir como modelo de referencia para la implementación de protocolos de red basados en arquitectura en capas}
 }
+\newglossaryentry{paramics}{
+	name={Quadstone Paramics},
+	description={Micro-simulador comercial desarrollado en la Universidad de Edimburgo y actualmente explotado por la compañía Portrait Software. Url: \url{http://www.paramics-online.com/}}
+}
 \newglossaryentry{python}{
 	name=Python,
-	description={Lenguaje de programación \glsentryshort{oss}. Url: \url{https://www.python.org/}}
+	description={Lenguaje de programación \acrshort{oss}. Url: \url{https://www.python.org/}}
 }
 \newglossaryentry{rmse}{
 	name=RMSE,
@@ -103,7 +116,7 @@
 }
 \newglossaryentry{sumo}{
 	name=SUMO,
-	description={(\textit{Simulation of Urban MObility}). Entorno de micro y mesosimulación multiagente desarrollado por el instituto de sistemas de transporte del DLR (Centro Aeroespacial Alemán). Url: \url{http://www.dlr.de}}
+	description={(\textit{Simulation of Urban MObility}). Entorno de micro-simulación y meso-simulación basado en \acrlongplsp{mas} desarrollado por el instituto de sistemas de transporte del DLR (Centro Aeroespacial Alemán). Url: \url{http://www.dlr.de}}
 }
 \newglossaryentry{tcpip}{
 	name=TCP/IP,
@@ -111,7 +124,7 @@
 }
 \newglossaryentry{traas}{
 	name=TraaS,
-	description={(\textit{TraCI as a Service}). \glsentryshortpl{api} basado en \glsentryshortpl{soap} para interactuar con el simulador \gls{sumo} cuando está funcionando en modo servidor. Url: \url{http://traas.sourceforge.net/cms/}}
+	description={(\textit{TraCI as a Service}). \acrshort{api} basado en \acrshort{soap} para interactuar con el simulador \gls{sumo} cuando está funcionando en modo servidor. Url: \url{http://traas.sourceforge.net/cms/}}
 }
 \newglossaryentry{traci}{
 	name=TraCI,

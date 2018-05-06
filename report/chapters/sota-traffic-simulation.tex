@@ -183,61 +183,149 @@ Para la realización de esta tesis es necesario contar con un paquete de simulac
 
 Aunque en un principio se ha valorado el desarrollo de una solución propia, la oferta de simuladores en el mercado es muy amplia, cada uno de ellos implementando uno o varios modelos diferentes bajo distintas licencias. Por ello se ha optado por la elección de un paquete de simulación ya desarrollado.
 
-
-Para elegir el mejor simulador que se adapte a nuestras necesidades se ha realizado un listado de características obligatorias y, de este modo, realizar una primera criba eliminando simuladores no aptos (resumidos en la figura~\ref{fig:simulator-features}):
-
-\begin{marginfigure}
-	\centering
-	\includegraphics{simulator-features}
-	\caption[Características obligatorias y deseables del simulador a elegir]{Características obligatorias y deseables del simulador donde implementar nuestros modelos personalizados de conductor.}
-	\label{fig:simulator-features}
-\end{marginfigure}
-
-\begin{enumerate}
-	\item \textbf{Tipo de simulador}. Para nuestras necesidades es necesario un simulador que implemente \textbf{microsimulación}, ya que es el único tipo de granularidad que permite evaluar el comportamiento de un conductor independientemente del resto de la simulación. Además, debido a la forma en la que se recolectan los datos, es necesario que represente un \textbf{espacio continuo} y una dimensión de \textbf{tiempo discreto} con una resolución de al menos $1$ segundo.
-	\item \textbf{Modelo de simulación}. Debe ofrecer un entorno basado en un \textbf{\acrlongsp{mas}}\index{sistemas multiagente} donde cada \gls{dvu}\index{driver-vehicle unit} se comporte como agente individual.
-	\item \textbf{Entorno de simulación}. Debe ofrecer un entorno de \textbf{simulación de tráfico general}, permitiendo la creación de escenarios. Quedan excluídos los simuladores de propósito específico o de casos particulares como simuladores de autopistas, congestiones o colisiones.
-	\item \textbf{Extensibilidad}. El simulador debe permitir extender de alguna manera la ejecución de los modelos desarrollados en los agentes (\glspl{dvu}\index{driver-vehicle unit}). Aunque se puede considerar que si es simulador \gls{oss}, se puede modificar su comportamiento para adecuarlo a los modelos desarrollados, es mejor que el propio software ofrezca los mecanismos necesarios para la integración sin necesidad de tocar los fuentes del sistema.
-	\item \textbf{Sistema operativo}. Es imprescindible que el software se ejecute sobre sistemas operativos GNU/Linux por la configuración de los sistemas sobre los que se trabaja.
-\end{enumerate}
-
-Posteriormente se ha desarrollado un listado de características deseables. No son determinantes para descartar simuladores pero sí favorecen la elección de unos sobre otros.
-
-\begin{enumerate}
-	\item \textbf{Activo}. Es preferible que el sistema esté activamente desarrollado porque eso favorece la aparición de parches y mejoras sobre el software. En caso contrario, se trata de un proyecto con poca actividad por parte de sus autores.
-	\item \textbf{Lenguaje de programación}. Es favorable la implementación de los modelos en código \gls{python}\index{Python}.
-	\item \textbf{Licencia}. Es preferible una licencia de tipo \Ac{oss} ya que, en caso de error o falta de funcionalidad, es posible acceder a los fuentes para modificarlos.
-	\item \textbf{Sistema operativo}. Es favorable que el sistema se ejecute en entornos tipo OS X.
-\end{enumerate}
-
 \subsection{Entornos de simulación a estudiar}
 
-El primer listado de características deja atrás la mayoría de simuladores (una gran cantidad de ellos son o bien de propósito específico, están desarrollados para sistemas operativos Windows o no permiten extender su modelo). Tras la selección, nos quedamos con los siguientes simuladores: \gls{aorta}, \gls{matsim}, \gls{mitsim}, \gls{movsim} y \gls{sumo}\index{SUMO}.
+Hemos realizado una selección previa de entornos de simulación basándonos en el uso dentro de la bibliografía relacionada con la simulación de tráfico. A continuación se listan los simuladores con una pequeña descripción.
 
-Dichos entornos están prácticamente igualados en las características presentadas, tal y como se puede observar en la Tabla~\ref{tbl:simulators-comparison}. Sin embargo, en matería de extensibilidad, \gls{sumo}\index{SUMO} es el único que permite el desarrollo de \acrshortpl{dvu}\index{driver-vehicle unit} de manera externa. El resto requiere la modificación del código fuente del simulador para variar los comportamientos de los conductores. \gls{aorta} además no es un proyecto que se mantenga activo en la actualidad (las últimas modificaciones del repositorio datan de principios del año $2014$).
+\paragraph{\gls{aimsun}}\sidenote{\url{https://www.aimsun.com}.}
+
+El paquete \gls{aimsun} es un simulador de tráfico híbrido al ofrecer funcionalidades a granularidades macro, micro y meso. El propietarios es la compañía Aimsun, \textit{spin-off} de la Universidad Politécnica de Cataluña (UPC), donde se inició el desarrollo de la herramienta.
+
+El paquete hace especial énfasis en la facilidad de edición y visualización, por lo que implementa muchas características al respecto como visualización $2D$/$3D$, navegación por el escenario o editor integrado para pequeños \textit{scripts} de \gls{python} para tareas repetitivas.
+
+Es un sistema multiplataforma (incluido \gls{linux}), extensible a través de múltiples modos, incluida una \acrshort{api} externa.
+
+\paragraph{\gls{aorta}}\sidenote{\url{aorta-traffic.org}.}
+
+Simulador de tráfico de código abierto desarrollado en la Universidad de Texas en Austin (UT) diseñado para ofrecer simulaciones realistas con una mínima configuración y orientado principalmente a la simulación de vehículos autónomos en áreas urbanas.
+
+Está desarrollado principalmente en Scala, un lenguaje que funciona sobre la máquina virtual de Java y ofrece una micro-simulación\index{micro-simulación} basada en \acrlongplsp{mas}.
+
+Al estar desarrollado para la máquina virtual de Java, es un sistema multiplataforma, aunque es monoproceso y no ofrece extensión más allá de la disponibilidad del código fuente.
+
+\paragraph{\gls{corsim}}\sidenote{\url{https://mctrans.ce.ufl.edu/mct/index.php/tsis-corsim/}.}
+
+Paquete de micro-simulación desarrollado en la Universidad de Florida (UF) para Microsoft Windows.
+
+En realidad se trata de un sistema compuesto de dos paquetes de software, (i) TSIS-CORSIM destinado a la simulación en sí, y (ii) TRANSYS-7F orientado a la generación/edición de mapas y optimización de rutas.
+
+\paragraph{\gls{matsim}}\sidenote{\url{https://www.matsim.org/}.}
+
+\gls{matsim} (Multi-Agent Transport Simulation) es un micro-simulador\index{micro-simulación} \acrshort{oss} desarrollado por dos grupos diferentes: Instituto de Transporte por Tierra y Mar (ILS, \textit{Institute for Land and Sea Transport Systems}) de la Universidad Técnica de Berlín (TU Berlin) y el Instituto de Planificación del Transporte y Sistemas (IVT, \textit{Institute for Transport Planning and Systems}) del Instituto tecnológico de la Escuela Politécnica Federal de Zúrich (ETH Zurich).
+
+Desarrollado en Java, es un paquete de simulación que ofrece una simulación basada en \acrlongplsp{mas} con especial énfasis en el tamaño de los escenarios y en la extensión a través de \acrshortpl{api}.
+
+\paragraph{\gls{mitsim}}\sidenote{\url{https://its.mit.edu/software/mitsimlab/}.}
+
+Software de micro-simulación\index{micro-simulación} desarrollado en el Laboratorio de Sistemas Inteligentes (ITS-LAB, \textit{Intelligent Transportation Systems Lab}) del Instituto Tecnológico de Massachusetts.
+
+Desarrollado bajo un esquema de \acrshort{oss}, el simulador es actualmente el conjunto de tres módulos que interactúan entre sí, (i) El simulador de tráfico (\gls{mitsim}), (ii) el simulador de gestión de tráfico (TMS), y (iii) el interfaz de visualización (GUI).
+
+El simulador no permite una extensión a través de otro mecanismo que no sea la edición directa del código fuente del paquete.
+
+\paragraph{\gls{movsim}}\sidenote{\url{http://www.movsim.org/}.}
+
+\gls{movsim} (\textit{Multi-model Open-source Vehicular-traffic Simulator}) es un paquete de micro-simulación desarrollado como implementación de referencia de los modelos descritos en \cite{kesting2013traffic} por los mismos autores.
+
+Está desarrollado en principalmente en Java e implementa modelos basados tanto en \acrlongplsp{mas} como en \acrlongplsp{ca}. No permite una extensión a través de \acrshortpl{api}, pero su diseño permite la inclusión de nuevos modelos de conductor de una manera muy sencilla.
+
+\paragraph{\gls{paramics}}\sidenote{\url{http://www.paramics-online.com/}.}
+
+El simulador \gls{paramics} es un paquete destinado al diseño de infraestructuras de transporte en base a un micro-simulador\index{micro-simulación} de vehículo y peatones (este último a través del módulo Urban Analytics Framework). Su desarrollo se realizó en el Centro de Computación Paralela de la Universidad de Edimburgo, aunque posteriormente se formó una \textit{spin-off} llamada Quadstone para continuar con la explotación comercial del software. Actualmente continúa su desarrollo y explotación la empresa Portrait Software.
+
+Entre otras características, implementa un visor 2D/3D sobre los escenarios de simulación, así como una interfaz amigable para la creación de escenarios de alta complejidad.
+
+\paragraph{\gls{sumo}\index{SUMO}}\sidenote{\url{http://www.dlr.de}.}
+
+\gls{sumo}\index{SUMO} (\textit{Simulation of Urban MObility}) es un entorno de simulación de granularidad micro y posibilidad de modelar partes del escenario en granularidad meso.
+
+Desarrollado en el Instituto de Sistemas de Transporte del Centro Aeroespacial Alemán (DLR, \textit{Deutsche Zentrum für Luft- und Raumfahrt}), ofrece características como el acceso en tiempo real a la simulación a través de \acrshort{api} o la importación de redes de carreteras de mapas de OpenStreetMaps.
+
+Está desarrollado en C++, pero sólo hacen uso de librerías estándar portables, por lo que es multiplataforma.
+
+\subsection{Características a evaluar}
+
+Para elegir el mejor simulador se ha realizado un listado de características obligatorias y deseables. Éstas serán evaluadas de manera binaria (i.e. cumple/no cumple).
+
+A continuación, pasamos a enumerar las características que obligatoriamente deberá cumplir el simulador para ser seleccionado:
+
+\begin{enumerate}
+	\item \textbf{GM} (Granularidad Micro). Para nuestras necesidades es necesario un simulador que implemente \textbf{micro-simulación}\index{micro-simulación}, ya que es el único tipo de granularidad que permite evaluar el comportamiento de un conductor independientemente del resto de la simulación.
+	\item \textbf{ECTD} (Espacio Continuo / Tiempo Discreto). Debido a la forma en la que se recolectan los datos del entorno real, es necesario que el simulador represente un \textbf{espacio continuo} y una dimensión de \textbf{tiempo discreto} con una resolución de al menos $0.1$ segundos.
+	\item \textbf{SMA} (Sistema Multi-Agente). Debe ofrecer un entorno basado en \textbf{\acrlongplsp{mas}}\index{sistemas multiagente} donde cada \gls{dvu}\index{driver-vehicle unit} se comporte como agente individual.
+	\item \textbf{TG} (Tráfico General). Debe ofrecer un entorno de \textbf{simulación de tráfico general}, permitiendo la creación de escenarios. Quedan excluidos los simuladores de propósito específico o de casos particulares como simuladores de autopistas, congestiones o colisiones.
+	\item \textbf{E} (Extensibilidad). El simulador debe permitir extender de alguna manera la ejecución de los modelos de conductor implementados en los agentes (\glspl{dvu}\index{driver-vehicle unit}). Aunque se puede considerar que un simulador de \gls{oss} permite la extensión al estar disponible su código fuente, esta condición se refiere exclusivamente a otros mecanismos de extensibilidad (e.g. servicios externos o \acrshort{api}). Dicho de otro modo, el sistema permite la integración de extensiones y comportamientos sin necesidad de modificar los fuentes del propio sistema.
+	\item \textbf{EM} (Edición de mapas). El paquete de simulación debe incluir algún mecanismo de creación y edición de mapas.
+	\item \textbf{ED} (Extracción de datos). El paquete de simulación debe permitir la extracción de datos de los escenarios de simulación.
+\end{enumerate}
+
+Las siguientes características son deseables, aunque no las consideraremos obligatorias:
+
+\begin{enumerate}
+	\item \textbf{A} (Activo). El paquete debería estar activamente en desarrollo. Eso favorece la aparición de parches y mejoras sobre el software. En caso contrario, se trata de un proyecto con poca actividad por parte de sus autores.
+	\item \textbf{GUI} (Simulación visual). Sería recomendable poder obtener información visual durante los transcursos de las simulaciones.
+	\item \textbf{LPP} (Lenguaje de programación. Python). Permite la implementación de modelos en el lenguaje de programación \gls{python}\index{Python}.
+	\item \textbf{LPC} (Lenguaje de programación. C/C++). Permite la implementación de modelos en el lenguaje de programación C o C++.
+	\item \textbf{LPJ} (Lenguaje de programación. Java). Permite la implementación de modelos en el lenguaje de programación Java.
+	\item \textbf{\acrshort{oss}} (Licencia \acrshort{oss}). Es preferible una licencia de tipo \acrfull{oss} ya que, en caso de error o falta de funcionalidad, es posible acceder a los fuentes para modificarlos.
+	\item \textbf{GNUL} (Sistema operativo GNU/Linux). El software se debería ejecutar sobre sistemas operativos GNU/Linux, debido a que las tecnologías sobre las que se trabaja (e.g. \acrshort{ros}) favorecen el trabajo en este sistema operativo.
+\end{enumerate}
+
+\subsection{Selección del entorno de simulación}
+
+Para la selección del entorno de simulación a usar en la tesis se han usado los paquetes de simulación en sus últimas versiones a fecha de abril de $2017$.
+
+En los paquetes con licencias comerciales la evaluación se ha realizado consultando las especificaciones técnicas y con las versiones de prueba en los casos en que se ofrecían. Ninguno de estos paquetes tienen un modelo de desarrollo basado en \gls{oss}, por lo que no se ha podido acceder al código fuente.
+
+En la Tabla~\ref{tbl:simulators-mandatory-characteristics} se muestran las características obligatorias presentes y no presentes en los simuladores evaluados.
 
 \begin{table*}
 	\centering
-	\caption[Tabla comparativa de los simuladores seleccionados][-21em]{Tabla comparativa donde se contrastan las características de los simuladores seleccionados. El simulador \gls{sumo} es el que más características cumple de las originalmente planteadas.}
-	\label{tbl:simulators-comparison}
-	\begin{tabularx}{\linewidth}{Xccccc}
+	\small
+	\caption[Tabla comparativa de los simuladores seleccionados. Características obligatorias][2em]{Tabla comparativa de los simuladores seleccionados. Características obligatorias.}
+	\label{tbl:simulators-mandatory-characteristics}
+	\begin{tabularx}{\linewidth}{Xcccccccc}
 		\toprule
-		& \gls{aorta} & \gls{matsim} & \gls{mitsim} & \gls{movsim} & \gls{sumo} \\
+		& \gls{aimsun} & \gls{aorta} & \gls{corsim} & \gls{matsim} & \gls{mitsim} & \gls{movsim} & \gls{paramics} & \gls{sumo} \\
 		\midrule
-		\rowcolor{black!20} Activo & \nop & \yep & \nop & \yep & \yep \\
-		Lenguajes de programación & Scala & Java & C++ & Java & C++/\gls{python} \\		
-		\rowcolor{black!20} Licencia propietaria & \nop & \nop & \nop & \nop & \nop \\
-		Licencia \glsentryshort{oss} & \yep & \yep & \yep & \yep & \yep \\
-		\rowcolor{black!20} Licencia \gls{gpl} & \yep & \yep & \nop & \yep & \yep \\
-		\acrshort{api} & \nop & \nop & \nop & \nop & \yep \\
-		\rowcolor{black!20} GNU/Linux & \yep & \yep & \yep & \yep & \yep \\
-		OS X & \yep & \yep & \nop & \yep & \yep \\
-		\rowcolor{black!20} Windows & \yep & \yep & \nop & \yep & \yep \\
+		\rowcolor{black!20} GM   & \yep & \yep & \yep & \yep & \yep & \yep & \yep & \yep \\
+                            ECTD & \yep & \yep & \yep & \yep & \yep & \yep & \yep & \yep \\
+		\rowcolor{black!20} SMA  & \yep & \yep & \yep & \yep & \yep & \yep & \yep & \yep \\
+		                    TG   & \yep & \yep & \yep & \yep & \yep & \yep & \yep & \yep \\
+		\rowcolor{black!20} E    & \yep & \nop & \nop & \yep & \nop & \nop & \yep & \yep \\
+		                    EM   & \yep & \yep & \yep & \yep & \yep & \yep & \yep & \yep \\
+		\rowcolor{black!20} ED   & \yep & \yep & \yep & \yep & \yep & \yep & \yep & \yep \\
 		\bottomrule
 	\end{tabularx}
 \end{table*}
 
-No obstante se ha tratado de modificar los comportamientos de los conductores en los cuatro simuladores para validar este hecho y ha quedado patente que es mucho más eficaz usar \gls{sumo}\index{SUMO} como simulador para nuestro estudio.
+Tras la comparativa de características obligatorias, los simuladores con los que nos quedamos son \gls{aimsun}, \gls{matsim}, \gls{paramics} y \gls{sumo}\index{SUMO}, ya que son los únicos que cumplen con todas las características que se consideramos necesarias.
+
+El siguiente paso es la comparativa entre los simuladores restantes y las características opcionales, el cual se muestra en la Tabla~\ref{tbl:simulators-optional-characteristics}.
+
+\begin{table}
+	\centering
+	\small
+	\caption[Tabla comparativa de los simuladores seleccionados. Características opcionales]{Tabla comparativa de los simuladores seleccionados. Características opcionales.}
+	\label{tbl:simulators-optional-characteristics}
+	\begin{tabularx}{\linewidth}{Xcccc}
+		\toprule
+		& \gls{aimsun} & \gls{matsim} & \gls{paramics} & \gls{sumo} \\
+		\midrule
+		\rowcolor{black!20} A              & \yep & \yep & \yep & \yep \\
+		                    GUI            & \yep & \yep & \yep & \yep \\
+		\rowcolor{black!20} LPP            & \yep & \nop & \nop & \yep \\
+                            LPC            & \yep & \nop & \yep & \yep \\
+		\rowcolor{black!20} LPJ            & \nop & \yep & \nop & \nop \\
+		                    \acrshort{oss} & \nop & \yep & \nop & \yep \\
+		\rowcolor{black!20} GNUL           & \yep & \yep & \nop & \yep \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+Salvo en el caso del paquete de simulación \gls{paramics}, el resto de los entornos están prácticamente igualados en las características. Llegados a este punto, hemos decidido prescindir de los paquetes que no cumplen la condición de \acrshort{oss} para asegurarnos de que, en caso de errores en la funcionalidades, disponemos del código fuente para solventarlas.
+
+De los dos simuladores restantes, \gls{matsim} y \gls{sumo}\index{SUMO}, se ha realizado una implementación para comprobar la facilidad de desarrollo en ambos entornos. Tras la implementación, ha quedado patente que \gls{sumo}\index{SUMO} ofrece más versatilidad debido a que permite el acceso en tiempo real a la simulación a través de un proyecto externo (en nuestro caso, escrito en \gls{python}), mientras que \gls{matsim} requiere de una configuración de entorno para poner en marcha el proyecto y una recompilación de los fuentes para poder incorporar las modificaciones.
 
 \section{Entorno seleccionado: \gls{sumo}\index{SUMO}}
 
@@ -249,7 +337,7 @@ En definitiva, el simulador que más se adapta a nuestras necesidades y el que s
 	\label{fig:sumo-simulator}
 \end{figure}
 
-\gls{sumo}\index{SUMO} es un entorno de microsimulación licenciado bajo la \gls{gpl}\index{GNU General Public License} versión $3$.$0$ y desarrollado por el instituto de sistemas de transporte del Centro Aeroespacial Alemán. Implementa un modelo discreto en el tiempo y continuo en el espacio.
+\gls{sumo}\index{SUMO} es un entorno de micro-simulación\index{micro-simulación} licenciado bajo la \gls{gpl}\index{GNU General Public License} versión $3$.$0$ y desarrollado por el instituto de sistemas de transporte del Centro Aeroespacial Alemán. Implementa un modelo discreto en el tiempo y continuo en el espacio.
 
 Además de simulación clásica, incorpora una interfaz gráfica (se puede ver una captura de la vista gráfica en la figura~\ref{fig:sumo-simulator}) donde se puede ver el comportamiento de cada vehículo durante la simulación. Es interesante para obtener de un vistazo información acerca del funcionamiento del modelo en concreto a controlar. Otras de las características que el simulador ofrece son las siguientes:
 
@@ -260,15 +348,62 @@ Además de simulación clásica, incorpora una interfaz gráfica (se puede ver u
 	\item Diferentes tipologías de vehículos y de carreteras, cada una con diferentes carriles y éstas con diferentes subdivisiones de subcarriles (diseño conceptual para permitir modelar comportamientos en vehículos como motocicletas y similares).
 \end{itemize}
 
-\gls{sumo}\index{SUMO} usa como modelo por defecto de \textit{\gls{car-following}\index{car-following}} el modelo de Stefan Krauß\cite{jin2016evaluation}, debido a su simplicidad y su velocidad de ejecución y como modelo de cambio de carril\index{lane-change} el modelo de Gipps \cite{krajzewicz2002sumo}. No obstante, se encuentran para seleccionar otros modelos como el \gls{idm}, el modelo de tres fases de Kerner \cite{kerner2008testbed} y el modelo de Wiedemann \cite{wiedemann1974simulation}.
-
 Al estar licenciado bajo la licencia \gls{gpl}\index{GNU General Public License}, su distribución implica a su vez la distribución de su código fuente. Esto permite la modificación de su comportamiento y el desarrollo de nuevos modelos integrados dentro del simulador. Sin embargo nosotros no haremos uso de esta característica, sino que usaremos \gls{sumo}\index{SUMO} como aplicación servidor y el módulo \gls{traci}\index{TraCI} como aplicación cliente desde donde gestionar todos los aspectos de la simulación.
+
+\subsection{Modelos de conductor}
+
+\gls{sumo}\index{SUMO} usa como modelo por defecto de \textit{\gls{car-following}\index{car-following}} el modelo de Stefan Krauß \cite{krauss1998microscopic}, debido a su simplicidad y su velocidad de ejecución. Como modelo de cambio de carril, usa el modelo de Gipps \cite{Gipps1986}.
+
+Además de estos modelos, se encuentran para seleccionar otros modelos longitudinales y laterales, como por ejemplo el \gls{idm}, el modelo de tres fases de Kerner \cite{kerner2008testbed} y el modelo de Wiedemann \cite{wiedemann1974simulation}.
+
+\paragraph{Modelo longitudinal de Krauß}
+
+Se trata de un modelo estocástico basado en un esquema discreto de \textit{estímulo}$\rightarrow$\textit{respuesta} donde la velocidad en cada paso de tiempo se calcula de la forma que expresa la ecuación~\ref{eq:krauss-model}.
+
+\begin{equation}
+	v_{t+1} = max(0, v_{t+1}^{d} - X \epsilon a_t)
+	\label{eq:krauss-model}
+\end{equation}
+
+En ésta, la velocidad deseada $v_{t+1}$ se calcula a partir de la velocidad deseada $v_{t+1}^{d}$ menos un valor que depende de la \textit{imperfección} del conductor $\epsilon$ (cuanto mayor es, más errático es el movimiento), la aceleración $a$ del vehículo y un valor aleatorio $X \sim \mathcal{N}(0, 1)$.
+
+El valor de la velocidad deseada $v_{t+1}^{d}$ se calcula de acuerdo a la ecuación~\ref{eq:krauss-model-desired-speed}.
+
+\begin{equation}
+	v_{t+1}^{d} = min(v_{t+1}^{s}, v_t + a, v_{max})
+	\label{eq:krauss-model-desired-speed}
+\end{equation}
+
+Donde $v_{t+1}^{s}$ es la velocidad segura en función de la diferencia de velocidad con el vehículo delantero y $v_{max}$ la velocidad máxima permitida en la vía.
+
+Por último, para el cálculo de la velocidad segura $v_{t+1}^{s}$ se usa la ecuación~\ref{eq:krauss-model-safe-speed}.
+
+\begin{equation}
+	v_{t+1}^{s} = v_{t-1}^l + \frac{d - v_{t-1}^l \tau}{\frac{v_{t-1}}{2b + \tau}}
+	\label{eq:krauss-model-safe-speed}
+\end{equation}
+
+En ésta, $b$ es la deceleración del vehículo, $d$ la distancia de separación entre el vehículo actual y el líder, $v_{t-1}$ y $v_{t-1}^l$ la velocidad en el instante ${t-1}$ de los vehículos actual y líder respectivamente, y $\tau \in [0, \inf)]$ el tiempo de reacción del modelo.
+
+\paragraph{Modelo de cambio de carril de Gipps}
+
+El cálculo de cambio de carril de Gipps \cite{Gipps1986} se basa en la ejecución de la siguiente secuencia de acciones:
+
+\begin{enumerate}
+	\item ¿Es \textbf{necesario} cambiar de carril?
+	\item ¿Es \textbf{deseable} cambiar de carril?
+	\item ¿Es \textbf{posible} cambiar de carril?
+\end{enumerate}
+
+El artículo dedicado al modelo de control lateral es muy extenso como para reproducir el contenido aquí. Basta mencionar que cada una de las acciones se basa en un cálculo sobre un indicador principal: la \textbf{distancia} a finales de carril o a desvíos en intersecciones (\textbf{necesidad} de cambio de carril), la diferencia entre la \textbf{velocidad} deseada y velocidad posible (\textbf{deseo} de cambio de carril) y \textbf{hueco} existente en carriles laterales (\textbf{posibilidad} de cambio de carril).
+
+Un detalle que hay que tener en cuenta es el siguiente: el modelo de cambio de carril usado en \gls{sumo}\index{SUMO} es el de Krauß \cite{krauss1998microscopic}, pero el modelo de cambio de carril se basa en las ecuaciones de su propio modelo longitudinal \cite{Gipps1981}. Sin embargo, en el propio artículo indican que aunque base sus ecuaciones en el modelo anterior, la única imposición sobre el modelo longitudinal es que el incremento de velocidad esté acotado superiormente, restricción que se cumple en el modelo de Krauß (ver ecuación{\ref{eq:krauss-model-desired-speed}).
 
 \subsection{La interfaz \gls{traci}\index{TraCI}}
 
-\gls{traci}\index{TraCI} \cite{Wegener2008} es tanto el nombre del protocolo de comunicación expuesto por \gls{sumo}\index{SUMO} en su versión servidor como el nombre de la librería escrita en \gls{python}\index{Python} para interactuar con el mismo.
+\gls{traci}\index{TraCI} \cite{Wegener2008} es tanto el nombre del protocolo de comunicación expuesto por \gls{sumo}\index{SUMO} en su versión servidor como el nombre de la librería escrita en \gls{python}\index{Python} para interactuar con el mismo. Como protocolo, la interacción a través de cliente/servidor comienza especificando a \gls{sumo}\index{SUMO} que se desea trabajar de este modo. En ese momento, \gls{sumo}\index{SUMO} se inicializa en modo servidor dejando abierto un puerto TCP para la conexión del cliente (figura~\ref{fig:traci-messages} \subref{fig:traci-messages-a}).
 
-\begin{figure}[!b]
+\begin{figure}
 	\centering
 	\subfloat[Conexión.\label{fig:traci-messages-a}]{
 		\includegraphics[width=0.31\linewidth]{sequence-diagram-traci-sumo-connect}
@@ -283,16 +418,11 @@ Al estar licenciado bajo la licencia \gls{gpl}\index{GNU General Public License}
 	\label{fig:traci-messages}
 \end{figure}
 
-Como protocolo, la interacción a través de cliente/servidor comienza especificando a \gls{sumo}\index{SUMO} que se desea trabajar de este modo. En ese momento, \gls{sumo}\index{SUMO} se inicializa en modo servidor dejando abierto un puerto TCP para la conexión del cliente (figura~\ref{fig:traci-messages} \subref{fig:traci-messages-a}).
-
 Una vez el servidor se encuentra en ese estado, el cliente se conecta enviando una señal de conexión indicando que él se encargará de controlar la simulación. Desde ese momento y hasta que el cliente no envíe una señal de desconexión (figura~\ref{fig:traci-messages} \subref{fig:traci-messages-c}), el cliente podrá enviar y recibir todos los mensajes que desee para capturar información y modificar los detalles de la simulación, incluido el mensaje \textit{step}, que es el encargado de avanzar un paso en la simulación (figura~\ref{fig:traci-messages} \subref{fig:traci-messages-b}).
 
-Como librería, \gls{traci}\index{TraCI} es un módulo desarrollado en \gls{python}\index{Python} $2$.$7$. Aunque es posible trabajar directamente con el protocolo de comunicación a través de sockets, una librería abstrae todos los detalles dando una interfaz de trabajo más clara y sencilla. Por ello, aunque no se usarán en la tesis, existen otras dos implementaciones que merece la pena mencionar:
+Como librería, \gls{traci}\index{TraCI} es un módulo desarrollado en \gls{python}\index{Python} $2$.$7$. Aunque es posible trabajar directamentea través de sockets, una librería abstrae todos los detalles dando una interfaz de trabajo más clara y sencilla.
 
-\begin{itemize}
-	\item \textbf{TraCI4J}\sidenote{\url{https://github.com/egueli/TraCI4J}.}. El homólogo de la librería de abstracción de \gls{python}\index{Python} pero para el lenguaje Java. Está desarrollada por un tercero.
-	\item \textbf{\gls{traas}\index{TraaS}}\sidenote{\url{http://traas.sourceforge.net/cms/}.}. Una plataforma ofrecida como SaaS que proporciona una interfaz de servicios web bajo protocolo SOAP para abstraer el protocolo en mensajes HTTP (figura~\ref{fig:traas}).
-\end{itemize}
+Aunque no se usará en esta tesis, existe una implementación que provee de una capa de abstracción por encima: \gls{traas}\index{TraaS}\sidenote{\url{http://traas.sourceforge.net/cms/}.}. Esta plataforma ofrece toda la funcionalidad de \gls{traci}\index{TraCI} como SaaS, proporcionando una interfaz de servicios Web bajo protocolo SOAP para abstraer el protocolo en mensajes HTTP (figura~\ref{fig:traas}).
 
 \begin{figure}
 	\centering
