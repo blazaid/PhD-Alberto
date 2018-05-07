@@ -164,25 +164,23 @@ Este proceso se ha repetido con cada uno de los conductores para cada uno de los
 
 Existen una serie de variables cuya extracción directa del entorno no es directa. Ésta es una de las razones por las que se ha capturado con la cámara la visión del conductor en el recorrido.
 
-El proceso de obtención se ha realizado en un postproceso haciendo uso de las imágenes obtenidas durante los recorridos, obteniendo las marcas temporales de las variables a capturar tras el visionado de las imágenes capturadas por la cámara. Estas variables son las siguientes:
+El proceso de obtención se ha realizado en un post-proceso haciendo uso de las imágenes obtenidas durante los recorridos, obteniendo las marcas temporales de las variables a capturar tras el visionado de las imágenes capturadas por la cámara. Estas variables son:
 
 \paragraph{Cambio de carril}
 
-Se han identificado los cambios de carril como $+1$ si es hacia la izquierda o $-1$ si es hacia la derecha (el resto $0$). Las marcas temporales de los cambios son aquellas desde el comienzo de la maniobra del cambio de carril\index{lane-change} hasta que el vehículo ha llegado a la mitad del cambio.
+Se han identificado los cambios de carril como $+1$ si es hacia la izquierda o $-1$ si es hacia la derecha (el resto $0$). Las marcas temporales de los cambios son aquellas desde el comienzo de la maniobra hasta que el vehículo ha llegado a la mitad del cambio.
 
 \paragraph{Distancia y estado de semáforos}
 
-La distancia al semáforo ha sido obtenida a partir de la distancia euclídea entre la geoposición del origen de coordenadas y la del semáforo, por lo que es esperable cierto margen de error. Los estados se han extraído directamente del visionado de las imágenes, tomando este los valores $g$, $y$ y $r$ dependiendo de si el semáforo se encuentra en verde, ámbar o rojo respectivamente.
+La distancia al semáforo ha sido obtenida a partir de la distancia euclídea entre la geoposición del origen de coordenadas y la del semáforo, por lo que es esperable cierto margen de error. Los estados se han extraído directamente del visionado de las imágenes, tomando los valores $g$, $y$ y $r$ dependiendo de si el semáforo se encuentra en verde, ámbar o rojo respectivamente.
 
 \paragraph{Distancia circulable en carriles}
 
-Al igual que con la distancia a los semáforos, ésta se ha calculado a partir de la distancia euclídea de la geoposición del origen de coordenadas a los puntos a partir de los cuales no se puede continuar por el recorrido especificado. Las distancias obtenidas se corresponden al carril izquierdo, al actual y al derecho.
+Al igual que con la distancia a los semáforos, ésta se ha calculado a partir de la distancia euclídea entre el origen de coordenadas y los puntos a partir de los cuales no se puede continuar por el recorrido especificado. Las distancias obtenidas se corresponden al carril izquierdo, al actual y al derecho.
 
 \paragraph{Distancia al obstáculo más cercano}
 
-Para el cálculo de esta variable, se ha procedido a capturar una región de interés de cada una de las nubes de puntos dentro de la cual identificar los posibles obstáculos existentes. Por la posición del \acrshort{lidar}\index{LiDAR} se ha decidido que ésta está acotada entre los intervalos $(0.35, 35)$, $(-1, 1)$ y $(-1.5, 0.5)$ para los ejes $X$, $Y$ y $Z$ respectivamente.
-
-Sobre la nube de puntos resultante se ha realizado un proceso de clusterización\index{clustering} aplicando el algoritmo DBSCAN\sidenote{
+Se ha procedido a capturar una región de interés de cada una de las nubes de puntos dentro de la cual identificar los posibles obstáculos. Por la posición del \acrshort{lidar}\index{LiDAR} se ha decidido que ésta está acotada entre los intervalos $(0.35, 35)$, $(-1, 1)$ y $(-1.5, 0.5)$ para los ejes $X$, $Y$ y $Z$ respectivamente. Sobre la nube de puntos resultante se ha realizado un proceso de clusterización\index{clustering} aplicando el algoritmo DBSCAN\sidenote{
 	DBSCAN\index{DBSCAN} \cite{ester1996density} es un algoritmo de clusterización\index{clustering} que identifica un número variable de conjuntos en un espacio $n$-dimensional.
 	
 	Funciona a partir de la agregación de puntos en función de sus parámetros $\epsilon$ y $\mu$. $\epsilon$ es la distancia mínima a la que se deben encontrar dos puntos para considerarse pertenecientes al mismo clúster mientras que $\mu$ determina el número mínimo de puntos que debe tener un clúster para ser considerado como tal.

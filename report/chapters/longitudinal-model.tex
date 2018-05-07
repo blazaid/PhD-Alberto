@@ -93,25 +93,25 @@ Concretamente, los $250000$ epochs de entrenamiento han sido divididos en $250$ 
 	\item $200$ epochs ajustando sólo las variables de las particiones borrosas con una tasa de entrenamiento de $0.001$.
 \end{enumerate}
 
-Empíricamente (y para este problema en concreto) se ha podido observar que el entrenamiento realizado de esta manera hace que el \ac{rmse} descienda más rápido en el mismo número de iteraciones.
+Empíricamente (y para este problema en concreto) se ha podido observar que el entrenamiento realizado de esta manera hace que el \ac{rmse} descienda más rápido en el mismo número de iteraciones. Se puede observar que la arquitectura $FCS_1$ es la que mejor error en test ha alcanzado.
 
-Se puede observar que la arquitectura $FCS_1$ es la que mejor error en test ha alcanzado. En las pruebas realizadas para el ajuste de controladores se ha observado además que los errores en entrenamiento y en test tienden a ser similares cuando los problemas son representables con un \acrlongsp{fcs}\index{sistema de control borroso}.
+En las pruebas realizadas para el ajuste de controladores se ha observado además que los errores en entrenamiento y en test tienden a ser similares cuando los problemas son representables con un \acrlongsp{fcs}\index{sistema de control borroso}.
 
-Éste será por tanto, el modelo seleccionado para la comparativa final. Las funciones de pertenencia ajustadas se muestran en la Figura~\ref{fig:adjusted-fuzzy-partitions} contrastadas con las versiones de antes de comenzar el entrenamiento, donde $f_i$ se corresponde con la función de pertenencia que caracteriza al conjunto borroso $i$-ésimo de la variable. Las reglas, sin embargo, son muy numerosas para ser incluidas en el texto, ya que la mayoría de reglas posibles en el sistema (aproximadamente $60$) tienen un peso asociado de más de $0.5$.
+Éste será el modelo seleccionado para la comparativa final. Las funciones de pertenencia ajustadas se muestran en la Figura~\ref{fig:adjusted-fuzzy-partitions} contrastadas con las versiones del inicio del entrenamiento, donde $f_i$ se corresponde con la función de pertenencia del conjunto borroso $i$-ésimo de la variable. Las reglas son muy numerosas para ser incluidas en el texto, ya que la mayoría de reglas posibles en el sistema (aproximadamente $60$) tienen un peso asociado de más de $0.5$.
 
 \begin{figure}
 	\centering
-	\subfloat[Distancia a líder]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-leader-distance-variable-partition}}\qquad
-	\subfloat[Distancia a siguiente semáforo]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-next-tls-distance-variable-partition}}\qquad
-	\subfloat[Velocidad]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-speed-variable-partition}}\qquad
-	\subfloat[Velocidad a líder]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-speed-to-leader-variable-partition}}
+	\subfloat[Distancia a líder (\SI{0}{\meter} a \SI{50}{\meter} norm.)]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-leader-distance-variable-partition}}\qquad
+	\subfloat[Distancia a siguiente semáforo  (\SI{0}{\meter} a \SI{100}{\meter} norm.)]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-next-tls-distance-variable-partition}}\qquad
+	\subfloat[Velocidad (\SI{0}{\meter\per\second} a \SI{20}{\meter\per\second})]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-speed-variable-partition}}\qquad
+	\subfloat[Velocidad a líder \SI{-40}{\meter\per\second} a \SI{40}{\meter\per\second})]{\includegraphics[width=.45\textwidth]{lm-fcs-best-architecture-speed-to-leader-variable-partition}}
 	\caption[Particiones borrosas después de la operación de ajuste en el modelo longitudinal basado en \acrshort{fcs}]{Particiones borrosas después de la operación de ajuste en el modelo longitudinal basado en \acrshort{fcs}.}
 	\label{fig:adjusted-fuzzy-partitions}
 \end{figure}
 
 Las funciones de pertenencia correspondientes al estado del semáforo no se incluyen ya que no se vieron modificadas en ningún entrenamiento. Después de todo, estas variables eran binarias, y las particiones borrosas se inicializan de tal manera que dichos valores siempre alcanzan un valor de pertenencia $1$.
 
-Un detalle que merece la pena destacar es el aprendizaje de la variable lingüística \textit{Velocidad a Líder}. En todos los entrenamientos conducidos con las arquitecturas de la Tabla~\ref{tbl:cf-fcs-architectures} el comportamiento ha sido el mismo, es decir, que un único conjunto difuso cubra todo el dominio de la variable. Además, todas las reglas de activación han tenido dicho conjunto en cuenta, lo que da indicios de que dicha variable tiene un efecto mínimo o nulo sobre el comportamiento longitudinal. Sin embargo, de acuerdo a la literatura, prácticamente todos los modelos se basan en la diferencia de velocidad entre vehículos (extraída empíricamente), por lo que la explicación no puede ser esa. La explicación más plausible que podemos encontrar a dicho efecto es que, al tratarse de un entorno urbano, las velocidades que tratamos son muy bajas en comparación con las que se trabaja en este tipo de modelos, y por tanto, la diferencia de velocidades no son un factor determinante en comparación con el resto de variables.
+Un detalle que merece la pena destacar es el aprendizaje de la variable lingüística \textit{Velocidad a Líder}. En todos los entrenamientos conducidos con las arquitecturas de la Tabla~\ref{tbl:cf-fcs-architectures} el comportamiento ha sido el mismo: un único conjunto difuso cubre todo el dominio de la variable y todas las reglas de activación han tenido dicho conjunto en cuenta. Esto da indicios de que dicha variable tiene un efecto mínimo o nulo sobre el comportamiento longitudinal, aunque esto contradice a prácticamente todos los modelos de la literatura consultados, por lo que la explicación no puede ser esa. La razón más plausible que podemos encontrar a dicho efecto es que, al tratarse de un entorno urbano, las velocidades que tratamos son muy bajas en comparación con las que se trabaja en este tipo de modelos, y por tanto, la diferencia de velocidades no son un factor determinante en comparación con el resto de variables.
 
 En la Figura~\ref{fig:fcs-test-comparisons} se muestran los perfiles de la aceleración estimada por los controladores frente la aceleración real en cada momento. 
 
@@ -127,9 +127,7 @@ En el detalle podemos ver cómo se ajusta el controlador con menor error en test
 
 \section{Modelo basado en \acrlongplsp{mlp}\index{perceptron multicapa}}
 
-Para determinar el modelo óptimo de \acrlongsp{mlp}\index{perceptron multicapa} en comportamiento longitudinal, se han realizado entrenamientos sobre arquitecturas con diferente cantidad de neuronas y capas ocultas.
-
-Las arquitecturas más ilustrativas de todas las probadas se resumen en la tabla~\ref{tbl:cf-mlp-architectures}.
+Para determinar el modelo óptimo de \acrlongsp{mlp}\index{perceptron multicapa} en comportamiento longitudinal, se han realizado entrenamientos sobre arquitecturas con diferente cantidad de neuronas y capas ocultas. Las arquitecturas más ilustrativas de todas las probadas se resumen en la tabla~\ref{tbl:cf-mlp-architectures}.
 
 \begin{table*}
 	\centering
@@ -150,7 +148,7 @@ Las arquitecturas más ilustrativas de todas las probadas se resumen en la tabla
 
 El modelo de funciones de activación que se ha utilizado es de tipo tangente hiperbólica en todas las neuronas salvo en la última, que se ha utilizado una activación lineal. En pruebas previas a la selección de estas funciones de activación se han utilizado también funciones de activación de tipo \acrshort{relu}\index{ReLU}, pero las tasas de error tras el entrenamiento eran notablemente más altas por lo que se ha optado al final por el uso de activación basada en tangente hiperbólica. Los pesos de la red han sido inicializados con una muestra aleatoria uniforme de valores reales en el intervalo $(-0.25, 0.25)$.
 
-La Figura~\ref{fig:lm-mlp-rmse-all-comparisons} muestra la evolución del \gls{rmse} durante el proceso de entrenamiento. También se ilustra el error de test durante el mismo, aunque éste no se ha utilizado para decidir las arquitecturas y es simplemente informativo.
+La Figura~\ref{fig:lm-mlp-rmse-all-comparisons} muestra la evolución del \gls{rmse} durante el proceso de entrenamiento. También se ilustra el error de test, aunque éste no se ha utilizado para decidir las arquitecturas.
 
 \begin{figure}
 	\centering
@@ -162,7 +160,7 @@ La Figura~\ref{fig:lm-mlp-rmse-all-comparisons} muestra la evolución del \gls{r
 
 Estos errores se encuentran entre los \SI{0.05}{\metre\per\square\second} y los \SI{0.07}{\metre\per\square\second}, lo cual consideramos que es una aproximación aceptable. Una particularidad del problema ha sido la inestabilidad de los entrenamientos, esto es, la alta sensibilidad a los valores de inicialización de los parámetros. La intuición tras ver la evolución de los entrenamientos es que la función de error sufre de muchos mínimos locales o mesetas.
 
-Una visión de detalle del ajuste de estas arquitecturas al conjunto de test se puede ver en la figura~\ref{fig:cf-mlp-test-comparisons}, donde se muestra el perfil de aceleración del conjunto de test y los perfiles de aceleración de las redes entrenadas.
+Una visión de detalle del ajuste de estas arquitecturas al conjunto de test se observa en la Figura~\ref{fig:cf-mlp-test-comparisons}, con el perfil de aceleración del conjunto de test y los perfiles de aceleración de las redes entrenadas.
 
 \begin{figure}
 	\centering
@@ -205,9 +203,7 @@ En la Figura~\ref{fig:lm-specific-training-validation-and-test-comparison} se mu
 	\label{fig:lm-specific-training-validation-and-test-comparison}
 \end{figure}
 
-Se puede observar que el error en test de los sujetos es ligeramente mayor que el del conjunto global. Esto se puede explicar por la mayor capacidad de generalización de $S_A$ al haber sido entrenado con un conjunto de datos mayor.
-
-Los errores se resumen en la Tabla~\ref{tbl:lm-specific-rmse}.
+Se puede observar que el error en test de los sujetos es ligeramente mayor que el del conjunto global. Esto se puede explicar por la mayor capacidad de generalización de $S_A$ al haber sido entrenado con un conjunto de datos mayor. Los errores se resumen en la Tabla~\ref{tbl:lm-specific-rmse}.
 
 \begin{table}
 	\centering
@@ -226,11 +222,11 @@ Los errores se resumen en la Tabla~\ref{tbl:lm-specific-rmse}.
 	\end{tabularx}
 \end{table}
 
-Los resultados parecen sugerir que los errores específicos se mantienen aproximadamente dentro del mismo rango de error que el modelo global.
+Los resultados parecen sugerir que los errores específicos se mantienen aproximadamente dentro del mismo rango de error que el modelo global. Para verificar que esta topología es capaz de capturar las diferencias entre conductores, comparamos los perfiles de aceleración de los conductores en la Figura~\ref{fig:lm-subjects-comparison}.
 
-Para verificar que esta topología es capaz de capturar las diferencias entre conductores, podemos comprobar los perfiles de aceleración específicos de los conductores en la Figura~\ref{fig:lm-subjects-comparison}.
+En ella se muestra cada perfil de modelo sobre cada uno de los perfiles reales. Podemos observar que, para cada perfil de aceleración, los más similares son los de sus respectivos modelos. En la Tabla~\ref{tbl:lm-subjects-comparison} se describen los \acrshort{rmse}\index{RMSE} cruzados para de cada uno de los conductores.
 
-\begin{figure}
+\begin{figure}[t]
 	\centering
 	\subfloat[Sujeto $S_1$]{\includegraphics[width=\textwidth]{lm-subjects-comparison-with-edgar-acceleration-profiles}}\qquad
 	\subfloat[Sujeto $S_2$]{\includegraphics[width=\textwidth]{lm-subjects-comparison-with-jj-acceleration-profiles}}\qquad
@@ -238,8 +234,6 @@ Para verificar que esta topología es capaz de capturar las diferencias entre co
 	\caption[Diferencia entre los perfiles de aceleración para los diferentes sujetos]{Diferencia entre los perfiles de aceleración para los diferentes sujetos.}
 	\label{fig:lm-subjects-comparison}
 \end{figure}
-
-En la figura se muestra gráficamente el perfil de aceleración de cada uno de los conductores sobre cada uno de los perfiles reales. Podemos observar que, para cada uno de los perfiles de aceleración, los de los sujetos originales se aproximan más a sus respectivos perfiles que los del resto. En la Tabla~\ref{tbl:lm-subjects-comparison} se describen los \acrshort{rmse}\index{RMSE} cruzados para de cada uno de los conductores.
 
 \begin{table}
 	\centering
@@ -256,6 +250,4 @@ En la figura se muestra gráficamente el perfil de aceleración de cada uno de l
 	\end{tabularx}
 \end{table}
 
-Se observa que el \acrshort{rmse}\index{RMSE} es menor cuando el modelo de conductor se aplica sobre los datos del conjunto de test de sus respectivos conductores.
-
-Estos modelos basados en la arquitectura $MLP_2$ serán los comportamientos longitudinales de los sujetos en el simulador. Veremos su desempeño en el capítulo \nameref{ch:simulation-implementation}.
+Se observa que el \acrshort{rmse}\index{RMSE} es menor cuando el modelo de conductor se aplica sobre los datos del conjunto de test de sus respectivos conductores. Estos modelos basados en la arquitectura $MLP_2$ serán los comportamientos longitudinales de los sujetos en el simulador. Veremos su desempeño en el capítulo \nameref{ch:simulation-implementation}.
