@@ -186,13 +186,15 @@ Las mejores arquitecturas de ambos modelos han sido la $MLP_2$ para los \acrlong
 	\label{fig:cf-comparison-between-best-mlp-and-fcs-architecture}
 \end{figure}
 
-Aunque el modelo basado en \acrlongplsp{fcs}\index{sistema de control borroso} arroja un error bajo en test, y además tiende a ajustarse al perfil de aceleración, parece que el problema es suficientemente complejo como para no poder representarse como un simple \acrlongsp{fcs}\index{sistema de control borroso}.
+Aunque el modelo arroja un error bajo en test, y además tiende a ajustarse al perfil de aceleración, parece que el problema es suficientemente complejo como para no poder representarse como un simple \acrlongsp{fcs}\index{sistema de control borroso}.
 
-Además, el error arrojado por el \acrlongsp{mlp}\index{perceptron multicapa} es sustancialmente menor y, por tanto, la arquitectura elegida para el modelo longitudinal será la $MLP_2$.
+Además, el error arrojado por el \acrlongsp{mlp}\index{perceptron multicapa} es sustancialmente menor.
+
+Los resultados sugieren por tanto que la arquitectura elegida para el modelo longitudinal será la $MLP_2$.
 
 \section{Modelos longitudinales específicos}
 
-La arquitectura seleccionada se ha usado para generar los modelos de cada uno de los conductores por separado para comprobar que (i) los errores y precisiones se mantienen en el orden del modelo global, y (ii) los modelos capturan las particularidades de cada sujeto de estudio.
+La arquitectura seleccionada ha sido usada para generar los modelos de cada uno de los conductores por separado para comprobar que (i) los errores y precisiones se mantienen en el orden del modelo global, y (ii) capturan las particularidades de cada sujeto de estudio.
 
 En la Figura~\ref{fig:lm-specific-training-validation-and-test-comparison} se muestra la evolución del \gls{rmse}\index{RMSE} en test para cada uno de los sujetos tras entrenar los modelos de arquitectura $MLP_2$ con los datos de los sujetos.
 
@@ -205,7 +207,7 @@ En la Figura~\ref{fig:lm-specific-training-validation-and-test-comparison} se mu
 
 Se puede observar que el error en test de los sujetos es ligeramente mayor que el del conjunto global. Esto se puede explicar por la mayor capacidad de generalización de $S_A$ al haber sido entrenado con un conjunto de datos mayor.
 
-Los errores se resumen en la Tabla~\ref{tbl:lm-specific-rmse}. Sin embargo, se mantienen aproximadamente dentro del mismo rango de error que el modelo global.
+Los errores se resumen en la Tabla~\ref{tbl:lm-specific-rmse}.
 
 \begin{table}
 	\centering
@@ -223,6 +225,8 @@ Los errores se resumen en la Tabla~\ref{tbl:lm-specific-rmse}. Sin embargo, se m
 		\bottomrule
 	\end{tabularx}
 \end{table}
+
+Los resultados parecen sugerir que los errores específicos se mantienen aproximadamente dentro del mismo rango de error que el modelo global.
 
 Para verificar que esta topología es capaz de capturar las diferencias entre conductores, podemos comprobar los perfiles de aceleración específicos de los conductores en la Figura~\ref{fig:lm-subjects-comparison}.
 

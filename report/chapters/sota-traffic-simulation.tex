@@ -26,7 +26,7 @@ Los aspectos simulables y medibles del problema del tráfico son muy diversos (F
 \begin{figure}
 	\centering
 	\includegraphics{how-to-simulate-traffic}
-	\caption[Aspectos medibles del tráfico]{Los aspectos medibles del problema del tráfico son muy diversos, y dependen del nivel de granularidad (complejidad) al que se quiere llegar, de qué queremos medir y de cómo lo queremos hacer.}
+	\caption[Aspectos medibles del tráfico]{Aspectos medibles del tráfico. Son muy diversos, y dependen del nivel de granularidad (complejidad) al que se quiere llegar, de qué queremos medir y de cómo lo queremos hacer.}
 	\label{fig:how-to-simulate-traffic}
 \end{figure}
 
@@ -63,7 +63,7 @@ Aunque ésta es la categorización típica de modelos, en la literatura aparecen
 
 Los \textbf{submicro-modelos} (también denominados como \textit{nano-modelos} en algunos trabajos) especifican granularidades por debajo del nivel de \enquote{vehículo} o \enquote{peatón}. Por ejemplo, en (\cite{Minderhoud1999}) trabaja a nivel de funcionamiento del control de crucero inteligente de un vehículo en función del entorno del vehículo.
 
-Por otro lado los \textbf{meso-simuladores} nacen para amortiguar los problemas inherentes a la complejidad en los micro-modelos y a la falta de resolución en los macro-modelos. Este tipo de simulador mantiene la representación de vehículo como unidad básica de tráfico, pero agrega dinámicas de tráfico que, de otro modo, aumentarían el consumo de recursos sin aportar información relevante sobre la tarea en la que trabajan.b Los trabajos en la línea de meso-modelos no se basan en una simulación completa a nivel meso, sino que trabajan desde una perspectiva híbrida, como por ejemplo el de \cite{munoz2001integrated} donde utilizan una aproximación meso para reducir el coste computacional de simulaciones micro a una escala muy grande, o el de \cite{casas2011need}, un estudio similar, pero específico para \gls{aimsun}.
+Por otro lado los \textbf{meso-simuladores} nacen para amortiguar los problemas inherentes a la complejidad en los micro-modelos y a la falta de resolución en los macro-modelos. Este tipo de simulador mantiene la representación de vehículo como unidad básica de tráfico, pero agrega dinámicas de tráfico que, de otro modo, aumentarían el consumo de recursos sin aportar información relevante sobre la tarea en la que trabajan.b Los trabajos en la línea de meso-modelos no se basan en una simulación completa a nivel meso, sino que trabajan desde una perspectiva híbrida, como por ejemplo el de \cite{munoz2001integrated} donde utilizan una aproximación meso para reducir el coste computacional de simulaciones micro a una escala muy grande, o el de \cite{casas2011need}, un estudio similar específico para \gls{aimsun}.
 
 Dado que el objetivo de la tesis es la evaluación de modelos de comportamiento de conductores concretos, nos ceñiremos al uso de simuladores que modelen un nivel de granularidad \textbf{micro}.
 
@@ -79,7 +79,7 @@ En el caso de la dimensión \textbf{espacio}, la clasificación diferencia las s
 	\begin{figure}
 		\centering
 		\includegraphics[width=10cm]{cellular-automata-based-sim}
-		\caption[Ejemplo de simulador basado en \acrlongsp{ca}]{Simulador de tráfico basado en \acrlongsp{ca}. El espacio se divide en celdas que pueden estar vacías u ocupadas por un vehículo a una velocidad (más oscuro implica más lento). Concretamente muestra la evolución a lo largo del tiempo del movimiento de un modelo de \textit{\gls{car-following}} de $2$ vehículos donde en eje $x$ representa la posición en la vía y el eje $y$ el momento temporal (iteración) de la vía.}
+		\caption[Ejemplo de simulador basado en \acrlongsp{ca}]{Ejemplo de simulador basado en \acrlongsp{ca}. El espacio se divide en celdas que pueden estar vacías u ocupadas por un vehículo a una velocidad (más oscuro implica más lento). Concretamente muestra la evolución a lo largo del tiempo del movimiento de un modelo de \textit{\gls{car-following}} de $2$ vehículos donde en eje $x$ representa la posición en la vía y el eje $y$ el momento temporal (iteración) de la vía.}
 		\label{fig:cellular-automata-based-sim}
 	\end{figure}
 
@@ -103,7 +103,7 @@ En el caso de la dimensión \textbf{tiempo}, la división se realiza en los mism
 	\begin{figure}
 		\centering
 		\includegraphics{nagel-schreck}
-		\caption[Ejemplo de efecto de ondas de choque en simulación de tipo Nagel-Scherckenberg]{Aparición de retenciones en una autopista de $250$ celdas usando el modelo Nagel-Scherckenberg. La densidad de ocupación es de $50$ coches en la vía, la velocidad máxima es de $5 c/\Delta t$ y la probabilidad de frenada es de $p = 0.5$. Se puede observar en la figura cómo se desplazan las \enquote{olas} del atasco a lo largo de las $100$ iteraciones.}
+		\caption[Ejemplo de efecto de ondas de choque en simulación de tipo Nagel-Scherckenberg]{Ejemplo de efecto de ondas de choque en simulación de tipo Nagel-Scherckenberg. La longitud de la autopista es de $250$ celdas, su densidad de ocupación de $50$ coches en la vía, la velocidad máxima $5 c/\Delta t$ y la probabilidad de frenada es de $p = 0.5$. Se puede observar en la figura cómo se desplazan las \enquote{olas} del atasco a lo largo de las $100$ iteraciones.}
 		\label{fig:nagel-schreck}
 	\end{figure}
 	
@@ -414,7 +414,7 @@ Un detalle que hay que tener en cuenta es el siguiente: el modelo de cambio de c
 	\subfloat[Desconexión.\label{fig:traci-messages-c}]{
 		\includegraphics[width=0.31\linewidth]{sequence-diagram-traci-sumo-disconnect}
 	}
-	\caption[Ejemplo de forma de envío de mensajes a través de TraCI]{\gls{sumo} ofrece la posibilidad de interactuar con la simulación desde cualquier aplicación a través del uso del protocolo \gls{traci}. En la figura podemos ver, de izquierda a derecha, ejemplos de comunicación a través de la interfaz como el \textit{handshake} o inicialización, mensajes de obtención de información y modificación de la misma más una solicitud de avance de paso en la simulación y una señal de finalización de simulación y desconexión.}
+	\caption[Ejemplo de forma de envío de mensajes a través de TraCI]{Ejemplo de forma de envío de mensajes a través de TraCI. \gls{sumo} ofrece la posibilidad de interactuar con la simulación desde cualquier aplicación a través del uso del protocolo \gls{traci}. En la figura podemos ver, de izquierda a derecha, ejemplos de comunicación a través de la interfaz como el \textit{handshake} o inicialización, mensajes de obtención de información y modificación de la misma más una solicitud de avance de paso en la simulación y una señal de finalización de simulación y desconexión.}
 	\label{fig:traci-messages}
 \end{figure}
 
@@ -427,6 +427,6 @@ Aunque no se usará en esta tesis, existe una implementación que provee de una 
 \begin{figure}
 	\centering
 	\includegraphics[width=.7\textwidth]{traas-architecture}
-	\caption[Arquitectura de la plataforma \gls{traas}]{Concepto arquitectural de la plataforma \gls{traas}. La plataforma se conecta como cliente a \gls{sumo} y ofrece un \glsentryshort{api} basado en \glsentryshort{soap} de mensajes que traduce en mensajes del protocolo \gls{traci}, lo que independiza completamente la elección de lenguaje de programación a la vez que abstrae los detalles del protocolo de comunicación.}
+	\caption[Arquitectura de la plataforma \gls{traas}]{Arquitectura de la plataforma \gls{traas}. La plataforma se conecta como cliente a \gls{sumo} y ofrece un \glsentryshort{api} basado en \glsentryshort{soap} de mensajes que traduce en mensajes del protocolo \gls{traci}, lo que independiza completamente la elección de lenguaje de programación a la vez que abstrae los detalles del protocolo de comunicación.}
 	\label{fig:traas}
 \end{figure}
