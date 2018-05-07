@@ -36,7 +36,7 @@ El resultado de la generación de los datasets de entrenamiento y test para todo
 	\centering
 	\caption[Descripción de los conjuntos de datos]{Descripción de los conjuntos de datos para el entrenamiento de los modelos. $CF_{S_A}$ se corresponde con el modelo de conductor global, mientras que cada $CF_{S_i}$ es la porción de datos correspondiente al sujeto $S_i$.}
 	\label{tbl:cf-datasets-description}
-	\begin{tabularx}{\textwidth}{YYYYY}
+	\begin{tabularx}{\textwidth}{cYYYY}
 		\toprule
 		& & & \multicolumn{2}{c}{Tamaño} \\
 		& Entradas & Salidas & Entrenamiento & Test \\
@@ -57,7 +57,7 @@ Se han realizado entrenamientos sobre arquitecturas con diferente número de par
 	\centering
 	\caption[Resumen de las arquitecturas \ac{fcs}\index{sistema de control borroso} para el modelo longitudinal][2em]{Resumen de las arquitecturas seleccionadas. La posición de cada número de la arquitectura indica a qué variable lingüística se refiere (\textit{Distancia al líder}, \textit{Distancia a siguiente TLS}, \textit{TLS en verde}, \textit{TLS en amarillo}, \textit{TLS en rojo}, \textit{Velocidad} y \textit{Velocidad de aproximación al líder} respectivamente). Su valor se corresponde al número de conjuntos borrosos de la partición de cada una de ellas.}
 	\label{tbl:cf-fcs-architectures}
-	\begin{tabularx}{\linewidth}{XXXXXX}
+	\begin{tabularx}{\linewidth}{cYYYYY}
 		\toprule
 		\multirow{2}{*}{} & \multirow{2}{*}{Arquitectura} & \multirow{2}{*}{Epochs} & \multicolumn{3}{c}{RMS}      \\ 
 		& & & Entrenamiento & Validación & Test \\
@@ -135,7 +135,7 @@ Las arquitecturas más ilustrativas de todas las probadas se resumen en la tabla
 	\centering
 	\caption[Resumen de las arquitecturas de \acrlongplsp{mlp} para el modelo longitudinal][2em]{Resumen de las arquitecturas de de \acrlongplsp{mlp} para el modelo longitudinal. La posición de cada número de la topología indica el índice de la capa oculta y su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:cf-mlp-architectures}
-	\begin{tabularx}{\linewidth}{YYYYYY}
+	\begin{tabularx}{\linewidth}{cYYYYY}
 		\toprule
 		\multirow{2}{*}{} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multicolumn{3}{c}{RMS} \\
 		& & & Entrenamiento & Validación & Test \\
@@ -211,7 +211,7 @@ Los errores se resumen en la Tabla~\ref{tbl:lm-specific-rmse}. Sin embargo, se m
 	\centering
 	\caption[Resumen de los valores de \Acrshort{rmse} para los modelos específicos de comportamiento longitudinal]{Resumen de los valores de \Acrshort{rmse} para los modelos específicos de comportamiento longitudinal.}
 	\label{tbl:lm-specific-rmse}
-	\begin{tabularx}{\linewidth}{YYYYYY}
+	\begin{tabularx}{\linewidth}{cYYYYY}
 		\toprule
 		\multirow{2}{*}{} & \multicolumn{3}{c}{\ac{rmse}}      \\ 
 		& Entrenamiento & Validación & Test \\

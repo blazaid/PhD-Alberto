@@ -137,22 +137,17 @@ Comenzaremos definiendo el \textit{momento} $t_i$ como aquel ejemplo situado a $
 	\label{fig:moments-illustration}
 \end{figure}
 
-Los momentos que se tendrán en cuenta en los datasets finales serán $t_0$, $t_10$, $t_20$, correspondientes al momento actual, \SI{1}{\second} anterior y \SI{2}{\second} anteriores respectivamente. Estos valores no son arbitrarios, sino que se han elegido de acuerdo a los experimentos realizados en~\cite{diaz2018modelling}\sidenote{
+Los momentos que se tendrán en cuenta en los datasets finales serán $t_0$, $t_{10}$, $t_{20}$, correspondientes al momento actual, \SI{1}{\second} anterior y \SI{2}{\second} anteriores respectivamente. Estos valores no son arbitrarios, sino que se han elegido de acuerdo a los experimentos realizados en \cite{diaz2018modelling}\sidenote{
 	Dichos experimentos trabajan sobre el proceso de ejecución de cambio de carril\index{lane-change}, donde se asume que la maniobra involucra al córtex visual y al córtex prefrontal. Estos procesos cognitivos tienen un tiempo de respuesta de entre \SI{0.2}{\second} y \SI{1.2}{\second}~\cite{buzsaki2012temporal}.
-}. Además, al incluir tres momentos temporales, ayudamos a los modelos a intuir patrones correspondientes a la primera y segunda derivadas de la posición (velocidad y aceleración).
+}. Además, incluir tres momentos temporales ayuda a los modelos a intuir patrones correspondientes a la primera y segunda derivadas de la posición (velocidad y aceleración).
 
 Tras este ajuste, los conjuntos de datos están finalizados. Sus propiedades quedan descritas en la Tabla~\ref{tbl:lc-datasets-description}.
 
-\section{Modelo basado en \acrlongplsp{mlp}\index{perceptron multicapa}}
-
-Los entrenamientos han sido realizados sobre diferentes topologías, siendo las más representativas las descritas en la tabla~\ref{tbl:lc-mlp-architectures}. La tasa de dropout utilizada en los entrenamientos ha sido de $0.1$.
-
-\begin{table*}[t]
+\begin{table*}
 	\centering
-	\small
-	\caption[Descripción de los conjuntos de datos][1.5em]{Descripción de los conjuntos de datos para el entrenamiento de los modelos. Los datos de entrenamiento incluyen todos los valores generados tras los procesos de \textit{mirroring} y \textit{shaking}.}
+	\caption[Descripción de los conjuntos de datos][2em]{Descripción de los conjuntos de datos para el entrenamiento de los modelos. Los datos de entrenamiento incluyen todos los valores generados tras los procesos de \textit{mirroring} y \textit{shaking}.}
 	\label{tbl:lc-datasets-description}
-	\begin{tabularx}{\linewidth}{YYYYYYYYY}
+	\begin{tabularx}{\linewidth}{cYYYYYYYY}
 		\toprule
 		&          &         & \multicolumn{2}{c}{Tamaño}  & \multicolumn{2}{c}{Cambio carril izda.}  & \multicolumn{2}{c}{Cambio carril dcha.}  \\
 		& Entradas & Salidas & Entrenamiento & Test & Entrenamiento & Test & Entrenamiento & Test \\
@@ -165,12 +160,15 @@ Los entrenamientos han sido realizados sobre diferentes topologías, siendo las 
 	\end{tabularx}
 \end{table*}
 
-\begin{table}
+\section{Modelo basado en \acrlongplsp{mlp}\index{perceptron multicapa}}
+
+Los entrenamientos han sido realizados sobre diferentes topologías, siendo las más representativas las descritas en la tabla~\ref{tbl:lc-mlp-architectures}.
+
+\begin{table*}
 	\centering
-	\small
-	\caption[Resumen de las arquitecturas \acrshort{mlp} para el modelo de cambio de carril]{Resumen de las arquitecturas de \acrlongplsp{mlp} para el modelo de cambio de carril. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
+	\caption[Resumen de las arquitecturas \acrshort{mlp} para el modelo de cambio de carril][1.8em]{Resumen de las arquitecturas de \acrlongplsp{mlp} para el modelo de cambio de carril. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:lc-mlp-architectures}
-	\begin{tabular}{cccccc}
+	\begin{tabularx}{\linewidth}{cYYYYY}
 		\toprule
 		\multirow{2}{*}{} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multicolumn{3}{c}{Precisión} \\
 		& & & Entrenamiento & Validación & Test \\
@@ -179,10 +177,12 @@ Los entrenamientos han sido realizados sobre diferentes topologías, siendo las 
 		$MLP_2$ & $1024, 512, 128$  & $10^5$ & $0.33$ & $0.33$ & $0.33$ \\
 		\rowcolor{black!20} $MLP_3$ & $1024, 512, 256, 128$ & $10^5$ & $0.33$ & $0.33$ & $0.33$ \\
 		\bottomrule
-	\end{tabular}
-\end{table}
+	\end{tabularx}
+\end{table*}
 
-La figura~\ref{fig:lc-mlp-accuracy-comparison} nos muestra la evolución de la precisión alcanzada por los modelos a lo largo del entrenamiento, tanto en entrenamiento como en el posterior test.
+La tasa de \textit{dropout} utilizada en estos experimentos es de $0.1$, es decir, en cada \textit{epoch} mantenemos activas un $90\%$ de las neuronas existentes en toda la arquitectura.
+
+La Figura~\ref{fig:lc-mlp-accuracy-comparison} nos muestra la evolución de la precisión alcanzada por los modelos a lo largo del entrenamiento, tanto en entrenamiento como en el posterior test.
 
 \begin{figure}
 	\centering
@@ -202,14 +202,14 @@ Las arquitecturas de los modelos que mejores resultado han arrojado tras las pru
 	\centering
 	\caption[Resumen de las arquitecturas \acrshort{cnn} para el modelo de cambio de carril][2em]{Resumen de las arquitecturas de \acrlongplsp{cnn} para el modelo de cambio de carril. La posición de cada número de la topología indica la capa, siendo su valor el número de nodos (neuronas) que incluye dicha capa. Las arquitecturas seleccionadas en esta tabla son aquellas consideradas relevantes tras un proceso manual de ensayo y error.}
 	\label{tbl:lc-cnn-architectures}
-	\begin{tabularx}{\linewidth}{YcYYYY}
+	\begin{tabularx}{\linewidth}{ccYYYY}
 		\toprule
 		\multirow{2}{*}{} & \multirow{2}{*}{Topología} & \multirow{2}{*}{Epochs} & \multicolumn{3}{c}{Precisión} \\
 		& & & Entrenamiento & Validación & Test \\
 		\midrule
 		\rowcolor{black!20} $CNN_1$ & c16-4-18-v d128 & $10^5$ & $0.589$ & $0.576$ & $0.573$ \\
-		$CNN_2$ & c64-5-36-v, c256-3-5-v, d256-d128-d16                       & $10^6$ & $0.506$ & $0.531$ & $0.518$ \\
-		\rowcolor{black!20} $CNN_3$ & c16-3-18-v, c32-3-18-v, c64-2-18-v, d128 & $10^6$ & $0.561$ & $0.569$ & $0.554$ \\
+		$CNN_2$ & c64-5-36-v c256-3-5-v d256-d128-d16                       & $10^6$ & $0.506$ & $0.531$ & $0.518$ \\
+		\rowcolor{black!20} $CNN_3$ & c16-3-18-v c32-3-18-v c64-2-18-v d128 & $10^6$ & $0.561$ & $0.569$ & $0.554$ \\
 		\bottomrule
 	\end{tabularx}
 \end{table*}
@@ -304,7 +304,7 @@ La precisión alcanzada en los modelos específicos entrenados con esta arquitec
 	\centering
 	\caption[Precisión alcanzada para los modelos específicos de cambio de carril]{Resumen de los valores de precisión para los modelos específicos de cambio de carril.}
 	\label{tbl:lc-specific-accuracy}
-	\begin{tabularx}{\linewidth}{YYYYYY}
+	\begin{tabularx}{\linewidth}{cYYY}
 		\toprule
 		\multirow{2}{*}{} & \multicolumn{3}{c}{\ac{rmse}}      \\ 
 		& Entrenamiento & Validación & Test \\
@@ -323,7 +323,7 @@ Para comprobar que esta topología es capaz de capturar las diferencias entre c�
 	\centering
 	\caption[Comparación de la precisión para los diferentes modelos de cambio de carril]{Comparación de la precisión para los diferentes modelos de cambio de carril. Las filas se corresponden con los recorridos mientras que las columnas se corresponden con los modelos que se han intentado ajustar a ellas.}
 	\label{tbl:lc-subjects-comparison}
-	\begin{tabularx}{\linewidth}{YYYY}
+	\begin{tabularx}{\linewidth}{cYYY}
 		\toprule
 		& $S_1$ & $S_2$ & $S_3$ \\
 		\midrule
