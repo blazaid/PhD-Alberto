@@ -11,8 +11,6 @@ A series of hypotheses were proposed at the beginning of the present thesis that
 
 H\ref{hyp:first} hypothesis suggested that to apply \acrlongsp{ci} techniques from real driver data provides a way to create more human behavioural patterns. Based on the results obtained, the conclusion is that models can be developed with the proposed technique for incorporate drivers into simulations incorporating non-deductible behaviours from a deterministic model.
 
-La hipótesis~H\ref{hyp:second} proponía, por otro lado, que estas técnicas eran suficientes para modelar un conductor en concreto dentro de entornos simulados. Si bien es cierto que los resultados indican que los modelos generados para conductores diferentes son diferentes entre sí, y que sugieren que los modelos simulados se aproximan a sus modelos reales, concretamente en el caso del modelo lateral creemos que sería necesaria la captura de nuevos parámetros para ajustar mejor este comportamiento lateral.
-
 On the other hand, hypothesis H\ref{hyp:second} suggested that these techniques were sufficient to model drivers in simulated environments. The results indicate that the models are different between different drivers, and that the behavior exhibited in the simulated models tend to mimic the one of the real drivers. But, we believe that it would be needed to capture a new set of parameters to adjust better the lateral behavior, as its results are not as good as they ought to be.
 
 We can conclude therefore that it is possible to incorporate human characteristics into drivers’ models to perform more realistic simulations. However, even we were able to extract a profile from drivers, we consider that this is not enough to be used as an objective comparison between two drivers.
@@ -24,7 +22,6 @@ Still, we are optimistic. We believe that this conclusion is because of the diff
 The routes were designed to minimize the input data variability with certain factors taken into account (e.g. same hour, day of the week, weather, maximum permissible speed, etc) in order to do the drivers data as close as possible, minimizing inaccuracy or biases. The sensors and devices were precisely configured, and their synchronization were established to the minor frequency available, so as to decrease time error between measures.
 
 Traffic data capture is a complex task. Routes are not always predictable due to accidental or non predictable situations and devices are not accurate enough to capture all interesting data. In our case, we consider that:
-
 
 \begin{itemize}
 	\item A 16 layer \acrshort{lidar}\index{LiDAR} is not enough to capture all required characteristics to create a driver model. A \SI{2}{\degree} gap between layers creates \SI{0.5}{\meter} gap from one layer to the next one at \SI{15}{\meter}, making them not appropriate under certain circumstances.
@@ -67,6 +64,14 @@ The application of these techniques in the agents behavior modeling would favor 
 
 \subsection{Different modeling targets}
 
+In this thesis, the main focus is  on the longitudinal and lateral driver's behaviors, without considering specific cases that would be worth exploring separately, such as more or less complex intersections, roundabouts, road junctions, etc.
+
+In addition, passenger cars are not the only vehicles in the traffic system. In general, there is a tendency to pay little attention to heavy vehicles, but their driving and behaviour is very different from that of a passenger car. There are also motorcycles, bicycles and even pedestrians.
+
+Another modeling target different from the usual actors could also be vehicle emissions. Currently, simulators include emission models to simulate how vehicles produce their emissions. The most complete systems (such as \gls{sumo}\index{SUMO}) implement the typologies described in \gls{hbefa}~\cite{de2004modelling}, but they are still models that generalize vehicle typologies and move away from reality. We believe that vehicle emissions could be modelled from their actual data using \acrlong{ci} techniques.
 
 \subsection{\Acrlongpl{rnn}\index{redes neuronales recurrentes}}
 
+This study has been limited to \textit{\idx{feed-forward}} networks, representing the evolution of time as temporal windows of a fixed size. These types of networks do not see beyond their time window, and may not be sufficient for certain models. However, this is a necessary first step to check that it is possible to model the problem.
+
+With this result, the next logical step would be the use of \acrlongpl{rnn}\index{redes neuronales recurrentes} architectures to incorporate the capability to understand the temporal continuity in the data flow perceived by the agent. Perhaps in this way we could capture characteristics such as the temporary perception of approach speeds to obstacles or impatience depending on other factors.

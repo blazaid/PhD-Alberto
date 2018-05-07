@@ -50,7 +50,7 @@ Se ha hecho uso de un vehículo instrumentado, concretamente un Mitsubishi iMiEV
 	\label{fig:instrumented-imiev}
 \end{figure}
 
-Todos los dispositivos con los que se ha instrumentado el vehículo se conectan a un ordenador con sistema operativo GNU/Linux sobre Intel i7-7500U CPU con 16GB de memoria RAM. Al tener estos dispositivos funcionamientos muy diferentes, se ha optado por la creación de una aplicación basada en el framework \Acrfull{ros}, del cual se da una breve visión general en el apéndice~\nameref{ch:ros-overview}.
+Todos los dispositivos con los que se ha instrumentado el vehículo se conectan a un ordenador con sistema operativo Debian \gls{linux} sobre Intel i7-7500U CPU con 16GB de memoria RAM. Al tener estos dispositivos funcionamientos muy diferentes, se ha optado por la creación de una aplicación basada en el framework \Acrfull{ros}, del cual se da una breve visión general en el apéndice~\nameref{ch:ros-overview}.
 
 \subsection{Dispositivos usados para la captura de datos}
 
@@ -218,7 +218,7 @@ Tras obtener todas las variables principales, ya sean directamente de los sensor
 
 \section{Entrenamiento de modelos}
 
-Para los entrenamientos de los modelos se ha utilizado una máquina con procesador Intel\textregistered Core\texttrademark i7-6700K a \SI{4.00}{\giga\Hz} y \SI{16}{\gibi\byte} de memoria. Los entrenamientos se han realizado sobre una \gls{gpu} Titan XP cedida a nuestro grupo de investigación por parte de NVIDIA. El sistema operativo utilizado ha sido un Debian GNU/Linux versión 9.4. 
+Para los entrenamientos de los modelos se ha utilizado una máquina con procesador Intel\textregistered Core\texttrademark i7-6700K a \SI{4.00}{\giga\Hz} y \SI{16}{\gibi\byte} de memoria. Los entrenamientos se han realizado sobre una \gls{gpu} Titan XP cedida a nuestro grupo de investigación por parte de NVIDIA. El sistema operativo utilizado ha sido un Debian \gls{linux} versión 9.4. 
 
 Para cada uno de los submodelos se han probado dos aproximaciones diferentes para comparar sus desempeños en las tareas por separado. Concretamente se han utilizado \acrshortpl{fcs}\index{sistema de control borroso} y \acrshortpl{mlp}\index{perceptrón multicapa} para modelar el comportamiento longitudinal y \acrshortpl{mlp}\index{perceptrón multicapa} y \acrshortpl{cnn}\index{red de convolución} para modelar el comportamiento en cambio de carril\index{lane-change}. La razón de estas elecciones se expone en sus respectivos capítulos.
 
