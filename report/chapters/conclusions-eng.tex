@@ -1,0 +1,72 @@
+\chapter{Conclusions and future lines of research}
+\label{ch:conclusions-eng}
+
+The application of \acrlong{ci} techniques in the \acrshort{its}, and more specifically, in the behavior field is a very promising investigation area. To extract specific behaviors from drivers’ real data can be achieved and their indeterminate factor can be incorporated into neural network based models.
+
+The implications of these findings are diverse. Even with the micro-simulators\index{micro-simulación} limitations, it is possible to model lateral and longitudinal behaviours with sufficient precision from real data in order to declare that those agents behave more human.
+
+\section{Aims pursued}
+
+A series of hypotheses were proposed at the beginning of the present thesis that have been made to establish throughout this thesis.
+
+H\ref{hyp:first} hypothesis suggested that to apply \acrlongsp{ci} techniques from real driver data provides a way to create more human behavioural patterns. Based on the results obtained, the conclusion is that models can be developed with the proposed technique for incorporate drivers into simulations incorporating non-deductible behaviours from a deterministic model.
+
+La hipótesis~H\ref{hyp:second} proponía, por otro lado, que estas técnicas eran suficientes para modelar un conductor en concreto dentro de entornos simulados. Si bien es cierto que los resultados indican que los modelos generados para conductores diferentes son diferentes entre sí, y que sugieren que los modelos simulados se aproximan a sus modelos reales, concretamente en el caso del modelo lateral creemos que sería necesaria la captura de nuevos parámetros para ajustar mejor este comportamiento lateral.
+
+On the other hand, hypothesis H\ref{hyp:second} suggested that these techniques were sufficient to model drivers in simulated environments. The results indicate that the models are different between different drivers, and that the behavior exhibited in the simulated models tend to mimic the one of the real drivers. But, we believe that it would be needed to capture a new set of parameters to adjust better the lateral behavior, as its results are not as good as they ought to be.
+
+We can conclude therefore that it is possible to incorporate human characteristics into drivers’ models to perform more realistic simulations. However, even we were able to extract a profile from drivers, we consider that this is not enough to be used as an objective comparison between two drivers.
+
+Still, we are optimistic. We believe that this conclusion is because of the difficulty to match real and simulated data and the future use of more realistic simulation environments will allow us to compare drivers.
+
+\section{Data, sensors and their usefulness}
+
+The routes were designed to minimize the input data variability with certain factors taken into account (e.g. same hour, day of the week, weather, maximum permissible speed, etc) in order to do the drivers data as close as possible, minimizing inaccuracy or biases. The sensors and devices were precisely configured, and their synchronization were established to the minor frequency available, so as to decrease time error between measures.
+
+Traffic data capture is a complex task. Routes are not always predictable due to accidental or non predictable situations and devices are not accurate enough to capture all interesting data. In our case, we consider that:
+
+
+\begin{itemize}
+	\item A 16 layer \acrshort{lidar}\index{LiDAR} is not enough to capture all required characteristics to create a driver model. A \SI{2}{\degree} gap between layers creates \SI{0.5}{\meter} gap from one layer to the next one at \SI{15}{\meter}, making them not appropriate under certain circumstances.
+	\item The \acrshort{gps} has high precision and an implemented differential correction, but it is risky use it as an only location device and to measure speed in urban environment.
+\end{itemize}
+
+Talking about data, deep maps obtained have proven to be useful to represent an environment, in spite of its low resolution.
+
+\textit{Mirroring} technique is widely used in image recognition. Despite it being justified in this case, it may be counterproductive in the case of the need of collect extra-urban data due to the change of lane could be dependent of the direction of the traffic.
+
+On the other hand, the \textit{shaking} technique has been extremely useful when generating artificial data and it does not suffer from the problem of extra-urban environments like the mirroring technique. We consider that this technique increase data in datasets prone to errors or imprecissions, helping to improve generalization and the obtained results quality.
+
+\section{About \acrlong{ci} techniques}
+
+The used techniques (\acrlong{cnn}\index{red de convolución}, \acrlong{fcs}\index{sistema de control borroso} y \acrlong{mlp}\index{perceptron multicapa}) are heavily depending on data variables and not just on the amount of data. It is no use to measure a variable with no real impact in the results that we want to accomplish. This thesis variables has been selected whether they were present both in real and simulation environments and critic ones have been calculated (e. g. implementing \acrshort{lidar}\index{LiDAR} into a simulator, calculating the distance that the vehicles can travel on lanes).
+
+The application of the gradient descent to adjust a \acrlong{fcs}\index{sistema de control borroso} allow a quick way to find the best controller for a problem. However, the longitudinal model problem cannot be achieved with a controller, at least with the studied variables in the dataset. We believe that increasing obtained data precision and with a new variable set closer to a real environment the models would be better.
+
+Debating the environment data, \acrlongpl{cnn}\index{red de convolución} have demonstrated better performance than \acrlong{mlp}\index{perceptron multicapa}. The environment has been represented as an image, where these networks perform better. In addition to incorporate time window as a channel image, every information is topologically incorporated near its previous moments, so it is expected that this representation would converge faster into a solution. This and the modification of the input data injection into layers after the characteristic extraction leads us to the conclusion that \acrlongpl{cnn}\index{red de convolución} have better classification performance.
+
+We conclude that \acrlongpl{cnn}\index{red de convolución} are extremely efficient modelling events where their time window are close enough for their patterns to slightly scroll in tasks where time and space topology are importants. They improve the precision and the characterization ability of those in \acrlong{mlp}\index{perceptron multicapa}.
+
+\section{About the simulation environment}
+
+\gls{sumo}\index{SUMO} is a very powerful simulation environment to recreate complex traffic scenarios. However, to act like this, it has to simplify other aspects. The realism is in the traffic but it does not exists in the driver side. The traffic environment is not a realistic one (there are not buildings), the lanes are rails and lanes changes are sort of \enquote{teleportation}, etc.
+
+After capturing the real data, a laborious process of data curation has been required in order to resemble the data obtained in \gls{sumo}\index{SUMO}, and that concessions causes the data to lose scope and fidelity on the captured data.
+
+We conclude that this environment is really suitable for studying another \acrshort{its}\index{ITS} aspects such as collaborative behaviours, communication, transport planning, plot optimal routes, etc. To study a single driver into a traffic simulator, we need other approaches where the agent representation scenery would be more realistic.
+
+\section{Proposals for future research}
+
+\subsection{More realistic simulation environments}
+
+To improve the behavior of simulate drivers it is necessary to embed them in more realistic environments.
+
+It'll be very interesting to use the same techniques presented in this thesis over different simulation environments. Some of the options could be driving environments like \ac{torcs} with embedded traffic, like the 3DCoAutoSim simulator \cite{olaverri2018implementation}, in which we had the pleasure to work with during a stay while working on this thesis. Other options could be even the use of videogames with embedded traffic environments \cite{richter2016playing, johnson2017driving}.
+
+The application of these techniques in the agents behavior modeling would favor the research in other areas more oriented to human factors, since the behavior of drivers would be more realistic.
+
+\subsection{Different modeling targets}
+
+
+\subsection{\Acrlongpl{rnn}\index{redes neuronales recurrentes}}
+
