@@ -2243,6 +2243,11 @@ version={3.0},
 %
 \usepackage{pageslts}
 
+%%
+% Chinese and japanese Kanjis
+\usepackage{CJKutf8}
+
+
 \usepackage[nottoc,notlof,notlot,notindex]{tocbibind} 
 \renewcommand\tocbibname{Referencias}
 %%

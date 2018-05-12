@@ -3,13 +3,13 @@
 
 La aplicación de técnicas de la \acrlongsp{ci} sobre el área de la conducción y, concretamente, al área del comportamiento es una línea de investigación muy prometedora. Es posible la extracción de comportamientos específicos a partir de datos reales de conducción e incorporar el factor indeterminado de éstos en modelos basados en redes neuronales.
 
-Las implicaciones de estos resultados son variadas. Aun con las limitaciones que nos imponen los micro-simuladores\index{micro-simulación}, es posible modelar estos los comportamientos longitudinal y lateral a partir de datos reales con precisión suficiente como para decir que los agentes se comportan de manera más humana.
+Las implicaciones de estos resultados son variadas. Aun con las limitaciones que nos imponen los micro-simuladores\index{micro-simulación}, es posible modelar los comportamientos longitudinal y lateral a partir de datos reales con precisión suficiente como para decir que los agentes se comportan de manera más humana.
 
 \section{Objetivos planteados}
 
 Al comienzo de la tesis se plantearon una serie de objetivos materializados en dos hipótesis que se han tratado de demostrar a lo largo de esta tesis.
 
-La hipótesis H\ref{hyp:first} planteaba que la aplicación de técnicas pertenecientes al campo de la \acrlongsp{ci} con datos de conductores reales sí permite la creación de modelos de conducción con características humanas. A tenor de los resultados obtenidos, se concluye que se pueden desarrollar modelos con la técnica propuesta para incorporar conductores en simulaciones que incorporen comportamientos no deducibles directamente con un modelo determinista.
+La hipótesis H\ref{hyp:first} planteaba que la aplicación de técnicas pertenecientes al campo de la \acrlongsp{ci} con datos de conductores reales sí permite la creación de modelos de conducción con características humanas. A tenor de los resultados obtenidos, se concluye que se pueden desarrollar modelos con la técnica propuesta para incorporar comportamientos no deducibles directamente con un modelo determinista en simuladores de tráfico.
 
 La hipótesis~H\ref{hyp:second} proponía, por otro lado, que estas técnicas eran suficientes para modelar un conductor en concreto dentro de entornos simulados. Si bien es cierto que los resultados indican que los modelos generados para conductores diferentes son diferentes entre sí, y que sugieren que los modelos simulados se aproximan a sus modelos reales, concretamente en el caso del modelo lateral creemos que sería necesaria la captura de nuevos parámetros para ajustar mejor este comportamiento lateral.
 
@@ -24,7 +24,7 @@ Para minimizar la variación de las variables de entrada, los recorridos fueron 
 Con todo, la captura en este tipo de entornos es una tarea compleja, y más tratándose de tráfico. Los recorridos no están exentos de situaciones fortuitas no predecibles y los dispositivos no son lo suficientemente precisos para capturar los datos de interés. En nuestro caso concreto, consideramos que:
 
 \begin{itemize}
-	\item La precisión de un único \acrshort{lidar}\index{LiDAR} de 16 capas no es el dispositivo más adecuado para capturar las características del entorno necesarias para modelar un comportamiento humano. Una separación de \SI{2}{\degree} por capa hace que a \SI{15}{\meter} las capas estén separadas algo más de \SI{0.5}{\meter}, lo cual es insuficiente para muchos usos\sidenote{
+	\item La precisión de un único \acrshort{lidar}\index{LiDAR} de 16 capas no es suficientemente adecuada para capturar las características del entorno necesarias para modelar un comportamiento humano. Una separación de \SI{2}{\degree} por capa hace que a \SI{15}{\meter} las capas estén separadas algo más de \SI{0.5}{\meter}, lo cual es insuficiente para muchos usos\sidenote{
 		Por ejemplo, sobre una persona de \SI{1.80}{\meter} a una distancia de \SI{20}{\meter} alcanzarían únicamente $2$ haces a lo sumo. Quizá la incorporación de más dispositivos de este tipo en configuraciones con haces cruzados podrían ayudar a esta tarea.
 	}
 	\item En el caso del \Acrshort{gps}, aun con alta precisión y corrección diferencial implementada, es arriesgado su uso como único dispositivo de localización y para determinar velocidades en entorno urbano.
@@ -40,13 +40,13 @@ Por otro lado, la técnica propuesta del \textit{shaking} ha sido extremadamente
 
 \section{Sobre las técnicas de \acrlongsp{ci}}
 
-Las técnicas utilizadas (\acrlongsp{cnn}\index{red de convolución}, \acrlongsp{fcs}\index{sistema de control borroso} y \acrlongsp{mlp}\index{perceptron multicapa}) dependen mucho de las variables de los datos, y no sólo de la cantidad de éstos. De nada sirve ofrecer datos de una variable que no tiene impacto sobre el resultado que se quiere alcanzar. La selección de variables realizada en esta tesis se ha basado en la disponibilidad de éstos en ambos entornos (real y simulación), tratando de obtener de formas alternativas los más críticos (e.g. implementando un \acrshort{lidar}\index{LiDAR} dentro de un simulador, calculando la distancia que se puede recorrer en los carriles).
+Las técnicas utilizadas (\acrlongsp{cnn}\index{red de convolución}, \acrlongsp{fcs}\index{sistema de control borroso} y \acrlongsp{mlp}\index{perceptron multicapa}) dependen mucho de las variables seleccionadas, y no sólo de la cantidad de datos. De nada sirve ofrecer datos de una variable que no tiene impacto sobre el resultado que se quiere alcanzar. La selección de variables realizada en esta tesis se ha basado en la disponibilidad de sus datos asociados en ambos entornos (real y simulación), tratando de obtener de formas alternativas los más críticos (e.g. implementando un \acrshort{lidar}\index{LiDAR} dentro de un simulador, calculando la distancia que se puede recorrer en los carriles).
 
 La aplicación del descenso del gradiente para el ajuste de un \acrlongsp{fcs}\index{sistema de control borroso} permite de forma rápida encontrar un controlador óptimo para un problema. Sin embargo el problema del modelo longitudinal no es directamente tratable con un controlador, al menos no con las variables planteadas y el conjunto de datos. No obstante, creemos que aumentando la precisión de los datos obtenidos y con un nuevo conjunto de variables más cercanas al entorno real, el desempeño de estos modelos aumentaría notablemente.
 
 Para el trabajo con datos del entorno, se ha podido comprobar que las \acrlongplsp{cnn}\index{red de convolución} han generalizado mejor los resultados que los \acrlongplsp{mlp}\index{perceptron multicapa}. Después de todo el entorno se ha representado con una imagen, dominio en el que estas redes destacan por su capacidad de clasificación. Además, al incorporar la ventana temporal como canales de la imagen, toda información está localizada topológicamente cerca con sus momentos anteriores, por lo que es de esperar que esta representación sea capaz de converger más rápidamente hacia una solución. Esto, junto con la modificación de inyección de datos de entrada en capas posteriores a la extracción de características, hace que las \acrlongplsp{cnn}\index{red de convolución} se hayan comportado mejor en su tarea de clasificación.
 
-Concluimos por tanto que las \acrlongplsp{cnn}\index{red de convolución}, en tareas donde es importante la topología espacial y temporal de las entradas, son extremadamente eficiente a la hora de modelar eventos donde sus ventanas temporales están localizadas lo suficientemente cerca en el tiempo como para que sus patrones se desplacen ligeramente, mejorando mucho en precisión y capacidad de caracterización de las entradas a los \acrlongplsp{mlp}\index{perceptron multicapa}.
+Concluimos por tanto que las \acrlongplsp{cnn}\index{red de convolución}, en tareas donde es importante la topología espacial y temporal de las entradas, son extremadamente eficientes a la hora de modelar eventos donde sus ventanas temporales están localizadas lo suficientemente cerca en el tiempo como para que sus patrones se desplacen ligeramente, mejorando mucho en precisión y capacidad de caracterización de las entradas a los \acrlongplsp{mlp}\index{perceptron multicapa}.
 
 Somos optimistas en que la implementación de estas técnicas en simuladores más potentes y realistas mejorarían los resultados obtenidos, y por ello es una de las líneas futuras de investigación propuestas.
 
@@ -72,7 +72,7 @@ La aplicación de estas técnicas en el modelado de agentes en estos entornos pr
 
 \subsection{Modelado de diferentes actores y escenarios}
 
-En esta tesis se trabaja sobre todo con el comportamiento longitudinal y lateral de comportamiento de conductores, sin tener en cuenta casos específicos de comportamiento que merecería la pena explorar por separado. Algunos ejemplos de éstos pueden ser intersecciones más o menos complejas, rotondas, incorporaciones a vías, etcétera.
+En esta tesis se trabaja sobre todo con el comportamiento longitudinal y lateral de conductores, sin tener en cuenta casos específicos de comportamiento que merecería la pena explorar por separado. Algunos ejemplos de éstos pueden ser intersecciones más o menos complejas, rotondas, incorporaciones a vías, etcétera.
 
 Además, los conductores de turismos no son los únicos agentes existentes en el sistema que es el tráfico. En general se tiende a prestar poca atención a los vehículos pesados, pero su conducción y comportamiento es muy diferente a la de un turismo. Existen también motos, bicicletas e incluso peatones.
 

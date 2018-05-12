@@ -8,7 +8,7 @@ En un trabajo anterior~\cite{diaz2018modelling} los autores tratamos de controla
 En este trabajo se tratará de modelar, sin embargo, el proceso de cambio de carril como un todo, esto es, decidir en cada momento si cambiar a un carril (i.e. izquierda o derecha) o no hacerlo, a partir de las variables medibles del entorno real y simulado. El problema a resolver será, por tanto, de clasificación, donde se tratará de maximizar el número de aciertos entre los cambios de carril realizados y el modelo a ajustar. Las técnicas que se han seleccionado para tratar el cambio de carril son las siguientes:
 
 \begin{enumerate}
-	\item \acrshort{mlp}. Los \acrlongplsp{mlp}, más ahora en la época del \textit{deep-learning} son una de las técnicas más usadas para problemas de clasificación. En esta época del \textit{deep-learning} han aumentado su eficiencia varios ordenes de magnitud en capacidad de aprendizaje y, por tanto, en rendimiento a la hora de clasificar.
+	\item \acrshort{mlp}. Los \acrlongplsp{mlp} son una de las técnicas más usadas para problemas de clasificación. En esta época del \textit{deep-learning} han aumentado su eficiencia varios ordenes de magnitud en capacidad de aprendizaje y, por tanto, en rendimiento a la hora de clasificar.
 	\item \acrshort{cnn}. Otro de los grandes exponentes a la hora de clasificar, sobre todo trabajando con mapas de características $n$-dimensionales con las \acrlongplsp{cnn}. Al representar la evolución temporal del entorno circundante como una dimensión más en el espacio presentado a los modelos, podemos aplicar esta técnica para la identificación de características de manera, supuestamente, más eficiente.
 \end{enumerate}
 
@@ -31,11 +31,11 @@ Al tratarse además de un problema de clasificación donde las clases son mutuam
 	\label{eq:softmax}
 \end{equation}
 
-Para el cálculo del coste, en lugar de intentar maximizar la cantidad de aciertos (la \textit{precisión}), el error que se ha tratado de minimizar es la entropía cruzada, la cual se trató anteriormente en la sección \ref{ss:mlp} del capítulo \nameref{ch:sota-ci}. Este indicador es mucho más eficiente en problemas de clasificación. Sin embargo, de cara a mostrar resultados, su valor de no ofrece información relevante más allá de \enquote{si decrece es bueno}. Por ellos se ofrecerán los valores de precisión y matrices de confusión que son más acordes con el problema en cuestión.
+Para el cálculo del coste, en lugar de intentar maximizar la cantidad de aciertos (la \textit{precisión}), el error que se ha tratado de minimizar es la entropía cruzada, la cual se trató anteriormente en la sección \ref{ss:mlp} del capítulo \nameref{ch:sota-ci}. Este indicador es mucho más eficiente en problemas de clasificación. Sin embargo, de cara a mostrar resultados, su valor no ofrece información relevante más allá de \enquote{si decrece es bueno}. Por ello se ofrecerán los valores de precisión y matrices de confusión que son más acordes con el problema en cuestión.
 
 Antes de pasar a la descripción de los modelos, queda hablar del sesgo existente en los datos de entrenamiento. Debido a la naturaleza el problema, el número de ejemplos existentes de cambios de carril es significativamente menor al existente de no cambios de carril. Este sesgo hace que los modelos se entrenen rápidamente para marcar todos los ejemplos como \enquote{no cambio}, dificultando el ajuste posterior hacia cambios a izquierda o derecha.
 
-Por tanto, debido a que (i) las limitaciones de la máquina no nos permiten operar con los conjuntos completos en cada \textit{epoch} y (ii) existe un sesgo hacia predicciones de \enquote{no cambio}, en cada uno de los \textit{epochs}, se usará un \textit{batch} tamaño $m = 6.000$ compuesto por una selección aleatoria de todos los ejemplos equidistribuidos entre las clases del problema (esto es, aproximadamente $\frac{m}{3}$ para cada clase \enquote{cambio izda.}, \enquote{no cambio} y \enquote{cambio dcha.}).
+Por tanto, debido a que (i) las limitaciones de la máquina no nos permiten operar con los conjuntos completos en cada \textit{epoch} y (ii) existe un sesgo hacia predicciones de \enquote{no cambio}, en cada uno de los \textit{epochs}, se usará un \textit{batch} tamaño $m = 6000$ compuesto por una selección aleatoria de todos los ejemplos equidistribuidos entre las clases del problema (esto es, aproximadamente $\frac{m}{3}$ para cada clase \enquote{cambio izda.}, \enquote{no cambio} y \enquote{cambio dcha.}).
 
 \section{Descripción de los datasets}
 
@@ -47,7 +47,7 @@ Las secuencias de las que se compone el conjunto de datos son, aparte de variabl
 
 \begin{enumerate}
 	\item Los modelos que utilizamos en esta tesis se basan en un número fijo de entradas. La nube de puntos contiene un número variable de éstos, dependiendo del número de obstáculos.
-	\item La nube de puntos se origina a través de un dispositivo mecánico que funciona con coordenadas esféricas a una resolución horizontal de \SI{0.2}{\degree} y vertical de \SI{2}{\degree} con una tasa de refresco de \SI{10}{\hertz}. Esto implica que la superficie del sector circular que no se cubre a largas distancias sea muy extenso, por lo que el espacio según nos alejamos del origen va siendo cada vez más diperso.
+	\item La nube de puntos se origina a través de un dispositivo mecánico que funciona con coordenadas esféricas a una resolución horizontal de \SI{0.2}{\degree} y vertical de \SI{2}{\degree} con una tasa de refresco de \SI{10}{\hertz}. Esto implica que la superficie del sector circular que no se cubre a largas distancias sea muy extensa, por lo que el espacio según nos alejamos del origen va siendo cada vez más diperso.
 \end{enumerate}
 
 Para el primer caso, se ha optado por representar el entorno como un mapa de profundidad, ilustrado en la Figura~\ref{fig:deepmap-example}.
@@ -70,17 +70,17 @@ Un mapa de profundidad representa el entorno como una imagen de un sólo canal d
 
 Por estas razones, los mapas de profundidad se generarán de una manera más compacta, usando una resolución horizontal de \SI{1}{\degree} y los seis canales que van desde los \SI{-7}{\degree} hasta los \SI{3}{\degree}, lo que nos da un mapa de profundidad con una resolución de $6 \times 360$ con un canal representando la distancia al punto de impacto más cercano contenido en el sector esférico que representa cada posición del mapa.
 
-Para el segundo caso, se ha definido un radio de interés de \SI{25}{\meter}, ya que se ha considerado para el proceso de cambio de carril como un entorno de influencia lo suficientemente amplio para establecer un límite entre información y no relevante para el cambio de carril.
+Para el segundo caso, se ha definido un radio de interés de \SI{25}{\meter}, ya que se ha considerado para el proceso de cambio de carril como un entorno de influencia lo suficientemente amplio para establecer un límite entre información no relevante para el cambio de carril.
 
 Con estos datos, los mapas de profundidad serán normalizados al intervalo $[0, 1] \in \mathbb{R}$ invertido, esto es, los valores mas cercanos al vehículo serán más próximos a $1$ mientras que los valores más alejados estarán más próximos a $0$.
 
 \subsection{Generación artificial de datos}
 
-Este problema de Los problemas con alta variabilidad de sus entradas suelen ser complejos y requerir de conjuntos de datos de tamaños bastante grandes para poder identificar patrones, como lo son por ejemplo los problemas de reconocimiento de imágenes.
+Los problemas con alta variabilidad de sus entradas suelen ser complejos y requerir de conjuntos de datos de tamaños bastante grandes para poder identificar patrones, como lo son por ejemplo los problemas de reconocimiento de imágenes.
 
 En nuestro caso, el modelo de cambio de carril tiene como entrada una nube de puntos, la cual representa en un espacio de $3$ dimensiones un conjunto muy limitado de puntos, con la dificultad añadida de que el \acrshort{lidar}\index{LiDAR} tiene de base un error de \SI{3}{\cm}. Como el espacio sobre el que trabajar es tan complejo, se requerirían modelos con muchos parámetros, pero al disponer de pocos ejemplos, podríamos caer muy fácilmente en problemas de \textit{over-fitting}.
 
-Por ello, se ha optado por realizar un proceso de generación de datos artificiales a partir de los datos existentes. De esta manera, ayudaremos al modelo a entrenar con casos similares y que de esta manera generalice mejor. La generación artificial se ha realizado sobre los datos recogidos en la ruta $R_1$, ya que es la que nos proporciona la información para entrenar el modelo y es por tanto en el único conjunto que cobra sentido este proceso. Concretamente hemos hecho uso de dos técnicas, primero un \textit{mirroring} sobre todas las filas del conjunto y diez aplicaciones de la técnica \textit{shaking} sobre el nuevo conjunto con los datos originales y simétricos.
+Por ello, se ha optado por realizar un proceso de generación de datos artificiales a partir de los datos existentes. De esta manera, ayudaremos al modelo a entrenar con casos similares para que generalice mejor. La generación artificial se ha realizado sobre los datos recogidos en la ruta $R_1$, ya que es el único conjunto en el que cobra sentido este proceso. Concretamente hemos hecho uso de dos técnicas, primero un \textit{mirroring} sobre todas las filas del conjunto y diez aplicaciones de la técnica \textit{shaking} sobre el nuevo conjunto con los datos originales y simétricos.
 
 La aplicación de estas técnicas requiere además que los nuevos datos generados mantengan una coherencia temporal. Por ello, cada uno se mantendrá en una secuencia independiente.
 
@@ -126,7 +126,7 @@ Las especificaciones técnicas del \acrshort{lidar}\index{LiDAR} usado garantiza
 
 Las \ac{cnn} son también redes que funcionan con un esquema \textit{\idx{feed-forward}}, y por tanto tenemos el mismo inconveniente que vimos en el anterior capítulo acerca de mantener una noción temporal en nuestros modelos. En el caso del modelo longitudinal, se consigue este efecto incluyendo variables derivadas de la posición (i.e. velocidad y aceleración). Para el caso del entorno circundante hay que realizar un proceso similar.
 
-Cada una de las filas incluye una representación del entorno en forma de mapa de profundidad, por lo que al modelo le alimentaríamos únicamente con la situación en un instante $t$ de tiempo. Esto no ayuda al modelo a descubrir patrones temporales como la velocidad o la aceleración, ya que no tiene información de eventos anteriores. Para solventar esta limitación, los conjuntos de datos serán transformados en una ventana temporal de parámetros de entrada.
+Cada una de las filas incluye una representación del entorno en forma de mapa de profundidad, por lo que al modelo lo alimentaríamos únicamente con la situación en un instante $t$ de tiempo. Esto no ayuda al modelo a descubrir patrones temporales como la velocidad o la aceleración, ya que no tiene información de eventos anteriores. Para solventar esta limitación, los conjuntos de datos serán transformados en una ventana temporal de parámetros de entrada.
 
 Comenzaremos definiendo el \textit{momento} $t_i$ como aquel ejemplo situado a $t - \frac{i}{10}s$ en el pasado (ver Figura~\ref{fig:moments-illustration}).
 

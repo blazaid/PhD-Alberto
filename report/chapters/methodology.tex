@@ -104,7 +104,7 @@ El estándar \Acrshort{can} cubre únicamente las dos primeras capas del modelo 
 
 El acceso a la información del bus se ha realizado a través del puerto USB. Para ello se ha utilizado el dispositivo CANUSB de la empresa LAWICEL AB, el cual se encarga de la traducción del protocolo CAN a una conexión estándar RS232. La captura de los paquetes se ha realizado a través de un nodo de \ac{ros} desarrollado para la elaboración de esta tesis.
 
-Del \Acrshort{can} se ha recogido numerosa información, tanto para esta tesis como para más proyectos relacionados con ella. Para este experimento, no obstante, se ha utilizado únicamente la velocidad, y no directamente. La razón es que el \Acrshort{can} ofrece ésta como un número entero, por lo que los cambios de velocidad durante los recorridos ocurren de \SI{\pm1}{\km\per\hour}. Esta resolución es insuficiente para los cálculos de aceleración, por lo que se ha usado para validar la velocidad capturada por el \Acrshort{gps}
+Del \Acrshort{can} se ha recogido numerosa información, tanto para esta tesis como para otros proyectos relacionados con ella. Para este experimento, no obstante, se ha utilizado únicamente la velocidad, y no directamente. La razón es que el \Acrshort{can} ofrece ésta como un número entero, por lo que los cambios de velocidad durante los recorridos ocurren de \SI{\pm1}{\km\per\hour}. Esta resolución es insuficiente para los cálculos de aceleración, por lo que se ha usado únicamente para validar la velocidad capturada por el \Acrshort{gps}
 
 \paragraph{Cámara}
 
@@ -141,7 +141,7 @@ Se han elegido un total de tres sujetos para los experimentos. Los tres pertenec
 
 Los sujetos tienen experiencia de conducción y han realizado el recorrido anteriormente a fin de basar sus comportamientos lo más posible al nivel táctico de conducción y disponer de una mayor libertad de acción. La razón es la siguiente; los comportamientos longitudinal (\textit{\gls{car-following}\index{car-following}}) y lateral (\textit{\idx{lane-change}}) se asocian con el nivel cognitivo táctico.
 
-Por un lado, al conocer los recorridos de antemano el comportamiento de planificación ya se ha cumplido. Por otro, no necesitan estar pendientes de las decisiones de un operador, ya que pueden limitan ciertas maniobras al no saber cuál será la siguiente ordenada por éste.
+Por un lado, al conocer los recorridos de antemano el comportamiento de planificación ya se ha cumplido. Por otro, no necesitan estar pendientes de las decisiones de un operador, ya que pueden limitar ciertas maniobras al no saber cuál será la siguiente ordenada por éste.
 
 \section{Preparación de los datos}
 
@@ -158,11 +158,11 @@ El primer paso en la preparación de los datos ha sido el de la fusión de estos
 	\item Extracción iterativa de las tuplas más aproximadas. Iterativamente, se han ido extrayendo las tuplas más próximas a cada uno de los incrementos de la tasa deseada de sincronización $f$, siempre y cuando se encuentren dentro del intervalo $f \pm \frac{f}{2}$.
 \end{enumerate}
 
-Este proceso se ha repetido con cada uno de los conductores para cada uno de los recorridos, dando como resultado seis conjuntos sincronizados con los datos en bruto sincronizados.
+Este proceso se ha repetido con cada uno de los conductores para cada uno de los recorridos, dando como resultado seis conjuntos con los datos en bruto sincronizados.
 
 \subsection{Extracción de variables no observables directamente}
 
-Existen una serie de variables cuya extracción directa del entorno no es directa. Ésta es una de las razones por las que se ha capturado con la cámara la visión del conductor en el recorrido.
+Existen una serie de variables que no pueden extraerse directamente del entorno. Por ello, se ha capturado con la cámara la visión del conductor en el recorrido.
 
 El proceso de obtención se ha realizado en un post-proceso haciendo uso de las imágenes obtenidas durante los recorridos, obteniendo las marcas temporales de las variables a capturar tras el visionado de las imágenes capturadas por la cámara. Estas variables son:
 
@@ -218,7 +218,7 @@ Tras obtener todas las variables principales, ya sean directamente de los sensor
 
 Para los entrenamientos de los modelos se ha utilizado una máquina con procesador Intel\textregistered Core\texttrademark i7-6700K a \SI{4.00}{\giga\Hz} y \SI{16}{\gibi\byte} de memoria. Los entrenamientos se han realizado sobre una \gls{gpu} Titan XP cedida a nuestro grupo de investigación por parte de NVIDIA. El sistema operativo utilizado ha sido un Debian \gls{linux} versión 9.4. 
 
-Para cada uno de los submodelos se han probado dos aproximaciones diferentes para comparar sus desempeños en las tareas por separado. Concretamente se han utilizado \acrshortpl{fcs}\index{sistema de control borroso} y \acrshortpl{mlp}\index{perceptrón multicapa} para modelar el comportamiento longitudinal y \acrshortpl{mlp}\index{perceptrón multicapa} y \acrshortpl{cnn}\index{red de convolución} para modelar el comportamiento en cambio de carril\index{lane-change}. La razón de estas elecciones se expone en sus respectivos capítulos.
+Para cada uno de los submodelos se han probado dos aproximaciones diferentes para comparar sus desempeños en las tareas por separado. Concretamente se han utilizado \acrlongplsp{fcs}\index{sistema de control borroso} y \acrlongplsp{mlp}\index{perceptrón multicapa} para modelar el comportamiento longitudinal y \acrlongplsp{mlp}\index{perceptrón multicapa} y \acrlongplsp{cnn}\index{red de convolución} para modelar el comportamiento en cambio de carril\index{lane-change}. La razón de estas elecciones se expone en sus respectivos capítulos.
 
 Los modelos serán entrenados con un conjunto por tipo de modelo (longitudinal y cambio de carril\index{lane-change}) asociado al total de sujetos. Con estos modelos generales se comprobará si es posible aprender características de conducción de conductores y con qué técnicas y arquitecturas. Una vez decididas las arquitecturas de los modelos que se usarán para cada tipo, serán entrenadas con los datos de cada conductor en concreto. A partir de estos datos se determinará si los rasgos aprendidos se consideran suficientes para caracterizar a cada conductor por separado.
 

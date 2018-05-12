@@ -39,13 +39,13 @@ Por último, se ha realizado el mismo recorrido en iguales condiciones con el mo
 	\end{tabularx}
 \end{table}
 
-Estos valores se han elegido para asemejarse en la medida de lo posible a los valores obtenidos del conductor general. La aceleración y deceleración se han aproximado a aquellos valores obtenidos de las pruebas reales. La velocidad máxima de la máxima existente en el recorrido. El ancho y el alto de las especificaciones del vehículo real.
+Estos valores se han elegido para asemejarse en la medida de lo posible a los valores obtenidos del conductor general. La aceleración y deceleración se han aproximado a aquellos valores obtenidos de las pruebas reales. La velocidad máxima del vehículo a la máxima alcanzada durante los recorridos. El ancho y el alto de las especificaciones del vehículo real.
 
 Por último, la imperfección del conductor se ha escogido a partir del valor recomendado en \cite{krauss1998microscopic}. De esta manera se comprobará si los datos extraídos de los modelos implementados se aproximan más a los reales que los del modelo por defecto. 
 
 \section{Modelo longitudinal}
 
-La forma por la que se compararán los comportamientos longitudinales será la propuesta en \cite{DiazAlvarez2014}. En éste se calcularán una serie de indicadores deducidos a partir de los datos tomados durante la conducción real y se compararán con los indicadores deducidos de los datos tomados por los modelos en el simulador.
+Los comportamientos longitudinales se compararán como se propone en \cite{DiazAlvarez2014}. En éste se calcularán una serie de indicadores deducidos a partir de los datos tomados durante la conducción real y se compararán con los indicadores deducidos de los datos tomados por los modelos en el simulador.
 
 Los indicadores extraídos junto con su descripción se explican a continuación:
 
@@ -102,7 +102,7 @@ En definitiva, los datos no son nada parecidos a ninguno de los valores obtenido
 
 Para comparar los datos reales de los conductores con los simulados de los modelos, hemos decidido mostrar los datos de aceleración y \textit{jerk} en el formato de la Figura~\ref{fig:lc-global-comparison-indicators}. Cada uno de los sujetos de estudio tiene asignada una marca diferente para identificar la diferencia entre ambas. Estas aparecen ilustradas para cada uno de los sujetos de estudio.
 
-En el caso de las medias, todos los valores de los sujetos con sus respectivos modelos están muy próximos entre sí salvo, quizá, los valores de la aceleración negativa. Lo mismo ocurre con las desviaciones típicas salvo por dos de ellos, $S_2$ y $S_A$. Del sujeto genérico es lógico si contamos con que su modelo fue entrenado con los datos del sujeto $S_2$. Si volvemos atrás, al capítulo \nameref{ch:specific-models}, en la Figura~\ref{fig:lm-subjects-comparison} se puede observar que el perfil de aceleración del sujeto $S_2$ es muy irregular, y por tanto es probable que el modelo falle al generalizar esos casos tan específicos.
+En el caso de las medias, todos los valores de los sujetos con sus respectivos modelos están muy próximos entre sí salvo, quizá, los valores de la aceleración negativa. Lo mismo ocurre con las desviaciones típicas salvo por dos de ellos, $S_2$ y $S_A$. Del sujeto genérico es lógico si contamos con que su modelo fue entrenado con los datos del sujeto $S_2$. Si volvemos atrás, al capítulo \nameref{ch:longitudinal-model}, en la Figura~\ref{fig:lm-subjects-comparison} se puede observar que el perfil de aceleración del sujeto $S_2$ es muy irregular, y por tanto es probable que el modelo falle al generalizar esos casos tan específicos.
 
 \begin{figure}
 	\centering
