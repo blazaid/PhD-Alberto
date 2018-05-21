@@ -1,0 +1,84 @@
+\chapter{Reglas del \acrlongsp{fcs}\index{sistema de control borroso} inferido}
+\label{ch:derived-controller-rules}
+
+Esta sección ofrece un listado de las reglas borrosas generadas en el proceso de inferencia del \acrlongsp{fcs}\index{sistema de control borroso} para el modelo longitudinal del conductor genérico.
+
+Las reglas están ponderadas con valores de $2$ decimales. Éstas se han simplificado aplicando las siguientes premisas:
+
+\begin{itemize}
+	\item Toda regla con un peso de $0$ ha sido eliminada por no activar ningún conjunto de salida.
+	\item Todo par de reglas con igual antecedente y peso similar que activa ambos conjuntos borrosos\index{conjunto borroso} de salida se anula y por tanto puede ser descartada.
+	\item Todo par de reglas con el mismo peso asociado que difieren en una única variable de entrada, se convierten en una única regla sin dicha variable al no afectar ésta a la activación del consecuente.
+\end{itemize}
+
+Tras este proceso, el total de $256$ reglas posibles\sidenote{$2^{8}$ posibles combinaciones de $7$ variables de entrada y $1$ variable de salida, cada una particionada en $2$ conjuntos borrosos.} de las que se compone el sistema se reduce a las $67$ reglas siguientes:
+
+\begin{enumerate}
+	\item IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.31
+	\item IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.2
+	\item IF TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.31
+	\item IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.44
+	\item IF LeaderDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.5
+	\item IF TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.36
+	\item IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.16
+	\item IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.05
+	\item IF LeaderDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.08
+	\item IF TLSDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.04
+	\item IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.24
+	\item IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.58
+	\item IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.19
+	\item IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.5
+	\item IF TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast THEN Acceleration IS negative WITH 0.31
+	\item IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.58
+	\item IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.45
+	\item IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.61
+	\item IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.81
+	\item IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.59
+	\item IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.22
+	\item IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.33
+	\item IF TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.34
+	\item IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.57
+	\item IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.27
+	\item IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.5
+	\item IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS fast THEN Acceleration IS negative WITH 0.21
+	\item IF TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.06
+	\item IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.18
+	\item IF TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.35
+	\item IF TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.14
+	\item IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.31
+	\item IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast THEN Acceleration IS negative WITH 0.3
+	\item IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.41
+	\item IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.25
+	\item IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.63
+	\item IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.87
+	\item IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.42
+	\item IF LeaderDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.37
+	\item IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.22
+	\item IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.24
+	\item IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.09
+	\item IF LeaderDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.06
+	\item IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.37
+	\item IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.47
+	\item IF LeaderDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.35
+	\item IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.17
+	\item IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.44
+	\item IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.21
+	\item IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.36
+	\item IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.24
+	\item IF LeaderDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.36
+	\item IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.47
+	\item IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.3
+	\item IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.28
+	\item IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.52
+	\item IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow THEN Acceleration IS positive WITH 0.34
+	\item IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.25
+	\item IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.33
+	\item IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.25
+	\item IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.16
+	\item IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.39
+	\item IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast THEN Acceleration IS positive WITH 0.59
+	\item IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.63
+	\item IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.56
+	\item IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.5
+	\item IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 1.0
+\end{enumerate}

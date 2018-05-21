@@ -1,0 +1,67 @@
+IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.31
+IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.2
+IF TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.31
+IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.44
+IF LeaderDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.5
+IF TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.36
+IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.16
+IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.05
+IF LeaderDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.08
+IF TLSDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.04
+IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.24
+IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.58
+IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.19
+IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.5
+IF TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast THEN Acceleration IS negative WITH 0.31
+IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.58
+IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.45
+IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.61
+IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.81
+IF LeaderDist IS close AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.59
+IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.22
+IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.33
+IF TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.34
+IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.57
+IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.27
+IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.5
+IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS fast THEN Acceleration IS negative WITH 0.21
+IF TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.06
+IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.18
+IF TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.35
+IF TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.14
+IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.31
+IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast THEN Acceleration IS negative WITH 0.3
+IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.41
+IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.25
+IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.63
+IF LeaderDist IS close AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.87
+IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.42
+IF LeaderDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.37
+IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.22
+IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.24
+IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.09
+IF LeaderDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.06
+IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.37
+IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.47
+IF LeaderDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.35
+IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.17
+IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.44
+IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.21
+IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.36
+IF LeaderDist IS far AND TLSDist IS close AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.24
+IF LeaderDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.36
+IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.47
+IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.3
+IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 0.28
+IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.52
+IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow THEN Acceleration IS positive WITH 0.34
+IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS off AND TLSRed IS on AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.25
+IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.33
+IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.25
+IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS off AND TLSYellow IS on AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.16
+IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.39
+IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast THEN Acceleration IS positive WITH 0.59
+IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS fast AND SpeedToLeader IS slow THEN Acceleration IS negative WITH 0.63
+IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS negative WITH 0.56
+IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS fast THEN Acceleration IS positive WITH 0.5
+IF LeaderDist IS far AND TLSDist IS far AND TLSGreen IS on AND TLSYellow IS off AND TLSRed IS off AND Speed IS slow AND SpeedToLeader IS slow THEN Acceleration IS positive WITH 1.0

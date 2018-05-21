@@ -14,13 +14,13 @@ El comportamiento longitudinal es un problema de regresión sobre cómo ha de co
 Por la naturaleza del problema se han seleccionado dos técnicas diferentes para el ajuste del modelo:
 
 \begin{enumerate}
-	\item \Acrshort{mlp}\index{perceptron multicapa}. Al ser un problema de regresión, el uso de \acrlongplsp{mlp} en el comportamiento longitudinal está justificado al ser considerados éstos aproximadores universales\sidenote{
-			El \textit{Teorema de aproximación Universal} \cite{hornik1991approximation} postula que un \acrlongsp{mlp}\index{perceptron multicapa} con al menos una capa oculta es capaz de aproximar cualquier función si dispone de suficientes neuronas en ésta.
+	\item \Acrshort{mlp}\index{perceptrón multicapa}. Al ser un problema de regresión, el uso de \acrlongplsp{mlp} en el comportamiento longitudinal está justificado al ser considerados éstos aproximadores universales\sidenote{
+			El \textit{Teorema de aproximación Universal} \cite{hornik1991approximation} postula que un \acrlongsp{mlp}\index{perceptrón multicapa} con al menos una capa oculta es capaz de aproximar cualquier función si dispone de suficientes neuronas en ésta.
 	}.
-	\item \Acrshort{fcs}\index{sistema de control borroso}. La formulación del problema se ajusta muy bien al funcionamiento de estos modelos. Además, los \acrlongplsp{fcs}\index{sistema de control borroso} tienen la ventaja de que se puede explicar su funcionamiento, a diferencia de los \acrlongplsp{mlp}\index{perceptron multicapa} con una o más capas ocultas.
+	\item \Acrshort{fcs}\index{sistema de control borroso}. La formulación del problema se ajusta muy bien al funcionamiento de estos modelos. Además, los \acrlongplsp{fcs}\index{sistema de control borroso} tienen la ventaja de que se puede explicar su funcionamiento, a diferencia de los \acrlongplsp{mlp}\index{perceptrón multicapa} con una o más capas ocultas.
 \end{enumerate}
 
-Ambos modelos se ajustarán con un procedimiento basado en el descenso del gradiente denominado ADAM~\cite{kingma2014adam}. Su aplicación a los \acrlongplsp{mlp}\index{perceptron multicapa} es directa (después de todo es una técnica desarrollada dentro de área de las \acrlongplsp{ann}\index{red neuronal artificial}), pero para los \acrlongplsp{fcs}\index{sistema de control borroso} es necesaria una representación que permita el uso de este método para su optimización. Esta representación es una de las aportaciones de esta tesis y se se explica en la sección \nameref{ss:fuzzy-controller-adjustment} más adelante en este capítulo.
+Ambos modelos se ajustarán con un procedimiento basado en el descenso del gradiente denominado ADAM~\cite{kingma2014adam}. Su aplicación a los \acrlongplsp{mlp}\index{perceptrón multicapa} es directa (después de todo es una técnica desarrollada dentro de área de las \acrlongplsp{ann}\index{red neuronal artificial}), pero para los \acrlongplsp{fcs}\index{sistema de control borroso} es necesaria una representación que permita el uso de este método para su optimización. Esta representación es una de las aportaciones de esta tesis y se se explica en la sección \nameref{ss:fuzzy-controller-adjustment} más adelante en este capítulo.
 
 El error que se trata de minimizar es el cuadrado del \gls{rmse}\index{RMSE} entre los valores de aceleración del conjunto real y los ajustados por el modelo. Los resultados no obstante se presentan con el \gls{rmse}\index{RMSE} ya que éste es directamente interpretable en las medidas de la variable sobre la que se aplica (en nuestro caso, \SI{}{\metre\per\square\second}).
 
@@ -312,7 +312,7 @@ En las pruebas realizadas para el ajuste de controladores se ha observado ademá
 	\label{fig:adjusted-fuzzy-partitions}
 \end{figure}
 
-Las funciones de pertenencia para el estado del semáforo no se incluyen ya que no se vieron modificadas en ningún entrenamiento. Después de todo, estas variables eran binarias, y las particiones borrosas se inicializan de tal manera que dichos valores siempre alcanzan un valor de pertenencia $1$. Las reglas son muy numerosas para ser incluidas en el texto, ya que la mayoría de reglas posibles en el sistema (aproximadamente $60$) tienen un peso asociado de más de $0.5$.
+Las funciones de pertenencia para el estado del semáforo no se incluyen ya que no se vieron modificadas en ningún entrenamiento. Después de todo, estas variables eran binarias, y las particiones borrosas se inicializan de tal manera que dichos valores siempre alcanzan un valor de pertenencia $1$. Las reglas son muy numerosas para ser incluidas en el texto, por lo que se han movido al apéndice \nameref{ch:derived-controller-rules} para no complicar en exceso el contenido del presente capítulo.
 
 Un detalle que merece la pena destacar es el aprendizaje de la variable lingüística \textit{Velocidad a Líder}. En todos los entrenamientos con las arquitecturas de la Tabla~\ref{tbl:cf-fcs-architectures} el resultado ha sido un único conjunto difuso que cubre todo el dominio de la variable, con todas las reglas de activación teniendo dicho conjunto en cuenta. Esto da indicios de que dicha variable tiene un efecto mínimo o nulo sobre el comportamiento longitudinal, aunque esto contradice a prácticamente todos los modelos de la literatura consultados, por lo que la explicación no puede ser esa. La razón más plausible que podemos encontrar a dicho efecto es que, al tratarse de un entorno urbano, las velocidades que tratamos son muy bajas en comparación con las que se trabaja en este tipo de modelos, y por tanto, la diferencia de velocidades no son un factor determinante en comparación con el resto de variables.
 
@@ -328,9 +328,9 @@ En la Figura~\ref{fig:fcs-test-comparisons} se muestran los perfiles de la acele
 
 Se puede observar cómo se ajusta el controlador con menor error en test frente al resto. $FCS_1$ presenta picos que aproximan el valor inferido al valor real, mientras que el resto mantiene valores constantes.
 
-\section{Modelo basado en \acrlongplsp{mlp}\index{perceptron multicapa}}
+\section{Modelo basado en \acrlongplsp{mlp}\index{perceptrón multicapa}}
 
-Para determinar el modelo óptimo de \acrlongsp{mlp}\index{perceptron multicapa}, se han realizado entrenamientos sobre arquitecturas con diferente cantidad de neuronas y capas ocultas. Las arquitecturas más ilustrativas de todas las probadas se resumen en la tabla~\ref{tbl:cf-mlp-architectures}.
+Para determinar el modelo óptimo de \acrlongsp{mlp}\index{perceptrón multicapa}, se han realizado entrenamientos sobre arquitecturas con diferente cantidad de neuronas y capas ocultas. Las arquitecturas más ilustrativas de todas las probadas se resumen en la tabla~\ref{tbl:cf-mlp-architectures}.
 
 \begin{table*}
 	\centering
@@ -379,7 +379,7 @@ Al contrastar los errores de test, podemos determinar que la arquitectura que me
 
 \section{Comparación entre modelos}
 
-Las mejores arquitecturas de ambos modelos han sido la $MLP_2$ para los \acrlongplsp{mlp}\index{perceptron multicapa} y $FCS_1$ para los \acrlongplsp{fcs}\index{sistema de control borroso}. Los errores y el perfil de aceleración para ambos modelos se muestran en la Figura~\ref{fig:cf-comparison-between-best-mlp-and-fcs-architecture}.
+Las mejores arquitecturas de ambos modelos han sido la $MLP_2$ para los \acrlongplsp{mlp}\index{perceptrón multicapa} y $FCS_1$ para los \acrlongplsp{fcs}\index{sistema de control borroso}. Los errores y el perfil de aceleración para ambos modelos se muestran en la Figura~\ref{fig:cf-comparison-between-best-mlp-and-fcs-architecture}.
 
 \begin{figure}
 	\centering
@@ -389,7 +389,7 @@ Las mejores arquitecturas de ambos modelos han sido la $MLP_2$ para los \acrlong
 	\label{fig:cf-comparison-between-best-mlp-and-fcs-architecture}
 \end{figure}
 
-Aunque el modelo arroja un error bajo en test, y además tiende a ajustarse al perfil de aceleración, parece que el problema es suficientemente complejo como para no poder representarse como un simple \acrlongsp{fcs}\index{sistema de control borroso}. Además, el error arrojado por el \acrlongsp{mlp}\index{perceptron multicapa} es sustancialmente menor.
+Aunque el modelo arroja un error bajo en test, y además tiende a ajustarse al perfil de aceleración, parece que el problema es suficientemente complejo como para no poder representarse como un simple \acrlongsp{fcs}\index{sistema de control borroso}. Además, el error arrojado por el \acrlongsp{mlp}\index{perceptrón multicapa} es sustancialmente menor.
 
 Los resultados sugieren por tanto que la arquitectura elegida para el modelo longitudinal será la $MLP_2$.
 
