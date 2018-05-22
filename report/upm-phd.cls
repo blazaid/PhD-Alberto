@@ -1457,16 +1457,49 @@
 			\begin{center}
 				\vspace{6cm}
 				
-				\fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessdepartment}}\\
+				\fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessuniversity}}\\
 				\fontsize{12}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessschool}}\\
-				
-				\vspace{4cm}
+
+				\vfill
+
 				{\bfseries \fontsize{18}{20}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklesstitle}}}
 				
 				\vspace{1.5cm}
 				\fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{Tesis doctoral}}\\
+
+				\vfill
+
+				{\bfseries \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
+						\thanklessauthor
+				}}\\
+				\fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
+					\thanklessauthortitle
+				}\\
+				\vspace{1.5cm}
+				{\small \the\year}
+			\end{center}
+			
+		\end{fullwidth}%
+	}
+	\thispagestyle{empty}%
+	\clearpage
+	\cleardoublepage {
+		\sffamily
+		\begin{fullwidth}
+			
+			\begin{center}
+				\vspace{6cm}
 				
+				\fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessdepartment}}
+				\\
+				\fontsize{12}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessschool}}\\
+				
+				\vfill
+
+				{\bfseries \fontsize{18}{20}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklesstitle}}}
+
 				\vspace{2cm}
+
 				{\bfseries \fontsize{14}{16}\selectfont\par\noindent\textcolor{darkgray}{
 						\thanklessauthor
 				}}\\
@@ -1475,6 +1508,7 @@
 				}\\
 				
 				\vspace{1.5cm}
+
 				\fontsize{12}{16}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{Direcci\'{o}n}}\\
 				
 				\vspace{0.2cm}
@@ -1493,7 +1527,7 @@
 				}\\
 				
 				\vfill
-				{\small Madrid \today}
+				{\small \the\year}
 			\end{center}
 			
 		\end{fullwidth}%
