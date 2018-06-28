@@ -243,6 +243,7 @@ Dado que nuestros modelos se basan en un esquema \textit{\idx{feed-forward}}, ex
 El resultado de la generación de los datasets de entrenamiento y test para todos los sujetos se resume en la Tabla~\ref{tbl:cf-datasets-description}
 
 \section{Modelo basado en \acrlongplsp{fcs}\index{sistema de control borroso}}
+\label{s:fcs-based-model}
 
 \begin{table}[t]
 	\centering
@@ -292,7 +293,7 @@ Cada uno de los controladores se ha entrenado durante $250000$ \textit{epochs}\i
 	\label{fig:lm-fcs-rmse-all-comparisons}
 \end{figure}
 
-En un principio, el proceso de entrenamiento ha sido el habitual, ajustando todas las variables a la vez (particiones borrosas y rreglas). Sin embargo, tras varias pruebas, se ha comprobado que el ajuste de las variables que determinan las particiones borrosas parece suceder más rápido que el ajuste de los pesos asociados a las reglas; por ello, en lugar entrenar a la vez, se ha particionado el entrenamiento en secuencias sucesivas de entrenamiento de reglas y entrenamiento de particiones borrosas.
+En un principio, el proceso de entrenamiento ha sido el habitual, ajustando todas las variables a la vez (particiones borrosas y reglas). Sin embargo, tras varias pruebas, se ha comprobado que el ajuste de las variables que determinan las particiones borrosas parece suceder más rápido que el ajuste de los pesos asociados a las reglas; por ello, en lugar entrenar a la vez, se ha particionado el entrenamiento en secuencias sucesivas de entrenamiento de reglas y entrenamiento de particiones borrosas.
 
 Concretamente, los $250000$ epochs de entrenamiento han sido divididos en $250$ iteraciones de $800$ epochs ajustando sólo las reglas con una tasa de entrenamiento de $0.01$ seguidos de $200$ epochs ajustando sólo las variables de las particiones borrosas con una tasa de entrenamiento de $0.001$.
 
